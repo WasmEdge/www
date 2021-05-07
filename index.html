@@ -1,6 +1,271 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
+    <meta name="description" content="WasmEdge Runtime">
+    <title>WasmEdge Runtime</title>
+    <link href="/res/normalize.css" rel="stylesheet">
+    <link href="/res/index.css" rel="stylesheet">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NGPCK7VF2L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NGPCK7VF2L');
+</script>
+  </head>
   <body>
-    <h1>WasmEdge Runtime</h1>
-    <p>Welcome to the WasmEdge Runtime open source project! Stay tuned!</p>
+    <header>
+      <h1>
+        <img src="/assets/oasiseth.png" />
+        <span>WasmEdge Runtime</span>
+      </h1>
+
+      <div class="menu" onClick="document.querySelector('.top-nav').style.display='flex';">
+        <svg viewBox="0 0 32 32">
+          <path d="M2 6h28v6h-28zM2 14h28v6h-28zM2 22h28v6h-28z" fill="#454545"></path>
+        </svg>
+      </div>
+      <nav class="top-nav">
+        <a class="indep" href="#tutorials">Tutorials</a>
+        <a class="indep" href="#features">Features</a>
+        <a class="indep" href="#usecases">Use cases</a>
+        <div class="close" onClick="document.querySelector('.top-nav').style.display='none';">&times;</div>
+      </nav>
+    </header>
+
+    <section>
+      <div class="slogan">A cloud native WebAssembly runtime for edge computing</div>
+      <div class="sub-title"><p>WasmEdge enables serverless functions to be embedded into any software platforms from cloud's edge to SaaS to automobiles!</div>
+      <!-- <div class="power-by"><p style="color:darkorange">Join our <a href="https://oasisprotocol.org/second-state-competition">developer hackathon</a> to <a href="https://docs.secondstate.io/oasis-network-ethereum-runtime/oasis-second-state-hackathon">get started</a> with Oasis Ethereum ParaTime application development and get 50 ROSE tokens!</p></div> -->
+      
+      <div class="links center">
+        <a href="https://github.com/WasmEdge/WasmEdge" class="anchor">Github</a>
+        <a href="#tutorials" class="btn">Tutorials</a>
+      </div>
+      <div class="news-cards-wrapper">
+        <div class="news-cards">
+          <div class="news-card">
+            <a href="https://www.freecodecamp.org/news/create-a-serverless-meme-as-a-service/">
+              <div class="news-intro">
+                <p>How to Create a Serverless Meme-as-a-Service</p>
+              </div>
+              <div class="news-icon" style="background-color:#efda47;">
+                <img width="40" src="/assets/news/video_tutorial.png" />
+              </div>
+            </a>
+          </div>
+          <div class="news-card">
+            <a href="https://dev.to/alabulei1/how-to-call-rust-funtion-in-node-js-p36">
+              <div class="news-intro">
+                <p>How to call Rust functions from Node.js</p>
+              </div>
+              <div class="news-icon" style="background-color:#efda47;">
+                <img width="40" src="/assets/news/video_tutorial.png" />
+              </div>
+            </a>
+          </div>
+          <div class="news-card">
+            <a href="https://www.infoq.com/news/2020/07/future-serverless-architecture/">
+              <div class="news-intro">
+                <p>Serverless Days 2020 Looks at Future of Serverless Architecture</p>
+              </div>
+              <div class="news-icon" style="background-color:#efda47;">
+                <img width="40" src="/assets/news/video_tutorial.png" />
+              </div>
+            </a>
+          </div>
+          <div class="news-card">
+            <a href="https://hackernoon.com/polkadot-to-get-webassembly-based-ethereum-virtual-machine-ewasm-from-second-state-mg9932ts">
+              <div class="news-intro">
+                <p>Polkadot To Get WebAssembly-based Ethereum Virtual Machine (ewasm) from Second State</p>
+              </div>
+              <div class="news-icon" style="background-color:#efda47;">
+                <img width="40" src="/assets/news/video_tutorial.png" />
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <script type="application/javascript">
+      const cards = document.querySelector('.news-cards')
+      const cardsHtml = cards.innerHTML
+      cards.innerHTML = cardsHtml + cardsHtml + cardsHtml
+    </script>
+
+    <hr/>
+
+    <section>
+      <h2><a name="usecases">Use cases</a></h2>
+      <div class="adv">
+        <div class="adv-card" style="width:49%;">
+          <h3>Jamstack apps</h3>
+          <div class="adv-desc">High performance web applications with decoupled static frontends and serverless backends on edge clouds.</div>
+        </div>
+        <div class="adv-card" style="width:49%;">
+          <h3>SaaS reactors</h3>
+          <div class="adv-desc">Embed user-contributed functions into SaaS platforms to customize the SaaS's behavior for its users.</div>
+        </div>
+        <div class="adv-card">
+          <h3>Automobiles</h3>
+          <div class="adv-desc">A mission critical runtime to make Software Defined Vehicles safe, open, and efficient.</div>
+        </div>
+        <div class="adv-card">
+          <h3>Blockchains</h3>
+          <div class="adv-desc">An Ethereum compatible smart contract runtime engine for next-gen public blockchains.</div>
+        </div>
+        <div class="adv-card">
+          <h3>IoT and stream processing</h3>
+          <div class="adv-desc">Plug user defined functions into a stream data processor to handle data events at real time.</div>
+        </div>
+      </div>
+    </section>
+    
+    <hr/>
+    
+    <section>
+      <h2><a name="features">Features</a></h2>
+      <div class="uni-on-oasis">
+        <div class="uni-step">
+          <h3>1. <span>Very fast</span></h3>
+          <div class="uni-step-desc">Especially at startup (up to 100x faster)</div>
+        </div>
+        <div class="uni-step">
+          <h3>2. <span>AOT optimization</span></h3>
+          <div class="uni-step-desc">Delivers "faster than native" performance</div>
+        </div>
+        <div class="uni-step">
+          <h3>3. <span>Small footprint</span></h3>
+          <div class="uni-step-desc">Consumes less than 1MB of memory space</div>
+        </div>
+      </div>
+
+      <div class="uni-on-oasis">
+        <div class="uni-step">
+          <h3>4. <span>Portable</span></h3>
+          <div class="uni-step-desc">Across OS and CPU platforms, including RTOS</div>
+        </div>
+        <div class="uni-step">
+          <h3>5. <span>Capability-based security</span></h3>
+          <div class="uni-step-desc">Allows computing tasks controlled access to resources</div>
+        </div>
+        <div class="uni-step">
+          <h3>6. <span>AI inference</span></h3>
+          <div class="uni-step-desc">Supports hardware accelerated Tensorflow</div>
+        </div>
+      </div>
+
+      <div class="uni-on-oasis">
+        <div class="uni-step">
+          <h3>7. <span>Embeddable</span></h3>
+          <div class="uni-step-desc">Easily embeddable into JavaScript, Golang, and other host apps</div>
+        </div>
+        <div class="uni-step">
+          <h3>8. <span>Manageability</span></h3>
+          <div class="uni-step-desc">Can be provisioned and managed by Kubernetes</div>
+        </div>
+        <div class="uni-step">
+          <h3>9. <span>Smart contracts</span></h3>
+          <div class="uni-step-desc">Supports major blockchain protocols, including next-gen Ethereum</div>
+        </div>
+      </div>
+    </section>
+    
+    <hr/>
+
+    <section>
+      <h2><a name="developers">Tutorials</a></h2>
+      <div class="buidl-guide">
+        <div class="steps">
+          <div class="buidl-step">Learn to create and deploy your first Rust function as a microservice in Node.js. It runs inside a Second State WebAssembly VM for safety, portability and speed.</div>
+          <div class="buidl-step">You can pass any data type between JavaScript and Rust functions running in WasmEdge. In some cases, you will need to rely on JSON to encapsulate values.</div>
+          <div class="buidl-step">The high-performance WasmEdge is well suited to run computationally intensive web services, such as data processing and machine learning services.</div>
+        </div>
+        <div class="steps">
+          <div class="buidl-step">WasmEdge supports the WebAssembly System Interface (WASI). It allows WebAssembly bytecode programs to access system resources such as the random seed, standard I/O, and the file system.</div>
+          <div class="buidl-step">Built on the capability-based security model, the WasmEdge provides a WASI-like Rust API for Tensorflow native functions. It could boost AI performance by 1000x and enable secure sharing of hardware.</div>
+          <div class="buidl-step">WasmEdge provides a WASI-like Rust API to safely call native programs. The native program is typically a thin wrapper around a native library that is not yet supported in WebAssembly.</div>
+        </div>
+      </div>
+      <div class="links">
+          <a href="https://www.secondstate.io/articles/getting-started-with-rust-function/" class="btn">Getting Started with FaaS</a>
+      </div>
+    </section>
+
+    <hr/>
+
+    <!--
+    <section>
+      <h2>Ethereum compatibility</h2>
+      <div class="compatibility">
+        <div class="icons">
+          <a href="https://uniswap.org/"><img src="/assets/uniswap-2.png" style="width: 90px;" /></a>
+          <a href="https://ethereum.org/"><img src="/assets/ethereum.png" style="width: 90px;"/></a>
+          <a href="https://remix.ethereum.org/"><img src="/assets/remix.png" style="width: 90px;" /></a>
+          <a href="https://www.trufflesuite.com/"><img src="/assets/truffle.png" style="width: 60px;" /></a>
+          <a href="https://metamask.io/"><img src="/assets/metamask.png" style="width: 160px;" /></a>
+          <a href="https://solidity.readthedocs.io/"><img src="/assets/solidity.png" style="width: 36px;" /></a>
+          <a href="https://vyper.readthedocs.io/"><img src="/assets/vyper.png" style="width: 50px;" /></a>
+          <a href="https://web3js.readthedocs.io/"><img src="/assets/web3.png" style="width: 70px;" /></a>
+          <a href="https://brave.com/"><img src="/assets/brave-lion.png" style="width: 50px;" /></a>
+          <a href="https://www.secondstate.io/buidl/"><img src="/assets/buidl.png" style="width: 70px;" /></a>
+        </div>
+      </div>
+    </section>
+    -->
+
+    <section>
+      <div class="compatibility">
+        <h2>WasmEdge is a Cloud Native Computing Foundation incubating project.</h2>
+	<img src="https://github.com/cncf/artwork/blob/master/other/cncf/horizontal/color/cncf-color.png"/>
+      </div>
+    </section>
+
+    <section>
+      <h2><a name="social">Join Our Community</a></h2>
+      <div class="social">
+        <div class="icons">
+          <a href="https://twitter.com/oasiseth"><img src="/assets/twitter.png" /></a>
+          <a href="https://www.facebook.com/oasiseth"><img src="/assets/facebook.png"/></a>
+          <a href="https://discord.com/invite/MjxtURG"><img src="/assets/discord.png" /></a>
+          <a href="https://t.me/oasiseth"><img src="/assets/telegram.jpg" /></a>
+        </div>
+      </div>
+    </section>
+    
+    <hr/>
+
+    <footer>
+      <div class="column">
+        <h3>
+          <span>WasmEdge</span>
+        </h3>
+      </div>
+      <div class="column">
+        <h4>Partners</h4>
+        <div class="partner">
+          <a href="https://www.secondstate.io/"><img src="/assets/second-state.png" /></a>
+        </div>
+      </div>
+      <div class="column anchors">
+        <h4>Resources</h4>
+        <div><a class="indep" href="http://scan.oasiseth.org/">Block Explorer</a></div>
+        <div><a class="indep" href="http://faucet.oasiseth.org/">OETH Faucet</a></div>
+        <div><a class="indep" href="https://www.oasiseth.org/dev">BUIDL for Oasis Ethereum</a></div>
+      </div>
+      <div class="column anchors">
+        <h4>Contact Us</h4>
+        <div><a class="indep" href="https://twitter.com/oasiseth">Twitter</a></div>
+        <div><a class="indep" href="https://www.facebook.com/oasiseth">Facebook</a></div>
+        <div><a class="indep" href="https://discord.com/invite/MjxtURG">Discord</a></div>
+        <div><a class="indep" href="https://t.me/oasiseth">Telegram</a></div>
+     
+      </div>
+    </footer>
   </body>
 </html>
