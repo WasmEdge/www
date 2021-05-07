@@ -349,8 +349,9 @@ h2 {
 }
 
 .buidl-step:before {
-  counter-increment: step;
-  content: counter(step);
+  /* counter-increment: step; */
+  /* content: counter(step); */
+  content: '&#9874;';
   position: absolute;
   width: 60px;
   left: 0;
