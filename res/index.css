@@ -369,6 +369,7 @@ h2 {
   text-decoration: underline;
 }
 
+/*
 .buidl-step::after {
   content: '⇩';
   position: absolute;
@@ -380,6 +381,7 @@ h2 {
 .buidl-step:last-child:after {
   content: none;
 }
+*/
 
 .buidl-guide .screen-shot {
   width: 50%;
