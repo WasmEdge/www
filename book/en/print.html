@@ -620,10 +620,351 @@ and even JavaScript and Python.</p>
 </ul>
 <p>In this chapter, we will discuss how to compile and run programs in different languages in WasmEdge.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust"><a class="header" href="#rust">Rust</a></h1>
+<p>Rust is one of the &quot;first-class citizen&quot; programming languages in the WebAssembly ecosystem. All WasmEdge extensions to WebAssembly also come with Rust APIs
+for developers.
+In this chapter, we will show you how to compile your Rust applications to wasm bytecode and to run in the WasmEdege runtime.</p>
+<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
+<p>You need to install <a href="https://www.rust-lang.org/tools/install">Rust</a> and <a href="dev/../start/install.html">WasmEdge</a> in order to get started.
+You should also install the <code>wasm32-wasi</code> target to the Rust toolchain.</p>
+<pre><code class="language-bash">rustup target add wasm32-wasi
+</code></pre>
+<h2 id="hello-world-1"><a class="header" href="#hello-world-1">Hello world</a></h2>
+<p>The Hello world example is a standalone Rust application that can be executed
+by the <a href="dev/../start/cli.html">WasmEdge CLI</a>. Its <a href="https://github.com/second-state/wasm-learning/tree/master/cli/hello">source code is available</a>.</p>
+<p>The full source code for the Rust <a href="https://github.com/second-state/wasm-learning/blob/master/cli/hello/src/main.rs">main.rs</a> file is as follows.
+It echoes the command line arguments passed to this program at runtime.</p>
+<pre><pre class="playground"><code class="language-rust">use std::env;
+
+fn main() {
+  println!(&quot;hello&quot;);
+  for argument in env::args().skip(1) {
+    println!(&quot;{}&quot;, argument);
+  }
+}
+</code></pre></pre>
+<h3 id="build-the-wasm-bytecode"><a class="header" href="#build-the-wasm-bytecode">Build the WASM bytecode</a></h3>
+<pre><code class="language-bash">cargo build --target wasm32-wasi
+</code></pre>
+<h3 id="run-the-application-from-command-line"><a class="header" href="#run-the-application-from-command-line">Run the application from command line</a></h3>
+<p>We will use the <code>wasmedge</code> command to run the program.</p>
+<pre><code class="language-bash">wasmedge target/wasm32-wasi/debug/hello.wasm second state
+hello
+second
+state
+</code></pre>
+<h2 id="a-simple-function"><a class="header" href="#a-simple-function">A simple function</a></h2>
+<p>The <a href="https://github.com/second-state/wasm-learning/tree/master/cli/add">add example</a> is a Rust library function that can be executed
+by the <a href="dev/../start/cli.html">WasmEdge CLI</a> in the reactor mode.</p>
+<p>The full source code for the Rust <a href="https://github.com/second-state/wasm-learning/blob/master/cli/add/src/lib.rs">lib.rs</a> file is as follows.
+It provides a simple <code>add()</code> function.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[no_mangle]
+pub fn add(a: i32, b: i32) -&gt; i32 {
+  return a + b;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="build-the-wasm-bytecode-1"><a class="header" href="#build-the-wasm-bytecode-1">Build the WASM bytecode</a></h3>
+<pre><code class="language-bash">cargo build --target wasm32-wasi
+</code></pre>
+<h3 id="run-the-application-from-command-line-1"><a class="header" href="#run-the-application-from-command-line-1">Run the application from command line</a></h3>
+<p>We will use <code>wasmedge</code> in reactor mode to run the program. We pass the function name and its input parameters as command line arguments.</p>
+<pre><code class="language-bash">wasmedge --reactor target/wasm32-wasi/debug/add.wasm add 2 2
+4
+</code></pre>
+<h2 id="further-readings"><a class="header" href="#further-readings">Further readings</a></h2>
+<ul>
+<li><a href="dev/rust/bindgen.html">Bindgen and rustwasmc</a> shows how to use the rustwasmc toolchain to compile Rust functions into WebAssembly bytecode programs that can be easily called by external applications.</li>
+<li><a href="dev/rust/tensorflow.html">Tensorflow</a> shows how to create Tensorflow-based AI inference applications for WebAssembly using the WasmEdge TensorFlow Rust SDK.</li>
+<li><a href="dev/rust/networking.html">Networking socket</a> shows how to create networking applications for WebAssembly using the WasmEdge networking socket Rust SDK.</li>
+<li><a href="dev/rust/command.html">Command interface</a> shows how to create native command applications for WebAssembly using the Wasmedge command interface Rust SDK.</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="bindgen-and-rustwasmc"><a class="header" href="#bindgen-and-rustwasmc">Bindgen and rustwasmc</a></h1>
+<p>The <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> tool is inspired by the wasm-pack project but is optimized for edge cloud and device applications. Specifically, it supports the <a href="https://github.com/WasmEdge/WasmEdge">WasmEdge</a> WebAssembly runtime.</p>
+<p>One of the key features of <code>rustwasmc</code> over the standard <code>wasm32-wasi</code> compiler target is that <code>rustwasmc</code> processes compiled Rust functions using the rust-bindgen tool.
+By default, WebAssembly functions only support a few simple data types as
+input call arguments. Tools like <code>wasm-bindgen</code> turn WebAssembly function
+arguments into memory pointers, and allow host applications to
+pass complex arguments, such as strings and arrays, to WebAssembly functions.
+WasmEdge's <a href="dev/rust/../../embed/node.html">Node.js SDK</a> and <a href="dev/rust/../../embed/go.html">Go SDK</a> both support <code>wasm-bindgen</code>, allowing JavaScript and Go programs to call WebAssembly function with complex call arguments.</p>
+<blockquote>
+<p>At this time, we require Rust compiler version 1.50 or less in order for WebAssembly functions to work with <code>wasm-bindgen</code> and <code>rustwasmc</code>. We will <a href="https://github.com/WasmEdge/WasmEdge/issues/264">catch up to the latest Rust compiler</a> version once the Interface Types spec is finalized and supported.</p>
+</blockquote>
+<h2 id="prerequisites-1"><a class="header" href="#prerequisites-1">Prerequisites</a></h2>
+<p>The <code>rustwasmc</code> depends on the Rust cargo toolchain to compile Rust source code to WebAssembly. You must have <a href="https://www.rust-lang.org/tools/install">Rust installed</a> on your machine.</p>
+<pre><code class="language-src">$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+$ source $HOME/.cargo/env
+$ rustup override set 1.50.0
+</code></pre>
+<h2 id="install-1"><a class="header" href="#install-1">Install</a></h2>
+<p>The easiest way to install <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> is to use its installer.</p>
+<pre><code class="language-src">$ curl https://raw.githubusercontent.com/second-state/rustwasmc/master/installer/init.sh -sSf | sh
+</code></pre>
+<p>Alternatively, you can <a href="https://github.com/second-state/rustwasmc#install">install using the NPM</a> if you'd like.</p>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<p>To build <a href="dev/rust/../../embed/node.html">Rust functions for Node.js</a> applications, use the following command. See a <a href="https://github.com/second-state/wasmedge-nodejs-starter">template application</a>.</p>
+<pre><code class="language-src">$ rustwasmc build
+</code></pre>
+<p>Use the <code>--enable-ext</code> flag to compile Rust programs that use WASI extensions, such as WasmEdge's storage and <a href="dev/rust/tensorflow.html">Tensorflow</a> APIs. The <code>rustwasmc</code> will generates the compiled WebAssembly bytecode program for the <code>wasmedge-extensions</code> Node.js module instead of the <code>wasmedge-core</code> module in this case.</p>
+<pre><code class="language-src">$ rustwasmc build --enable-ext
+</code></pre>
+<h2 id="support-aot"><a class="header" href="#support-aot">Support AOT</a></h2>
+<p>A key feature of the WasmEdge runtime is its support for Ahead-of-Time (AOT) compilers. When you run WebAssembly programs in Node.js <code>wasmedge-core</code> and <code>wasmedge-extensions</code> add-ons, you typically do not need to worry about it as the add-on handles AOT compilation transparently. However, in some cases, you do want the <code>rustwasmc</code> to compile and generate native code for the program. </p>
+<p>Then, use the commands below to bring your operating system up to date with the latest developer tools. The commands here are tested on Ubuntu 20.04.</p>
+<pre><code class="language-src">$ sudo apt-get update
+$ sudo apt-get -y upgrade
+$ sudo apt install build-essential curl wget git vim libboost-all-dev llvm-dev liblld-10-dev
+</code></pre>
+<p>Now, you can build the <code>.so</code> files for the AOT native target like the following.</p>
+<pre><code class="language-src">$ rustwasmc build --enable-aot
+</code></pre>
+<p>Enjoy coding!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tensorflow"><a class="header" href="#tensorflow">Tensorflow</a></h1>
+<p>AI inference is a computationally intensive task that could benefit greatly from the speed of Rust and WebAssembly. However, the standard WebAssembly sandbox provides very limited access to the native OS and hardware, such as multi-core CPUs, GPU and specialized AI inference chips. It is not ideal for the AI workload.</p>
+<p>The popular WebAssembly System Interface (WASI) provides a design pattern for sandboxed WebAssembly programs to securely access native host functions. The WasmEdge Runtime extends the WASI model to support access to native Tensorflow libraries from WebAssembly programs. The <a href="https://github.com/second-state/wasmedge_tensorflow_interface">WasmEdge Tensorflow Rust SDK</a> provides the security, portability, and ease-of-use of WebAssembly and native speed for Tensorflow.</p>
+<blockquote>
+<p>If you are not familar with Rust, you can try our <a href="https://github.com/second-state/wasm-learning/tree/master/cli/classify_yml">experimental AI inference DSL</a> or try our <a href="dev/rust/../js/tensorflow.html">JavaScript examples</a>.</p>
+</blockquote>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of contents</a></h2>
+<ul>
+<li><a href="dev/rust/tensorflow.html#a-rust-example">A Rust example</a></li>
+<li><a href="dev/rust/tensorflow.html#deployment-options">Deployment options</a></li>
+</ul>
+<h1 id="a-rust-example"><a class="header" href="#a-rust-example">A Rust example</a></h1>
+<h3 id="prerequisite"><a class="header" href="#prerequisite">Prerequisite</a></h3>
+<p>You need to install <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/install.md">WasmEdge</a> and <a href="https://www.rust-lang.org/tools/install">Rust</a>.</p>
+<h3 id="build"><a class="header" href="#build">Build</a></h3>
+<pre><code>$ rustup target add wasm32-wasi
+$ cargo build --target wasm32-wasi --release
+</code></pre>
+<h3 id="run"><a class="header" href="#run">Run</a></h3>
+<p>The <code>wasmedge-tensorflow-lite</code> utility is the WasmEdge build that includes the Tensorflow and Tensorflow Lite extensions.</p>
+<pre><code>$ wasmedge-tensorflow-lite target/wasm32-wasi/release/classify.wasm &lt; grace_hopper.jpg
+It is very likely a &lt;a href='https://www.google.com/search?q=military uniform'&gt;military uniform&lt;/a&gt; in the picture
+</code></pre>
+<h3 id="make-it-run-faster"><a class="header" href="#make-it-run-faster">Make it run faster</a></h3>
+<p>To make Tensorflow inference run <em>much</em> faster, you could AOT compile it down to machine native code, and then use WasmEdge sandbox to run the native code.</p>
+<pre><code>$ wasmedgec-tensorflow target/wasm32-wasi/release/classify.wasm classify.so
+$ wasmedge-tensorflow-lite classify.so &lt; grace_hopper.jpg
+It is very likely a &lt;a href='https://www.google.com/search?q=military uniform'&gt;military uniform&lt;/a&gt; in the picture
+</code></pre>
+<h3 id="code-walkthrough"><a class="header" href="#code-walkthrough">Code walkthrough</a></h3>
+<p>It is fairly straightforward to use the WasmEdge Tensorflow API. You can see the entire source code in <a href="https://github.com/second-state/wasm-learning/blob/master/cli/tflite/src/main.rs">main.rs</a>.</p>
+<p>First, it reads the trained TFLite model file (ImageNet) and its label file. The label file maps numeric output from the model to English names for the classified objects.</p>
+<pre><code>    let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
+    let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
+</code></pre>
+<p>Next, it reads the image from <code>STDIN</code> and converts it to the size and RGB pixel arrangement required by the Tensorflow Lite model.</p>
+<pre><code>    let mut buf = Vec::new();
+    io::stdin().read_to_end(&amp;mut buf).unwrap();
+
+    let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
+</code></pre>
+<p>Then, the program runs the TFLite model with its required input tensor (i.e., the flat image in this case), and receives the model output. In this case, the model output is an array of numbers. Each number corresponds to the probability of an object name in the label text file.</p>
+<pre><code>    let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
+    session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
+           .run();
+    let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
+</code></pre>
+<p>Let's find the object with the highest probability, and then look up the name in the labels file.</p>
+<pre><code>    let mut i = 0;
+    let mut max_index: i32 = -1;
+    let mut max_value: u8 = 0;
+    while i &lt; res_vec.len() {
+        let cur = res_vec[i];
+        if cur &gt; max_value {
+            max_value = cur;
+            max_index = i as i32;
+        }
+        i += 1;
+    }
+
+    let mut label_lines = labels.lines();
+    for _i in 0..max_index {
+      label_lines.next();
+    }
+
+</code></pre>
+<p>Finally, it prints the result to <code>STDOUT</code>.</p>
+<pre><code>    let class_name = label_lines.next().unwrap().to_string();
+    if max_value &gt; 50 {
+      println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
+    } else {
+      println!(&quot;It does not appears to be any food item in the picture.&quot;);
+    }
+</code></pre>
+<h1 id="deployment-options"><a class="header" href="#deployment-options">Deployment options</a></h1>
+<p>All the tutorials below use the <a href="https://github.com/second-state/wasmedge_tensorflow_interface">WasmEdge Rust SDK for Tensorflow</a> to create AI inference functions. Those Rust functions are then compiled to WebAssembly and deployed together with WasmEdge on the cloud. </p>
+<h3 id="serverless-functions"><a class="header" href="#serverless-functions">Serverless functions</a></h3>
+<p>The following tutorials showcase how to deploy WebAssembly programs (written in Rust) on public cloud serverless platforms. The WasmEdge Runtime runs inside a Docker container on those platforms. Each serverless platform provides APIs to get data into and out of the WasmEdge runtime through STDIN and STDOUT.</p>
+<ul>
+<li><a href="https://www.secondstate.io/articles/vercel-wasmedge-webassembly-rust/">Vercel Serverless Functions</a></li>
+<li><a href="https://www.secondstate.io/articles/netlify-wasmedge-webassembly-rust-serverless/">Netlify Functions</a></li>
+<li><a href="https://github.com/second-state/aws-lambda-wasm-runtime">AWS Lambda</a></li>
+<li><a href="https://github.com/second-state/tencent-scf-wasm-runtime">Tencent Serverless Functions</a> (in Chinese)</li>
+</ul>
+<h3 id="second-sate-faas-and-nodejs"><a class="header" href="#second-sate-faas-and-nodejs">Second Sate FaaS and Node.js</a></h3>
+<p>The following tutorials showcase how to deploy WebAssembly functions (written in Rust) on the Second State FaaS. Since the FaaS service is running on Node.js, you can follow the same tutorials for running those functions in your own Node.js server.</p>
+<ul>
+<li><a href="https://www.secondstate.io/articles/faas-image-classification/">Tensorflow: Image classification using the MobileNet models</a> | <a href="https://second-state.github.io/wasm-learning/faas/mobilenet/html/index.html">Live demo</a></li>
+<li><a href="https://www.secondstate.io/articles/faas-face-detection/">Tensorflow: Face detection using the MTCNN models</a> | <a href="https://second-state.github.io/wasm-learning/faas/mtcnn/html/index.html">Live demo</a></li>
+</ul>
+<h3 id="service-mesh"><a class="header" href="#service-mesh">Service mesh</a></h3>
+<p>The following tutorials showcase how to deploy WebAssembly functions and programs (written in Rust) as sidecar microservices. </p>
+<ul>
+<li><a href="https://github.com/second-state/dapr-wasm">The Dapr template</a> shows how to build and deploy Dapr sidecars in Go and Rust languages. The sidecars then use the WasmEdge SDK to start WebAssembly programs to process workloads to the microservices.</li>
+</ul>
+<h3 id="data-streaming-framework"><a class="header" href="#data-streaming-framework">Data streaming framework</a></h3>
+<p>The following tutorials showcase how to deploy WebAssembly functions (written in Rust) as embedded handler functions in data streaming frameworks for AIoT.</p>
+<ul>
+<li><a href="https://www.secondstate.io/articles/yomo-wasmedge-real-time-data-streams/">The YoMo template</a> starts the WasmEdge Runtime to process image data as the data streams in from a camera in a smart factory.</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="networking-sockets"><a class="header" href="#networking-sockets">Networking sockets</a></h1>
+<p>The <a href="https://github.com/second-state/wasmedge_wasi_socket">wasmedge_wasi_socket</a>
+crate enables Rust developers to create networking applications
+and compile them into WebAssembly for WasmEdge Runtime.</p>
+<h2 id="the-http-client-example"><a class="header" href="#the-http-client-example">The HTTP client example</a></h2>
+<p>The <a href="https://github.com/second-state/wasmedge_wasi_socket/tree/main/examples/http_client">source code</a> for the HTTP client is available as follows.</p>
+<pre><pre class="playground"><code class="language-rust">use wasmedge_http_req::request;
+
+fn main() {
+    let mut writer = Vec::new(); //container for body of a response
+    let res = request::get(&quot;http://127.0.0.1:1234/get&quot;, &amp;mut writer).unwrap();
+
+    println!(&quot;GET&quot;);
+    println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
+    println!(&quot;Headers {}&quot;, res.headers());
+    println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
+
+    let mut writer = Vec::new(); //container for body of a response
+    const BODY: &amp;[u8; 27] = b&quot;field1=value1&amp;field2=value2&quot;;
+    // let res = request::post(&quot;https://httpbin.org/post&quot;, BODY, &amp;mut writer).unwrap();
+    // no https , no dns
+    let res = request::post(&quot;http://127.0.0.1:1234/post&quot;, BODY, &amp;mut writer).unwrap();
+
+    println!(&quot;POST&quot;);
+    println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
+    println!(&quot;Headers {}&quot;, res.headers());
+    println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
+}
+</code></pre></pre>
+<p>To compile this source code, you must have the following in your <code>Cargo.toml</code>.</p>
+<pre><code>[dependencies]
+wasmedge_http_req  = &quot;0.8.1&quot;
+</code></pre>
+<p>The following command compiles the Rust program.</p>
+<pre><code class="language-bash">cargo build --target wasm32-wasi --release
+</code></pre>
+<p>The following command runs the application in WasmEdge.</p>
+<pre><code class="language-bash">wasmedge target/wasm32-wasi/release/http_client.wasm
+</code></pre>
+<h2 id="the-http-server-example"><a class="header" href="#the-http-server-example">The HTTP server example</a></h2>
+<p>The <a href="https://github.com/second-state/wasmedge_wasi_socket/tree/main/examples/http_server">source code</a> for the HTTP server application is available as follows.</p>
+<pre><pre class="playground"><code class="language-rust">use bytecodec::DecodeExt;
+use httpcodec::{HttpVersion, ReasonPhrase, Request, RequestDecoder, Response, StatusCode};
+use std::io::{Read, Write};
+#[cfg(feature = &quot;std&quot;)]
+use std::net::{Shutdown, TcpListener, TcpStream};
+#[cfg(not(feature = &quot;std&quot;))]
+use wasmedge_wasi_socket::{Shutdown, TcpListener, TcpStream};
+
+fn handle_http(req: Request&lt;String&gt;) -&gt; bytecodec::Result&lt;Response&lt;String&gt;&gt; {
+    Ok(Response::new(
+        HttpVersion::V1_0,
+        StatusCode::new(200)?,
+        ReasonPhrase::new(&quot;&quot;)?,
+        format!(&quot;echo: {}&quot;, req.body()),
+    ))
+}
+
+fn handle_client(mut stream: TcpStream) -&gt; std::io::Result&lt;()&gt; {
+    let mut buff = [0u8; 1024];
+    let mut data = Vec::new();
+
+    loop {
+        let n = stream.read(&amp;mut buff)?;
+        data.extend_from_slice(&amp;buff[0..n]);
+        if n &lt; 1024 {
+            break;
+        }
+    }
+
+    let mut decoder =
+        RequestDecoder::&lt;httpcodec::BodyDecoder&lt;bytecodec::bytes::Utf8Decoder&gt;&gt;::default();
+
+    let req = match decoder.decode_from_bytes(data.as_slice()) {
+        Ok(req) =&gt; handle_http(req),
+        Err(e) =&gt; Err(e),
+    };
+
+    let r = match req {
+        Ok(r) =&gt; r,
+        Err(e) =&gt; {
+            let err = format!(&quot;{:?}&quot;, e);
+            Response::new(
+                HttpVersion::V1_0,
+                StatusCode::new(500).unwrap(),
+                ReasonPhrase::new(err.as_str()).unwrap(),
+                err.clone(),
+            )
+        }
+    };
+
+    let write_buf = r.to_string();
+    stream.write(write_buf.as_bytes())?;
+    stream.shutdown(Shutdown::Both)?;
+    Ok(())
+}
+
+fn main() -&gt; std::io::Result&lt;()&gt; {
+    let port = std::env::var(&quot;PORT&quot;).unwrap_or(1234.to_string());
+    println!(&quot;new connection at {}&quot;, port);
+    let listener = TcpListener::bind(format!(&quot;0.0.0.0:{}&quot;, port))?;
+    loop {
+        let _ = handle_client(listener.accept()?.0);
+    }
+}
+</code></pre></pre>
+<p>To compile this source code, you must have the following in your <code>Cargo.toml</code>.</p>
+<pre><code>[dependencies]
+wasmedge_http_req  = &quot;0.8.1&quot;
+</code></pre>
+<p>The following command compiles the Rust program.</p>
+<pre><code class="language-bash">cargo build --target wasm32-wasi --release
+</code></pre>
+<p>The following command runs the application in WasmEdge.</p>
+<pre><code class="language-bash">wasmedge target/wasm32-wasi/release/http_server.wasm
+new connection at 1234
+</code></pre>
+<p>To test the HTTP server, you can submit a HTTP request to it via <code>curl</code>.</p>
+<pre><code class="language-bash">curl -d &quot;name=WasmEdge&quot; -X POST http://127.0.0.1:1234
+echo: name=WasmEdge
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="command-interface"><a class="header" href="#command-interface">Command interface</a></h1>
+<p>WASI enables WebAssembly programs to call standard library functions in the host operating system. It does so through a fine-grained security model known as “capability-based security”. The WebAssembly VM owner can grant access to host system resources when the VM starts up. The program cannot access any resources (e.g., file folders) that are not explicitly allowed.</p>
+<p>Now, why limit ourselves to standard library functions? The same approach can be used to call just any host functions from WebAssembly. The Second State WebAssembly VM provides a WASI-like extension to access any command line programs in the host operating system.</p>
+<p>The command line program can</p>
+<ul>
+<li>Take input via command line arguments, as well as the <code>STDIN</code> stream.</li>
+<li>Return value and data via the <code>STDOUT</code> stream.</li>
+</ul>
+<p>Application developers for WasmEdge can use our Rust interface crate to access this functionality. In <code>Cargo.toml</code>, make sure that you have this dependency.</p>
+<pre><code>[dependencies]
+rust_process_interface_library = &quot;0.1.3&quot;
+</code></pre>
+<p>In the Rust application, you can now use the API methods to start a new process for the operating system command program, pass in arguments via the <code>arg()</code> method as well as via the <code>STDIN</code>, and receives the return values via the <code>STDOUT</code>.</p>
+<pre><code>let mut cmd = Command::new(&quot;http_proxy&quot;);
+
+cmd.arg(&quot;post&quot;)
+   .arg(&quot;https://api.sendgrid.com/v3/mail/send&quot;)
+   .arg(auth_header);  
+cmd.stdin_u8vec(payload.to_string().as_bytes());
+
+let out = cmd.output();
+</code></pre>
+<p>The Rust function is then compiled into WebAssembly and can run in the WasmEdge.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-1"><a class="header" href="#javascript-1">JavaScript</a></h1>
 <p>WebAssembly started as a “JavaScript alternative for browsers”. The idea is to run high-performance applications compiled from languages like C/C++ or Rust safely in browsers. In the browser, WebAssembly runs side by side with JavaScript.</p>
 <p>As WebAssembly is increasingly used in the cloud, it is now a universal runtime for cloud-native applications. Compared with Docker-like application containers, WebAssembly runtimes achieve higher performance with lower resource consumption.</p>
@@ -1200,7 +1541,7 @@ sys	0m0.011s
 <p>For the details of APIs, please refer to the <a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">API header file</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-api-references"><a class="header" href="#wasmedge-c-api-references">WasmEdge C API references</a></h1>
 <p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
-<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
+<h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
 <ul>
 <li><a href="embed/c/ref.html#wasmedge-installation">WasmEdge Installation</a>
 <ul>
@@ -2981,15 +3322,15 @@ enum WasmEdge_CompilerOutputFormat {
 <p>Please refer to the <a href="embed/c/ref.html#Configurations">AOT compiler options configuration</a> for details.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-sdk"><a class="header" href="#wasmedge-go-sdk">WasmEdge Go SDK</a></h1>
 <p>The followings are the guides to working with the WasmEdge Go API. You can embed the WasmEdge into your go application through the WasmEdge Go API.</p>
-<h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
+<h2 id="table-of-contents-2"><a class="header" href="#table-of-contents-2">Table of Contents</a></h2>
 <ul>
-<li><a href="embed/go.html#Getting-Started">Getting Started</a></li>
-<li><a href="embed/go.html#WasmEdge-go-Extensions">WasmEdge-go Extensions</a></li>
-<li><a href="embed/go.html#Go-API-Examples">Go-API Examples</a>
+<li><a href="embed/go.html#getting-started">Getting Started</a></li>
+<li><a href="embed/go.html#wasmedge-go-extensions">WasmEdge-go Extensions</a></li>
+<li><a href="embed/go.html#go-api-examples">Go-API Examples</a>
 <ul>
-<li><a href="embed/go.html#Embed-a-function">Embed a function</a></li>
-<li><a href="embed/go.html#Embed-a-full-program">Embed a full program</a></li>
-<li><a href="embed/go.html#WasmEdge-AOT-Compiler-in-GO">WasmEdge AOT Compiler in GO</a></li>
+<li><a href="embed/go.html#embed-a-function">Embed a function</a></li>
+<li><a href="embed/go.html#embed-a-full-program">Embed a full program</a></li>
+<li><a href="embed/go.html#wasmedge-aot-compiler-in-go">WasmEdge AOT Compiler in GO</a></li>
 </ul>
 </li>
 </ul>
@@ -3001,7 +3342,7 @@ go version go1.16.5 linux/amd64
 <p>Developers must <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/install.md">install the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release version.</p>
 <pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0-rc.4
 </code></pre>
-<p>For more details, please refer to the <a href="embed/install.html">Installation Guide</a> for the WasmEdge installation.</p>
+<p>For more details, please refer to the <a href="embed/../start/install.html">Installation Guide</a> for the WasmEdge installation.</p>
 <p>For the developers need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
 <pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0-rc.4
 </code></pre>
@@ -3273,6 +3614,283 @@ Rust: Process end.
 <div style="break-before: page; page-break-before: always;"></div><h1 id="api-references"><a class="header" href="#api-references">API references</a></h1>
 <p>Coming soon.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="nodejs-sdk"><a class="header" href="#nodejs-sdk">Node.js SDK</a></h1>
+<p>In this tutorial, I will show you how to incorporate WebAssembly functions, written in Rust, into Node.js applications on the server via the WasmEdge Node.js SDK. This approach combines Rust's <strong>performance</strong>, WebAssembly's <strong>security and portability</strong>, and JavaScript's <strong>ease-of-use</strong>. A typical application works like this.</p>
+<ul>
+<li>The host application is a Node.js web application written in JavaScript. It makes WebAssembly function calls.</li>
+<li>The WebAssembly bytecode program is written in Rust. It runs inside the WasmEdge Runtime, and is called from the Node.js web application.</li>
+</ul>
+<blockquote>
+<p><a href="https://github.com/second-state/wasmedge-nodejs-starter/fork">Fork this Github repository</a> to start coding!</p>
+</blockquote>
+<h2 id="prerequisites-2"><a class="header" href="#prerequisites-2">Prerequisites</a></h2>
+<p>To set up a high-performance Node.js environment with Rust and WebAssembly, you will need the following:</p>
+<ul>
+<li>A modern Linux distribution, such as Ubuntu Server 20.04 TLS</li>
+<li><a href="https://www.rust-lang.org/tools/install">Rust language</a></li>
+<li><a href="https://nodejs.org/en/download/package-manager/">Node.js</a></li>
+<li><a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/install.md">The WasmEdge Runtime</a> for Node.js</li>
+<li><a href="embed//articles/rustwasmc">The rustwasmc compiler toolchain</a></li>
+</ul>
+<h3 id="docker"><a class="header" href="#docker">Docker</a></h3>
+<p>The easiest way to get started is to use Docker to build a dev environment. Just <a href="https://github.com/second-state/wasmedge-nodejs-starter/">clone this template project</a> to your computer and run the following Docker commands.</p>
+<pre><code class="language-src"># Get the code
+$ git clone https://github.com/second-state/wasmedge-nodejs-starter
+$ cd wasmedge-nodejs-starter
+
+# Run Docker container
+$ docker pull wasmedge/appdev_x86_64:0.8.2
+$ docker run -p 3000:3000 --rm -it -v $(pwd):/app wasmedge/appdev_x86_64:0.8.2
+(docker) $ cd /app
+</code></pre>
+<p>That's it! You are now ready to compile and run the code.</p>
+<h3 id="manual-setup-without-docker"><a class="header" href="#manual-setup-without-docker">Manual setup without Docker</a></h3>
+<p>The commands are as follows.</p>
+<pre><code class="language-src"># Install Rust
+$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+$ source $HOME/.cargo/env
+$ rustup override set 1.50.0
+
+# Install Node.js and npm
+$ curl -sL https://deb.nodesource.com/setup_14.x |  bash
+$ sudo apt-get install -y nodejs npm
+
+# Install rustwasmc toolchain
+$ npm install -g rustwasmc # Append --unsafe-perm if permission denied
+
+# OS dependencies for WasmEdge
+$ sudo apt-get update
+$ sudo apt-get -y upgrade
+$ sudo apt install -y build-essential curl wget git vim libboost-all-dev llvm-dev liblld-10-dev
+
+# Install the nodejs addon for WasmEdge
+$ npm install wasmedge-core
+$ npm install wasmedge-extensions
+</code></pre>
+<blockquote>
+<p>The WasmEdge Runtime depends on the latest version of <code>libstdc++</code>. Ubuntu 20.04 LTS already has the latest libraries. If you are running an older Linux distribution, you have <a href="embed//articles/ubuntu-req-ssvm-20200715/">several options to upgrade</a>.</p>
+</blockquote>
+<p>Next, clone the example source code repository.</p>
+<pre><code class="language-src">$ git clone https://github.com/second-state/wasmedge-nodejs-starter
+$ cd wasmedge-nodejs-starter
+</code></pre>
+<h2 id="hello-world-2"><a class="header" href="#hello-world-2">Hello World</a></h2>
+<p>The first example is a hello world to show you how various parts of the application fit together.</p>
+<h3 id="webassembly-program-in-rust"><a class="header" href="#webassembly-program-in-rust">WebAssembly program in Rust</a></h3>
+<p>In this example, our Rust program appends the input string after “hello”. Below is the content of the Rust program <code>src/lib.rs</code>. You can define multiple external functions in this library file, and all of them will be available to the host JavaScript app via WebAssembly. Just remember to annotate each function with <code>#[wasm_bindgen]</code> so that <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> knows to generate the correct JavaScript to Rust interface for it when you build it.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+pub fn say(s: String) -&gt; String {
+  let r = String::from(&quot;hello &quot;);
+  return r + &amp;s;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Next, you can compile the Rust source code into WebAssembly bytecode and generate the accompanying JavaScript module for the Node.js host environment.</p>
+<pre><code class="language-src">$ rustwasmc build
+</code></pre>
+<p>The result are files in the <code>pkg/</code> directory. the <code>.wasm</code> file is the WebAssembly bytecode program, and the <code>.js</code> files are for the JavaScript module.</p>
+<h3 id="the-nodejs-host-application"><a class="header" href="#the-nodejs-host-application">The Node.js host application</a></h3>
+<p>Next, go to the <code>node</code> folder and examine the JavaScript program <code>app.js</code>. With the generated <code>wasmedge_nodejs_starter_lib.js</code> module, it is very easy to write JavaScript to call WebAssembly functions. Below is the node application <code>app.js</code>. It simply imports the <code>say()</code> function from the generated module. The node application takes the <code>name</code> parameter from incoming an HTTP GET request, and responds with “hello <code>name</code>”.</p>
+<pre><code class="language-javascript">const { say } = require('../pkg/wasmedge_nodejs_starter_lib.js');
+
+const http = require('http');
+const url = require('url');
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) =&gt; {
+  const queryObject = url.parse(req.url,true).query;
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end(say(queryObject['name']));
+});
+
+server.listen(port, hostname, () =&gt; {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+</code></pre>
+<p>Start the Node.js application server as follows.</p>
+<pre><code class="language-src">$ node node/app.js
+Server running at http://127.0.0.1:3000/
+</code></pre>
+<p>Then, you can test it from another terminal window.</p>
+<pre><code class="language-src">$ curl http://127.0.0.1:3000/?name=Wasm
+hello Wasm
+</code></pre>
+<h2 id="a-complete-web-application"><a class="header" href="#a-complete-web-application">A complete web application</a></h2>
+<p>The next example shows a web application that computes the roots for quadratic equations. Please checkout the <a href="https://github.com/second-state/wasm-learning/tree/master/nodejs/quadratic">full source code here</a>.</p>
+<p>The user enters the values for <code>a</code>, <code>b</code>, <code>c</code> on the web form, and the web application calls the web service at <code>/solve</code> to compute the roots for the quadratic equation.</p>
+<pre><code class="language-src">a*X^2 + b*X + c = 0
+</code></pre>
+<p>The roots for <code>X</code> are displayed in the area below the input form.</p>
+<p><img src="embed//articles/getting-started-with-rust-function-01.png" alt="" /></p>
+<p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/public/index.html">HTML file</a> contains the client side JavaScript to submit the web form to <code>/solve</code>, and put result into the <code>#roots</code> HTML element on the page. </p>
+<pre><code class="language-javascript">$(function() {
+    var options = {
+      target: '#roots',
+      url: &quot;/solve&quot;,
+      type: &quot;post&quot;
+    };
+    $('#solve').ajaxForm(options);
+});
+</code></pre>
+<p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/server.js">Node.js application</a> behind the <code>/solve</code> URL endpoint is as follows. It reads the data from the input form, passes them into the <code>solve</code> function as an array, and puts the return value in the HTTP response.</p>
+<pre><code class="language-javascript">app.post('/solve', function (req, res) {
+  var a = parseFloat(req.body.a);
+  var b = parseFloat(req.body.b);
+  var c = parseFloat(req.body.c);
+  res.send(solve([a, b, c]))
+})
+</code></pre>
+<p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/src/lib.rs"><code>solve</code> function is written in Rust</a> and runs inside the WasmEdge Runtime. While the call arguments in the JavaScript side is an array of values, the Rust function receives a JSON object that encapsulates the array. In the Rust code, we first decode the JSON, perform the computation, and return the result values in a JSON string.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+pub fn solve(params: &amp;str) -&gt; String {
+  let ps: (f32, f32, f32) = serde_json::from_str(&amp;params).unwrap();
+  let discriminant: f32 = (ps.1 * ps.1) - (4. * ps.0 * ps.2);
+  let mut solution: (f32, f32) = (0., 0.);
+  if discriminant &gt;= 0. {
+    solution.0 = (((-1.) * ps.1) + discriminant.sqrt()) / (2. * ps.0);
+    solution.1 = (((-1.) * ps.1) - discriminant.sqrt()) / (2. * ps.0);
+    return serde_json::to_string(&amp;solution).unwrap();
+  } else {
+    return String::from(&quot;not real numbers&quot;);
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Let's try it.</p>
+<pre><code class="language-src">$ rustwasmc build
+$ npm install express # The application requires the Express framework in Node.js
+
+$ node node/server.js
+</code></pre>
+<p>From the web browser, go to <code>http://ip-addr:8080/</code> to access this application. Note: If you are using Docker, make sure that the Docker container port 8080 is mapped to the host port 8080.</p>
+<p>That’s it for the quadratic equation example.</p>
+<h2 id="more-examples"><a class="header" href="#more-examples">More examples</a></h2>
+<p>Besides passing string values between Rust and JavaScript, the <code>rustwasmc</code> tool supports the following data types.</p>
+<ul>
+<li>Rust call parameters can be any combo of <code>i32</code>, <code>String</code>, <code>&amp;str</code>, <code>Vec&lt;u8&gt;</code>, and <code>&amp;[u8]</code></li>
+<li>Return value can be <code>i32</code> or <code>String</code> or <code>Vec&lt;u8&gt;</code> or void</li>
+<li>For complex data types, such as structs, you could use JSON strings to pass data. </li>
+</ul>
+<blockquote>
+<p>With JSON support, you can call Rust functions with any number of input parameters and return any number of return values of any type.</p>
+</blockquote>
+<p>The Rust program <code>src/lib.rs</code> in the <a href="https://github.com/second-state/wasm-learning/tree/master/nodejs/functions">functions example</a> demonstrates  how to pass in call arguments in various supported types, and return values.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+pub fn obfusticate(s: String) -&gt; String {
+  (&amp;s).chars().map(|c| {
+    match c {
+      'A' ..= 'M' | 'a' ..= 'm' =&gt; ((c as u8) + 13) as char,
+      'N' ..= 'Z' | 'n' ..= 'z' =&gt; ((c as u8) - 13) as char,
+      _ =&gt; c
+    }
+  }).collect()
+}
+
+#[wasm_bindgen]
+pub fn lowest_common_denominator(a: i32, b: i32) -&gt; i32 {
+  let r = lcm(a, b);
+  return r;
+}
+
+#[wasm_bindgen]
+pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
+  return Sha3_256::digest(&amp;v).as_slice().to_vec();
+}
+
+#[wasm_bindgen]
+pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
+  return Keccak256::digest(s).as_slice().to_vec();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Perhaps the most interesting is the <code>create_line()</code> function. It takes two JSON strings, each representing a <code>Point</code> struct, and returns a JSON string representing a <code>Line</code> struct. Notice that both the <code>Point</code> and <code>Line</code> structs are annotated with <code>Serialize</code> and <code>Deserialize</code> so that the Rust compiler automatically generates necessary code to support their conversion to and from JSON strings.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Point {
+  x: f32, 
+  y: f32
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Line {
+  points: Vec&lt;Point&gt;,
+  valid: bool,
+  length: f32,
+  desc: String
+}
+
+#[wasm_bindgen]
+pub fn create_line (p1: &amp;str, p2: &amp;str, desc: &amp;str) -&gt; String {
+  let point1: Point = serde_json::from_str(p1).unwrap();
+  let point2: Point = serde_json::from_str(p2).unwrap();
+  let length = ((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y)).sqrt();
+
+  let valid = if length == 0.0 { false } else { true };
+  let line = Line { points: vec![point1, point2], valid: valid, length: length, desc: desc.to_string() };
+  return serde_json::to_string(&amp;line).unwrap();
+}
+
+#[wasm_bindgen]
+pub fn say(s: &amp;str) -&gt; String {
+  let r = String::from(&quot;hello &quot;);
+  return r + s;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Next, let's examine the JavaScript program <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/functions/node/app.js"><code>app.js</code></a>. It shows how to call the Rust functions. As you can see <code>String</code> and <code>&amp;str</code> are simply strings in JavaScript, <code>i32</code> are numbers, and <code>Vec&lt;u8&gt;</code> or <code>&amp;[8]</code> are JavaScript <code>Uint8Array</code>. JavaScript objects need to go through <code>JSON.stringify()</code> or <code>JSON.parse()</code> before being passed into or returned from Rust functions.</p>
+<pre><code class="language-javascript">const { say, obfusticate, lowest_common_denominator, sha3_digest, keccak_digest, create_line } = require('./functions_lib.js');
+
+var util = require('util');
+const encoder = new util.TextEncoder();
+console.hex = (d) =&gt; console.log((Object(d).buffer instanceof ArrayBuffer ? new Uint8Array(d.buffer) : typeof d === 'string' ? (new util.TextEncoder('utf-8')).encode(d) : new Uint8ClampedArray(d)).reduce((p, c, i, a) =&gt; p + (i % 16 === 0 ? i.toString(16).padStart(6, 0) + '  ' : ' ') + c.toString(16).padStart(2, 0) + (i === a.length - 1 || i % 16 === 15 ?  ' '.repeat((15 - i % 16) * 3) + Array.from(a).splice(i - i % 16, 16).reduce((r, v) =&gt; r + (v &gt; 31 &amp;&amp; v &lt; 127 || v &gt; 159 ? String.fromCharCode(v) : '.'), '  ') + '\n' : ''), ''));
+
+console.log( say(&quot;WasmEdge&quot;) );
+console.log( obfusticate(&quot;A quick brown fox jumps over the lazy dog&quot;) );
+console.log( lowest_common_denominator(123, 2) );
+console.hex( sha3_digest(encoder.encode(&quot;This is an important message&quot;)) );
+console.hex( keccak_digest(encoder.encode(&quot;This is an important message&quot;)) );
+
+var p1 = {x:1.5, y:3.8};
+var p2 = {x:2.5, y:5.8};
+var line = JSON.parse(create_line(JSON.stringify(p1), JSON.stringify(p2), &quot;A thin red line&quot;));
+console.log( line );
+</code></pre>
+<p>After running <code>rustwasmc</code> to build the Rust library, running <code>app.js</code> in Node.js environment produces the following output.</p>
+<pre><code class="language-src">$ rustwasmc build
+... Building the wasm file and JS shim file in pkg/ ...
+
+$ node node/app.js
+hello WasmEdge
+N dhvpx oebja sbk whzcf bire gur ynml qbt
+246
+000000  57 1b e7 d1 bd 69 fb 31 9f 0a d3 fa 0f 9f 9a b5  W.çÑ½iû1..Óú...µ
+000010  2b da 1a 8d 38 c7 19 2d 3c 0a 14 a3 36 d3 c3 cb  +Ú..8Ç.-&lt;..£6ÓÃË
+
+000000  7e c2 f1 c8 97 74 e3 21 d8 63 9f 16 6b 03 b1 a9  ~ÂñÈ.tã!Øc..k.±©
+000010  d8 bf 72 9c ae c1 20 9f f6 e4 f5 85 34 4b 37 1b  Ø¿r.®Á .öäõ.4K7.
+
+{ points: [ { x: 1.5, y: 3.8 }, { x: 2.5, y: 5.8 } ],
+  valid: true,
+  length: 2.2360682,
+  desc: 'A thin red line' }  
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust-sdk"><a class="header" href="#rust-sdk">Rust SDK</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="python-sdk"><a class="header" href="#python-sdk">Python SDK</a></h1>
 <p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/pull/633">help out</a>.</p>
@@ -3320,7 +3938,7 @@ you could also just go straight to the container runtime sections to
 use these images.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="a-simple-webassembly-example"><a class="header" href="#a-simple-webassembly-example">A simple WebAssembly example</a></h1>
 <p>In this article, I will show you how to build a container image for a WebAssembly application. It can then be started and managed by Kubernetes ecosystem tools, such as CRI-O, Docker, crun, and Kubernetes.</p>
-<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
+<h2 id="prerequisites-3"><a class="header" href="#prerequisites-3">Prerequisites</a></h2>
 <blockquote>
 <p>If you simply want a wasm bytecode file to test as a container image, you can skip the building process and just <a href="https://github.com/second-state/wasm-learning/blob/master/cli/wasi/wasi_example_main.wasm">download the wasm file here</a>.</p>
 </blockquote>
@@ -3329,7 +3947,7 @@ use these images.</p>
 <pre><code class="language-bash">git clone https://github.com/second-state/wasm-learning
 cd wasm-learning/cli/wasi
 </code></pre>
-<h2 id="build-the-wasm-bytecode"><a class="header" href="#build-the-wasm-bytecode">Build the WASM bytecode</a></h2>
+<h2 id="build-the-wasm-bytecode-2"><a class="header" href="#build-the-wasm-bytecode-2">Build the WASM bytecode</a></h2>
 <pre><code class="language-bash">rustup target add wasm32-wasi
 cargo build --target wasm32-wasi --release
 </code></pre>
@@ -3381,7 +3999,7 @@ sudo buildah push --authfile ~/.docker/config.json wasm-wasi-example docker://do
 The HTTP service application is developed in Rust using the <a href="https://github.com/second-state/wasmedge_wasi_socket">WasmEdge networking socket API</a>.
 Kubernetes could manage the wasm application lifecycle
 with CRI-O, Docker and Containerd.</p>
-<h2 id="prerequisites-1"><a class="header" href="#prerequisites-1">Prerequisites</a></h2>
+<h2 id="prerequisites-4"><a class="header" href="#prerequisites-4">Prerequisites</a></h2>
 <p>This is a Rust example, which require you to install <a href="https://www.rust-lang.org/tools/install">Rust</a>
 and <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/install.md">WasmEdge</a>
 before you can Compile and Run the http service.</p>
@@ -3394,7 +4012,7 @@ cd src
 wget -q https://raw.githubusercontent.com/second-state/wasmedge_wasi_socket/main/examples/http_server/src/main.rs
 cd ../
 </code></pre>
-<h2 id="build-the-wasm-bytecode-1"><a class="header" href="#build-the-wasm-bytecode-1">Build the WASM bytecode</a></h2>
+<h2 id="build-the-wasm-bytecode-3"><a class="header" href="#build-the-wasm-bytecode-3">Build the WASM bytecode</a></h2>
 <pre><code class="language-bash">rustup target add wasm32-wasi
 cargo build --target wasm32-wasi --release
 </code></pre>
@@ -4227,7 +4845,7 @@ native use cases and programming models.</p>
 <p>Source code: https://github.com/yomorun/yomo-wasmedge-tensorflow</p>
 </blockquote>
 <p>Checkout <a href="https://www.youtube.com/watch?v=E0ltsn6cLIU">the WasmEdge image classification function in action in YoMo</a></p>
-<h2 id="prerequisite"><a class="header" href="#prerequisite">Prerequisite</a></h2>
+<h2 id="prerequisite-1"><a class="header" href="#prerequisite-1">Prerequisite</a></h2>
 <p>Obviously, you will need to have <a href="https://golang.org/doc/install">Golang installed</a>, but I will assume you already did.</p>
 <blockquote>
 <p>Golang version should be newer than 1.15 for our example to work.</p>
@@ -4436,7 +5054,7 @@ $ go run ./source/main.go ./source/hot-dog.mp4
 <blockquote>
 <p>For more insights on why WasmEdge on Vercel, please refer to the artilce <a href="https://www.secondstate.io/articles/vercel-wasmedge-webassembly-rust/">Rust and WebAssembly Serverless Functions in Vercel</a>.</p>
 </blockquote>
-<h2 id="prerequisite-1"><a class="header" href="#prerequisite-1">Prerequisite</a></h2>
+<h2 id="prerequisite-2"><a class="header" href="#prerequisite-2">Prerequisite</a></h2>
 <p>Since our demo WebAssembly functions are written in Rust, you will need a <a href="https://www.rust-lang.org/tools/install">Rust compiler</a>. Make sure that you install the <code>wasm32-wasi</code> compiler target as follows, in order to generate WebAssembly bytecode.</p>
 <pre><code>$ rustup target add wasm32-wasi
 </code></pre>
@@ -4585,7 +5203,7 @@ module.exports = (req, res) =&gt; {
 <blockquote>
 <p>For more insights on why WasmEdge on Netlify, please refer to the artilce <a href="https://www.secondstate.io/articles/netlify-wasmedge-webassembly-rust-serverless/">WebAssembly Serverless Functions in Netlify</a>.</p>
 </blockquote>
-<h2 id="prerequisite-2"><a class="header" href="#prerequisite-2">Prerequisite</a></h2>
+<h2 id="prerequisite-3"><a class="header" href="#prerequisite-3">Prerequisite</a></h2>
 <p>Since our demo WebAssembly functions are written in Rust, you will need a <a href="https://www.rust-lang.org/tools/install">Rust compiler</a>. Make sure that you install the <code>wasm32-wasi</code> compiler target as follows, in order to generate WebAssembly bytecode.</p>
 <pre><code>$ rustup target add wasm32-wasi
 </code></pre>
@@ -4733,7 +5351,7 @@ module.exports = (req, res) =&gt; {
 <blockquote>
 <p>For the insight on why WasmEdge on AWS Lambda, please refer to the article <a href="https://www.secondstate.io/articles/webassembly-serverless-functions-in-aws-lambda/">WebAssembly Serverless Functions in AWS Lambda</a></p>
 </blockquote>
-<h2 id="prerequisites-2"><a class="header" href="#prerequisites-2">Prerequisites</a></h2>
+<h2 id="prerequisites-5"><a class="header" href="#prerequisites-5">Prerequisites</a></h2>
 <p>Since our demo WebAssembly functions are written in Rust, you will need a <a href="https://www.rust-lang.org/tools/install">Rust compiler</a>. Make sure that you install the <code>wasm32-wasi</code> compiler target as follows, in order to generate WebAssembly bytecode.</p>
 <pre><code>$ rustup target add wasm32-wasi
 </code></pre>
