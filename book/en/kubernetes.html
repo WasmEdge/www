@@ -159,8 +159,8 @@
                     <main>
                         <h1 id="wasmedge-in-kubernetes"><a class="header" href="#wasmedge-in-kubernetes">WasmEdge in Kubernetes</a></h1>
 <p>Developers can leverage container tools such as Kubernetes, Docker and CRI-O to deploy, manage, and run lightweight WebAssembly applications. In this chapter, we will demonstrate how Kubernetes ecosystem tools work with <a href="https://github.com/WasmEdge/WasmEdge">WasmEdge</a> WebAssembly applications.</p>
-<p>Compared with Docker, <a href="https://www.infoq.com/articles/arm-vs-x86-cloud-performance/">WebAssembly could be 100x faster at startup</a>, have a much smaller memory and disk footprint, and have a better-defined safety sandbox. However, the trade-off is that WebAssembly requires its own language SDKs, and compiler toolchains, making it a more constrained developer environment than Docker. WebAssembly is increasingly used in Edge Computing scenarios where it is difficult to deploy Docker containers or when the application performance is vital.</p>
-<p>One of the great advantages of application containers like Docker is the rich ecosystem of tools. The good news is that you can use the exact same tools to manage WebAssembly applications, enabling Docker-like Linux containers and WebAssembly apps to run side-by-side in the same system.</p>
+<p>Compared with Linux containers, <a href="https://www.infoq.com/articles/arm-vs-x86-cloud-performance/">WebAssembly could be 100x faster at startup</a>, have a much smaller memory and disk footprint, and have a better-defined safety sandbox. However, the trade-off is that WebAssembly requires its own language SDKs, and compiler toolchains, making it a more constrained developer environment than Docker. WebAssembly is increasingly used in Edge Computing scenarios where it is difficult to deploy Docker containers or when the application performance is vital.</p>
+<p>One of the great advantages of Linux application containers is the rich ecosystem of tools. The good news is that you can use the exact same tools to manage WebAssembly applications, enabling Linux containers and WebAssembly apps to run side-by-side in the same system.</p>
 <p><img src="kubernetes.png" alt="" /></p>
 <p>The contents of this chapter are organized as follows.</p>
 <ul>
@@ -170,7 +170,7 @@
 <li><a href="kubernetes/cri.html">CRI runtimes</a> covers how to configure and use high level container runtimes, such as CRI-O and containerd, to load and run WebAssembly OCI images on top of low level container runtimes.</li>
 <li><a href="kubernetes/kubernetes.html">Kubernetes</a> covers how to configure and use Kubernetes and Kubernetes variations, such as KubeEdge and SuperEdge, to load and run WebAssembly OCI images on top of CRI runtimes.</li>
 </ul>
-<p>The goal is to load and run WebAssembly OCI images side by side with Linux OCI images (for Docker-like containers) across the entire Kubernetes stack.</p>
+<p>The goal is to load and run WebAssembly OCI images side by side with Linux OCI images (e.g., today's Docker containers) across the entire Kubernetes stack.</p>
 
                     </main>
 
