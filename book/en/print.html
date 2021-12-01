@@ -3929,16 +3929,24 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 </ul>
 <p>The goal is to load and run WebAssembly OCI images side by side with Linux OCI images (e.g., today's Docker containers) across the entire Kubernetes stack.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h1>
+<p>We have created Ubuntu-based scripts for you to quickly get started
+with the following combination of runtimes in a standard Kubernetes setup.</p>
+<table><thead><tr><th>CRI (high level) runtime</th><th>OCI (low level) runtime</th><th></th></tr></thead><tbody>
+<tr><td>CRI-O</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio.yml">Script</a></td></tr>
+</tbody></table>
+<h2 id="cri-o-and-crun"><a class="header" href="#cri-o-and-crun">CRI-O and crun</a></h2>
 <p>You can use the CRI-O <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/install.sh">install.sh</a> script to install CRI-O and <code>crun</code> on Ubuntu 20.04.</p>
 <pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/install.sh | bash
 </code></pre>
-<p>Next, install Kubernetes using the <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes/install.sh">following script</a>.</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes/install.sh | bash
+<p>Next, install Kubernetes using the <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/install.sh">following script</a>.</p>
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_crio/install.sh | bash
 </code></pre>
-<p>The <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes/simple_wasi_application.sh">simple_wasi_application.sh</a> script shows how to pull <a href="kubernetes/demo/wasi.html">a WebAssembly application</a> from Docker Hub, and then run it as a containerized application in Kubernetes.</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes/simple_wasi_application.sh | bash
+<p>The <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/simple_wasi_application.sh">simple_wasi_application.sh</a> script shows how to pull <a href="kubernetes/demo/wasi.html">a WebAssembly application</a> from Docker Hub, and then run it as a containerized application in Kubernetes.</p>
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_crio/simple_wasi_application.sh | bash
 </code></pre>
 <p>You should see results from the WebAssembly program printed in the console log. <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4186005677?check_suite_focus=true#step:6:3007">Here is an example</a>.</p>
+<p>Read on to the rest of this chapter to learn how exactly those runtimes
+are configured.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="demo-apps"><a class="header" href="#demo-apps">Demo apps</a></h1>
 <p>In this chapter, we will cover two demo apps. We will build them from Rust
 source code, build OCI images around them, and then publish the images to
