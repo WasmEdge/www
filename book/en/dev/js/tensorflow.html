@@ -200,6 +200,18 @@ confidence:
 <li>The <code>wasmedge-tensorflow-lite</code> program is part of the WasmEdge package. It is the WasmEdge runtime with the Tensorflow extension built in.</li>
 </ul>
 <p>You should now see the name of the food item recognized by the TensorFlow lite ImageNet model.</p>
+<h2 id="make-it-faster"><a class="header" href="#make-it-faster">Make it faster</a></h2>
+<p>The above Tensorflow inference example takes 1–2 seconds to run. It is acceptable in web application scenarios but could be improved. Recall that WasmEdge is the fastest WebAssembly runtime today due to its AOT (Ahead-of-time compiler) optimization. WasmEdge provides a <code>wasmedgec</code> utility to compile and add a native machine code section to the <code>wasm</code> file for much faster performance.</p>
+<p>The following example uses the extended versions to <code>wasmedge</code> and <code>wasmedgec</code> to support the WasmEdge Tensorflow extension.</p>
+<pre><code>$ cd example_js/tensorflow_lite_demo
+$ wasmedgec-tensorflow ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
+$ wasmedge-tensorflow-lite --dir .:. wasmedge_quickjs.wasm main.js
+label:
+Hot dog
+confidence:
+0.8941176470588236
+</code></pre>
+<p>You can see that the image classification task can be completed within 0.1s. It is at least 10x improvement!</p>
 
                     </main>
 

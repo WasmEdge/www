@@ -158,7 +158,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="quick-start-with-javascript-on-wasmedge"><a class="header" href="#quick-start-with-javascript-on-wasmedge">Quick start with JavaScript on WasmEdge</a></h1>
-<p>First, let’s build a WebAssmbly-based JavaScript interpreter program for WasmEdge. It is based on <a href="https://bellard.org/quickjs/">QuickJS</a> with WasmEdge extensions, such as <a href="https://github.com/second-state/wasmedge_wasi_socket">network sockets</a> and <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow inference</a>, incorporated into the interpreter as JavaScript APIs. You will need to <a href="https://www.rust-lang.org/tools/install">install Rust</a> to build the interpreter.</p>
+<p>First, let's build a WebAssmbly-based JavaScript interpreter program for WasmEdge. It is based on <a href="https://bellard.org/quickjs/">QuickJS</a> with WasmEdge extensions, such as <a href="https://github.com/second-state/wasmedge_wasi_socket">network sockets</a> and <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow inference</a>, incorporated into the interpreter as JavaScript APIs. You will need to <a href="https://www.rust-lang.org/tools/install">install Rust</a> to build the interpreter.</p>
 <blockquote>
 <p>If you just want to use the interpreter to run JavaScript programs, you can skip this section. Make sure you have installed <a href="https://www.rust-lang.org/tools/install">Rust</a> and <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/install.md">WasmEdge</a>.</p>
 </blockquote>
@@ -188,6 +188,11 @@ Hello WasmEdge Runtime
 <blockquote>
 <p>Note, the <code>--dir .:.</code> on the command line is to give <code>wasmedge</code> permission to read the local directory in the file system for the <code>hello.js</code> file. We will use  <code>--dir .:.</code> in the following sections.</p>
 </blockquote>
+<h2 id="make-it-faster"><a class="header" href="#make-it-faster">Make it faster</a></h2>
+<p>WasmEdge provides a <code>wasmedgec</code> utility to compile and add a native machine code section to the <code>wasm</code> file. You can use <code>wasmedge</code> to run the natively instrumented <code>wasm</code> file to get much faster performance.</p>
+<pre><code class="language-bash">$ wasmedgec ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
+$ wasmedge --dir .:. wasmedge_quickjs.wasm hello.js
+</code></pre>
 <p>Next, we will discuss more advanced use case for JavaScript in WasmEdge.</p>
 
                     </main>

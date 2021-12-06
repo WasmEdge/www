@@ -1192,7 +1192,9 @@ $ sudo apt install build-essential curl wget git vim libboost-all-dev llvm-dev l
 <p>WebAssembly started as a “JavaScript alternative for browsers”. The idea is to run high-performance applications compiled from languages like C/C++ or Rust safely in browsers. In the browser, WebAssembly runs side by side with JavaScript.</p>
 <p>As WebAssembly is increasingly used in the cloud, it is now a universal runtime for cloud-native applications. Compared with Docker-like application containers, WebAssembly runtimes achieve higher performance with lower resource consumption.</p>
 <p>In cloud-native use cases, developers often want to use JavaScript to write business applications. That means we must now support JavaScript in WebAssembly. Furthermore, we should support calling C/C++ or Rust functions from JavaScript in a WebAssembly runtime to take advantage of WebAssembly’s computational efficiency. The WasmEdge WebAssembly runtime allows you to do exactly that.</p>
+<p align="center">
 <p><img src="dev/javascript.png" alt="" /></p>
+</p>
 <p>In this section, we will demonstrate how to run and enhance JavaScript in WasmEdge.</p>
 <ul>
 <li><a href="dev/js/quickstart.html">Getting started</a> demonstrates how to run simple JavaScript programs in WasmEdge.</li>
@@ -1205,8 +1207,13 @@ $ sudo apt install build-essential curl wget git vim libboost-all-dev llvm-dev l
 <li><a href="dev/js/async.html">Async networking</a> shows how to improve HTTP server application performance by supporting asynchronous and non-blocking I/O.</li>
 <li><a href="dev/js/rust.html">Use Rust to implement JS API</a> discusses how to use Rust to implement and support a JavaScript API in WasmEdge.</li>
 </ul>
+<h2 id="a-note-on-quickjs"><a class="header" href="#a-note-on-quickjs">A note on QuickJS</a></h2>
+<p>Now, the choice of QuickJS as our JavaScript engine might raise the question of performance. Isn't QuickJS <a href="https://bellard.org/quickjs/bench.html">a lot slower</a> than v8 due to a lack of JIT support? Yes, but ...</p>
+<p>First of all, QuickJS is a lot smaller than v8. In fact, it only takes 1/40 (or 2.5%) of the runtime resources v8 consumes. You can run a lot more QuickJS functions than v8 functions on a single physical machine.</p>
+<p>Second, for most business logic applications, raw performance is not critical. The application may have computationally intensive tasks, such as AI inference on the fly. WasmEdge allows the QuickJS applications to drop to high-performance WebAssembly for these tasks while it is not so easy with v8 to add such extensions modules.</p>
+<p>Third, it is known that <a href="https://www.theregister.com/2021/08/06/edge_super_duper_security_mode/">many JavaScript security issues arise from JIT</a>. Maybe turning off JIT in the cloud-native environment is not such a bad idea!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quick-start-with-javascript-on-wasmedge"><a class="header" href="#quick-start-with-javascript-on-wasmedge">Quick start with JavaScript on WasmEdge</a></h1>
-<p>First, let’s build a WebAssmbly-based JavaScript interpreter program for WasmEdge. It is based on <a href="https://bellard.org/quickjs/">QuickJS</a> with WasmEdge extensions, such as <a href="https://github.com/second-state/wasmedge_wasi_socket">network sockets</a> and <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow inference</a>, incorporated into the interpreter as JavaScript APIs. You will need to <a href="https://www.rust-lang.org/tools/install">install Rust</a> to build the interpreter.</p>
+<p>First, let's build a WebAssmbly-based JavaScript interpreter program for WasmEdge. It is based on <a href="https://bellard.org/quickjs/">QuickJS</a> with WasmEdge extensions, such as <a href="https://github.com/second-state/wasmedge_wasi_socket">network sockets</a> and <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow inference</a>, incorporated into the interpreter as JavaScript APIs. You will need to <a href="https://www.rust-lang.org/tools/install">install Rust</a> to build the interpreter.</p>
 <blockquote>
 <p>If you just want to use the interpreter to run JavaScript programs, you can skip this section. Make sure you have installed <a href="https://www.rust-lang.org/tools/install">Rust</a> and <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/install.md">WasmEdge</a>.</p>
 </blockquote>
@@ -1236,6 +1243,11 @@ Hello WasmEdge Runtime
 <blockquote>
 <p>Note, the <code>--dir .:.</code> on the command line is to give <code>wasmedge</code> permission to read the local directory in the file system for the <code>hello.js</code> file. We will use  <code>--dir .:.</code> in the following sections.</p>
 </blockquote>
+<h2 id="make-it-faster"><a class="header" href="#make-it-faster">Make it faster</a></h2>
+<p>WasmEdge provides a <code>wasmedgec</code> utility to compile and add a native machine code section to the <code>wasm</code> file. You can use <code>wasmedge</code> to run the natively instrumented <code>wasm</code> file to get much faster performance.</p>
+<pre><code class="language-bash">$ wasmedgec ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
+$ wasmedge --dir .:. wasmedge_quickjs.wasm hello.js
+</code></pre>
 <p>Next, we will discuss more advanced use case for JavaScript in WasmEdge.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="es6-module"><a class="header" href="#es6-module">ES6 module</a></h1>
 <p>The WasmEdge QuickJS runtime supports ES6 modules. This article will show you how to use ES6 module in WasmEdge.</p>
@@ -1477,6 +1489,18 @@ confidence:
 <li>The <code>wasmedge-tensorflow-lite</code> program is part of the WasmEdge package. It is the WasmEdge runtime with the Tensorflow extension built in.</li>
 </ul>
 <p>You should now see the name of the food item recognized by the TensorFlow lite ImageNet model.</p>
+<h2 id="make-it-faster-1"><a class="header" href="#make-it-faster-1">Make it faster</a></h2>
+<p>The above Tensorflow inference example takes 1–2 seconds to run. It is acceptable in web application scenarios but could be improved. Recall that WasmEdge is the fastest WebAssembly runtime today due to its AOT (Ahead-of-time compiler) optimization. WasmEdge provides a <code>wasmedgec</code> utility to compile and add a native machine code section to the <code>wasm</code> file for much faster performance.</p>
+<p>The following example uses the extended versions to <code>wasmedge</code> and <code>wasmedgec</code> to support the WasmEdge Tensorflow extension.</p>
+<pre><code>$ cd example_js/tensorflow_lite_demo
+$ wasmedgec-tensorflow ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
+$ wasmedge-tensorflow-lite --dir .:. wasmedge_quickjs.wasm main.js
+label:
+Hot dog
+confidence:
+0.8941176470588236
+</code></pre>
+<p>You can see that the image classification task can be completed within 0.1s. It is at least 10x improvement!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="networking-sockets-1"><a class="header" href="#networking-sockets-1">Networking sockets</a></h1>
 <p>The QuickJS WasmEdge Runtime supports the WasmEdge <a href="https://github.com/second-state/wasmedge_wasi_socket">networking socket extension</a> so that the JavaScript programs can make HTTP connections to the Internet. This article will show you both <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/http_demo.js">HTTP Client</a> and <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/http_server_demo.js">HTTP Server</a> examples.</p>
 <h2 id="a-javascript-networking-client-example"><a class="header" href="#a-javascript-networking-client-example">A JavaScript networking client example</a></h2>
@@ -3924,6 +3948,7 @@ In this section, we will discuss several examples.</p>
 <ul>
 <li><a href="embed/go/memory.html#pass-strings-to-rust-functions">Pass strings to Rust functions</a></li>
 <li><a href="embed/go/memory.html#pass-strings-to-tinygo-functions">Pass strings to TinyGo functions</a></li>
+<li><a href="embed/go/memory.html#pass-bytes-to-rust-functions">Pass bytes to Rust functions</a></li>
 <li><a href="embed/go/memory.html#pass-bytes-to-tinygo-functions">Pass bytes to TinyGo functions</a></li>
 </ul>
 <h2 id="pass-strings-to-rust-functions"><a class="header" href="#pass-strings-to-rust-functions">Pass strings to Rust functions</a></h2>
@@ -4189,8 +4214,183 @@ $ go build greet_memory.go
 <pre><code class="language-bash">$ ./greet_memory greet.wasm
 Hello, WasmEdge!
 </code></pre>
+<h2 id="pass-bytes-to-rust-functions"><a class="header" href="#pass-bytes-to-rust-functions">Pass bytes to Rust functions</a></h2>
+<p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_AccessMemory">this example</a>, we will demonstrate how to call <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_AccessMemory/rust_access_memory/src/lib.rs">Rust-based WebAssembly functions</a> and pass arrays to and from a Go app.</p>
+<blockquote>
+<p>An alternative approach to pass and return complex values to Rust functions in WebAssembly is to use the <code>wasm-bindgen</code> compiler tool. You can <a href="embed/go/bindgen.html">learn more here</a>.</p>
+</blockquote>
+<p>The <code>fib_array()</code> function takes a array as a call parameter and fill it with
+a fibonacci sequence of numbers. Alternatively, the <code>fib_array_return_memory()</code> function returns
+a array of fibonacci sequence of numbers.</p>
+<p>For the array in the call parameter, the Rust function <code>fib_array()</code> takes a memory pointer 
+and constructs the Rust <code>Vec</code> using <code>from_raw_parts</code>. For the array return 
+value, the Rust function <code>fib_array_return_memory()</code> simply returns the pointer.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::mem;
+use std::os::raw::{c_void, c_int};
+
+#[no_mangle]
+pub extern fn allocate(size: usize) -&gt; *mut c_void {
+    let mut buffer = Vec::with_capacity(size);
+    let pointer = buffer.as_mut_ptr();
+    mem::forget(buffer);
+
+    pointer as *mut c_void
+}
+
+#[no_mangle]
+pub extern fn deallocate(pointer: *mut c_void, capacity: usize) {
+    unsafe {
+        let _ = Vec::from_raw_parts(pointer, 0, capacity);
+    }
+}
+
+#[no_mangle]
+pub extern fn fib_array(n: i32, p: *mut c_int) -&gt; i32 {
+    unsafe {
+        let mut arr = Vec::&lt;i32&gt;::from_raw_parts(p, 0, (4*n) as usize);
+        for i in 0..n {
+            if i &lt; 2 {
+                arr.push(i);
+            } else {
+                arr.push(arr[(i - 1) as usize] + arr[(i - 2) as usize]);
+            }
+        }
+        let r = arr[(n - 1) as usize];
+        mem::forget(arr);
+        r
+    }
+}
+
+#[no_mangle]
+pub extern fn fib_array_return_memory(n: i32) -&gt; *mut c_int {
+    let mut arr = Vec::with_capacity((4 * n) as usize);
+    let pointer = arr.as_mut_ptr();
+    for i in 0..n {
+        if i &lt; 2 {
+            arr.push(i);
+        } else {
+            arr.push(arr[(i - 1) as usize] + arr[(i - 2) as usize]);
+        }
+    }
+    mem::forget(arr);
+    pointer
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Use standard Rust compiler tools to compile the Rust source code into a WebAssembly bytecode application.</p>
+<pre><code class="language-bash">$ cd rust_access_memory
+$ cargo build --target wasm32-wasi
+# The output WASM will be target/wasm32-wasi/debug/rust_access_memory_lib.wasm.
+</code></pre>
+<p>The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_AccessMemory/run.go">Go SDK application</a> must call <code>allocate</code> from the WasmEdge
+VM to get a pointer to the array. It will then call the <code>fib_array()</code> 
+function in Rust and pass in the pointer. After the functions return, the Go application 
+will use the WasmEdge <code>store</code> API
+to construct an array from the pointer in the call parameter (<code>fib_array()</code>) or in the return value (<code>fib_array_return_memory()</code>).
+The Go app will eventually 
+call <code>deallocate</code>
+to free the memory space. </p>
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;os&quot;
+	&quot;unsafe&quot;
+
+	&quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+)
+
+func main() {
+	wasmedge.SetLogErrorLevel()
+	conf := wasmedge.NewConfigure(wasmedge.WASI)
+	store := wasmedge.NewStore()
+	vm := wasmedge.NewVMWithConfigAndStore(conf, store)
+
+	wasi := vm.GetImportObject(wasmedge.WASI)
+	wasi.InitWasi(
+		os.Args[1:],
+		os.Environ(),
+		[]string{&quot;.:.&quot;},
+	)
+
+	err := vm.LoadWasmFile(os.Args[1])
+	if err != nil {
+		fmt.Println(&quot;failed to load wasm&quot;)
+	}
+	vm.Validate()
+	vm.Instantiate()
+
+	n := int32(10)
+
+	p, err := vm.Execute(&quot;allocate&quot;, 4 * n)
+	if err != nil {
+		fmt.Println(&quot;allocate failed:&quot;, err)
+	}
+
+	fib, err := vm.Execute(&quot;fib_array&quot;, n, p[0])
+	if err != nil {
+		fmt.Println(&quot;fib_rray failed:&quot;, err)
+	} else {
+		fmt.Println(&quot;fib_array() returned:&quot;, fib[0])
+		fmt.Printf(&quot;fib_array memory at: %p\n&quot;, unsafe.Pointer((uintptr)(p[0].(int32))))
+		mem := store.FindMemory(&quot;memory&quot;)
+		if mem != nil {
+			// int32 occupies 4 bytes
+			fibArray, err := mem.GetData(uint(p[0].(int32)), uint(n * 4))
+			if err == nil &amp;&amp; fibArray != nil {
+				fmt.Println(&quot;fibArray:&quot;, fibArray)
+			}
+		}
+	}
+
+	fibP, err := vm.Execute(&quot;fib_array_return_memory&quot;, n)
+	if err != nil {
+		fmt.Println(&quot;fib_array_return_memory failed:&quot;, err)
+	} else {
+		fmt.Printf(&quot;fib_array_return_memory memory at: %p\n&quot;, unsafe.Pointer((uintptr)(fibP[0].(int32))))
+		mem := store.FindMemory(&quot;memory&quot;)
+		if mem != nil {
+			// int32 occupies 4 bytes
+			fibArrayReturnMemory, err := mem.GetData(uint(fibP[0].(int32)), uint(n * 4))
+			if err == nil &amp;&amp; fibArrayReturnMemory != nil {
+				fmt.Println(&quot;fibArrayReturnMemory:&quot;, fibArrayReturnMemory)
+			}
+		}
+	}
+
+	_, err = vm.Execute(&quot;deallocate&quot;, p[0].(int32), 4 * n)
+	if err != nil {
+		fmt.Println(&quot;free failed:&quot;, err)
+	}
+
+
+	exitcode := wasi.WasiGetExitCode()
+	if exitcode != 0 {
+		fmt.Println(&quot;Go: Running wasm failed, exit code:&quot;, exitcode)
+	}
+
+	vm.Release()
+	store.Release()
+	conf.Release()
+}
+</code></pre>
+<p>To build the Go SDK example, run the following commands.</p>
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0-rc5
+$ go build run.go
+</code></pre>
+<p>Now you can use the Go application to run the WebAssembly plug-in compiled from Rust.</p>
+<pre><code class="language-bash">$ ./run rust_access_memory_lib.wasm
+fib_array() returned: 34
+fib_array memory at: 0x102d80
+fibArray: [0 0 0 0 1 0 0 0 1 0 0 0 2 0 0 0 3 0 0 0 5 0 0 0 8 0 0 0 13 0 0 0 21 0 0 0 34 0 0 0]
+fib_array_return_memory memory at: 0x105430
+fibArrayReturnMemory: [0 0 0 0 1 0 0 0 1 0 0 0 2 0 0 0 3 0 0 0 5 0 0 0 8 0 0 0 13 0 0 0 21 0 0 0 34 0 0 0]
+</code></pre>
 <h2 id="pass-bytes-to-tinygo-functions"><a class="header" href="#pass-bytes-to-tinygo-functions">Pass bytes to TinyGo functions</a></h2>
-<p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_AccessMemory">this example</a>, we will demonstrate how to call <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_AccessMemory/fib.go">TinyGo-based WebAssembly functions</a> and pass arrays to and from a Go app.</p>
+<p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_AccessMemoryTinyGo">this example</a>, we will demonstrate how to call <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_AccessMemoryTinyGo/fib.go">TinyGo-based WebAssembly functions</a> and pass arrays to and from a Go app.</p>
 <p>The <code>fibArray</code> function takes a array as a call parameter and fill it with 
 a fibonacci sequence of numbers. Alternatively, the <code>fibArrayReturnMemory</code> function returns
 a array of fibonacci sequence of numbers.</p>
@@ -4241,9 +4441,12 @@ func fibArrayReturnMemory(n int32) *int32 {
 <p>Use the TinyGo compiler tools to compile the Go source code into a WebAssembly bytecode application.</p>
 <pre><code class="language-bash">$ tinygo build -o fib.wasm -target wasi fib.go
 </code></pre>
-<p>The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_AccessMemory/run.go">Go SDK application</a> must call <code>malloc</code> from the WasmEdge
-VM to get a pointer to the array. It will then call the <code>fibArray</code> and <code>fibArrayReturnMemory</code>
-functions in TinyGo with the pointer. After the functions return, the Go application will call <code>free</code>
+<p>The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_AccessMemoryTinyGo/run.go">Go SDK application</a> must call <code>malloc</code> from the WasmEdge
+VM to get a pointer to the array. It will then call the <code>fibArray()</code>
+function in TinyGo with the pointer. After the functions return, the
+Go app uses the WasmEdge SDK's <code>store</code> API to construct an array from the
+pointer in the call parameter (<code>fibArray()</code>) or in the return value (<code>fibArrayReturnMemory()</code>).
+The Go application will eventually call <code>free</code>
 to free the memory space.</p>
 <pre><code class="language-go">package main
 
