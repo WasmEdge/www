@@ -294,7 +294,7 @@ File content is This is in a file
 
 Test 7: Delete the previous file
 </code></pre>
-<p>Next, you can try to run it in <a href="../kubernetes/kubernetes.html#run-a-simple-webassembly-app">Kubernetes</a>!</p>
+<p>Next, you can try to run the app in <a href="../kubernetes/kubernetes-crio.html">Kubernetes</a>!</p>
 <h2 id="run-a-http-server-app"><a class="header" href="#run-a-http-server-app">Run a HTTP server app</a></h2>
 <p>Finally, we can run a simple WebAssembly-based HTTP micro-service in CRI-O.
 <a href="../demo/server.html">A seperate article</a> explains how to compile, package, and publish the WebAssembly
@@ -347,7 +347,7 @@ sudo crictl inspect $CONTAINER_ID | grep IP.0 | cut -d: -f 2 | cut -d'&quot;' -f
 curl -d &quot;name=WasmEdge&quot; -X POST http://10.85.0.2:1234
 echo: name=WasmEdge
 </code></pre>
-<p>Next, you can try to run it in <a href="../kubernetes/kubernetes.html#run-a-http-server-app">Kubernetes</a>!</p>
+<p>Next, you can try to run it in <a href="../kubernetes/kubernetes-crio.html">Kubernetes</a>!</p>
 
                     </main>
 

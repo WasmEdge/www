@@ -1192,9 +1192,9 @@ $ sudo apt install build-essential curl wget git vim libboost-all-dev llvm-dev l
 <p>WebAssembly started as a “JavaScript alternative for browsers”. The idea is to run high-performance applications compiled from languages like C/C++ or Rust safely in browsers. In the browser, WebAssembly runs side by side with JavaScript.</p>
 <p>As WebAssembly is increasingly used in the cloud, it is now a universal runtime for cloud-native applications. Compared with Docker-like application containers, WebAssembly runtimes achieve higher performance with lower resource consumption.</p>
 <p>In cloud-native use cases, developers often want to use JavaScript to write business applications. That means we must now support JavaScript in WebAssembly. Furthermore, we should support calling C/C++ or Rust functions from JavaScript in a WebAssembly runtime to take advantage of WebAssembly’s computational efficiency. The WasmEdge WebAssembly runtime allows you to do exactly that.</p>
-<p align="center">
+<center>
 <p><img src="dev/javascript.png" alt="" /></p>
-</p>
+</center>
 <p>In this section, we will demonstrate how to run and enhance JavaScript in WasmEdge.</p>
 <ul>
 <li><a href="dev/js/quickstart.html">Getting started</a> demonstrates how to run simple JavaScript programs in WasmEdge.</li>
@@ -4961,7 +4961,9 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 <p>Developers can leverage container tools such as Kubernetes, Docker and CRI-O to deploy, manage, and run lightweight WebAssembly applications. In this chapter, we will demonstrate how Kubernetes ecosystem tools work with <a href="https://github.com/WasmEdge/WasmEdge">WasmEdge</a> WebAssembly applications.</p>
 <p>Compared with Linux containers, <a href="https://www.infoq.com/articles/arm-vs-x86-cloud-performance/">WebAssembly could be 100x faster at startup</a>, have a much smaller memory and disk footprint, and have a better-defined safety sandbox. However, the trade-off is that WebAssembly requires its own language SDKs, and compiler toolchains, making it a more constrained developer environment than Docker. WebAssembly is increasingly used in Edge Computing scenarios where it is difficult to deploy Docker containers or when the application performance is vital.</p>
 <p>One of the great advantages of Linux application containers is the rich ecosystem of tools. The good news is that you can use the exact same tools to manage WebAssembly applications, enabling Linux containers and WebAssembly apps to run side-by-side in the same system.</p>
+<center>
 <p><img src="kubernetes.png" alt="" /></p>
+</center>
 <p>The contents of this chapter are organized as follows.</p>
 <ul>
 <li><a href="kubernetes/quickstart.html">Quick start</a> provides simple and scripted tutorials to run WasmEdge-based applications as container images in Kubernetes.</li>
@@ -5313,7 +5315,7 @@ File content is This is in a file
 
 Test 7: Delete the previous file
 </code></pre>
-<p>Next, you can try to run it in <a href="kubernetes/cri/../kubernetes/kubernetes.html#run-a-simple-webassembly-app">Kubernetes</a>!</p>
+<p>Next, you can try to run the app in <a href="kubernetes/cri/../kubernetes/kubernetes-crio.html">Kubernetes</a>!</p>
 <h2 id="run-a-http-server-app"><a class="header" href="#run-a-http-server-app">Run a HTTP server app</a></h2>
 <p>Finally, we can run a simple WebAssembly-based HTTP micro-service in CRI-O.
 <a href="kubernetes/cri/../demo/server.html">A seperate article</a> explains how to compile, package, and publish the WebAssembly
@@ -5366,7 +5368,7 @@ sudo crictl inspect $CONTAINER_ID | grep IP.0 | cut -d: -f 2 | cut -d'&quot;' -f
 curl -d &quot;name=WasmEdge&quot; -X POST http://10.85.0.2:1234
 echo: name=WasmEdge
 </code></pre>
-<p>Next, you can try to run it in <a href="kubernetes/cri/../kubernetes/kubernetes.html#run-a-http-server-app">Kubernetes</a>!</p>
+<p>Next, you can try to run it in <a href="kubernetes/cri/../kubernetes/kubernetes-crio.html">Kubernetes</a>!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="containerd"><a class="header" href="#containerd">containerd</a></h1>
 <h2 id="quick-start-2"><a class="header" href="#quick-start-2">Quick start</a></h2>
 <p>The <a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> contains scripts and Github Actions for running our example
@@ -6117,7 +6119,274 @@ $ go run ./source/main.go ./source/hot-dog.mp4
 <p>In this article, we have seen how to use the WasmEdge Tensorflow API and Golang SDK in YoMo framework to process an image stream in near real-time.</p>
 <p>In collaboration with YoMo, we will soon deploy WasmEdge in production in smart factories for a variety of assembly line tasks. WasmEdge is the software runtime for edge computing!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reactr"><a class="header" href="#reactr">Reactr</a></h1>
-<p>Coming soon.</p>
+<p><a href="https://github.com/suborbital/reactr">Reactr</a> is a fast, performant function scheduling library written in Go. Reactr is designed to be flexible, with the ability to run embedded in your Go applications and first-class support for WebAssembly.</p>
+<p>Reactr allows you to run WebAssembly functions in Go. But so does the <a href="frameworks/app/../../embed/go.html">WasmEdge Go SDK</a>.
+The unique feature of Reactr is that it provides a rich set of host functions
+in Go, which support access to networks and databases etc. Reactr then provides
+Rust (and Swift / AssemblyScript) APIs to call those host functions from 
+within the WebAssembly function.</p>
+<p>Together with </p>
+<p>In this article, we will </p>
+<h2 id="prerequisites-5"><a class="header" href="#prerequisites-5">Prerequisites</a></h2>
+<p>You need have <a href="https://www.rust-lang.org/tools/install">Rust</a>, <a href="https://go.dev/doc/install">Go</a>, and <a href="frameworks/app/../../start/install.html">WasmEdge</a> installed on your system.</p>
+<pre><code>$ sudo apt-get update
+$ sudo apt-get -y upgrade
+
+$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+$ source $HOME/.cargo/env
+$ rustup target add wasm32-wasi
+
+$ curl -OL https://golang.org/dl/go1.16.7.linux-amd64.tar.gz
+$ sudo tar -C /usr/local -xvf go1.16.7.linux-amd64.tar.gz
+$ export PATH=$PATH:/usr/local/go/bin
+
+$ wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+$ source $HOME/.wasmedge/env
+</code></pre>
+<h2 id="hello-world-4"><a class="header" href="#hello-world-4">Hello world</a></h2>
+<p>A simple <code>hello world</code> example for Reactr is <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/hello">available here</a>.</p>
+<h3 id="rust-function-compiled-to-webassembly"><a class="header" href="#rust-function-compiled-to-webassembly">Rust function compiled to WebAssembly</a></h3>
+<p>Let's first create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/hello/hello-echo/src/lib.rs">a simple Rust funtion</a> to echo hello.
+The Rust function <code>HelloEcho::run()</code> is as follows. It will be exposed to the Go host
+application through Reactr.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use suborbital::runnable::*;
+
+struct HelloEcho{}
+
+impl Runnable for HelloEcho {
+    fn run(&amp;self, input: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, RunErr&gt; {
+        let in_string = String::from_utf8(input).unwrap();
+
+    
+        Ok(format!(&quot;hello {}&quot;, in_string).as_bytes().to_vec())
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Let's build the Rust function into a WebAssembly bytecode file.</p>
+<pre><code class="language-bash">$ cd hello-echo
+$ cargo build --target wasm32-wasi --release
+$ cp target/wasm32-wasi/release/hello_echo.wasm ..
+$ cd ..
+</code></pre>
+<h3 id="go-host-application"><a class="header" href="#go-host-application">Go host application</a></h3>
+<p>Next, lets look into the <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/hello/main.go">Go host app</a>
+that executes the WebAssembly functions.
+The <code>runBundle()</code> function executes the <code>run()</code> function in the
+<code>Runnable</code> struct once.</p>
+<pre><code class="language-go">func runBundle() {
+	r := rt.New()
+	doWasm := r.Register(&quot;hello-echo&quot;, rwasm.NewRunner(&quot;./hello_echo.wasm&quot;))
+
+	res, err := doWasm([]byte(&quot;wasmWorker!&quot;)).Then()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(string(res.([]byte)))
+}
+</code></pre>
+<p>The <code>runGroup()</code> function executes the Rust-compiled WebAssembly <code>run()</code> function
+multiple times asynchronously in a group, and receives the results as they come
+in.</p>
+<pre><code class="language-go">func runGroup() {
+	r := rt.New()
+
+	doWasm := r.Register(&quot;hello-echo&quot;, rwasm.NewRunner(&quot;./hello_echo.wasm&quot;))
+
+	grp := rt.NewGroup()
+	for i := 0; i &lt; 100000; i++ {
+		grp.Add(doWasm([]byte(fmt.Sprintf(&quot;world %d&quot;, i))))
+	}
+
+	if err := grp.Wait(); err != nil {
+		fmt.Println(err)
+	}
+}
+</code></pre>
+<p>Finally, let's run the Go host application and see the results printed to the console.</p>
+<blockquote>
+<p>You must use the <code>-tags wasmedge</code> flag to take advantage of the performance
+and extended WebAssembly APIs provided by WasmEdge.</p>
+</blockquote>
+<pre><code class="language-bash">$ go mod tidy
+$ go run main.go -tags wasmedge
+</code></pre>
+<h2 id="database-query"><a class="header" href="#database-query">Database query</a></h2>
+<p>In <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/db">this example</a>,
+we will demonstrate how to use Reactr host functions and APIs to query a 
+PostgreSQL database from your WebAssembly function.</p>
+<h3 id="install-and-set-up-a-postgresql-database"><a class="header" href="#install-and-set-up-a-postgresql-database">Install and set up a PostgreSQL database</a></h3>
+<p>We will start a PostgreSQL instance through Docker.</p>
+<pre><code class="language-bash">$ docker pull postgres
+$ docker run --name reactr-postgres -p 5432:5432 -e POSTGRES_PASSWORD=12345 -d postgres
+</code></pre>
+<p>Next, let's create a database and populate it with some sample data.</p>
+<pre><code class="language-bash">$ docker run -it --rm --network host postgres psql -h 127.0.0.1 -U postgres
+postgres=# CREATE DATABASE reactr;
+postgres=# \c reactr;
+
+# Create a table:
+postgres=# CREATE TABLE users (
+    uuid        varchar(100) CONSTRAINT firstkey PRIMARY KEY,
+    email       varchar(50) NOT NULL,
+    created_at  date,
+    state       char(1),
+    identifier  integer
+);
+</code></pre>
+<p>Leave this running and start another terminal window to interact with this PostgreSQL server.</p>
+<h3 id="rust-function-compiled-to-webassembly-1"><a class="header" href="#rust-function-compiled-to-webassembly-1">Rust function compiled to WebAssembly</a></h3>
+<p>Let's create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/db/rs-db/src/lib.rs">a Rust funtion</a> to access the PostgreSQL database.
+The Rust function <code>RsDbtest::run()</code> is as follows. It will be exposed to the Go host
+application through Reactr. It uses named queries such as <code>PGInsertUser</code> and <code>PGSelectUserWithUUID</code> to operate the database. Those queries are defined in the
+Go host application, and we will see them later.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use suborbital::runnable::*;
+use suborbital::db;
+use suborbital::util;
+use suborbital::db::query;
+use suborbital::log;
+use uuid::Uuid;
+
+struct RsDbtest{}
+
+impl Runnable for RsDbtest {
+    fn run(&amp;self, _: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, RunErr&gt; {
+        let uuid = Uuid::new_v4().to_string();
+
+        let mut args: Vec&lt;query::QueryArg&gt; = Vec::new();
+        args.push(query::QueryArg::new(&quot;uuid&quot;, uuid.as_str()));
+        args.push(query::QueryArg::new(&quot;email&quot;, &quot;connor@suborbital.dev&quot;));
+
+        match db::insert(&quot;PGInsertUser&quot;, args) {
+            Ok(_) =&gt; log::info(&quot;insert successful&quot;),
+            Err(e) =&gt; {
+                return Err(RunErr::new(500, e.message.as_str()))
+            }
+        };
+
+        let mut args2: Vec&lt;query::QueryArg&gt; = Vec::new();
+        args2.push(query::QueryArg::new(&quot;uuid&quot;, uuid.as_str()));
+
+        match db::update(&quot;PGUpdateUserWithUUID&quot;, args2.clone()) {
+            Ok(rows) =&gt; log::info(format!(&quot;update: {}&quot;, util::to_string(rows).as_str()).as_str()),
+            Err(e) =&gt; {
+                return Err(RunErr::new(500, e.message.as_str()))
+            }
+        }
+
+        match db::select(&quot;PGSelectUserWithUUID&quot;, args2.clone()) {
+            Ok(result) =&gt; log::info(format!(&quot;select: {}&quot;, util::to_string(result).as_str()).as_str()),
+            Err(e) =&gt; {
+                return Err(RunErr::new(500, e.message.as_str()))
+            }
+        }
+
+        match db::delete(&quot;PGDeleteUserWithUUID&quot;, args2.clone()) {
+            Ok(rows) =&gt; log::info(format!(&quot;delete: {}&quot;, util::to_string(rows).as_str()).as_str()),
+            Err(e) =&gt; {
+                return Err(RunErr::new(500, e.message.as_str()))
+            }
+        }
+
+        ... ...
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Let's build the Rust function into a WebAssembly bytecode file.</p>
+<pre><code class="language-bash">$ cd rs-db
+$ cargo build --target wasm32-wasi --release
+$ cp target/wasm32-wasi/release/rs_db.wasm ..
+$ cd ..
+</code></pre>
+<h3 id="go-host-application-1"><a class="header" href="#go-host-application-1">Go host application</a></h3>
+<p>The <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/db/main.go">Go host app</a>
+first defines the SQL queries and gives each of them a name.
+We will then pass those queries to the Reactr runtime as a configuration.</p>
+<pre><code class="language-go">func main() {
+	dbConnString, exists := os.LookupEnv(&quot;REACTR_DB_CONN_STRING&quot;)
+	if !exists {
+		fmt.Println(&quot;skipping as conn string env var not set&quot;)
+		return
+	}
+
+	q1 := rcap.Query{
+		Type:     rcap.QueryTypeInsert,
+		Name:     &quot;PGInsertUser&quot;,
+		VarCount: 2,
+		Query: `
+		INSERT INTO users (uuid, email, created_at, state, identifier)
+		VALUES ($1, $2, NOW(), 'A', 12345)`,
+	}
+
+	q2 := rcap.Query{
+		Type:     rcap.QueryTypeSelect,
+		Name:     &quot;PGSelectUserWithUUID&quot;,
+		VarCount: 1,
+		Query: `
+		SELECT * FROM users
+		WHERE uuid = $1`,
+	}
+
+	q3 := rcap.Query{
+		Type:     rcap.QueryTypeUpdate,
+		Name:     &quot;PGUpdateUserWithUUID&quot;,
+		VarCount: 1,
+		Query: `
+		UPDATE users SET state='B' WHERE uuid = $1`,
+	}
+
+	q4 := rcap.Query{
+		Type:     rcap.QueryTypeDelete,
+		Name:     &quot;PGDeleteUserWithUUID&quot;,
+		VarCount: 1,
+		Query: `
+		DELETE FROM users WHERE uuid = $1`,
+	}
+
+	config := rcap.DefaultConfigWithDB(vlog.Default(), rcap.DBTypePostgres, dbConnString, []rcap.Query{q1, q2, q3, q4})
+
+	r, err := rt.NewWithConfig(config)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	... ...
+}
+</code></pre>
+<p>Then, we can run the WebAssembly function from Reactr.</p>
+<pre><code class="language-go">func main() {
+	... ...
+
+	doWasm := r.Register(&quot;rs-db&quot;, rwasm.NewRunner(&quot;./rs_db.wasm&quot;))
+
+	res, err := doWasm(nil).Then()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(string(res.([]byte)))
+}
+</code></pre>
+<p>Finally, let's run the Go host application and see the results printed to the console.</p>
+<blockquote>
+<p>You must use the <code>-tags wasmedge</code> flag to take advantage of the performance
+and extended WebAssembly APIs provided by WasmEdge.</p>
+</blockquote>
+<pre><code class="language-bash">$ export REACTR_DB_CONN_STRING='postgresql://postgres:12345@127.0.0.1:5432/reactr'
+$ go mod tidy
+$ go run main.go -tags wasmedge
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="serverless-platforms"><a class="header" href="#serverless-platforms">Serverless platforms</a></h1>
 <p>Our vision for the future is to run WebAssembly as an alternative lightweight runtime side-by-side with Docker and microVMs in cloud native infrastructure. WebAssembly offers much higher performance and consumes much less resources than Docker-like containers or microVMs. However, the public cloud only supports running WebAssembly inside a microVM. Nonetheless, running WebAssembly functions inside a microVM still offers many advantages over running containerized NaCl programs.</p>
 <p>Running WebAssembly functions inside Docker-like containers offer advantages over running NaCl programs directly in Docker.</p>
@@ -6442,7 +6711,7 @@ module.exports = (req, res) =&gt; {
 <blockquote>
 <p>For the insight on why WasmEdge on AWS Lambda, please refer to the article <a href="https://www.secondstate.io/articles/webassembly-serverless-functions-in-aws-lambda/">WebAssembly Serverless Functions in AWS Lambda</a></p>
 </blockquote>
-<h2 id="prerequisites-5"><a class="header" href="#prerequisites-5">Prerequisites</a></h2>
+<h2 id="prerequisites-6"><a class="header" href="#prerequisites-6">Prerequisites</a></h2>
 <p>Since our demo WebAssembly functions are written in Rust, you will need a <a href="https://www.rust-lang.org/tools/install">Rust compiler</a>. Make sure that you install the <code>wasm32-wasi</code> compiler target as follows, in order to generate WebAssembly bytecode.</p>
 <pre><code>$ rustup target add wasm32-wasi
 </code></pre>
