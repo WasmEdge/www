@@ -179,16 +179,19 @@ as JavaScript porgrams in WasmEdge and Reactr. </p>
 <li><a href="#embed-javascript-in-go">Embed JavaScript in Go</a></li>
 </ul>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
-<p>You need have <a href="https://www.rust-lang.org/tools/install">Rust</a>, <a href="https://go.dev/doc/install">Go</a>, and <a href="../../start/install.html">WasmEdge</a> installed on your system.</p>
+<p>You need have <a href="https://www.rust-lang.org/tools/install">Rust</a>, <a href="https://go.dev/doc/install">Go</a>, and <a href="../../start/install.html">WasmEdge</a> installed on your system.
+The GCC compiler (installed via the <code>build-essential</code> package) is also needed
+for WasmEdge.</p>
 <pre><code>$ sudo apt-get update
 $ sudo apt-get -y upgrade
+$ sudo apt install build-essential
 
 $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 $ source $HOME/.cargo/env
 $ rustup target add wasm32-wasi
 
-$ curl -OL https://golang.org/dl/go1.16.7.linux-amd64.tar.gz
-$ sudo tar -C /usr/local -xvf go1.16.7.linux-amd64.tar.gz
+$ curl -OL https://golang.org/dl/go1.17.5.linux-amd64.tar.gz
+$ sudo tar -C /usr/local -xvf go1.17.5.linux-amd64.tar.gz
 $ export PATH=$PATH:/usr/local/go/bin
 
 $ wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
@@ -265,7 +268,7 @@ in.</p>
 and extended WebAssembly APIs provided by WasmEdge.</p>
 </blockquote>
 <pre><code class="language-bash">$ go mod tidy
-$ go run main.go -tags wasmedge
+$ go run -tags wasmedge main.go
 </code></pre>
 <h2 id="database-query"><a class="header" href="#database-query">Database query</a></h2>
 <p>In <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/db">this example</a>,
@@ -436,7 +439,62 @@ and extended WebAssembly APIs provided by WasmEdge.</p>
 </blockquote>
 <pre><code class="language-bash">$ export REACTR_DB_CONN_STRING='postgresql://postgres:12345@127.0.0.1:5432/reactr'
 $ go mod tidy
-$ go run main.go -tags wasmedge
+$ go run -tags wasmedge main.go
+</code></pre>
+<h2 id="embed-javascript-in-go"><a class="header" href="#embed-javascript-in-go">Embed JavaScript in Go</a></h2>
+<p>As we mentioned, a key feature of the WasmEdge Runtime is its advanced
+<a href="../../dev/js.html">JavaScript support</a>, which allows JavaScript programs to run in lightweight,
+high-performance, safe, multi-language, and <a href="../../kubernetes.html">Kubernetes-managed WasmEdge containers</a>.
+A simple example of embedded JavaScript function in Reactr is <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs">available here</a>.</p>
+<h3 id="javascript-example"><a class="header" href="#javascript-example">JavaScript example</a></h3>
+<p>The <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs/hello.js">JavaScript example function</a> is very simple. It just returns a string value.</p>
+<pre><code class="language-javascript">let h = 'hello';
+let w = 'wasmedge';
+`${h} ${w}`;
+</code></pre>
+<h3 id="go-host-application-2"><a class="header" href="#go-host-application-2">Go host application</a></h3>
+<p>The <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs/main.go">Go host app</a> uses the Reactr API to run WasmEdge's standard JavaScript
+interpreter <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/quickjs/rs_embed_js.wasm">rs_embed_js.wasm</a>. You can build your own version of 
+JavaScript interpreter by modifying <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs/rs-embed-js">this Rust project</a>.</p>
+<blockquote>
+<p>Learn more about how to embed <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/examples/embed_js">JavaScript code in Rust</a>, and how to <a href="../../dev/js/rust.html">use Rust to implement JavaScript APIs</a> in WasmEdge.</p>
+</blockquote>
+<p>The Go host application just need to start the job for <code>rs_embed_js.wasm</code> and pass the JavaScript content to it. The Go application can then capture and print the return value from JavaScript.</p>
+<pre><code class="language-go">func main() {
+	r := rt.New()
+	doWasm := r.Register(&quot;hello-quickjs&quot;, rwasm.NewRunner(&quot;./rs_embed_js.wasm&quot;))
+
+	code, err := ioutil.ReadFile(os.Args[1])
+	if err != nil {
+		fmt.Print(err)
+	}
+	res, err := doWasm(code).Then()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(string(res.([]byte)))
+}
+</code></pre>
+<p>Run the Go host application as follows.</p>
+<pre><code class="language-bash">$ cd quickjs
+$ go mod tidy
+$ go run -tags wasmedge main.go hello.js
+String(JsString(hello wasmedge))
+</code></pre>
+<p>The printed result shows the type information of the string in Rust and Go APIs. You can strip out this information by changing the Rust or Go applications.</p>
+<h3 id="furture-examples"><a class="header" href="#furture-examples">Furture examples</a></h3>
+<p>WasmEdge supports many advanced JavaScript features. For the next step, you
+could try our <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/react_ssr">React SSR example</a> to generate an HTML UI from a Reactr function!
+You can just build the <code>dist/main.js</code> from the React SSR example, and copy
+it over to this example folder to see it in action!</p>
+<pre><code class="language-bash">$ cd quickjs
+# copy over the dist/main.js file from the react ssr example
+$ go mod tidy
+$ go run -tags wasmedge main.go main.js
+&lt;div data-reactroot=&quot;&quot;&gt;&lt;div&gt;This is home&lt;/div&gt;&lt;div&gt;&lt;div&gt;This is page&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+UnDefined
 </code></pre>
 
                     </main>
