@@ -158,9 +158,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="javascript"><a class="header" href="#javascript">JavaScript</a></h1>
-<p>WebAssembly started as a “JavaScript alternative for browsers”. The idea is to run high-performance applications compiled from languages like C/C++ or Rust safely in browsers. In the browser, WebAssembly runs side by side with JavaScript.</p>
-<p>As WebAssembly is increasingly used in the cloud, it is now a universal runtime for cloud-native applications. Compared with Docker-like application containers, WebAssembly runtimes achieve higher performance with lower resource consumption.</p>
-<p>In cloud-native use cases, developers often want to use JavaScript to write business applications. That means we must now support JavaScript in WebAssembly. Furthermore, we should support calling C/C++ or Rust functions from JavaScript in a WebAssembly runtime to take advantage of WebAssembly’s computational efficiency. The WasmEdge WebAssembly runtime allows you to do exactly that.</p>
+<p>WebAssembly started as a &quot;JavaScript alternative for browsers&quot;. The idea is to run high-performance applications compiled from languages like C/C++ or Rust safely in browsers. In the browser, WebAssembly runs side by side with JavaScript.</p>
+<p>As WebAssembly is increasingly used in the cloud, it is now a universal runtime for cloud-native applications. Compared with Linux containers, WebAssembly runtimes achieve higher performance with lower resource consumption.</p>
+<p>In cloud-native use cases, developers often want to use JavaScript to write business applications. That means we must now support JavaScript in WebAssembly. Furthermore, we should support calling C/C++ or Rust functions from JavaScript in a WebAssembly runtime to take advantage of WebAssembly's computational efficiency. The WasmEdge WebAssembly runtime allows you to do exactly that.</p>
 <center>
 <p><img src="javascript.png" alt="" /></p>
 </center>
@@ -176,11 +176,18 @@
 <li><a href="js/async.html">Async networking</a> shows how to improve HTTP server application performance by supporting asynchronous and non-blocking I/O.</li>
 <li><a href="js/rust.html">Use Rust to implement JS API</a> discusses how to use Rust to implement and support a JavaScript API in WasmEdge.</li>
 </ul>
-<h2 id="a-note-on-quickjs"><a class="header" href="#a-note-on-quickjs">A note on QuickJS</a></h2>
+<h2 id="a-note-on-v8"><a class="header" href="#a-note-on-v8">A note on v8</a></h2>
 <p>Now, the choice of QuickJS as our JavaScript engine might raise the question of performance. Isn't QuickJS <a href="https://bellard.org/quickjs/bench.html">a lot slower</a> than v8 due to a lack of JIT support? Yes, but ...</p>
 <p>First of all, QuickJS is a lot smaller than v8. In fact, it only takes 1/40 (or 2.5%) of the runtime resources v8 consumes. You can run a lot more QuickJS functions than v8 functions on a single physical machine.</p>
 <p>Second, for most business logic applications, raw performance is not critical. The application may have computationally intensive tasks, such as AI inference on the fly. WasmEdge allows the QuickJS applications to drop to high-performance WebAssembly for these tasks while it is not so easy with v8 to add such extensions modules.</p>
-<p>Third, it is known that <a href="https://www.theregister.com/2021/08/06/edge_super_duper_security_mode/">many JavaScript security issues arise from JIT</a>. Maybe turning off JIT in the cloud-native environment is not such a bad idea!</p>
+<p>Third, WasmEdge is <a href="../kubernetes.html">itself an OCI compliant container</a>. 
+It is secure by default, supports resource isolation, and can be managed by container tools to run side by side
+with Linux containers in a single k8s cluster.</p>
+<p>Finally, v8 has a very large attack surface and requires <a href="https://blog.cloudflare.com/mitigating-spectre-and-other-security-threats-the-cloudflare-workers-security-model/">major efforts</a> to run securely in a public cloud environment.
+It is known that <a href="https://www.theregister.com/2021/08/06/edge_super_duper_security_mode/">many JavaScript security issues arise from JIT</a>. Maybe turning off JIT in the cloud-native environment is not such a bad idea!</p>
+<p>In the end, running v8 in a cloud-native environment often requires a full stack of software tools consisting of 
+&quot;Linux container + guest OS + node or deno + v8&quot;, which makes it
+much heavier and slower than a simple WasmEdge + QuickJS container runtime.</p>
 
                     </main>
 

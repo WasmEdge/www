@@ -1238,9 +1238,9 @@ $ sudo apt install build-essential curl wget git vim libboost-all-dev llvm-dev l
 </code></pre>
 <p>Enjoy coding!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-1"><a class="header" href="#javascript-1">JavaScript</a></h1>
-<p>WebAssembly started as a “JavaScript alternative for browsers”. The idea is to run high-performance applications compiled from languages like C/C++ or Rust safely in browsers. In the browser, WebAssembly runs side by side with JavaScript.</p>
-<p>As WebAssembly is increasingly used in the cloud, it is now a universal runtime for cloud-native applications. Compared with Docker-like application containers, WebAssembly runtimes achieve higher performance with lower resource consumption.</p>
-<p>In cloud-native use cases, developers often want to use JavaScript to write business applications. That means we must now support JavaScript in WebAssembly. Furthermore, we should support calling C/C++ or Rust functions from JavaScript in a WebAssembly runtime to take advantage of WebAssembly’s computational efficiency. The WasmEdge WebAssembly runtime allows you to do exactly that.</p>
+<p>WebAssembly started as a &quot;JavaScript alternative for browsers&quot;. The idea is to run high-performance applications compiled from languages like C/C++ or Rust safely in browsers. In the browser, WebAssembly runs side by side with JavaScript.</p>
+<p>As WebAssembly is increasingly used in the cloud, it is now a universal runtime for cloud-native applications. Compared with Linux containers, WebAssembly runtimes achieve higher performance with lower resource consumption.</p>
+<p>In cloud-native use cases, developers often want to use JavaScript to write business applications. That means we must now support JavaScript in WebAssembly. Furthermore, we should support calling C/C++ or Rust functions from JavaScript in a WebAssembly runtime to take advantage of WebAssembly's computational efficiency. The WasmEdge WebAssembly runtime allows you to do exactly that.</p>
 <center>
 <p><img src="dev/javascript.png" alt="" /></p>
 </center>
@@ -1256,11 +1256,18 @@ $ sudo apt install build-essential curl wget git vim libboost-all-dev llvm-dev l
 <li><a href="dev/js/async.html">Async networking</a> shows how to improve HTTP server application performance by supporting asynchronous and non-blocking I/O.</li>
 <li><a href="dev/js/rust.html">Use Rust to implement JS API</a> discusses how to use Rust to implement and support a JavaScript API in WasmEdge.</li>
 </ul>
-<h2 id="a-note-on-quickjs"><a class="header" href="#a-note-on-quickjs">A note on QuickJS</a></h2>
+<h2 id="a-note-on-v8"><a class="header" href="#a-note-on-v8">A note on v8</a></h2>
 <p>Now, the choice of QuickJS as our JavaScript engine might raise the question of performance. Isn't QuickJS <a href="https://bellard.org/quickjs/bench.html">a lot slower</a> than v8 due to a lack of JIT support? Yes, but ...</p>
 <p>First of all, QuickJS is a lot smaller than v8. In fact, it only takes 1/40 (or 2.5%) of the runtime resources v8 consumes. You can run a lot more QuickJS functions than v8 functions on a single physical machine.</p>
 <p>Second, for most business logic applications, raw performance is not critical. The application may have computationally intensive tasks, such as AI inference on the fly. WasmEdge allows the QuickJS applications to drop to high-performance WebAssembly for these tasks while it is not so easy with v8 to add such extensions modules.</p>
-<p>Third, it is known that <a href="https://www.theregister.com/2021/08/06/edge_super_duper_security_mode/">many JavaScript security issues arise from JIT</a>. Maybe turning off JIT in the cloud-native environment is not such a bad idea!</p>
+<p>Third, WasmEdge is <a href="dev/../kubernetes.html">itself an OCI compliant container</a>. 
+It is secure by default, supports resource isolation, and can be managed by container tools to run side by side
+with Linux containers in a single k8s cluster.</p>
+<p>Finally, v8 has a very large attack surface and requires <a href="https://blog.cloudflare.com/mitigating-spectre-and-other-security-threats-the-cloudflare-workers-security-model/">major efforts</a> to run securely in a public cloud environment.
+It is known that <a href="https://www.theregister.com/2021/08/06/edge_super_duper_security_mode/">many JavaScript security issues arise from JIT</a>. Maybe turning off JIT in the cloud-native environment is not such a bad idea!</p>
+<p>In the end, running v8 in a cloud-native environment often requires a full stack of software tools consisting of 
+&quot;Linux container + guest OS + node or deno + v8&quot;, which makes it
+much heavier and slower than a simple WasmEdge + QuickJS container runtime.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quick-start-with-javascript-on-wasmedge"><a class="header" href="#quick-start-with-javascript-on-wasmedge">Quick start with JavaScript on WasmEdge</a></h1>
 <p>First, let's build a WebAssmbly-based JavaScript interpreter program for WasmEdge. It is based on <a href="https://bellard.org/quickjs/">QuickJS</a> with WasmEdge extensions, such as <a href="https://github.com/second-state/wasmedge_wasi_socket">network sockets</a> and <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow inference</a>, incorporated into the interpreter as JavaScript APIs. You will need to <a href="https://www.rust-lang.org/tools/install">install Rust</a> to build the interpreter.</p>
 <blockquote>
@@ -7064,7 +7071,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 <p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/pull/633">help out</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-in-kubernetes"><a class="header" href="#wasmedge-in-kubernetes">WasmEdge in Kubernetes</a></h1>
 <p>Developers can leverage container tools such as Kubernetes, Docker and CRI-O to deploy, manage, and run lightweight WebAssembly applications. In this chapter, we will demonstrate how Kubernetes ecosystem tools work with <a href="https://github.com/WasmEdge/WasmEdge">WasmEdge</a> WebAssembly applications.</p>
-<p>Compared with Linux containers, <a href="https://www.infoq.com/articles/arm-vs-x86-cloud-performance/">WebAssembly could be 100x faster at startup</a>, have a much smaller memory and disk footprint, and have a better-defined safety sandbox. However, the trade-off is that WebAssembly requires its own language SDKs, and compiler toolchains, making it a more constrained developer environment than Docker. WebAssembly is increasingly used in Edge Computing scenarios where it is difficult to deploy Docker containers or when the application performance is vital.</p>
+<p>Compared with Linux containers, <a href="https://www.infoq.com/articles/arm-vs-x86-cloud-performance/">WebAssembly could be 100x faster at startup</a>, have a much smaller memory and disk footprint, and have a better-defined safety sandbox. However, the trade-off is that WebAssembly requires its own language SDKs, and compiler toolchains, making it a more constrained developer environment than Linux containers. WebAssembly is increasingly used in Edge Computing scenarios where it is difficult to deploy Linux containers or when the application performance is vital.</p>
 <p>One of the great advantages of Linux application containers is the rich ecosystem of tools. The good news is that you can use the exact same tools to manage WebAssembly applications, enabling Linux containers and WebAssembly apps to run side-by-side in the same system.</p>
 <center>
 <p><img src="kubernetes.png" alt="" /></p>
@@ -7224,12 +7231,16 @@ CMD [&quot;/http_server.wasm&quot;]
 <h3 id="build-and-install-the-latest-buildah-on-ubuntu-1"><a class="header" href="#build-and-install-the-latest-buildah-on-ubuntu-1">Build and install the latest buildah on Ubuntu</a></h3>
 <p>On Ubuntu zesty and xenial, use these commands to prepare for buildah.</p>
 <pre><code class="language-bash">sudo apt-get -y install software-properties-common
+
+export OS=&quot;xUbuntu_20.04&quot;
+sudo bash -c &quot;echo \&quot;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /\&quot; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list&quot;
+sudo bash -c &quot;curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | apt-key add -&quot;
+
 sudo add-apt-repository -y ppa:alexlarsson/flatpak
-sudo add-apt-repository -y ppa:gophers/archive
-sudo apt-add-repository -y ppa:projectatomic/ppa
 sudo apt-get -y -qq update
-sudo apt-get -y install bats git libapparmor-dev libdevmapper-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev skopeo-containers go-md2man
-sudo apt-get -y install golang-1.13
+
+sudo apt-get -y install bats git libapparmor-dev libdevmapper-dev libglib2.0-dev libgpgme-dev libseccomp-dev libselinux1-dev skopeo-containers go-md2man containers-common
+sudo apt-get -y install golang-1.16 make
 </code></pre>
 <p>Then, follow these steps to build and install buildah on Ubuntu.</p>
 <pre><code class="language-bash">mkdir -p ~/buildah
@@ -7237,14 +7248,25 @@ cd ~/buildah
 export GOPATH=`pwd`
 git clone https://github.com/containers/buildah ./src/github.com/containers/buildah
 cd ./src/github.com/containers/buildah
-PATH=/usr/lib/go-1.13/bin:$PATH make
+PATH=/usr/lib/go-1.16/bin:$PATH make
 cp bin/buildah /usr/bin/buildah
 buildah --help
 </code></pre>
 <h3 id="create-and-publish-a-container-image-with-buildah-1"><a class="header" href="#create-and-publish-a-container-image-with-buildah-1">Create and publish a container image with buildah</a></h3>
 <p>In the <code>target/wasm32-wasi/release/</code> folder, do the following.</p>
 <pre><code class="language-bash">sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t http_server .
+
+#
+# make sure docker is install and running
+# systemctl status docker
+# to make sure regular user can use docker
+# sudo usermod -aG docker $USER#
+# newgrp docker
+
 # You may need to use docker login to create the `~/.docker/config.json` for auth.
+#
+# docker login
+
 sudo buildah push --authfile ~/.docker/config.json http_server docker://docker.io/avengermojo/http_server:with-wasm-annotation
 </code></pre>
 <p>That's it! Now you can try to run it in <a href="kubernetes/demo/../cri/crio.html#run-a-http-server-app">CRI-O</a> or <a href="kubernetes/demo/../kubernetes/kubernetes.html#run-a-http-server-app">Kubernetes</a>!</p>
