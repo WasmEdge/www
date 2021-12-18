@@ -172,7 +172,7 @@ apps on containerd.</p>
 <li><a href="#run-a-http-server-app">Example 2: HTTP server in WebAssembly</a></li>
 </ul>
 <h2 id="install-containerd"><a class="header" href="#install-containerd">Install containerd</a></h2>
-<p>Use the following commands to install and start containerd on your system.</p>
+<p>Use the following commands to install containerd on your system.</p>
 <pre><code class="language-bash">export VERSION=&quot;1.5.7&quot;
 echo -e &quot;Version: $VERSION&quot;
 echo -e &quot;Installing libseccomp2 ...&quot;
@@ -186,7 +186,15 @@ sha256sum --check cri-containerd-cni-${VERSION}-linux-amd64.tar.gz.sha256sum
 
 sudo tar --no-overwrite-dir -C / -xzf cri-containerd-cni-${VERSION}-linux-amd64.tar.gz
 sudo systemctl daemon-reload
-sudo systemctl start containerd
+</code></pre>
+<p>Configure containerd to use <code>crun</code> as the underlying OCI runtime.
+It makes changes to the <code>/etc/containerd/config.toml</code> file.</p>
+<pre><code class="language-bash">sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
+wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/containerd_config.diff
+sudo patch -d/ -p0 &lt; containerd_config.diff
+</code></pre>
+<p>Start the containerd service.</p>
+<pre><code class="language-bash">sudo systemctl start containerd
 </code></pre>
 <p>Next, make sure that you have <a href="../container/crun.html">built and installed the <code>crun</code> binary with WasmEdge support</a> before running the following examples.</p>
 <h2 id="run-a-simple-webassembly-app"><a class="header" href="#run-a-simple-webassembly-app">Run a simple WebAssembly app</a></h2>

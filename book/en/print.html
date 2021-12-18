@@ -7090,6 +7090,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 with the following combination of runtimes in a standard Kubernetes setup.</p>
 <table><thead><tr><th>CRI (high level) runtime</th><th>OCI (low level) runtime</th><th></th></tr></thead><tbody>
 <tr><td>CRI-O</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio.yml">Script</a></td></tr>
+<tr><td>containerd</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd.yml">Script</a></td></tr>
 </tbody></table>
 <h2 id="cri-o-and-crun"><a class="header" href="#cri-o-and-crun">CRI-O and crun</a></h2>
 <p>You can use the CRI-O <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/install.sh">install.sh</a> script to install CRI-O and <code>crun</code> on Ubuntu 20.04.</p>
@@ -7102,6 +7103,17 @@ with the following combination of runtimes in a standard Kubernetes setup.</p>
 <pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_crio/simple_wasi_application.sh | bash
 </code></pre>
 <p>You should see results from the WebAssembly program printed in the console log. <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4186005677?check_suite_focus=true#step:6:3007">Here is an example</a>.</p>
+<h2 id="containerd-and-crun"><a class="header" href="#containerd-and-crun">containerd and crun</a></h2>
+<p>You can use the containerd <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/install.sh">install.sh</a> script to install <code>containerd</code> and <code>crun</code> on Ubuntu 20.04.</p>
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/install.sh | bash
+</code></pre>
+<p>Next, install Kubernetes using the <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/install.sh">following script</a>.</p>
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_containerd/install.sh | bash
+</code></pre>
+<p>The <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/simple_wasi_application.sh">simple_wasi_application.sh</a> script shows how to pull <a href="kubernetes/demo/wasi.html">a WebAssembly application</a> from Docker Hub, and then run it as a containerized application in Kubernetes.</p>
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_containerd/simple_wasi_application.sh | bash
+</code></pre>
+<p>You should see results from the WebAssembly program printed in the console log.</p>
 <p>Read on to the rest of this chapter to learn how exactly those runtimes
 are configured.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="demo-apps"><a class="header" href="#demo-apps">Demo apps</a></h1>
@@ -7155,12 +7167,15 @@ CMD [&quot;/wasi_example_main.wasm&quot;]
 <h3 id="build-and-install-the-latest-buildah-on-ubuntu"><a class="header" href="#build-and-install-the-latest-buildah-on-ubuntu">Build and install the latest buildah on Ubuntu</a></h3>
 <p>On Ubuntu zesty and xenial, use these commands to prepare for buildah.</p>
 <pre><code class="language-bash">sudo apt-get -y install software-properties-common
+
+export OS=&quot;xUbuntu_20.04&quot;
+sudo bash -c &quot;echo \&quot;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /\&quot; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list&quot;
+sudo bash -c &quot;curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | apt-key add -&quot;
+
 sudo add-apt-repository -y ppa:alexlarsson/flatpak
-sudo add-apt-repository -y ppa:gophers/archive
-sudo apt-add-repository -y ppa:projectatomic/ppa
 sudo apt-get -y -qq update
-sudo apt-get -y install bats git libapparmor-dev libdevmapper-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev skopeo-containers go-md2man
-sudo apt-get -y install golang-1.13
+sudo apt-get -y install bats git libapparmor-dev libdevmapper-dev libglib2.0-dev libgpgme-dev libseccomp-dev libselinux1-dev skopeo-containers go-md2man containers-common
+sudo apt-get -y install golang-1.16 make
 </code></pre>
 <p>Then, follow these steps to build and install buildah on Ubuntu.</p>
 <pre><code class="language-bash">mkdir -p ~/buildah
@@ -7168,13 +7183,19 @@ cd ~/buildah
 export GOPATH=`pwd`
 git clone https://github.com/containers/buildah ./src/github.com/containers/buildah
 cd ./src/github.com/containers/buildah
-PATH=/usr/lib/go-1.13/bin:$PATH make
+PATH=/usr/lib/go-1.16/bin:$PATH make
 cp bin/buildah /usr/bin/buildah
 buildah --help
 </code></pre>
 <h3 id="create-and-publish-a-container-image-with-buildah"><a class="header" href="#create-and-publish-a-container-image-with-buildah">Create and publish a container image with buildah</a></h3>
 <p>In the <code>target/wasm32-wasi/release/</code> folder, do the following.</p>
 <pre><code class="language-bash">sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t wasm-wasi-example .
+# make sure docker is install and running
+# systemctl status docker
+# to make sure regular user can use docker
+# sudo usermod -aG docker $USER
+# newgrp docker
+
 # You may need to use docker login to create the `~/.docker/config.json` for auth.
 sudo buildah push --authfile ~/.docker/config.json wasm-wasi-example docker://docker.io/hydai/wasm-wasi-example:with-wasm-annotation
 </code></pre>
@@ -7511,7 +7532,7 @@ apps on containerd.</p>
 <li><a href="kubernetes/cri/containerd.html#run-a-http-server-app">Example 2: HTTP server in WebAssembly</a></li>
 </ul>
 <h2 id="install-containerd"><a class="header" href="#install-containerd">Install containerd</a></h2>
-<p>Use the following commands to install and start containerd on your system.</p>
+<p>Use the following commands to install containerd on your system.</p>
 <pre><code class="language-bash">export VERSION=&quot;1.5.7&quot;
 echo -e &quot;Version: $VERSION&quot;
 echo -e &quot;Installing libseccomp2 ...&quot;
@@ -7525,7 +7546,15 @@ sha256sum --check cri-containerd-cni-${VERSION}-linux-amd64.tar.gz.sha256sum
 
 sudo tar --no-overwrite-dir -C / -xzf cri-containerd-cni-${VERSION}-linux-amd64.tar.gz
 sudo systemctl daemon-reload
-sudo systemctl start containerd
+</code></pre>
+<p>Configure containerd to use <code>crun</code> as the underlying OCI runtime.
+It makes changes to the <code>/etc/containerd/config.toml</code> file.</p>
+<pre><code class="language-bash">sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
+wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/containerd_config.diff
+sudo patch -d/ -p0 &lt; containerd_config.diff
+</code></pre>
+<p>Start the containerd service.</p>
+<pre><code class="language-bash">sudo systemctl start containerd
 </code></pre>
 <p>Next, make sure that you have <a href="kubernetes/cri/../container/crun.html">built and installed the <code>crun</code> binary with WasmEdge support</a> before running the following examples.</p>
 <h2 id="run-a-simple-webassembly-app-1"><a class="header" href="#run-a-simple-webassembly-app-1">Run a simple WebAssembly app</a></h2>
@@ -7582,7 +7611,7 @@ in this chapter.</p>
 <li><a href="kubernetes/kubernetes/superedge.html">SuperEdge</a></li>
 <li><a href="kubernetes/kubernetes/openyurt.html">OpenYurt</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes-1"><a class="header" href="#kubernetes-1">Kubernetes</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes--cri-o"><a class="header" href="#kubernetes--cri-o">Kubernetes + CRI-O</a></h1>
 <h2 id="quick-start-3"><a class="header" href="#quick-start-3">Quick start</a></h2>
 <p>The <a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> contains scripts and Github Actions for running our example
 apps on Kubernetes + CRI-O.</p>
@@ -7684,7 +7713,100 @@ echo: name=WasmEdge
 </code></pre>
 <p>That's it!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes--containerd"><a class="header" href="#kubernetes--containerd">Kubernetes + containerd</a></h1>
-<p>Coming soon!</p>
+<h2 id="quick-start-4"><a class="header" href="#quick-start-4">Quick start</a></h2>
+<p>The <a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> contains scripts and Github Actions for running our example
+apps on Kubernetes + containerd.</p>
+<ul>
+<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd.yml">Github Actions</a> | <a href="kubernetes/kubernetes/">Successful run</a></li>
+<li>WebAssembly-based HTTP service <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd-server.yml">Github Actions</a> | <a href="kubernetes/kubernetes/">Successful run</a></li>
+</ul>
+<p>In the rest of this section, we will explain the steps in detail.
+We will assume that you have already <a href="kubernetes/kubernetes/../cri/containerd.html">installed and configured containerd</a>
+to work with WasmEdge container images.</p>
+<h2 id="install-and-start-kubernetes-1"><a class="header" href="#install-and-start-kubernetes-1">Install and start Kubernetes</a></h2>
+<p>Run the following commands from a terminal window.
+It sets up Kubernetes for local development.</p>
+<pre><code class="language-bash"># Install go
+wget https://golang.org/dl/go1.17.1.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf go1.17.1.linux-amd64.tar.gz
+source /home/${USER}/.profile
+
+# Clone k8s
+git clone https://github.com/kubernetes/kubernetes.git
+cd kubernetes
+git checkout v1.22.2
+
+# Install etcd with hack script in k8s
+sudo CGROUP_DRIVER=systemd CONTAINER_RUNTIME=remote CONTAINER_RUNTIME_ENDPOINT='unix:///var/run/crio/crio.sock' ./hack/install-etcd.sh
+export PATH=&quot;/home/${USER}/kubernetes/third_party/etcd:${PATH}&quot;
+sudo cp third_party/etcd/etcd* /usr/local/bin/
+
+# After run the above command, you can find the following files: /usr/local/bin/etcd  /usr/local/bin/etcdctl  /usr/local/bin/etcdutl
+
+# Build and run k8s with containerd
+sudo apt-get install -y build-essential
+sudo CGROUP_DRIVER=systemd CONTAINER_RUNTIME=remote CONTAINER_RUNTIME_ENDPOINT='unix:///var/run/crio/crio.sock' ./hack/local-up-cluster.sh
+
+... ...
+Local Kubernetes cluster is running. Press Ctrl-C to shut it down.
+</code></pre>
+<p>Do NOT close your terminal window. Kubernetes is running!</p>
+<h2 id="run-webassembly-container-images-in-kubernetes-1"><a class="header" href="#run-webassembly-container-images-in-kubernetes-1">Run WebAssembly container images in Kubernetes</a></h2>
+<p>Finally, we can run WebAssembly programs in Kubernetes as containers in pods.
+In this section, we will start from <strong>another terminal window</strong> and start using the cluster.</p>
+<pre><code class="language-bash">export KUBERNETES_PROVIDER=local
+
+sudo cluster/kubectl.sh config set-cluster local --server=https://localhost:6443 --certificate-authority=/var/run/kubernetes/server-ca.crt
+sudo cluster/kubectl.sh config set-credentials myself --client-key=/var/run/kubernetes/client-admin.key --client-certificate=/var/run/kubernetes/client-admin.crt
+sudo cluster/kubectl.sh config set-context local --cluster=local --user=myself
+sudo cluster/kubectl.sh config use-context local
+sudo cluster/kubectl.sh
+</code></pre>
+<p>Let's check the status to make sure that the cluster is running.</p>
+<pre><code class="language-bash">sudo cluster/kubectl.sh cluster-info
+
+# Expected output
+Cluster &quot;local&quot; set.
+User &quot;myself&quot; set.
+Context &quot;local&quot; created.
+Switched to context &quot;local&quot;.
+Kubernetes control plane is running at https://localhost:6443
+CoreDNS is running at https://localhost:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+</code></pre>
+<h3 id="a-simple-webassembly-app-1"><a class="header" href="#a-simple-webassembly-app-1">A simple WebAssembly app</a></h3>
+<p><a href="kubernetes/kubernetes/../demo/wasi.html">A seperate article</a> explains how to compile, package, and publish a simple WebAssembly WASI
+program as a container image to Docker hub.
+Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+</code></pre>
+<p>The output from the containerized application is printed into the console.</p>
+<pre><code class="language-bash">Random number: 401583443
+Random bytes: [192, 226, 162, 92, 129, 17, 186, 164, 239, 84, 98, 255, 209, 79, 51, 227, 103, 83, 253, 31, 78, 239, 33, 218, 68, 208, 91, 56, 37, 200, 32, 12, 106, 101, 241, 78, 161, 16, 240, 158, 42, 24, 29, 121, 78, 19, 157, 185, 32, 162, 95, 214, 175, 46, 170, 100, 212, 33, 27, 190, 139, 121, 121, 222, 230, 125, 251, 21, 210, 246, 215, 127, 176, 224, 38, 184, 201, 74, 76, 133, 233, 129, 48, 239, 106, 164, 190, 29, 118, 71, 79, 203, 92, 71, 68, 96, 33, 240, 228, 62, 45, 196, 149, 21, 23, 143, 169, 163, 136, 206, 214, 244, 26, 194, 25, 101, 8, 236, 247, 5, 164, 117, 40, 220, 52, 217, 92, 179]
+Printed from wasi: This is from a main function
+This is from a main function
+The env vars are as follows.
+The args are as follows.
+/wasi_example_main.wasm
+50000000
+File content is This is in a file
+pod &quot;wasi-demo-2&quot; deleted
+</code></pre>
+<h3 id="a-webassembly-based-http-service-1"><a class="header" href="#a-webassembly-based-http-service-1">A WebAssembly-based HTTP service</a></h3>
+<p><a href="kubernetes/kubernetes/../demo/server.html">A seperate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application
+as a container image to Docker hub.
+Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
+<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http-server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
+</code></pre>
+<p>Since we are using <code>hostNetwork</code> in the <code>kubectl run</code> command, the HTTP server 
+image is running on the local network with IP address <code>127.0.0.1</code>.
+Now, you can use the <code>curl</code> command to access the HTTP service.</p>
+<pre><code class="language-bash">curl -d &quot;name=WasmEdge&quot; -X POST http://127.0.0.1:1234
+echo: name=WasmEdge
+</code></pre>
+<p>That's it!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kubeedge"><a class="header" href="#kubeedge">KubeEdge</a></h1>
 <p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/issues/596">help out</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="superedge"><a class="header" href="#superedge">SuperEdge</a></h1>
@@ -7720,7 +7842,7 @@ frameworks.</p>
 <blockquote>
 <p>For more insights on WasmEdge on Dapr, please refer to the article <a href="https://www.secondstate.io/articles/dapr-wasmedge-webassembly/">A Lightweight, Safe, Portable, and High-performance Runtime for Dapr</a></p>
 </blockquote>
-<h2 id="quick-start-4"><a class="header" href="#quick-start-4">Quick start</a></h2>
+<h2 id="quick-start-5"><a class="header" href="#quick-start-5">Quick start</a></h2>
 <p>First you need to install <a href="https://golang.org/doc/install">Go</a>, <a href="https://www.rust-lang.org/tools/install">Rust</a>, <a href="https://docs.dapr.io/getting-started/install-dapr-cli">Dapr</a>, <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/install.md">WasmEdge</a>, and the <a href="frameworks/mesh/../../dev/rust/bindgen.html">rustwasmc</a> compiler tool.</p>
 <p>Next, fork or clone the demo application from Github. You can use this repo as your own application template.</p>
 <pre><code>$ git clone https://github.com/second-state/dapr-wasm
