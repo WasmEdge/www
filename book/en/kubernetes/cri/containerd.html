@@ -189,7 +189,8 @@ sudo systemctl daemon-reload
 </code></pre>
 <p>Configure containerd to use <code>crun</code> as the underlying OCI runtime.
 It makes changes to the <code>/etc/containerd/config.toml</code> file.</p>
-<pre><code class="language-bash">sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
+<pre><code class="language-bash">sudo mkdir -p /etc/containerd/
+sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
 wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/containerd_config.diff
 sudo patch -d/ -p0 &lt; containerd_config.diff
 </code></pre>

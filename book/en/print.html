@@ -7585,7 +7585,8 @@ sudo systemctl daemon-reload
 </code></pre>
 <p>Configure containerd to use <code>crun</code> as the underlying OCI runtime.
 It makes changes to the <code>/etc/containerd/config.toml</code> file.</p>
-<pre><code class="language-bash">sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
+<pre><code class="language-bash">sudo mkdir -p /etc/containerd/
+sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
 wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/containerd_config.diff
 sudo patch -d/ -p0 &lt; containerd_config.diff
 </code></pre>
@@ -7732,16 +7733,40 @@ pod &quot;wasi-demo-2&quot; deleted
 <h3 id="a-webassembly-based-http-service"><a class="header" href="#a-webassembly-based-http-service">A WebAssembly-based HTTP service</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/server.html">A seperate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application
 as a container image to Docker hub.
-Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http-server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
+Since the HTTP service container requires networking support provided by
+Kubernetes, we will use a <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/http_server/k8s-http_server.yaml">k8s-http_server.yaml</a> file to specify its exact configuration.</p>
+<pre><code class="language-yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: http-server
+  namespace: default
+  annotations:
+    module.wasm.image/variant: compat
+spec:
+  hostNetwork: true
+  containers:
+  - name: http-server
+    image: avengermojo/http_server:with-wasm-annotation
+    command: [ &quot;/http_server.wasm&quot; ]
+    ports:
+    - containerPort: 1234
+      protocol: TCP
+    livenessProbe:
+      tcpSocket:
+        port: 1234
+      initialDelaySeconds: 3
+      periodSeconds: 30
 </code></pre>
-<p>Use the following command to see the running applications and their IP addresses.
-Since we are using <code>hostNetwork</code> in the <code>kubectl run</code> command, the HTTP server 
+<p>Run the WebAssembly-based image from Docker Hub using the above <code>k8s-http_server.yaml</code> file in the Kubernetes cluster as follows.</p>
+<pre><code class="language-bash">sudo ./kubernetes/cluster/kubectl.sh apply -f k8s-http_server.yaml
+</code></pre>
+<p>Use the following command to see the running container applications and their IP addresses.
+Since we are using <code>hostNetwork</code> in the yaml configuration, the HTTP server 
 image is running on the local network with IP address <code>127.0.0.1</code>.</p>
 <pre><code class="language-bash">sudo cluster/kubectl.sh get pod --all-namespaces -o wide
 
 NAMESPACE     NAME                       READY   STATUS             RESTARTS      AGE   IP          NODE        NOMINATED NODE   READINESS GATES
-default       http-server                0/1     ImagePullBackOff   0             60s   127.0.0.1   127.0.0.1   &lt;none&gt;           &lt;none&gt;
+default       http-server                1/1     Running            1 (26s ago)     60s     127.0.0.1   127.0.0.1   &lt;none&gt;           &lt;none&gt;
 </code></pre>
 <p>Now, you can use the <code>curl</code> command to access the HTTP service.</p>
 <pre><code class="language-bash">curl -d &quot;name=WasmEdge&quot; -X POST http://127.0.0.1:1234
@@ -7834,7 +7859,7 @@ pod &quot;wasi-demo-2&quot; deleted
 <p><a href="kubernetes/kubernetes/../demo/server.html">A seperate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application
 as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http-server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
+<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
 </code></pre>
 <p>Since we are using <code>hostNetwork</code> in the <code>kubectl run</code> command, the HTTP server 
 image is running on the local network with IP address <code>127.0.0.1</code>.

@@ -243,7 +243,7 @@ pod &quot;wasi-demo-2&quot; deleted
 <p><a href="../demo/server.html">A seperate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application
 as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http-server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
+<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
 </code></pre>
 <p>Since we are using <code>hostNetwork</code> in the <code>kubectl run</code> command, the HTTP server 
 image is running on the local network with IP address <code>127.0.0.1</code>.
