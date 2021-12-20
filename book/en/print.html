@@ -7149,7 +7149,7 @@ with the following combination of runtimes in a standard Kubernetes setup.</p>
 <p>The <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/simple_wasi_application.sh">simple_wasi_application.sh</a> script shows how to pull <a href="kubernetes/demo/wasi.html">a WebAssembly application</a> from Docker Hub, and then run it as a containerized application in Kubernetes.</p>
 <pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_containerd/simple_wasi_application.sh | bash
 </code></pre>
-<p>You should see results from the WebAssembly program printed in the console log.</p>
+<p>You should see results from the WebAssembly program printed in the console log. <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4577789181?check_suite_focus=true#step:6:3010">Here is an example</a>.</p>
 <p>Read on to the rest of this chapter to learn how exactly those runtimes
 are configured.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="demo-apps"><a class="header" href="#demo-apps">Demo apps</a></h1>
@@ -7654,7 +7654,7 @@ in this chapter.</p>
 apps on Kubernetes + CRI-O.</p>
 <ul>
 <li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4328930134?check_suite_focus=true#step:6:3007">Successful run</a></li>
-<li>WebAssembly-based HTTP service <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio-server.yml">Github Actions</a> | <a href="kubernetes/kubernetes/">Successful run</a></li>
+<li>WebAssembly-based HTTP service <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio-server.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4577789182?check_suite_focus=true#step:6:3030">Successful run</a></li>
 </ul>
 <p>In the rest of this section, we will explain the steps in detail.
 We will assume that you have already <a href="kubernetes/kubernetes/../cri/crio.html">installed and configured CRI-O</a>
@@ -7778,8 +7778,8 @@ echo: name=WasmEdge
 <p>The <a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> contains scripts and Github Actions for running our example
 apps on Kubernetes + containerd.</p>
 <ul>
-<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd.yml">Github Actions</a> | <a href="kubernetes/kubernetes/">Successful run</a></li>
-<li>WebAssembly-based HTTP service <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd-server.yml">Github Actions</a> | <a href="kubernetes/kubernetes/">Successful run</a></li>
+<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4577789181?check_suite_focus=true#step:6:3010">Successful run</a></li>
+<li>WebAssembly-based HTTP service <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd-server.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4577789184?check_suite_focus=true#step:6:3016">Successful run</a></li>
 </ul>
 <p>In the rest of this section, we will explain the steps in detail.
 We will assume that you have already <a href="kubernetes/kubernetes/../cri/containerd.html">installed and configured containerd</a>
@@ -7869,7 +7869,7 @@ echo: name=WasmEdge
 </code></pre>
 <p>That's it!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kubeedge"><a class="header" href="#kubeedge">KubeEdge</a></h1>
-<p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/issues/596">help out</a></p>
+<p>Coming soon, checkout our ongoing work <a href="https://github.com/yenhsunli/Create-a-crun-demo-for-KubeEdge">here</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="superedge"><a class="header" href="#superedge">SuperEdge</a></h1>
 <p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/issues/598">help out</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="openyurt"><a class="header" href="#openyurt">OpenYurt</a></h1>
