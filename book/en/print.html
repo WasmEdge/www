@@ -5,8 +5,6 @@
         <meta charset="UTF-8">
         <title>WasmEdge Runtime</title>
         <meta name="robots" content="noindex" />
-
-
         <!-- Custom HTML head -->
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NGPCK7VF2L"></script>
@@ -17,7 +15,6 @@
 
   gtag('config', 'G-NGPCK7VF2L');
 </script>
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,18 +26,15 @@
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
         <link rel="stylesheet" href="css/print.css" media="print">
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="fonts/fonts.css">
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -129,7 +123,6 @@
                         <a href="https://github.com/WasmEdge/WasmEdge" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-
                     </div>
                 </div>
 
@@ -143,7 +136,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -272,7 +264,7 @@ old releases by passing the <code>-v</code> argument to the install script. Here
 <pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.0-rc.5
 </code></pre>
 <p>If you are interested in the latest builds from the <code>HEAD</code> of the <code>master</code> branch, which is basically WasmEdge's nightly builds, you can download the 
-release package directly from our Github Actions's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
+release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
 <h2 id="whats-installed"><a class="header" href="#whats-installed">What's installed</a></h2>
 <p>After installation, you have the following directories and files. Here we assume that you installed into the <code>$HOME/.wasmedge</code> directory. You could also change it to <code>/usr/local</code> if you did a system-wide install.</p>
 <ul>
@@ -654,7 +646,7 @@ WasmEdge uses the output file extension to determine generated file format. For 
 <p>The host functions break the Wasm sandbox to access the underly OS or hardware. But the sandbox breaking is done with explicit permission from the system’s operator.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq-abut-webassembly-and-wasmedge"><a class="header" href="#faq-abut-webassembly-and-wasmedge">FAQ abut WebAssembly and WasmEdge</a></h1>
 <p><strong>Q: What's the relationship between WebAssembly and Docker?</strong></p>
-<p>A: Check out our infographic <a href="https://wasmedge.org/wasm_docker/">WebAssembly vs. Docker</a>. WebAssembly runs side by side wth Docker in cloud native and edge native applications.</p>
+<p>A: Check out our infographic <a href="https://wasmedge.org/wasm_docker/">WebAssembly vs. Docker</a>. WebAssembly runs side by side with Docker in cloud native and edge native applications.</p>
 <p><strong>Q: What's the difference for Native clients (NaCl), Application runtimes, and WebAssembly?</strong></p>
 <p>A: We created a handy table for comparison.</p>
 <table><thead><tr><th></th><th>NaCl</th><th>Application runtimes (eg Node &amp; Python)</th><th>Docker-like container</th><th>WebAssembly</th></tr></thead><tbody>
@@ -683,7 +675,7 @@ and even JavaScript and Python.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust"><a class="header" href="#rust">Rust</a></h1>
 <p>Rust is one of the &quot;first-class citizen&quot; programming languages in the WebAssembly ecosystem. All WasmEdge extensions to WebAssembly also come with Rust APIs
 for developers.
-In this chapter, we will show you how to compile your Rust applications to wasm bytecode and to run in the WasmEdege runtime.</p>
+In this chapter, we will show you how to compile your Rust applications to wasm bytecode and to run in the WasmEdge runtime.</p>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <p>You need to install <a href="https://www.rust-lang.org/tools/install">Rust</a> and <a href="dev/../start/install.html">WasmEdge</a> in order to get started.
 You should also install the <code>wasm32-wasi</code> target to the Rust toolchain.</p>
@@ -903,7 +895,7 @@ In the Rust program, add a helper crate in Cargo.toml so that the WASI initializ
 ... ...
 wasmedge-wasi-helper = &quot;=0.2.0&quot;
 </code></pre>
-<p>In the Rust function, we need to call <code>_initialize()</code> before we access any arguments and enviornment variables or operate any files.</p>
+<p>In the Rust function, we need to call <code>_initialize()</code> before we access any arguments and environment variables or operate any files.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -932,7 +924,7 @@ pub fn del_file(path: &amp;str) -&gt; String {
 <p>AI inference is a computationally intensive task that could benefit greatly from the speed of Rust and WebAssembly. However, the standard WebAssembly sandbox provides very limited access to the native OS and hardware, such as multi-core CPUs, GPU and specialized AI inference chips. It is not ideal for the AI workload.</p>
 <p>The popular WebAssembly System Interface (WASI) provides a design pattern for sandboxed WebAssembly programs to securely access native host functions. The WasmEdge Runtime extends the WASI model to support access to native Tensorflow libraries from WebAssembly programs. The <a href="https://github.com/second-state/wasmedge_tensorflow_interface">WasmEdge Tensorflow Rust SDK</a> provides the security, portability, and ease-of-use of WebAssembly and native speed for Tensorflow.</p>
 <blockquote>
-<p>If you are not familar with Rust, you can try our <a href="https://github.com/second-state/wasm-learning/tree/master/cli/classify_yml">experimental AI inference DSL</a> or try our <a href="dev/rust/../js/tensorflow.html">JavaScript examples</a>.</p>
+<p>If you are not familiar with Rust, you can try our <a href="https://github.com/second-state/wasm-learning/tree/master/cli/classify_yml">experimental AI inference DSL</a> or try our <a href="dev/rust/../js/tensorflow.html">JavaScript examples</a>.</p>
 </blockquote>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of contents</a></h2>
 <ul>
@@ -1269,7 +1261,7 @@ It is known that <a href="https://www.theregister.com/2021/08/06/edge_super_dupe
 &quot;Linux container + guest OS + node or deno + v8&quot;, which makes it
 much heavier and slower than a simple WasmEdge + QuickJS container runtime.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quick-start-with-javascript-on-wasmedge"><a class="header" href="#quick-start-with-javascript-on-wasmedge">Quick start with JavaScript on WasmEdge</a></h1>
-<p>First, let's build a WebAssmbly-based JavaScript interpreter program for WasmEdge. It is based on <a href="https://bellard.org/quickjs/">QuickJS</a> with WasmEdge extensions, such as <a href="https://github.com/second-state/wasmedge_wasi_socket">network sockets</a> and <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow inference</a>, incorporated into the interpreter as JavaScript APIs. You will need to <a href="https://www.rust-lang.org/tools/install">install Rust</a> to build the interpreter.</p>
+<p>First, let's build a WebAssembly-based JavaScript interpreter program for WasmEdge. It is based on <a href="https://bellard.org/quickjs/">QuickJS</a> with WasmEdge extensions, such as <a href="https://github.com/second-state/wasmedge_wasi_socket">network sockets</a> and <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow inference</a>, incorporated into the interpreter as JavaScript APIs. You will need to <a href="https://www.rust-lang.org/tools/install">install Rust</a> to build the interpreter.</p>
 <blockquote>
 <p>If you just want to use the interpreter to run JavaScript programs, you can skip this section. Make sure you have installed <a href="https://www.rust-lang.org/tools/install">Rust</a> and <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/install.md">WasmEdge</a>.</p>
 </blockquote>
@@ -1893,7 +1885,7 @@ Hello TinyGo from WasmEdge!
 <p>The second example is a Go function that takes a call parameter to compute
 a fibonacci number. However, in order for the Go application to set up
 proper access to the OS (e.g., to access the command line arguments),
-you must include an emty <code>main()</code> function in the source code.</p>
+you must include an empty <code>main()</code> function in the source code.</p>
 <pre><code class="language-go">package main
 
 func main(){
@@ -1957,9 +1949,9 @@ WasmEdge supports, and by anyone as they are safely and securely executed in
 the WasmEdge sandbox.</p>
 <p>In this chapter, we will discuss how to use WasmEdge SDKs to embed WasmEdge 
 programs into C, Rust, Go, and Python host applications.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="wamedge-c-sdk"><a class="header" href="#wamedge-c-sdk">WamEdge C SDK</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-sdk"><a class="header" href="#wasmedge-c-sdk">WasmEdge C SDK</a></h1>
 <p>The WasmEdge C API denotes an interface to embed the WasmEdge runtime into a C program. The followings are the quick start guides to working with the C APIs of WasmEdge. For the details of the WasmEdge C API, please refer to the <a href="embed/c/ref.html">full documentation</a>.</p>
-<p>The WasmEdge C API also the foundmental API for other languages' SDK.</p>
+<p>The WasmEdge C API also the fundamental API for other languages' SDK.</p>
 <h2 id="quick-start-guide-for-the-wasmedge-runner"><a class="header" href="#quick-start-guide-for-the-wasmedge-runner">Quick Start Guide for the WasmEdge runner</a></h2>
 <p>The following is an example for running a WASM file.
 Assume that the WASM file <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a> is copied into the current directory, and the C file <code>test_wasmedge.c</code> is as following:</p>
@@ -3568,7 +3560,7 @@ WasmEdge_ImportObjectDelete(ImpObj);
 <li>
 <p>Specified import object</p>
 <p><code>WasmEdge_ImportObjectCreateWASI()</code> API can create and initialize the <code>WASI</code> import object.
-<code>WasmEdge_ImportObjectCreateWasmEdgeProcess()</code> API can create and initializae the <code>wasmedge_process</code> import object.
+<code>WasmEdge_ImportObjectCreateWasmEdgeProcess()</code> API can create and initialize the <code>wasmedge_process</code> import object.
 Developers can create these import object contexts and register them into the <code>Store</code> or <code>VM</code> contexts rather than adjust the settings in the <code>Configure</code> contexts.</p>
 <pre><code class="language-c">WasmEdge_ImportObjectContext *WasiObj = WasmEdge_ImportObjectCreateWASI( /* ... ignored */ );
 WasmEdge_ImportObjectContext *ProcObj = WasmEdge_ImportObjectCreateWasmEdgeProcess( /* ... ignored */ );
@@ -5202,7 +5194,7 @@ verpatch := wasmedge.GetVersionPatch() // Will be `uint` of WasmEdge patch versi
 <h3 id="logging-settings-1"><a class="header" href="#logging-settings-1">Logging Settings</a></h3>
 <p>The <code>wasmedge.SetLogErrorLevel()</code> and <code>wasmedge.SetLogDebugLevel()</code> APIs can set the logging system to debug level or error level. By default, the error level is set, and the debug info is hidden.</p>
 <h3 id="value-types-1"><a class="header" href="#value-types-1">Value Types</a></h3>
-<p>In WasmEdge-go, the APIs will automatically do the convertion for the built-in types, and implement the data structure for the reference types.</p>
+<p>In WasmEdge-go, the APIs will automatically do the conversion for the built-in types, and implement the data structure for the reference types.</p>
 <ol>
 <li>
 <p>Number types: <code>i32</code>, <code>i64</code>, <code>f32</code>, and <code>f64</code></p>
@@ -6551,7 +6543,7 @@ impobj.Release()
 <li>
 <p>Specified import object</p>
 <p><code>wasmedge.NewWasiImportObject()</code> API can create and initialize the <code>WASI</code> import object.
-<code>wasmedge.NewWasmEdgeProcessImportObject()</code> API can create and initializae the <code>wasmedge_process</code> import object.
+<code>wasmedge.NewWasmEdgeProcessImportObject()</code> API can create and initialize the <code>wasmedge_process</code> import object.
 Developers can create these import object objects and register them into the <code>Store</code> or <code>VM</code> objects rather than adjust the settings in the <code>Configure</code> objects.</p>
 <pre><code class="language-go">wasiobj := wasmedge.NewWasiImportObject(
     os.Args[1:],     // The args
@@ -6830,7 +6822,7 @@ const (
 <h2 id="prerequisites-2"><a class="header" href="#prerequisites-2">Prerequisites</a></h2>
 <p>To set up a high-performance Node.js environment with Rust and WebAssembly, you will need the following:</p>
 <ul>
-<li>A modern Linux distribution, such as Ubuntu Server 20.04 TLS</li>
+<li>A modern Linux distribution, such as Ubuntu Server 20.04 LTS</li>
 <li><a href="https://www.rust-lang.org/tools/install">Rust language</a></li>
 <li><a href="https://nodejs.org/en/download/package-manager/">Node.js</a></li>
 <li><a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/install.md">The WasmEdge Runtime</a> for Node.js</li>
@@ -7098,7 +7090,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust-sdk"><a class="header" href="#rust-sdk">Rust SDK</a></h1>
 <p>You can also embed WasmEdge into your Rust application via the WasmEdge Rust SDK.</p>
-<p>The WasmEdge Rust SDK inlcudes two Rust crates, wasmedge-sys and wasmege-rs, for the Rust API. </p>
+<p>The WasmEdge Rust SDK includes two Rust crates, wasmedge-sys and wasmedge-rs, for the Rust API. </p>
 <ul>
 <li>The <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> is a low-level API generated from the WasmEdge C API. </li>
 <li>The <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-sdk</a> is an idiomatic Rust API wrapped around the low-level wasmedge-sys to make it safer and more developer-friendly. The full wasmedge-sdk crate is still under active development. Check out <a href="https://github.com/WasmEdge/WasmEdge/tree/master/bindings/rust">the source code</a> on GitHub. Feedbacks and contributions are welcome.</li>
@@ -7356,8 +7348,8 @@ sudo make install
 <div style="break-before: page; page-break-before: always;"></div><h1 id="youki"><a class="header" href="#youki">youki</a></h1>
 <p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/issues/664">help out</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cri-runtimes"><a class="header" href="#cri-runtimes">CRI runtimes</a></h1>
-<p>The high-level container runetime, such as <a href="https://cri-o.io/">CRI-O</a> and <a href="https://containerd.io/">containerd</a>, pulls container images from registries (e.g., Docker Hub), manages them on disk, and launches a lower-level runtime to run container processes.
-From this chapter, you can check out specfic tutorials for CRI-O and containerd.</p>
+<p>The high-level container runtime, such as <a href="https://cri-o.io/">CRI-O</a> and <a href="https://containerd.io/">containerd</a>, pulls container images from registries (e.g., Docker Hub), manages them on disk, and launches a lower-level runtime to run container processes.
+From this chapter, you can check out specific tutorials for CRI-O and containerd.</p>
 <ul>
 <li><a href="kubernetes/cri/crio.html">CRI-O</a></li>
 <li><a href="kubernetes/cri/containerd.html">containerd</a></li>
@@ -7422,7 +7414,7 @@ runtime_root = &quot;/run/crun&quot;
 </code></pre>
 <h2 id="run-a-simple-webassembly-app"><a class="header" href="#run-a-simple-webassembly-app">Run a simple WebAssembly app</a></h2>
 <p>Now, we can run a simple WebAssembly program using CRI-O.
-<a href="kubernetes/cri/../demo/wasi.html">A seperate article</a> explains how to compile, package, and publish the WebAssembly
+<a href="kubernetes/cri/../demo/wasi.html">A separate article</a> explains how to compile, package, and publish the WebAssembly
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using CRI-O tools.</p>
@@ -7502,7 +7494,7 @@ Test 7: Delete the previous file
 <p>Next, you can try to run the app in <a href="kubernetes/cri/../kubernetes/kubernetes-crio.html">Kubernetes</a>!</p>
 <h2 id="run-a-http-server-app"><a class="header" href="#run-a-http-server-app">Run a HTTP server app</a></h2>
 <p>Finally, we can run a simple WebAssembly-based HTTP micro-service in CRI-O.
-<a href="kubernetes/cri/../demo/server.html">A seperate article</a> explains how to compile, package, and publish the WebAssembly
+<a href="kubernetes/cri/../demo/server.html">A separate article</a> explains how to compile, package, and publish the WebAssembly
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using CRI-O tools.</p>
@@ -7596,7 +7588,7 @@ sudo patch -d/ -p0 &lt; containerd_config.diff
 <p>Next, make sure that you have <a href="kubernetes/cri/../container/crun.html">built and installed the <code>crun</code> binary with WasmEdge support</a> before running the following examples.</p>
 <h2 id="run-a-simple-webassembly-app-1"><a class="header" href="#run-a-simple-webassembly-app-1">Run a simple WebAssembly app</a></h2>
 <p>Now, we can run a simple WebAssembly program using containerd.
-<a href="kubernetes/cri/../demo/wasi.html">A seperate article</a> explains how to compile, package, and publish the WebAssembly
+<a href="kubernetes/cri/../demo/wasi.html">A separate article</a> explains how to compile, package, and publish the WebAssembly
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using containerd tools.</p>
@@ -7620,7 +7612,7 @@ File content is This is in a file
 <p>Next, you can try to run it in <a href="kubernetes/cri/../kubernetes/kubernetes.html#run-a-simple-webassembly-app">Kubernetes</a>!</p>
 <h2 id="run-a-http-server-app-1"><a class="header" href="#run-a-http-server-app-1">Run a HTTP server app</a></h2>
 <p>Finally, we can run a simple WebAssembly-based HTTP micro-service in containerd.
-<a href="kubernetes/cri/../demo/server.html">A seperate article</a> explains how to compile, package, and publish the WebAssembly
+<a href="kubernetes/cri/../demo/server.html">A separate article</a> explains how to compile, package, and publish the WebAssembly
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using containerd tools.</p>
@@ -7713,7 +7705,7 @@ CoreDNS is running at https://localhost:6443/api/v1/namespaces/kube-system/servi
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 </code></pre>
 <h3 id="a-simple-webassembly-app"><a class="header" href="#a-simple-webassembly-app">A simple WebAssembly app</a></h3>
-<p><a href="kubernetes/kubernetes/../demo/wasi.html">A seperate article</a> explains how to compile, package, and publish a simple WebAssembly WASI
+<p><a href="kubernetes/kubernetes/../demo/wasi.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly WASI
 program as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
 <pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
@@ -7731,7 +7723,7 @@ File content is This is in a file
 pod &quot;wasi-demo-2&quot; deleted
 </code></pre>
 <h3 id="a-webassembly-based-http-service"><a class="header" href="#a-webassembly-based-http-service">A WebAssembly-based HTTP service</a></h3>
-<p><a href="kubernetes/kubernetes/../demo/server.html">A seperate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application
+<p><a href="kubernetes/kubernetes/../demo/server.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application
 as a container image to Docker hub.
 Since the HTTP service container requires networking support provided by
 Kubernetes, we will use a <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/http_server/k8s-http_server.yaml">k8s-http_server.yaml</a> file to specify its exact configuration.</p>
@@ -7838,7 +7830,7 @@ CoreDNS is running at https://localhost:6443/api/v1/namespaces/kube-system/servi
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 </code></pre>
 <h3 id="a-simple-webassembly-app-1"><a class="header" href="#a-simple-webassembly-app-1">A simple WebAssembly app</a></h3>
-<p><a href="kubernetes/kubernetes/../demo/wasi.html">A seperate article</a> explains how to compile, package, and publish a simple WebAssembly WASI
+<p><a href="kubernetes/kubernetes/../demo/wasi.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly WASI
 program as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
 <pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
@@ -7856,7 +7848,7 @@ File content is This is in a file
 pod &quot;wasi-demo-2&quot; deleted
 </code></pre>
 <h3 id="a-webassembly-based-http-service-1"><a class="header" href="#a-webassembly-based-http-service-1">A WebAssembly-based HTTP service</a></h3>
-<p><a href="kubernetes/kubernetes/../demo/server.html">A seperate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application
+<p><a href="kubernetes/kubernetes/../demo/server.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application
 as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
 <pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
@@ -7893,7 +7885,7 @@ frameworks.</p>
 <li><a href="frameworks/mesh/evenmesh.html">Apache EventMesh</a> showcases how to run WasmEdge microservices as Apache EventMesh sidecars</li>
 </ul>
 <h2 id="extension-for-the-api-proxy"><a class="header" href="#extension-for-the-api-proxy">Extension for the API proxy</a></h2>
-<p>The API proxy is another crucial component in the service mesh. It manages and directs API requests to sidecars in a manner that keeps the system scalable. Developers need to script those proxies to route traffic according to changing infrastructure and ops requirements. Seeing widespread demand for using WebAssemblt instead of the LUA scripting language, the community came together and created the proxy-wasm spec. It defines the host interface that WebAssembly runtimes must support to plug into the proxy. WasmEdge supports proxy-wasm now.</p>
+<p>The API proxy is another crucial component in the service mesh. It manages and directs API requests to sidecars in a manner that keeps the system scalable. Developers need to script those proxies to route traffic according to changing infrastructure and ops requirements. Seeing widespread demand for using WebAssembly instead of the LUA scripting language, the community came together and created the proxy-wasm spec. It defines the host interface that WebAssembly runtimes must support to plug into the proxy. WasmEdge supports proxy-wasm now.</p>
 <ul>
 <li><a href="frameworks/mesh/mosn.html">MOSN</a> shows how to use WasmEdge as extensions for MOSN.</li>
 </ul>
@@ -8431,7 +8423,7 @@ $ go run ./source/main.go ./source/hot-dog.mp4
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reactr"><a class="header" href="#reactr">Reactr</a></h1>
 <p><a href="https://github.com/suborbital/reactr">Reactr</a> is a fast, performant function scheduling library written in Go. Reactr is designed to be flexible, with the ability to run embedded in your Go applications and first-class support for WebAssembly.
 Taking advantage of Go's superior concurrency capabilities, Reactr can manage
-and execute hudreds of WebAssembly runtime instances all at once,
+and execute hundreds of WebAssembly runtime instances all at once,
 making a great framework for server-side applications.</p>
 <p>Reactr allows you to run WebAssembly functions in Go. But so does the <a href="frameworks/app/../../embed/go.html">WasmEdge Go SDK</a>.
 The unique feature of Reactr is that it provides a rich set of host functions
@@ -8441,7 +8433,7 @@ within the WebAssembly function.</p>
 <p>In this article, we will show you how to use WasmEdge together with Reactr
 to take advantage of the best of both worlds. WasmEdge is the
 <a href="frameworks/app/../../intro/features.html">fastest and most extensible WebAssembly runtime</a>.
-It is also the fastest in <a href="https://github.com/suborbital/reactr/runs/4476074960?check_suite_focus=true">Reactr's official test suit</a>.
+It is also the fastest in <a href="https://github.com/suborbital/reactr/runs/4476074960?check_suite_focus=true">Reactr's official test suite</a>.
 We will show you how to run Rust functions compiled to WebAssembly as well
 as JavaScript programs in WasmEdge and Reactr.</p>
 <blockquote>
@@ -8474,7 +8466,7 @@ $ source $HOME/.wasmedge/env
 <h2 id="hello-world-4"><a class="header" href="#hello-world-4">Hello world</a></h2>
 <p>A simple <code>hello world</code> example for Reactr is <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/hello">available here</a>.</p>
 <h3 id="rust-function-compiled-to-webassembly"><a class="header" href="#rust-function-compiled-to-webassembly">Rust function compiled to WebAssembly</a></h3>
-<p>Let's first create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/hello/hello-echo/src/lib.rs">a simple Rust funtion</a> to echo hello.
+<p>Let's first create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/hello/hello-echo/src/lib.rs">a simple Rust function</a> to echo hello.
 The Rust function <code>HelloEcho::run()</code> is as follows. It will be exposed to the Go host
 application through Reactr.</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -8569,7 +8561,7 @@ postgres=# CREATE TABLE users (
 </code></pre>
 <p>Leave this running and start another terminal window to interact with this PostgreSQL server.</p>
 <h3 id="rust-function-compiled-to-webassembly-1"><a class="header" href="#rust-function-compiled-to-webassembly-1">Rust function compiled to WebAssembly</a></h3>
-<p>Let's create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/db/rs-db/src/lib.rs">a Rust funtion</a> to access the PostgreSQL database.
+<p>Let's create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/db/rs-db/src/lib.rs">a Rust function</a> to access the PostgreSQL database.
 The Rust function <code>RsDbtest::run()</code> is as follows. It will be exposed to the Go host
 application through Reactr. It uses named queries such as <code>PGInsertUser</code> and <code>PGSelectUserWithUUID</code> to operate the database. Those queries are defined in the
 Go host application, and we will see them later.</p>
@@ -8758,7 +8750,7 @@ $ go run -tags wasmedge main.go hello.js
 String(JsString(hello wasmedge))
 </code></pre>
 <p>The printed result shows the type information of the string in Rust and Go APIs. You can strip out this information by changing the Rust or Go applications.</p>
-<h3 id="furture-examples"><a class="header" href="#furture-examples">Furture examples</a></h3>
+<h3 id="feature-examples"><a class="header" href="#feature-examples">Feature examples</a></h3>
 <p>WasmEdge supports many advanced JavaScript features. For the next step, you
 could try our <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/react_ssr">React SSR example</a> to generate an HTML UI from a Reactr function!
 You can just build the <code>dist/main.js</code> from the React SSR example, and copy
@@ -8777,15 +8769,15 @@ UnDefined
 <p>Second, the WebAssembly bytecode is portable. Developers only need to build it once and do not need to worry about changes or updates to the underlying Vercel serverless container (OS and hardware). It also allows developers to reuse the same WebAssembly functions in other cloud environments.</p>
 <p>Third, WebAssembly apps are easy to deploy and manage. They have much less platform dependencies and complexities compared with NaCl dynamic libraries and executables.</p>
 <p>Finally, the <a href="https://www.secondstate.io/articles/wasi-tensorflow/">WasmEdge Tensorflow API</a> provides the most ergonomic way to execute Tensorflow models in the Rust programming language. WasmEdge installs the correct combination of Tensorflow dependency libraries, and provides a unified API for developers.</p>
-<p>In this section, we will show you how to run WebAssembly serverless functions in public coulds. Each platform has its own code template and contains two examlpes in Rust, one is the normal image processing, The other one is TensorFlow infrence using the WasmEdge TensorFlow SDK.</p>
+<p>In this section, we will show you how to run WebAssembly serverless functions in public clouds. Each platform has its own code template and contains two examples in Rust, one is the normal image processing, The other one is TensorFlow inference using the WasmEdge TensorFlow SDK.</p>
 <ul>
-<li><a href="frameworks/serverless/vercel.html">Vercel</a> discuss how to leverge WasmEdge to accelerate the Jamstack application deployed on Vercel.</li>
-<li><a href="frameworks/serverless/netlify.html">Netlify</a> discuss how to leverge WasmEdge to accelerate the Jamstack application deployed on Netlify.</li>
-<li><a href="frameworks/serverless/aws.html">AWS Lambda</a> discuss how to leverge WasmEdge to accelerate the serverless functions deployed on AWS Lambda.</li>
-<li><a href="frameworks/serverless/tencent.html">Tencent</a> discuss how to leverge WasmEdge to accelerate the serverless functions deployed on Tencent cloud.</li>
+<li><a href="frameworks/serverless/vercel.html">Vercel</a> discuss how to leverage WasmEdge to accelerate the Jamstack application deployed on Vercel.</li>
+<li><a href="frameworks/serverless/netlify.html">Netlify</a> discuss how to leverage WasmEdge to accelerate the Jamstack application deployed on Netlify.</li>
+<li><a href="frameworks/serverless/aws.html">AWS Lambda</a> discuss how to leverage WasmEdge to accelerate the serverless functions deployed on AWS Lambda.</li>
+<li><a href="frameworks/serverless/tencent.html">Tencent</a> discuss how to leverage WasmEdge to accelerate the serverless functions deployed on Tencent cloud.</li>
 </ul>
 <blockquote>
-<p>If you would like to add more WasmEdge examples on public cloud platform,like Google Cloud Functions, feel free to creta a PR for WasmEdge and let the community know what you did.</p>
+<p>If you would like to add more WasmEdge examples on public cloud platform,like Google Cloud Functions, feel free to create a PR for WasmEdge and let the community know what you did.</p>
 </blockquote>
 <p><img src="frameworks/serverless-wasmedge.png" alt="" /></p>
 <p>Running WasmEdge from Docker containers deployed on public cloud is an easy way to add high-performance functions to web applications. Going forward an even better approach is to use <a href="https://www.computer.org/csdl/magazine/so/5555/01/09214403/1nHNGfu2Ypi">WasmEdge as the container itself</a>. There will be no Docker and no Node.js to bootstrap WasmEdge. This way, we can reach much higher efficiency for running serverless functions.</p>
@@ -8793,9 +8785,9 @@ UnDefined
 <li><a href="frameworks/serverless/secondstate.html">Second State Functions</a> will discuss how to use WasmEdge ad the container itself, since Second State Functions is a serverless platform with pure WebAssembly/WasmEdge. </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust-and-webassembly-serverless-functions-in-vercel"><a class="header" href="#rust-and-webassembly-serverless-functions-in-vercel">Rust and WebAssembly Serverless functions in Vercel</a></h1>
-<p>In this article, we will show you two serverless functions in Rust and WasmEdge deployed on Vercel. One is the image processing function, the other one is the trnsorflow inference function.</p>
+<p>In this article, we will show you two serverless functions in Rust and WasmEdge deployed on Vercel. One is the image processing function, the other one is the TensorFlow inference function.</p>
 <blockquote>
-<p>For more insights on why WasmEdge on Vercel, please refer to the artilce <a href="https://www.secondstate.io/articles/vercel-wasmedge-webassembly-rust/">Rust and WebAssembly Serverless Functions in Vercel</a>.</p>
+<p>For more insights on why WasmEdge on Vercel, please refer to the article <a href="https://www.secondstate.io/articles/vercel-wasmedge-webassembly-rust/">Rust and WebAssembly Serverless Functions in Vercel</a>.</p>
 </blockquote>
 <h2 id="prerequisite-2"><a class="header" href="#prerequisite-2">Prerequisite</a></h2>
 <p>Since our demo WebAssembly functions are written in Rust, you will need a <a href="https://www.rust-lang.org/tools/install">Rust compiler</a>. Make sure that you install the <code>wasm32-wasi</code> compiler target as follows, in order to generate WebAssembly bytecode.</p>
@@ -8942,9 +8934,9 @@ module.exports = (req, res) =&gt; {
 <p>You can now <a href="https://vercel.com/docs/git#deploying-a-git-repository">deploy your forked repo to Vercel</a> and have a web app for subject classification.</p>
 <p>Next, it's your turn to use <a href="https://github.com/second-state/vercel-wasm-runtime">the vercel-wasm-runtime repo</a> as a template to develop your own Rust serverless functions in Vercel. Looking forward to your great work.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly-serverless-functions-in-netlify"><a class="header" href="#webassembly-serverless-functions-in-netlify">WebAssembly Serverless Functions in Netlify</a></h1>
-<p>In this article we will show you two serverless fucntions in Rust and WasmEdge deployed on Netlify. One is the image processing function, the other one is the trnsorflow inference function.</p>
+<p>In this article we will show you two serverless functions in Rust and WasmEdge deployed on Netlify. One is the image processing function, the other one is the TensorFlow inference function.</p>
 <blockquote>
-<p>For more insights on why WasmEdge on Netlify, please refer to the artilce <a href="https://www.secondstate.io/articles/netlify-wasmedge-webassembly-rust-serverless/">WebAssembly Serverless Functions in Netlify</a>.</p>
+<p>For more insights on why WasmEdge on Netlify, please refer to the article <a href="https://www.secondstate.io/articles/netlify-wasmedge-webassembly-rust-serverless/">WebAssembly Serverless Functions in Netlify</a>.</p>
 </blockquote>
 <h2 id="prerequisite-3"><a class="header" href="#prerequisite-3">Prerequisite</a></h2>
 <p>Since our demo WebAssembly functions are written in Rust, you will need a <a href="https://www.rust-lang.org/tools/install">Rust compiler</a>. Make sure that you install the <code>wasm32-wasi</code> compiler target as follows, in order to generate WebAssembly bytecode.</p>
@@ -9090,7 +9082,7 @@ module.exports = (req, res) =&gt; {
 <p>You can now <a href="https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/">deploy your forked repo to Netlify</a> and have a web app for subject classification.</p>
 <p>Next, it's your turn to develop Rust serverless functions in Netlify using the <a href="https://github.com/second-state/netlify-wasm-runtime">netlify-wasm-runtime repo</a> as a template. Looking forward to your great work.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly-serverless-functions-in-aws-lambda"><a class="header" href="#webassembly-serverless-functions-in-aws-lambda">WebAssembly Serverless Functions in AWS Lambda</a></h1>
-<p>In this article, we will show you two serverless functions in Rust and WasmEdge deployed on AWS Lambda. One is the image processing function, the other one is the trnsorflow inference function.</p>
+<p>In this article, we will show you two serverless functions in Rust and WasmEdge deployed on AWS Lambda. One is the image processing function, the other one is the TensorFlow inference function.</p>
 <blockquote>
 <p>For the insight on why WasmEdge on AWS Lambda, please refer to the article <a href="https://www.secondstate.io/articles/webassembly-serverless-functions-in-aws-lambda/">WebAssembly Serverless Functions in AWS Lambda</a></p>
 </blockquote>
@@ -9211,12 +9203,12 @@ CMD [ &quot;hello.handler&quot; ]
 <pre><code>docker run -p 9000:8080  myfunction:latest 
 </code></pre>
 <p>This command sets a function endpoint on your local machine at <code>http://localhost:9000/2015-03-31/functions/function/invocations</code>.</p>
-<p>Then, from a separate terminal windown, run:</p>
+<p>Then, from a separate terminal window, run:</p>
 <pre><code>curl -XPOST &quot;http://localhost:9000/2015-03-31/functions/function/invocations&quot; -d '{}'
 </code></pre>
 <p>And you should get your expected output in the terminal.</p>
 <p>If you don't want to use a base image from AWS Lambda, you can also use your own base image and install RIC and/or RIE while building your Docker image. Just follow <strong>Create an image from an alternative base image</strong> section from <a href="https://docs.aws.amazon.com/lambda/latest/dg/images-create.html">this guide</a>.</p>
-<p>That's it! After building your Docker image, you can depoly it to AWS Lambda following steps outlined in the repository <a href="https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/README.md#deploy">README</a>. Now your serverless function is ready to rock!</p>
+<p>That's it! After building your Docker image, you can deploy it to AWS Lambda following steps outlined in the repository <a href="https://github.com/second-state/aws-lambda-wasm-runtime/blob/tensorflow/README.md#deploy">README</a>. Now your serverless function is ready to rock!</p>
 <h2 id="example-2-ai-inference-2"><a class="header" href="#example-2-ai-inference-2">Example 2: AI inference</a></h2>
 <p>The <a href="https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow">second demo</a> application allows users to upload an image and then invoke a serverless function to classify the main subject on the image.</p>
 <p>It is in <a href="https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow">the same GitHub repo</a> as the previous example but in the <code>tensorflow</code> branch. The backend serverless function for image classification is in the <code>api/functions/image-classification</code> folder in the <code>tensorflow</code> branch. The <code>src/main.rs</code> file contains the Rust program’s source code. The Rust program reads image data from the <code>STDIN</code>, and then outputs the text output to the <code>STDOUT</code>. It utilizes the WasmEdge Tensorflow API to run the AI inference. </p>
@@ -9292,10 +9284,10 @@ exports.handler = ... // _runWasm(reqBody) is called in the handler
 </code></pre>
 <p>You can build your Docker image and deploy the function in the same way as outlined in the previous example. Now you have created a web app for subject classification!</p>
 <p>Next, it's your turn to use the <a href="https://github.com/second-state/aws-lambda-wasm-runtime/tree/main">aws-lambda-wasm-runtime repo</a> as a template to develop Rust serverless function on AWS Lambda. Looking forward to your great work.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly-serverless-fuctions-on-tencent-cloud"><a class="header" href="#webassembly-serverless-fuctions-on-tencent-cloud">WebAssembly serverless fuctions on Tencent Cloud</a></h1>
-<p>As the main users of Tencent Cloud are from China, so the tutorial is <a href="https://my.oschina.net/u/4532842/blog/5172639">wrriten in Chinese</a>.</p>
-<p>We also provide a code template for deploying serverless WebAssembly fucntions on Tencent Cloud, please check out <a href="https://github.com/second-state/tencent-scf-wasm-runtime">the tencent-scf-wasm-runtime repo</a>.</p>
-<p>Fork the repo and start wrting your own rust functions.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly-serverless-functions-on-tencent-cloud"><a class="header" href="#webassembly-serverless-functions-on-tencent-cloud">WebAssembly serverless functions on Tencent Cloud</a></h1>
+<p>As the main users of Tencent Cloud are from China, so the tutorial is <a href="https://my.oschina.net/u/4532842/blog/5172639">written in Chinese</a>.</p>
+<p>We also provide a code template for deploying serverless WebAssembly functions on Tencent Cloud, please check out <a href="https://github.com/second-state/tencent-scf-wasm-runtime">the tencent-scf-wasm-runtime repo</a>.</p>
+<p>Fork the repo and start writing your own rust functions.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="second-state-functions-1"><a class="header" href="#second-state-functions-1">Second State Functions</a></h1>
 <p>Second State Functions, powered by WasmEdge, supports the Rust language as a first class citizen.</p>
 <p>It could</p>
@@ -9303,9 +9295,9 @@ exports.handler = ... // _runWasm(reqBody) is called in the handler
 <li><a href="https://www.secondstate.io/articles/getting-started-with-function-as-a-service-in-rust/">Handle text-based input and output</a></li>
 <li><a href="https://www.secondstate.io/articles/use-binary-data-as-function-input-and-output/">Use Binary date as function input and output</a></li>
 <li><a href="https://www.secondstate.io/articles/use-binary-data-as-function-input-and-output/">Mix bytes and strings in function argument and return value</a></li>
-<li><a href="https://www.secondstate.io/articles/internet-of-functions-webhooks/">Use webhooks as function input and outpu</a></li>
-<li><a href="https://www.secondstate.io/articles/internet-of-functions-http-proxy/">Acess internet resources via a <code>http_proxy</code> API</a></li>
-<li><a href="https://www.secondstate.io/articles/wasi-tensorflow/">Running TensorFlow models at native spped via the WasmEdge TensorFlow API</a></li>
+<li><a href="https://www.secondstate.io/articles/internet-of-functions-webhooks/">Use webhooks as function input and output</a></li>
+<li><a href="https://www.secondstate.io/articles/internet-of-functions-http-proxy/">Access internet resources via a <code>http_proxy</code> API</a></li>
+<li><a href="https://www.secondstate.io/articles/wasi-tensorflow/">Running TensorFlow models at native speed via the WasmEdge TensorFlow API</a></li>
 </ul>
 <p>Check out the <a href="https://www.secondstate.io/faas/">Second State Functions</a> website for more tutorials.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="operating-systems"><a class="header" href="#operating-systems">Operating systems</a></h1>
@@ -9315,7 +9307,7 @@ across platforms.
 It runs not only on Linux-like systems, but also on microkernels such as the seL4 system.</p>
 <p>WasmEdge now supports</p>
 <ul>
-<li>Lunix</li>
+<li>Linux</li>
 <li>Windows</li>
 <li>macOS</li>
 <li>seL4</li>
@@ -9357,8 +9349,8 @@ install script.</p>
 <h3 id="system-requirements"><a class="header" href="#system-requirements">System requirements</a></h3>
 <p>Hardware:</p>
 <ul>
-<li>at least 4Gb of RAM</li>
-<li>at least 20Gb of disk storage (the wasmedge_sel4 directory will contain over 11 Gb of data after the following installation completes) </li>
+<li>at least 4GB of RAM</li>
+<li>at least 20GB of disk storage (the wasmedge_sel4 directory will contain over 11 GB of data after the following installation completes) </li>
 </ul>
 <p>Software: Ubuntu 20.04 with dev tools packages (ep. Python) installed. We recommend the <a href="https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md">GitHub Actions Ubuntu 20.04 VM</a> (See a list of <a href="https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md#installed-apt-packages">installed apt packages</a>). Or, you could use our Docker image (see the <a href="https://github.com/second-state/wasmedge-seL4/blob/main/docs/Dockerfile.sel4_build">Dockerfile</a>).</p>
 <pre><code class="language-bash">$ docker pull wasmedge/sel4_build
@@ -9366,7 +9358,7 @@ $ docker run --rm -v $(pwd):/app -it wasmedge/sel4_build
 (docker) root#
 </code></pre>
 <blockquote>
-<p>If you do not want to build the seL4 system simulator yourself, you can download the <a href="https://github.com/second-state/wasmedge-seL4/actions/runs/1374510169">build artifact</a> from our GitHUb Actions, and skip directly to <a href="os/sel4.html#boot-wasmedge-sel4">Boot wasmedge-seL4</a></p>
+<p>If you do not want to build the seL4 system simulator yourself, you can download the <a href="https://github.com/second-state/wasmedge-seL4/actions/runs/1374510169">build artifact</a> from our GitHub Actions, and skip directly to <a href="os/sel4.html#boot-wasmedge-sel4">Boot wasmedge-seL4</a></p>
 </blockquote>
 <h3 id="automatic-installation-all-in-one-script"><a class="header" href="#automatic-installation-all-in-one-script">Automatic installation: all-in-one script</a></h3>
 <p>Use our all-in-one build script:</p>
@@ -9376,7 +9368,7 @@ $ docker run --rm -v $(pwd):/app -it wasmedge/sel4_build
 <p>After finishing the build script, you will have a folder <code>sel4_wasmedge</code>. </p>
 <p>If this automatic installation completed successfully, skip over the manual installation information and proceed to <a href="https://github.com/second-state/wasmedge-seL4#boot-wasmedge-sel4">boot wasmedge-sel4</a></p>
 <h3 id="manual-installation-managing-memory-usage"><a class="header" href="#manual-installation-managing-memory-usage">Manual installation: managing memory usage</a></h3>
-<p>The above all-in-one script will work in most cases. However, if your system resources were stressed and you encountered an error such as <code>ninja: build stopped: subcommand failed</code> please note that you can decrease the parallelization of the install by explicitly passing in a <code>-j</code> parameter to the <code>ninja</code> command (on the last line of the <code>build.sh</code> file). You see, Ninja runs the most amount of parallel processes by default and so the following proceedure is a way to explicitly set/reduce parallelization.</p>
+<p>The above all-in-one script will work in most cases. However, if your system resources were stressed and you encountered an error such as <code>ninja: build stopped: subcommand failed</code> please note that you can decrease the parallelization of the install by explicitly passing in a <code>-j</code> parameter to the <code>ninja</code> command (on the last line of the <code>build.sh</code> file). You see, Ninja runs the most amount of parallel processes by default and so the following procedure is a way to explicitly set/reduce parallelization.</p>
 <p>Manually fetch the `wasmedge-sel4 repository.</p>
 <pre><code class="language-bash">cd ~
 git clone https://github.com/second-state/wasmedge-seL4.git
@@ -9479,12 +9471,12 @@ Rust, C, and JavaScript to access features and functionalities
 provided by the operating systems or shared libraries.</p>
 <p>In this chapter, we will cover how to build WasmEdge from source code
 for different operating systems and platforms. We will then discuss
-the WasmEdge plug-in API, which allows developers to create extentions that can be distributed with official WasmEdge releases.</p>
+the WasmEdge plug-in API, which allows developers to create extensions that can be distributed with official WasmEdge releases.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-from-source"><a class="header" href="#build-wasmedge-from-source">Build WasmEdge from source</a></h1>
 <p>Please follow this guide to build and test WasmEdge from source code.</p>
 <p>The following guide is based on Linux distributions. For MacOS, please refer to <a href="extend/build_on_mac.html">Build for macOS</a>. For Windows, please refer to <a href="extend/build_on_windows.html">Build for Windows</a></p>
 <blockquote>
-<p>If you just want the latest builds from the <code>HEAD</code> of the <code>master</code> branch, and do not want to build it yourself, you can download the release package directly from our Github Actions's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
+<p>If you just want the latest builds from the <code>HEAD</code> of the <code>master</code> branch, and do not want to build it yourself, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
 </blockquote>
 <h2 id="get-source-code"><a class="header" href="#get-source-code">Get Source Code</a></h2>
 <pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
@@ -9537,7 +9529,7 @@ $ sudo apt install -y clang-12
 <h3 id="support-for-legacy-operating-systems"><a class="header" href="#support-for-legacy-operating-systems">Support for legacy operating systems</a></h3>
 <p>Our development environment requires <code>libLLVM-12</code> and <code>&gt;=GLIBCXX_3.4.33</code>.</p>
 <p>If users are using the older operating system than Ubuntu 20.04, please use our special docker image to build WasmEdge.
-If you are looking for the pre-built binaries for the older operatoring system, we also provide several pre-built binaries based on manylinux* distribution.</p>
+If you are looking for the pre-built binaries for the older operating system, we also provide several pre-built binaries based on manylinux* distribution.</p>
 <table><thead><tr><th>Portable Linux Built Distributions Tags</th><th>Base Image</th><th>Provided Requirements</th><th>Docker Image</th></tr></thead><tbody>
 <tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5<br>CXXABI &lt;= 3.4.8<br>GLIBCXX &lt;= 3.4.9<br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
 <tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12<br>CXXABI &lt;= 1.3.3<br>GLIBCXX &lt;= 3.4.13<br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
@@ -9610,7 +9602,7 @@ $ LD_LIBRARY_PATH=$(pwd)/lib/api ctest
 </ul>
 </li>
 </ul>
-<p>If you would like to develop WasmEdge on MacOS, please follow this guid to build and test from source code.</p>
+<p>If you would like to develop WasmEdge on MacOS, please follow this guide to build and test from source code.</p>
 <h2 id="get-source-code-1"><a class="header" href="#get-source-code-1">Get Source Code</a></h2>
 <pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
 $ cd WasmEdge
@@ -9671,7 +9663,7 @@ cmake --build build --target test
 <h2 id="run-applications-1"><a class="header" href="#run-applications-1">Run applications</a></h2>
 <p>Next, follow <a href="extend/../index.html">this guide</a> to run WebAssembly bytecode programs in <code>wasmedge</code>.</p>
 <h2 id="known-issues"><a class="header" href="#known-issues">Known issues</a></h2>
-<p>The following tests can not pass on macos, we are invesgating these issues:</p>
+<p>The following tests can not pass on macos, we are investigating these issues:</p>
 <ul>
 <li>wasmedgeAPIVMCoreTests</li>
 <li>wasmedgeAPIStepsCoreTests</li>
@@ -9681,7 +9673,7 @@ cmake --build build --target test
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-from-source-on-windows-10"><a class="header" href="#build-from-source-on-windows-10">Build from source on Windows 10</a></h1>
 <p>WasmEdge supports Windows 10. Currently, we also provide pre-built binaries and libraries for Windows.</p>
 <p>You can find the details <a href="https://github.com/WasmEdge/WasmEdge/blob/master/.github/workflows/build.yml#L266-L322">here</a></p>
-<p>If you would like to develop WasmEdge on Windows 10, please follow this guid to build and test from source code.</p>
+<p>If you would like to develop WasmEdge on Windows 10, please follow this guide to build and test from source code.</p>
 <h2 id="get-source-code-2"><a class="header" href="#get-source-code-2">Get Source Code</a></h2>
 <pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
 $ cd WasmEdge
@@ -10437,42 +10429,31 @@ if (!WasmEdge_ResultOK(Res)) {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-
             </nav>
 
         </div>
 
-
-
-
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-
-
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-
         <script type="text/javascript">
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
-
     </body>
 </html>

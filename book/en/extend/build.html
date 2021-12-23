@@ -4,8 +4,6 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Build WasmEdge from source - WasmEdge Runtime</title>
-
-
         <!-- Custom HTML head -->
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NGPCK7VF2L"></script>
@@ -16,7 +14,6 @@
 
   gtag('config', 'G-NGPCK7VF2L');
 </script>
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,18 +25,15 @@
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
         <link rel="stylesheet" href="../css/print.css" media="print">
-
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="../fonts/fonts.css">
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
         <link rel="stylesheet" href="../tomorrow-night.css">
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -131,7 +125,6 @@
                         <a href="https://github.com/WasmEdge/WasmEdge/tree/master/docs/book/en/src/extend/build.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
-
                     </div>
                 </div>
 
@@ -145,7 +138,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -161,7 +153,7 @@
 <p>Please follow this guide to build and test WasmEdge from source code.</p>
 <p>The following guide is based on Linux distributions. For MacOS, please refer to <a href="build_on_mac.html">Build for macOS</a>. For Windows, please refer to <a href="build_on_windows.html">Build for Windows</a></p>
 <blockquote>
-<p>If you just want the latest builds from the <code>HEAD</code> of the <code>master</code> branch, and do not want to build it yourself, you can download the release package directly from our Github Actions's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
+<p>If you just want the latest builds from the <code>HEAD</code> of the <code>master</code> branch, and do not want to build it yourself, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
 </blockquote>
 <h2 id="get-source-code"><a class="header" href="#get-source-code">Get Source Code</a></h2>
 <pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
@@ -214,7 +206,7 @@ $ sudo apt install -y clang-12
 <h3 id="support-for-legacy-operating-systems"><a class="header" href="#support-for-legacy-operating-systems">Support for legacy operating systems</a></h3>
 <p>Our development environment requires <code>libLLVM-12</code> and <code>&gt;=GLIBCXX_3.4.33</code>.</p>
 <p>If users are using the older operating system than Ubuntu 20.04, please use our special docker image to build WasmEdge.
-If you are looking for the pre-built binaries for the older operatoring system, we also provide several pre-built binaries based on manylinux* distribution.</p>
+If you are looking for the pre-built binaries for the older operating system, we also provide several pre-built binaries based on manylinux* distribution.</p>
 <table><thead><tr><th>Portable Linux Built Distributions Tags</th><th>Base Image</th><th>Provided Requirements</th><th>Docker Image</th></tr></thead><tbody>
 <tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5<br>CXXABI &lt;= 3.4.8<br>GLIBCXX &lt;= 3.4.9<br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
 <tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12<br>CXXABI &lt;= 1.3.3<br>GLIBCXX &lt;= 3.4.13<br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
@@ -279,11 +271,9 @@ $ LD_LIBRARY_PATH=$(pwd)/lib/api ctest
                             <a rel="prev" href="../extend.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-
                             <a rel="next" href="../extend/build_on_mac.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
@@ -293,7 +283,6 @@ $ LD_LIBRARY_PATH=$(pwd)/lib/api ctest
                     <a rel="prev" href="../extend.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-
                     <a rel="next" href="../extend/build_on_mac.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
@@ -301,24 +290,16 @@ $ LD_LIBRARY_PATH=$(pwd)/lib/api ctest
 
         </div>
 
-
-
-
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-
-
         <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
-
         <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-
-
     </body>
 </html>
