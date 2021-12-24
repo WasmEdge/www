@@ -213,6 +213,39 @@ state
 [2021-12-09 16:03:33.261] [info]  Instructions per second: 81177218
 [2021-12-09 16:03:33.261] [info] =======================   End   ======================
 </code></pre>
+<h3 id="with-gas-limit-enabled"><a class="header" href="#with-gas-limit-enabled">With gas-limit enabled</a></h3>
+<p>The CLI supports <code>--gas-limit</code> flags for controlling the execution costs. </p>
+<pre><code class="language-bash"># cd &lt;path/to/WasmEdge&gt;
+$ cd tools/wasmedge/examples
+# With enough gas
+$ wasmedge --enable-all-statistics --gas-limit 20425 hello.wasm second state
+hello
+second
+state
+[2021-12-09 16:03:33.261] [info] ====================  Statistics  ====================
+[2021-12-09 16:03:33.261] [info]  Total execution time: 268266 ns
+[2021-12-09 16:03:33.261] [info]  Wasm instructions execution time: 251610 ns
+[2021-12-09 16:03:33.261] [info]  Host functions execution time: 16656 ns
+[2021-12-09 16:03:33.261] [info]  Executed wasm instructions count: 20425
+[2021-12-09 16:03:33.261] [info]  Gas costs: 20425
+[2021-12-09 16:03:33.261] [info]  Instructions per second: 81177218
+[2021-12-09 16:03:33.261] [info] =======================   End   ======================
+
+# Without enough gas
+$ wasmedge --enable-all-statistics --gas-limit 20 hello.wasm second state
+[2021-12-23 15:19:06.690] [error] Cost exceeded limit. Force terminate the execution.
+[2021-12-23 15:19:06.690] [error]     In instruction: ref.func (0xd2) , Bytecode offset: 0x00000000
+[2021-12-23 15:19:06.690] [error]     At AST node: expression
+[2021-12-23 15:19:06.690] [error]     At AST node: element segment
+[2021-12-23 15:19:06.690] [error]     At AST node: element section
+[2021-12-23 15:19:06.690] [error]     At AST node: module
+[2021-12-23 15:19:06.690] [info] ====================  Statistics  ====================
+[2021-12-23 15:19:06.690] [info]  Total execution time: 0 ns
+[2021-12-23 15:19:06.690] [info]  Wasm instructions execution time: 0 ns
+[2021-12-23 15:19:06.690] [info]  Host functions execution time: 0 ns
+[2021-12-23 15:19:06.690] [info]  Executed wasm instructions count: 21
+[2021-12-23 15:19:06.690] [info]  Gas costs: 20
+</code></pre>
 <h2 id="javascript-examples"><a class="header" href="#javascript-examples">JavaScript examples</a></h2>
 <p>It is possible to use WasmEdge as a high-performance, secure, extensible, easy to deploy, and <a href="https://github.com/second-state/wasmedge-containers-examples">Kubernetes-compliant</a> JavaScript runtime. </p>
 <p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/js/qjs.wasm">qjs.wasm</a> program is a JavaScript interpreter compiled into WebAssembly. 
@@ -356,15 +389,20 @@ WebAssembly bytecode programs.</p>
 <h3 id="command-line-options"><a class="header" href="#command-line-options">Command line options</a></h3>
 <p>The options and flags for the <code>wasmedge</code> command are as follows.</p>
 <ol>
-<li>(Optional) Statistics information:</li>
-</ol>
+<li>(Optional) Statistics information:
 <ul>
 <li>Use <code>--enable-time-measuring</code> to show the execution time.</li>
 <li>Use <code>--enable-gas-measuring</code> to show the amount of used gas.</li>
 <li>Use <code>--enable-instruction-count</code> to display the number of executed instructions.</li>
 <li>Or use <code>--enable-all-statistics</code> to enable all of the statistics options.</li>
 </ul>
-<ol start="2">
+</li>
+<li>(Optional) Resource limitation:
+<ul>
+<li>Use <code>--gas-limit</code> to limit the execution cost.</li>
+<li>Use <code>--memory-page-limit</code> to set the limitation of pages(as size of 64 KiB) in every memory instance.</li>
+</ul>
+</li>
 <li>(Optional) Reactor mode: use <code>--reactor</code> to enable reactor mode. In the reactor mode, <code>wasmedge</code> runs a specified function from the WebAssembly program.
 <ul>
 <li>WasmEdge will execute the function which name should be given in <code>ARG[0]</code>.</li>
@@ -393,9 +431,19 @@ WebAssembly bytecode programs.</p>
 <h2 id="wasmedgec"><a class="header" href="#wasmedgec">wasmedgec</a></h2>
 <p>The <code>wasmedgec</code> binary file is a program to compile WebAssembly bytecode
 programs into native machine code (i.e., the AOT compiler). 
-The compiled machine code could be <a href="start//universal.html">stored in the original <code>wasm</code> file</a>, and
+The compiled machine code could be <a href="start/universal.html">stored in the original <code>wasm</code> file</a>, and
 the <code>wasmedge</code> CLI will automatically choose to execute the native machine
 code whenever it is available.</p>
+<p>The options and flags for the <code>wasmedgec</code> are as follows.</p>
+<ol>
+<li>Input Wasm file(<code>/path/to/input/wasm/file</code>).</li>
+<li>Output file name(<code>/path/to/output/file</code>).
+<ul>
+<li>By default, it will generate the <a href="start/universal.html">universal Wasm binary format</a>.</li>
+<li>Users can still generate native binary only by specifying the <code>.so</code>, <code>.dylib</code>, or <code>.dll</code> extensions.</li>
+</ul>
+</li>
+</ol>
 <pre><code class="language-bash">// This is slow
 $ wasmedge app.wasm
 
