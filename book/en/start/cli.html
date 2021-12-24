@@ -161,20 +161,15 @@ WebAssembly bytecode programs.</p>
 <h3 id="command-line-options"><a class="header" href="#command-line-options">Command line options</a></h3>
 <p>The options and flags for the <code>wasmedge</code> command are as follows.</p>
 <ol>
-<li>(Optional) Statistics information:
+<li>(Optional) Statistics information:</li>
+</ol>
 <ul>
 <li>Use <code>--enable-time-measuring</code> to show the execution time.</li>
 <li>Use <code>--enable-gas-measuring</code> to show the amount of used gas.</li>
 <li>Use <code>--enable-instruction-count</code> to display the number of executed instructions.</li>
 <li>Or use <code>--enable-all-statistics</code> to enable all of the statistics options.</li>
 </ul>
-</li>
-<li>(Optional) Resource limitation:
-<ul>
-<li>Use <code>--gas-limit</code> to limit the execution cost.</li>
-<li>Use <code>--memory-page-limit</code> to set the limitation of pages(as size of 64 KiB) in every memory instance.</li>
-</ul>
-</li>
+<ol start="2">
 <li>(Optional) Reactor mode: use <code>--reactor</code> to enable reactor mode. In the reactor mode, <code>wasmedge</code> runs a specified function from the WebAssembly program.
 <ul>
 <li>WasmEdge will execute the function which name should be given in <code>ARG[0]</code>.</li>
@@ -203,19 +198,9 @@ WebAssembly bytecode programs.</p>
 <h2 id="wasmedgec"><a class="header" href="#wasmedgec">wasmedgec</a></h2>
 <p>The <code>wasmedgec</code> binary file is a program to compile WebAssembly bytecode
 programs into native machine code (i.e., the AOT compiler). 
-The compiled machine code could be <a href="universal.html">stored in the original <code>wasm</code> file</a>, and
+The compiled machine code could be <a href="/universal.html">stored in the original <code>wasm</code> file</a>, and
 the <code>wasmedge</code> CLI will automatically choose to execute the native machine
 code whenever it is available.</p>
-<p>The options and flags for the <code>wasmedgec</code> are as follows.</p>
-<ol>
-<li>Input Wasm file(<code>/path/to/input/wasm/file</code>).</li>
-<li>Output file name(<code>/path/to/output/file</code>).
-<ul>
-<li>By default, it will generate the <a href="universal.html">universal Wasm binary format</a>.</li>
-<li>Users can still generate native binary only by specifying the <code>.so</code>, <code>.dylib</code>, or <code>.dll</code> extensions.</li>
-</ul>
-</li>
-</ol>
 <pre><code class="language-bash">// This is slow
 $ wasmedge app.wasm
 
