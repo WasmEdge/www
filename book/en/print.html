@@ -4031,11 +4031,189 @@ a Go host app. You can use the Go SDK API to pass call parameters
 to the embedded WebAssembly functions, and then capture the return values.
 However, the WebAssembly spec only supports a few simple data types out of the box. It <a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">does not support</a> types such as string and array. In order to pass rich types in Go to WebAssembly,
 we could hand-code memory pointers (<a href="embed/go/memory.html">see here</a>), or use an
-automated tool to manage the data exchange.
-The <a href="https://github.com/second-state/wasmedge-bindgen">wasmedge-bindgen</a> 
-project provides Rust macros for functions to accept and return complex data types, and then for Go functions to call such Rust functions running in WasmEdge.</p>
-<p>Work in progress.
-See here: https://github.com/second-state/wasmedge-bindgen</p>
+automated tool to manage the data exchange.</p>
+<p>The <a href="https://github.com/second-state/wasmedge-bindgen">wasmedge-bindgen</a> 
+project provides Rust macros for functions to accept and return complex data types, and then for Go functions to call such Rust functions running in WasmEdge.
+The full source code for the demo in this chapter is <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_BindgenFuncs">available here</a>.</p>
+<h2 id="rust-function-compiled-into-webassembly"><a class="header" href="#rust-function-compiled-into-webassembly">Rust function compiled into WebAssembly</a></h2>
+<p>In the <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs">Rust project</a>, all you need is to annotate <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">your functions</a> with a <code>[wasmedge_bindgen]</code> macro.
+Those annotated functions will be automatically instrumented by the Rust compiler and turned into
+WebAssembly functions that can be called from the <code>wasmedge-bindgen</code> GO SDK.
+In the example below, we have several Rust functions that take complex call
+parameters and return complex values.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasmedge_bindgen::*;
+use wasmedge_bindgen_macro::*;
+use num_integer::lcm;
+use sha3::{Digest, Sha3_256, Keccak256};
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Point {
+  x: f32,
+  y: f32
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Line {
+  points: Vec&lt;Point&gt;,
+  valid: bool,
+  length: f32,
+  desc: String
+}
+
+#[wasmedge_bindgen]
+pub fn create_line(p1: String, p2: String, desc: String) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+  let point1: Point = serde_json::from_str(p1.as_str()).unwrap();
+  let point2: Point = serde_json::from_str(p2.as_str()).unwrap();
+  let length = ((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y)).sqrt();
+
+  let valid = if length == 0.0 { false } else { true };
+
+  let line = Line { points: vec![point1, point2], valid: valid, length: length, desc: desc };
+
+  return Ok(serde_json::to_vec(&amp;line).unwrap());
+}
+
+#[wasmedge_bindgen]
+pub fn say(s: String) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+  let r = String::from(&quot;hello &quot;);
+  return Ok((r + s.as_str()).as_bytes().to_vec());
+}
+
+#[wasmedge_bindgen]
+pub fn obfusticate(s: String) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+  let r: String = (&amp;s).chars().map(|c| {
+    match c {
+      'A' ..= 'M' | 'a' ..= 'm' =&gt; ((c as u8) + 13) as char,
+      'N' ..= 'Z' | 'n' ..= 'z' =&gt; ((c as u8) - 13) as char,
+      _ =&gt; c
+    }
+  }).collect();
+  Ok(r.as_bytes().to_vec())
+}
+
+#[wasmedge_bindgen]
+pub fn lowest_common_multiple(a: i32, b: i32) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+  let r = lcm(a, b);
+  return Ok(r.to_string().as_bytes().to_vec());
+}
+
+#[wasmedge_bindgen]
+pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+  return Ok(Sha3_256::digest(&amp;v).as_slice().to_vec());
+}
+
+#[wasmedge_bindgen]
+pub fn keccak_digest(s: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+  return Ok(Keccak256::digest(&amp;s).as_slice().to_vec());
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>You can build the WebAssembly bytecode file using standard <code>Cargo</code> commands.</p>
+<pre><code class="language-bash">$ cd rust_bindgen_funcs
+$ cargo build --target wasm32-wasi --release
+
+# The output WASM will be target/wasm32-wasi/release/rust_bindgen_funcs_lib.wasm.
+
+$ cp target/wasm32-wasi/release/rust_bindgen_funcs_lib.wasm ../
+$ cd ../
+</code></pre>
+<h2 id="go-host-application"><a class="header" href="#go-host-application">Go host application</a></h2>
+<p>In the <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/bindgen_funcs.go">Go host application</a>,
+you can create and set up the WasmEdge VM using the WasmEdge Go SDK.
+However, instead of calling <code>vm.Instantiate()</code>, you should now call
+<code>bindgen.Instantiate(vm)</code> to instantiate the VM and return a <code>bindgen</code>
+object.</p>
+<pre><code class="language-go">func main() {
+	/// Expected Args[0]: program name (./bindgen_funcs)
+	/// Expected Args[1]: wasm file (rust_bindgen_funcs_lib.wasm))
+	
+	wasmedge.SetLogErrorLevel()
+	var conf = wasmedge.NewConfigure(wasmedge.WASI)
+	var vm = wasmedge.NewVMWithConfig(conf)
+	var wasi = vm.GetImportObject(wasmedge.WASI)
+	wasi.InitWasi(
+		os.Args[1:],     /// The args
+		os.Environ(),    /// The envs
+		[]string{&quot;.:.&quot;}, /// The mapping preopens
+	)
+	vm.LoadWasmFile(os.Args[1])
+	vm.Validate()
+
+	// Instantiate the bindgen and vm
+	bg := bindgen.Instantiate(vm)
+</code></pre>
+<p>Next, you can call any <code>[wasmedge_bindgen]</code> annotated functions in the VM
+via the <code>bindgen</code> object.</p>
+<pre><code class="language-go">	/// create_line: string, string, string -&gt; string (inputs are JSON stringified)	
+	res, err := bg.Execute(&quot;create_line&quot;, &quot;{\&quot;x\&quot;:2.5,\&quot;y\&quot;:7.8}&quot;, &quot;{\&quot;x\&quot;:2.5,\&quot;y\&quot;:5.8}&quot;, &quot;A thin red line&quot;)
+	if err == nil {
+		fmt.Println(&quot;Run bindgen -- create_line:&quot;, string(res))
+	} else {
+		fmt.Println(&quot;Run bindgen -- create_line FAILED&quot;, err)
+	}
+
+	/// say: string -&gt; string
+	res, err = bg.Execute(&quot;say&quot;, &quot;bindgen funcs test&quot;)
+	if err == nil {
+		fmt.Println(&quot;Run bindgen -- say:&quot;, string(res))
+	} else {
+		fmt.Println(&quot;Run bindgen -- say FAILED&quot;)
+	}
+
+	/// obfusticate: string -&gt; string
+	res, err = bg.Execute(&quot;obfusticate&quot;, &quot;A quick brown fox jumps over the lazy dog&quot;)
+	if err == nil {
+		fmt.Println(&quot;Run bindgen -- obfusticate:&quot;, string(res))
+	} else {
+		fmt.Println(&quot;Run bindgen -- obfusticate FAILED&quot;)
+	}
+
+	/// lowest_common_multiple: i32, i32 -&gt; i32
+	res, err = bg.Execute(&quot;lowest_common_multiple&quot;, int32(123), int32(2))
+	if err == nil {
+		num, _ := strconv.ParseInt(string(res), 10, 32)
+		fmt.Println(&quot;Run bindgen -- lowest_common_multiple:&quot;, num)
+	} else {
+		fmt.Println(&quot;Run bindgen -- lowest_common_multiple FAILED&quot;)
+	}
+
+	/// sha3_digest: array -&gt; array
+	res, err = bg.Execute(&quot;sha3_digest&quot;, []byte(&quot;This is an important message&quot;))
+	if err == nil {
+		fmt.Println(&quot;Run bindgen -- sha3_digest:&quot;, res)
+	} else {
+		fmt.Println(&quot;Run bindgen -- sha3_digest FAILED&quot;)
+	}
+
+	/// keccak_digest: array -&gt; array
+	res, err = bg.Execute(&quot;keccak_digest&quot;, []byte(&quot;This is an important message&quot;))
+	if err == nil {
+		fmt.Println(&quot;Run bindgen -- keccak_digest:&quot;, res)
+	} else {
+		fmt.Println(&quot;Run bindgen -- keccak_digest FAILED&quot;)
+	}
+
+	bg.Release()
+	vm.Release()
+	conf.Release()
+}
+</code></pre>
+<p>Finally, you can build and run the Go host application.</p>
+<pre><code class="language-bash">$ go build
+$ ./bindgen_funcs rust_bindgen_funcs_lib.wasm
+</code></pre>
+<p>The standard output of this example will be the following.</p>
+<pre><code class="language-bash">Run bindgen -- create_line: {&quot;points&quot;:[{&quot;x&quot;:1.5,&quot;y&quot;:3.8},{&quot;x&quot;:2.5,&quot;y&quot;:5.8}],&quot;valid&quot;:true,&quot;length&quot;:2.2360682,&quot;desc&quot;:&quot;A thin red line&quot;}
+Run bindgen -- say: hello bindgen funcs test
+Run bindgen -- obfusticate: N dhvpx oebja sbk whzcf bire gur ynml qbt
+Run bindgen -- lowest_common_multiple: 246
+Run bindgen -- sha3_digest: [87 27 231 209 189 105 251 49 159 10 211 250 15 159 154 181 43 218 26 141 56 199 25 45 60 10 20 163 54 211 195 203]
+Run bindgen -- keccak_digest: [126 194 241 200 151 116 227 33 216 99 159 22 107 3 177 169 216 191 114 156 174 193 32 159 246 228 245 133 52 75 55 27]
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pass-complex-parameters-to-wasm-functions"><a class="header" href="#pass-complex-parameters-to-wasm-functions">Pass complex parameters to Wasm functions</a></h1>
 <p>An issue with the WebAssembly spec is that it only supports a very limited
 number of data types. If you want to embed a WebAssembly function with 
@@ -4646,45 +4824,92 @@ fibArrayReturnMemory: [0 0 0 0 1 0 0 0 1 0 0 0 2 0 0 0 3 0 0 0 5 0 0 0 8 0 0 0 1
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tensorflow-2"><a class="header" href="#tensorflow-2">Tensorflow</a></h1>
 <p>In this section, we will show you how to create a Tensorflow inference
 function in Rust for image classification, and then embed it into 
-a Go application. The project source code is <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_Mobilenet">available here</a>.</p>
-<h2 id="rust-function-compiled-into-webassembly"><a class="header" href="#rust-function-compiled-into-webassembly">Rust function compiled into WebAssembly</a></h2>
-<p>The Rust function for image classification is <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_Mobilenet/rust_mobilenet/src/lib.rs">available here</a>.
-It utilizes the <a href="embed/go/../../dev/rust/tensorflow.html">WasmEdge Tensorflow extension API</a>.
-You can use the standard <code>Cargo</code> command to build it into a WebAssembly function.</p>
-<pre><code class="language-bash">$ cd go_Mobilenet/rust_mobilenet
+a Go application. The project source code is <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_TfliteFood">available here</a>.</p>
+<h2 id="rust-function-compiled-into-webassembly-1"><a class="header" href="#rust-function-compiled-into-webassembly-1">Rust function compiled into WebAssembly</a></h2>
+<p>The Rust function for image classification is <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_TfliteFood/rust_tflite_food/src/lib.rs">available here</a>.
+It utilizes the <a href="embed/go/../../dev/rust/tensorflow.html">WasmEdge Tensorflow extension API</a> as well as the <a href="embed/go/function.html">wasmedge_bindgen</a> for passing call parameters.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasmedge_bindgen]
+fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+    ... ...
+    let flat_img = image::imageops::thumbnail(&amp;img, 192, 192);
+
+    let model_data: &amp;[u8] = include_bytes!(&quot;lite-model_aiy_vision_classifier_food_V1_1.tflite&quot;);
+    let labels = include_str!(&quot;aiy_food_V1_labelmap.txt&quot;);
+
+    let mut session = wasmedge_tensorflow_interface::Session::new(
+        model_data,
+        wasmedge_tensorflow_interface::ModelType::TensorFlowLite,
+    );
+    session
+        .add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 192, 192, 3])
+        .run();
+    let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Softmax&quot;);
+    ... ...
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>You can use the standard <code>Cargo</code> command to build it into a WebAssembly function.</p>
+<pre><code class="language-bash">$ cd rust_tflite_food
 $ cargo build --target wasm32-wasi --release
-$ cp target/wasm32-wasi/release/rust_mobilenet.wasm ../
+$ cp target/wasm32-wasi/release/rust_tflite_food_lib.wasm ../
+$ cd ../
 </code></pre>
 <p>You can use our AOT compiler <code>wasmedgec</code> to instrument the WebAssembly file to make 
 it run much faster. <a href="embed/go/../../start/universal.html">Learn more</a>.</p>
-<pre><code class="language-bash">$ wasmedgec rust_mobilenet.wasm rust_mobilenet.wasm
+<pre><code class="language-bash">$ wasmedgec rust_tflite_food_lib.wasm rust_tflite_food_lib.wasm
 </code></pre>
 <h2 id="go-host-app"><a class="header" href="#go-host-app">Go host app</a></h2>
-<p>The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_Mobilenet/mobilenet.go">Go host app</a> source code shows how to instantiate a WasmEdge runtime with
+<p>The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_TfliteFood/tflite_food.go">Go host app</a> source code shows how to instantiate a WasmEdge runtime with
 the Tensorflow extension, and how to pass the image data to the Rust function
 in WasmEdge to run the inference.</p>
 <pre><code class="language-go">func main() {
-	/// Expected Args[0]: program name (./mobilenet)
-	/// Expected Args[1]: wasm or wasm-so file (rust_mobilenet.wasm)
-	/// Expected Args[2]: input image name (solvay.jpg)
+	/// Expected Args[0]: program name (./tflite_food)
+	/// Expected Args[1]: wasm file (rust_tflite_food_lib.wasm)
+	/// Expected Args[2]: input image name (food.jpg)
+
+	wasmedge.SetLogErrorLevel()
 
 	/// Set Tensorflow not to print debug info
 	os.Setenv(&quot;TF_CPP_MIN_LOG_LEVEL&quot;, &quot;3&quot;)
 	os.Setenv(&quot;TF_CPP_MIN_VLOG_LEVEL&quot;, &quot;3&quot;)
 
-	wh := host.NewHostWithTF(os.Args[1])
-	wh.Init()
+	var conf = wasmedge.NewConfigure(wasmedge.WASI)
+	var vm = wasmedge.NewVMWithConfig(conf)
+	var wasi = vm.GetImportObject(wasmedge.WASI)
+	wasi.InitWasi(
+		os.Args[1:],     /// The args
+		os.Environ(),    /// The envs
+		[]string{&quot;.:.&quot;}, /// The mapping preopens
+	)
+
+	/// Register WasmEdge-tensorflow
+	var tfobj = wasmedge.NewTensorflowImportObject()
+	var tfliteobj = wasmedge.NewTensorflowLiteImportObject()
+	vm.RegisterImport(tfobj)
+	vm.RegisterImport(tfliteobj)
+
+	/// Load and validate the wasm
+	vm.LoadWasmFile(os.Args[1])
+	vm.Validate()
+
+	// Instantiate the bindgen and vm
+	bg := bindgen.Instantiate(vm)
 
 	img, _ := ioutil.ReadFile(os.Args[2])
-	wh.Run(img)
-	
-	output, runErr := wh.ExecutionResult()
-	if runErr != nil {
-		fmt.Println(runErr)
-		return
+	if res, err := bg.Execute(&quot;infer&quot;, img); err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(string(res))
 	}
-	
-	fmt.Println(string(output))
+
+	bg.Release()
+	vm.Release()
+	conf.Release()
+	tfobj.Release()
+	tfliteobj.Release()
 }
 </code></pre>
 <h2 id="build-and-run"><a class="header" href="#build-and-run">Build and run</a></h2>
@@ -4693,23 +4918,20 @@ in WasmEdge to run the inference.</p>
 </blockquote>
 <p>The following command builds the Go host application
 with the WasmEdge Go SDK and its tensorflow extension.</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge
-$ go build -tags tensorflow
+<pre><code class="language-bash">$ go build -tags tensorflow
 </code></pre>
 <p>Now you can run the Go application. It calls the WebAssembly function in WasmEdge
 to run inference on the input image.</p>
-<pre><code class="language-bash">$ ./mobilenet rust_mobilenet.wasm grace_hopper.jpg
+<pre><code class="language-bash">$ ./tflite_food rust_tflite_food_lib.wasm food.jpg
 </code></pre>
 <p>The results are as follows.</p>
-<pre><code class="language-bash">Go: Args: [./mobilenet rust_mobilenet.wasm grace_hopper.jpg]
-RUST: Loaded image in ... 16.522151ms
-RUST: Resized image in ... 19.440301ms
-RUST: Parsed output in ... 285.83336ms
-RUST: index 653, prob 0.43212935
-RUST: Finished post-processing in ... 285.995153ms
-GO: Run -- infer: [&quot;military uniform&quot;,&quot;medium&quot;]
+<pre><code class="language-bash">Go: Args: [./tflite_food rust_tflite_food_lib.wasm food.jpg]
+It is very likely a Hot dog in the picture
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="embed-a-bindgen-function"><a class="header" href="#embed-a-bindgen-function">Embed a bindgen function</a></h1>
+<blockquote>
+<p>The <code>wasm_bindgen</code> approach discussed in this chapter is deprecated. We encourage you to check out the <a href="embed/go/function.html">wasmedge_bindgen</a> approach or to <a href="embed/go/memory.html">pass memory pointers directly</a> instead.</p>
+</blockquote>
 <p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_BindgenFuncs">this example</a>, we will demonstrate how to call a few simple WebAssembly functions from a Go app. The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">functions</a> are written in Rust, and require complex call parameters and return values. The <code>#[wasm_bindgen]</code> macro is needed for the compiler tools to auto-generate the correct code to pass call parameters from Go to WebAssembly.</p>
 <p>The WebAssembly spec only supports a few simple data types out of the box. It <a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">does not support</a> types such as string and array. In order to pass rich types in Go to WebAssembly, the compiler needs to convert them to simple integers. For example, it converts a string into an integer memory address and an integer length. The <code>wasm_bindgen</code> tool, embedded in <a href="embed/go/../../dev/rust/bindgen.html">rustwasmc</a>, does this conversion automatically.</p>
 <blockquote>
@@ -8492,7 +8714,7 @@ $ cargo build --target wasm32-wasi --release
 $ cp target/wasm32-wasi/release/hello_echo.wasm ..
 $ cd ..
 </code></pre>
-<h3 id="go-host-application"><a class="header" href="#go-host-application">Go host application</a></h3>
+<h3 id="go-host-application-1"><a class="header" href="#go-host-application-1">Go host application</a></h3>
 <p>Next, lets look into the <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/hello/main.go">Go host app</a>
 that executes the WebAssembly functions.
 The <code>runBundle()</code> function executes the <code>run()</code> function in the
@@ -8627,7 +8849,7 @@ $ cargo build --target wasm32-wasi --release
 $ cp target/wasm32-wasi/release/rs_db.wasm ..
 $ cd ..
 </code></pre>
-<h3 id="go-host-application-1"><a class="header" href="#go-host-application-1">Go host application</a></h3>
+<h3 id="go-host-application-2"><a class="header" href="#go-host-application-2">Go host application</a></h3>
 <p>The <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/db/main.go">Go host app</a>
 first defines the SQL queries and gives each of them a name.
 We will then pass those queries to the Reactr runtime as a configuration.</p>
@@ -8718,7 +8940,7 @@ A simple example of embedded JavaScript function in Reactr is <a href="https://g
 let w = 'wasmedge';
 `${h} ${w}`;
 </code></pre>
-<h3 id="go-host-application-2"><a class="header" href="#go-host-application-2">Go host application</a></h3>
+<h3 id="go-host-application-3"><a class="header" href="#go-host-application-3">Go host application</a></h3>
 <p>The <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs/main.go">Go host app</a> uses the Reactr API to run WasmEdge's standard JavaScript
 interpreter <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/quickjs/rs_embed_js.wasm">rs_embed_js.wasm</a>. You can build your own version of 
 JavaScript interpreter by modifying <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs/rs-embed-js">this Rust project</a>.</p>

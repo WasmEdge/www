@@ -152,45 +152,92 @@
                         <h1 id="tensorflow"><a class="header" href="#tensorflow">Tensorflow</a></h1>
 <p>In this section, we will show you how to create a Tensorflow inference
 function in Rust for image classification, and then embed it into 
-a Go application. The project source code is <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_Mobilenet">available here</a>.</p>
+a Go application. The project source code is <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_TfliteFood">available here</a>.</p>
 <h2 id="rust-function-compiled-into-webassembly"><a class="header" href="#rust-function-compiled-into-webassembly">Rust function compiled into WebAssembly</a></h2>
-<p>The Rust function for image classification is <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_Mobilenet/rust_mobilenet/src/lib.rs">available here</a>.
-It utilizes the <a href="../../dev/rust/tensorflow.html">WasmEdge Tensorflow extension API</a>.
-You can use the standard <code>Cargo</code> command to build it into a WebAssembly function.</p>
-<pre><code class="language-bash">$ cd go_Mobilenet/rust_mobilenet
+<p>The Rust function for image classification is <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_TfliteFood/rust_tflite_food/src/lib.rs">available here</a>.
+It utilizes the <a href="../../dev/rust/tensorflow.html">WasmEdge Tensorflow extension API</a> as well as the <a href="function.html">wasmedge_bindgen</a> for passing call parameters.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasmedge_bindgen]
+fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
+    ... ...
+    let flat_img = image::imageops::thumbnail(&amp;img, 192, 192);
+
+    let model_data: &amp;[u8] = include_bytes!(&quot;lite-model_aiy_vision_classifier_food_V1_1.tflite&quot;);
+    let labels = include_str!(&quot;aiy_food_V1_labelmap.txt&quot;);
+
+    let mut session = wasmedge_tensorflow_interface::Session::new(
+        model_data,
+        wasmedge_tensorflow_interface::ModelType::TensorFlowLite,
+    );
+    session
+        .add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 192, 192, 3])
+        .run();
+    let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Softmax&quot;);
+    ... ...
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>You can use the standard <code>Cargo</code> command to build it into a WebAssembly function.</p>
+<pre><code class="language-bash">$ cd rust_tflite_food
 $ cargo build --target wasm32-wasi --release
-$ cp target/wasm32-wasi/release/rust_mobilenet.wasm ../
+$ cp target/wasm32-wasi/release/rust_tflite_food_lib.wasm ../
+$ cd ../
 </code></pre>
 <p>You can use our AOT compiler <code>wasmedgec</code> to instrument the WebAssembly file to make 
 it run much faster. <a href="../../start/universal.html">Learn more</a>.</p>
-<pre><code class="language-bash">$ wasmedgec rust_mobilenet.wasm rust_mobilenet.wasm
+<pre><code class="language-bash">$ wasmedgec rust_tflite_food_lib.wasm rust_tflite_food_lib.wasm
 </code></pre>
 <h2 id="go-host-app"><a class="header" href="#go-host-app">Go host app</a></h2>
-<p>The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_Mobilenet/mobilenet.go">Go host app</a> source code shows how to instantiate a WasmEdge runtime with
+<p>The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_TfliteFood/tflite_food.go">Go host app</a> source code shows how to instantiate a WasmEdge runtime with
 the Tensorflow extension, and how to pass the image data to the Rust function
 in WasmEdge to run the inference.</p>
 <pre><code class="language-go">func main() {
-	/// Expected Args[0]: program name (./mobilenet)
-	/// Expected Args[1]: wasm or wasm-so file (rust_mobilenet.wasm)
-	/// Expected Args[2]: input image name (solvay.jpg)
+	/// Expected Args[0]: program name (./tflite_food)
+	/// Expected Args[1]: wasm file (rust_tflite_food_lib.wasm)
+	/// Expected Args[2]: input image name (food.jpg)
+
+	wasmedge.SetLogErrorLevel()
 
 	/// Set Tensorflow not to print debug info
 	os.Setenv(&quot;TF_CPP_MIN_LOG_LEVEL&quot;, &quot;3&quot;)
 	os.Setenv(&quot;TF_CPP_MIN_VLOG_LEVEL&quot;, &quot;3&quot;)
 
-	wh := host.NewHostWithTF(os.Args[1])
-	wh.Init()
+	var conf = wasmedge.NewConfigure(wasmedge.WASI)
+	var vm = wasmedge.NewVMWithConfig(conf)
+	var wasi = vm.GetImportObject(wasmedge.WASI)
+	wasi.InitWasi(
+		os.Args[1:],     /// The args
+		os.Environ(),    /// The envs
+		[]string{&quot;.:.&quot;}, /// The mapping preopens
+	)
+
+	/// Register WasmEdge-tensorflow
+	var tfobj = wasmedge.NewTensorflowImportObject()
+	var tfliteobj = wasmedge.NewTensorflowLiteImportObject()
+	vm.RegisterImport(tfobj)
+	vm.RegisterImport(tfliteobj)
+
+	/// Load and validate the wasm
+	vm.LoadWasmFile(os.Args[1])
+	vm.Validate()
+
+	// Instantiate the bindgen and vm
+	bg := bindgen.Instantiate(vm)
 
 	img, _ := ioutil.ReadFile(os.Args[2])
-	wh.Run(img)
-	
-	output, runErr := wh.ExecutionResult()
-	if runErr != nil {
-		fmt.Println(runErr)
-		return
+	if res, err := bg.Execute(&quot;infer&quot;, img); err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(string(res))
 	}
-	
-	fmt.Println(string(output))
+
+	bg.Release()
+	vm.Release()
+	conf.Release()
+	tfobj.Release()
+	tfliteobj.Release()
 }
 </code></pre>
 <h2 id="build-and-run"><a class="header" href="#build-and-run">Build and run</a></h2>
@@ -199,21 +246,15 @@ in WasmEdge to run the inference.</p>
 </blockquote>
 <p>The following command builds the Go host application
 with the WasmEdge Go SDK and its tensorflow extension.</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge
-$ go build -tags tensorflow
+<pre><code class="language-bash">$ go build -tags tensorflow
 </code></pre>
 <p>Now you can run the Go application. It calls the WebAssembly function in WasmEdge
 to run inference on the input image.</p>
-<pre><code class="language-bash">$ ./mobilenet rust_mobilenet.wasm grace_hopper.jpg
+<pre><code class="language-bash">$ ./tflite_food rust_tflite_food_lib.wasm food.jpg
 </code></pre>
 <p>The results are as follows.</p>
-<pre><code class="language-bash">Go: Args: [./mobilenet rust_mobilenet.wasm grace_hopper.jpg]
-RUST: Loaded image in ... 16.522151ms
-RUST: Resized image in ... 19.440301ms
-RUST: Parsed output in ... 285.83336ms
-RUST: index 653, prob 0.43212935
-RUST: Finished post-processing in ... 285.995153ms
-GO: Run -- infer: [&quot;military uniform&quot;,&quot;medium&quot;]
+<pre><code class="language-bash">Go: Args: [./tflite_food rust_tflite_food_lib.wasm food.jpg]
+It is very likely a Hot dog in the picture
 </code></pre>
 
                     </main>
