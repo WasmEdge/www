@@ -1,324 +1,378 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
-    <meta name="description" content="WasmEdge Runtime">
-    <title>WasmEdge Runtime</title>
-    <link href="/res/normalize.css" rel="stylesheet">
-    <link href="/res/index.css" rel="stylesheet">
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q77VSJHYQB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<!doctype html>
+<html class="no-js" lang="">
 
-  gtag('config', 'G-Q77VSJHYQB');
-</script>
-</script>
-  </head>
-  <body>
-    <header>
-      <h1>
-        <!-- <img src="/assets/oasiseth.png" /> -->
-        <span>WasmEdge Runtime</span>
-      </h1>
+<head>
+	<meta charset="utf-8">
+	<title>WasmEdge</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-      <div class="menu" onClick="document.querySelector('.top-nav').style.display='flex';">
-        <svg viewBox="0 0 32 32">
-          <path d="M2 6h28v6h-28zM2 14h28v6h-28zM2 22h28v6h-28z" fill="#454545"></path>
-        </svg>
-      </div>
-      <nav class="top-nav">
-        <a class="indep" href="https://wasmedge.org/book/en/">Tutorials</a>
-        <a class="indep" href="#features">Features</a>
-        <a class="indep" href="#usecases">Use cases</a>
-	<a class="indep" href="https://github.com/WasmEdge/WasmEdge">Github</a>
-        <div class="close" onClick="document.querySelector('.top-nav').style.display='none';">&times;</div>
-      </nav>
-    </header>
+	<meta property="og:title" content="">
+	<meta property="og:type" content="">
+	<meta property="og:url" content="">
+	<meta property="og:image" content="img/wasmedge-runtime-horizontal-color.png">
 
-    <section>
-      <div class="slogan">A cloud native WebAssembly runtime for edge computing</div>
-      <div class="sub-title"><p>WasmEdge enables serverless functions to be embedded into any software platforms from cloud's edge to SaaS to automobiles!</div>
-      <!-- <div class="power-by"><p style="color:darkorange">Join our <a href="https://oasisprotocol.org/second-state-competition">developer hackathon</a> to <a href="https://docs.secondstate.io/oasis-network-ethereum-runtime/oasis-second-state-hackathon">get started</a> with Oasis Ethereum ParaTime application development and get 50 ROSE tokens!</p></div> -->
-      
-      <div class="links center">
-        <a href="https://github.com/WasmEdge/WasmEdge" class="anchor">Github</a>
-        <a href="https://github.com/second-state/wasmedge-nodejs-starter/fork" class="btn">Node.js template</a>
-        <a href="https://www.secondstate.io/articles/getting-started-with-function-as-a-service-in-rust/" class="btn">Rust function-as-a-service</a>
-        <a href="https://wasmedge.org/book/en/" class="btn">Tutorials</a>
-      </div>
-      <div class="news-cards-wrapper">
-	<div class="news-cards">
-          <div class="news-card">
-            <a href="https://www.secondstate.io/articles/wasmedge-0.9.0-release/">
-              <div class="news-intro">
-                <p>🎅 Ho Ho Ho, WasmEdge 0.9.0 is here!</p>
-              </div>
-              <div class="news-icon" style="background-color:#efda47;">
-                <img width="40" src="/assets/news/tutorial.png" />
-              </div>
-            </a>
-          </div>
-          <div class="news-card">
-            <a href="https://www.freecodecamp.org/news/create-a-serverless-meme-as-a-service/">
-              <div class="news-intro">
-                <p>How to Create a Serverless Meme-as-a-Service</p>
-              </div>
-              <div class="news-icon" style="background-color:#efda47;">
-                <img width="40" src="/assets/news/tutorial.png" />
-              </div>
-            </a>
-          </div>
-          <div class="news-card">
-            <a href="https://dev.to/alabulei1/how-to-call-rust-funtion-in-node-js-p36">
-              <div class="news-intro">
-                <p>How to call Rust functions from Node.js</p>
-              </div>
-              <div class="news-icon" style="background-color:#efda47;">
-                <img width="40" src="/assets/news/tutorial.png" />
-              </div>
-            </a>
-          </div>
-          <div class="news-card">
-            <a href="https://www.infoq.com/news/2020/07/future-serverless-architecture/">
-              <div class="news-intro">
-                <p>Serverless Days 2020 Looks at Future of Serverless Architecture</p>
-              </div>
-              <div class="news-icon" style="background-color:#efda47;">
-                <img width="40" src="/assets/news/event.png" />
-              </div>
-            </a>
-          </div>
-	  <div class="news-card">
-            <a href="https://www.secondstate.io/articles/manage-webassembly-apps-in-wasmedge-using-docker-tools/">
-              <div class="news-intro">
-                <p>Manage WebAssembly Apps in WasmEdge Using Docker Tools</p>
-              </div>
-              <div class="news-icon" style="background-color:#efda47;">
-                <img width="40" src="/assets/news/event.png" />
-              </div>
-            </a>
-          </div>
-          <div class="news-card">
-            <a href="https://hackernoon.com/polkadot-to-get-webassembly-based-ethereum-virtual-machine-ewasm-from-second-state-mg9932ts">
-              <div class="news-intro">
-                <p>Polkadot To Get WebAssembly-based Ethereum Virtual Machine (ewasm) from Second State</p>
-              </div>
-              <div class="news-icon" style="background-color:#efda47;">
-                <img width="40" src="/assets/news/announcement.png" />
-              </div>
-            </a>
-          </div>
-	  <div class="news-card">
-            <a href="https://www.secondstate.io/articles/wasmedge-0.8.2-release/">
-              <div class="news-intro">
-                <p>😎 WasmEdge 0.8.2 is released. Networking support, Rust SDK, better compatibility and more.</p>
-              </div>
-              <div class="news-icon" style="background-color:#efda47;">
-                <img width="40" src="/assets/news/event.png" />
-              </div>
-            </a>
-          </div>
-	  <div class="news-card">
-            <a href="https://www.secondstate.io/articles/run-javascript-in-webassembly-with-wasmedge/">
-              <div class="news-intro">
-                <p>Run JavaScript in WebAssembly with WasmEdge</p>
-              </div>
-              <div class="news-icon" style="background-color:#efda47;">
-                <img width="40" src="/assets/news/event.png" />
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <script type="application/javascript">
-      const cards = document.querySelector('.news-cards')
-      const cardsHtml = cards.innerHTML
-      cards.innerHTML = cardsHtml + cardsHtml + cardsHtml
-    </script>
+	<link rel="manifest" href="site.webmanifest">
+	<link rel="apple-touch-icon" href="icon.png">
 
-    <hr/>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/font.css">
+	<link rel="stylesheet" href="css/layout.css">
+	<link rel="stylesheet" href="css/index.css">
 
-    <section>
-      <h2><a name="usecases">Use cases</a></h2>
-      <div class="adv">
-        <div class="adv-card" style="width:49%;">
-          <h3>Jamstack apps</h3>
-          <div class="adv-desc">High performance web applications with decoupled static frontends and serverless backends on edge clouds.</div>
-        </div>
-        <div class="adv-card" style="width:49%;">
-          <h3>SaaS reactors</h3>
-          <div class="adv-desc">Embed user-contributed functions into SaaS platforms to customize the SaaS's behavior for its users.</div>
-        </div>
-        <div class="adv-card">
-          <h3>Automobiles</h3>
-          <div class="adv-desc">A mission critical runtime to make Software Defined Vehicles safe, open, and efficient.</div>
-        </div>
-        <div class="adv-card">
-          <h3>Blockchains</h3>
-          <div class="adv-desc">An Ethereum compatible smart contract runtime engine for next-gen public blockchains.</div>
-        </div>
-        <div class="adv-card">
-          <h3>IoT and stream processing</h3>
-          <div class="adv-desc">Plug user defined functions into a stream data processor to handle data events at real time.</div>
-        </div>
-      </div>
-    </section>
-    
-    <hr/>
-    
-    <section>
-      <h2><a name="features">Features</a></h2>
-      <div class="uni-on-oasis">
-        <div class="uni-step">
-          <h3>1. <span>Very fast</span></h3>
-          <div class="uni-step-desc">Especially at startup (up to 100x faster)</div>
-        </div>
-        <div class="uni-step">
-          <h3>2. <span>AOT optimization</span></h3>
-          <div class="uni-step-desc">Delivers "faster than native" performance</div>
-        </div>
-        <div class="uni-step">
-          <h3>3. <span>Small footprint</span></h3>
-          <div class="uni-step-desc">Consumes less than 5MB of memory space</div>
-        </div>
-      </div>
+	<meta name="theme-color" content="#fafafa">
 
-      <div class="uni-on-oasis">
-        <div class="uni-step">
-          <h3>4. <span>Portable</span></h3>
-          <div class="uni-step-desc">Across OS and CPU platforms, including RTOS</div>
-        </div>
-        <div class="uni-step">
-          <h3>5. <span>Capability-based security</span></h3>
-          <div class="uni-step-desc">Allows computing tasks controlled access to resources</div>
-        </div>
-        <div class="uni-step">
-          <h3>6. <span>AI inference</span></h3>
-          <div class="uni-step-desc">Supports hardware accelerated Tensorflow</div>
-        </div>
-      </div>
+	<script src="js/pre.js"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q77VSJHYQB"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	
+	  gtag('config', 'G-Q77VSJHYQB');
+	</script>
+</head>
 
-      <div class="uni-on-oasis">
-        <div class="uni-step">
-          <h3>7. <span>Embeddable</span></h3>
-          <div class="uni-step-desc">Easily embeddable into JavaScript, Golang, and other host apps</div>
-        </div>
-        <div class="uni-step">
-          <h3>8. <span>Manageability</span></h3>
-          <div class="uni-step-desc">Can be provisioned and managed by Kubernetes</div>
-        </div>
-        <div class="uni-step">
-          <h3>9. <span>Smart contracts</span></h3>
-          <div class="uni-step-desc">Supports major blockchain protocols, including next-gen Ethereum</div>
-        </div>
-      </div>
-    </section>
-    
-    <hr/>
+<body>
+	<nav class="fixed z-9">
+		<div class="dimmed flex justify-between items-center">
+			<a href="https://wasmedge.org">
+				<figure class="nav-logo">
+					<img src="img/wasmedge-horizontal-white.svg" alt="WasmEdge Logo" />
+				</figure>
+			</a>
+			<div class="nav-menu">
+				<a href="https://wasmedge.org/book/en/" class="nav-menu-item">Docs</a>
+				<a href="#community" class="nav-menu-item">Community</a>
+				<a href="https://github.com/WasmEdge/WasmEdge" class="nav-menu-item">GitHub</a>
+			</div>
+		</div>
+	</nav>
 
-    <section>
-      <h2><a name="tutorials">Tutorials</a></h2>
-      <div class="links">
-          <a href="https://wasmedge.org/book/en/" class="btn">WasmEdge Book</a>
-      </div>
-      <div class="buidl-guide">
-        <div class="steps">
-          <div class="buidl-step" onclick="location.href='https://www.secondstate.io/articles/getting-started-with-rust-function/';">Learn to create and deploy your first Rust function as a microservice in Node.js. It runs inside a Second State WebAssembly VM for safety, portability and speed. <a href="https://www.secondstate.io/articles/getting-started-with-rust-function/">Learn more</a></div>
-          <div class="buidl-step" onclick="location.href='https://www.secondstate.io/articles/rust-functions-in-nodejs/';">You can pass any data type between JavaScript and Rust functions running in WasmEdge. In some cases, you will need to rely on JSON to encapsulate values. <a href="https://www.secondstate.io/articles/rust-functions-in-nodejs/">Learn more</a></div>
-          <div class="buidl-step" onclick="location.href='https://www.secondstate.io/articles/machine-learning/';">The high-performance WasmEdge is well suited to run computationally intensive web services, such as data processing and machine learning services. <a href="https://www.secondstate.io/articles/machine-learning/">Learn more</a></div>
-        </div>
-        <div class="steps">
-          <div class="buidl-step" onclick="location.href='https://www.secondstate.io/articles/wasi-access-system-resources/';">WasmEdge supports the WebAssembly System Interface (WASI). It allows bytecode programs to access system resources such as the random seed, standard I/O, and the file system. <a href="https://www.secondstate.io/articles/wasi-access-system-resources/">Learn more</a></div>
-          <div class="buidl-step" onclick="location.href='https://www.secondstate.io/articles/wasi-tensorflow/';">WasmEdge provides a Rust API for Tensorflow. By calling Tensorflow functions through WASI, it could boost AI performance by 1000x compared with regular WASM byecodes. <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Learn more</a></div>
-          <div class="buidl-step" onclick="location.href='https://www.secondstate.io/articles/command-process/';">WasmEdge provides a Rust API to safely call native programs. The native program is typically a thin wrapper around a native library. <a href="https://www.secondstate.io/articles/command-process/">Learn more</a></div>
-        </div>
-      </div>
-    </section>
+	<div class="hero full relative z-2">
+		<figure class="cloud absolute flex justify-center">
+			<img src="img/cloud.svg" />
+		</figure>
+		<div class="dimmed glimpse relative">
+			<h1>WasmEdge</h1>
+			<div class="slogan">An open source cloud native WebAssembly Runtime for edge computing.</div>
+			<div class="hero-btns flex">
+				<a href="https://wasmedge.org/book/en/" class="btn">Get Started</a>
+				<a href="https://github.com/WasmEdge/WasmEdge" class="btn wire-btn">Github</a>
+			</div>
+		</div>
 
-    <hr/>
+		<div class="dimmed dimmer brief flex justify-between relative">
+			<div class="wasm-snippet flex relative m:items-center">
+				<div class="wasm-snippet-trail">
+					<pre><code>(module
+(type (;0;) (func (param i32) (result i32)))
+(func $fib (type 0) (param $n i32) (result i32)
+	local.get $n
+	i32.const 2
+	i32.lt_s
+	if  ;; label = @1
+		i32.const 1
+		return
+	end
+	local.get $n
+	i32.const 2
+	i32.sub
+	call $fib
+	local.get $n
+	i32.const 1
+	i32.sub
+	call $fib
+	i32.add
+	return)
+(export "fib" (func $fib)))</code></pre>
+				</div>
+				<figure class="snippet-trail-line absolute">
+					<img src="img/trail-line.svg" />
+				</figure>
+			</div>
 
-    <!--
-    <section>
-      <h2>Ethereum compatibility</h2>
-      <div class="compatibility">
-        <div class="icons">
-          <a href="https://uniswap.org/"><img src="/assets/uniswap-2.png" style="width: 90px;" /></a>
-          <a href="https://ethereum.org/"><img src="/assets/ethereum.png" style="width: 90px;"/></a>
-          <a href="https://remix.ethereum.org/"><img src="/assets/remix.png" style="width: 90px;" /></a>
-          <a href="https://www.trufflesuite.com/"><img src="/assets/truffle.png" style="width: 60px;" /></a>
-          <a href="https://metamask.io/"><img src="/assets/metamask.png" style="width: 160px;" /></a>
-          <a href="https://solidity.readthedocs.io/"><img src="/assets/solidity.png" style="width: 36px;" /></a>
-          <a href="https://vyper.readthedocs.io/"><img src="/assets/vyper.png" style="width: 50px;" /></a>
-          <a href="https://web3js.readthedocs.io/"><img src="/assets/web3.png" style="width: 70px;" /></a>
-          <a href="https://brave.com/"><img src="/assets/brave-lion.png" style="width: 50px;" /></a>
-          <a href="https://www.secondstate.io/buidl/"><img src="/assets/buidl.png" style="width: 70px;" /></a>
-        </div>
-      </div>
-    </section>
-    -->
+			<div class="explain-icon flex flex-col items-end">
+				<figure class="wasmedge-in-cloud">
+					<img src="img/wasmedge-in-cloud.svg" />
+				</figure>
+				<div class="explain-text ">
+					<p>The WebAssembly program can be compiled from multi-language and embeded in many edge devices with small footprint, high performance, memory safety, sandbox securty.</p>
+					<p>WasmEdge is responsible for ensuring its performance and securty and providing many exclusive extensions and APIs.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <section>
-      <div class="compatibility">
-	<center>
-          <h2>WasmEdge is a Cloud Native Computing Foundation Sandbox project.</h2>
-	  <img width="80%" src="https://raw.githubusercontent.com/cncf/artwork/master/other/cncf/horizontal/color/cncf-color.png"/>
-	</center>
-      </div>
-    </section>
- 
-    <!--
-    <section>
-      <h2><a name="social">Join Our Community</a></h2>
-      <div class="social">
-        <div class="icons">
-          <a href="#"><img src="/assets/twitter.png" /></a>
-          <a href="#"><img src="/assets/facebook.png"/></a>
-          <a href="#"><img src="/assets/discord.png" /></a>
-          <a href="#"><img src="/assets/telegram.jpg" /></a>
-        </div>
-      </div>
-    </section>
-    -->
-	  
-    <hr/>
+	<div class="features full flex">
+		<div class="features-catalog-bg m:hide p:hide">
+			<div class="features-catalog sticky flex justify-center items-center">
+				<ul>
+					<li class="active"><a href="#feature-aot">High-performance(based on LLVM AOT)</a></li>
+					<li><a href="#feature-extension">WASI-like Extensions</a></li>
+					<li><a href="#feature-javascript">JavaScript Support</a></li>
+					<li><a href="#feature-management">Cloud Native Management and Orchestration</a></li>
+					<li><a href="#feature-platform">Cross-platform Support</a></li>
+					<li><a href="#feature-extensible"></a>Easy Extensibility</li>
+					<li><a href="#feature-embed">Easy to Embed into a Host Application</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="features-content m:hide  p:hide">
+			<div id="feature-aot" class="feature-detail flex justify-center items-center">
+				<div>
+					<p>Wasm is faster 100 times than Linux container at cold start-up time.</p>
+					<p>WasmEdge could be faster 10%-20% than native code.</p>
+				</div>
+			</div>
+			<div id="feature-extension" class="feature-detail flex justify-center items-center">
+				<ul>
+					<li>Network sockets</li>
+					<li>Async polling</li>
+					<li>Tensorflow inference</li>
+					<li>Key value storage</li>
+					<li>Database connector</li>
+					<li>Gas meters for resource constraints</li>
+				</ul>
+			</div>
+			<div id="feature-javascript" class="feature-detail flex justify-center items-center">
+				<ul>
+					<li>ES6 module and std API support</li>
+					<li>Implement JS APIs in Rust</li> 
+					<li>Import C native shared library functions as JS function</li>
+				</ul>
+			</div>
+			<div id="feature-management" class="feature-detail flex justify-center items-center">
+				<ul>
+					<li>CRI-O and Kubernetes compatibility</li>
+					<li>Sidecar apps in Kubernetes-based service meshes</li>
+					<li>Dapr microservices</li>
+				</ul>
+			</div>
+			<div id="feature-platform" class="feature-detail flex justify-center items-center">
+				<ul>
+					<li>Linux OSes dated back to 2010 for both x86 and ARM CPUs</li>
+					<li>Mac OS X for both x86 and m1 CPUs</li>
+					<li>Windows</li>
+					<li>Microkernel and RTOS</li>
+				</ul>
+			</div>
+			<div id="feature-extensible" class="feature-detail flex justify-center items-center">
+				<p>Build customized runtimes with native functions in C or GO</p>
+			</div>
+			<div id="feature-embed" class="feature-detail flex justify-center items-center">
+				<ul>
+					<li>Embed WasmEdge functions in C, Go, Rust, Node.js and Python host applications</li>
+					<li>Embedded function runtime for service mesh proxies (e.g., proxy-wasm for Envoy and MOSN proxies)</li>
+				</ul>
+			</div>
+		</div>
 
-    <footer>
-      <div class="column" style="width:30%">
-        <p>
-          <span>Copyright © 2021 The WasmEdge Authors. All rights reserved. The Linux Foundation has registered trademarks and uses trademarks. For a list of trademarks of The Linux Foundation, please see our <a href="https://www.linuxfoundation.org/trademark-usage">Trademark Usage page</a></span>
-        </p>
-      </div>
-      <div class="column">
-        <h4>Partners</h4>
-        <div class="partner">
-          <a href="https://linuxfoundation.org/">Linux Foundation</a>
-	  <a href="https://www.cncf.io/">CNCF</a>
-          <a href="https://www.secondstate.io/"><img src="/assets/second-state.png" /></a>
-        </div>
-      </div>
-	    
-    <div class="column anchors">
-        <h4>Community</h4>
-        	<div><a class="indep" href="https://twitter.com/realwasmedge">Twitter</a></div>
-        	<div><a class="indep" href="https://slack.cncf.io/">Slack #WasmEdge</a></div>
-        	<div><a class="indep" href="https://github.com/WasmEdge">Github</a></div>
-        	<div><a class="indep" href="https://groups.google.com/g/wasmedge/">Mailing List</a></div>
-    </div>
-      <!--
-      <div class="column anchors">
-        <h4>Resources</h4>
-        <div><a class="indep" href="http://scan.oasiseth.org/">Block Explorer</a></div>
-        <div><a class="indep" href="http://faucet.oasiseth.org/">OETH Faucet</a></div>
-        <div><a class="indep" href="https://www.oasiseth.org/dev">BUIDL for Oasis Ethereum</a></div>
-      </div>
-      
-      
-      -->
-    </footer>
-  </body>
+		<div class="m-features-gallery hide m:show p:show dimmed m:flex p:flex m:flex-wrap p:flex-wrap m:justify-center p:justify-around">
+			<div class="m-feature-frame">
+				<div class="m-feature-title">High-performance(based on LLVM AOT)</div>
+				<div class="m-feature-detail">
+					<p>Wasm is faster 100 times than Linux container at cold start-up time.</p>
+					<p>WasmEdge could be faster 10%-20% than native code.</p>
+				</div>
+			</div>
+			<div class="m-feature-frame">
+				<div class="m-feature-title">WASI-like Extensions</div>
+				<div class="m-feature-detail">
+					<ul>
+						<li>Network sockets</li>
+						<li>Async polling</li>
+						<li>Tensorflow inference</li>
+						<li>Key value storage</li>
+						<li>Database connector</li>
+						<li>Gas meters for resource constraints</li>
+					</ul>
+				</div>
+			</div>
+			<div class="m-feature-frame">
+				<div class="m-feature-title">JavaScript Support</div>
+				<div class="m-feature-detail">
+					<ul>
+						<li>ES6 module and std API support</li>
+						<li>Implement JS APIs in Rust</li> 
+						<li>Import C native shared library functions as JS function</li>
+					</ul>
+				</div>
+			</div>
+			<div class="m-feature-frame">
+				<div class="m-feature-title">Cloud Native Management and Orchestration</div>
+				<div class="m-feature-detail">
+					<ul>
+						<li>CRI-O and Kubernetes compatibility</li>
+						<li>Sidecar apps in Kubernetes-based service meshes</li>
+						<li>Dapr microservices</li>
+					</ul>
+				</div>
+			</div>
+			<div class="m-feature-frame">
+				<div class="m-feature-title">Cross-platform Support</div>
+				<div class="m-feature-detail">
+					<ul>
+						<li>Linux OSes dated back to 2010 for both x86 and ARM CPUs</li>
+						<li>Mac OS X for both x86 and m1 CPUs</li>
+						<li>Windows</li>
+						<li>Microkernel and RTOS</li>
+					</ul>
+				</div>
+			</div>
+			<div class="m-feature-frame">
+				<div class="m-feature-title">Easy Extensibility</div>
+				<div class="m-feature-detail">
+					<p>Build customized runtimes with native functions in C or GO</p>
+				</div>
+			</div>
+			<div class="m-feature-frame">
+				<div class="m-feature-title">Easy to Embed into a Host Application</div>
+				<div class="m-feature-detail">
+					<ul>
+						<li>Embed WasmEdge functions in C, Go, Rust, Node.js and Python host applications</li>
+						<li>Embedded function runtime for service mesh proxies (e.g., proxy-wasm for Envoy and MOSN proxies)</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="partners full">
+		<div class="dimmed">
+			<div class="partner-text">WasmEdge provides a lightweight, fast, safe and portable alternative to Linux containers in cloud native and edge native environments. </div>
+
+			<div class="parterns-gallery flex justify-between items-center m:flex-wrap m:justify-around">
+				<figure>
+					<img src="img/partner/openyurt@2x.png" alt="OpenYurt" />
+				</figure>
+				<figure>
+					<img src="img/partner/kubeedge@2x.png" alt="KubeEdge" />
+				</figure>
+				<figure>
+					<img src="img/partner/superedge@2x.png" alt="SuperEdge" />
+				</figure>
+				<figure>
+					<img src="img/partner/mosn@2x.png" alt="MOSN" />
+				</figure>
+			</div>
+			<div class="parterns-gallery flex justify-between items-center m:flex-wrap m:justify-around">
+				<figure>
+					<img src="img/partner/suborbital@2x.png" alt="Suborbital" />
+				</figure>
+				<figure>
+					<img src="img/partner/cri-o@2x.png" alt="cri-o" />
+				</figure>
+				<figure>
+					<img src="img/partner/k8s@2x.png" alt="Kubernetes" />
+				</figure>
+				<figure>
+					<img src="img/partner/dapr@2x.png" alt="Dapr" />
+				</figure>
+			</div>
+			<div class="parterns-gallery flex justify-around items-center m:flex-wrap m:justify-around">
+				<figure>
+					<img src="img/partner/containerd@2x.png" alt="Containerd" />
+				</figure>
+				<figure>
+					<img src="img/partner/fedora@2x.png" alt="Fedora" />
+				</figure>
+			</div>
+		</div>
+	</div>
+
+	<div class="fulfill full">
+		<div class="dimmed">
+			<h2>Let’s get started</h2>
+			<div class="fulfill-content">
+				<p>You can install WasmEdge with only <a href="https://wasmedge.org/book/en/start/install.html">one single command</a> :</p>
+				<div class="wasmedge-install-command">
+					<code>wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash</code>
+				</div>
+				<p>Want to explore more with WasmEdge, Go to the  <a href="https://wasmedge.org/book/en/">WasmEdge Book</a> .</p>
+				<p>Or embed WasmEdge into the language of your choice and run WebAssembly everywhere :</p>
+				<div class="wasmedge-sdk-lang flex">
+					<a href="https://wasmedge.org/book/en/embed/c.html">C/C<span>++</span></a>
+					<a href="https://wasmedge.org/book/en/embed/rust.html">Rust</a>
+					<a href="https://wasmedge.org/book/en/embed/go.html">Go</a>
+					<a href="https://wasmedge.org/book/en/embed/node.html">Javascript</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="news full">
+		<div class="dimmed">
+			<h2>News & Events</h2>
+			<dl class="news-layout flex justify-between m:flex-col">
+				<div class="news-article">
+					<dd class="article-date">Dec 9, 2021</dd>
+					<dt class="article-title">🎅 Ho Ho Ho, WasmEdge 0.9.0 is here!</dt>
+					<dd class="article-summary">This release of WasmEdge is focused on performance, stability, and interoperability with cloud native infrastructure. </dd>
+					<dd class="article-link"><a href="https://www.secondstate.io/articles/wasmedge-0.9.0-release/">Learn more</a></dd>
+				</div>
+				<div class="news-article">
+					<dd class="article-date">Dec 20, 2021</dd>
+					<dt class="article-title">Suborbital ❤️ WasmEdge</dt>
+					<dd class="article-summary">The WasmEdge team is happy to announce that WasmEdge Runtime is now fully supported in Suborbital's Reactr function scheduler as an embedded WebAssembly engine!</dd>
+					<dd class="article-link"><a href="https://blog.suborbital.dev/suborbital-wasmedge">Learn more</a></dd>
+				</div>
+				<div class="news-article">
+					<dd class="article-date">Oct 9, 2021</dd>
+					<dt class="article-title">A lightweight, safe, portable, and high-performance runtime for Dapr</dt>
+					<dd class="article-summary">Using WasmEdge as a sidecar application runtime for Dapr.</dd>
+					<dd class="article-link"><a href="https://www.secondstate.io/articles/dapr-wasmedge-webassembly/">Learn more</a></dd>
+				</div>
+			</dl>
+		</div>
+	</div>
+
+	<div class="cncf full flex flex-col justify-center items-center">
+		<div class="cncf-announce">WasmEdge is a Cloud Native Computing Foundation Sandbox project.</div>
+		<figure>
+			<img src="img/CNCF@2x.png" alt="CNCF" />
+		</figure>
+	</div>
+
+	<div class="footer full">
+		<div class="dimmed flex justify-between m:flex-col">
+			<div class="footer-left">
+				<a href="https://wasmedge.org">
+					<figure class="footer-logo relative">
+						<img src="img/wasm-edge-runtime-horizontal-color.svg" alt="WasmEdge Logo" />
+					</figure>
+				</a>
+			</div>
+			<div class="footer-right">
+				<dl class="flex">
+					<div class="footer-entries">
+						<dt>Resources</dt>
+						<dd><a href="https://github.com/WasmEdge/WasmEdge">Github</a></dd>
+						<dd><a href="https://wasmedge.org/book/en/">WasmEdge Book</a></dd>
+					</div>
+					<div class="footer-entries">
+						<dt id="community">Community</dt>
+						<dd><a href="https://wasmedge.org/book/en/extend.html">Contribute</a></dd>
+						<dd><a href="ttps://groups.google.com/g/wasmedge/">Mailing List</a></dd>
+						<dd><a href="https://twitter.com/realwasmedge">Twitter</a></dd>
+						<dd><a href="https://slack.cncf.io/">Slack #WasmEdge</a></dd>
+						<dd><a href="https://docs.google.com/document/d/1iFlVl7R97Lze4RDykzElJGDjjWYDlkI8Rhf8g4dQ5Rk/edit?usp=sharing">Community Meeting</a></dd>
+					</div>
+				</dl>
+			</div>
+		</div>
+	</div>
+
+	<div class="copyright full">
+		<div class="dimmed flex flex-col justify-center items-end m:items-start">
+			<p>The Linux Foundation has registered trademarks and uses trademarks.</p>
+			<p>For a list of trademarks of The Linux Foundation, please see our Trademark Usage page.</p>
+		</div>
+	</div>
+
+	<script src="js/main.js"></script>
+</body>
+
 </html>
