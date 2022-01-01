@@ -57,7 +57,7 @@
 		</figure>
 		<div class="dimmed glimpse relative">
 			<h1>WasmEdge</h1>
-			<div class="slogan">An open source cloud native WebAssembly Runtime for edge computing.</div>
+			<div class="slogan">Bring the cloud-native and serverless application paradigms to Edge Computing.</div>
 			<div class="hero-btns flex">
 				<a href="https://wasmedge.org/book/en/" class="btn">Get Started</a>
 				<a href="https://github.com/WasmEdge/WasmEdge" class="btn wire-btn">Github</a>
@@ -99,8 +99,8 @@
 					<img src="img/wasmedge-in-cloud.svg" />
 				</figure>
 				<div class="explain-text ">
-					<p>The WebAssembly program can be compiled from multi-language and embeded in many edge devices with small footprint, high performance, memory safety, sandbox securty.</p>
-					<p>WasmEdge is responsible for ensuring its performance and securty and providing many exclusive extensions and APIs.</p>
+					<p>WasmEdge is a lightweight, high-performance, and extensible WebAssembly runtime for cloud native, edge, and decentralized applications.</p>
+					<p>It powers serverless apps, embedded functions, microservices, smart contracts, and IoT devices.</p>
 				</div>
 			</div>
 		</div>
@@ -110,12 +110,12 @@
 		<div class="features-catalog-bg m:hide p:hide">
 			<div class="features-catalog sticky flex justify-center items-center">
 				<ul>
-					<li class="active"><a href="#feature-aot">High-performance(based on LLVM AOT)</a></li>
+					<li class="active"><a href="#feature-aot">High-performance</a></li>
 					<li><a href="#feature-extension">WASI-like Extensions</a></li>
 					<li><a href="#feature-javascript">JavaScript Support</a></li>
-					<li><a href="#feature-management">Cloud Native Management and Orchestration</a></li>
+					<li><a href="#feature-management">Cloud Native Management &amp; Orchestration</a></li>
 					<li><a href="#feature-platform">Cross-platform Support</a></li>
-					<li><a href="#feature-extensible"></a>Easy Extensibility</li>
+					<li><a href="#feature-extensible">Easy Extensibility</a></li>
 					<li><a href="#feature-embed">Easy to Embed into a Host Application</a></li>
 				</ul>
 			</div>
@@ -123,118 +123,140 @@
 		<div class="features-content m:hide  p:hide">
 			<div id="feature-aot" class="feature-detail flex justify-center items-center">
 				<div>
-					<p>Wasm is faster 100 times than Linux container at cold start-up time.</p>
-					<p>WasmEdge could be faster 10%-20% than native code.</p>
+					<p>Compared with Linux containers, WasmEdge could be 100x faster at start-up and 20% faster at runtime.</p>
+					<p>A WasmEdge app could take 1/100 of the size of a similar Linux container app.</p>
 				</div>
 			</div>
 			<div id="feature-extension" class="feature-detail flex justify-center items-center">
 				<ul>
 					<li>Network sockets</li>
-					<li>Async polling</li>
+					<li>Async processing</li>
 					<li>Tensorflow inference</li>
-					<li>Key value storage</li>
-					<li>Database connector</li>
-					<li>Gas meters for resource constraints</li>
+					<li>Key-value stores</li>
+					<li>Database connectors</li>
+					<li>Gas meters</li>
 				</ul>
 			</div>
 			<div id="feature-javascript" class="feature-detail flex justify-center items-center">
 				<ul>
 					<li>ES6 module and std API support</li>
+					<li>Node and NPM module API support</li>
+					<li>React SSR streaming</li>
 					<li>Implement JS APIs in Rust</li> 
-					<li>Import C native shared library functions as JS function</li>
+					<li>Much lighter than containerized v8</li> 
 				</ul>
 			</div>
 			<div id="feature-management" class="feature-detail flex justify-center items-center">
 				<ul>
-					<li>CRI-O and Kubernetes compatibility</li>
-					<li>Sidecar apps in Kubernetes-based service meshes</li>
+					<li>Container tooling support</li>
+					<li>Kubernetes ecosystem support</li>
+					<li>Data plane plug-ins</li>
+					<li>Sidecar apps in service meshes</li>
 					<li>Dapr microservices</li>
 				</ul>
 			</div>
 			<div id="feature-platform" class="feature-detail flex justify-center items-center">
 				<ul>
-					<li>Linux OSes dated back to 2010 for both x86 and ARM CPUs</li>
-					<li>Mac OS X for both x86 and m1 CPUs</li>
+					<li>Linux</li>
+					<li>Mac OS X</li>
 					<li>Windows</li>
 					<li>Microkernel and RTOS</li>
+					<li>Intel x86, ARM, and M1 CPUs</li>
 				</ul>
 			</div>
 			<div id="feature-extensible" class="feature-detail flex justify-center items-center">
-				<p>Build customized runtimes with native functions in C or GO</p>
+				<p>Build runtime extensions in C++</p>
+				<p>Build customized runtimes with native host functions in</p>
+				<ul>
+					<li>C</li>
+					<li>Go</li>
+					<li>Rust</li>
+				</ul>
 			</div>
 			<div id="feature-embed" class="feature-detail flex justify-center items-center">
 				<ul>
 					<li>Embed WasmEdge functions in C, Go, Rust, Node.js and Python host applications</li>
-					<li>Embedded function runtime for service mesh proxies (e.g., proxy-wasm for Envoy and MOSN proxies)</li>
+					<li>Embedded function runtime for application platforms and frameworks</li>
 				</ul>
 			</div>
 		</div>
 
 		<div class="m-features-gallery hide m:show p:show dimmed m:flex p:flex m:flex-wrap p:flex-wrap m:justify-center p:justify-around">
 			<div class="m-feature-frame">
-				<div class="m-feature-title">High-performance(based on LLVM AOT)</div>
+				<div class="m-feature-title">High-performance</div>
 				<div class="m-feature-detail">
-					<p>Wasm is faster 100 times than Linux container at cold start-up time.</p>
-					<p>WasmEdge could be faster 10%-20% than native code.</p>
+					<p>Compared with Linux containers, WasmEdge could be 100x faster at start-up and 20% faster at runtime.</p>
+                                        <p>A WasmEdge app could take 1/100 of the size of a similar Linux container app.</p>
 				</div>
 			</div>
 			<div class="m-feature-frame">
 				<div class="m-feature-title">WASI-like Extensions</div>
 				<div class="m-feature-detail">
 					<ul>
-						<li>Network sockets</li>
-						<li>Async polling</li>
-						<li>Tensorflow inference</li>
-						<li>Key value storage</li>
-						<li>Database connector</li>
-						<li>Gas meters for resource constraints</li>
-					</ul>
+                                          <li>Network sockets</li>
+                                          <li>Async processing</li>
+                                          <li>Tensorflow inference</li>
+                                          <li>Key-value stores</li>
+                                          <li>Database connectors</li>
+                                          <li>Gas meters</li>
+                                        </ul>
 				</div>
 			</div>
 			<div class="m-feature-frame">
 				<div class="m-feature-title">JavaScript Support</div>
 				<div class="m-feature-detail">
 					<ul>
-						<li>ES6 module and std API support</li>
-						<li>Implement JS APIs in Rust</li> 
-						<li>Import C native shared library functions as JS function</li>
-					</ul>
+                                          <li>ES6 module and std API support</li>
+                                          <li>Node and NPM module API support</li>
+                                          <li>React SSR streaming</li>
+                                          <li>Implement JS APIs in Rust</li>
+                                          <li>Much lighter than containerized v8</li>
+                                        </ul>
 				</div>
 			</div>
 			<div class="m-feature-frame">
-				<div class="m-feature-title">Cloud Native Management and Orchestration</div>
+				<div class="m-feature-title">Cloud Native Management &amp; Orchestration</div>
 				<div class="m-feature-detail">
 					<ul>
-						<li>CRI-O and Kubernetes compatibility</li>
-						<li>Sidecar apps in Kubernetes-based service meshes</li>
-						<li>Dapr microservices</li>
-					</ul>
+                                          <li>Container tooling support</li>
+                                          <li>Kubernetes ecosystem support</li>
+                                          <li>Data plane plug-ins</li>
+                                          <li>Sidecar apps in service meshes</li>
+                                          <li>Dapr microservices</li>
+                                        </ul>
 				</div>
 			</div>
 			<div class="m-feature-frame">
 				<div class="m-feature-title">Cross-platform Support</div>
 				<div class="m-feature-detail">
 					<ul>
-						<li>Linux OSes dated back to 2010 for both x86 and ARM CPUs</li>
-						<li>Mac OS X for both x86 and m1 CPUs</li>
-						<li>Windows</li>
-						<li>Microkernel and RTOS</li>
-					</ul>
+                                          <li>Linux</li>
+                                          <li>Mac OS X</li>
+                                          <li>Windows</li>
+                                          <li>Microkernel and RTOS</li>
+                                          <li>Intel x86, ARM, and M1 CPUs</li>
+                                        </ul>
 				</div>
 			</div>
 			<div class="m-feature-frame">
 				<div class="m-feature-title">Easy Extensibility</div>
 				<div class="m-feature-detail">
-					<p>Build customized runtimes with native functions in C or GO</p>
+					<p>Build runtime extensions in C++</p>
+                                        <p>Build customized runtimes with native host functions in</p>
+                                        <ul>
+                                          <li>C</li>
+                                          <li>Go</li>
+                                          <li>Rust</li>
+                                        </ul>
 				</div>
 			</div>
 			<div class="m-feature-frame">
 				<div class="m-feature-title">Easy to Embed into a Host Application</div>
 				<div class="m-feature-detail">
 					<ul>
-						<li>Embed WasmEdge functions in C, Go, Rust, Node.js and Python host applications</li>
-						<li>Embedded function runtime for service mesh proxies (e.g., proxy-wasm for Envoy and MOSN proxies)</li>
-					</ul>
+                                          <li>Embed WasmEdge functions in C, Go, Rust, Node.js and Python host applications</li>
+                                          <li>Embedded function runtime for application platforms and frameworks</li>
+                                        </ul>
 				</div>
 			</div>
 		</div>
