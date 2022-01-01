@@ -1,0 +1,651 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>External references - WasmEdge Runtime</title>
+        <!-- Custom HTML head -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NGPCK7VF2L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NGPCK7VF2L');
+</script>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Getting started</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../start/install.html"><strong aria-hidden="true">1.1.</strong> Install and uninstall</a></li><li class="chapter-item "><a href="../../start/docker.html"><strong aria-hidden="true">1.2.</strong> Use Docker</a></li><li class="chapter-item "><a href="../../start/cli.html"><strong aria-hidden="true">1.3.</strong> WasmEdge command line</a></li><li class="chapter-item "><a href="../../start/universal.html"><strong aria-hidden="true">1.4.</strong> Universal Binary</a></li></ol></li><li class="chapter-item "><a href="../../intro.html"><strong aria-hidden="true">2.</strong> What is WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../intro/use.html"><strong aria-hidden="true">2.1.</strong> Use cases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../intro/use/runtime.html"><strong aria-hidden="true">2.1.1.</strong> Cloud-native runtime</a></li><li class="chapter-item "><a href="../../intro/use/js.html"><strong aria-hidden="true">2.1.2.</strong> JavaScript or DSL runtime</a></li><li class="chapter-item "><a href="../../intro/use/serverless.html"><strong aria-hidden="true">2.1.3.</strong> Serverless function-as-a-service in public clouds</a></li><li class="chapter-item "><a href="../../intro/use/edge.html"><strong aria-hidden="true">2.1.4.</strong> Edge computing</a></li><li class="chapter-item "><a href="../../intro/use/saas.html"><strong aria-hidden="true">2.1.5.</strong> Reactive functions for SaaS</a></li></ol></li><li class="chapter-item "><a href="../../intro/features.html"><strong aria-hidden="true">2.2.</strong> Feature highlights</a></li><li class="chapter-item "><a href="../../intro/standard.html"><strong aria-hidden="true">2.3.</strong> Standard extensions</a></li><li class="chapter-item "><a href="../../intro/proprietary.html"><strong aria-hidden="true">2.4.</strong> Proprietary extensions</a></li><li class="chapter-item "><a href="../../intro/integrations.html"><strong aria-hidden="true">2.5.</strong> Integrations</a></li><li class="chapter-item "><a href="../../intro/faq.html"><strong aria-hidden="true">2.6.</strong> FAQ</a></li></ol></li><li class="chapter-item "><a href="../../dev.html"><strong aria-hidden="true">3.</strong> Develop a WasmEdge app</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../dev/rust.html"><strong aria-hidden="true">3.1.</strong> Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../dev/rust/wasi.html"><strong aria-hidden="true">3.1.1.</strong> Access OS services</a></li><li class="chapter-item "><a href="../../dev/rust/tensorflow.html"><strong aria-hidden="true">3.1.2.</strong> Tensorflow</a></li><li class="chapter-item "><a href="../../dev/rust/networking.html"><strong aria-hidden="true">3.1.3.</strong> Networking sockets</a></li><li class="chapter-item "><a href="../../dev/rust/command.html"><strong aria-hidden="true">3.1.4.</strong> Command interface</a></li><li class="chapter-item "><a href="../../dev/rust/bindgen.html"><strong aria-hidden="true">3.1.5.</strong> rustwasmc</a></li></ol></li><li class="chapter-item "><a href="../../dev/js.html"><strong aria-hidden="true">3.2.</strong> JavaScript</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../dev/js/quickstart.html"><strong aria-hidden="true">3.2.1.</strong> Getting started</a></li><li class="chapter-item "><a href="../../dev/js/es6.html"><strong aria-hidden="true">3.2.2.</strong> ES6 module</a></li><li class="chapter-item "><a href="../../dev/js/cjs.html"><strong aria-hidden="true">3.2.3.</strong> CommonJS module</a></li><li class="chapter-item "><a href="../../dev/js/npm.html"><strong aria-hidden="true">3.2.4.</strong> NodeJS &amp; NPM module</a></li><li class="chapter-item "><a href="../../dev/js/ssr.html"><strong aria-hidden="true">3.2.5.</strong> Example: React SSR</a></li><li class="chapter-item "><a href="../../dev/js/tensorflow.html"><strong aria-hidden="true">3.2.6.</strong> Tensorflow</a></li><li class="chapter-item "><a href="../../dev/js/networking.html"><strong aria-hidden="true">3.2.7.</strong> Networking sockets</a></li><li class="chapter-item "><a href="../../dev/js/async.html"><strong aria-hidden="true">3.2.8.</strong> Async networking</a></li><li class="chapter-item "><a href="../../dev/js/rust.html"><strong aria-hidden="true">3.2.9.</strong> Use Rust to implement JS API</a></li></ol></li><li class="chapter-item "><a href="../../dev/go.html"><strong aria-hidden="true">3.3.</strong> Go</a></li><li class="chapter-item "><a href="../../dev/swift.html"><strong aria-hidden="true">3.4.</strong> Swift</a></li><li class="chapter-item "><a href="../../dev/as.html"><strong aria-hidden="true">3.5.</strong> AssemblyScript</a></li><li class="chapter-item "><a href="../../dev/kotlin.html"><strong aria-hidden="true">3.6.</strong> Kotlin</a></li><li class="chapter-item "><a href="../../dev/grain.html"><strong aria-hidden="true">3.7.</strong> Grain</a></li></ol></li><li class="chapter-item "><a href="../../embed.html"><strong aria-hidden="true">4.</strong> Embed WasmEdge functions</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../embed/c.html"><strong aria-hidden="true">4.1.</strong> C SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../embed/c/ref.html"><strong aria-hidden="true">4.1.1.</strong> API references</a></li></ol></li><li class="chapter-item "><a href="../../embed/go.html"><strong aria-hidden="true">4.2.</strong> Go SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../embed/go/app.html"><strong aria-hidden="true">4.2.1.</strong> Embed WASM apps</a></li><li class="chapter-item "><a href="../../embed/go/function.html"><strong aria-hidden="true">4.2.2.</strong> Embed WASM funcs</a></li><li class="chapter-item "><a href="../../embed/go/memory.html"><strong aria-hidden="true">4.2.3.</strong> Pass complex data</a></li><li class="chapter-item "><a href="../../embed/go/tensorflow.html"><strong aria-hidden="true">4.2.4.</strong> Tensorflow</a></li><li class="chapter-item "><a href="../../embed/go/bindgen.html"><strong aria-hidden="true">4.2.5.</strong> Embed bindgen funcs</a></li><li class="chapter-item "><a href="../../embed/go/ref.html"><strong aria-hidden="true">4.2.6.</strong> API references</a></li></ol></li><li class="chapter-item "><a href="../../embed/node.html"><strong aria-hidden="true">4.3.</strong> Node.js SDK</a></li><li class="chapter-item "><a href="../../embed/rust.html"><strong aria-hidden="true">4.4.</strong> Rust SDK</a></li><li class="chapter-item "><a href="../../embed/python.html"><strong aria-hidden="true">4.5.</strong> Python SDK</a></li></ol></li><li class="chapter-item "><a href="../../kubernetes.html"><strong aria-hidden="true">5.</strong> WasmEdge in Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/quickstart.html"><strong aria-hidden="true">5.1.</strong> Quick start</a></li><li class="chapter-item "><a href="../../kubernetes/demo.html"><strong aria-hidden="true">5.2.</strong> Demo apps</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/demo/wasi.html"><strong aria-hidden="true">5.2.1.</strong> Simple example</a></li><li class="chapter-item "><a href="../../kubernetes/demo/server.html"><strong aria-hidden="true">5.2.2.</strong> HTTP service</a></li></ol></li><li class="chapter-item "><a href="../../kubernetes/container.html"><strong aria-hidden="true">5.3.</strong> Container runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/container/crun.html"><strong aria-hidden="true">5.3.1.</strong> crun</a></li><li class="chapter-item "><a href="../../kubernetes/container/runc.html"><strong aria-hidden="true">5.3.2.</strong> runc</a></li><li class="chapter-item "><a href="../../kubernetes/container/youki.html"><strong aria-hidden="true">5.3.3.</strong> youki</a></li></ol></li><li class="chapter-item "><a href="../../kubernetes/cri.html"><strong aria-hidden="true">5.4.</strong> CRI runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/cri/crio.html"><strong aria-hidden="true">5.4.1.</strong> CRI-O</a></li><li class="chapter-item "><a href="../../kubernetes/cri/containerd.html"><strong aria-hidden="true">5.4.2.</strong> containerd</a></li></ol></li><li class="chapter-item "><a href="../../kubernetes/kubernetes.html"><strong aria-hidden="true">5.5.</strong> Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/kubernetes/kubernetes-crio.html"><strong aria-hidden="true">5.5.1.</strong> Kubernetes + CRI-O</a></li><li class="chapter-item "><a href="../../kubernetes/kubernetes/kubernetes-containerd.html"><strong aria-hidden="true">5.5.2.</strong> Kubernetes + containerd</a></li><li class="chapter-item "><a href="../../kubernetes/kubernetes/kubeedge.html"><strong aria-hidden="true">5.5.3.</strong> KubeEdge</a></li><li class="chapter-item "><a href="../../kubernetes/kubernetes/superedge.html"><strong aria-hidden="true">5.5.4.</strong> SuperEdge</a></li><li class="chapter-item "><a href="../../kubernetes/kubernetes/openyurt.html"><strong aria-hidden="true">5.5.5.</strong> OpenYurt</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../frameworks.html"><strong aria-hidden="true">6.</strong> App frameworks &amp; platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../frameworks/mesh.html"><strong aria-hidden="true">6.1.</strong> Service mesh &amp; runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../frameworks/mesh/dapr.html"><strong aria-hidden="true">6.1.1.</strong> Dapr</a></li><li class="chapter-item "><a href="../../frameworks/mesh/mosn.html"><strong aria-hidden="true">6.1.2.</strong> MOSN</a></li><li class="chapter-item "><a href="../../frameworks/mesh/eventmesh.html"><strong aria-hidden="true">6.1.3.</strong> Apache EventMesh</a></li></ol></li><li class="chapter-item "><a href="../../frameworks/app.html"><strong aria-hidden="true">6.2.</strong> Application frameworks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../frameworks/app/yomo.html"><strong aria-hidden="true">6.2.1.</strong> YoMo</a></li><li class="chapter-item "><a href="../../frameworks/app/reactr.html"><strong aria-hidden="true">6.2.2.</strong> Reactr</a></li></ol></li><li class="chapter-item "><a href="../../frameworks/serverless.html"><strong aria-hidden="true">6.3.</strong> Serverless platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../frameworks/serverless/vercel.html"><strong aria-hidden="true">6.3.1.</strong> Vercel</a></li><li class="chapter-item "><a href="../../frameworks/serverless/netlify.html"><strong aria-hidden="true">6.3.2.</strong> Netlify</a></li><li class="chapter-item "><a href="../../frameworks/serverless/aws.html"><strong aria-hidden="true">6.3.3.</strong> AWS</a></li><li class="chapter-item "><a href="../../frameworks/serverless/tencent.html"><strong aria-hidden="true">6.3.4.</strong> Tencent</a></li><li class="chapter-item "><a href="../../frameworks/serverless/secondstate.html"><strong aria-hidden="true">6.3.5.</strong> Second State</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../os.html"><strong aria-hidden="true">7.</strong> Operating systems</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../os/linux.html"><strong aria-hidden="true">7.1.</strong> Linux</a></li><li class="chapter-item "><a href="../../os/windows.html"><strong aria-hidden="true">7.2.</strong> Windows</a></li><li class="chapter-item "><a href="../../os/mac.html"><strong aria-hidden="true">7.3.</strong> Mac</a></li><li class="chapter-item "><a href="../../os/sel4.html"><strong aria-hidden="true">7.4.</strong> seL4</a></li><li class="chapter-item "><a href="../../os/openharmony.html"><strong aria-hidden="true">7.5.</strong> Open Harmony</a></li><li class="chapter-item "><a href="../../os/raspberrypi.html"><strong aria-hidden="true">7.6.</strong> Raspberry Pi</a></li></ol></li><li class="chapter-item expanded "><a href="../../extend.html"><strong aria-hidden="true">8.</strong> Contribute to WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../extend/build.html"><strong aria-hidden="true">8.1.</strong> Build WasmEdge from source</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../extend/build_on_mac.html"><strong aria-hidden="true">8.1.1.</strong> Build for Mac</a></li><li class="chapter-item "><a href="../../extend/build_on_windows.html"><strong aria-hidden="true">8.1.2.</strong> Build for Windows</a></li></ol></li><li class="chapter-item expanded "><a href="../../extend/plugin.html"><strong aria-hidden="true">8.2.</strong> WasmEdge plug-in API</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../extend/plugin/hostfunction.html"><strong aria-hidden="true">8.2.1.</strong> Host functions</a></li><li class="chapter-item expanded "><a href="../../extend/plugin/externref.html" class="active"><strong aria-hidden="true">8.2.2.</strong> External references</a></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">WasmEdge Runtime</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/WasmEdge/WasmEdge" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/WasmEdge/WasmEdge/tree/master/docs/book/en/src/extend/plugin/externref.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="customized-external-references"><a class="header" href="#customized-external-references">Customized External References</a></h1>
+<p><a href="https://webassembly.github.io/reference-types/core/syntax/types.html#syntax-reftype">External References</a> denotes an opaque and unforgeable reference to a host object. A new <code>externref</code> type can be passed into a Wasm module or return from it. The Wasm module cannot reveal an <code>externref</code> value's bit pattern, nor create a fake host reference by an integer value.</p>
+<h2 id="tutorial"><a class="header" href="#tutorial">Tutorial</a></h2>
+<p>The following tutorial is the summary of the <code>externref</code> example in WasmEdge.</p>
+<h3 id="prepare-your-wasm-file"><a class="header" href="#prepare-your-wasm-file">Prepare Your Wasm File</a></h3>
+<p>The Wasm file should contain importing host functions that would take the <code>externref</code>.
+Take <a href="../test/externref/externrefTestData/funcs.wasm">the test WASM file</a> (<a href="../test/externref/externrefTestData/funcs.wat">this WAT</a> is the corresponding text format) as an example:</p>
+<pre><code>(module
+  (type $t0 (func (param externref i32) (result i32)))
+  (type $t1 (func (param externref i32 i32) (result i32)))
+  (type $t2 (func (param externref externref i32 i32) (result i32)))
+  (import &quot;extern_module&quot; &quot;functor_square&quot; (func $functor_square (type $t0)))
+  (import &quot;extern_module&quot; &quot;class_add&quot; (func $class_add (type $t1)))
+  (import &quot;extern_module&quot; &quot;func_mul&quot; (func $func_mul (type $t1)))
+  (func $call_add (export &quot;call_add&quot;) (type $t1) (param $p0 externref) (param $p1 i32) (param $p2 i32) (result i32)
+    (call $class_add
+      (local.get $p0)
+      (local.get $p1)
+      (local.get $p2)))
+  (func $call_mul (export &quot;call_mul&quot;) (type $t1) (param $p0 externref) (param $p1 i32) (param $p2 i32) (result i32)
+    (call $func_mul
+      (local.get $p0)
+      (local.get $p1)
+      (local.get $p2)))
+  (func $call_square (export &quot;call_square&quot;) (type $t0) (param $p0 externref) (param $p1 i32) (result i32)
+    (call $functor_square
+      (local.get $p0)
+      (local.get $p1)))
+  (func $call_add_square (export &quot;call_add_square&quot;) (type $t2) (param $p0 externref) (param $p1 externref) (param $p2 i32) (param $p3 i32) (result i32)
+    (call $functor_square
+      (local.get $p1)
+      (call $class_add
+        (local.get $p0)
+        (local.get $p2)
+        (local.get $p3))))
+  (memory $memory (export &quot;memory&quot;) 1))
+</code></pre>
+<p>Users can convert <code>wat</code> to <code>wasm</code> through <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm</a> live tool. Noted that <code>reference types</code> checkbox should be checked on this page.</p>
+<h3 id="implement-host-module-and-register-into-wasmedge"><a class="header" href="#implement-host-module-and-register-into-wasmedge">Implement Host Module and Register into WasmEdge</a></h3>
+<p>The host module should be implemented and registered into WasmEdge before executing Wasm. Assume that the following code is saved as <code>main.c</code>:</p>
+<pre><code class="language-cpp">#include &lt;wasmedge/wasmedge.h&gt;
+
+#include &lt;stdio.h&gt;
+
+uint32_t SquareFunc(uint32_t A) { return A * A; }
+uint32_t AddFunc(uint32_t A, uint32_t B) { return A + B; }
+uint32_t MulFunc(uint32_t A, uint32_t B) { return A * B; }
+
+/// Host function to call `SquareFunc` by external reference
+WasmEdge_Result ExternSquare(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
+                             const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /// Function type: {externref, i32} -&gt; {i32}
+  uint32_t (*Func)(uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
+  uint32_t C = Func(WasmEdge_ValueGetI32(In[1]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+
+/// Host function to call `AddFunc` by external reference
+WasmEdge_Result ExternAdd(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /// Function type: {externref, i32, i32} -&gt; {i32}
+  uint32_t (*Func)(uint32_t, uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
+  uint32_t C = Func(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+
+/// Host function to call `ExternMul` by external reference
+WasmEdge_Result ExternMul(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /// Function type: {externref, i32, i32} -&gt; {i32}
+  uint32_t (*Func)(uint32_t, uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
+  uint32_t C = Func(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+
+/// Helper function to create the &quot;extern_module&quot; import object.
+WasmEdge_ImportObjectContext *CreateExternModule() {
+  WasmEdge_String HostName;
+  WasmEdge_FunctionTypeContext *HostFType = NULL;
+  WasmEdge_FunctionInstanceContext *HostFunc = NULL;
+  enum WasmEdge_ValType P[3], R[1];
+
+  HostName = WasmEdge_StringCreateByCString(&quot;extern_module&quot;);
+  WasmEdge_ImportObjectContext *ImpObj = WasmEdge_ImportObjectCreate(HostName);
+  WasmEdge_StringDelete(HostName);
+
+  /// Add host function &quot;functor_square&quot;: {externref, i32} -&gt; {i32}
+  P[0] = WasmEdge_ValType_ExternRef;
+  P[1] = WasmEdge_ValType_I32;
+  R[0] = WasmEdge_ValType_I32;
+  HostFType = WasmEdge_FunctionTypeCreate(P, 2, R, 1);
+  HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternSquare, NULL, 0);
+  WasmEdge_FunctionTypeDelete(HostFType);
+  HostName = WasmEdge_StringCreateByCString(&quot;functor_square&quot;);
+  WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+  WasmEdge_StringDelete(HostName);
+
+  /// Add host function &quot;class_add&quot;: {externref, i32, i32} -&gt; {i32}
+  P[2] = WasmEdge_ValType_I32;
+  HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1);
+  HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternAdd, NULL, 0);
+  WasmEdge_FunctionTypeDelete(HostFType);
+  HostName = WasmEdge_StringCreateByCString(&quot;class_add&quot;);
+  WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+  WasmEdge_StringDelete(HostName);
+
+  /// Add host function &quot;func_mul&quot;: {externref, i32, i32} -&gt; {i32}
+  HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1);
+  HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternMul, NULL, 0);
+  WasmEdge_FunctionTypeDelete(HostFType);
+  HostName = WasmEdge_StringCreateByCString(&quot;func_mul&quot;);
+  WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+  WasmEdge_StringDelete(HostName);
+
+  return ImpObj;
+}
+
+int main() {
+  WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+  WasmEdge_ImportObjectContext *ImpObj = CreateExternModule();
+  WasmEdge_Value P[3], R[1];
+  WasmEdge_String FuncName;
+  WasmEdge_Result Res;
+
+  Res = WasmEdge_VMRegisterModuleFromImport(VMCxt, ImpObj);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Import object registration failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+  Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;funcs.wasm&quot;);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;WASM file loading failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+  Res = WasmEdge_VMValidate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;WASM validation failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+  Res = WasmEdge_VMInstantiate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;WASM instantiation failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+
+  /// Test 1: call add -- 1234 + 5678
+  P[0] = WasmEdge_ValueGenExternRef(AddFunc);
+  P[1] = WasmEdge_ValueGenI32(1234);
+  P[2] = WasmEdge_ValueGenI32(5678);
+  FuncName = WasmEdge_StringCreateByCString(&quot;call_add&quot;);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 3, R, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Test 1 -- `call_add` -- 1234 + 5678 = %d\n&quot;,
+           WasmEdge_ValueGetI32(R[0]));
+  } else {
+    printf(&quot;Test 1 -- `call_add` -- 1234 + 5678 -- failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+
+  /// Test 2: call mul -- 789 * 4321
+  P[0] = WasmEdge_ValueGenExternRef(MulFunc);
+  P[1] = WasmEdge_ValueGenI32(789);
+  P[2] = WasmEdge_ValueGenI32(4321);
+  FuncName = WasmEdge_StringCreateByCString(&quot;call_mul&quot;);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 3, R, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Test 2 -- `call_mul` -- 789 * 4321 = %d\n&quot;,
+           WasmEdge_ValueGetI32(R[0]));
+  } else {
+    printf(&quot;Test 2 -- `call_mul` -- 789 * 4321 -- failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+
+  /// Test 3: call square -- 8256^2
+  P[0] = WasmEdge_ValueGenExternRef(SquareFunc);
+  P[1] = WasmEdge_ValueGenI32(8256);
+  FuncName = WasmEdge_StringCreateByCString(&quot;call_square&quot;);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 2, R, 1);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Test 3 -- `call_mul` -- 8256 ^ 2 = %d\n&quot;,
+           WasmEdge_ValueGetI32(R[0]));
+  } else {
+    printf(&quot;Test 3 -- `call_mul` -- 8256 ^ 2 -- failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
+}
+</code></pre>
+<h3 id="setup-the-environment-and-compile"><a class="header" href="#setup-the-environment-and-compile">Setup the Environment And Compile</a></h3>
+<ol>
+<li>
+<p>Install the WasmEdge shared library.</p>
+<p>Please refer to the <a href="install.html">Installation</a> for details.</p>
+</li>
+<li>
+<p>Prepare the WASM file and the <code>main.c</code> source file as above.</p>
+</li>
+<li>
+<p>Compile</p>
+<pre><code class="language-bash">$ gcc main.c -lwasmedge_c
+# Or you can use g++ for the C++ case, or use the clang.
+</code></pre>
+</li>
+<li>
+<p>Run the Test</p>
+<pre><code class="language-bash">$ ./a.out
+Test 1 -- `call_add` -- 1234 + 5678 = 6912
+Test 2 -- `call_mul` -- 789 * 4321 = 3409269
+Test 3 -- `call_mul` -- 8256 ^ 2 = 68161536
+</code></pre>
+</li>
+</ol>
+<h2 id="wasm-module-with-external-references"><a class="header" href="#wasm-module-with-external-references">Wasm module with External References</a></h2>
+<p>Take the following <code>wat</code> for example:</p>
+<pre><code>(module
+  (type $t0 (func (param externref i32) (result i32)))
+  ;; Import a host function which type is {externref i32} -&gt; {i32}
+  (import &quot;extern_module&quot; &quot;functor_square&quot; (func $functor_square (type $t0)))
+  ;; Wasm function which type is {externref i32} -&gt; {i32} and exported as &quot;call_square&quot;
+  (func $call_square (export &quot;call_square&quot;) (type $t0) (param $p0 externref) (param $p1 i32) (result i32)
+    (call $functor_square (local.get $p0) (local.get $p1))
+  )
+  (memory $memory (export &quot;memory&quot;) 1))
+</code></pre>
+<p>The Wasm function &quot;<code>call_square</code>&quot; takes an <code>externref</code> parameter, and calls the imported host function <code>functor_square</code> with that <code>externref</code>.
+Therefore, the <code>functor_square</code> host function can get the object reference when users call &quot;<code>call_square</code>&quot; Wasm function and pass the object's reference.</p>
+<h2 id="wasmedge-externref-example"><a class="header" href="#wasmedge-externref-example">WasmEdge ExternRef Example</a></h2>
+<p>The following examples are how to use <code>externref</code> in Wasm with WasmEdge C API.</p>
+<h3 id="wasm-code"><a class="header" href="#wasm-code">Wasm Code</a></h3>
+<p>The Wasm code must pass the <code>externref</code> to host functions that want to access it.
+Take the following <code>wat</code> for example, which is a part of <a href="../test/externref/externrefTestData/funcs.wat">the test WASM file</a>:</p>
+<pre><code>(module
+  (type $t0 (func (param externref i32 i32) (result i32)))
+  (import &quot;extern_module&quot; &quot;func_mul&quot; (func $func_mul (type $t0)))
+  (func $call_mul (export &quot;call_mul&quot;) (type $t0) (param $p0 externref) (param $p1 i32) (param $p2 i32) (result i32)
+    (call $func_mul (local.get $p0) (local.get $p1) (local.get $p2))
+  )
+  (memory $memory (export &quot;memory&quot;) 1))
+</code></pre>
+<p>The host function &quot;<code>extern_module::func_mul</code>&quot; takes <code>externref</code> as a function pointer to multiply parameters 1 and 2 and then return the result. The exported Wasm function &quot;<code>call_mul</code>&quot; calls &quot;<code>func_mul</code>&quot; and pass the <code>externref</code> and 2 numbers as arguments.</p>
+<h3 id="host-functions"><a class="header" href="#host-functions">Host Functions</a></h3>
+<p>To instantiate the above example Wasm, the host functions must be registered into WasmEdge. See <a href="c_api.html#host-functions">Host Functions</a> for more details.
+The host functions which take <code>externref</code>s must know the original objects' types. We take the function pointer case for example.</p>
+<pre><code class="language-c">/* Function to pass as function pointer. */
+uint32_t MulFunc(uint32_t A, uint32_t B) { return A * B; }
+
+/* Host function to call function by external reference as a function pointer */
+WasmEdge_Result ExternMul(void *, WasmEdge_MemoryInstanceContext *,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /* Function type: {externref, i32, i32} -&gt; {i32} */
+  void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
+  uint32_t (*Obj)(uint32_t, uint32_t) = Ptr;
+  /*
+   * For C++, the `reinterpret_cast` is needed:
+   * uint32_t (*Obj)(uint32_t, uint32_t) = 
+   *   *reinterpret_cast&lt;uint32_t (*)(uint32_t, uint32_t)&gt;(Ptr);
+   */
+  uint32_t C = Obj(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<p>&quot;<code>MulFunc</code>&quot; is a function that will be passed into Wasm as <code>externref</code>. In the &quot;<code>func_mul</code>&quot; host function, users can use &quot;<code>WasmEdge_ValueGetExternRef</code>&quot; API to get the pointer from the <code>WasmEdge_Value</code> which contains a <code>externref</code>.</p>
+<p>Developers can add the host functions with names into an import object.</p>
+<pre><code class="language-c">/* Create an import object. */
+WasmEdge_String HostName = WasmEdge_StringCreateByCString(&quot;extern_module&quot;);
+WasmEdge_ImportObjectContext *ImpObj = WasmEdge_ImportObjectCreate(HostName);
+WasmEdge_StringDelete(HostName);
+
+/* Create a function instance and add into an import object. */
+enum WasmEdge_ValType P[3], R[1];
+P[0] = WasmEdge_ValType_ExternRef;
+P[1] = WasmEdge_ValType_I32;
+P[2] = WasmEdge_ValType_I32;
+R[0] = WasmEdge_ValType_I32;
+WasmEdge_FunctionTypeContext *HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1);
+WasmEdge_FunctionInstanceContext *HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternFuncMul, NULL, 0);
+WasmEdge_FunctionTypeDelete(HostFType);
+HostName = WasmEdge_StringCreateByCString(&quot;func_mul&quot;);
+WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+WasmEdge_StringDelete(HostName);
+
+...
+</code></pre>
+<h3 id="execution"><a class="header" href="#execution">Execution</a></h3>
+<p>Take <a href="../test/externref/externrefTestData/funcs.wasm">the test WASM file</a> (<a href="../test/externref/externrefTestData/funcs.wat">this WAT</a> is the corresponding text format) for example.
+Assume that the <code>funcs.wasm</code> is copied into current directory.
+The following is the example to execute WASM with <code>externref</code> through the WasmEdge C API.</p>
+<pre><code class="language-c">/* Create the VM context. */
+WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+/* Create the import object context that contains the host functions. */
+WasmEdge_ImportObjectContext *ImpObj = /* Ignored ... */;
+/* Assume that the host functions are added into the import object above. */
+WasmEdge_Value P[3], R[1];
+WasmEdge_String FuncName;
+WasmEdge_Result Res;
+
+/* Register the import object into VM. */
+Res = WasmEdge_VMRegisterModuleFromImport(VMCxt, ImpObj);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;Import object registration failed\n&quot;);
+  return EXIT_FAILURE;
+}
+/* Load WASM from file. */
+Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;funcs.wasm&quot;);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM file loading failed\n&quot;);
+  return EXIT_FAILURE;
+}
+/* Validate WASM. */
+Res = WasmEdge_VMValidate(VMCxt);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM validation failed\n&quot;);
+  return EXIT_FAILURE;
+}
+/* Instantiate the WASM module. */
+Res = WasmEdge_VMInstantiate(VMCxt);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM instantiation failed\n&quot;);
+  return EXIT_FAILURE;
+}
+
+/* Run a WASM function. */
+P[0] = WasmEdge_ValueGenExternRef(AddFunc);
+P[1] = WasmEdge_ValueGenI32(1234);
+P[2] = WasmEdge_ValueGenI32(5678);
+/* Run the `call_add` function. */
+FuncName = WasmEdge_StringCreateByCString(&quot;call_add&quot;);
+Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 3, R, 1);
+WasmEdge_StringDelete(FuncName);
+if (WasmEdge_ResultOK(Res)) {
+  printf(&quot;Run -- `call_add` -- 1234 + 5678 = %d\n&quot;,
+          WasmEdge_ValueGetI32(R[0]));
+} else {
+  printf(&quot;Run -- `call_add` -- 1234 + 5678 -- failed\n&quot;);
+  return EXIT_FAILURE;
+}
+</code></pre>
+<h2 id="passing-objects"><a class="header" href="#passing-objects">Passing Objects</a></h2>
+<p>The above example is passing a function reference as <code>externref</code>. The following examples are about how to pass an object reference into WASM as <code>externref</code> in C++.</p>
+<h3 id="passing-a-class"><a class="header" href="#passing-a-class">Passing a Class</a></h3>
+<p>To pass a class as <code>externref</code>, the object instance is needed.</p>
+<pre><code class="language-cpp">class AddClass {
+public:
+  uint32_t add(uint32_t A, uint32_t B) const { return A + B; }
+};
+
+AddClass AC;
+</code></pre>
+<p>Then users can pass the object into WasmEdge by using <code>WasmEdge_ValueGenExternRef()</code> API.</p>
+<pre><code class="language-cpp">WasmEdge_Value P[3], R[1];
+P[0] = WasmEdge_ValueGenExternRef(&amp;AC);
+P[1] = WasmEdge_ValueGenI32(1234);
+P[2] = WasmEdge_ValueGenI32(5678);
+WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;call_add&quot;);
+WasmEdge_Result Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 3, R, 1);
+WasmEdge_StringDelete(FuncName);
+if (WasmEdge_ResultOK(Res)) {
+  std::cout &lt;&lt; &quot;Result : &quot; &lt;&lt; WasmEdge_ValueGetI32(R[0]) std::endl;
+  /// Will print `6912`.
+} else {
+  return EXIT_FAILURE;
+}
+</code></pre>
+<p>In the host function which would access the object by reference, users can use the <code>WasmEdge_ValueGetExternRef()</code> API to retrieve the reference to the object.</p>
+<pre><code class="language-cpp">/// Modify the `ExternAdd` in the above tutorial.
+WasmEdge_Result ExternAdd(void *, WasmEdge_MemoryInstanceContext *,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /// Function type: {externref, i32, i32} -&gt; {i32}
+  void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
+  AddClass &amp;Obj = *reinterpret_cast&lt;AddClass *&gt;(Ptr);
+  uint32_t C =
+      Obj.add(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<h3 id="passing-an-object-as-functor"><a class="header" href="#passing-an-object-as-functor">Passing an Object As Functor</a></h3>
+<p>As the same as passing a class instance, the functor object instance is needed.</p>
+<pre><code class="language-cpp">struct SquareStruct {
+  uint32_t operator()(uint32_t Val) const { return Val * Val; }
+};
+
+SquareStruct SS;
+</code></pre>
+<p>Then users can pass the object into WasmEdge by using the <code>WasmEdge_ValueGenExternRef()</code> API.</p>
+<pre><code class="language-cpp">WasmEdge_Value P[2], R[1];
+P[0] = WasmEdge_ValueGenExternRef(&amp;SS);
+P[1] = WasmEdge_ValueGenI32(1024);
+WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;call_square&quot;);
+WasmEdge_Result Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 2, R, 1);
+WasmEdge_StringDelete(FuncName);
+if (WasmEdge_ResultOK(Res)) {
+  std::cout &lt;&lt; &quot;Result : &quot; &lt;&lt; WasmEdge_ValueGetI32(R[0]) std::endl;
+  /// Will print `1048576`.
+} else {
+  return EXIT_FAILURE;
+}
+</code></pre>
+<p>In the host function which would access the object by reference, users can use the <code>WasmEdge_ValueGetExternRef</code> API to retrieve the reference to the object, and the reference is a functor.</p>
+<pre><code class="language-cpp">/// Modify the `ExternSquare` in the above tutorial.
+WasmEdge_Result ExternSquare(void *, WasmEdge_MemoryInstanceContext *,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /// Function type: {externref, i32, i32} -&gt; {i32}
+  void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
+  SquareStruct &amp;Obj = *reinterpret_cast&lt;SquareStruct *&gt;(Ptr);
+  uint32_t C = Obj(WasmEdge_ValueGetI32(In[1]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<h3 id="passing-stl-objects"><a class="header" href="#passing-stl-objects">Passing STL Objects</a></h3>
+<p>The <a href="../test/externref/externrefTestData/stl.wasm">example Wasm binary</a> (<a href="../test/externref/externrefTestData/stl.wat">this WAT</a> is the corresponding text format) provides functions to interact with host functions which can access C++ STL objects.
+Assume that the WASM file <code>stl.wasm</code> is copied into the current directory.</p>
+<p>Take the <code>std::ostream</code> and <code>std::string</code> objects for example. Assume that there's a host function accesses to a <code>std::ostream</code> and a <code>std::string</code> through <code>externref</code>s:</p>
+<pre><code class="language-cpp">/// Host function to output std::string through std::ostream
+WasmEdge_Result ExternSTLOStreamStr(void *, WasmEdge_MemoryInstanceContext *,
+                                    const WasmEdge_Value *In,
+                                    WasmEdge_Value *) {
+  /// Function type: {externref, externref} -&gt; {}
+  void *Ptr0 = WasmEdge_ValueGetExternRef(In[0]);
+  void *Ptr1 = WasmEdge_ValueGetExternRef(In[1]);
+  std::ostream &amp;RefOS = *reinterpret_cast&lt;std::ostream *&gt;(Ptr0);
+  std::string &amp;RefStr = *reinterpret_cast&lt;std::string *&gt;(Ptr1);
+  RefOS &lt;&lt; RefStr;
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<p>Assume that the above host function is added into an import object <code>ImpObj</code>, and the <code>ImpObj</code> is register into a VM context <code>VMCxt</code>.
+Then users can instantiate the Wasm module:</p>
+<pre><code class="language-cpp">WasmEdge_Result Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;stl.wasm&quot;);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM file loading failed\n&quot;);
+  return EXIT_FAILURE;
+}
+Res = WasmEdge_VMValidate(VMCxt);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM validation failed\n&quot;);
+  return EXIT_FAILURE;
+}
+Res = WasmEdge_VMInstantiate(VMCxt);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM instantiation failed\n&quot;);
+  return EXIT_FAILURE;
+}
+</code></pre>
+<p>Last, pass the <code>std::cout</code> and a <code>std::string</code> object by external references.</p>
+<pre><code class="language-cpp">std::string PrintStr(&quot;Hello world!&quot;);
+WasmEdge_Value P[2], R[1];
+P[0] = WasmEdge_ValueGenExternRef(&amp;std::cout);
+P[1] = WasmEdge_ValueGenExternRef(&amp;PrintStr);
+WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;call_ostream_str&quot;);
+WasmEdge_Result Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 2, R, 1);
+/// Will print &quot;Hello world!&quot; to stdout.
+WasmEdge_StringDelete(FuncName);
+if (!WasmEdge_ResultOK(Res)) {
+  return EXIT_FAILURE;
+}
+</code></pre>
+<p>For other C++ STL objects cases, such as <code>std::vector&lt;T&gt;</code>, <code>std::map&lt;T, U&gt;</code>, or <code>std::set&lt;T&gt;</code>, the object can be accessed correctly in host functions if the type in <code>reinterpret_cast</code> is correct.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../extend/plugin/hostfunction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../extend/plugin/hostfunction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

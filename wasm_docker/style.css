@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #5241b4;
+  --secondary-color: #ffe14d;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+header {
+  background-image: url('assets/images/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  box-shadow: inset 10000px 0 rgba(31, 22, 85, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+header h1,
+header h2 {
+  text-align: center;
+}
+
+header > h1 {
+  color: var(--secondary-color);
+  letter-spacing: 2.5px;
+  font-size: 2.5rem;
+}
+
+header .comparison-container > h2 {
+  color: #fff;
+  font-weight: 100;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-size: 2rem;
+  margin-bottom: 50px;
+}
+
+.comparison-container .comparison {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.comparison-container .comparison h2 {
+  background-color: var(--secondary-color);
+  border-radius: 50%;
+  color: var(--primary-color);
+  padding: 20px;
+  font-weight: 800;
+}
+
+.comparison-container .comparison .vs {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 2.5vw;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 3vw;
+}
+
+.comparison-container .comparison .web-assembly p,
+.comparison-container .comparison .docker p {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 10px 30px;
+  border-radius: 90px;
+  font-weight: 800;
+}
+
+.comparison-container img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+figure {
+  max-width: 20vw;
+  position: relative;
+}
+
+figure figcaption {
+  position: absolute;
+  bottom: -1vw;
+  left: 0;
+  right: 0;
+  background-color: #ffe14d;
+  color: var(--primary-color);
+  padding: 5% 0;
+  border-radius: 90px;
+  font-weight: 800;
+  text-align: center;
+  font-size: 1.3vw;
+}
+
+.comparison-container .comparison img[alt='webassembly-logo'] {
+  border: 1.3vw solid white;
+  background-color: #fff;
+}
+
+.comparison-container .comparison img[alt='docker-logo'] {
+  border: 1.3vw solid #6e56f2;
+  background-color: #fff;
+  padding: 20% 10%;
+  height: 20vw;
+  width: 20vw;
+}
+
+section.credit {
+  text-align: center;
+  padding: 35px 0;
+}
+
+section.credit p {
+  padding: 0 0 20px;
+}
+
+section.credit a {
+  color: #000;
+  font-weight: bold;
+}
+
+section.quote {
+  background-color: #774288;
+  color: #fff;
+  padding: 20px 6%;
+}
+
+section.quote h3 {
+  padding: 15px 0;
+  font-weight: lighter;
+}
+
+section.quote .quotee {
+  text-align: end;
+  font-size: 0.9rem;
+  color: #e9e0e9;
+}
+
+section.tables table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+section.tables table th,
+section.tables table td {
+  height: 80px;
+}
+
+section.tables table th:first-child,
+section.tables table td:first-child {
+  padding-left: 5%;
+}
+
+section.tables table th:last-child,
+section.tables table td:last-child {
+  padding-right: 5%;
+}
+
+section.tables table td {
+  background-color: #6f57f3;
+  border-left: 2px solid #6f57f3;
+  width: 33.33%;
+  color: #fff;
+}
+
+section.tables table tr td:nth-child(2) {
+  color: #ffd22d;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+section.tables table tr:nth-child(odd) td {
+  background-color: #5d42f3;
+  border-left: 2px solid #5d42f3;
+}
+
+section.tables table tr td:last-child {
+  text-align: end;
+}
+
+section.tables table tr td:nth-child(even) {
+  text-align: center;
+}
+
+.tweets {
+  display: flex;
+  background-color: #000;
+  color: #fff;
+}
+
+.tweets .tweet-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 1%;
+}
+
+.tweets .tweet-container:last-child {
+  flex-direction: column-reverse;
+}
+
+.tweets .tweet-container > h3 {
+  color: var(--secondary-color);
+  letter-spacing: 2px;
+  text-align: center;
+  font-size: 1.3rem;
+  padding: 5px 0;
+}
+
+.tweets .tweet-container .tweet-box {
+  padding: 4%;
+}
+
+.tweets .tweet-container:first-child .tweet-box {
+  border-right: 1px solid #363638;
+}
+
+.tweets .tweet-container .tweet-box .profile-details {
+  display: flex;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.tweets .tweet-container .profile-picture img {
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 14px;
+}
+
+.tweets .tweet-container .tweet-box .profile-details .name-container p {
+  font-size: 0.8rem;
+}
+
+.tweets .tweet-container .tweet-box .profile-details .name-container .username {
+  color: #949494;
+}
+
+.tweets .tweet-container .tweet-box .profile-details .fa-ellipsis-h {
+  position: absolute;
+  right: 0;
+  color: #949494;
+  cursor: pointer;
+}
+
+.tweets .tweet-container .tweet-box .tweet h3 {
+  font-weight: 400;
+  line-height: 1.6rem;
+}
+
+.footer {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.footer .wasmedge-logo img {
+  text-align: center;
+  width: 300px;
+  max-width: 100%;
+}
+.footer .wasmedge-title {
+  font-size: 1em;
+}
+
+@media screen and (max-width: 800px) {
+  header {
+    height: 60vh;
+  }
+
+  header > h1 {
+    font-size: 5.5vw;
+  }
+
+  header .comparison-container > h2 {
+    font-size: 4.5vw;
+    margin-bottom: 50px;
+  }
+
+  section.tables table {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  header {
+    height: 40vh;
+  }
+
+  .comparison-container .comparison .vs {
+    font-size: 3.5vw;
+  }
+
+  figure figcaption {
+    font-size: 2vw;
+  }
+
+  section.credit {
+    max-width: 80%;
+    margin: auto;
+  }
+
+  section.credit p,
+  section.credit a {
+    word-wrap: break-word;
+  }
+
+  section.tables table {
+    font-size: 0.75rem;
+  }
+
+  section.tables table th,
+  section.tables table td {
+    height: 105px;
+  }
+
+  .tweets .tweet-container > h3 {
+    font-size: 1.1rem;
+    padding: 15px 0;
+  }
+
+  .tweets .tweet-container .tweet-box .tweet h3 {
+    font-size: 1rem;
+  }
+}
