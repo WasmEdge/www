@@ -13,7 +13,7 @@
         if (winWidth > 640) {
             fontSize = winWidth / 1280 * 16;
         } else {
-            fontSize = winWidth / 640 * 16;
+            fontSize = winWidth / 640 * 18;
         }
         htmlElem.style.fontSize = fontSize + 'px';
     }
