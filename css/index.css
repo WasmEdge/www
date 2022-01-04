@@ -22,7 +22,7 @@ nav {
 }
 
 .nav-logo img {
-	width: 13.75rem;
+	width: 13.6rem;
 }
 
 @media only screen and (max-width: 640px) {
@@ -38,7 +38,6 @@ nav {
 	margin-top: 4rem;
 	background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(97,0,255,1) 100%);
 	overflow: hidden;
-	box-shadow: -6rem 2rem 6rem 2rem #230938;
 }
 
 .cloud {
@@ -167,7 +166,7 @@ h1 {
 	}
 
 	.wasm-snippet-trail pre code {
-		font-size: 0.65rem;
+		font-size: 0.5rem;
 		line-height: 1;
 	}
 	.wasm-snippet-trail:nth-of-type(2) {
@@ -187,21 +186,21 @@ h1 {
 	}
 
 	.snippet-trail-line {
-		top: 5.8rem;
+		top: 4.8rem;
 		left: 8rem;
 	}
 
 	.snippet-trail-line img {
-		width: 14rem;
+		width: 12rem;
 	}
 
 	.wasmedge-in-cloud img {
-		width: 15rem;
+		width: 12rem;
 	}
 
 	.explain-text {
 		font-size: 1.25rem;
-		width: 16rem;
+		width: 14rem;
 		margin-top: 1rem;
 	}
 }
@@ -278,7 +277,7 @@ h1 {
 @media only screen and (max-width: 640px) {
 	.features {
 		background-color: #fff;
-		padding: 4rem 0;
+		padding: 6rem 0 4rem;
 	}
 
 	.m-feature-frame {
@@ -290,7 +289,7 @@ h1 {
 		background-image: url("data:image/svg+xml,%0A%3Csvg width='58' height='117' viewBox='0 0 58 117' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M58 58.5C58 90.8087 31.8087 117 -0.5 117V0C31.8087 0 58 26.1913 58 58.5Z' fill='white'/%3E%3C/svg%3E%0A");
 		background-repeat: no-repeat;
 		background-position: center left;
-		background-size: 2.125rem 4.25rem;
+		background-size: 2.25rem 4.5rem;
 	}
 	
 	.m-feature-frame:not(:first-child) {
@@ -409,6 +408,10 @@ h1 {
 		padding: 4rem 0;
 	}
 
+	.partner-text {
+		width: 100%;
+	}
+
 	.parterns-gallery figure:nth-of-type(n+3) {
 		margin-top: 3rem;
 	}
@@ -505,6 +508,7 @@ h1 {
 	background-color: #000;
 	padding: 7rem 0;
 	color: #fff;
+	box-shadow: -6rem 2rem 6rem 2rem #230938;
 }
 
 .fulfill h2 {
@@ -562,6 +566,7 @@ h1 {
 @media only screen and (max-width: 640px) {
 	.fulfill {
 		padding: 4rem 0;
+		box-shadow: 0 2rem 6rem 3rem #230938;
 	}
 	.fulfill h2 {
 		margin-bottom: 3rem;
