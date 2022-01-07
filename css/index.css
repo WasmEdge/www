@@ -203,6 +203,12 @@ h1 {
 		width: 14rem;
 		margin-top: 1rem;
 	}
+	.btn {
+		font-size: 1.75rem;
+		height: 3rem;
+		line-height: 2.8rem;
+		padding: 0 1.5rem;
+	}
 }
 /**************************
  * hero end
@@ -303,7 +309,7 @@ h1 {
 	}
 
 	.m-feature-detail {
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 		font-weight: 300;
 	}
 
@@ -410,6 +416,7 @@ h1 {
 
 	.partner-text {
 		width: 100%;
+		font-size: 2rem;
 	}
 
 	.parterns-gallery figure:nth-of-type(n+3) {
@@ -476,23 +483,23 @@ h1 {
 		width: 100%;
 	}
 	.article-date {
-		font-size: 1.5rem;
+		font-size: 2rem;
 	}
 	.news-article:not(:first-child) {
 		margin-top: 3rem;
 	}
 	.article-title {
-		font-size: 1.5rem;
+		font-size: 2rem;
 		width: auto;
 		margin-bottom: 0.5rem;
 	}
 	.article-summary {
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 		margin-bottom: 0.5rem;
 	}
 
 	.article-link a {
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 	}
 }
 
@@ -572,6 +579,7 @@ h1 {
 		margin-bottom: 3rem;
 	}
 	.wasmedge-install-command code {
+		font-size: 1rem;
 		overflow: scroll;
 	}
 }
@@ -652,6 +660,14 @@ h1 {
 
 	.footer-right {
 		margin-top: 2rem;
+	}
+
+	.footer-entries dt {
+		font-size: 1.5rem;
+	}
+
+	.footer-entries dd a {
+		font-size: 1.5rem;
 	}
 }
 /**************************
