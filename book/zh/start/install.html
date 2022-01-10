@@ -158,7 +158,7 @@
 <pre><code class="language-bash">curl --sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
 <p>执行 <code>source $HOME/.wasmedge/env</code> 命令能使已安装的二进制文件在当前会话中可用。</p>
-<p>**就这么简单！**你现在可以通过命令行使用 WasmEdge，或者直接将其作为应用打开。要想升级 WasmEdge，你只需要重新执行以上的命令，旧的文件将被覆盖。</p>
+<p><strong>就这么简单！</strong> 你现在可以通过命令行使用 WasmEdge，或者直接将其作为应用打开。要想升级 WasmEdge，你只需要重新执行以上的命令，旧的文件将被覆盖。</p>
 <h2 id="为所有用户安装-wasmedge"><a class="header" href="#为所有用户安装-wasmedge">为所有用户安装 WasmEdge</a></h2>
 <p>在默认情况下，WasmEdge 将安装在 <code>$HOME/.wasmedge</code> 目录中。你也可以将它安装在系统目录中，如 <code>/usr/local</code>，以便所有用户都能使用 WasmEdge。要想指定一个安装路径，你可以在执行 <code>install.sh</code> 脚本时附上 <code>-p</code> 参数。由于文件将写入系统目录，你需要以 <code>root</code> 用户或 <code>sudo</code> 权限执行以下命令：</p>
 <pre><code class="language-bash">curl --sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
@@ -174,7 +174,7 @@
 <h2 id="安装内容"><a class="header" href="#安装内容">安装内容</a></h2>
 <p>安装完成后，你将会得到以下的目录和文件。这里我们假设你将 WasmEdge 安装到 <code>$HOME/.wasmedge</code> 目录中。如果你想进行系统范围的安装，你也可以将安装目录更改为 <code>/usr/local</code>。</p>
 <ul>
-<li>The <code>$HOME/.wasmedge/bin</code> 目录包含 WasmEdge Runtime CLI 可执行文件。你可以拷贝这些文件并放置到任意目录中。
+<li><code>$HOME/.wasmedge/bin</code> 目录包含 WasmEdge Runtime CLI 可执行文件。你可以拷贝这些文件并放置到任意目录中。
 <ul>
 <li><code>wasmedge</code> 工具是标准的 WasmEdge 运行时。你可以在命令行中使用它：<code>wasmedge --dir .:. app.wasm</code>。</li>
 <li><code>wasmedgec</code> 工具是 AOT 编译器，它能将 <code>wasm</code> 文件编译为原生 <code>so</code> 文件：<code>wasmedgec app.wasm app.so</code>。之后，<code>wasmedge</code> 就能执行 <code>so</code> 文件了：<code>wasmedge --dir .:. app.so</code>。</li>
