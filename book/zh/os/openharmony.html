@@ -150,6 +150,107 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="open-harmony"><a class="header" href="#open-harmony">Open Harmony</a></h1>
+<h2 id="从源码在-openharmony-standard-上构建和测试-wasmedge"><a class="header" href="#从源码在-openharmony-standard-上构建和测试-wasmedge">从源码在 OpenHarmony Standard 上构建和测试 WasmEdge</a></h2>
+<p>请参考这个教程来从源码在 OpenHarmony 标准系统中构建和测试 WasmEdge</p>
+<h2 id="环境准备"><a class="header" href="#环境准备">环境准备</a></h2>
+<h3 id="openharmony-标准系统"><a class="header" href="#openharmony-标准系统">OpenHarmony 标准系统</a></h3>
+<p>OpenHarmony 标准系统为开发者提供的 Docker 环境将对应的编译工具链进行了封装，本文档主要介绍在 Docker 环境下构建 WasmEdge 的步骤.</p>
+<p>OpenHarmony 源码的获取与编译可以参考文档 <a href="https://www.openharmony.cn/pages/00010102/">搭建Ubuntu环境-Docker方式</a></p>
+<p>请注意，在构建 WasmEdge 前需要将 Openharmony 进行一次全量编译以便后续WasmEdge的交叉编译过程.</p>
+<pre><code class="language-bash"># 获取到 docker 镜像后
+$ docker run -it -v $(pwd):/home/openharmony openharmony-docker-standard:0.0.5
+(root@xxxxxx:/home/openharmony/)$ ./build.sh --product-name Hi3516DV300
+</code></pre>
+<h2 id="获取源码"><a class="header" href="#获取源码">获取源码</a></h2>
+<p>OpenHarmony 将三方库项目放在了 third_party 文件夹下，因此本文档在 third_party 文件夹下获取 WasmEdge 源码，用户可以根据需要更改路径并修改相关配置文件中的路径。</p>
+<pre><code class="language-bash">$ docker run -it -v $(pwd):/home/openharmony openharmony-docker-standard:0.0.5
+(root@xxxxxx:/home/openharmony)$ cd third_party
+(root@xxxxxx:/home/openharmony/third_party)$ git clone https://github.com/WasmEdge/WasmEdge.git
+(root@xxxxxx:/home/openharmony/third_party)$ cd WasmEdge
+(root@xxxxxx:/home/openharmony/third_party/WasmEdge)$ 
+</code></pre>
+<h2 id="修改-openharmony-标准系统配置文件"><a class="header" href="#修改-openharmony-标准系统配置文件">修改 OpenHarmony 标准系统配置文件</a></h2>
+<h3 id="添加-wasmedge-子系统配置"><a class="header" href="#添加-wasmedge-子系统配置">添加 WasmEdge 子系统配置</a></h3>
+<p>修改 OpenHarmony 的 build 目录下的 <code>subsystem_config.json</code> 文件，添加 <code>wasmedge</code> 子系统。</p>
+<pre><code>{
+  ...
+  
+  &quot;wasmedge&quot;: {
+    &quot;path&quot;: &quot;third_party/WasmEdge&quot;,
+    &quot;name&quot;: &quot;wasmedge&quot;
+  },
+  
+  ...
+}
+</code></pre>
+<h3 id="将组件添加到产品配置中"><a class="header" href="#将组件添加到产品配置中">将组件添加到产品配置中</a></h3>
+<p>修改 OpenHarmony 产品配置文件，标准系统对应的配置文件：<code>productdefine/common/products/Hi3516DV300.json</code>。
+在该配置文件中添加 <code>&quot;wasmedge:wasmedge&quot;:{}</code>，表示该产品中会编译并打包 wasmedge 子系统下的 <code>wasmedge</code> 模块到版本中。</p>
+<pre><code>{
+  ...
+  &quot;parts&quot;:{
+    ...
+    &quot;wasmedge:wasmedge&quot;:{}
+  }
+}
+</code></pre>
+<h2 id="构建-wasmedge"><a class="header" href="#构建-wasmedge">构建 WasmEdge</a></h2>
+<h3 id="说明"><a class="header" href="#说明">说明</a></h3>
+<p>在 OpenHarmony 中构建的 WasmEdge 目前仅支持 <code>wasmedge</code>，即 wasm 的通用运行时。</p>
+<ul>
+<li><code>wasmedge</code> 可以在解释器模式下执行一个 <code>WASM</code> 文件， 也可以在预编译模式下执行通用 Wasm 二进制格式文件， 目前还不支持在 OpenHarmony 中使用预编译模式 。</li>
+</ul>
+<h3 id="执行构建脚本"><a class="header" href="#执行构建脚本">执行构建脚本</a></h3>
+<p>通过执行 WasmEdge 源码下的 <code>utils/build_for_ohos.sh</code> 命令行脚本，将自动执行以下工作：</p>
+<ol>
+<li>将 .gn 等 OpenHarmony 需要的构建配置文件移动到 WasmEdge 项目根目录。</li>
+<li>使用 OpenHarmony 的编译工具链进行交叉编译构建 WasmEdge。</li>
+<li>运行 OpenHarmony 的构建脚本 <code>build.sh</code> 进行全量编译，该步骤将 <code>wasmedge</code> 添加进 OpenHarmony OS。</li>
+</ol>
+<pre><code class="language-bash">$ docker run -it -v $(pwd):/home/openharmony openharmony-docker-standard:0.0.5
+(root@xxxxxx:/home/openharmony)$ cd third_party/WasmEdge/utils/ohos
+(root@xxxxxx:/home/openharmony/third_party/WasmEdge/utils/ohos)$ ./build_for_ohos.sh /home/openharmony
+</code></pre>
+<p>当显示以下信息时，表明编译完成.</p>
+<pre><code>...
+
+post_process
+=====build Hi3516DV300 successful.
+2021-12-15 03:18:50
+++++++++++++++++++++++++++++++++++++++++
+
+</code></pre>
+<p>检查 <code>wasmedge</code> 是否编译打包进 OpenHarmony OS。</p>
+<pre><code class="language-bash">(root@xxxxxx:/home/openharmony/third_party/WasmEdge/utils/ohos)$ cd /home/openharmony/out/ohos-arm-release/packages/phone/system/bin
+(root@xxxxxx:/home/openharmony/out/ohos-arm-release/packages/phone/system/bin)$ ls 
+</code></pre>
+<p>当输出的文件名中存在 <code>wasmedge</code> ，表明成功加入 OpenHarmony OS。</p>
+<h2 id="测试"><a class="header" href="#测试">测试</a></h2>
+<h3 id="烧录镜像"><a class="header" href="#烧录镜像">烧录镜像</a></h3>
+<p>将重新编译后的 OpenHarmony 标准系统镜像烧录进开发板，具体见 OpenHarmony 文档<a href="https://device.harmonyos.com/cn/docs/documentation/guide/hi3516_upload-0000001052148681">Hi3516DV300开发板烧录</a></p>
+<h3 id="运行应用"><a class="header" href="#运行应用">运行应用</a></h3>
+<p>在 OpenHarmony 标准系统中，WasmEdge 提供了测试样例，并写入了 system 镜像中，供用户进行测试。
+通过串口工具连接上开发板并启动OpenHarmony标准系统后，用户可以进行以下测试。</p>
+<pre><code># cd /system/usr/wasmedge_example
+# wasmedge hello.wasm 1 2 3
+hello
+1
+2
+3
+# wasmedge --reactor add.wasm add 2 2
+4
+# wasmedge --reactor fibonacci.wasm fib 8
+34
+# wasmedge --reactor factorial.wasm fac 12
+479001600
+#
+# cd js
+# wasmedge --dir .:. qjs.wasm hello.js 1 2 3
+Hello 1 2 3
+
+</code></pre>
+<h2 id="开发"><a class="header" href="#开发">开发</a></h2>
+<p>接下来，你可以使用 WasmEdge Runtime 在 OpenHarmony 标准系统中进行 WebAssembly 的相关开发工作。</p>
 
                     </main>
 
