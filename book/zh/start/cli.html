@@ -150,6 +150,82 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="wasmedge-命令行"><a class="header" href="#wasmedge-命令行">WasmEdge 命令行</a></h1>
+<p>在 <a href="install.html">安装 WasmEdge</a> 之后或启动 <a href="docker.html">WasmEdge 应用开发容器</a> 时, 有几种方式可以运行已经编译好的 WebAssembly 程序.</p>
+<h2 id="wasmedge"><a class="header" href="#wasmedge">wasmedge</a></h2>
+<p><code>wasmedge</code> 是一个用来运行 WebAssembly 程序应用的命令行工具 (CLI).</p>
+<ul>
+<li>假如 WebAssembly 程序包含一个 <code>main()</code> 方法, <code>wasmedge</code> 将在命令行以一种独立程序的方式来执行它.</li>
+<li>假如 WebAssembly 程序包含一个或者多个公开的(<code>public</code>)方法, <code>wasmedge</code> 将把它们当做独立的方法, 在 Reactor 模式下执行.</li>
+</ul>
+<h3 id="命令行选项"><a class="header" href="#命令行选项">命令行选项</a></h3>
+<p><code>wasmedge</code> 的选项和标志位如下所示:</p>
+<ol>
+<li>(可选) 统计信息:
+<ul>
+<li>用 <code>--enable-time-measuring</code> 来展示执行时间.</li>
+<li>用 <code>--enable-gas-measuring</code> 来展示使用 gas 的数量.</li>
+<li>用 <code>--enable-instruction-count</code> 来展示执行的指令数量.</li>
+<li>或者用 <code>--enable-all-statistics</code> 来启用所有的统计选项.</li>
+</ul>
+</li>
+<li>(可选) 资源限制:
+<ul>
+<li>用 <code>--gas-limit</code> 来限制执行花费的 gas.</li>
+<li>用 <code>--memory-page-limit</code> 来设置每一个内存实例的 pages 限制 (as size of 64 KiB).</li>
+</ul>
+</li>
+<li>(可选) Reactor 模式: 用 <code>--reactor</code> 来启用 reactor 模式. 在 reactor 模式下, <code>wasmedge</code> 运行 WebAssembly 程序中一个特定的方法如下所示:
+<ul>
+<li>WasmEdge 将从命令行中，提取第一个参数 <code>ARG[0]</code> 的值作为函数名称执行.</li>
+<li>假如存在名为 <code>_initialize</code> 的导出方法, 这个方法将最先执行, 执行的参数为空.</li>
+</ul>
+</li>
+<li>(可选) 绑定目录给 WASI 虚拟文件系统.
+<ul>
+<li>每一个目录可以被指定为 <code>--dir guest_path:host_path</code>.</li>
+</ul>
+</li>
+<li>(可选) 环境变量.
+<ul>
+<li>每一个变量可以被指定为 <code>--env NAME=VALUE</code>.</li>
+</ul>
+</li>
+<li>Wasm 文件 (<code>/path/to/wasm/file</code>).</li>
+<li>(可选) 参数.
+<ul>
+<li>在 reactor 模式下, 第一个参数将作为函数的名称, 在 <code>ARG[0]</code> 后的其余参数, 将作为参数传入 <code>ARG[0]</code> 指定的 wasm 方法.</li>
+<li>在命令行模式下, 命令行参数也将成为函数 <code>_start</code> 的形参. 它们也被称为独立程序的命令行参数.</li>
+</ul>
+</li>
+</ol>
+<p>一旦安装完毕, 你可以 <a href="../index.html">查看并运行我们的示例</a>.</p>
+<h2 id="wasmedgec"><a class="header" href="#wasmedgec">wasmedgec</a></h2>
+<p><code>wasmedgec</code> 是一个把 WebAssembly 字节码程序编译成原生机器码的可执行文件 (即 the AOT compiler).
+编译好的机器码会被 <a href="universal.html">储存在原本的 <code>wasm</code> 文件中</a>, 
+<code>wasmedge</code> CLI 一旦发现原生机器码可用，将自动的选择它来执行.</p>
+<p><code>wasmedgec</code> 的选项和标志位如下所示:</p>
+<ol>
+<li>输入的Wasm文件路径(<code>/path/to/input/wasm/file</code>).</li>
+<li>输出的文件名称(<code>/path/to/output/file</code>).
+<ul>
+<li>默认情况, 它将生成 <a href="universal.html">通用的 Wasm 二进制的格式</a>.</li>
+<li>用户也可以，通过指定 <code>.so</code>, <code>.dylib</code>, 或者 <code>.dll</code> 这些扩展名，来生成原生二进制文件.</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-bash">// This is slow
+$ wasmedge app.wasm
+
+// AOT compile
+$ wasmedgec app.wasm app.wasm
+
+// This is now MUCH faster
+$ wasmedge app.wasm
+</code></pre>
+<p>在 Linux 系统, 它会生成一个 <code>so</code> 共享库文件来被 <code>wasmedge</code> CLI 执行.</p>
+<pre><code class="language-bash">$ wasmedgec app.wasm app.so
+$ wasmedge app.so
+</code></pre>
 
                     </main>
 
