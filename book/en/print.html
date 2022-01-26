@@ -2120,7 +2120,7 @@ sys	0m0.011s
 <p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
 <h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
 <ul>
-<li><a href="embed/c/ref.html#wasmEdge-installation">WasmEdge Installation</a>
+<li><a href="embed/c/ref.html#wasmedge-installation">WasmEdge Installation</a>
 <ul>
 <li><a href="embed/c/ref.html#download-and-install">Download And Install</a></li>
 <li><a href="embed/c/ref.html#compile-sources">Compile Sources</a></li>
@@ -2146,6 +2146,7 @@ sys	0m0.011s
 <li><a href="embed/c/ref.html#preregistrations">Preregistrations</a></li>
 <li><a href="embed/c/ref.html#host-module-registrations">Host Module Registrations</a></li>
 <li><a href="embed/c/ref.html#wasm-registrations-and-executions">WASM Registrations And Executions</a></li>
+<li><a href="embed/c/ref.html#asynchronous-execution">Asynchronous execution</a></li>
 <li><a href="embed/c/ref.html#instance-tracing">Instance Tracing</a></li>
 </ul>
 </li>
@@ -2173,7 +2174,7 @@ sys	0m0.011s
 <p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>wget</code> as prerequisites.</p>
 <pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
 </code></pre>
-<p>For more details, please refer to the <a href="embed/c/install.html">Installation Guide</a> for the WasmEdge installation.</p>
+<p>For more details, please refer to the <a href="embed/c//start/install.html">Installation Guide</a> for the WasmEdge installation.</p>
 <h3 id="compile-sources"><a class="header" href="#compile-sources">Compile Sources</a></h3>
 <p>After the installation of WasmEdge, the following guide can help you to test for the availability of the WasmEdge C API.</p>
 <ol>
@@ -2327,7 +2328,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 <p>The details of other contexts will be introduced later.</p>
 <h3 id="wasm-data-structures"><a class="header" href="#wasm-data-structures">WASM Data Structures</a></h3>
 <p>The WASM data structures are used for creating instances or can be queried from instance contexts.
-The details of instances creation will be introduced in the <a href="embed/c/ref.html#Instances">Instances</a>.</p>
+The details of instances creation will be introduced in the <a href="embed/c/ref.html#instances">Instances</a>.</p>
 <ol>
 <li>
 <p>Limit</p>
@@ -2406,9 +2407,9 @@ WasmEdge_GlobalTypeDelete(GlobTypeCxt);
 </li>
 <li>
 <p>Import type context</p>
-<p>The <code>Import Type</code> context is used for getting the imports information from a <a href="embed/c/ref.html#AST-Module">AST Module</a>.
+<p>The <code>Import Type</code> context is used for getting the imports information from a <a href="embed/c/ref.html#ast-module">AST Module</a>.
 Developers can get the external type (<code>function</code>, <code>table</code>, <code>memory</code>, or <code>global</code>), import module name, and external name from an <code>Import Type</code> context.
-The details about querying <code>Import Type</code> contexts will be introduced in the <a href="embed/c/ref.html#AST-Module">AST Module</a>.</p>
+The details about querying <code>Import Type</code> contexts will be introduced in the <a href="embed/c/ref.html#ast-module">AST Module</a>.</p>
 <pre><code class="language-c">WasmEdge_ASTModuleContext *ASTCxt = ...;
 /* Assume that `ASTCxt` is returned by the `WasmEdge_LoaderContext` for the result of loading a WASM file. */
 const WasmEdge_ImportTypeContext *ImpType = ...;
@@ -2434,9 +2435,9 @@ const WasmEdge_GlobalTypeContext *GlobTypeCxt = WasmEdge_ImportTypeGetGlobalType
 </li>
 <li>
 <p>Export type context</p>
-<p>The <code>Export Type</code> context is used for getting the exports information from a <a href="embed/c/ref.html#AST-Module">AST Module</a>.
+<p>The <code>Export Type</code> context is used for getting the exports information from a <a href="embed/c/ref.html#ast-module">AST Module</a>.
 Developers can get the external type (<code>function</code>, <code>table</code>, <code>memory</code>, or <code>global</code>) and external name from an <code>Export Type</code> context.
-The details about querying <code>Export Type</code> contexts will be introduced in the <a href="embed/c/ref.html#AST-Module">AST Module</a>.</p>
+The details about querying <code>Export Type</code> contexts will be introduced in the <a href="embed/c/ref.html#ast-module">AST Module</a>.</p>
 <pre><code class="language-c">WasmEdge_ASTModuleContext *ASTCxt = ...;
 /* Assume that `ASTCxt` is returned by the `WasmEdge_LoaderContext` for the result of loading a WASM file. */
 const WasmEdge_ExportTypeContext *ExpType = ...;
@@ -2460,6 +2461,56 @@ const WasmEdge_GlobalTypeContext *GlobTypeCxt = WasmEdge_ExportTypeGetGlobalType
 </code></pre>
 </li>
 </ol>
+<h3 id="async"><a class="header" href="#async">Async</a></h3>
+<p>After calling the <a href="embed/c/ref.html#asynchronous-execution">asynchronous execution APIs</a>, developers will get the <code>WasmEdge_Async</code> object.
+Developers own the object and should call the <code>WasmEdge_AsyncDelete()</code> API to destroy it.</p>
+<ol>
+<li>
+<p>Wait for the asynchronous execution</p>
+<p>Developers can wait the execution until finished:</p>
+<pre><code class="language-c">WasmEdge_Async *Async = ...; /* Ignored. Asynchronous execute a function. */
+/* Blocking and waiting for the execution. */
+WasmEdge_AsyncWait(Async);
+WasmEdge_AsyncDelete(Async);
+</code></pre>
+<p>Or developers can wait for a time limit.
+If the time limit exceeded, developers can choose to cancel the execution.
+For the interruptible execution in AOT mode, developers should set <code>TRUE</code> thourgh the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
+<pre><code class="language-c">WasmEdge_Async *Async = ...; /* Ignored. Asynchronous execute a function. */
+/* Blocking and waiting for the execution for 1 second. */
+bool IsEnd = WasmEdge_AsyncWaitFor(Async, 1000);
+if (IsEnd) {
+  /* The execution finished. Developers can get the result. */
+  WasmEdge_Result Res = WasmEdge_AsyncGet(/* ... Ignored */);
+} else {
+  /* The time limit exceeded. Developers can keep waiting or cancel the execution. */
+  WasmEdge_AsyncCancel(Async);
+  WasmEdge_Result Res = WasmEdge_AsyncGet(Async, 0, NULL);
+  /* The result error code will be `WasmEdge_ErrCode_Interrupted`. */
+}
+WasmEdge_AsyncDelete(Async);
+</code></pre>
+</li>
+<li>
+<p>Get the execution result of the asynchronous execution</p>
+<p>Developers can use the <code>WasmEdge_AsyncGetReturnsLength()</code> API to get the return value list length.
+This function will block and wait for the execution. If the execution has finished, this function will return the length immediately. If the execution failed, this function will return <code>0</code>.
+This function can help the developers to create the buffer to get the return values. If developers have already known the buffer length, they can skip this function and use the <code>WasmEdge_AsyncGet()</code> API to get the result.</p>
+<pre><code class="language-c">WasmEdge_Async *Async = ...; /* Ignored. Asynchronous execute a function. */
+/* Blocking and waiting for the execution and get the return value list length. */
+uint32_t Arity = WasmEdge_AsyncGetReturnsLength(Async);
+WasmEdge_AsyncDelete(Async);
+</code></pre>
+<p>The <code>WasmEdge_AsyncGet()</code> API will block and wait for the execution. If the execution has finished, this function will fill the return values into the buffer and return the execution result immediately.</p>
+<pre><code class="language-c">WasmEdge_Async *Async = ...; /* Ignored. Asynchronous execute a function. */
+/* Blocking and waiting for the execution and get the return values. */
+const uint32_t BUF_LEN = 256;
+WasmEdge_Value Buf[BUF_LEN];
+WasmEdge_Result Res = WasmEdge_AsyncGet(Async, Buf, BUF_LEN);
+WasmEdge_AsyncDelete(Async);
+</code></pre>
+</li>
+</ol>
 <h3 id="configurations"><a class="header" href="#configurations">Configurations</a></h3>
 <p>The configuration context, <code>WasmEdge_ConfigureContext</code>, manages the configurations for <code>Loader</code>, <code>Validator</code>, <code>Executor</code>, <code>VM</code>, and <code>Compiler</code>.
 Developers can adjust the settings about the proposals, VM host pre-registrations (such as <code>WASI</code>), and AOT compiler options, and then apply the <code>Configure</code> context to create other runtime contexts.</p>
@@ -2477,10 +2528,11 @@ This configuration is effective in any contexts created with the <code>Configure
   WasmEdge_Proposal_ReferenceTypes,
   WasmEdge_Proposal_SIMD,
   WasmEdge_Proposal_TailCall,
+  WasmEdge_Proposal_MultiMemories,
   WasmEdge_Proposal_Annotations,
   WasmEdge_Proposal_Memory64,
-  WasmEdge_Proposal_Threads,
   WasmEdge_Proposal_ExceptionHandling,
+  WasmEdge_Proposal_Threads,
   WasmEdge_Proposal_FunctionReferences
 };
 </code></pre>
@@ -2496,7 +2548,7 @@ This configuration is effective in any contexts created with the <code>Configure
  * * Fixed-width SIMD
  */
 WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
-WasmEdge_ConfigureAddProposal(ConfCxt, WasmEdge_Proposal_SIMD);
+WasmEdge_ConfigureAddProposal(ConfCxt, WasmEdge_Proposal_MultiMemories);
 WasmEdge_ConfigureRemoveProposal(ConfCxt, WasmEdge_Proposal_ReferenceTypes);
 bool IsBulkMem = WasmEdge_ConfigureHasProposal(ConfCxt, WasmEdge_Proposal_BulkMemoryOperations);
 /* The `IsBulkMem` will be `TRUE`. */
@@ -2511,7 +2563,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
   WasmEdge_HostRegistration_WasmEdge_Process
 };
 </code></pre>
-<p>The details will be introduced in the <a href="embed/c/ref.html###Preregistrations">preregistrations of VM context</a>.</p>
+<p>The details will be introduced in the <a href="embed/c/ref.html#preregistrations">preregistrations of VM context</a>.</p>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
 bool IsHostWasi = WasmEdge_ConfigureHasHostRegistration(ConfCxt, WasmEdge_HostRegistration_Wasi);
 /* The `IsHostWasi` will be `FALSE`. */
@@ -2573,6 +2625,9 @@ WasmEdge_ConfigureCompilerSetOutputFormat(ConfCxt, WasmEdge_CompilerOutputFormat
 WasmEdge_ConfigureCompilerSetDumpIR(ConfCxt, TRUE);
 /* By default, the generic binary is `FALSE`. */
 WasmEdge_ConfigureCompilerSetGenericBinary(ConfCxt, TRUE);
+/* By default, the interruptible is `FALSE`.
+/* Set this option to `TRUE` to support the interruptible execution in AOT mode. */
+WasmEdge_ConfigureCompilerSetInterruptible(ConfCxt, TRUE);
 WasmEdge_ConfigureDelete(ConfCxt);
 </code></pre>
 </li>
@@ -2759,6 +2814,11 @@ int main() {
   } else {
     printf(&quot;Execution phase failed: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
   }
+
+  /* Resources deallocations. */
+  WasmEdge_VMDelete(VMCxt);
+  WasmEdge_ConfigureDelete(ConfCxt);
+  WasmEdge_StringDelete(FuncName);
   return 0;
 }
 </code></pre>
@@ -2809,7 +2869,7 @@ When in the <code>Instantiated</code> status, developers can instantiate the WAS
 <h3 id="vm-creations"><a class="header" href="#vm-creations">VM Creations</a></h3>
 <p>The <code>VM</code> creation API accepts the <code>Configure</code> context and the <code>Store</code> context.
 If developers only need the default settings, just pass <code>NULL</code> to the creation API.
-The details of the <code>Store</code> context will be introduced in <a href="embed/c/ref.html#Store">Store</a>.</p>
+The details of the <code>Store</code> context will be introduced in <a href="embed/c/ref.html#store">Store</a>.</p>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
 WasmEdge_StoreContext *StoreCxt = WasmEdge_StoreCreate();
 WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(ConfCxt, StoreCxt);
@@ -2842,7 +2902,7 @@ WasmEdge_ImportObjectInitWASI(WasiObject, /* ... ignored */ );
 WasmEdge_VMDelete(VMCxt);
 WasmEdge_ConfigureDelete(ConfCxt);
 </code></pre>
-<p>And also can create the WASI import object from API. The details will be introduced in the <a href="embed/c/ref.html#Host-Functions">Host Functions</a> and the <a href="embed/c/ref.html#Host-Module-Registrations">Host Module Registrations</a>.</p>
+<p>And also can create the WASI import object from API. The details will be introduced in the <a href="embed/c/ref.html#host-functions">Host Functions</a> and the <a href="embed/c/ref.html#host-module-registrations">Host Module Registrations</a>.</p>
 </li>
 <li>
 <p><a href="https://crates.io/crates/wasmedge_process_interface">WasmEdge_Process</a></p>
@@ -2860,13 +2920,13 @@ WasmEdge_ImportObjectInitWasmEdgeProcess(ProcObject, /* ... ignored */ );
 WasmEdge_VMDelete(VMCxt);
 WasmEdge_ConfigureDelete(ConfCxt);
 </code></pre>
-<p>And also can create the WasmEdge_Process import object from API. The details will be introduced in the <a href="embed/c/ref.html#Host-Functions">Host Functions</a> and the <a href="embed/c/ref.html#Host-Module-Registrations">Host Module Registrations</a>.</p>
+<p>And also can create the WasmEdge_Process import object from API. The details will be introduced in the <a href="embed/c/ref.html#host-functions">Host Functions</a> and the <a href="embed/c/ref.html#host-module-registrations">Host Module Registrations</a>.</p>
 </li>
 </ol>
 <h3 id="host-module-registrations"><a class="header" href="#host-module-registrations">Host Module Registrations</a></h3>
 <p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#syntax-hostfunc">Host functions</a> are functions outside WebAssembly and passed to WASM modules as imports.
 In WasmEdge, the host functions are composed into host modules as <code>WasmEdge_ImportObjectContext</code> objects with module names.
-Please refer to the <a href="embed/c/ref.html#Host-Functions">Host Functions in WasmEdge Runtime</a> for the details.
+Please refer to the <a href="embed/c/ref.html#host-functions">Host Functions in WasmEdge Runtime</a> for the details.
 In this chapter, we show the example for registering the host modules into a <code>VM</code> context.</p>
 <pre><code class="language-c">WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
 WasmEdge_ImportObjectContext *WasiObject =
@@ -2958,6 +3018,138 @@ Get the result: 10946
 </code></pre>
 </li>
 </ol>
+<h3 id="asynchronous-execution"><a class="header" href="#asynchronous-execution">Asynchronous Execution</a></h3>
+<ol>
+<li>
+<p>Asynchronously run WASM functions rapidly</p>
+<p>Assume that the WASM file <a href="embed/c/../tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+<pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
+#include &lt;stdio.h&gt;
+int main() {
+  /* Create the VM context. */
+  WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+
+  /* The parameters and returns arrays. */
+  WasmEdge_Value Params[1] = { WasmEdge_ValueGenI32(20) };
+  WasmEdge_Value Returns[1];
+  /* Function name. */
+  WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;fib&quot;);
+  /* Asynchronously run the WASM function from file and get the `WasmEdge_Async` object. */
+  WasmEdge_Async *Async = WasmEdge_VMAsyncRunWasmFromFile(VMCxt, &quot;fibonacci.wasm&quot;, FuncName, Params, 1);
+  /* 
+   * Developers can run the WASM binary from buffer with the `WasmEdge_VMAsyncRunWasmFromBuffer()` API,
+   * or from `WasmEdge_ASTModuleContext` object with the `WasmEdge_VMAsyncRunWasmFromASTModule()` API.
+   */
+
+  /* Wait for the execution. */
+  WasmEdge_AsyncWait(Async);
+  /*
+   * Developers can also use the `WasmEdge_AsyncGetReturnsLength()` or `WasmEdge_AsyncGet()` APIs
+   * to wait for the asynchronous execution. These APIs will wait until the execution finished.
+   */
+
+  /* Check the return values length. */
+  uint32_t Arity = WasmEdge_AsyncGetReturnsLength(Async);
+  /* The `Arity` should be 1. Developers can skip this step if they have known the return arity. */
+
+  /* Get the result. */
+  WasmEdge_Result Res = WasmEdge_AsyncGet(Async, Returns, Arity);
+
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the result: %d\n&quot;, WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Error message: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+  }
+
+  /* Resources deallocations. */
+  WasmEdge_AsyncDelete(Async);
+  WasmEdge_VMDelete(VMCxt);
+  WasmEdge_StringDelete(FuncName);
+  return 0;
+}
+</code></pre>
+<p>Then you can compile and run: (the 20th Fibonacci number is 10946 in 0-based index)</p>
+<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+$ ./a.out
+Get the result: 10946
+</code></pre>
+</li>
+<li>
+<p>Instantiate and asynchronously run WASM functions manually</p>
+<p>Besides the above example, developers can run the WASM functions step-by-step with <code>VM</code> context APIs:</p>
+<pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
+#include &lt;stdio.h&gt;
+int main() {
+  /* Create the VM context. */
+  WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+
+  /* The parameters and returns arrays. */
+  WasmEdge_Value Params[1] = { WasmEdge_ValueGenI32(25) };
+  WasmEdge_Value Returns[1];
+  /* Function name. */
+  WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;fib&quot;);
+  /* Result. */
+  WasmEdge_Result Res;
+  
+  /* Step 1: Load WASM file. */
+  Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;fibonacci.wasm&quot;);
+  /* 
+   * Developers can load the WASM binary from buffer with the `WasmEdge_VMLoadWasmFromBuffer()` API,
+   * or from `WasmEdge_ASTModuleContext` object with the `WasmEdge_VMLoadWasmFromASTModule()` API.
+   */
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Loading phase failed: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return 1;
+  }
+  /* Step 2: Validate the WASM module. */
+  Res = WasmEdge_VMValidate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Validation phase failed: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return 1;
+  }
+  /* Step 3: Instantiate the WASM module. */
+  Res = WasmEdge_VMInstantiate(VMCxt);
+  /* 
+   * Developers can load, validate, and instantiate another WASM module to replace the
+   * instantiated one. In this case, the old module will be cleared, but the registered
+   * modules are still kept.
+   */
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Instantiation phase failed: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return 1;
+  }
+  /* Step 4: Asynchronously execute the WASM function and get the `WasmEdge_Async` object. */
+  WasmEdge_Async *Async = WasmEdge_VMAsyncExecute(VMCxt, FuncName, Params, 1);
+  /* 
+   * Developers can execute functions repeatedly after instantiation.
+   * For invoking the registered functions, you can use the `WasmEdge_VMAsyncExecuteRegistered()` API.
+   */
+
+  /* Wait and check the return values length. */
+  uint32_t Arity = WasmEdge_AsyncGetReturnsLength(Async);
+  /* The `Arity` should be 1. Developers can skip this step if they have known the return arity. */
+
+  /* Get the result. */
+  Res = WasmEdge_AsyncGet(Async, Returns, Arity);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the result: %d\n&quot;, WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execution phase failed: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+  }
+
+  /* Resources deallocations. */
+  WasmEdge_AsyncDelete(Async);
+  WasmEdge_VMDelete(VMCxt);
+  WasmEdge_StringDelete(FuncName);
+}
+</code></pre>
+<p>Then you can compile and run: (the 25th Fibonacci number is 121393 in 0-based index)</p>
+<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+$ ./a.out
+Get the result: 121393
+</code></pre>
+</li>
+</ol>
 <h3 id="instance-tracing"><a class="header" href="#instance-tracing">Instance Tracing</a></h3>
 <p>Sometimes the developers may have requirements to get the instances of the WASM runtime.
 The <code>VM</code> context supplies the APIs to retrieve the instances.</p>
@@ -2972,7 +3164,7 @@ WasmEdge_VMDelete(VMCxt);
 </code></pre>
 <p>Developers can also create the <code>VM</code> context with a <code>Store</code> context.
 In this case, developers should guarantee the life cycle of the <code>Store</code> context.
-Please refer to the <a href="embed/c/ref.html#Store">Store Contexts</a> for the details about the <code>Store</code> context APIs.</p>
+Please refer to the <a href="embed/c/ref.html#store">Store Contexts</a> for the details about the <code>Store</code> context APIs.</p>
 <pre><code class="language-c">WasmEdge_StoreContext *StoreCxt = WasmEdge_StoreCreate();
 WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, StoreCxt);
 WasmEdge_StoreContext *StoreCxtMock = WasmEdge_VMGetStoreContext(VMCxt);
@@ -2984,7 +3176,7 @@ WasmEdge_StoreDelete(StoreCxt);
 <li>
 <p>List exported functions</p>
 <p>After the WASM module instantiation, developers can use the <code>WasmEdge_VMExecute()</code> API to invoke the exported WASM functions. For this purpose, developers may need information about the exported WASM function list.
-Please refer to the <a href="embed/c/ref.html#Instances">Instances in runtime</a> for the details about the function types.
+Please refer to the <a href="embed/c/ref.html#instances">Instances in runtime</a> for the details about the function types.
 Assume that the WASM file <a href="embed/c/../tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
@@ -3027,12 +3219,12 @@ int main() {
 $ ./a.out
 Get exported function string length: 3, name: fib
 </code></pre>
-<p>If developers want to get the exported function names in the registered WASM modules, please retrieve the <code>Store</code> context from the <code>VM</code> context and refer to the APIs of <a href="embed/c/ref.html#Store">Store Contexts</a> to list the registered functions by the module name.</p>
+<p>If developers want to get the exported function names in the registered WASM modules, please retrieve the <code>Store</code> context from the <code>VM</code> context and refer to the APIs of <a href="embed/c/ref.html#store">Store Contexts</a> to list the registered functions by the module name.</p>
 </li>
 <li>
 <p>Get function types</p>
 <p>The <code>VM</code> context provides APIs to find the function type by function name.
-Please refer to the <a href="embed/c/ref.html#Instances">Instances in runtime</a> for the details about the function types.</p>
+Please refer to the <a href="embed/c/ref.html#instances">Instances in runtime</a> for the details about the function types.</p>
 <pre><code class="language-c">/* 
  * ...
  * Assume that a WASM module is instantiated in `VMCxt`.
@@ -3052,7 +3244,7 @@ WasmEdge_StringDelete(FuncName);
 <h2 id="wasmedge-runtime"><a class="header" href="#wasmedge-runtime">WasmEdge Runtime</a></h2>
 <p>In this partition, we will introduce the objects of WasmEdge runtime manually.</p>
 <h3 id="wasm-execution-example-step-by-step"><a class="header" href="#wasm-execution-example-step-by-step">WASM Execution Example Step-By-Step</a></h3>
-<p>Besides the WASM execution through the <a href="embed/c/ref.html#WasmEdge-VM"><code>VM</code> context</a>, developers can execute the WASM functions or instantiate WASM modules step-by-step with the <code>Loader</code>, <code>Validator</code>, <code>Executor</code>, and <code>Store</code> contexts.
+<p>Besides the WASM execution through the <a href="embed/c/ref.html#wasmedge-vm"><code>VM</code> context</a>, developers can execute the WASM functions or instantiate WASM modules step-by-step with the <code>Loader</code>, <code>Validator</code>, <code>Executor</code>, and <code>Store</code> contexts.
 Assume that the WASM file <a href="embed/c/../tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
@@ -3140,7 +3332,7 @@ Get the result: 4181
 </code></pre>
 <h3 id="loader"><a class="header" href="#loader">Loader</a></h3>
 <p>The <code>Loader</code> context loads the WASM binary from files or buffers.
-Both the WASM and the compiled-WASM from the <a href="embed/c/ref.html#WasmEdge-AOT-Compiler">WasmEdge AOT Compiler</a> are supported.</p>
+Both the WASM and the compiled-WASM from the <a href="embed/c/ref.html#wasmedge-aot-compiler">WasmEdge AOT Compiler</a> are supported.</p>
 <pre><code class="language-c">uint32_t Buf[4096];
 /* ... Read the WASM code to the buffer. */
 uint32_t FileSize = ...;
@@ -3191,12 +3383,12 @@ WasmEdge_ValidatorDelete(ValidCxt);
 </code></pre>
 <h3 id="executor"><a class="header" href="#executor">Executor</a></h3>
 <p>The <code>Executor</code> context is the executor for both WASM and compiled-WASM.
-This object should work base on the <code>Store</code> context. For the details of the <code>Store</code> context, please refer to the <a href="embed/c/ref.html#Store">next chapter</a>.</p>
+This object should work base on the <code>Store</code> context. For the details of the <code>Store</code> context, please refer to the <a href="embed/c/ref.html#store">next chapter</a>.</p>
 <ol>
 <li>
 <p>Register modules</p>
-<p>As the same of <a href="embed/c/ref.html#Host-Module-Registrations">registering host modules</a> or <a href="embed/c/ref.html#WASM-Registrations-And-Executions">importing WASM modules</a> in <code>VM</code> context, developers can register <code>Import Object</code> or <code>AST module</code> contexts into the <code>Store</code> context by the <code>Executor</code> APIs.
-For the details of import objects, please refer to the <a href="embed/c/ref.html#Host-Functions">Host Functions</a>.</p>
+<p>As the same of <a href="embed/c/ref.html#host-module-registrations">registering host modules</a> or <a href="embed/c/ref.html#wasm-registrations-and-executions">importing WASM modules</a> in <code>VM</code> context, developers can register <code>Import Object</code> or <code>AST module</code> contexts into the <code>Store</code> context by the <code>Executor</code> APIs.
+For the details of import objects, please refer to the <a href="embed/c/ref.html#host-functions">Host Functions</a>.</p>
 <pre><code class="language-c">/* 
 * ...
 * Assume that the `ASTCxt` is the output AST module context from the loader context
@@ -3269,11 +3461,11 @@ WasmEdge_StoreDelete(StoreCxt);
 <p>Invoke functions</p>
 <p>As the same as function invocation via the <code>VM</code> context, developers can invoke the functions of the instantiated or registered modules.
 The APIs, <code>WasmEdge_ExecutorInvoke()</code> and <code>WasmEdge_ExecutorInvokeRegistered()</code>, are similar as the APIs of the <code>VM</code> context.
-Please refer to the <a href="embed/c/ref.html#WASM-Execution-Example-With-VM-Context">VM context workflows</a> for details.</p>
+Please refer to the <a href="embed/c/ref.html#wasm-execution-example-with-vm-context">VM context workflows</a> for details.</p>
 </li>
 </ol>
 <h3 id="ast-module"><a class="header" href="#ast-module">AST Module</a></h3>
-<p>The <code>AST Module</code> context presents the loaded structure from a WASM file or buffer. Developer will get this object after loading a WASM file or buffer from <a href="embed/c/ref.html#Loader">Loader</a>.
+<p>The <code>AST Module</code> context presents the loaded structure from a WASM file or buffer. Developer will get this object after loading a WASM file or buffer from <a href="embed/c/ref.html#loader">Loader</a>.
 Before instantiation, developers can also query the imports and exports of an <code>AST Module</code> context.</p>
 <pre><code class="language-c">WasmEdge_ASTModuleContext *ASTCxt = ...;
 /* Assume that a WASM is loaded into an AST module context. */
@@ -3366,7 +3558,7 @@ for (uint32_t I = 0; I &lt; RealModNum &amp;&amp; I &lt; BUF_LEN; I++) {
 <h3 id="instances"><a class="header" href="#instances">Instances</a></h3>
 <p>The instances are the runtime structures of WASM. Developers can retrieve the instances from the <code>Store</code> contexts.
 The <code>Store</code> contexts will allocate instances when a WASM module or <code>Import Object</code> is registered or instantiated through the <code>Executor</code>.
-A single instance can be allocated by its creation function. Developers can construct instances into an <code>Import Object</code> for registration. Please refer to the <a href="embed/c/ref.html#Host-Functions">Host Functions</a> for details.
+A single instance can be allocated by its creation function. Developers can construct instances into an <code>Import Object</code> for registration. Please refer to the <a href="embed/c/ref.html#host-functions">Host Functions</a> for details.
 The instances created by their creation functions should be destroyed, EXCEPT they are added into an <code>Import Object</code> context.</p>
 <ol>
 <li>
@@ -3374,7 +3566,7 @@ The instances created by their creation functions should be destroyed, EXCEPT th
 <p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#syntax-hostfunc">Host functions</a> are functions outside WebAssembly and passed to WASM modules as imports.
 In WasmEdge, developers can create the <code>Function</code> contexts for host functions and add them into an <code>Import Object</code> context for registering into a <code>VM</code> or a <code>Store</code>.
 For both host functions and the functions get from <code>Store</code>, developers can retrieve the <code>Function Type</code> from the <code>Function</code> contexts.
-For the details of the <code>Host Function</code> guide, please refer to the <a href="embed/c/ref.html#Host-Functions">next chapter</a>.</p>
+For the details of the <code>Host Function</code> guide, please refer to the <a href="embed/c/ref.html#host-functions">next chapter</a>.</p>
 <pre><code class="language-c">/* Retrieve the function instance from the store context. */
 WasmEdge_FunctionInstanceContext *FuncCxt = ...;
 WasmEdge_FunctionTypeContext *FuncTypeCxt = WasmEdge_FunctionInstanceGetFunctionType(FuncCxt);
@@ -3870,8 +4062,8 @@ Data value: 6912
 </li>
 </ol>
 <h2 id="wasmedge-aot-compiler"><a class="header" href="#wasmedge-aot-compiler">WasmEdge AOT Compiler</a></h2>
-<p>In this partition, we will introduce the WasmEdge AOT compiler and the options.
-WasmEdge runs the WASM files in interpreter mode, and WasmEdge also supports the AOT (ahead-of-time) mode running without modifying any code.
+<p>In this partition, we will introduce the WasmEdge AOT compiler and the options.</p>
+<p>WasmEdge runs the WASM files in interpreter mode, and WasmEdge also supports the AOT (ahead-of-time) mode running without modifying any code.
 The WasmEdge AOT (ahead-of-time) compiler compiles the WASM files for running in AOT mode which is much faster than interpreter mode. Developers can compile the WASM files into the compiled-WASM files in shared library format for universal WASM format for the AOT mode execution.</p>
 <h3 id="compilation-example"><a class="header" href="#compilation-example">Compilation Example</a></h3>
 <p>Assume that the WASM file <a href="embed/c/../tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
