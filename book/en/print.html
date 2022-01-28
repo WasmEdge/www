@@ -7896,10 +7896,18 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust-sdk"><a class="header" href="#rust-sdk">Rust SDK</a></h1>
 <p>You can also embed WasmEdge into your Rust application via the WasmEdge Rust SDK.</p>
-<p>The WasmEdge Rust SDK includes two Rust crates, wasmedge-sys and wasmedge-rs, for the Rust API. </p>
+<p>The definitions of WasmEdge Rust SDK involve two Rust crates, <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> and <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-rs</a>. They are designed based on different principles and for different purposes. The wasmedge-sys crate defines a group of low-level Rust APIs, which simply wrap WasmEdge C APIs and provide the safe counterpart, while the wasmedge-rs crate provides more elegant and ergonomic APIs, which are more suitable for application development.</p>
 <ul>
-<li>The <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> is a low-level API generated from the WasmEdge C API. </li>
-<li>The <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-sdk</a> is an idiomatic Rust API wrapped around the low-level wasmedge-sys to make it safer and more developer-friendly. The full wasmedge-sdk crate is still under active development. Check out <a href="https://github.com/WasmEdge/WasmEdge/tree/master/bindings/rust">the source code</a> on GitHub. Feedbacks and contributions are welcome.</li>
+<li>
+<p>The <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> crate defines a group of low-level Rust APIs, which simply wrap WasmEdge C APIs and provide the safe counterparts. The APIs in <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> should be used to construct high-level libraries.</p>
+</li>
+<li>
+<p>The <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-rs</a> crate is based on the wasmedge-sys crate and provides a more elegant and idiomatic Rust APIs. These APIs are more suitable for business-oriented design and development. The wasmedge-rs crate is still under active development. Check out <a href="https://github.com/WasmEdge/WasmEdge/tree/master/bindings/rust">the source code</a> on GitHub. Feedbacks and contributions are welcome.</p>
+</li>
+</ul>
+<h2 id="examples-2"><a class="header" href="#examples-2">Examples</a></h2>
+<ul>
+<li><a href="embed/rust/wasmedge-sys-api.html">Run a WebAssembly function with WasmEdge low-level APIs</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="python-sdk"><a class="header" href="#python-sdk">Python SDK</a></h1>
 <p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/pull/633">help out</a>.</p>
