@@ -726,6 +726,84 @@ sys	0m0.011s
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cri-runtimes"><a class="header" href="#cri-runtimes">CRI runtimes</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cri-o"><a class="header" href="#cri-o">CRI-O</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="containerd"><a class="header" href="#containerd">containerd</a></h1>
+<h2 id="快速开始-3"><a class="header" href="#快速开始-3">快速开始</a></h2>
+<p><a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a>包含 containerd 相关示例的脚本和 Github Actions，以下是相关链接。</p>
+<ul>
+<li>WebAssembly 简单示例 <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4328930139?check_suite_focus=true#step:4:25">Successful run</a></li>
+<li>HTTP 服务端示例 <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd-server.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4328930141?check_suite_focus=true#step:4:44">Successful run</a></li>
+</ul>
+<p>在接下来的部分中，我们会展示如何使用这些脚本。</p>
+<ul>
+<li><a href="kubernetes/cri/containerd.html#%E5%AE%89%E8%A3%85-containerd">安装 containerd</a></li>
+<li><a href="kubernetes/cri/containerd.html#%E8%BF%90%E8%A1%8C%E7%AE%80%E5%8D%95-WebAssembly-%E5%BA%94%E7%94%A8">示例一： WebAssembly 简单示例</a></li>
+<li><a href="kubernetes/cri/containerd.html#%E8%BF%90%E8%A1%8C-HTTP-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BA%94%E7%94%A8">示例二： WebAssembly 中的 HTTP 服务端示例</a></li>
+</ul>
+<h2 id="安装-containerd"><a class="header" href="#安装-containerd">安装 containerd</a></h2>
+<p>使用以下命令在您的系统上安装 containerd。</p>
+<pre><code class="language-bash">$ export VERSION=&quot;1.5.7&quot;
+$ echo -e &quot;Version: $VERSION&quot;
+$ echo -e &quot;Installing libseccomp2 ...&quot;
+$ sudo apt install -y libseccomp2
+$ echo -e &quot;Installing wget&quot;
+$ sudo apt install -y wget
+
+$ wget https://github.com/containerd/containerd/releases/download/v${VERSION}/cri-containerd-cni-${VERSION}-linux-amd64.tar.gz
+$ wget https://github.com/containerd/containerd/releases/download/v${VERSION}/cri-containerd-cni-${VERSION}-linux-amd64.tar.gz.sha256sum
+$ sha256sum --check cri-containerd-cni-${VERSION}-linux-amd64.tar.gz.sha256sum
+
+$ sudo tar --no-overwrite-dir -C / -xzf cri-containerd-cni-${VERSION}-linux-amd64.tar.gz
+$ sudo systemctl daemon-reload
+</code></pre>
+<p>将 containerd 配置为使用 <code>crun</code> 作为底层 OCI runtime。
+此处需要修改 <code>/etc/containerd/config.toml</code> 文件。</p>
+<pre><code class="language-bash">$ sudo mkdir -p /etc/containerd/
+$ sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
+$ wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/containerd_config.diff
+$ sudo patch -d/ -p0 &lt; containerd_config.diff
+</code></pre>
+<p>启动 containerd 服务。</p>
+<pre><code class="language-bash">$ sudo systemctl start containerd
+</code></pre>
+<p>在运行下一步之前，请确保你已经构建并安装好了<a href="kubernetes/cri/../container/crun.html">支持 <code>WasmEdge</code>的 <code>crun</code>二进制文件</a>。 </p>
+<h2 id="运行简单-webassembly-应用"><a class="header" href="#运行简单-webassembly-应用">运行简单 WebAssembly 应用</a></h2>
+<p>现在，我们可以使用 containerd 运行一个简单的 WebAssembly 程序。
+<a href="kubernetes/cri/../demo/wasi.html">另一篇文章</a> 解释了如何编译、打包和将 WebAssembly 程序作为容器镜像发布至 Docker hub 。
+在本节中，我们需要先使用 containerd 工具将这个基于 WebAssembly 的容器镜像从 Docker hub 中拉取下来。</p>
+<pre><code class="language-bash">$ sudo ctr i pull docker.io/hydai/wasm-wasi-example:with-wasm-annotation
+</code></pre>
+<p>现在，您可以使用 ctr（containerd cli 工具）运行此示例。</p>
+<pre><code class="language-bash">$ sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/hydai/wasm-wasi-example:with-wasm-annotation wasm-example /wasi_example_main.wasm 50000000
+</code></pre>
+<p>启动容器会执行 WebAssembly 程序， 您可以在控制台中看到输出。</p>
+<pre><code class="language-bash">Creating POD ...
+Random number: -1678124602
+Random bytes: [12, 222, 246, 184, 139, 182, 97, 3, 74, 155, 107, 243, 20, 164, 175, 250, 60, 9, 98, 25, 244, 92, 224, 233, 221, 196, 112, 97, 151, 155, 19, 204, 54, 136, 171, 93, 204, 129, 177, 163, 187, 52, 33, 32, 63, 104, 128, 20, 204, 60, 40, 183, 236, 220, 130, 41, 74, 181, 103, 178, 43, 231, 92, 211, 219, 47, 223, 137, 70, 70, 132, 96, 208, 126, 142, 0, 133, 166, 112, 63, 126, 164, 122, 49, 94, 80, 26, 110, 124, 114, 108, 90, 62, 250, 195, 19, 189, 203, 175, 189, 236, 112, 203, 230, 104, 130, 150, 39, 113, 240, 17, 252, 115, 42, 12, 185, 62, 145, 161, 3, 37, 161, 195, 138, 232, 39, 235, 222]
+Printed from wasi: This is from a main function
+This is from a main function
+The env vars are as follows.
+The args are as follows.
+/wasi_example_main.wasm
+50000000
+File content is This is in a file
+</code></pre>
+<p>接下来，你可尝试在 <a href="kubernetes/cri/../../kubernetes/kubernetes.html">Kubernetes</a>中运行这个应用!</p>
+<h2 id="运行-http-服务端应用"><a class="header" href="#运行-http-服务端应用">运行 HTTP 服务端应用</a></h2>
+<p>最后，我们可以在 containerd 中运行一个简单的基于 WebAssembly 的 HTTP 微服务。
+<a href="kubernetes/cri/../demo/server.html">另一篇文章</a> 解释了如何编译、打包和将 WebAssembly 程序作为容器镜像发布至 Docker hub 。
+在本节中，我们需要先使用 containerd 工具将这个基于 WebAssembly 的容器镜像从 Docker hub 中拉取下来。</p>
+<pre><code class="language-bash">$ sudo ctr i pull docker.io/avengermojo/http_server:with-wasm-annotation
+</code></pre>
+<p>现在，您可以使用 ctr（containerd cli 工具）运行该示例。（请注意，我们需要加上 <code>--net-host</code> 参数来运行容器，以便可以从外部访问 WasmEdge 容器内的 HTTP server。）</p>
+<pre><code class="language-bash">$ sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/avengermojo/http_server:with-wasm-annotation http-server-example /http_server.wasm
+</code></pre>
+<p>启动容器会执行 WebAssembly 程序， 您可以在控制台中看到输出。</p>
+<pre><code class="language-bash">new connection at 1234
+
+# Test the HTTP service at that IP address
+curl -d &quot;name=WasmEdge&quot; -X POST http://127.0.0.1:1234
+echo: name=WasmEdge
+</code></pre>
+<p>接下来，你可尝试在 <a href="kubernetes/cri/../../kubernetes/kubernetes.html">Kubernetes</a> 中运行这个应用!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes--cri-o"><a class="header" href="#kubernetes--cri-o">Kubernetes + CRI-O</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes--containerd"><a class="header" href="#kubernetes--containerd">Kubernetes + containerd</a></h1>
