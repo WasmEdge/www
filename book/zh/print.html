@@ -598,7 +598,75 @@ WasmEdge 将以输出文件扩展名来确定生成的文件格式。举例来�
 <div style="break-before: page; page-break-before: always;"></div><h1 id="快速开始-1"><a class="header" href="#快速开始-1">快速开始</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="网络-1"><a class="header" href="#网络-1">网络</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="fetch-api"><a class="header" href="#fetch-api">Fetch API</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tensorflow-1"><a class="header" href="#tensorflow-1">Tensorflow</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tensorflow-1"><a class="header" href="#tensorflow-1">TensorFlow</a></h1>
+<p>解释器支持 WasmEdge TensorFlow lite 的推断扩展，从而使你的 JavaScript 能够运行 ImageNet 模型来进行图像分类。本文会向你展示如何在你的 javascript 程序中使用基于 WasmEdge 的 TensorFlow Rust SDK。</p>
+<p>下面是一个 JavaScript 的示例。全部代码可参考这里 <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/tensorflow_lite_demo">example_js/tensorflow_lite_demo/</a></p>
+<pre><code class="language-javascript">import {Image} from 'image';
+import * as std from 'std';
+import {TensorflowLiteSession} from 'tensorflow_lite';
+
+let img = new Image('food.jpg');
+let img_rgb = img.to_rgb().resize(192, 192);
+let rgb_pix = img_rgb.pixels();
+
+let session = new TensorflowLiteSession(
+    'lite-model_aiy_vision_classifier_food_V1_1.tflite');
+session.add_input('input', rgb_pix);
+session.run();
+let output = session.get_output('MobilenetV1/Predictions/Softmax');
+let output_view = new Uint8Array(output);
+let max = 0;
+let max_idx = 0;
+for (var i in output_view) {
+  let v = output_view[i];
+  if (v &gt; max) {
+    max = v;
+    max_idx = i;
+  }
+}
+let label_file = std.open('aiy_food_V1_labelmap.txt', 'r');
+let label = '';
+for (var i = 0; i &lt;= max_idx; i++) {
+  label = label_file.getline();
+}
+label_file.close();
+
+print('label:');
+print(label);
+print('confidence:');
+print(max / 255);
+</code></pre>
+<p>为了在 WasmEdge runtime 中运行 JavaScript，你可以在 CLI 中执行如下操作，这样就可以重新构建一个包含 TensorFlow 的 QuickJS 引擎，然后就可以在 JavaScript 应用中调用 TensorFlow API 了。</p>
+<pre><code class="language-bash">$ cargo build --target wasm32-wasi --release --features=tensorflow
+... ...
+$ cd example_js/tensorflow_lite_demo
+$ wasmedge-tensorflow-lite --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm main.js
+label:
+Hot dog
+confidence:
+0.8941176470588236
+</code></pre>
+<blockquote>
+<p>注意: 命令行中的 <code>--dir .:.</code> 是为了给 wasmedge 开启本地文件读取权限， 以便正常读取到 <code>main.js</code> 文件.</p>
+</blockquote>
+<h4 id="注意"><a class="header" href="#注意">注意</a></h4>
+<ul>
+<li>编译器标志 <code>--features=tensorflow</code> 构建了一个包含 WasmEdge TensorFlow 扩展的 QuickJS 引擎。</li>
+<li>程序 <code>wasmedge-tensorflow-lite</code> 是 WasmEdge 包的一部分。它是内含有 Tensorflow 扩展的 WasmEdge runtime。</li>
+</ul>
+<p>你现在应该可以看到食物的名字了，它被 TensorFlow lite ImageNet 模型识别出来了。</p>
+<h2 id="使其更快"><a class="header" href="#使其更快">使其更快</a></h2>
+<p>以上 Tensorflow 推断示例执行一次需要耗时 1-2 秒. 在 web 应用场景中虽然可以接受，但是仍然有改进空间。回想一下，WasmEdge 是如今最快的 WebAssembly runtime，这是由于它的提前编译（AOT, Ahead-of-time compiler）优化。WasmEdge 提供了一个 <code>wasmedgec</code> 实用程序去编译和添加原生机器码段，并放到 <code>wasm</code> 文件里，从而达到更快的性能。</p>
+<p>以下示例采用了 <code>wasmedge</code> 和 <code>wasmedgec</code> 的扩展版本以支持 WasmEdge Tensorflow 扩展。</p>
+<pre><code class="language-bash">$ cd example_js/tensorflow_lite_demo
+$ wasmedgec-tensorflow ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
+$ wasmedge-tensorflow-lite --dir .:. wasmedge_quickjs.wasm main.js
+label:
+Hot dog
+confidence:
+0.8941176470588236
+</code></pre>
+<p>你可以看到，图像识别任务在 0.1 秒内就完成了。它的性能至少提高了 10 倍。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="示例react-ssr"><a class="header" href="#示例react-ssr">示例：React SSR</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="es6-模块"><a class="header" href="#es6-模块">ES6 模块</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="nodejs--npm-模块"><a class="header" href="#nodejs--npm-模块">NodeJS &amp; NPM 模块</a></h1>
@@ -1166,7 +1234,7 @@ $ cd js
 $ ./../wasmedge --dir .:. qjs.wasm hello.js 1 2 3
 Hello 1 2 3
 </code></pre>
-<h3 id="注意"><a class="header" href="#注意">注意</a></h3>
+<h3 id="注意-1"><a class="header" href="#注意-1">注意</a></h3>
 <ul>
 <li>Android 10 及以上系统版本，SELinux 限制普通 Android 应用程序使用 exec() 执行 home 目录中的可执行文件。<a href="https://android.googlesource.com/platform/system/sepolicy/+/08450264ae3f917f6b8e4091d6fedf84ef8d796f/private/untrusted_app_all.te#27">参考</a></li>
 <li>Android SELinux 限制普通 Android 应用程序访问 /data/local/tmp 目录</li>
