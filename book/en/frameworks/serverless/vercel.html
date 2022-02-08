@@ -156,7 +156,7 @@
 </blockquote>
 <h2 id="prerequisite"><a class="header" href="#prerequisite">Prerequisite</a></h2>
 <p>Since our demo WebAssembly functions are written in Rust, you will need a <a href="https://www.rust-lang.org/tools/install">Rust compiler</a>. Make sure that you install the <code>wasm32-wasi</code> compiler target as follows, in order to generate WebAssembly bytecode.</p>
-<pre><code class="language-bash">$ rustup target add wasm32-wasi
+<pre><code class="language-bash">rustup target add wasm32-wasi
 </code></pre>
 <p>The demo application front end is written in <a href="https://nextjs.org/">Next.js</a>, and deployed on Vercel. We will assume that you already have the basic knowledge of how to work with Vercel.</p>
 <h2 id="example-1-image-processing"><a class="header" href="#example-1-image-processing">Example 1: Image processing</a></h2>
@@ -188,11 +188,11 @@ fn main() {
 }
 </code></pre></pre>
 <p>You can use Rust’s <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
-<pre><code class="language-bash">$ cd api/functions/image-grayscale/
-$ cargo build --release --target wasm32-wasi 
+<pre><code class="language-bash">cd api/functions/image-grayscale/
+cargo build --release --target wasm32-wasi 
 </code></pre>
 <p>Copy the build artifacts to the <code>api</code> folder.</p>
-<pre><code class="language-bash">$ cp target/wasm32-wasi/release/grayscale.wasm ../../
+<pre><code class="language-bash">cp target/wasm32-wasi/release/grayscale.wasm ../../
 </code></pre>
 <blockquote>
 <p>Vercel runs <a href="https://github.com/second-state/vercel-wasm-runtime/blob/main/api/pre.sh"><code>api/pre.sh</code></a> upon setting up the serverless environment. It installs the WasmEdge runtime, and then compiles each WebAssembly bytecode program into a native <code>so</code> library for faster execution.</p>
@@ -229,45 +229,45 @@ module.exports = (req, res) =&gt; {
 <p>It is in <a href="https://github.com/second-state/vercel-wasm-runtime">the same GitHub repo</a> as the previous example but in the <code>tensorflow</code> branch. Note: when you <a href="https://vercel.com/docs/git#deploying-a-git-repository">import this GitHub repo</a> on the Vercel website, it will create a <a href="https://vercel.com/docs/platform/deployments#preview">preview URL</a> for each branch. The <code>tensorflow</code> branch would have its own deployment URL.</p>
 <p>The backend serverless function for image classification is in the <a href="https://github.com/second-state/vercel-wasm-runtime/tree/tensorflow/api/functions/image-classification"><code>api/functions/image-classification</code></a> folder in the <code>tensorflow</code> branch.  The <a href="https://github.com/second-state/vercel-wasm-runtime/blob/tensorflow/api/functions/image-classification/src/main.rs"><code>src/main.rs</code></a> file contains the Rust program’s source code. The Rust program reads image data from the <code>STDIN</code>, and then outputs the text output to the <code>STDOUT</code>. It utilizes the WasmEdge Tensorflow API to run the AI inference.</p>
 <pre><pre class="playground"><code class="language-rust">pub fn main() {
-    // Step 1: Load the TFLite model
-    let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
-    let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
+  // Step 1: Load the TFLite model
+  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
+  let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
 
-    // Step 2: Read image from STDIN
-    let mut buf = Vec::new();
-    io::stdin().read_to_end(&amp;mut buf).unwrap();
+  // Step 2: Read image from STDIN
+  let mut buf = Vec::new();
+  io::stdin().read_to_end(&amp;mut buf).unwrap();
 
-    // Step 3: Resize the input image for the tensorflow model
-    let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
+  // Step 3: Resize the input image for the tensorflow model
+  let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
 
-    // Step 4: AI inference
-    let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
-    session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
-           .run();
-    let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
+  // Step 4: AI inference
+  let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
+  session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
+         .run();
+  let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
 
-    // Step 5: Find the food label that responds to the highest probability in res_vec
-    // ... ...
-    let mut label_lines = labels.lines();
-    for _i in 0..max_index {
-      label_lines.next();
-    }
+  // Step 5: Find the food label that responds to the highest probability in res_vec
+  // ... ...
+  let mut label_lines = labels.lines();
+  for _i in 0..max_index {
+    label_lines.next();
+  }
 
-    // Step 6: Generate the output text
-    let class_name = label_lines.next().unwrap().to_string();
-    if max_value &gt; 50 {
-      println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
-    } else {
-      println!(&quot;It does not appears to be any food item in the picture.&quot;);
-    }
+  // Step 6: Generate the output text
+  let class_name = label_lines.next().unwrap().to_string();
+  if max_value &gt; 50 {
+    println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
+  } else {
+    println!(&quot;It does not appears to be any food item in the picture.&quot;);
+  }
 }
 </code></pre></pre>
-<p>You can use the <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code. </p>
-<pre><code class="language-bash">$ cd api/functions/image-classification/
-$ cargo build --release --target wasm32-wasi
+<p>You can use the <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
+<pre><code class="language-bash">cd api/functions/image-classification/
+cargo build --release --target wasm32-wasi
 </code></pre>
 <p>Copy the build artifacts to the <code>api</code> folder.</p>
-<pre><code class="language-bash">$ cp target/wasm32-wasi/release/classify.wasm ../../
+<pre><code class="language-bash">cp target/wasm32-wasi/release/classify.wasm ../../
 </code></pre>
 <p>Again, the <a href="https://github.com/second-state/vercel-wasm-runtime/blob/tensorflow/api/pre.sh"><code>api/pre.sh</code></a> script installs WasmEdge runtime and its Tensorflow dependencies in this application. It also compiles the <code>classify.wasm</code> bytecode program to the <code>classify.so</code> native shared library at the time of deployment.</p>
 <p>The <a href="https://github.com/second-state/vercel-wasm-runtime/blob/tensorflow/api/hello.js"><code>api/hello.js</code></a> file conforms Vercel serverless specification. It loads the WasmEdge runtime, starts the compiled WebAssembly program in WasmEdge, and passes the uploaded image data via <code>STDIN</code>. Notice <a href="https://github.com/second-state/vercel-wasm-runtime/blob/tensorflow/api/hello.js"><code>api/hello.js</code></a> runs the compiled <code>classify.so</code> file generated by <a href="https://github.com/second-state/vercel-wasm-runtime/blob/tensorflow/api/pre.sh"><code>api/pre.sh</code></a> for better performance.</p>

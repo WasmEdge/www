@@ -161,31 +161,31 @@ WasmEdge's <a href="../../embed/node.html">Node.js SDK</a> and <a href="../../em
 </blockquote>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <p>The <code>rustwasmc</code> depends on the Rust cargo toolchain to compile Rust source code to WebAssembly. You must have <a href="https://www.rust-lang.org/tools/install">Rust installed</a> on your machine.</p>
-<pre><code class="language-bash">$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-$ source $HOME/.cargo/env
-$ rustup override set 1.50.0
+<pre><code class="language-bash">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+rustup override set 1.50.0
 </code></pre>
 <h2 id="install"><a class="header" href="#install">Install</a></h2>
 <p>The easiest way to install <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> is to use its installer.</p>
-<pre><code class="language-bash">$ curl https://raw.githubusercontent.com/second-state/rustwasmc/master/installer/init.sh -sSf | sh
+<pre><code class="language-bash">curl https://raw.githubusercontent.com/second-state/rustwasmc/master/installer/init.sh -sSf | sh
 </code></pre>
 <p>Alternatively, you can <a href="https://github.com/second-state/rustwasmc#install">install using the NPM</a> if you'd like.</p>
 <h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
 <p>To build <a href="../../embed/node.html">Rust functions for Node.js</a> applications, use the following command. See a <a href="https://github.com/second-state/wasmedge-nodejs-starter">template application</a>.</p>
-<pre><code class="language-bash">$ rustwasmc build
+<pre><code class="language-bash">rustwasmc build
 </code></pre>
 <p>Use the <code>--enable-ext</code> flag to compile Rust programs that use WASI extensions, such as WasmEdge's storage and <a href="tensorflow.html">Tensorflow</a> APIs. The <code>rustwasmc</code> will generates the compiled WebAssembly bytecode program for the <code>wasmedge-extensions</code> Node.js module instead of the <code>wasmedge-core</code> module in this case.</p>
-<pre><code class="language-bash">$ rustwasmc build --enable-ext
+<pre><code class="language-bash">rustwasmc build --enable-ext
 </code></pre>
 <h2 id="support-aot"><a class="header" href="#support-aot">Support AOT</a></h2>
 <p>A key feature of the WasmEdge runtime is its support for Ahead-of-Time (AOT) compilers. When you run WebAssembly programs in Node.js <code>wasmedge-core</code> and <code>wasmedge-extensions</code> add-ons, you typically do not need to worry about it as the add-on handles AOT compilation transparently. However, in some cases, you do want the <code>rustwasmc</code> to compile and generate native code for the program.
 Then, use the commands below to bring your operating system up to date with the latest developer tools. The commands here are tested on Ubuntu 20.04.</p>
-<pre><code class="language-bash">$ sudo apt-get update
-$ sudo apt-get -y upgrade
-$ sudo apt install build-essential curl wget git vim libboost-all-dev llvm-dev liblld-10-dev
+<pre><code class="language-bash">sudo apt-get update
+sudo apt-get -y upgrade
+sudo apt install build-essential curl wget git vim libboost-all-dev llvm-dev liblld-10-dev
 </code></pre>
 <p>Now, you can build the <code>.so</code> files for the AOT native target like the following.</p>
-<pre><code class="language-bash">$ rustwasmc build --enable-aot
+<pre><code class="language-bash">rustwasmc build --enable-aot
 </code></pre>
 <p>Enjoy coding!</p>
 

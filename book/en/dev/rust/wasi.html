@@ -179,7 +179,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="printing-and-debugging-from-rust"><a class="header" href="#printing-and-debugging-from-rust">Printing and debugging from Rust</a></h2>
-<p>The Rust <code>println!</code> marco just works in WASI. The statements print to the <code>STDOUT</code> of the process that runs the WasmEdge. </p>
+<p>The Rust <code>println!</code> marco just works in WASI. The statements print to the <code>STDOUT</code> of the process that runs the WasmEdge.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -241,7 +241,7 @@ pub fn del_file(path: &amp;str) {
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="a-main-app"><a class="header" href="#a-main-app">A main() app</a></h2>
-<p>With a <code>main()</code> function, the Rust program can be compiled into a 
+<p>With a <code>main()</code> function, the Rust program can be compiled into a
 standalone WebAssembly program.</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
   println!(&quot;Random number: {}&quot;, get_random_i32());
@@ -254,7 +254,7 @@ standalone WebAssembly program.</p>
 }
 </code></pre></pre>
 <p>Use the command below to compile <a href="https://github.com/second-state/wasm-learning/tree/master/cli/wasi">the Rust project</a>.</p>
-<pre><code class="language-bash">$ cargo build --target wasm32-wasi
+<pre><code class="language-bash">cargo build --target wasm32-wasi
 </code></pre>
 <p>To run it in <code>wasmedge</code>, do the following. The <code>--dir</code> option maps the current
 directory of the command shell to the file system current directory inside

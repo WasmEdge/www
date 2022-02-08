@@ -206,7 +206,7 @@
 <h2 id="wasmedge-installation"><a class="header" href="#wasmedge-installation">WasmEdge Installation</a></h2>
 <h3 id="download-and-install"><a class="header" href="#download-and-install">Download And Install</a></h3>
 <p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>wget</code> as prerequisites.</p>
-<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
 </code></pre>
 <p>For more details, please refer to the <a href="/start/install.html">Installation Guide</a> for the WasmEdge installation.</p>
 <h3 id="compile-sources"><a class="header" href="#compile-sources">Compile Sources</a></h3>
@@ -224,7 +224,7 @@ int main() {
 </li>
 <li>
 <p>Compile the file with <code>gcc</code> or <code>clang</code>.</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">gcc test.c -lwasmedge_c
 </code></pre>
 </li>
 <li>
@@ -732,7 +732,7 @@ WasmEdge_StatisticsDelete(StatCxt);
 <h3 id="wasm-execution-example-with-vm-context"><a class="header" href="#wasm-execution-example-with-vm-context">WASM Execution Example With VM Context</a></h3>
 <p>The following shows the example of running the WASM for getting the Fibonacci.
 This example uses the <a href="../tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="../tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
-<pre><code>(module
+<pre><code class="language-wasm">(module
  (export &quot;fib&quot; (func $fib))
  (func $fib (param $n i32) (result i32)
   (if
@@ -862,7 +862,7 @@ $ ./a.out
 Get the result: 89
 </code></pre>
 <p>The following graph explains the status of the <code>VM</code> context.</p>
-<pre><code>                       |========================|
+<pre><code class="language-text">                       |========================|
               |-------&gt;|      VM: Initiated     |
               |        |========================|
               |                    |
@@ -1882,7 +1882,7 @@ WasmEdge_ImportObjectDelete(ProcObj);
 <li>
 <p>Example</p>
 <p>Assume that a simple WASM from the WAT as following:</p>
-<pre><code>(module
+<pre><code class="language-wasm">(module
   (type $t0 (func (param i32 i32) (result i32)))
   (import &quot;extern&quot; &quot;func-add&quot; (func $f-add (type $t0)))
   (func (export &quot;addTwo&quot;) (param i32 i32) (result i32)
@@ -1986,7 +1986,7 @@ Get the result: 6912
 <p>Host Data Example</p>
 <p>Developers can set a external data object to the function context, and access to the object in the function body.
 Assume that a simple WASM from the WAT as following:</p>
-<pre><code>(module
+<pre><code class="language-wasm">(module
   (type $t0 (func (param i32 i32) (result i32)))
   (import &quot;extern&quot; &quot;func-add&quot; (func $f-add (type $t0)))
   (func (export &quot;addTwo&quot;) (param i32 i32) (result i32)

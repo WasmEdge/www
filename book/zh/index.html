@@ -156,13 +156,13 @@
 <h2 id="安装"><a class="header" href="#安装">安装</a></h2>
 <p>你可以使用以下的单行命令来安装 WasmEdge。
 你的系统必须预先安装 <code>git</code> 和 <code>curl</code>。</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
 <p>如果你希望一并安装 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow 和图像处理扩展</a>，请执行以下命令。它将尝试在你的系统上安装 Tensorflow 和图像共享库。</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
 <p>执行以下命令能使已安装的二进制文件在当前会话中可用。</p>
-<pre><code class="language-bash">$ source $HOME/.wasmedge/env
+<pre><code class="language-bash">source $HOME/.wasmedge/env
 </code></pre>
 <h2 id="使用-docker-进行安装"><a class="header" href="#使用-docker-进行安装">使用 Docker 进行安装</a></h2>
 <p>如果你使用的是 Docker，你可以直接运行 WasmEdge 应用开发镜像（<a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">x86</a> 和 <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_aarch64">arm64</a>）。这些镜像里包含快速开发 WasmEdge 所需的所有工具。</p>

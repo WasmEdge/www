@@ -198,8 +198,8 @@
 }
 </code></pre>
 <p>使用以下 CLI 命令，就可以在 WasmEdge runtime 中运行以上的 JavaScript 代码。</p>
-<pre><code class="language-bash">$ cd example_js
-$ wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_client.js
+<pre><code class="language-bash">cd example_js
+wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_client.js
 </code></pre>
 <p>将会有如下内容被打印出来。</p>
 <pre><code class="language-json">{
@@ -250,11 +250,11 @@ server_start();
 </code></pre>
 <p>调用 <code>server_start()</code> 方法会在 8000 端口启动一个监听服务。当一个请求进入，会异步传给 <code>handle_client()</code> function 函数处理。这意味着当应用返回应答数据后，它又可以处理下一个进来的请求了。</p>
 <p>使用以下 CLI 命令，就可以在 WasmEdge runtime 中运行这段 JavaScript 代码。因为它将作为一个服务运行，你最好是以后台应用的形式启动。</p>
-<pre><code>$ cd example_js
-$ nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_net_echo.js &amp;
+<pre><code class="language-bash">cd example_js
+nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_net_echo.js &amp;
 </code></pre>
 <p>然后你就可以向它发出网络请求，观察运行效果。</p>
-<pre><code>$ curl -d &quot;WasmEdge&quot; -X POST http://localhost:8000
+<pre><code class="language-bash">$ curl -d &quot;WasmEdge&quot; -X POST http://localhost:8000
 echo:WasmEdge
 </code></pre>
 <p>WasmEdge 的 <code>wasi_net</code> 包为 JavaScript 应用提供了一种自适应的动态网络栈。在很多高级用法中，我们基于这个包，设计了很多抽象良好的 API。在下一章节，我们会带着具体的常见应用，向你展示如何处理 HTTP 请求。在 <a href="ssr.html">React 服务器渲染文章</a>中，我们还将会讨论一下如何基于这种异步网络的 API 来创建一个 React 服务器渲染功能。</p>
@@ -317,8 +317,8 @@ server_start();
 </code></pre>
 <p><code>server_start()</code> 方法会启动一个监听 8000 端口的服务。当请求进来，会被传给 <code>handle_client()</code> 方法来处理。当请求是合法的 HTTP 请求，对应的 handler 方法会调用 <code>handle_req()</code> 来解析对应的字段，组装新的 HTTP 应答，然后异步把应答数据发送回去。这意味着当应用发送完数据，又能继续处理下一个进来的请求了。</p>
 <p>使用以下 CLI 命令，就可以在 WasmEdge runtime 中运行这段 JavaScript 代码。因为它将作为一个服务运行，你最好是以后台应用的形式运行。</p>
-<pre><code class="language-bash">$ cd example_js
-$ nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_echo.js &amp;
+<pre><code class="language-bash">cd example_js
+nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_echo.js &amp;
 </code></pre>
 <p>然后你就可以向它发出网络请求，观察运行效果。</p>
 <pre><code class="language-bash">$ curl -d &quot;WasmEdge&quot; -X POST http://localhost:8000

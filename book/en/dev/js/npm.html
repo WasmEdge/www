@@ -221,8 +221,8 @@ module.exports = [
 }
 </code></pre>
 <p>Run the following NPM commands to build <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/simple_common_js_demo/npm_main.js">npm_main.js</a> demo program into <code>dist/npm_main.mjs</code>.</p>
-<pre><code class="language-bash">$ npm install
-$ npm run build
+<pre><code class="language-bash">npm install
+npm run build
 </code></pre>
 <p>Run the result JS file in WasmEdge CLI as follows.</p>
 <pre><code class="language-bash">$ wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm dist/npm_main.mjs

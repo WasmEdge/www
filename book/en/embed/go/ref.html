@@ -210,17 +210,17 @@ go version go1.16.5 linux/amd64
 </code></pre>
 <h3 id="wasmedge-installation"><a class="header" href="#wasmedge-installation">WasmEdge Installation</a></h3>
 <p>Developers must <a href="start/install.html">install the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release or pre-release version.</p>
-<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
 </code></pre>
 <p>For the developers need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
-<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.9.0
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.9.0
 </code></pre>
 <p>Noticed that the <code>TensorFlow</code> and <code>Image</code> extensions are only for the <code>Linux</code> platforms.
 After installation, developers can use the <code>source</code> command to update the include and linking searching path.</p>
 <h3 id="get-wasmedge-go"><a class="header" href="#get-wasmedge-go">Get WasmEdge-go</a></h3>
 <p>After the WasmEdge installation, developers can get the <code>WasmEdge-go</code> package and build it in your Go project directory.</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
-$ go build
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+go build
 </code></pre>
 <h3 id="wasmedge-go-extensions"><a class="header" href="#wasmedge-go-extensions">WasmEdge-go Extensions</a></h3>
 <p>By default, the <code>WasmEdge-go</code> only turns on the basic runtime.</p>
@@ -237,7 +237,7 @@ $ go build
 </li>
 <li>
 <p>For using this extension, the tag <code>tensorflow</code> when building is required:</p>
-<pre><code class="language-bash">$ go build -tags tensorflow
+<pre><code class="language-bash">go build -tags tensorflow
 </code></pre>
 </li>
 </ul>
@@ -253,14 +253,14 @@ $ go build
 </li>
 <li>
 <p>For using this extension, the tag <code>image</code> when building is required:</p>
-<pre><code class="language-bash">$ go build -tags image
+<pre><code class="language-bash">go build -tags image
 </code></pre>
 </li>
 </ul>
 </li>
 </ul>
 <p>Users can also turn on the multiple extensions when building:</p>
-<pre><code class="language-bash">$ go build -tags image,tensorflow
+<pre><code class="language-bash">go build -tags image,tensorflow
 </code></pre>
 <h3 id="example-of-embedding-a-function-with-wasm-bindgen"><a class="header" href="#example-of-embedding-a-function-with-wasm-bindgen">Example of Embedding A Function with wasm-bindgen</a></h3>
 <p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_BindgenFuncs">this example</a>, we will demonstrate how to call a few simple WebAssembly functions with wasm-bindgen from a Golang app. The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">functions</a> are written in Rust, and require complex call parameters and return values. The <code>#[wasm_bindgen]</code> macro is needed for the compiler tools to auto-generate the correct code to pass call parameters from Golang to WebAssembly.</p>
@@ -308,9 +308,9 @@ pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p>First, we use the <a href="dev/rust/bindgen.html"><code>rustwasmc</code> tool</a> to compile the Rust source code into WebAssembly bytecode functions using Rust 1.50 or less.</p>
-<pre><code class="language-bash">$ rustup default 1.50.0
-$ cd rust_bindgen_funcs
-$ rustwasmc build
+<pre><code class="language-bash">rustup default 1.50.0
+cd rust_bindgen_funcs
+rustwasmc build
 # The output WASM will be pkg/rust_bindgen_funcs_lib_bg.wasm
 </code></pre>
 <p>The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_BindgenFuncs/bindgen_funcs.go">Golang source code</a> to run the WebAssembly function in WasmEdge is as follows. The <code>ExecuteBindgen()</code> function calls the WebAssembly function and passes the parameters with the <code>wasm-bindgen</code> supporting.</p>
@@ -373,8 +373,8 @@ func main() {
 }
 </code></pre>
 <p>Next, build the Golang application with the WasmEdge Golang SDK.</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
-$ go build
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+go build
 </code></pre>
 <p>Run the Golang application and it will run the WebAssembly functions embedded in the WasmEdge runtime.</p>
 <pre><code class="language-bash">$ ./bindgen_funcs rust_bindgen_funcs/pkg/rust_bindgen_funcs_lib_bg.wasm
@@ -438,15 +438,15 @@ fn main() {
 }
 </code></pre></pre>
 <p>Use the <code>rustwasmc</code> tool to compile the application into WebAssembly.</p>
-<pre><code class="language-bash">$ cd rust_readfile
-$ rustwasmc build
+<pre><code class="language-bash">cd rust_readfile
+rustwasmc build
 # The output file will be at `pkg/rust_readfile.wasm`.
 </code></pre>
 <p>Or you can compile the application into WebAssembly directly by <code>cargo</code>:</p>
-<pre><code class="language-bash">$ cd rust_readfile
+<pre><code class="language-bash">cd rust_readfile
 # Need to add the `wasm32-wasi` target.
-$ rustup target add wasm32-wasi
-$ cargo build --release --target=wasm32-wasi
+rustup target add wasm32-wasi
+cargo build --release --target=wasm32-wasi
 # The output wasm will be at `target/wasm32-wasi/release/rust_readfile.wasm`.
 </code></pre>
 <p>The Golang source code to run the WebAssembly function in WasmEdge is as follows.</p>
@@ -479,8 +479,8 @@ func main() {
 }
 </code></pre>
 <p>Next, build the Golang application with the WasmEdge Golang SDK.</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
-$ go build
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+go build
 </code></pre>
 <p>Run the Golang application.</p>
 <pre><code class="language-bash">$ ./read_file rust_readfile/pkg/rust_readfile.wasm file.txt
@@ -849,7 +849,7 @@ conf.Release()
 <h3 id="wasm-execution-example-with-vm-object"><a class="header" href="#wasm-execution-example-with-vm-object">WASM Execution Example With VM Object</a></h3>
 <p>The following shows the example of running the WASM for getting the Fibonacci.
 This example uses the <a href="../tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="../tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
-<pre><code>(module
+<pre><code class="language-wasm">(module
  (export &quot;fib&quot; (func $fib))
  (func $fib (param $n i32) (result i32)
   (if
@@ -869,8 +869,8 @@ This example uses the <a href="../tools/wasmedge/examples/fibonacci.wasm">fibona
 <li>
 <p>Run WASM functions rapidly</p>
 <p>Create a new Go project first:</p>
-<pre><code class="language-bash">$ mkdir wasmedge_test &amp;&amp; cd wasmedge_test
-$ go mod init wasmedge_test
+<pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
+go mod init wasmedge_test
 </code></pre>
 <p>Assume that the WASM file <a href="../tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current <code>wasmedge_test</code> directory, and create and edit the Go file <code>main.go</code> as following:</p>
 <pre><code class="language-go">package main
@@ -971,7 +971,7 @@ $ ./wasmedge_test
 Get fibonacci[25]: 121393
 </code></pre>
 <p>The following graph explains the status of the <code>VM</code> object.</p>
-<pre><code>                       |========================|
+<pre><code class="language-text">                       |========================|
               |-------&gt;|      VM: Initiated     |
               |        |========================|
               |                    |
@@ -1137,8 +1137,8 @@ WasmEdge VM provides APIs for developers to register and export any WASM modules
 <p>Register the WASM modules with exported module names</p>
 <p>Unless the import objects have already contained the module names, every WASM module should be named uniquely when registering. The following shows the example.</p>
 <p>Create a new Go project first:</p>
-<pre><code class="language-bash">$ mkdir wasmedge_test &amp;&amp; cd wasmedge_test
-$ go mod init wasmedge_test
+<pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
+go mod init wasmedge_test
 </code></pre>
 <p>Assume that the WASM file <a href="../tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.
 Then create and edit the Go file <code>main.go</code> as following:</p>
@@ -1245,8 +1245,8 @@ store.Release()
 <p>After the WASM module instantiation, developers can use the <code>(*VM).Execute</code> function to invoke the exported WASM functions. For this purpose, developers may need information about the exported WASM function list.
 Please refer to the <a href="#Instances">Instances in runtime</a> for the details about the function types.</p>
 <p>Assume that a new Go project is created as following:</p>
-<pre><code class="language-bash">$ mkdir wasmedge_test &amp;&amp; cd wasmedge_test
-$ go mod init wasmedge_test
+<pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
+go mod init wasmedge_test
 </code></pre>
 <p>Then assume that the WASM file <a href="../tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
 <pre><code class="language-go">package main
@@ -1321,8 +1321,8 @@ functype := vm.GetFunctionType(&quot;fib&quot;)
 <h3 id="wasm-execution-example-step-by-step"><a class="header" href="#wasm-execution-example-step-by-step">WASM Execution Example Step-By-Step</a></h3>
 <p>Besides the WASM execution through the <a href="#WasmEdge-VM"><code>VM</code> object</a> rapidly, developers can execute the WASM functions or instantiate WASM modules step-by-step with the <code>Loader</code>, <code>Validator</code>, <code>Executor</code>, and <code>Store</code> objects.</p>
 <p>Assume that a new Go project is created as following:</p>
-<pre><code class="language-bash">$ mkdir wasmedge_test &amp;&amp; cd wasmedge_test
-$ go mod init wasmedge_test
+<pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
+go mod init wasmedge_test
 </code></pre>
 <p>Then assume that the WASM file <a href="../tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
 <pre><code class="language-go">package main
@@ -1893,11 +1893,11 @@ procobj.Release()
 <li>
 <p>Example</p>
 <p>Create a new Go project first:</p>
-<pre><code class="language-bash">$ mkdir wasmedge_test &amp;&amp; cd wasmedge_test
-$ go mod init wasmedge_test
+<pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
+go mod init wasmedge_test
 </code></pre>
 <p>Assume that there is a simple WASM from the WAT as following:</p>
-<pre><code>(module
+<pre><code class="language-wasm">(module
   (type $t0 (func (param i32 i32) (result i32)))
   (import &quot;extern&quot; &quot;func-add&quot; (func $f-add (type $t0)))
   (func (export &quot;addTwo&quot;) (param i32 i32) (result i32)

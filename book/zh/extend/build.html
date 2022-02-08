@@ -152,8 +152,8 @@
                         <h1 id="从源码构建和测试-wasmedge"><a class="header" href="#从源码构建和测试-wasmedge">从源码构建和测试 WasmEdge</a></h1>
 <p>请参考这个教程来从源码构建和测试 WasmEdge</p>
 <h2 id="获取源码"><a class="header" href="#获取源码">获取源码</a></h2>
-<pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
-$ cd WasmEdge
+<pre><code class="language-bash">git clone https://github.com/WasmEdge/WasmEdge.git
+cd WasmEdge
 </code></pre>
 <h2 id="检查依赖"><a class="header" href="#检查依赖">检查依赖</a></h2>
 <p>WasmEdge 会基于最新版本的 LLVM 来创建我们的每日构建。
@@ -166,7 +166,7 @@ $ cd WasmEdge
 <h3 id="docker-镜像"><a class="header" href="#docker-镜像">Docker 镜像</a></h3>
 <p>Dockerhub 上的仓库 <code>wasmedge/wasmedge</code></p>
 <p>你可以使用下面的命令来获取我们最新的镜像：</p>
-<pre><code class="language-bash">$ docker pull wasmedge/wasmedge # 等同于 wasmedge/wasmedge:latest
+<pre><code class="language-bash">docker pull wasmedge/wasmedge # 等同于 wasmedge/wasmedge:latest
 </code></pre>
 <h4 id="可用的标签"><a class="header" href="#可用的标签">可用的标签</a></h4>
 <table><thead><tr><th>标签名</th><th>体系结构</th><th>基于的操作系统</th><th>LLVM 版本</th><th>环境配置</th><th>兼容性</th><th>备注</th></tr></thead><tbody>
@@ -182,14 +182,14 @@ $ cd WasmEdge
 <h3 id="在-ubuntu-2004-上手动安装依赖"><a class="header" href="#在-ubuntu-2004-上手动安装依赖">在 Ubuntu 20.04 上手动安装依赖</a></h3>
 <pre><code class="language-bash"># 工具和库
 $ sudo apt install -y \
-	software-properties-common \
-	cmake \
-	libboost-all-dev
+ software-properties-common \
+ cmake \
+ libboost-all-dev
 
 # 你需要 llvm 来支持 wasmedgec 工具
 $ sudo apt install -y \
-	llvm-12-dev \
-	liblld-12-dev
+ llvm-12-dev \
+ liblld-12-dev
 
 # WasmEdge 支持 clang++ 和 g++ 编译器
 # 你可以选择其中任一个用来编译这个项目
@@ -203,14 +203,14 @@ $ sudo apt install -y clang
 <p>如果用户的系统是比 Ubuntu 20.04 还早的版本，请使用我们定制的 docker 镜像来构建 WasmEdge 。
 如果你需要的是在过时版本的操作系统上使用的二进制包，我们也提供了几个基于 manylinux* 发行版本的安装包。</p>
 <table><thead><tr><th>可移植的 Linux 发行版标签</th><th>基础镜像</th><th>提供的依赖</th><th>Docker 镜像</th></tr></thead><tbody>
-<tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5<br>CXXABI &lt;= 3.4.8<br>GLIBCXX &lt;= 3.4.9<br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
-<tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12<br>CXXABI &lt;= 1.3.3<br>GLIBCXX &lt;= 3.4.13<br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
-<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17<br>CXXABI &lt;= 1.3.7<br>GLIBCXX &lt;= 3.4.19<br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
-<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17<br>CXXABI &lt;= 1.3.7<br>GLIBCXX &lt;= 3.4.19<br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
+<tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5</br>CXXABI &lt;= 3.4.8</br>GLIBCXX &lt;= 3.4.9</br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
+<tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12</br>CXXABI &lt;= 1.3.3</br>GLIBCXX &lt;= 3.4.13</br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
+<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
+<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
 </tbody></table>
 <h3 id="如果你不需要预编译运行时编译器"><a class="header" href="#如果你不需要预编译运行时编译器">如果你不需要预编译运行时/编译器</a></h3>
 <p>如果用户不需要预编译运行时和编译器特性的话，可以将 CMAKE 配置项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 设置成 <code>OFF</code>。</p>
-<pre><code class="language-bash">$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
+<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="构建-wasmedge"><a class="header" href="#构建-wasmedge">构建 WasmEdge</a></h2>
 <p>WasmEdge 提供了丰富的工具来支撑更好的性能以及更多样的运行时环境，
@@ -231,7 +231,7 @@ $ sudo apt install -y clang
 <li><code>libwasmedge_c.so</code> 是 WasmEdge C API 的共享库。
 <ul>
 <li><code>libwasmedge_c.so</code> 提供了访问预编译器和 WASM 运行时的 C 语言 API。</li>
-<li>如果 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 配置项被设置成 <code>OFF</code>， 那么与预编译器相关的 API 都将会返回错误。 </li>
+<li>如果 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 配置项被设置成 <code>OFF</code>， 那么与预编译器相关的 API 都将会返回错误。</li>
 </ul>
 </li>
 <li><code>ssvm-qitc</code> 是用来支持 AI 应用的，它支持基于 ONNX 格式的 AI 模型的 ONNC 运行时。
@@ -250,10 +250,10 @@ $ docker run -it --rm \
 (docker)$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
 </code></pre>
 <h2 id="执行内置的测试"><a class="header" href="#执行内置的测试">执行内置的测试</a></h2>
-<p>下面所提到的测试只有在构建配置 <code>WASMEDGE_BUILD_TESTS</code> 设置为 <code>ON</code> 的时候才有效。 </p>
+<p>下面所提到的测试只有在构建配置 <code>WASMEDGE_BUILD_TESTS</code> 设置为 <code>ON</code> 的时候才有效。</p>
 <p>用户可以通过这些测试来验证 WasmEdge 二进制包的正确性。</p>
-<pre><code class="language-bash">$ cd &lt;path/to/wasmedge/build_folder&gt;
-$ LD_LIBRARY_PATH=$(pwd)/lib/api ctest
+<pre><code class="language-bash">cd &lt;path/to/wasmedge/build_folder&gt;
+LD_LIBRARY_PATH=$(pwd)/lib/api ctest
 </code></pre>
 <h2 id="运行应用"><a class="header" href="#运行应用">运行应用</a></h2>
 <p>接下来，参考 <a href="../index.html">这个文档</a> 在 <code>wasmedge</code> 上运行 WebAssembly 字节码程序。</p>

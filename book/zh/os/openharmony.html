@@ -172,7 +172,7 @@ $ docker run -it -v $(pwd):/home/openharmony openharmony-docker-standard:0.0.5
 <h2 id="修改-openharmony-标准系统配置文件"><a class="header" href="#修改-openharmony-标准系统配置文件">修改 OpenHarmony 标准系统配置文件</a></h2>
 <h3 id="添加-wasmedge-子系统配置"><a class="header" href="#添加-wasmedge-子系统配置">添加 WasmEdge 子系统配置</a></h3>
 <p>修改 OpenHarmony 的 build 目录下的 <code>subsystem_config.json</code> 文件，添加 <code>wasmedge</code> 子系统。</p>
-<pre><code>{
+<pre><code class="language-json">{
   ...
   
   &quot;wasmedge&quot;: {
@@ -186,7 +186,7 @@ $ docker run -it -v $(pwd):/home/openharmony openharmony-docker-standard:0.0.5
 <h3 id="将组件添加到产品配置中"><a class="header" href="#将组件添加到产品配置中">将组件添加到产品配置中</a></h3>
 <p>修改 OpenHarmony 产品配置文件，标准系统对应的配置文件：<code>productdefine/common/products/Hi3516DV300.json</code>。
 在该配置文件中添加 <code>&quot;wasmedge:wasmedge&quot;:{}</code>，表示该产品中会编译并打包 wasmedge 子系统下的 <code>wasmedge</code> 模块到版本中。</p>
-<pre><code>{
+<pre><code class="language-json">{
   ...
   &quot;parts&quot;:{
     ...
@@ -212,7 +212,7 @@ $ docker run -it -v $(pwd):/home/openharmony openharmony-docker-standard:0.0.5
 (root@xxxxxx:/home/openharmony/third_party/WasmEdge/utils/ohos)$ ./build_for_ohos.sh /home/openharmony
 </code></pre>
 <p>当显示以下信息时，表明编译完成.</p>
-<pre><code>...
+<pre><code class="language-bash">...
 
 post_process
 =====build Hi3516DV300 successful.
@@ -231,7 +231,7 @@ post_process
 <h3 id="运行应用"><a class="header" href="#运行应用">运行应用</a></h3>
 <p>在 OpenHarmony 标准系统中，WasmEdge 提供了测试样例，并写入了 system 镜像中，供用户进行测试。
 通过串口工具连接上开发板并启动OpenHarmony标准系统后，用户可以进行以下测试。</p>
-<pre><code># cd /system/usr/wasmedge_example
+<pre><code class="language-bash"># cd /system/usr/wasmedge_example
 # wasmedge hello.wasm 1 2 3
 hello
 1

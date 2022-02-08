@@ -198,8 +198,8 @@
 }
 </code></pre>
 <p>To run the JavaScript in the WasmEdge runtime, you can do this on the CLI.</p>
-<pre><code class="language-bash">$ cd example_js
-$ wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_client.js
+<pre><code class="language-bash">cd example_js
+wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_client.js
 </code></pre>
 <p>The results printed to the console are as follows.</p>
 <pre><code class="language-json">{
@@ -250,11 +250,11 @@ server_start();
 </code></pre>
 <p>The <code>server_start()</code> function starts the server at port 8000. When a request comes in, it passes to the <code>handle_client()</code> function to process it asynchronously. That means while the app is sending back the response, it could start handling the next incoming request.</p>
 <p>To run the JavaScript in the WasmEdge runtime, you can do this on the CLI. Since it is a server, you should run it in the background.</p>
-<pre><code>$ cd example_js
-$ nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_net_echo.js &amp;
+<pre><code class="language-bash">cd example_js
+nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_net_echo.js &amp;
 </code></pre>
 <p>Then you can test the server by querying it over the network.</p>
-<pre><code>$ curl -d &quot;WasmEdge&quot; -X POST http://localhost:8000
+<pre><code class="language-bash">$ curl -d &quot;WasmEdge&quot; -X POST http://localhost:8000
 echo:WasmEdge
 </code></pre>
 <p>The <code>wasi_net</code> package provides a flexible asynchronous networking stack for JavaScript applications in WasmEdge. We are wrap it in high-level APIs for more advanced use cases. In the next section, we will show you how to handle HTTP requests with ease. In the <a href="ssr.html">React SSR article</a>, we will discuss how to create a React stream SSR server with the async networking API.</p>
@@ -317,8 +317,8 @@ server_start();
 </code></pre>
 <p>The <code>server_start()</code> function starts the server at port 8000. When a request comes in, it passes to the <code>handle_client()</code> function to process the request. Once the request is validated as an HTTP request, the handler function in turn calls <code>handle_req()</code> to parse the fields in the HTTP request, compose a HTTP reponse, and then send the response back asynchronously. That means while the app is sending back the response, it could start handling the next incoming request.</p>
 <p>To run the JavaScript in the WasmEdge runtime, you can do this on the CLI. Since it is a server, you should run it in the background.</p>
-<pre><code class="language-bash">$ cd example_js
-$ nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_echo.js &amp;
+<pre><code class="language-bash">cd example_js
+nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_echo.js &amp;
 </code></pre>
 <p>Then you can test the server by querying it over the network.</p>
 <pre><code class="language-bash">$ curl -d &quot;WasmEdge&quot; -X POST http://localhost:8000

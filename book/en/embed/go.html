@@ -157,47 +157,59 @@
 go version go1.16.5 linux/amd64
 </code></pre>
 <p>Meantime, please make sure you have installed <a href="../start/install.html">the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release version.</p>
-<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
 </code></pre>
 <p>If you need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
-<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0 -e tensorflow,image
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0 -e tensorflow,image
 </code></pre>
 <p>Noticed that the <code>TensorFlow</code> and <code>Image</code> extensions are only for the <code>Linux</code> platforms.</p>
 <p>Install the <code>WasmEdge-go</code> package and build in your Go project directory:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
-$ go build
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+go build
 </code></pre>
 <h2 id="wasmedge-go-extensions"><a class="header" href="#wasmedge-go-extensions">WasmEdge-go Extensions</a></h2>
 <p>By default, the <code>WasmEdge-go</code> only turns on the basic runtime.</p>
 <p><code>WasmEdge-go</code> has the following extensions:</p>
 <ul>
-<li>TensorFlow
+<li>
+<p>TensorFlow</p>
 <ul>
-<li>This extension supports the host functions in <a href="https://github.com/second-state/WasmEdge-tensorflow">WasmEdge-tensorflow</a>.</li>
-<li>To install the <code>tensorflow</code> extension, please use the <code>-e tensorflow</code> flag in the WasmEdge installer command. </li>
-<li>For using this extension, the tag <code>tensorflow</code> when building is required:
-<pre><code class="language-bash">$ go build -tags tensorflow
+<li>
+<p>This extension supports the host functions in <a href="https://github.com/second-state/WasmEdge-tensorflow">WasmEdge-tensorflow</a>.</p>
+</li>
+<li>
+<p>To install the <code>tensorflow</code> extension, please use the <code>-e tensorflow</code> flag in the WasmEdge installer command.</p>
+</li>
+<li>
+<p>For using this extension, the tag <code>tensorflow</code> when building is required:</p>
+<pre><code class="language-bash">go build -tags tensorflow
 </code></pre>
 </li>
 </ul>
 </li>
-<li>Image
+<li>
+<p>Image</p>
 <ul>
-<li>This extension supports the host functions in <a href="https://github.com/second-state/WasmEdge-image">WasmEdge-image</a>.</li>
-<li>To install the <code>image</code> extension, please use the <code>-e image</code> flag in the WasmEdge installer command. </li>
-<li>For using this extension, the tag <code>image</code> when building is required:
-<pre><code class="language-bash">$ go build -tags image
+<li>
+<p>This extension supports the host functions in <a href="https://github.com/second-state/WasmEdge-image">WasmEdge-image</a>.</p>
+</li>
+<li>
+<p>To install the <code>image</code> extension, please use the <code>-e image</code> flag in the WasmEdge installer command.</p>
+</li>
+<li>
+<p>For using this extension, the tag <code>image</code> when building is required:</p>
+<pre><code class="language-bash">go build -tags image
 </code></pre>
 </li>
 </ul>
 </li>
 </ul>
 <p>You can also turn on the multiple extensions when building:</p>
-<pre><code class="language-bash">$ go build -tags image,tensorflow
+<pre><code class="language-bash">go build -tags image,tensorflow
 </code></pre>
 <p>For examples, please refer to the <a href="https://github.com/second-state/WasmEdge-go-examples/">example repository</a>.</p>
 <h3 id="wasmedge-aot-compiler-in-go"><a class="header" href="#wasmedge-aot-compiler-in-go">WasmEdge AOT Compiler in Go</a></h3>
-<p>The <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_WasmAOT">go_WasmAOT example</a> demonstrates how to compile a WASM file into a native binary (AOT compile) from within a Go application. </p>
+<p>The <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_WasmAOT">go_WasmAOT example</a> demonstrates how to compile a WASM file into a native binary (AOT compile) from within a Go application.</p>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
 <li><a href="go/app.html">Embed a standalone Wasm app</a></li>

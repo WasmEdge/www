@@ -160,17 +160,17 @@
 <li><a href="#a-rust-example">A Rust example</a></li>
 <li><a href="#deployment-options">Deployment options</a></li>
 </ul>
-<h1 id="a-rust-example"><a class="header" href="#a-rust-example">A Rust example</a></h1>
+<h2 id="a-rust-example"><a class="header" href="#a-rust-example">A Rust example</a></h2>
 <h3 id="prerequisite"><a class="header" href="#prerequisite">Prerequisite</a></h3>
 <p>You need to install <a href="../../start/install.html">WasmEdge</a> and <a href="https://www.rust-lang.org/tools/install">Rust</a>.</p>
 <h3 id="build"><a class="header" href="#build">Build</a></h3>
 <p>Check out the example source code.</p>
-<pre><code class="language-bash">$ git clone https://github.com/second-state/wasm-learning/
-$ cd cli/tflite
+<pre><code class="language-bash">git clone https://github.com/second-state/wasm-learning/
+cd cli/tflite
 </code></pre>
 <p>Use Rust <code>Cargo</code> to build the WebAssembly target.</p>
-<pre><code class="language-bash">$ rustup target add wasm32-wasi
-$ cargo build --target wasm32-wasi --release
+<pre><code class="language-bash">rustup target add wasm32-wasi
+cargo build --target wasm32-wasi --release
 </code></pre>
 <h3 id="run"><a class="header" href="#run">Run</a></h3>
 <p>The <code>wasmedge-tensorflow-lite</code> utility is the WasmEdge build that includes the Tensorflow and Tensorflow Lite extensions.</p>
@@ -248,8 +248,8 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
     }
 <span class="boring">}
 </span></code></pre></pre>
-<h1 id="deployment-options"><a class="header" href="#deployment-options">Deployment options</a></h1>
-<p>All the tutorials below use the <a href="https://github.com/second-state/wasmedge_tensorflow_interface">WasmEdge Rust API for Tensorflow</a> to create AI inference functions. Those Rust functions are then compiled to WebAssembly and deployed together with WasmEdge on the cloud. </p>
+<h2 id="deployment-options"><a class="header" href="#deployment-options">Deployment options</a></h2>
+<p>All the tutorials below use the <a href="https://github.com/second-state/wasmedge_tensorflow_interface">WasmEdge Rust API for Tensorflow</a> to create AI inference functions. Those Rust functions are then compiled to WebAssembly and deployed together with WasmEdge on the cloud.</p>
 <h3 id="serverless-functions"><a class="header" href="#serverless-functions">Serverless functions</a></h3>
 <p>The following tutorials showcase how to deploy WebAssembly programs (written in Rust) on public cloud serverless platforms. The WasmEdge Runtime runs inside a Docker container on those platforms. Each serverless platform provides APIs to get data into and out of the WasmEdge runtime through STDIN and STDOUT.</p>
 <ul>

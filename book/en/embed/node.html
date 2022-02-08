@@ -170,44 +170,46 @@
 <h3 id="docker"><a class="header" href="#docker">Docker</a></h3>
 <p>The easiest way to get started is to use Docker to build a dev environment. Just <a href="https://github.com/second-state/wasmedge-nodejs-starter/">clone this template project</a> to your computer and run the following Docker commands.</p>
 <pre><code class="language-bash"># Get the code
-$ git clone https://github.com/second-state/wasmedge-nodejs-starter
-$ cd wasmedge-nodejs-starter
+git clone https://github.com/second-state/wasmedge-nodejs-starter
+cd wasmedge-nodejs-starter
 
 # Run Docker container
-$ docker pull wasmedge/appdev_x86_64:0.8.2
-$ docker run -p 3000:3000 --rm -it -v $(pwd):/app wasmedge/appdev_x86_64:0.8.2
-(docker) $ cd /app
+docker pull wasmedge/appdev_x86_64:0.8.2
+docker run -p 3000:3000 --rm -it -v $(pwd):/app wasmedge/appdev_x86_64:0.8.2
+
+# In docker
+cd /app
 </code></pre>
 <p>That's it! You are now ready to compile and run the code.</p>
 <h3 id="manual-setup-without-docker"><a class="header" href="#manual-setup-without-docker">Manual setup without Docker</a></h3>
 <p>The commands are as follows.</p>
 <pre><code class="language-bash"># Install Rust
-$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-$ source $HOME/.cargo/env
-$ rustup override set 1.50.0
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+rustup override set 1.50.0
 
 # Install Node.js and npm
-$ curl -sL https://deb.nodesource.com/setup_14.x |  bash
-$ sudo apt-get install -y nodejs npm
+curl -sL https://deb.nodesource.com/setup_14.x |  bash
+sudo apt-get install -y nodejs npm
 
 # Install rustwasmc toolchain
-$ npm install -g rustwasmc # Append --unsafe-perm if permission denied
+npm install -g rustwasmc # Append --unsafe-perm if permission denied
 
 # OS dependencies for WasmEdge
-$ sudo apt-get update
-$ sudo apt-get -y upgrade
-$ sudo apt install -y build-essential curl wget git vim libboost-all-dev llvm-dev liblld-10-dev
+sudo apt-get update
+sudo apt-get -y upgrade
+sudo apt install -y build-essential curl wget git vim libboost-all-dev llvm-dev liblld-10-dev
 
 # Install the nodejs addon for WasmEdge
-$ npm install wasmedge-core
-$ npm install wasmedge-extensions
+npm install wasmedge-core
+npm install wasmedge-extensions
 </code></pre>
 <blockquote>
 <p>The WasmEdge Runtime depends on the latest version of <code>libstdc++</code>. Ubuntu 20.04 LTS already has the latest libraries. If you are running an older Linux distribution, you have <a href="/articles/ubuntu-req-ssvm-20200715/">several options to upgrade</a>.</p>
 </blockquote>
 <p>Next, clone the example source code repository.</p>
-<pre><code class="language-bash">$ git clone https://github.com/second-state/wasmedge-nodejs-starter
-$ cd wasmedge-nodejs-starter
+<pre><code class="language-bash">git clone https://github.com/second-state/wasmedge-nodejs-starter
+cd wasmedge-nodejs-starter
 </code></pre>
 <h2 id="hello-world"><a class="header" href="#hello-world">Hello World</a></h2>
 <p>The first example is a hello world to show you how various parts of the application fit together.</p>
@@ -226,7 +228,7 @@ pub fn say(s: String) -&gt; String {
 <span class="boring">}
 </span></code></pre></pre>
 <p>Next, you can compile the Rust source code into WebAssembly bytecode and generate the accompanying JavaScript module for the Node.js host environment.</p>
-<pre><code class="language-bash">$ rustwasmc build
+<pre><code class="language-bash">rustwasmc build
 </code></pre>
 <p>The result are files in the <code>pkg/</code> directory. the <code>.wasm</code> file is the WebAssembly bytecode program, and the <code>.js</code> files are for the JavaScript module.</p>
 <h3 id="the-nodejs-host-application"><a class="header" href="#the-nodejs-host-application">The Node.js host application</a></h3>
@@ -263,8 +265,8 @@ hello Wasm
 <pre><code class="language-src">a*X^2 + b*X + c = 0
 </code></pre>
 <p>The roots for <code>X</code> are displayed in the area below the input form.</p>
-<p><img src="/articles/getting-started-with-rust-function-01.png" alt="" /></p>
-<p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/public/index.html">HTML file</a> contains the client side JavaScript to submit the web form to <code>/solve</code>, and put result into the <code>#roots</code> HTML element on the page. </p>
+<p><img src="/articles/getting-started-with-rust-function-01.png" alt="getting-started-with-rust-function" /></p>
+<p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/public/index.html">HTML file</a> contains the client side JavaScript to submit the web form to <code>/solve</code>, and put result into the <code>#roots</code> HTML element on the page.</p>
 <pre><code class="language-javascript">$(function() {
     var options = {
       target: '#roots',
@@ -302,10 +304,10 @@ pub fn solve(params: &amp;str) -&gt; String {
 <span class="boring">}
 </span></code></pre></pre>
 <p>Let's try it.</p>
-<pre><code class="language-bash">$ rustwasmc build
-$ npm install express # The application requires the Express framework in Node.js
+<pre><code class="language-bash">rustwasmc build
+npm install express # The application requires the Express framework in Node.js
 
-$ node node/server.js
+node node/server.js
 </code></pre>
 <p>From the web browser, go to <code>http://ip-addr:8080/</code> to access this application. Note: If you are using Docker, make sure that the Docker container port 8080 is mapped to the host port 8080.</p>
 <p>That’s it for the quadratic equation example.</p>
@@ -314,7 +316,7 @@ $ node node/server.js
 <ul>
 <li>Rust call parameters can be any combo of <code>i32</code>, <code>String</code>, <code>&amp;str</code>, <code>Vec&lt;u8&gt;</code>, and <code>&amp;[u8]</code></li>
 <li>Return value can be <code>i32</code> or <code>String</code> or <code>Vec&lt;u8&gt;</code> or void</li>
-<li>For complex data types, such as structs, you could use JSON strings to pass data. </li>
+<li>For complex data types, such as structs, you could use JSON strings to pass data.</li>
 </ul>
 <blockquote>
 <p>With JSON support, you can call Rust functions with any number of input parameters and return any number of return values of any type.</p>
