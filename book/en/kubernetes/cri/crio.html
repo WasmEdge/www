@@ -166,20 +166,20 @@ apps on CRI-O.</p>
 </ul>
 <h2 id="install-cri-o"><a class="header" href="#install-cri-o">Install CRI-O</a></h2>
 <p>Use the following commands to install CRI-O on your system.</p>
-<pre><code class="language-bash">$ export OS=&quot;xUbuntu_20.04&quot;
-$ export VERSION=&quot;1.21&quot;
-$ apt update
-$ apt install -y libseccomp2 || sudo apt update -y libseccomp2
-$ echo &quot;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /&quot; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-$ echo &quot;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /&quot; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+<pre><code class="language-bash">export OS=&quot;xUbuntu_20.04&quot;
+export VERSION=&quot;1.21&quot;
+apt update
+apt install -y libseccomp2 || sudo apt update -y libseccomp2
+echo &quot;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /&quot; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+echo &quot;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /&quot; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
 
-$ curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | apt-key add -
-$ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | apt-key add -
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | apt-key add -
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | apt-key add -
 
-$ apt-get update
-$ apt-get install criu libyajl2
-$ apt-get install cri-o cri-o-runc cri-tools containernetworking-plugins
-$ systemctl start crio
+apt-get update
+apt-get install criu libyajl2
+apt-get install cri-o cri-o-runc cri-tools containernetworking-plugins
+systemctl start crio
 </code></pre>
 <h2 id="configure-cri-o-to-use-crun"><a class="header" href="#configure-cri-o-to-use-crun">Configure CRI-O to use crun</a></h2>
 <p>CRI-O uses the <code>runc</code> runtime by default and we need to configure it to use <code>crun</code> instead.
@@ -205,7 +205,7 @@ runtime_type = &quot;oci&quot;
 runtime_root = &quot;/run/crun&quot;
 </code></pre>
 <p>Next, restart CRI-O to apply the configuration changes.</p>
-<pre><code class="language-bash">$ systemctl restart crio
+<pre><code class="language-bash">systemctl restart crio
 </code></pre>
 <h2 id="run-a-simple-webassembly-app"><a class="header" href="#run-a-simple-webassembly-app">Run a simple WebAssembly app</a></h2>
 <p>Now, we can run a simple WebAssembly program using CRI-O.
@@ -213,14 +213,14 @@ runtime_root = &quot;/run/crun&quot;
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using CRI-O tools.</p>
-<pre><code class="language-bash">$ sudo crictl pull docker.io/hydai/wasm-wasi-example:with-wasm-annotation
+<pre><code class="language-bash">sudo crictl pull docker.io/hydai/wasm-wasi-example:with-wasm-annotation
 </code></pre>
 <p>Next, we need to create two simple configuration files that specifies how
 CRI-O should run this WebAssembly image in a sandbox. We already have those
 two files <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/container_wasi.json">container_wasi.json</a> and <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/sandbox_config.json">sandbox_config.json</a>.
 You can just download them to your local directory as follows.</p>
-<pre><code class="language-bash">$ wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/sandbox_config.json
-$ wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/container_wasi.json
+<pre><code class="language-bash">wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/sandbox_config.json
+wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/container_wasi.json
 </code></pre>
 <p>Now you can use CRI-O to create a pod and a container using the specified configurations.</p>
 <pre><code class="language-bash"># Create the POD. Output will be different from example.
@@ -292,7 +292,7 @@ Test 7: Delete the previous file
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using CRI-O tools.</p>
-<pre><code class="language-bash">$ sudo crictl pull docker.io/avengermojo/http_server:with-wasm-annotation
+<pre><code class="language-bash">sudo crictl pull docker.io/avengermojo/http_server:with-wasm-annotation
 </code></pre>
 <p>Next, we need to create two simple configuration files that specifies how
 CRI-O should run this WebAssembly image in a sandbox. We already have those
@@ -301,8 +301,8 @@ You can just download them to your local directory as follows.</p>
 <blockquote>
 <p>The <code>sandbox_config.json</code> file is the same for the simple WASI example and the HTTP server example. The other <code>container_*.json</code> file is application specific as it contains the application's Docker Hub URL.</p>
 </blockquote>
-<pre><code class="language-bash">$ wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/sandbox_config.json
-$ wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/http_server/container_http_server.json
+<pre><code class="language-bash">wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/sandbox_config.json
+wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/http_server/container_http_server.json
 </code></pre>
 <p>Now you can use CRI-O to create a pod and a container using the specified configurations.</p>
 <pre><code class="language-bash"># Create the POD. Output will be different from example.

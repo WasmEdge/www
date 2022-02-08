@@ -155,9 +155,9 @@
 <p>As prerequisite we need to install KinD first. To do that the <a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries">quick start guide</a> and the <a href="https://github.com/kubernetes-sigs/kind/releases">release page</a> can be used to install the latest version of the KinD CLI.</p>
 <p>If KinD is installed we can directly start with the example from <a href="https://github.com/Liquid-Reply/kind-crun-wasm">here</a>:</p>
 <pre><code class="language-bash"># Create a &quot;WASM in KinD&quot; Cluster
-$ kind create cluster --image ghcr.io/liquid-reply/kind-crun-wasm:v1.23.0
+kind create cluster --image ghcr.io/liquid-reply/kind-crun-wasm:v1.23.0
 # Run the example
-$ kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>In the rest of this section, we will explain how to create a KinD node image with wasmedge support.</p>
 <h2 id="build-crun"><a class="header" href="#build-crun">Build crun</a></h2>
@@ -200,10 +200,10 @@ RUN echo &quot;Installing Packages ...&quot; \
 </code></pre>
 <h2 id="build-and-test"><a class="header" href="#build-and-test">Build and test</a></h2>
 <p>Finally we can build a new <code>node-wasmedge</code> image. To test it, we create a kind cluster from that image and run the simple app example.</p>
-<pre><code class="language-bash">$ docker build -t node-wasmedge .
-$ kind create cluster --image node-wasmedge
+<pre><code class="language-bash">docker build -t node-wasmedge .
+kind create cluster --image node-wasmedge
 # Now you can run the example to validate your cluster
-$ kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 
                     </main>

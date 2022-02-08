@@ -200,8 +200,8 @@ const content = renderToString(React.createElement(Home));
 console.log(content);
 </code></pre>
 <p>目录中的 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr/rollup.config.js">rollup.config.js</a> 文件和 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr/package.json">package.json</a> 文件用于把 React SSR 的所有依赖和组件打包成一个 WasmEdge 可用的 JavaScript 文件。你可以使用 <code>npm</code> 命令来进行构建，构建产物会输出到 <code>dist/main.js</code> 文件里。</p>
-<pre><code class="language-bash">$ npm install
-$ npm run build
+<pre><code class="language-bash">npm install
+npm run build
 </code></pre>
 <p>要运行这个例子，请在命令行中执行以下命令。你会看到，所有的模板成功合成了一个 HTML 字符串。</p>
 <pre><code class="language-bash">$ cd example_js/react_ssr
@@ -296,15 +296,15 @@ async function server_start() {
 server_start();
 </code></pre>
 <p>目录中的 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/rollup.config.js">rollup.config.js</a> 文件和 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/package.json">package.json</a> 文件用于把 React SSR 的所有依赖和组件打包成一个 WasmEdge 可用的 JavaScript 文件。你可以使用 <code>npm</code> 命令来进行构建，构建产物会输出到 <code>dist/main.js</code> 文件里。</p>
-<pre><code class="language-bash">$ npm install
-$ npm run build
+<pre><code class="language-bash">npm install
+npm run build
 </code></pre>
 <p>要运行这个例子，请在命令行上执行以下命令来启动服务器。</p>
-<pre><code class="language-bash">$ cd example_js/react_ssr_stream
-$ nohup wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm dist/main.mjs &amp;
+<pre><code class="language-bash">cd example_js/react_ssr_stream
+nohup wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm dist/main.mjs &amp;
 </code></pre>
 <p>然后通过 <code>curl</code> 或浏览器发送一个 HTTP 请求。</p>
-<pre><code class="language-bash">$ curl http://localhost:8001
+<pre><code class="language-bash">curl http://localhost:8001
 </code></pre>
 <p>结果如下所示。该服务首先返回一个 HTML 页面，里面包含一个空的内层部分（即 <code>loading</code> 部分）。然后在 2s 后返回内层部分的 HTML 内容，以及将它显示出来的 JavaScript 代码。</p>
 <pre><code class="language-bash">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current

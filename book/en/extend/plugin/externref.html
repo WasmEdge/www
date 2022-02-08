@@ -156,7 +156,7 @@
 <h3 id="prepare-your-wasm-file"><a class="header" href="#prepare-your-wasm-file">Prepare Your Wasm File</a></h3>
 <p>The Wasm file should contain importing host functions that would take the <code>externref</code>.
 Take <a href="../test/externref/externrefTestData/funcs.wasm">the test WASM file</a> (<a href="../test/externref/externrefTestData/funcs.wat">this WAT</a> is the corresponding text format) as an example:</p>
-<pre><code>(module
+<pre><code class="language-wasm">(module
   (type $t0 (func (param externref i32) (result i32)))
   (type $t1 (func (param externref i32 i32) (result i32)))
   (type $t2 (func (param externref externref i32 i32) (result i32)))
@@ -369,7 +369,7 @@ Test 3 -- `call_mul` -- 8256 ^ 2 = 68161536
 </ol>
 <h2 id="wasm-module-with-external-references"><a class="header" href="#wasm-module-with-external-references">Wasm module with External References</a></h2>
 <p>Take the following <code>wat</code> for example:</p>
-<pre><code>(module
+<pre><code class="language-wasm">(module
   (type $t0 (func (param externref i32) (result i32)))
   ;; Import a host function which type is {externref i32} -&gt; {i32}
   (import &quot;extern_module&quot; &quot;functor_square&quot; (func $functor_square (type $t0)))
@@ -386,7 +386,7 @@ Therefore, the <code>functor_square</code> host function can get the object refe
 <h3 id="wasm-code"><a class="header" href="#wasm-code">Wasm Code</a></h3>
 <p>The Wasm code must pass the <code>externref</code> to host functions that want to access it.
 Take the following <code>wat</code> for example, which is a part of <a href="../test/externref/externrefTestData/funcs.wat">the test WASM file</a>:</p>
-<pre><code>(module
+<pre><code class="language-wasm">(module
   (type $t0 (func (param externref i32 i32) (result i32)))
   (import &quot;extern_module&quot; &quot;func_mul&quot; (func $func_mul (type $t0)))
   (func $call_mul (export &quot;call_mul&quot;) (type $t0) (param $p0 externref) (param $p1 i32) (param $p2 i32) (result i32)

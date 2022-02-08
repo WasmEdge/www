@@ -152,23 +152,23 @@
                         <h1 id="wasmedge-的安装与卸载"><a class="header" href="#wasmedge-的安装与卸载">WasmEdge 的安装与卸载</a></h1>
 <h2 id="快速安装"><a class="header" href="#快速安装">快速安装</a></h2>
 <p>安装 WasmEdge 最简单的方式是执行以下的命令（前提是你的系统已经安装了 <code>git</code> 和 <code>curl</code>）：</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
 <p>如果你希望一并安装 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow 和图像处理扩展</a>，请执行以下命令。它将尝试在你的系统上安装 Tensorflow 和图像共享库。</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
 <p>执行 <code>source $HOME/.wasmedge/env</code> 命令能使已安装的二进制文件在当前会话中可用。</p>
 <p>**就这么简单！**你现在可以通过命令行使用 WasmEdge，或者直接将其作为应用打开。要想升级 WasmEdge，你只需要重新执行以上的命令，旧的文件将被覆盖。</p>
 <h2 id="为所有用户安装-wasmedge"><a class="header" href="#为所有用户安装-wasmedge">为所有用户安装 WasmEdge</a></h2>
 <p>在默认情况下，WasmEdge 将安装在 <code>$HOME/.wasmedge</code> 目录中。你也可以将它安装在系统目录中，如 <code>/usr/local</code>，以便所有用户都能使用 WasmEdge。要想指定一个安装路径，你可以在执行 <code>install.sh</code> 脚本时附上 <code>-p</code> 选项。由于文件将写入系统目录，你需要以 <code>root</code> 用户或 <code>sudo</code> 权限执行以下命令：</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
 </code></pre>
 <p>或者（包含图像扩展）：</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -p /usr/local
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -p /usr/local
 </code></pre>
 <h2 id="安装指定版本的-wasmedge"><a class="header" href="#安装指定版本的-wasmedge">安装指定版本的 WasmEdge</a></h2>
 <p>你可以将 <code>-v</code> 参数传递给 <code>install.sh</code> 脚本来安装指定版本的 WasmEdge（包括预发行版本和历史版本）。例子如下：</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.0
 </code></pre>
 <p>如果你对 <code>master</code> 分支的 <code>HEAD</code> 中的最新的构建感兴趣（也就是 WasmEdge 的 nightly 版本），你可以直接从 Github Action 的 CI artifact 中下载已发布的包。<a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">例子请看这里。</a></p>
 <h2 id="安装内容"><a class="header" href="#安装内容">安装内容</a></h2>
@@ -186,13 +186,13 @@
 </ul>
 <h2 id="卸载"><a class="header" href="#卸载">卸载</a></h2>
 <p>要想卸载 WasmEdge，你可以执行以下的命令：</p>
-<pre><code class="language-bash">$ bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh)
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh)
 </code></pre>
 <p>如果 <code>wasmedge</code> 这个二进制文件不在 <code>PATH</code> 中，且 WasmEdge 不是安装在默认的<code>$HOME/.wasmedge</code> 目录，那么你必须在执行命令时附上安装路径。</p>
-<pre><code class="language-bash">$ bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -p /path/to/parent/folder
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -p /path/to/parent/folder
 </code></pre>
 <p>如果你希望以非交互的方式卸载 WasmEdge，你可以附上 <code>--quick</code> 或 <code>-q</code> 选项。</p>
-<pre><code class="language-bash">$ bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -q
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -q
 </code></pre>
 <blockquote>
 <p>如果 <code>wasmedge</code> 二进制文件的父目录中包含 <code>.wasmedge</code>，那么该目录将会被一并删除。举例来说，该脚本将会完全删除默认的 <code>$HOME/.wasmedge</code> 目录。</p>

@@ -152,25 +152,25 @@
                         <h1 id="install-and-uninstall-wasmedge"><a class="header" href="#install-and-uninstall-wasmedge">Install and uninstall WasmEdge</a></h1>
 <h2 id="quick-install"><a class="header" href="#quick-install">Quick install</a></h2>
 <p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>curl</code> as prerequisites.</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
 <p>If you would like to install WasmEdge with its <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and image processing extensions</a>, please run the following command. It will attempt to install Tensorflow and image shared libraries on your system.</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
 <p>Run the following command to make the installed binary available in the current session.</p>
-<pre><code class="language-bash">$ source $HOME/.wasmedge/env
+<pre><code class="language-bash">source $HOME/.wasmedge/env
 </code></pre>
 <p><strong>That's it!</strong> You can now use WasmEdge from the CLI, or launch it from an application. To update WasmEdge to a new release, just re-run the above command to write over the old files.</p>
 <h2 id="install-for-all-users"><a class="header" href="#install-for-all-users">Install for all users</a></h2>
 <p>By default, WasmEdge is installed in the <code>$HOME/.wasmedge</code> directory. You can install it into a system directory, such as <code>/usr/local</code> to make it available to all users. To specify an install directory, you can run the <code>install.sh</code> script with the <code>-p</code> flag. You will need to run the following commands as the <code>root</code> user or <code>sudo</code> since they write into system directories.</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
 </code></pre>
 <p>Or, with all extensions</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -p /usr/local
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -p /usr/local
 </code></pre>
 <h2 id="install-a-specific-version-of-wasmedge"><a class="header" href="#install-a-specific-version-of-wasmedge">Install a specific version of WasmEdge</a></h2>
 <p>You could install specific versions of WasmEdge, including pre-releases or old releases by passing the <code>-v</code> argument to the install script. Here is an example.</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.0
 </code></pre>
 <p>If you are interested in the latest builds from the <code>HEAD</code> of the <code>master</code> branch, which is basically WasmEdge's nightly builds, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
 <h2 id="whats-installed"><a class="header" href="#whats-installed">What's installed</a></h2>
@@ -188,23 +188,23 @@
 </ul>
 <h2 id="uninstall"><a class="header" href="#uninstall">Uninstall</a></h2>
 <p>To uninstall WasmEdge, you can run the following command.</p>
-<pre><code class="language-bash">$ bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh)
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh)
 </code></pre>
 <p>If <code>wasmedge</code> binary is not in <code>PATH</code> and it wasn't installed in the default <code>$HOME/.wasmedge</code> folder, then you must provide the installation path.</p>
-<pre><code class="language-bash">$ bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -p /path/to/parent/folder
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -p /path/to/parent/folder
 </code></pre>
 <p>If you wish to uninstall uninteractively, you can pass in the <code>--quick</code> or <code>-q</code> flag.</p>
-<pre><code class="language-bash">$ bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -q
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -q
 </code></pre>
 <blockquote>
 <p>If a parent folder of the <code>wasmedge</code> binary contains <code>.wasmedge</code>, the folder will be considered for removal. For example, the script removes the default <code>$HOME/.wasmedge</code> folder altogether.</p>
 </blockquote>
 <h2 id="install-wasmedge-for-nodejs"><a class="header" href="#install-wasmedge-for-nodejs">Install WasmEdge for Node.js</a></h2>
 <p>WasmEdge can run <a href="https://www.secondstate.io/articles/getting-started-with-rust-function/">WebAssembly functions emebedded in Node.js</a> applications. To install the WasmEdge module in your Node.js environment is easy. Just use the <code>npm</code> tool.</p>
-<pre><code class="language-bash">$ npm install -g wasmedge-core # Append --unsafe-perm if permission denied
+<pre><code class="language-bash">npm install -g wasmedge-core # Append --unsafe-perm if permission denied
 </code></pre>
 <p>To install WasmEdge with <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and other extensions</a>.</p>
-<pre><code class="language-bash">$ npm install -g wasmedge-extensions # Append --unsafe-perm if permission denied
+<pre><code class="language-bash">npm install -g wasmedge-extensions # Append --unsafe-perm if permission denied
 </code></pre>
 <p>The <a href="https://www.secondstate.io/faas/">Second State Functions</a> is a WasmEdge-based FaaS service build on Node.js.</p>
 

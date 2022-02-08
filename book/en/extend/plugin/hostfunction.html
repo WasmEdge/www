@@ -325,7 +325,7 @@ VM.registerModule(TestMod);
 </code></pre>
 <h3 id="link-libraries-and-include-directories-in-cmakefile"><a class="header" href="#link-libraries-and-include-directories-in-cmakefile">Link Libraries And Include Directories in CMakeFile</a></h3>
 <p>For finding headers from WasmEdge include directories and linking static libraries, some settings are necessary for CMakeFile:</p>
-<pre><code>add_library(wasmedgeHostModuleTest  # Static library name of host modules
+<pre><code class="language-cmake">add_library(wasmedgeHostModuleTest  # Static library name of host modules
   test.cpp  # Path to host modules cpp files
 )
 

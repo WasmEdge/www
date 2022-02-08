@@ -157,14 +157,14 @@
 <li>WasmEdge runner on seL4: This is the wasm program runtime, which will execute the given wasm program from Guest Linux OS.</li>
 </ol>
 <p>The figure below illustrates the architecture of the system.</p>
-<p><img src="wasmedge-sel4.png" alt="" /></p>
+<p><img src="wasmedge-sel4.png" alt="wasmedge-sel4" /></p>
 <p>This demo is based on the seL4 simulator on Linux.</p>
 <h2 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h2>
 <h3 id="system-requirements"><a class="header" href="#system-requirements">System requirements</a></h3>
 <p>Hardware:</p>
 <ul>
 <li>at least 4GB of RAM</li>
-<li>at least 20GB of disk storage (the wasmedge_sel4 directory will contain over 11 GB of data after the following installation completes) </li>
+<li>at least 20GB of disk storage (the wasmedge_sel4 directory will contain over 11 GB of data after the following installation completes)</li>
 </ul>
 <p>Software: Ubuntu 20.04 with dev tools packages (ep. Python) installed. We recommend the <a href="https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md">GitHub Actions Ubuntu 20.04 VM</a> (See a list of <a href="https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md#installed-apt-packages">installed apt packages</a>). Or, you could use our Docker image (see the <a href="https://github.com/second-state/wasmedge-seL4/blob/main/docs/Dockerfile.sel4_build">Dockerfile</a>).</p>
 <pre><code class="language-bash">$ docker pull wasmedge/sel4_build
@@ -176,7 +176,7 @@ $ docker run --rm -v $(pwd):/app -it wasmedge/sel4_build
 </blockquote>
 <h3 id="automatic-installation-all-in-one-script"><a class="header" href="#automatic-installation-all-in-one-script">Automatic installation: all-in-one script</a></h3>
 <p>Use our all-in-one build script:</p>
-<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-seL4/main/build.sh | bash
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-seL4/main/build.sh | bash
 </code></pre>
 <p>And this will clone and build our wasmedge on seL4 to an image.</p>
 <p>After finishing the build script, you will have a folder <code>sel4_wasmedge</code>.</p>
@@ -184,26 +184,26 @@ $ docker run --rm -v $(pwd):/app -it wasmedge/sel4_build
 <h3 id="manual-installation-managing-memory-usage"><a class="header" href="#manual-installation-managing-memory-usage">Manual installation: managing memory usage</a></h3>
 <p>The above all-in-one script will work in most cases. However, if your system resources were stressed and you encountered an error such as <code>ninja: build stopped: subcommand failed</code> please note that you can decrease the parallelization of the install by explicitly passing in a <code>-j</code> parameter to the <code>ninja</code> command (on the last line of the <code>build.sh</code> file). You see, Ninja runs the most amount of parallel processes by default and so the following procedure is a way to explicitly set/reduce parallelization.</p>
 <p>Manually fetch the `wasmedge-sel4 repository.</p>
-<pre><code class="language-bash">$ cd ~
-$ git clone https://github.com/second-state/wasmedge-seL4.git
-$ cd wasmedge-seL4
+<pre><code class="language-bash">cd ~
+git clone https://github.com/second-state/wasmedge-seL4.git
+cd wasmedge-seL4
 </code></pre>
 <p>Manually edit the <code>build.sh</code> file.</p>
-<pre><code class="language-bash">$ vi build.sh
+<pre><code class="language-bash">vi build.sh
 </code></pre>
 <p>Add the following <code>-j</code> parameter to the last line of the file i.e.</p>
-<pre><code class="language-bash">$ ninja -j 2
+<pre><code class="language-bash">ninja -j 2
 </code></pre>
 <p>Make the <code>build.sh</code> file executable.</p>
-<pre><code class="language-bash">$ sudo chmod a+x build.sh
+<pre><code class="language-bash">sudo chmod a+x build.sh
 </code></pre>
 <p>Run the edited `build.sh file.</p>
-<pre><code class="language-bash">$ ./build.sh
+<pre><code class="language-bash">./build.sh
 </code></pre>
 <p>Once this manual installation is complete, follow along with the following steps; boot wasmedge-sel4</p>
 <h3 id="boot-wasmedge-sel4"><a class="header" href="#boot-wasmedge-sel4">Boot wasmedge-seL4</a></h3>
-<pre><code class="language-bash">$ cd sel4_wasmedge/build
-$ ./simulate
+<pre><code class="language-bash">cd sel4_wasmedge/build
+./simulate
 </code></pre>
 <p>Expected output:</p>
 <pre><code class="language-bash">$ ./simulate: qemu-system-aarch64 -machine virt,virtualization=on,highmem=off,secure=off -cpu cortex-a53 -nographic  -m size=2048  -kernel images/capdl-loader-image-arm-qemu-arm-virt
@@ -258,7 +258,7 @@ buildroot login:
 <h3 id="execute-wasm-examples"><a class="header" href="#execute-wasm-examples">Execute wasm examples</a></h3>
 <h4 id="example-a-nbody-cwasm"><a class="header" href="#example-a-nbody-cwasm">Example A: nbody-c.wasm</a></h4>
 <p>Run nbody simulation.</p>
-<pre><code class="language-bash">$ wasmedge_emit /usr/bin/nbody-c.wasm 10
+<pre><code class="language-bash">wasmedge_emit /usr/bin/nbody-c.wasm 10
 </code></pre>
 <p>Expected output:</p>
 <pre><code class="language-bash">[1900-01-00 00:00:00.000] [info] executing wasm file
@@ -268,7 +268,7 @@ buildroot login:
 </code></pre>
 <h4 id="example-b-hellowasm"><a class="header" href="#example-b-hellowasm">Example B: hello.wasm</a></h4>
 <p>Run an easy application to print <code>hello, sel4</code> and a simple calculation.</p>
-<pre><code class="language-bash">$ wasmedge_emit /usr/bin/hello.wasm
+<pre><code class="language-bash">wasmedge_emit /usr/bin/hello.wasm
 </code></pre>
 <p>Expected output:</p>
 <pre><code class="language-bash">[1900-01-00 00:00:00.000] [info] executing wasm file

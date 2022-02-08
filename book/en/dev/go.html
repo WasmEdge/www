@@ -152,17 +152,17 @@
                         <h1 id="go"><a class="header" href="#go">Go</a></h1>
 <p>The best way to run Go programs in WasmEdge is to compile Go source code to WebAssembly using <a href="https://tinygo.org/">TinyGo</a>. In this article, we will show you how.</p>
 <h2 id="install-tinygo"><a class="header" href="#install-tinygo">Install TinyGo</a></h2>
-<p>You must have <a href="https://go.dev/doc/install">Go already installed</a> on your machine before installing TinyGo. Go v1.17 or above is recommended.</p>
-<p>For Ubuntu or other Debian-based Linux systems on x86 processors, you could use the following command line to install TinyGo. For other platforms, please refer to <a href="https://tinygo.org/getting-started/install/">TinyGo docs</a>.</p>
-<pre><code class="language-bash">$ wget https://github.com/tinygo-org/tinygo/releases/download/v0.21.0/tinygo_0.21.0_amd64.deb
-$ sudo dpkg -i tinygo_0.21.0_amd64.deb`
+<p>You must have <a href="https://go.dev/doc/install">Go already installed</a> on your machine before installing TinyGo. Go v1.17 or above is recommended.
+For Ubuntu or other Debian-based Linux systems on x86 processors, you could use the following command line to install TinyGo. For other platforms, please refer to <a href="https://tinygo.org/getting-started/install/">TinyGo docs</a>.</p>
+<pre><code class="language-bash">wget https://github.com/tinygo-org/tinygo/releases/download/v0.21.0/tinygo_0.21.0_amd64.deb
+sudo dpkg -i tinygo_0.21.0_amd64.deb`
 </code></pre>
 <p>Next, run the following command line to check out if the installation is successful.</p>
 <pre><code class="language-bash">$ tinygo version
 tinygo version 0.21.0 linux/amd64 (using go version go1.16.7 and LLVM version 11.0.0)
 </code></pre>
 <h2 id="hello-world"><a class="header" href="#hello-world">Hello world</a></h2>
-<p>The simple Go app has a <code>main()</code> function to print a message to the console. 
+<p>The simple Go app has a <code>main()</code> function to print a message to the console.
 The source code in <code>main.go</code> file is as follows.</p>
 <pre><code class="language-go">package main
 
@@ -171,24 +171,20 @@ func main() {
 }
 </code></pre>
 <blockquote>
-<p>Inside the <code>main()</code> function, you can use Go standard API to read / write 
-files, and access command line arguments and <code>env</code> variables.</p>
+<p>Inside the <code>main()</code> function, you can use Go standard API to read / write files, and access command line arguments and <code>env</code> variables.</p>
 </blockquote>
-<h3 id="compile-and-build"><a class="header" href="#compile-and-build">Compile and build</a></h3>
+<h3 id="hello-world-compile-and-build"><a class="header" href="#hello-world-compile-and-build">Hello world: Compile and build</a></h3>
 <p>Next, compile the <code>main.go</code> program to WebAssembly using TinyGo.</p>
-<pre><code class="language-bash">$ tinygo build -o hello.wasm -target wasi main.go
+<pre><code class="language-bash">tinygo build -o hello.wasm -target wasi main.go
 </code></pre>
 <p>You will see a file named <code>hello.wasm</code> in the same directory. This is a WebAssembly bytecode file.</p>
-<h3 id="run"><a class="header" href="#run">Run</a></h3>
+<h3 id="hello-world-run"><a class="header" href="#hello-world-run">Hello world: Run</a></h3>
 <p>You can run it with the <a href="../start/cli.html">WasmEdge CLI</a>.</p>
 <pre><code class="language-bash">$ wasmedge hello.wasm
 Hello TinyGo from WasmEdge!
 </code></pre>
 <h2 id="a-simple-function"><a class="header" href="#a-simple-function">A simple function</a></h2>
-<p>The second example is a Go function that takes a call parameter to compute
-a fibonacci number. However, in order for the Go application to set up
-proper access to the OS (e.g., to access the command line arguments),
-you must include an empty <code>main()</code> function in the source code.</p>
+<p>The second example is a Go function that takes a call parameter to compute a fibonacci number. However, in order for the Go application to set up proper access to the OS (e.g., to access the command line arguments), you must include an empty <code>main()</code> function in the source code.</p>
 <pre><code class="language-go">package main
 
 func main(){
@@ -208,12 +204,12 @@ func fibArray(n int32) int32{
         return arr[n-1]
 }
 </code></pre>
-<h3 id="compile-and-build-1"><a class="header" href="#compile-and-build-1">Compile and build</a></h3>
+<h3 id="a-simple-function-compile-and-build"><a class="header" href="#a-simple-function-compile-and-build">A simple function: Compile and build</a></h3>
 <p>Next, compile the <code>main.go</code> program to WebAssembly using TinyGo.</p>
-<pre><code class="language-bash">$ tinygo build -o fib.wasm -target wasi main.go
+<pre><code class="language-bash">tinygo build -o fib.wasm -target wasi main.go
 </code></pre>
 <p>You will see a file named <code>fib.wasm</code> in the same directory. This is a WebAssembly bytecode file.</p>
-<h3 id="run-1"><a class="header" href="#run-1">Run</a></h3>
+<h3 id="a-simple-function-run"><a class="header" href="#a-simple-function-run">A simple function: Run</a></h3>
 <p>You can run it with the <a href="../start/cli.html">WasmEdge CLI</a> in its <code>--reactor</code> mode.
 The command line arguments that follow the <code>wasm</code> file are the function name
 and its call parameters.</p>
@@ -221,9 +217,7 @@ and its call parameters.</p>
 34
 </code></pre>
 <h2 id="improve-performance"><a class="header" href="#improve-performance">Improve performance</a></h2>
-<p>To achieve native Go performance for those applications, you 
-could use the <code>wasmedgec</code> command to AOT compile the <code>wasm</code> program,
-and then run it with the <code>wasmedge</code> command.</p>
+<p>To achieve native Go performance for those applications, you could use the <code>wasmedgec</code> command to AOT compile the <code>wasm</code> program, and then run it with the <code>wasmedge</code> command.</p>
 <pre><code class="language-bash">$ wasmedgec hello.wasm hello.wasm
 
 $ wasmedge hello.wasm

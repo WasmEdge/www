@@ -162,40 +162,40 @@ go version go1.17.3 linux/amd64
 <h3 id="install-cri-o"><a class="header" href="#install-cri-o">Install CRI-O</a></h3>
 <p>Please see <a href="https://github.com/cri-o/cri-o/blob/main/install.md#install-packaged-versions-of-cri-o">CRI-O Installation Instructions</a>.</p>
 <pre><code class="language-bash"># Create the .conf file to load the modules at bootup
-$ cat &lt;&lt;EOF | sudo tee /etc/modules-load.d/crio.conf
+cat &lt;&lt;EOF | sudo tee /etc/modules-load.d/crio.conf
 overlay
 br_netfilter
 EOF
 
-$ sudo modprobe overlay
-$ sudo modprobe br_netfilter
+sudo modprobe overlay
+sudo modprobe br_netfilter
 
 # Set up required sysctl params, these persist across reboots.
-$ cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.ipv4.ip_forward                 = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 
-$ sudo sysctl --system
-$ export OS=&quot;xUbuntu_20.04&quot;
-$ export VERSION=&quot;1.21&quot;
-$ cat &lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+sudo sysctl --system
+export OS=&quot;xUbuntu_20.04&quot;
+export VERSION=&quot;1.21&quot;
+cat &lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
 deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
 EOF
-$ cat &lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+cat &lt;&lt;EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
 deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /
 EOF
 
-$ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
-$ curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers-cri-o.gpg add -
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers-cri-o.gpg add -
 
-$ sudo apt-get update
-$ sudo apt-get install cri-o cri-o-runc
+sudo apt-get update
+sudo apt-get install cri-o cri-o-runc
 
-$ sudo systemctl daemon-reload
-$ sudo systemctl enable crio --now
-$ sudo systemctl status cri-o
+sudo systemctl daemon-reload
+sudo systemctl enable crio --now
+sudo systemctl status cri-o
 </code></pre>
 <p>output:</p>
 <pre><code class="language-bash">$ sudo systemctl status cri-o
@@ -223,14 +223,14 @@ Dec 07 06:24:13 master crio[6868]: time=&quot;2021-12-07 06:24:13.717381882Z&quo
 <h3 id="install-and-creating-a-cluster-with-kubeadm-for-k8s"><a class="header" href="#install-and-creating-a-cluster-with-kubeadm-for-k8s">Install and Creating a cluster with kubeadm for K8s</a></h3>
 <p>Please see <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">Creating a cluster with kubeadm</a>.</p>
 <h4 id="install-k8s"><a class="header" href="#install-k8s">Install K8s</a></h4>
-<pre><code class="language-bash">$ sudo apt-get update
-$ sudo apt-get install -y apt-transport-https curl
-$ echo &quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main&quot; | sudo tee /etc/apt/sources.list.d/kubernetes.list
+<pre><code class="language-bash">sudo apt-get update
+sudo apt-get install -y apt-transport-https curl
+echo &quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main&quot; | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-$ sudo apt update
-$ K_VER=&quot;1.21.0-00&quot;
-$ sudo apt install -y kubelet=${K_VER} kubectl=${K_VER} kubeadm=${K_VER}
-$ sudo apt-mark hold kubelet kubeadm kubectl
+sudo apt update
+K_VER=&quot;1.21.0-00&quot;
+sudo apt install -y kubelet=${K_VER} kubectl=${K_VER} kubeadm=${K_VER}
+sudo apt-mark hold kubelet kubeadm kubectl
 </code></pre>
 <h4 id="create-a-cluster-with-kubeadm"><a class="header" href="#create-a-cluster-with-kubeadm">Create a cluster with kubeadm</a></h4>
 <pre><code class="language-bash">#kubernetes scheduler requires this setting to be done.
@@ -285,9 +285,9 @@ as root:
   kubeadm join &lt;control-plane-host&gt;:&lt;control-plane-port&gt; --token &lt;token&gt; --discovery-token-ca-cert-hash sha256:&lt;hash&gt;
 </code></pre>
 <p>To make kubectl work for your non-root user, run these commands, which are also part of the kubeadm init output:</p>
-<pre><code class="language-bash">$ mkdir -p $HOME/.kube
-$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
+<pre><code class="language-bash">mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 </code></pre>
 <h3 id="setup-kubeedge-master-node"><a class="header" href="#setup-kubeedge-master-node">Setup KubeEdge Master Node</a></h3>
 <p>Please see <a href="https://kubeedge.io/en/docs/setup/keadm/">Deploying using Keadm</a>.</p>
@@ -297,10 +297,10 @@ $ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 <li>Please make sure edge node can connect cloud node using local IP of cloud node, or you need to specify public IP of cloud node with --advertise-address flag.</li>
 <li>--advertise-address(only work since 1.3 release) is the address exposed by the cloud side (will be added to the SANs of the CloudCore certificate), the default value is the local IP.</li>
 </ol>
-<pre><code class="language-bash">$ wget https://github.com/kubeedge/kubeedge/releases/download/v1.8.0/keadm-v1.8.0-linux-amd64.tar.gz
-$ tar xzvf keadm-v1.8.0-linux-amd64.tar.gz
-$ cd keadm-v1.8.0-linux-amd64/keadm/
-$ sudo ./keadm init --advertise-address=192.168.122.160 --kube-config=/home/${user}/.kube/config
+<pre><code class="language-bash">wget https://github.com/kubeedge/kubeedge/releases/download/v1.8.0/keadm-v1.8.0-linux-amd64.tar.gz
+tar xzvf keadm-v1.8.0-linux-amd64.tar.gz
+cd keadm-v1.8.0-linux-amd64/keadm/
+sudo ./keadm init --advertise-address=192.168.122.160 --kube-config=/home/${user}/.kube/config
 </code></pre>
 <p>output:</p>
 <pre><code class="language-bash">Kubernetes version verification passed, KubeEdge installation will start...
@@ -309,9 +309,9 @@ KubeEdge cloudcore is running, For logs visit:  /var/log/kubeedge/cloudcore.log
 </code></pre>
 <h2 id="2-setup-edge-side-kubeedge-worker-node"><a class="header" href="#2-setup-edge-side-kubeedge-worker-node">2. Setup Edge Side (KubeEdge Worker Node)</a></h2>
 <p>You can use the CRI-O <a href="../crio/install.sh">install.sh</a> script to install CRI-O and <code>crun</code> on Ubuntu 20.04.</p>
-<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/install.sh | bash
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/install.sh | bash
 </code></pre>
-<h3 id="install-go-1"><a class="header" href="#install-go-1">Install Go</a></h3>
+<h3 id="install-go-on-edge-side"><a class="header" href="#install-go-on-edge-side">Install Go on Edge Side</a></h3>
 <pre><code class="language-bash">$ wget https://golang.org/dl/go1.17.3.linux-amd64.tar.gz
 $ tar xzvf go1.17.3.linux-amd64.tar.gz
 

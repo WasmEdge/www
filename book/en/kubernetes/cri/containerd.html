@@ -165,29 +165,29 @@ apps on containerd.</p>
 </ul>
 <h2 id="install-containerd"><a class="header" href="#install-containerd">Install containerd</a></h2>
 <p>Use the following commands to install containerd on your system.</p>
-<pre><code class="language-bash">$ export VERSION=&quot;1.5.7&quot;
-$ echo -e &quot;Version: $VERSION&quot;
-$ echo -e &quot;Installing libseccomp2 ...&quot;
-$ sudo apt install -y libseccomp2
-$ echo -e &quot;Installing wget&quot;
-$ sudo apt install -y wget
+<pre><code class="language-bash">export VERSION=&quot;1.5.7&quot;
+echo -e &quot;Version: $VERSION&quot;
+echo -e &quot;Installing libseccomp2 ...&quot;
+sudo apt install -y libseccomp2
+echo -e &quot;Installing wget&quot;
+sudo apt install -y wget
 
-$ wget https://github.com/containerd/containerd/releases/download/v${VERSION}/cri-containerd-cni-${VERSION}-linux-amd64.tar.gz
-$ wget https://github.com/containerd/containerd/releases/download/v${VERSION}/cri-containerd-cni-${VERSION}-linux-amd64.tar.gz.sha256sum
-$ sha256sum --check cri-containerd-cni-${VERSION}-linux-amd64.tar.gz.sha256sum
+wget https://github.com/containerd/containerd/releases/download/v${VERSION}/cri-containerd-cni-${VERSION}-linux-amd64.tar.gz
+wget https://github.com/containerd/containerd/releases/download/v${VERSION}/cri-containerd-cni-${VERSION}-linux-amd64.tar.gz.sha256sum
+sha256sum --check cri-containerd-cni-${VERSION}-linux-amd64.tar.gz.sha256sum
 
-$ sudo tar --no-overwrite-dir -C / -xzf cri-containerd-cni-${VERSION}-linux-amd64.tar.gz
-$ sudo systemctl daemon-reload
+sudo tar --no-overwrite-dir -C / -xzf cri-containerd-cni-${VERSION}-linux-amd64.tar.gz
+sudo systemctl daemon-reload
 </code></pre>
 <p>Configure containerd to use <code>crun</code> as the underlying OCI runtime.
 It makes changes to the <code>/etc/containerd/config.toml</code> file.</p>
-<pre><code class="language-bash">$ sudo mkdir -p /etc/containerd/
-$ sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
-$ wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/containerd_config.diff
-$ sudo patch -d/ -p0 &lt; containerd_config.diff
+<pre><code class="language-bash">sudo mkdir -p /etc/containerd/
+sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
+wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/containerd_config.diff
+sudo patch -d/ -p0 &lt; containerd_config.diff
 </code></pre>
 <p>Start the containerd service.</p>
-<pre><code class="language-bash">$ sudo systemctl start containerd
+<pre><code class="language-bash">sudo systemctl start containerd
 </code></pre>
 <p>Next, make sure that you have <a href="../container/crun.html">built and installed the <code>crun</code> binary with WasmEdge support</a> before running the following examples.</p>
 <h2 id="run-a-simple-webassembly-app"><a class="header" href="#run-a-simple-webassembly-app">Run a simple WebAssembly app</a></h2>
@@ -196,10 +196,10 @@ $ sudo patch -d/ -p0 &lt; containerd_config.diff
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using containerd tools.</p>
-<pre><code class="language-bash">$ sudo ctr i pull docker.io/hydai/wasm-wasi-example:with-wasm-annotation
+<pre><code class="language-bash">sudo ctr i pull docker.io/hydai/wasm-wasi-example:with-wasm-annotation
 </code></pre>
 <p>Now, you can run the example in just one line with ctr (the containerd cli).</p>
-<pre><code class="language-bash">$ sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/hydai/wasm-wasi-example:with-wasm-annotation wasm-example /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/hydai/wasm-wasi-example:with-wasm-annotation wasm-example /wasi_example_main.wasm 50000000
 </code></pre>
 <p>Starting the container would execute the WebAssembly program. You can see the output in the console.</p>
 <pre><code class="language-bash">Creating POD ...
@@ -220,10 +220,10 @@ File content is This is in a file
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using containerd tools.</p>
-<pre><code class="language-bash">$ sudo ctr i pull docker.io/avengermojo/http_server:with-wasm-annotation
+<pre><code class="language-bash">sudo ctr i pull docker.io/avengermojo/http_server:with-wasm-annotation
 </code></pre>
 <p>Now, you can run the example in just one line with ctr (the containerd cli). Notice that we are running the container with <code>--net-host</code> so that the HTTP server inside the WasmEdge container is accessible from the outside shell.</p>
-<pre><code class="language-bash">$ sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/avengermojo/http_server:with-wasm-annotation http-server-example /http_server.wasm
+<pre><code class="language-bash">sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/avengermojo/http_server:with-wasm-annotation http-server-example /http_server.wasm
 </code></pre>
 <p>Starting the container would execute the WebAssembly program. You can see the output in the console.</p>
 <pre><code class="language-bash">new connection at 1234

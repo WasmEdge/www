@@ -167,8 +167,8 @@
 </ul>
 <p>If you would like to develop WasmEdge on MacOS, please follow this guide to build and test from source code.</p>
 <h2 id="get-source-code"><a class="header" href="#get-source-code">Get Source Code</a></h2>
-<pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
-$ cd WasmEdge
+<pre><code class="language-bash">git clone https://github.com/WasmEdge/WasmEdge.git
+cd WasmEdge
 </code></pre>
 <h2 id="requirements-and-dependencies"><a class="header" href="#requirements-and-dependencies">Requirements and Dependencies</a></h2>
 <p>WasmEdge will try to use the latest LLVM release to create our nightly build.
@@ -179,15 +179,15 @@ If you want to build from source, you may need to install these dependencies by 
 </ul>
 <h3 id="prepare-the-environment"><a class="header" href="#prepare-the-environment">Prepare the environment</a></h3>
 <pre><code class="language-bash"># Tools and libraries
-$ brew install boost cmake ninja llvm@12
+brew install boost cmake ninja llvm@12
 # Use brew version of llvm, not the built-in one.
-$ export PATH=&quot;/usr/local/opt/llvm@12/bin:$PATH&quot;
-$ export LDFLAGS=&quot;-L/usr/local/opt/llvm@12/lib -Wl,-rpath,/usr/local/opt/llvm@12/lib&quot;
-$ export CPPFLAGS=&quot;-I/usr/local/opt/llvm@12/include&quot;
+export PATH=&quot;/usr/local/opt/llvm@12/bin:$PATH&quot;
+export LDFLAGS=&quot;-L/usr/local/opt/llvm@12/lib -Wl,-rpath,/usr/local/opt/llvm@12/lib&quot;
+export CPPFLAGS=&quot;-I/usr/local/opt/llvm@12/include&quot;
 </code></pre>
 <h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
 <p>If users don't need Ahead-of-Time runtime/compiler support, they can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
-<pre><code class="language-bash">$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
+<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="build-wasmedge"><a class="header" href="#build-wasmedge">Build WasmEdge</a></h2>
 <p>WasmEdge provides various tools for enabling different runtime environments for optimal performance.
@@ -213,14 +213,14 @@ After the build is finished, you can find there are several wasmedge related too
 </ul>
 </li>
 </ol>
-<pre><code class="language-bash">$ cmake -Bbuild -GNinja -DWASMEDGE_BUILD_PACKAGE=&quot;TGZ&quot; -DWASMEDGE_BUILD_TESTS=ON .
-$ cmake --build build
+<pre><code class="language-bash">cmake -Bbuild -GNinja -DWASMEDGE_BUILD_PACKAGE=&quot;TGZ&quot; -DWASMEDGE_BUILD_TESTS=ON .
+cmake --build build
 </code></pre>
 <h2 id="run-built-in-tests"><a class="header" href="#run-built-in-tests">Run built-in tests</a></h2>
 <p>The following built-in tests are only available when the build flag <code>WASMEDGE_BUILD_TESTS</code> sets to <code>ON</code>.</p>
 <p>Users can use these tests to verify the correctness of WasmEdge binaries.</p>
-<pre><code class="language-bash">$ export DYLD_LIBRARY_PATH=&quot;$(pwd)/build/lib/api:$DYLD_LIBRARY_PATH&quot;
-$ cmake --build build --target test
+<pre><code class="language-bash">export DYLD_LIBRARY_PATH=&quot;$(pwd)/build/lib/api:$DYLD_LIBRARY_PATH&quot;
+cmake --build build --target test
 </code></pre>
 <h2 id="run-applications"><a class="header" href="#run-applications">Run applications</a></h2>
 <p>Next, follow <a href="../index.html">this guide</a> to run WebAssembly bytecode programs in <code>wasmedge</code>.</p>

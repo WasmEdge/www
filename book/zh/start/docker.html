@@ -151,13 +151,13 @@
                     <main>
                         <h1 id="使用-docker-进行-wasmedge-应用程序开发"><a class="header" href="#使用-docker-进行-wasmedge-应用程序开发">使用 Docker 进行 WasmEdge 应用程序开发</a></h1>
 <p><code>appdev</code> Docker 镜像提供了一个完整的 WasmEdge 应用程序开发环境。要想使用该镜像，请执行以下操作。</p>
-<h3 id="x86_64-系统"><a class="header" href="#x86_64-系统">x86_64 系统</a></h3>
+<h2 id="使用-x86_64-系统"><a class="header" href="#使用-x86_64-系统">使用 x86_64 系统</a></h2>
 <pre><code class="language-bash">$ docker pull wasmedge/appdev_x86_64:0.9.0
 $ docker run --rm -v $(pwd):/app -it wasmedge/appdev_x86_64:0.9.0
 (docker) #
 </code></pre>
-<p>查看 <code>	appdev</code> 的 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/docker/Dockerfile.appdev_x86_64">Dockerfile</a> 和 <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">Docker Hub 镜像</a>。</p>
-<h3 id="arm64-系统"><a class="header" href="#arm64-系统">arm64 系统</a></h3>
+<p>查看 <code>appdev</code> 的 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/docker/Dockerfile.appdev_x86_64">Dockerfile</a> 和 <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">Docker Hub 镜像</a>。</p>
+<h2 id="使用-arm64-系统"><a class="header" href="#使用-arm64-系统">使用 arm64 系统</a></h2>
 <pre><code class="language-bash">$ docker pull wasmedge/appdev_aarch64:0.9.0
 $ docker run --rm -v $(pwd):/app -it wasmedge/appdev_aarch64:0.9.0
 (docker) #
@@ -194,7 +194,7 @@ confidence: 0.8941176470588236
 </code></pre>
 <h2 id="构建并发布-appdev-镜像"><a class="header" href="#构建并发布-appdev-镜像">构建并发布 <code>appdev</code> 镜像</a></h2>
 <p>运行以下的命令来构建并发布 <code>appdev</code> 镜像：</p>
-<h3 id="x86_64-系统-1"><a class="header" href="#x86_64-系统-1">x86_64 系统</a></h3>
+<h3 id="x86_64-系统"><a class="header" href="#x86_64-系统">x86_64 系统</a></h3>
 <pre><code class="language-bash">docker build -t wasmedge/appdev_x86_64:0.9.0 -f Dockerfile.appdev_x86_64 ./
 docker image push wasmedge/appdev_x86_64:0.9.0
 </code></pre>

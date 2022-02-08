@@ -152,15 +152,15 @@
                         <h1 id="use-rust-to-implement-js-api"><a class="header" href="#use-rust-to-implement-js-api">Use Rust to implement JS API</a></h1>
 <p>For JavaScript developers, incorporating Rust functions into JavaScript APIs is useful. That enables developers to write programs in &quot;pure JavaScript&quot; and yet still take advantage of the high performance Rust functions. With the <a href="https://github.com/WasmEdge/WasmEdge">WasmEdge Runtime</a>, you can do exactly that.</p>
 <p>Check out the <a href="https://github.com/second-state/wasmedge-quickjs/">wasmedge-quickjs</a> Github repo and change to the <code>examples/embed_js</code> folder to follow along.</p>
-<pre><code class="language-bash">$ git clone https://github.com/second-state/wasmedge-quickjs
-$ cd examples/embed_js
+<pre><code class="language-bash">git clone https://github.com/second-state/wasmedge-quickjs
+cd examples/embed_js
 </code></pre>
 <blockquote>
 <p>You must have <a href="https://www.rust-lang.org/tools/install">Rust</a> and <a href="../../start/install.html">WasmEdge</a> installed to build and run the examples we show you.</p>
 </blockquote>
 <p>The <code>embed_js</code> demo showcases several different examples on how to embed JavaScript inside Rust. You can build and run all the examples as follows.</p>
-<pre><code class="language-bash">$ cargo build --target wasm32-wasi --release
-$ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
+<pre><code class="language-bash">cargo build --target wasm32-wasi --release
+wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 </code></pre>
 <blockquote>
 <p>Note: The <code>--dir .:.</code> on the command line is to give wasmedge permission to read the local directory in the file system.</p>
@@ -289,8 +289,8 @@ this=Ok(
 </code></pre>
 <h2 id="a-complete-javascript-object-api"><a class="header" href="#a-complete-javascript-object-api">A complete JavaScript object API</a></h2>
 <p>In the previous example, we demonstrated simple examples to create JavaScript APIs from Rust. In this example, we will create a complete Rust module and make it available as a JavaScript object API. The project is in the <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/examples/embed_rust_module">examples/embed_rust_module</a> folder. You can build and run it as a standard Rust application in WasmEdge.</p>
-<pre><code class="language-bash">$ cargo build --target wasm32-wasi --release
-$ wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
+<pre><code class="language-bash">cargo build --target wasm32-wasi --release
+wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
 </code></pre>
 <p>The Rust implementation of the object is a module as follows. It has data fields, constructor, getters and setters, and functions.</p>
 <pre><pre class="playground"><code class="language-rust">

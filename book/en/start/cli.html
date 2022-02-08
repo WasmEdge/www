@@ -213,17 +213,17 @@ The compiled machine code could be <a href="universal.html">stored in the origin
 </li>
 </ol>
 <pre><code class="language-bash"># This is slow
-$ wasmedge app.wasm
+wasmedge app.wasm
 
 # AOT compile
-$ wasmedgec app.wasm app.wasm
+wasmedgec app.wasm app.wasm
 
 # This is now MUCH faster
-$ wasmedge app.wasm
+wasmedge app.wasm
 </code></pre>
 <p>On Linux systems, it could generate a <code>so</code> shared library file, which is then executed by the <code>wasmedge</code> CLI.</p>
-<pre><code class="language-bash">$ wasmedgec app.wasm app.so
-$ wasmedge app.so
+<pre><code class="language-bash">wasmedgec app.wasm app.so
+wasmedge app.so
 </code></pre>
 
                     </main>

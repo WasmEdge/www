@@ -154,13 +154,13 @@
 <h2 id="安装"><a class="header" href="#安装">安装</a></h2>
 <p>你可以使用以下的单行命令来安装 WasmEdge。
 你的系统必须预先安装 <code>git</code> 和 <code>curl</code>。</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
 <p>如果你希望一并安装 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow 和图像处理扩展</a>，请执行以下命令。它将尝试在你的系统上安装 Tensorflow 和图像共享库。</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
 <p>执行以下命令能使已安装的二进制文件在当前会话中可用。</p>
-<pre><code class="language-bash">$ source $HOME/.wasmedge/env
+<pre><code class="language-bash">source $HOME/.wasmedge/env
 </code></pre>
 <h2 id="使用-docker-进行安装"><a class="header" href="#使用-docker-进行安装">使用 Docker 进行安装</a></h2>
 <p>如果你使用的是 Docker，你可以直接运行 WasmEdge 应用开发镜像（<a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">x86</a> 和 <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_aarch64">arm64</a>）。这些镜像里包含快速开发 WasmEdge 所需的所有工具。</p>
@@ -270,23 +270,23 @@ confidence: 0.8941176470588236
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-的安装与卸载"><a class="header" href="#wasmedge-的安装与卸载">WasmEdge 的安装与卸载</a></h1>
 <h2 id="快速安装"><a class="header" href="#快速安装">快速安装</a></h2>
 <p>安装 WasmEdge 最简单的方式是执行以下的命令（前提是你的系统已经安装了 <code>git</code> 和 <code>curl</code>）：</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
 <p>如果你希望一并安装 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow 和图像处理扩展</a>，请执行以下命令。它将尝试在你的系统上安装 Tensorflow 和图像共享库。</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
 <p>执行 <code>source $HOME/.wasmedge/env</code> 命令能使已安装的二进制文件在当前会话中可用。</p>
 <p>**就这么简单！**你现在可以通过命令行使用 WasmEdge，或者直接将其作为应用打开。要想升级 WasmEdge，你只需要重新执行以上的命令，旧的文件将被覆盖。</p>
 <h2 id="为所有用户安装-wasmedge"><a class="header" href="#为所有用户安装-wasmedge">为所有用户安装 WasmEdge</a></h2>
 <p>在默认情况下，WasmEdge 将安装在 <code>$HOME/.wasmedge</code> 目录中。你也可以将它安装在系统目录中，如 <code>/usr/local</code>，以便所有用户都能使用 WasmEdge。要想指定一个安装路径，你可以在执行 <code>install.sh</code> 脚本时附上 <code>-p</code> 选项。由于文件将写入系统目录，你需要以 <code>root</code> 用户或 <code>sudo</code> 权限执行以下命令：</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
 </code></pre>
 <p>或者（包含图像扩展）：</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -p /usr/local
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -p /usr/local
 </code></pre>
 <h2 id="安装指定版本的-wasmedge"><a class="header" href="#安装指定版本的-wasmedge">安装指定版本的 WasmEdge</a></h2>
 <p>你可以将 <code>-v</code> 参数传递给 <code>install.sh</code> 脚本来安装指定版本的 WasmEdge（包括预发行版本和历史版本）。例子如下：</p>
-<pre><code class="language-bash">$ curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.0
 </code></pre>
 <p>如果你对 <code>master</code> 分支的 <code>HEAD</code> 中的最新的构建感兴趣（也就是 WasmEdge 的 nightly 版本），你可以直接从 Github Action 的 CI artifact 中下载已发布的包。<a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">例子请看这里。</a></p>
 <h2 id="安装内容"><a class="header" href="#安装内容">安装内容</a></h2>
@@ -304,26 +304,26 @@ confidence: 0.8941176470588236
 </ul>
 <h2 id="卸载"><a class="header" href="#卸载">卸载</a></h2>
 <p>要想卸载 WasmEdge，你可以执行以下的命令：</p>
-<pre><code class="language-bash">$ bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh)
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh)
 </code></pre>
 <p>如果 <code>wasmedge</code> 这个二进制文件不在 <code>PATH</code> 中，且 WasmEdge 不是安装在默认的<code>$HOME/.wasmedge</code> 目录，那么你必须在执行命令时附上安装路径。</p>
-<pre><code class="language-bash">$ bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -p /path/to/parent/folder
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -p /path/to/parent/folder
 </code></pre>
 <p>如果你希望以非交互的方式卸载 WasmEdge，你可以附上 <code>--quick</code> 或 <code>-q</code> 选项。</p>
-<pre><code class="language-bash">$ bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -q
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -q
 </code></pre>
 <blockquote>
 <p>如果 <code>wasmedge</code> 二进制文件的父目录中包含 <code>.wasmedge</code>，那么该目录将会被一并删除。举例来说，该脚本将会完全删除默认的 <code>$HOME/.wasmedge</code> 目录。</p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="使用-docker-进行-wasmedge-应用程序开发"><a class="header" href="#使用-docker-进行-wasmedge-应用程序开发">使用 Docker 进行 WasmEdge 应用程序开发</a></h1>
 <p><code>appdev</code> Docker 镜像提供了一个完整的 WasmEdge 应用程序开发环境。要想使用该镜像，请执行以下操作。</p>
-<h3 id="x86_64-系统"><a class="header" href="#x86_64-系统">x86_64 系统</a></h3>
+<h2 id="使用-x86_64-系统"><a class="header" href="#使用-x86_64-系统">使用 x86_64 系统</a></h2>
 <pre><code class="language-bash">$ docker pull wasmedge/appdev_x86_64:0.9.0
 $ docker run --rm -v $(pwd):/app -it wasmedge/appdev_x86_64:0.9.0
 (docker) #
 </code></pre>
-<p>查看 <code>	appdev</code> 的 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/docker/Dockerfile.appdev_x86_64">Dockerfile</a> 和 <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">Docker Hub 镜像</a>。</p>
-<h3 id="arm64-系统"><a class="header" href="#arm64-系统">arm64 系统</a></h3>
+<p>查看 <code>appdev</code> 的 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/docker/Dockerfile.appdev_x86_64">Dockerfile</a> 和 <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">Docker Hub 镜像</a>。</p>
+<h2 id="使用-arm64-系统"><a class="header" href="#使用-arm64-系统">使用 arm64 系统</a></h2>
 <pre><code class="language-bash">$ docker pull wasmedge/appdev_aarch64:0.9.0
 $ docker run --rm -v $(pwd):/app -it wasmedge/appdev_aarch64:0.9.0
 (docker) #
@@ -360,7 +360,7 @@ confidence: 0.8941176470588236
 </code></pre>
 <h2 id="构建并发布-appdev-镜像"><a class="header" href="#构建并发布-appdev-镜像">构建并发布 <code>appdev</code> 镜像</a></h2>
 <p>运行以下的命令来构建并发布 <code>appdev</code> 镜像：</p>
-<h3 id="x86_64-系统-1"><a class="header" href="#x86_64-系统-1">x86_64 系统</a></h3>
+<h3 id="x86_64-系统"><a class="header" href="#x86_64-系统">x86_64 系统</a></h3>
 <pre><code class="language-bash">docker build -t wasmedge/appdev_x86_64:0.9.0 -f Dockerfile.appdev_x86_64 ./
 docker image push wasmedge/appdev_x86_64:0.9.0
 </code></pre>
@@ -432,17 +432,17 @@ docker image push wasmedge/appdev_aarch64:0.9.0
 </li>
 </ol>
 <pre><code class="language-bash"># 这很慢
-$ wasmedge app.wasm
+wasmedge app.wasm
 
 # AOT 编译
-$ wasmedgec app.wasm app.wasm
+wasmedgec app.wasm app.wasm
 
 # 现在就快多了
-$ wasmedge app.wasm
+wasmedge app.wasm
 </code></pre>
 <p>在 Linux 系统上，它将会生成一个 <code>so</code> 共享库文件，然后由 <code>wasmedge</code> 运行时执行。</p>
-<pre><code class="language-bash">$ wasmedgec app.wasm app.so
-$ wasmedge app.so
+<pre><code class="language-bash">wasmedgec app.wasm app.so
+wasmedge app.so
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="通用-wasm-二进制格式"><a class="header" href="#通用-wasm-二进制格式">通用 wasm 二进制格式</a></h1>
 <p>WasmEdge 可以将 AOT 编译的原生二进制包装到原始 wasm 文件中的自定义部分。我们将其称之为通用 wasm 二进制格式。</p>
@@ -496,13 +496,13 @@ WasmEdge 将以输出文件扩展名来确定生成的文件格式。举例来�
 <li><a href="https://www.secondstate.io/articles/dapr-wasmedge-webassembly/">教程</a></li>
 <li><a href="https://github.com/second-state/dapr-wasm">代码教程</a></li>
 </ul>
-<h2 id="service-mesh-开发进行中"><a class="header" href="#service-mesh-开发进行中">Service mesh (开发进行中):</a></h2>
+<h2 id="service-mesh-开发进行中"><a class="header" href="#service-mesh-开发进行中">Service mesh (开发进行中)</a></h2>
 <ul>
 <li>Linkerd</li>
 <li>MOSN</li>
 <li>Envoy</li>
 </ul>
-<h2 id="编排和管理"><a class="header" href="#编排和管理">编排和管理:</a></h2>
+<h2 id="编排和管理"><a class="header" href="#编排和管理">编排和管理</a></h2>
 <ul>
 <li><a href="https://www.secondstate.io/articles/manage-webassembly-apps-in-wasmedge-using-docker-tools/">Kubernetes</a></li>
 <li>KubeEdge</li>
@@ -645,8 +645,8 @@ WasmEdge 将以输出文件扩展名来确定生成的文件格式。举例来�
 }
 </code></pre>
 <p>使用以下 CLI 命令，就可以在 WasmEdge runtime 中运行以上的 JavaScript 代码。</p>
-<pre><code class="language-bash">$ cd example_js
-$ wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_client.js
+<pre><code class="language-bash">cd example_js
+wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_client.js
 </code></pre>
 <p>将会有如下内容被打印出来。</p>
 <pre><code class="language-json">{
@@ -697,11 +697,11 @@ server_start();
 </code></pre>
 <p>调用 <code>server_start()</code> 方法会在 8000 端口启动一个监听服务。当一个请求进入，会异步传给 <code>handle_client()</code> function 函数处理。这意味着当应用返回应答数据后，它又可以处理下一个进来的请求了。</p>
 <p>使用以下 CLI 命令，就可以在 WasmEdge runtime 中运行这段 JavaScript 代码。因为它将作为一个服务运行，你最好是以后台应用的形式启动。</p>
-<pre><code>$ cd example_js
-$ nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_net_echo.js &amp;
+<pre><code class="language-bash">cd example_js
+nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_net_echo.js &amp;
 </code></pre>
 <p>然后你就可以向它发出网络请求，观察运行效果。</p>
-<pre><code>$ curl -d &quot;WasmEdge&quot; -X POST http://localhost:8000
+<pre><code class="language-bash">$ curl -d &quot;WasmEdge&quot; -X POST http://localhost:8000
 echo:WasmEdge
 </code></pre>
 <p>WasmEdge 的 <code>wasi_net</code> 包为 JavaScript 应用提供了一种自适应的动态网络栈。在很多高级用法中，我们基于这个包，设计了很多抽象良好的 API。在下一章节，我们会带着具体的常见应用，向你展示如何处理 HTTP 请求。在 <a href="dev/js/ssr.html">React 服务器渲染文章</a>中，我们还将会讨论一下如何基于这种异步网络的 API 来创建一个 React 服务器渲染功能。</p>
@@ -764,8 +764,8 @@ server_start();
 </code></pre>
 <p><code>server_start()</code> 方法会启动一个监听 8000 端口的服务。当请求进来，会被传给 <code>handle_client()</code> 方法来处理。当请求是合法的 HTTP 请求，对应的 handler 方法会调用 <code>handle_req()</code> 来解析对应的字段，组装新的 HTTP 应答，然后异步把应答数据发送回去。这意味着当应用发送完数据，又能继续处理下一个进来的请求了。</p>
 <p>使用以下 CLI 命令，就可以在 WasmEdge runtime 中运行这段 JavaScript 代码。因为它将作为一个服务运行，你最好是以后台应用的形式运行。</p>
-<pre><code class="language-bash">$ cd example_js
-$ nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_echo.js &amp;
+<pre><code class="language-bash">cd example_js
+nohup wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasi_http_echo.js &amp;
 </code></pre>
 <p>然后你就可以向它发出网络请求，观察运行效果。</p>
 <pre><code class="language-bash">$ curl -d &quot;WasmEdge&quot; -X POST http://localhost:8000
@@ -824,7 +824,7 @@ confidence:
 <blockquote>
 <p>注意: 命令行中的 <code>--dir .:.</code> 是为了给 wasmedge 开启本地文件读取权限， 以便正常读取到 <code>main.js</code> 文件.</p>
 </blockquote>
-<h4 id="注意"><a class="header" href="#注意">注意</a></h4>
+<h2 id="注意"><a class="header" href="#注意">注意</a></h2>
 <ul>
 <li>编译器标志 <code>--features=tensorflow</code> 构建了一个包含 WasmEdge TensorFlow 扩展的 QuickJS 引擎。</li>
 <li>程序 <code>wasmedge-tensorflow-lite</code> 是 WasmEdge 包的一部分。它是内含有 Tensorflow 扩展的 WasmEdge runtime。</li>
@@ -893,8 +893,8 @@ const content = renderToString(React.createElement(Home));
 console.log(content);
 </code></pre>
 <p>目录中的 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr/rollup.config.js">rollup.config.js</a> 文件和 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr/package.json">package.json</a> 文件用于把 React SSR 的所有依赖和组件打包成一个 WasmEdge 可用的 JavaScript 文件。你可以使用 <code>npm</code> 命令来进行构建，构建产物会输出到 <code>dist/main.js</code> 文件里。</p>
-<pre><code class="language-bash">$ npm install
-$ npm run build
+<pre><code class="language-bash">npm install
+npm run build
 </code></pre>
 <p>要运行这个例子，请在命令行中执行以下命令。你会看到，所有的模板成功合成了一个 HTML 字符串。</p>
 <pre><code class="language-bash">$ cd example_js/react_ssr
@@ -989,15 +989,15 @@ async function server_start() {
 server_start();
 </code></pre>
 <p>目录中的 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/rollup.config.js">rollup.config.js</a> 文件和 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/package.json">package.json</a> 文件用于把 React SSR 的所有依赖和组件打包成一个 WasmEdge 可用的 JavaScript 文件。你可以使用 <code>npm</code> 命令来进行构建，构建产物会输出到 <code>dist/main.js</code> 文件里。</p>
-<pre><code class="language-bash">$ npm install
-$ npm run build
+<pre><code class="language-bash">npm install
+npm run build
 </code></pre>
 <p>要运行这个例子，请在命令行上执行以下命令来启动服务器。</p>
-<pre><code class="language-bash">$ cd example_js/react_ssr_stream
-$ nohup wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm dist/main.mjs &amp;
+<pre><code class="language-bash">cd example_js/react_ssr_stream
+nohup wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm dist/main.mjs &amp;
 </code></pre>
 <p>然后通过 <code>curl</code> 或浏览器发送一个 HTTP 请求。</p>
-<pre><code class="language-bash">$ curl http://localhost:8001
+<pre><code class="language-bash">curl http://localhost:8001
 </code></pre>
 <p>结果如下所示。该服务首先返回一个 HTML 页面，里面包含一个空的内层部分（即 <code>loading</code> 部分）。然后在 2s 后返回内层部分的 HTML 内容，以及将它显示出来的 JavaScript 代码。</p>
 <pre><code class="language-bash">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -1103,18 +1103,18 @@ $ ./test_wasmedge_compiler fibonacci.wasm fibonacci.wasm.so
 <pre><code class="language-bash">$ time ./test_wasmedge fibonacci.wasm
 Get result: 5702887
 
-real	0m2.715s
-user	0m2.700s
-sys	0m0.008s
+real 0m2.715s
+user 0m2.700s
+sys 0m0.008s
 
 $ time ./test_wasmedge fibonacci.wasm.so
 Get result: 5702887
 
-real	0m0.036s
-user	0m0.022s
-sys	0m0.011s
+real 0m0.036s
+user 0m0.022s
+sys 0m0.011s
 </code></pre>
-<p>如果要了解这些 API 的细节，请参考<a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h"> API 头文件</a>。</p>
+<p>如果要了解这些 API 的细节，请参考<a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">API 头文件</a>。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="api-references"><a class="header" href="#api-references">API references</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="go-sdk"><a class="header" href="#go-sdk">Go SDK</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="embed-wasm-apps"><a class="header" href="#embed-wasm-apps">Embed WASM apps</a></h1>
@@ -1300,54 +1300,54 @@ $ kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example
 <h2 id="在-android-环境下安装-wasmedge-tensorflow-tools"><a class="header" href="#在-android-环境下安装-wasmedge-tensorflow-tools">在 Android 环境下安装 WasmEdge-TensorFlow-Tools</a></h2>
 <p>本章节使用 WasmEdge-TensorFlow-Tools 的 pre-release 版本软件包，配合 Android 版本的 TensorFlow-Lite 动态链接库在 Android 平台上运行并测试。</p>
 <h3 id="环境准备"><a class="header" href="#环境准备">环境准备</a></h3>
-<h4 id="android-1"><a class="header" href="#android-1">Android</a></h4>
+<h4 id="android-开发者选项"><a class="header" href="#android-开发者选项">Android 开发者选项</a></h4>
 <p>目前 WasmEdge 仅支持 Android 平台的 arm64-v8a 架构，开发者需要准备 arm64-v8a 架构的 Android 模拟器或一台已经 <a href="https://developer.android.com/studio/debug/dev-options">启用开发者选项和 USB 调试</a> 的 Android 设备便于测试，最低系统版本为 Android 6.0。</p>
 <h4 id="android-命令行工具"><a class="header" href="#android-命令行工具">Android 命令行工具</a></h4>
 <p>Ubuntu 环境下，开发者可以通过 <code>apt-get</code> 获取 Android 平台调试工具 <code>adb</code> 。通过 <code>adb shell</code> 指令，开发者可以进入设备并使用命令行操作 Android 操作系统。</p>
-<pre><code>$ sudo apt-get install adb
+<pre><code class="language-bash">$ sudo apt-get install adb
 $ adb devices
 * daemon not running; starting now at tcp:5037
 * daemon started successfully
 List of devices attached
-c657c643	device
+c657c643 device
 $ adb shell
 sirius:/ $
 </code></pre>
 <h3 id="获取-wasmedge-tensorflow-tools-软件包"><a class="header" href="#获取-wasmedge-tensorflow-tools-软件包">获取 WasmEdge-TensorFlow-Tools 软件包</a></h3>
 <p>获取 WasmEdge-TensorFlow-Tools 的 pre-release 版本软件包。</p>
-<pre><code>$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.9.1-beta.2/WasmEdge-tensorflow-tools-0.9.1-beta.2-android_aarch64.tar.gz
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.9.1-beta.2/WasmEdge-tensorflow-tools-0.9.1-beta.2-android_aarch64.tar.gz
 $ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.9.1-beta.2-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 show-tflite-tensor
 wasmedge-tensorflow-lite
 </code></pre>
 <h3 id="获取-android-版本的-tensorflow-lite-动态链接库"><a class="header" href="#获取-android-版本的-tensorflow-lite-动态链接库">获取 Android 版本的 TensorFlow-Lite 动态链接库</a></h3>
 <p>在 WasmEdge-TensorFlow-deps 中已经为用户提供了 Android 版本的 TensorFlow-Lite 动态链接库，用户可以直接下载并使用。</p>
-<pre><code>$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.9.1-beta.2/WasmEdge-tensorflow-deps-TFLite-0.9.1-beta.2-android_aarch64.tar.gz
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.9.1-beta.2/WasmEdge-tensorflow-deps-TFLite-0.9.1-beta.2-android_aarch64.tar.gz
 $ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.9.1-beta.2-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 ._libtensorflowlite_c.so
 libtensorflowlite_c.so
 </code></pre>
 <p>将 WasmEdge-TensorFlow 的工具及其依赖一起推送到 Android 设备上。</p>
-<pre><code>$ adb push WasmEdge-tensorflow-tools /data/local/tmp
+<pre><code class="language-bash">adb push WasmEdge-tensorflow-tools /data/local/tmp
 </code></pre>
 <h2 id="测试"><a class="header" href="#测试">测试</a></h2>
 <h3 id="获取测试样例"><a class="header" href="#获取测试样例">获取测试样例</a></h3>
 <p><a href="https://github.com/second-state/wasm-learning.git">wasm-learning</a> 中为用户提供了 WasmEdge-TensorFlow-Tools 的测试样例，在 <code>wasm-learning/rust/birds_v1</code> 中提供的例子是通过一张 jpg 图片来识别鸟的种类。</p>
-<pre><code>$ git clone https://github.com/second-state/wasm-learning.git
-$ cd wasm-learning/rust/birds_v1
+<pre><code class="language-bash">git clone https://github.com/second-state/wasm-learning.git
+cd wasm-learning/rust/birds_v1
 </code></pre>
 <p>Cargo 构建 wasm 源文件，生成的 wasm 文件位于 <code>target/wasm32-wasi/release/birds_v1.wasm</code> 。</p>
-<pre><code>$ rustup target add wasm32-wasi
-$ cargo build --release --target=wasm32-wasi
+<pre><code class="language-bash">rustup target add wasm32-wasi
+cargo build --release --target=wasm32-wasi
 </code></pre>
 <p>将测试需要的 wasm 源文件， tensorflow 模型以及 jpg 图片文件推送到 Android 设备上。</p>
-<pre><code>$ adb push target/wasm32-wasi/release/birds_v1.wasm /data/local/tmp/WasmEdge-tensorflow-tools
-$ adb push lite-model_aiy_vision_classifier_birds_V1_3.tflite /data/local/tmp/WasmEdge-tensorflow-tools
-$ adb push bird.jpg /data/local/tmp/WasmEdge-tensorflow-tools
+<pre><code class="language-bash">adb push target/wasm32-wasi/release/birds_v1.wasm /data/local/tmp/WasmEdge-tensorflow-tools
+adb push lite-model_aiy_vision_classifier_birds_V1_3.tflite /data/local/tmp/WasmEdge-tensorflow-tools
+adb push bird.jpg /data/local/tmp/WasmEdge-tensorflow-tools
 </code></pre>
 <h3 id="运行-wasmedge-tensorflow-tools"><a class="header" href="#运行-wasmedge-tensorflow-tools">运行 WasmEdge-TensorFlow-Tools</a></h3>
 <p>在命令行输入 <code>adb shell</code> 进入 Android 设备，查看 <code>/data/local/tmp/WasmEdge-tensorflow-tools</code> 文件夹下的工具及测试文件是否齐全。</p>
-<pre><code>$ adb shell
+<pre><code class="language-bash">$ adb shell
 sirius:/ $ cd /data/local/tmp/WasmEdge-tensorflow-tools
 sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ ls
 bird.jpg               lite-model_aiy_vision_classifier_birds_V1_3.tflite 
@@ -1355,7 +1355,7 @@ birds_v1.wasm          show-tflite-tensor
 libtensorflowlite_c.so wasmedge-tensorflow-lite
 </code></pre>
 <p>链接 TensorFlow-Lite 动态依赖库，并使用 show-tflite-tensor 检查 TensorFlow-Lite 的可用性。</p>
-<pre><code>sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
+<pre><code class="language-bash">sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
 sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ chmod 777 show-tflite-tensor
 sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ ./show-tflite-tensor lite-model_aiy_vision_classifier_birds_V1_3.tflite
 INFO: Initialized TensorFlow Lite runtime.
@@ -1371,7 +1371,7 @@ Output tensor nums: 1
         tensor byte size: 965
 </code></pre>
 <p>运行 wasmedge-tensorflow-lite 工具，识别 jpg 图片中鸟的种类。</p>
-<pre><code>sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ chmod 777 wasmedge-tensorflow-lite
+<pre><code class="language-bash">sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ chmod 777 wasmedge-tensorflow-lite
 sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ ./wasmedge-tensorflow-lite --dir .:. birds_v1.wasm lite-model_aiy_vision_classifier_birds_V1_3.tflite bird.jpg
 INFO: Initialized TensorFlow Lite runtime.
 166 : 0.84705883
@@ -1401,7 +1401,7 @@ $ docker run -it -v $(pwd):/home/openharmony openharmony-docker-standard:0.0.5
 <h2 id="修改-openharmony-标准系统配置文件"><a class="header" href="#修改-openharmony-标准系统配置文件">修改 OpenHarmony 标准系统配置文件</a></h2>
 <h3 id="添加-wasmedge-子系统配置"><a class="header" href="#添加-wasmedge-子系统配置">添加 WasmEdge 子系统配置</a></h3>
 <p>修改 OpenHarmony 的 build 目录下的 <code>subsystem_config.json</code> 文件，添加 <code>wasmedge</code> 子系统。</p>
-<pre><code>{
+<pre><code class="language-json">{
   ...
   
   &quot;wasmedge&quot;: {
@@ -1415,7 +1415,7 @@ $ docker run -it -v $(pwd):/home/openharmony openharmony-docker-standard:0.0.5
 <h3 id="将组件添加到产品配置中"><a class="header" href="#将组件添加到产品配置中">将组件添加到产品配置中</a></h3>
 <p>修改 OpenHarmony 产品配置文件，标准系统对应的配置文件：<code>productdefine/common/products/Hi3516DV300.json</code>。
 在该配置文件中添加 <code>&quot;wasmedge:wasmedge&quot;:{}</code>，表示该产品中会编译并打包 wasmedge 子系统下的 <code>wasmedge</code> 模块到版本中。</p>
-<pre><code>{
+<pre><code class="language-json">{
   ...
   &quot;parts&quot;:{
     ...
@@ -1441,7 +1441,7 @@ $ docker run -it -v $(pwd):/home/openharmony openharmony-docker-standard:0.0.5
 (root@xxxxxx:/home/openharmony/third_party/WasmEdge/utils/ohos)$ ./build_for_ohos.sh /home/openharmony
 </code></pre>
 <p>当显示以下信息时，表明编译完成.</p>
-<pre><code>...
+<pre><code class="language-bash">...
 
 post_process
 =====build Hi3516DV300 successful.
@@ -1460,7 +1460,7 @@ post_process
 <h3 id="运行应用"><a class="header" href="#运行应用">运行应用</a></h3>
 <p>在 OpenHarmony 标准系统中，WasmEdge 提供了测试样例，并写入了 system 镜像中，供用户进行测试。
 通过串口工具连接上开发板并启动OpenHarmony标准系统后，用户可以进行以下测试。</p>
-<pre><code># cd /system/usr/wasmedge_example
+<pre><code class="language-bash"># cd /system/usr/wasmedge_example
 # wasmedge hello.wasm 1 2 3
 hello
 1
@@ -1485,8 +1485,8 @@ Hello 1 2 3
 <div style="break-before: page; page-break-before: always;"></div><h1 id="从源码构建和测试-wasmedge"><a class="header" href="#从源码构建和测试-wasmedge">从源码构建和测试 WasmEdge</a></h1>
 <p>请参考这个教程来从源码构建和测试 WasmEdge</p>
 <h2 id="获取源码-1"><a class="header" href="#获取源码-1">获取源码</a></h2>
-<pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
-$ cd WasmEdge
+<pre><code class="language-bash">git clone https://github.com/WasmEdge/WasmEdge.git
+cd WasmEdge
 </code></pre>
 <h2 id="检查依赖"><a class="header" href="#检查依赖">检查依赖</a></h2>
 <p>WasmEdge 会基于最新版本的 LLVM 来创建我们的每日构建。
@@ -1499,7 +1499,7 @@ $ cd WasmEdge
 <h3 id="docker-镜像"><a class="header" href="#docker-镜像">Docker 镜像</a></h3>
 <p>Dockerhub 上的仓库 <code>wasmedge/wasmedge</code></p>
 <p>你可以使用下面的命令来获取我们最新的镜像：</p>
-<pre><code class="language-bash">$ docker pull wasmedge/wasmedge # 等同于 wasmedge/wasmedge:latest
+<pre><code class="language-bash">docker pull wasmedge/wasmedge # 等同于 wasmedge/wasmedge:latest
 </code></pre>
 <h4 id="可用的标签"><a class="header" href="#可用的标签">可用的标签</a></h4>
 <table><thead><tr><th>标签名</th><th>体系结构</th><th>基于的操作系统</th><th>LLVM 版本</th><th>环境配置</th><th>兼容性</th><th>备注</th></tr></thead><tbody>
@@ -1515,14 +1515,14 @@ $ cd WasmEdge
 <h3 id="在-ubuntu-2004-上手动安装依赖"><a class="header" href="#在-ubuntu-2004-上手动安装依赖">在 Ubuntu 20.04 上手动安装依赖</a></h3>
 <pre><code class="language-bash"># 工具和库
 $ sudo apt install -y \
-	software-properties-common \
-	cmake \
-	libboost-all-dev
+ software-properties-common \
+ cmake \
+ libboost-all-dev
 
 # 你需要 llvm 来支持 wasmedgec 工具
 $ sudo apt install -y \
-	llvm-12-dev \
-	liblld-12-dev
+ llvm-12-dev \
+ liblld-12-dev
 
 # WasmEdge 支持 clang++ 和 g++ 编译器
 # 你可以选择其中任一个用来编译这个项目
@@ -1536,14 +1536,14 @@ $ sudo apt install -y clang
 <p>如果用户的系统是比 Ubuntu 20.04 还早的版本，请使用我们定制的 docker 镜像来构建 WasmEdge 。
 如果你需要的是在过时版本的操作系统上使用的二进制包，我们也提供了几个基于 manylinux* 发行版本的安装包。</p>
 <table><thead><tr><th>可移植的 Linux 发行版标签</th><th>基础镜像</th><th>提供的依赖</th><th>Docker 镜像</th></tr></thead><tbody>
-<tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5<br>CXXABI &lt;= 3.4.8<br>GLIBCXX &lt;= 3.4.9<br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
-<tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12<br>CXXABI &lt;= 1.3.3<br>GLIBCXX &lt;= 3.4.13<br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
-<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17<br>CXXABI &lt;= 1.3.7<br>GLIBCXX &lt;= 3.4.19<br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
-<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17<br>CXXABI &lt;= 1.3.7<br>GLIBCXX &lt;= 3.4.19<br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
+<tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5</br>CXXABI &lt;= 3.4.8</br>GLIBCXX &lt;= 3.4.9</br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
+<tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12</br>CXXABI &lt;= 1.3.3</br>GLIBCXX &lt;= 3.4.13</br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
+<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
+<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
 </tbody></table>
 <h3 id="如果你不需要预编译运行时编译器"><a class="header" href="#如果你不需要预编译运行时编译器">如果你不需要预编译运行时/编译器</a></h3>
 <p>如果用户不需要预编译运行时和编译器特性的话，可以将 CMAKE 配置项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 设置成 <code>OFF</code>。</p>
-<pre><code class="language-bash">$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
+<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="构建-wasmedge-1"><a class="header" href="#构建-wasmedge-1">构建 WasmEdge</a></h2>
 <p>WasmEdge 提供了丰富的工具来支撑更好的性能以及更多样的运行时环境，
@@ -1564,7 +1564,7 @@ $ sudo apt install -y clang
 <li><code>libwasmedge_c.so</code> 是 WasmEdge C API 的共享库。
 <ul>
 <li><code>libwasmedge_c.so</code> 提供了访问预编译器和 WASM 运行时的 C 语言 API。</li>
-<li>如果 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 配置项被设置成 <code>OFF</code>， 那么与预编译器相关的 API 都将会返回错误。 </li>
+<li>如果 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 配置项被设置成 <code>OFF</code>， 那么与预编译器相关的 API 都将会返回错误。</li>
 </ul>
 </li>
 <li><code>ssvm-qitc</code> 是用来支持 AI 应用的，它支持基于 ONNX 格式的 AI 模型的 ONNC 运行时。
@@ -1583,10 +1583,10 @@ $ docker run -it --rm \
 (docker)$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
 </code></pre>
 <h2 id="执行内置的测试"><a class="header" href="#执行内置的测试">执行内置的测试</a></h2>
-<p>下面所提到的测试只有在构建配置 <code>WASMEDGE_BUILD_TESTS</code> 设置为 <code>ON</code> 的时候才有效。 </p>
+<p>下面所提到的测试只有在构建配置 <code>WASMEDGE_BUILD_TESTS</code> 设置为 <code>ON</code> 的时候才有效。</p>
 <p>用户可以通过这些测试来验证 WasmEdge 二进制包的正确性。</p>
-<pre><code class="language-bash">$ cd &lt;path/to/wasmedge/build_folder&gt;
-$ LD_LIBRARY_PATH=$(pwd)/lib/api ctest
+<pre><code class="language-bash">cd &lt;path/to/wasmedge/build_folder&gt;
+LD_LIBRARY_PATH=$(pwd)/lib/api ctest
 </code></pre>
 <h2 id="运行应用-1"><a class="header" href="#运行应用-1">运行应用</a></h2>
 <p>接下来，参考 <a href="extend/../index.html">这个文档</a> 在 <code>wasmedge</code> 上运行 WebAssembly 字节码程序。</p>
@@ -1632,8 +1632,8 @@ List of devices attached
 </li>
 <li>
 <p>使用 <code>adb push</code>命令推送 build/tools/wasmedge 到 Android 设备的 /data/local/tmp 目录</p>
-<pre><code class="language-bash">$ cd build
-$ adb push ./tools/wasmedge /data/local/tmp  
+<pre><code class="language-bash">cd build
+adb push ./tools/wasmedge /data/local/tmp  
 </code></pre>
 </li>
 </ol>

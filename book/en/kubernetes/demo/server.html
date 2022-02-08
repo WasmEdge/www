@@ -156,22 +156,22 @@ Kubernetes could manage the wasm application lifecycle with CRI-O, Docker and Co
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <p>This is a Rust example, which require you to install <a href="https://www.rust-lang.org/tools/install">Rust</a> and <a href="../../start/install.html">WasmEdge</a> before you can Compile and Run the http service.</p>
 <h2 id="download-example-code"><a class="header" href="#download-example-code">Download example code</a></h2>
-<pre><code class="language-bash">$ mkdir http_server
-$ cd http_server
-$ wget -q https://raw.githubusercontent.com/second-state/wasmedge_wasi_socket/main/examples/http_server/Cargo.toml
-$ mkdir src
-$ cd src
-$ wget -q https://raw.githubusercontent.com/second-state/wasmedge_wasi_socket/main/examples/http_server/src/main.rs
-$ cd ../
+<pre><code class="language-bash">mkdir http_server
+cd http_server
+wget -q https://raw.githubusercontent.com/second-state/wasmedge_wasi_socket/main/examples/http_server/Cargo.toml
+mkdir src
+cd src
+wget -q https://raw.githubusercontent.com/second-state/wasmedge_wasi_socket/main/examples/http_server/src/main.rs
+cd ../
 </code></pre>
 <h2 id="build-the-wasm-bytecode"><a class="header" href="#build-the-wasm-bytecode">Build the WASM bytecode</a></h2>
-<pre><code class="language-bash">$ rustup target add wasm32-wasi
-$ cargo build --target wasm32-wasi --release
+<pre><code class="language-bash">rustup target add wasm32-wasi
+cargo build --target wasm32-wasi --release
 </code></pre>
 <p>The wasm bytecode application is now should be located in the <code>./target/wasm32-wasi/release/http_server.wasm</code>
 You can now test run it with wasmedge and then publish it as a container image.</p>
 <h2 id="apply-executable-permission-on-the-wasm-bytecode"><a class="header" href="#apply-executable-permission-on-the-wasm-bytecode">Apply executable permission on the Wasm bytecode</a></h2>
-<pre><code class="language-bash">$ chmod +x ./target/wasm32-wasi/release/http_server.wasm
+<pre><code class="language-bash">chmod +x ./target/wasm32-wasi/release/http_server.wasm
 </code></pre>
 <h2 id="running-the-http_server-application-bytecode-with-wasmedge"><a class="header" href="#running-the-http_server-application-bytecode-with-wasmedge">Running the http_server application bytecode with wasmedge</a></h2>
 <p>When you run the bytecode with wasmedge and see the result as the following, you are ready to package the bytecode into the container.</p>
@@ -196,31 +196,31 @@ CMD [&quot;/http_server.wasm&quot;]
 <p>To add <code>module.wasm.image/variant=compat</code> annotation in the container image, you will need the latest <a href="https://buildah.io/">buildah</a>. Currently, Docker does not support this feature. Please follow <a href="https://github.com/containers/buildah/blob/main/install.md">the install instructions of buildah</a> to build the latest buildah binary.</p>
 <h3 id="build-and-install-the-latest-buildah-on-ubuntu"><a class="header" href="#build-and-install-the-latest-buildah-on-ubuntu">Build and install the latest buildah on Ubuntu</a></h3>
 <p>On Ubuntu zesty and xenial, use these commands to prepare for buildah.</p>
-<pre><code class="language-bash">$ sudo apt-get -y install software-properties-common
+<pre><code class="language-bash">sudo apt-get -y install software-properties-common
 
-$ export OS=&quot;xUbuntu_20.04&quot;
-$ sudo bash -c &quot;echo \&quot;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /\&quot; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list&quot;
-$ sudo bash -c &quot;curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | apt-key add -&quot;
+export OS=&quot;xUbuntu_20.04&quot;
+sudo bash -c &quot;echo \&quot;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /\&quot; &gt; /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list&quot;
+sudo bash -c &quot;curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | apt-key add -&quot;
 
-$ sudo add-apt-repository -y ppa:alexlarsson/flatpak
-$ sudo apt-get -y -qq update
+sudo add-apt-repository -y ppa:alexlarsson/flatpak
+sudo apt-get -y -qq update
 
-$ sudo apt-get -y install bats git libapparmor-dev libdevmapper-dev libglib2.0-dev libgpgme-dev libseccomp-dev libselinux1-dev skopeo-containers go-md2man containers-common
-$ sudo apt-get -y install golang-1.16 make
+sudo apt-get -y install bats git libapparmor-dev libdevmapper-dev libglib2.0-dev libgpgme-dev libseccomp-dev libselinux1-dev skopeo-containers go-md2man containers-common
+sudo apt-get -y install golang-1.16 make
 </code></pre>
 <p>Then, follow these steps to build and install buildah on Ubuntu.</p>
-<pre><code class="language-bash">$ mkdir -p ~/buildah
-$ cd ~/buildah
-$ export GOPATH=`pwd`
-$ git clone https://github.com/containers/buildah ./src/github.com/containers/buildah
-$ cd ./src/github.com/containers/buildah
-$ PATH=/usr/lib/go-1.16/bin:$PATH make
-$ cp bin/buildah /usr/bin/buildah
-$ buildah --help
+<pre><code class="language-bash">mkdir -p ~/buildah
+cd ~/buildah
+export GOPATH=`pwd`
+git clone https://github.com/containers/buildah ./src/github.com/containers/buildah
+cd ./src/github.com/containers/buildah
+PATH=/usr/lib/go-1.16/bin:$PATH make
+cp bin/buildah /usr/bin/buildah
+buildah --help
 </code></pre>
 <h3 id="create-and-publish-a-container-image-with-buildah"><a class="header" href="#create-and-publish-a-container-image-with-buildah">Create and publish a container image with buildah</a></h3>
 <p>In the <code>target/wasm32-wasi/release/</code> folder, do the following.</p>
-<pre><code class="language-bash">$ sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t http_server .
+<pre><code class="language-bash">sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t http_server .
 
 #
 # make sure docker is install and running
@@ -233,7 +233,7 @@ $ buildah --help
 #
 # docker login
 
-$ sudo buildah push --authfile ~/.docker/config.json http_server docker://docker.io/avengermojo/http_server:with-wasm-annotation
+sudo buildah push --authfile ~/.docker/config.json http_server docker://docker.io/avengermojo/http_server:with-wasm-annotation
 </code></pre>
 <p>That's it! Now you can try to run it in <a href="../cri/crio.html#run-a-http-server-app">CRI-O</a> or <a href="../kubernetes/kubernetes.html#run-a-http-server-app">Kubernetes</a>!</p>
 

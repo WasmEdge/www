@@ -155,7 +155,7 @@
 <p>If you just want to use the interpreter to run JavaScript programs, you can skip this section. Make sure you have installed <a href="https://www.rust-lang.org/tools/install">Rust</a> and <a href="../../start/install.html">WasmEdge</a>.</p>
 </blockquote>
 <p>Fork or clone <a href="https://github.com/second-state/wasmedge-quickjs">the wasmedge-quickjs Github repository</a> to get started.</p>
-<pre><code class="language-bash">$ git clone https://github.com/second-state/wasmedge-quickjs
+<pre><code class="language-bash">git clone https://github.com/second-state/wasmedge-quickjs
 </code></pre>
 <p>Following the instructions from that repo, you will be able to build a JavaScript interpreter for WasmEdge.</p>
 <pre><code class="language-bash"># Install GCC
@@ -178,7 +178,7 @@ setTimeout(() =&gt; {
   print('timeout 2s');
 }, 2000);
 </code></pre>
-<p>Run the <code>hello.js</code> file in WasmEdge’s QuickJS runtime as follows. </p>
+<p>Run the <code>hello.js</code> file in WasmEdge’s QuickJS runtime as follows.</p>
 <pre><code class="language-bash">$ cd example_js
 $ wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm hello.js WasmEdge Runtime
 Hello WasmEdge Runtime
@@ -188,8 +188,8 @@ Hello WasmEdge Runtime
 </blockquote>
 <h2 id="make-it-faster"><a class="header" href="#make-it-faster">Make it faster</a></h2>
 <p>WasmEdge provides a <code>wasmedgec</code> utility to compile and add a native machine code section to the <code>wasm</code> file. You can use <code>wasmedge</code> to run the natively instrumented <code>wasm</code> file to get much faster performance.</p>
-<pre><code class="language-bash">$ wasmedgec ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
-$ wasmedge --dir .:. wasmedge_quickjs.wasm hello.js
+<pre><code class="language-bash">wasmedgec ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
+wasmedge --dir .:. wasmedge_quickjs.wasm hello.js
 </code></pre>
 <p>Next, we will discuss more advanced use case for JavaScript in WasmEdge.</p>
 
