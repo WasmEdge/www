@@ -149,7 +149,90 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="用-windows-编译"><a class="header" href="#用-windows-编译">用 Windows 编译</a></h1>
+                        <h1 id="在-windows-10由源码构建"><a class="header" href="#在-windows-10由源码构建">在 Windows 10由源码构建</a></h1>
+<p>WasmEdge 支持 Windows 10 。我们也同时提供了二进制安装包和库文件。</p>
+<p>可以在<a href="https://github.com/WasmEdge/WasmEdge/blob/master/.github/workflows/build.yml#L266-L322">这里</a>查看详情。</p>
+<p>如果想要在 Windows 10 上开发 WasmEdge，请继续阅读本文以进行从源码构建和测试。</p>
+<p>下文中将以 <code>AOT</code> 代替 <code>ahead-of-time</code> ，<code>ahead-of-time</code> 的含义是将 WASM 文件提前编译为机器码。</p>
+<h2 id="下载源代码"><a class="header" href="#下载源代码">下载源代码</a></h2>
+<pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
+$ cd WasmEdge
+</code></pre>
+<h2 id="依赖说明"><a class="header" href="#依赖说明">依赖说明</a></h2>
+<p>WasmEdge 尝试用最新的 LLVM 发行版本来创建我们的 nightly 版本。</p>
+<p>需要以下自行安装以下依赖才能编译源码：</p>
+<ul>
+<li>Chocolatey，用来安装 cmake、ninja 和 vswhere</li>
+<li>Windows SDK 19041</li>
+<li>LLVM 13.0.0，预编译版本在下节中提供</li>
+</ul>
+<h3 id="下载依赖"><a class="header" href="#下载依赖">下载依赖</a></h3>
+<pre><code class="language-powershell"># 下载工具
+choco install cmake ninja vswhere
+
+$vsPath = (vswhere -latest -property installationPath)
+Import-Module (Join-Path $vsPath &quot;Common7\Tools\Microsoft.VisualStudio.DevShell.dll&quot;)
+Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -DevCmdArguments &quot;-arch=x64 -host_arch=x64 -winsdk=10.0.19041.0&quot;
+
+# 下载我们提供的预编译好的 LLVM 13
+$llvm = &quot;LLVM-13.0.0-win64.zip&quot;
+curl -sLO https://github.com/WasmEdge/llvm-windows/releases/download/llvmorg-13.0.0/LLVM-13.0.0-win64.zip -o $llvm
+Expand-Archive -Path $llvm
+
+# 设置 LLVM 环境变量
+$llvm_dir = &quot;$pwd\\LLVM-13.0.0-win64\\LLVM-13.0.0-win64\\lib\\cmake\\llvm&quot;
+$Env:CC = &quot;clang-cl&quot;
+$Env:CXX = &quot;clang-cl&quot;
+</code></pre>
+<h3 id="如果不需要构建aot运行时或者编译器"><a class="header" href="#如果不需要构建aot运行时或者编译器">如果不需要构建AOT运行时或者编译器</a></h3>
+<p>如果不需要 AOT 运行时或者编译器，可以将 CMake 选项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code>  设置为 <code>OFF </code>。</p>
+<pre><code class="language-bash">$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
+</code></pre>
+<h2 id="构建-wasmedge"><a class="header" href="#构建-wasmedge">构建 WasmEdge</a></h2>
+<p>为应对不同的性能需求，WasmEdge 提供了多种运行时环境和工具。</p>
+<p>构建成功后，你可以找到这些 wasmedge 相关工具：</p>
+<ol>
+<li><code>wasmedge</code>  是一个通用的 wasm 运行时。
+<ul>
+<li><code>wasmedge</code>  可以解释执行 <code>WASM</code>  文件或者以 AOT 模式执行一个编译过的 WASM <code>dyld</code> 文件。</li>
+<li>在构建 WasmEdge 时，可以设置 CMake 选项 <code>WASMEDGE_BUILD_TOOLS</code> 为<code>OFF</code> 来不构建所有工具。</li>
+</ul>
+</li>
+<li><code>wasmedgec</code> 是一个 AOT <code>WASM</code> 编译器。
+<ul>
+<li><code>wasmedgec</code> 将一个 <code>WASM</code> 格式的文件编译为<code>dll</code> 格式文件。</li>
+<li>如果你不需要构建 AOT 编译器，可以将 CMake 选项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code>  设置为  <code>OFF</code> 。</li>
+</ul>
+</li>
+<li><code>libwasmedge_c.dll</code> 是 WasmEdge 的 C API 共享库.
+<ul>
+<li><code>libwasmedge_c.dll</code> 为 AOT 编译器和 WASM 运行时提供 C API。</li>
+<li>CMake 选项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 设置为 <code>OFF</code> 后，调用与 AOT 编译器相关的 API 只会返回失败值。</li>
+<li>如果你不需要构建共享库，可以将 CMake 选项 <code>WASMEDGE_BUILD_SHARED_LIB</code>  设置为 <code>OFF</code> 。</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-bash">$vsPath = (vswhere -latest -property installationPath)
+Import-Module (Join-Path $vsPath &quot;Common7\Tools\Microsoft.VisualStudio.DevShell.dll&quot;)
+Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -DevCmdArguments &quot;-arch=x64 -host_arch=x64 -winsdk=10.0.19041.0&quot;
+
+cmake -Bbuild -GNinja -DCMAKE_SYSTEM_VERSION=10.0.19041.0 -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL &quot;-DLLVM_DIR=$llvm_dir&quot; -DWASMEDGE_BUILD_TESTS=ON -DWASMEDGE_BUILD_PACKAGE=&quot;ZIP&quot; .
+cmake --build build
+</code></pre>
+<h2 id="运行内置测试"><a class="header" href="#运行内置测试">运行内置测试</a></h2>
+<p>以下内置测试仅在 CMake 编译选项 <code>WASMEDGE_BUILD_TESTS</code>  为 <code>ON</code> 时可用。</p>
+<p>用户可以用这些测试来验证自己构建的 WasmEdge 二进制文件的正确性。</p>
+<pre><code class="language-bash">$vsPath = (vswhere -latest -property installationPath)
+Import-Module (Join-Path $vsPath &quot;Common7\Tools\Microsoft.VisualStudio.DevShell.dll&quot;)
+Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -DevCmdArguments &quot;-arch=x64 -host_arch=x64 -winsdk=10.0.19041.0&quot;
+
+$Env:PATH += &quot;;$pwd\\build\\lib\\api&quot;
+cd build
+ctest --output-on-failure
+cd -
+</code></pre>
+<h2 id="运行应用"><a class="header" href="#运行应用">运行应用</a></h2>
+<p>下一步，请按照<a href="run.html">该指导</a> 使用 <code>wasmedge</code> 运行 WebAssembly 字节码程序。</p>
 
                     </main>
 
