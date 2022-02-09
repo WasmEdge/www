@@ -239,85 +239,85 @@ $ cp target/wasm32-wasi/release/rust_bindgen_funcs_lib.wasm ../
 $ cd ../
 </code></pre>
 <h2 id="go-host-程序"><a class="header" href="#go-host-程序">Go host 程序</a></h2>
-<p>在 [Go host 程序]（https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/bindgen_funcs.go）中，你可以使用 WasmEdge Go SDK 创建和设置 WasmEdge VM。
+<p>在 <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/bindgen_funcs.go">Go host 程序</a>中，你可以使用 WasmEdge Go SDK 创建和设置 WasmEdge VM。
 但是，你现不应该调用 <code>vm.Instantiate()</code> 而应该调用<code>bindgen.Instantiate(vm)</code> 来实例化 VM 并返回 <code>bindgen</code> 对象。</p>
 <pre><code class="language-go">func main() {
-	/// 预期的 Args[0]: 程序名 (./bindgen_funcs)
-	/// 预期的 Args[1]: wasm 文件 (rust_bindgen_funcs_lib.wasm))
-	
-	wasmedge.SetLogErrorLevel()
-	var conf = wasmedge.NewConfigure(wasmedge.WASI)
-	var vm = wasmedge.NewVMWithConfig(conf)
-	var wasi = vm.GetImportObject(wasmedge.WASI)
-	wasi.InitWasi(
-		os.Args[1:],     /// The args
-		os.Environ(),    /// The envs
-		[]string{&quot;.:.&quot;}, /// The mapping preopens
-	)
-	vm.LoadWasmFile(os.Args[1])
-	vm.Validate()
+  // 预期的 Args[0]: 程序名 (./bindgen_funcs)
+  // 预期的 Args[1]: wasm 文件 (rust_bindgen_funcs_lib.wasm))
+  
+  wasmedge.SetLogErrorLevel()
+  var conf = wasmedge.NewConfigure(wasmedge.WASI)
+  var vm = wasmedge.NewVMWithConfig(conf)
+  var wasi = vm.GetImportObject(wasmedge.WASI)
+  wasi.InitWasi(
+    os.Args[1:],     // The args
+    os.Environ(),    // The envs
+    []string{&quot;.:.&quot;}, // The mapping preopens
+  )
+  vm.LoadWasmFile(os.Args[1])
+  vm.Validate()
 
-	// 实例化 bindgen 和 vm
-	bg := bindgen.Instantiate(vm)
+  // 实例化 bindgen 和 vm
+  bg := bindgen.Instantiate(vm)
 </code></pre>
 <p>接下来，你可以通过 <code>bindgen</code> 对象调用 VM 中的任何 <code>[wasmedge_bindgen]</code> 注释函数。</p>
-<pre><code class="language-go">	/// create_line: string, string, string -&gt; string (输入已 JSON 字符串化)	
-	res, err := bg.Execute(&quot;create_line&quot;, &quot;{\&quot;x\&quot;:2.5,\&quot;y\&quot;:7.8}&quot;, &quot;{\&quot;x\&quot;:2.5,\&quot;y\&quot;:5.8}&quot;, &quot;A thin red line&quot;)
-	if err == nil {
-		fmt.Println(&quot;Run bindgen -- create_line:&quot;, string(res))
-	} else {
-		fmt.Println(&quot;Run bindgen -- create_line FAILED&quot;, err)
-	}
+<pre><code class="language-go">  // create_line: string, string, string -&gt; string (输入已 JSON 字符串化)  
+  res, err := bg.Execute(&quot;create_line&quot;, &quot;{\&quot;x\&quot;:2.5,\&quot;y\&quot;:7.8}&quot;, &quot;{\&quot;x\&quot;:2.5,\&quot;y\&quot;:5.8}&quot;, &quot;A thin red line&quot;)
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- create_line:&quot;, string(res))
+  } else {
+    fmt.Println(&quot;Run bindgen -- create_line FAILED&quot;, err)
+  }
 
-	/// say: string -&gt; string
-	res, err = bg.Execute(&quot;say&quot;, &quot;bindgen funcs test&quot;)
-	if err == nil {
-		fmt.Println(&quot;Run bindgen -- say:&quot;, string(res))
-	} else {
-		fmt.Println(&quot;Run bindgen -- say FAILED&quot;)
-	}
+  // say: string -&gt; string
+  res, err = bg.Execute(&quot;say&quot;, &quot;bindgen funcs test&quot;)
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- say:&quot;, string(res))
+  } else {
+    fmt.Println(&quot;Run bindgen -- say FAILED&quot;)
+  }
 
-	/// obfusticate: string -&gt; string
-	res, err = bg.Execute(&quot;obfusticate&quot;, &quot;A quick brown fox jumps over the lazy dog&quot;)
-	if err == nil {
-		fmt.Println(&quot;Run bindgen -- obfusticate:&quot;, string(res))
-	} else {
-		fmt.Println(&quot;Run bindgen -- obfusticate FAILED&quot;)
-	}
+  // obfusticate: string -&gt; string
+  res, err = bg.Execute(&quot;obfusticate&quot;, &quot;A quick brown fox jumps over the lazy dog&quot;)
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- obfusticate:&quot;, string(res))
+  } else {
+    fmt.Println(&quot;Run bindgen -- obfusticate FAILED&quot;)
+  }
 
-	/// lowest_common_multiple: i32, i32 -&gt; i32
-	res, err = bg.Execute(&quot;lowest_common_multiple&quot;, int32(123), int32(2))
-	if err == nil {
-		num, _ := strconv.ParseInt(string(res), 10, 32)
-		fmt.Println(&quot;Run bindgen -- lowest_common_multiple:&quot;, num)
-	} else {
-		fmt.Println(&quot;Run bindgen -- lowest_common_multiple FAILED&quot;)
-	}
+  // lowest_common_multiple: i32, i32 -&gt; i32
+  res, err = bg.Execute(&quot;lowest_common_multiple&quot;, int32(123), int32(2))
+  if err == nil {
+    num, _ := strconv.ParseInt(string(res), 10, 32)
+    fmt.Println(&quot;Run bindgen -- lowest_common_multiple:&quot;, num)
+  } else {
+    fmt.Println(&quot;Run bindgen -- lowest_common_multiple FAILED&quot;)
+  }
 
-	/// sha3_digest: array -&gt; array
-	res, err = bg.Execute(&quot;sha3_digest&quot;, []byte(&quot;This is an important message&quot;))
-	if err == nil {
-		fmt.Println(&quot;Run bindgen -- sha3_digest:&quot;, res)
-	} else {
-		fmt.Println(&quot;Run bindgen -- sha3_digest FAILED&quot;)
-	}
+  // sha3_digest: array -&gt; array
+  res, err = bg.Execute(&quot;sha3_digest&quot;, []byte(&quot;This is an important message&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- sha3_digest:&quot;, res)
+  } else {
+    fmt.Println(&quot;Run bindgen -- sha3_digest FAILED&quot;)
+  }
 
-	/// keccak_digest: array -&gt; array
-	res, err = bg.Execute(&quot;keccak_digest&quot;, []byte(&quot;This is an important message&quot;))
-	if err == nil {
-		fmt.Println(&quot;Run bindgen -- keccak_digest:&quot;, res)
-	} else {
-		fmt.Println(&quot;Run bindgen -- keccak_digest FAILED&quot;)
-	}
+  // keccak_digest: array -&gt; array
+  res, err = bg.Execute(&quot;keccak_digest&quot;, []byte(&quot;This is an important message&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- keccak_digest:&quot;, res)
+  } else {
+    fmt.Println(&quot;Run bindgen -- keccak_digest FAILED&quot;)
+  }
 
-	bg.Release()
-	vm.Release()
-	conf.Release()
+  bg.Release()
+  vm.Release()
+  conf.Release()
 }
 </code></pre>
 <p>最后，你可以构建并运行 Go host 程序。</p>
-<pre><code class="language-bash">$ go build
-$ ./bindgen_funcs rust_bindgen_funcs_lib.wasm
+<pre><code class="language-bash">go build
+./bindgen_funcs rust_bindgen_funcs_lib.wasm
 </code></pre>
 <p>本示例的标准输出如下。</p>
 <pre><code class="language-bash">Run bindgen -- create_line: {&quot;points&quot;:[{&quot;x&quot;:1.5,&quot;y&quot;:3.8},{&quot;x&quot;:2.5,&quot;y&quot;:5.8}],&quot;valid&quot;:true,&quot;length&quot;:2.2360682,&quot;desc&quot;:&quot;A thin red line&quot;}
