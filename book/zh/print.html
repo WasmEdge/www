@@ -1117,7 +1117,110 @@ sys 0m0.011s
 <p>如果要了解这些 API 的细节，请参考<a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">API 头文件</a>。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="api-references"><a class="header" href="#api-references">API references</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="go-sdk"><a class="header" href="#go-sdk">Go SDK</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="embed-wasm-apps"><a class="header" href="#embed-wasm-apps">Embed WASM apps</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="嵌入-wasm-应用程序"><a class="header" href="#嵌入-wasm-应用程序">嵌入 WASM 应用程序</a></h1>
+<p>WasmEdge Go SDK 能<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_ReadFile">嵌入单独的 WebAssembly 应用程序</a> — 比如，一个带着 <code>main()</code> 函数，编译成 WebAssembly 的 Rust 应用程序。</p>
+<p>我们的 <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_ReadFile/rust_readfile">demo Rust 应用程序</a>从一个文件中读取内容。注意，WebAssembly 程序的输入和输出数据现在是通过 STDIN 和 STDOUT 传递的。</p>
+<pre><pre class="playground"><code class="language-rust">use std::env;
+use std::fs::File;
+use std::io::{self, BufRead};
+
+fn main() {
+    // 获取参数。
+    let args: Vec&lt;String&gt; = env::args().collect();
+    if args.len() &lt;= 1 {
+        println!(&quot;Rust: ERROR - No input file name.&quot;);
+        return;
+    }
+
+    // 打开文件。
+    println!(&quot;Rust: Opening input file \&quot;{}\&quot;...&quot;, args[1]);
+    let file = match File::open(&amp;args[1]) {
+        Err(why) =&gt; {
+            println!(&quot;Rust: ERROR - Open file \&quot;{}\&quot; failed: {}&quot;, args[1], why);
+            return;
+        },
+        Ok(file) =&gt; file,
+    };
+
+    // 按行读取文件内容。
+    let reader = io::BufReader::new(file);
+    let mut texts:Vec&lt;String&gt; = Vec::new();
+    for line in reader.lines() {
+        if let Ok(text) = line {
+            texts.push(text);
+        }
+    }
+    println!(&quot;Rust: Read input file \&quot;{}\&quot; succeeded.&quot;, args[1]);
+
+    // 获取 stdin 来打印内容。
+    println!(&quot;Rust: Please input the line number to print the line of file.&quot;);
+    let stdin = io::stdin();
+    for line in stdin.lock().lines() {
+        let input = line.unwrap();
+        match input.parse::&lt;usize&gt;() {
+            Ok(n) =&gt; if n &gt; 0 &amp;&amp; n &lt;= texts.len() {
+                println!(&quot;{}&quot;, texts[n - 1]);
+            } else {
+                println!(&quot;Rust: ERROR - Line \&quot;{}\&quot; is out of range.&quot;, n);
+            },
+            Err(e) =&gt; println!(&quot;Rust: ERROR - Input \&quot;{}\&quot; is not an integer: {}&quot;, input, e),
+        }
+    }
+    println!(&quot;Rust: Process end.&quot;);
+}
+</code></pre></pre>
+<p>将应用程序编译成 WebAssembly。</p>
+<pre><code class="language-bash">$ cd rust_readfile
+$ cargo build --target wasm32-wasi
+# 输出文件是 target/wasm32-wasi/debug/rust_readfile.wasm
+</code></pre>
+<p>我们在 Go 程序里面嵌入 WasmEdge 运行 WebAssembly 函数，这个 Go 程序源代码如下。</p>
+<pre><code class="language-go">package main
+
+import (
+    &quot;os&quot;
+    &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+)
+
+func main() {
+    wasmedge.SetLogErrorLevel()
+
+    var conf = wasmedge.NewConfigure(wasmedge.REFERENCE_TYPES)
+    conf.AddConfig(wasmedge.WASI)
+    var vm = wasmedge.NewVMWithConfig(conf)
+    var wasi = vm.GetImportObject(wasmedge.WASI)
+    wasi.InitWasi(
+        os.Args[1:],     /// 参数
+        os.Environ(),    /// 环境变量
+        []string{&quot;.:.&quot;}, /// 目录映射
+    )
+
+    /// 实例化 wasm。_start 指的是 wasm 程序的 main() 函数
+    vm.RunWasmFile(os.Args[1], &quot;_start&quot;)
+
+    vm.Release()
+    conf.Release()
+}
+</code></pre>
+<p>接下来，让我们用 WasmEdge Go SDK 构建 Go 应用程序。</p>
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+$ go build
+</code></pre>
+<p>运行 Golang 应用程序。</p>
+<pre><code class="language-bash">$ ./read_file rust_readfile/target/wasm32-wasi/debug/rust_readfile.wasm file.txt
+Rust: Opening input file &quot;file.txt&quot;...
+Rust: Read input file &quot;file.txt&quot; succeeded.
+Rust: Please input the line number to print the line of file.
+# 输入 &quot;5&quot; 然后按下 Enter。
+5
+# `file.txt` 文件的第 5 行内容将被输出：
+abcDEF___!@#$%^
+# 要停止程序，发送 EOF (Ctrl + D)。
+^D
+# 输出将会打印停止信息：
+Rust: Process end.
+</code></pre>
+<p>更多的例子可以在 <a href="https://github.com/second-state/WasmEdge-go-examples">WasmEdge-go-examples GitHub 仓库</a> 中找到。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="嵌入-wasm-函数"><a class="header" href="#嵌入-wasm-函数">嵌入 Wasm 函数</a></h1>
 <p>WasmEdge Go SDK 允许将 WebAssembly 函数嵌入到一个 Go 主程序。可以使用 Go SDK API 来传递调用参数到嵌入的 WebAssembly 函数，然后捕获返回值。</p>
 <p>然而，WebAssembly 规范本身只支持一些简单数据类型。 它<a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">不支持</a> 字符串和数组等类型。 为了将 Go 中的丰富类型传递给 WebAssembly，我们可以手动编码内存指针（<a href="embed/go/memory.html">点击这里</a>），或者使用管理数据交换的自动化工具。</p>
