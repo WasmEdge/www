@@ -186,7 +186,7 @@ export LDFLAGS=&quot;-L/usr/local/opt/llvm@12/lib -Wl,-rpath,/usr/local/opt/llvm
 export CPPFLAGS=&quot;-I/usr/local/opt/llvm@12/include&quot;
 </code></pre>
 <h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
-<p>If users don't need Ahead-of-Time runtime/compiler support, they can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
+<p>If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
 <pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="build-wasmedge"><a class="header" href="#build-wasmedge">Build WasmEdge</a></h2>

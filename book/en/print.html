@@ -10710,7 +10710,7 @@ If you are looking for the pre-built binaries for the older operating system, we
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
 </tbody></table>
 <h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
-<p>If users don't need Ahead-of-Time runtime/compiler support, they can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
+<p>If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
 <pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="build-wasmedge"><a class="header" href="#build-wasmedge">Build WasmEdge</a></h2>
@@ -10798,7 +10798,7 @@ export LDFLAGS=&quot;-L/usr/local/opt/llvm@12/lib -Wl,-rpath,/usr/local/opt/llvm
 export CPPFLAGS=&quot;-I/usr/local/opt/llvm@12/include&quot;
 </code></pre>
 <h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler-1"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler-1">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
-<p>If users don't need Ahead-of-Time runtime/compiler support, they can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
+<p>If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
 <pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="build-wasmedge-1"><a class="header" href="#build-wasmedge-1">Build WasmEdge</a></h2>
@@ -10879,7 +10879,7 @@ $Env:CC = &quot;clang-cl&quot;
 $Env:CXX = &quot;clang-cl&quot;
 </code></pre>
 <h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler-2"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler-2">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
-<p>If users don't need Ahead-of-Time runtime/compiler support, they can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
+<p>If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
 <pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="build-wasmedge-2"><a class="header" href="#build-wasmedge-2">Build WasmEdge</a></h2>
