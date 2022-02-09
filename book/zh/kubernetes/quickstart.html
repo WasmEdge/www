@@ -150,6 +150,34 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="快速开始"><a class="header" href="#快速开始">快速开始</a></h1>
+<p>我们为你创建了基于 Ubuntu 的脚本，以便你在标准 Kubernetes 设置中快速开始使用以下运行时组合。</p>
+<table><thead><tr><th>CRI（高级）runtime</th><th>OCI（低级）runtime</th><th></th></tr></thead><tbody>
+<tr><td>CRI-O</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio.yml">脚本</a></td></tr>
+<tr><td>containerd</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd.yml">脚本</a></td></tr>
+</tbody></table>
+<h2 id="cri-o-和-crun"><a class="header" href="#cri-o-和-crun">CRI-O 和 crun</a></h2>
+<p>在 Ubuntu 20.04 上你可以使用 CRI-O <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/install.sh">install.sh</a> 脚本来安装 CRI-O 和 <code>crun </code> 。</p>
+<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/install.sh | bash
+</code></pre>
+<p>接下来，使用 <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/install.sh">以下脚本</a> 安装 Kubernetes。</p>
+<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_crio/install.sh | bash
+</code></pre>
+<p><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/simple_wasi_application.sh">simple_wasi_application.sh</a> 脚本展示了如何从 Docker Hub 拉取<a href="demo/wasi.html"> WebAssembly 应用程序</a> ，然后在 Kubernetes 中将其作为容器化应用程序运行。</p>
+<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_crio/simple_wasi_application.sh | bash
+</code></pre>
+<p>你应该会在控制台日志中看到 WebAssembly 程序打印的结果。<a href="https://github.com/second-state/wasmedge-containers-examples/runs/4186005677?check_suite_focus=true#step:6:3007">这里是一个例子</a>。</p>
+<h2 id="containerd-和-crun"><a class="header" href="#containerd-和-crun">containerd 和 crun</a></h2>
+<p>在 Ubuntu 20.04 上你可以使用 containerd <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/install.sh">install.sh</a> 脚本来安装 <code>containerd</code> 和 <code>crun</code>。</p>
+<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/install.sh | bash
+</code></pre>
+<p>接下来，使用 <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/install.sh">以下脚本</a> 安装 Kubernetes。</p>
+<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_containerd/install.sh | bash
+</code></pre>
+<p><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/simple_wasi_application.sh">simple_wasi_application.sh</a> 脚本展示了如何从 Docker Hub拉取<a href="demo/wasi.html"> WebAssembly 应用程序</a>，然后在 Kubernetes 中将其作为容器化应用程序运行。</p>
+<pre><code class="language-bash">$ wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/kubernetes_containerd/simple_wasi_application.sh | bash
+</code></pre>
+<p>你应该会在控制台日志中看到 WebAssembly 程序打印的结果。<a href="https://github.com/second-state/wasmedge-containers-examples/runs/4577789181?check_suite_focus=true#step:6:3010">这里是一个例子</a>。</p>
+<p>继续阅读本章的其余部分，了解这些运行时的具体配置方式。</p>
 
                     </main>
 
