@@ -596,6 +596,48 @@ WasmEdge 将以输出文件扩展名来确定生成的文件格式。举例来�
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rustwasmc"><a class="header" href="#rustwasmc">rustwasmc</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-1"><a class="header" href="#javascript-1">JavaScript</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="快速开始-1"><a class="header" href="#快速开始-1">快速开始</a></h1>
+<p>首先，让我们为 WasmEdge 构建一个基于 WebAssembly 的 JavaScript 解释器程序。这个程序基于 <a href="https://bellard.org/quickjs/">QuickJS</a> 和 WasmEdge 的一些扩展程序，比如 <a href="https://github.com/second-state/wasmedge_wasi_socket">network sockets</a> 和 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow 推理</a>，并且这些扩展都是作为 JavaScript API 被合并到解释器中的。首先你需要<a href="https://www.rust-lang.org/tools/install">安装 rust</a> 来构建这个解释器。 </p>
+<blockquote>
+<p>如果你只是想要使用这个解释器来运行 JavaScript 程序，那就可以跳过这部分了。否则，先确保你已经安装了 <a href="https://www.rust-lang.org/tools/install">Rust</a> 和 <a href="dev/js/../../start/install.html">WasmEdge</a>。</p>
+</blockquote>
+<p>Fork 或者克隆 <a href="https://github.com/second-state/wasmedge-quickjs">wasmedge-quickjs</a> 这个 Github repo 开始教程。</p>
+<pre><code class="language-bash">$ git clone https://github.com/second-state/wasmedge-quickjs
+</code></pre>
+<p>按照这个 repo 中的介绍，你将能够为 WasmEdge 构建一个 JavaScript 解释器。</p>
+<pre><code class="language-bash"># Install GCC
+$ sudo apt update
+$ sudo apt install build-essential
+
+# Install wasm32-wasi target for Rust
+$ rustup target add wasm32-wasi
+
+# Build the QuickJS JavaScript interpreter
+$ cargo build --target wasm32-wasi --release
+</code></pre>
+<p>构建成功后，基于 WebAssembly 的解释器程序位于 build target 目录中，你现在可以尝试执行一个简单的 &quot;hello world&quot; JavaScript 程序 (<a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/hello.js">example_js/hello.js</a>)，它会在终端中打印出命令行参数。</p>
+<pre><code class="language-javascript">import * as os from 'os';
+import * as std from 'std';
+
+args = args.slice(1);
+print('Hello', ...args);
+setTimeout(() =&gt; {
+  print('timeout 2s');
+}, 2000);
+</code></pre>
+<p>接下来输入下面的命令在 WasmEdge 的 QuickJS runtime 运行 <code>hello.js</code> 文件。</p>
+<pre><code class="language-bash">$ cd example_js
+$ wasmedge --dir .:. ../target/wasm32-wasi/release/wasmedge_quickjs.wasm hello.js WasmEdge Runtime
+Hello WasmEdge Runtime
+</code></pre>
+<blockquote>
+<p>注意：命令行里的 <code>--dir .:.</code> 这个参数是为了让 <code>wasmedge</code> 命令有权限在文件系统中读取本地目录里的 <code>hello.js</code> 文件。我们将在下面的章节中继续用到 <code>--dir .:.</code> 这个参数。</p>
+</blockquote>
+<h2 id="更快地执行"><a class="header" href="#更快地执行">更快地执行</a></h2>
+<p>WasmEdge 提供了一个 <code>wasmedgec</code> 实用程序来编绎并且添加一个本地机器代码部分到 <code>wasm</code> 文件中。你可以使用 <code>wasmedge</code> 来运行本地检测到的 <code>wasm</code> 文件，从而获得更快的性能。</p>
+<pre><code class="language-bash">$ wasmedgec ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
+$ wasmedge --dir .:. wasmedge_quickjs.wasm hello.js
+</code></pre>
+<p>接下来，我们将讨论关于在 WasmEdger 中使用 JavaScript 的更多高级案例。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="网络-1"><a class="header" href="#网络-1">网络</a></h1>
 <p>QuickJS WasmEdge Runtime 支持 WasmEdge 的<a href="https://github.com/second-state/wasmedge_wasi_socket">网络 sockets 拓展</a>， 所以 JavaScript 程序也可以在网络上建立 HTTP 连接。此文将向你展示相关的 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/wasi_http_client.js">HTTP 客户端</a>和 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/wasi_http_echo.js">HTTP 服务端</a>例子.</p>
 <blockquote>
