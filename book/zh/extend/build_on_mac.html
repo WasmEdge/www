@@ -167,8 +167,8 @@
 </ul>
 <p>如果您想在 MacOS 上开发 WasmEdge，请按照这个教程从源码进行构建和测试。</p>
 <h2 id="获取源码"><a class="header" href="#获取源码">获取源码</a></h2>
-<pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
-$ cd WasmEdge
+<pre><code class="language-bash">git clone https://github.com/WasmEdge/WasmEdge.git
+cd WasmEdge
 </code></pre>
 <h2 id="依赖组件"><a class="header" href="#依赖组件">依赖组件</a></h2>
 <p>WasmEdge 会基于最新版本的 LLVM 来创建我们的每日构建。如果你想从源码构建的话，需要自己手动来安装下面的这些依赖。</p>
@@ -186,7 +186,7 @@ $ export CPPFLAGS=&quot;-I/usr/local/opt/llvm@12/include&quot;
 </code></pre>
 <h3 id="如果你不需要预编译的运行时编译器"><a class="header" href="#如果你不需要预编译的运行时编译器">如果你不需要预编译的运行时/编译器</a></h3>
 <p>如果你不需要预编译运行时和编译器特性的话，你可以将 CMake 配置项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 设置成 <code>OFF</code>。</p>
-<pre><code class="language-bash">$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
+<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="构建-wasmedge"><a class="header" href="#构建-wasmedge">构建 WasmEdge</a></h2>
 <p>WasmEdge 提供了丰富的工具来支撑更好的性能以及更多样的运行时环境，编译完成后，你可以找到以下几个 WasmEdge 相关的工具：</p>
@@ -211,14 +211,14 @@ $ export CPPFLAGS=&quot;-I/usr/local/opt/llvm@12/include&quot;
 </ul>
 </li>
 </ol>
-<pre><code class="language-bash">$ cmake -Bbuild -GNinja -DWASMEDGE_BUILD_PACKAGE=&quot;TGZ&quot; -DWASMEDGE_BUILD_TESTS=ON .
-$ cmake --build build
+<pre><code class="language-bash">cmake -Bbuild -GNinja -DWASMEDGE_BUILD_PACKAGE=&quot;TGZ&quot; -DWASMEDGE_BUILD_TESTS=ON .
+cmake --build build
 </code></pre>
 <h2 id="运行内置测试"><a class="header" href="#运行内置测试">运行内置测试</a></h2>
 <p>以下内置测试只有在构建标志 <code>WASMEDGE_BUILD_TESTS</code> 设置为 <code>ON</code> 时才可用。</p>
 <p>用户可以通过这些测试来验证 WasmEdge 二进制包的正确性。</p>
-<pre><code class="language-bash">$ export DYLD_LIBRARY_PATH=&quot;$(pwd)/build/lib/api:$DYLD_LIBRARY_PATH&quot;
-$ cmake --build build --target test
+<pre><code class="language-bash">export DYLD_LIBRARY_PATH=&quot;$(pwd)/build/lib/api:$DYLD_LIBRARY_PATH&quot;
+cmake --build build --target test
 </code></pre>
 <h2 id="运行应用程序"><a class="header" href="#运行应用程序">运行应用程序</a></h2>
 <p>接下来，参考<a href="../index.html">这个文档</a>在 <code>wasmedge</code> 上运行 WebAssembly 字节码程序。</p>

@@ -181,22 +181,22 @@ cd WasmEdge
 </tbody></table>
 <h3 id="在-ubuntu-2004-上手动安装依赖"><a class="header" href="#在-ubuntu-2004-上手动安装依赖">在 Ubuntu 20.04 上手动安装依赖</a></h3>
 <pre><code class="language-bash"># 工具和库
-$ sudo apt install -y \
- software-properties-common \
- cmake \
- libboost-all-dev
+sudo apt install -y \
+    software-properties-common \
+    cmake \
+    libboost-all-dev
 
 # 你需要 llvm 来支持 wasmedgec 工具
-$ sudo apt install -y \
- llvm-12-dev \
- liblld-12-dev
+sudo apt install -y \
+    llvm-12-dev \
+    liblld-12-dev
 
 # WasmEdge 支持 clang++ 和 g++ 编译器
 # 你可以选择其中任一个用来编译这个项目
 # 如果你倾向于 GCC
-$ sudo apt install -y gcc g++
+sudo apt install -y gcc g++
 # 或者你选择 clang
-$ sudo apt install -y clang
+sudo apt install -y clang
 </code></pre>
 <h3 id="对过时操作系统的支持"><a class="header" href="#对过时操作系统的支持">对过时操作系统的支持</a></h3>
 <p>我们的开发环境依赖于 <code>libLLVM-12</code> 和 <code>&gt;=GLIBCXX_3.4.33</code>。</p>
@@ -242,12 +242,13 @@ $ sudo apt install -y clang
 </li>
 </ol>
 <pre><code class="language-bash"># 获取到 wasm docker 镜像后
-$ docker run -it --rm \
+docker run -it --rm \
     -v &lt;path/to/your/wasmedge/source/folder&gt;:/root/wasmedge \
     wasmedge/wasmedge:latest
-(docker)$ cd /root/wasmedge
-(docker)$ mkdir -p build &amp;&amp; cd build
-(docker)$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
+# In docker
+cd /root/wasmedge
+mkdir -p build &amp;&amp; cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
 </code></pre>
 <h2 id="执行内置的测试"><a class="header" href="#执行内置的测试">执行内置的测试</a></h2>
 <p>下面所提到的测试只有在构建配置 <code>WASMEDGE_BUILD_TESTS</code> 设置为 <code>ON</code> 的时候才有效。</p>

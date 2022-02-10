@@ -186,22 +186,22 @@ If you want to build from source, you may need to install these dependencies by 
 </tbody></table>
 <h3 id="install-dependencies-on-ubuntu-2004-manually"><a class="header" href="#install-dependencies-on-ubuntu-2004-manually">Install dependencies on Ubuntu 20.04 manually</a></h3>
 <pre><code class="language-bash"># Tools and libraries
-$ sudo apt install -y \
+sudo apt install -y \
    software-properties-common \
    cmake \
    libboost-all-dev
 
 # And you will need to install llvm for wasmedgec tool
-$ sudo apt install -y \
+sudo apt install -y \
    llvm-12-dev \
    liblld-12-dev
 
 # WasmEdge supports both clang++ and g++ compilers
 # You can choose one of them for building this project
 # If you prefer GCC
-$ sudo apt install -y gcc g++
+sudo apt install -y gcc g++
 # Else you can choose clang
-$ sudo apt install -y clang-12
+sudo apt install -y clang-12
 </code></pre>
 <h3 id="support-for-legacy-operating-systems"><a class="header" href="#support-for-legacy-operating-systems">Support for legacy operating systems</a></h3>
 <p>Our development environment requires <code>libLLVM-12</code> and <code>&gt;=GLIBCXX_3.4.33</code>.</p>
