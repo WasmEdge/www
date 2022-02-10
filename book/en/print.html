@@ -10427,7 +10427,14 @@ You can install it via our standard install script.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="mac"><a class="header" href="#mac">Mac</a></h1>
 <p>WasmEdge provides both x86 and m1 binary builds for Mac OS X.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="android"><a class="header" href="#android">Android</a></h1>
-<p>The WasmEdge Runtime releases come with pre-built binaries for the Android OS. However, the WasmEdge installer does not support Android. The user must download the release files to a computer, and then use the <code>adb</code> tool to transfer the files to an Android device or simulator. We will show you how to do that.</p>
+<p>The WasmEdge Runtime releases come with pre-built binaries for the Android OS. Why WasmEdge on Android?</p>
+<ul>
+<li>Native speed &amp; sandbox safety for Android apps</li>
+<li>Support multiple dev languages — eg C, <a href="os/../dev/rust.html">Rust</a>, <a href="os/../dev/swift.html">Swift</a>, <a href="os/../dev/go.html">Go</a> &amp; <a href="os/../dev/js.html">JS</a></li>
+<li><a href="os/../embed.html">Embed 3rd party functions</a> in your android app</li>
+<li><a href="os/../kubernetes.html">Kubernetes managed</a> android apps</li>
+</ul>
+<p>However, the WasmEdge installer does not support Android. The user must download the release files to a computer, and then use the <code>adb</code> tool to transfer the files to an Android device or simulator. We will show you how to do that.</p>
 <blockquote>
 <p>If you prefer to build WasmEdge Runtime binary on Android for yourself, you can refer to the <a href="os/../extend/build_for_android.html">build WasmEdge for Android</a> document.</p>
 </blockquote>
@@ -10436,7 +10443,7 @@ You can install it via our standard install script.</p>
 <li><a href="os/android/ndk.html">Call WasmEdge functions from an NDK native app</a></li>
 <li><a href="os/android/studio.html">Call WasmEdge functions from an Android APK app</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="android-cli-tools"><a class="header" href="#android-cli-tools">Android CLI tools</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-cli-tools-for-android"><a class="header" href="#wasmedge-cli-tools-for-android">WasmEdge CLI tools for Android</a></h1>
 <p>In this section, we will show you how to use WasmEdge CLI tools on Android devices. We will showcase a full WasmEdge demo to perform image classification (Tensorflow-based AI inference) on an Android device.</p>
 <h2 id="install-android-version-of-wasmedge-tensorflow-tools"><a class="header" href="#install-android-version-of-wasmedge-tensorflow-tools">Install Android version of WasmEdge-TensorFlow-Tools</a></h2>
 <p>First, install WasmEdge-TensorFlow-Tools pre-release on your Android device. It works with the Android version of TensorFlow-Lite dynamic shared library.</p>
@@ -10514,9 +10521,9 @@ Output tensor nums: 1
 <pre><code class="language-bash">sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ chmod 777 wasmedge-tensorflow-lite
 sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ ./wasmedge-tensorflow-lite --dir .:. birds_v1.wasm lite-model_aiy_vision_classifier_birds_V1_3.tflite bird.jpg
 INFO: Initialized TensorFlow Lite runtime.
-166 : 0.88235295
+166 : 0.84705883
 </code></pre>
-<p>The result shows that the bird type is in <a href="https://github.com/second-state/wasm-learning/blob/master/rust/birds_v1/aiy_birds_V1_labels.txt#L166">line 166 of the label file</a> (Sicalis flaveola) and the confidence level is 88%.</p>
+<p>The result shows that the bird type is in <a href="https://github.com/second-state/wasm-learning/blob/master/rust/birds_v1/aiy_birds_V1_labels.txt#L166">line 166 of the label file</a> (Sicalis flaveola) and the confidence level is 84.7%.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="call-wasmedge-functions-from-an-ndk-native-app"><a class="header" href="#call-wasmedge-functions-from-an-ndk-native-app">Call WasmEdge functions from an NDK native app</a></h1>
 <p>In this section, we will demonstrate how to build an Android native application using C and the Android SDK. The native application uses the WasmEdge C SDK to embed the WasmEdge Runtime, and call WASM functions through WasmEdge.</p>
 <h2 id="prerequisite-4"><a class="header" href="#prerequisite-4">Prerequisite</a></h2>
@@ -10626,7 +10633,7 @@ INFO: Initialized TensorFlow Lite runtime.
 <h3 id="building-project-with-gradle"><a class="header" href="#building-project-with-gradle">Building Project with Gradle</a></h3>
 <ol>
 <li>Setup environment variable <code>ANDROID_HOME=path/to/your/android/sdk</code></li>
-<li>Run Command <code>./gradlew assemblyRelease</code></li>
+<li>Run Command <code>./gradlew assembleRelease</code></li>
 <li>Sign your APK file with <code>apksigner</code>. The apk file is at <code>./app/build/outputs/apk/release</code>. The <code>apksigner</code> utility is at <code>$ANDROID_HOME/build-tools/$VERSION/apksigner</code>.</li>
 </ol>
 <h3 id="building-project-with-android-studio"><a class="header" href="#building-project-with-android-studio">Building Project with Android Studio</a></h3>

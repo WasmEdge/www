@@ -2285,92 +2285,20 @@ CONTAINER           IMAGE                                                       
 <div style="break-before: page; page-break-before: always;"></div><h1 id="windows"><a class="header" href="#windows">Windows</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="mac"><a class="header" href="#mac">Mac</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="android"><a class="header" href="#android">Android</a></h1>
-<p>在这一章，我们会演示怎么在 Android 上运行全套的 WasmEdge Runtime -- 包括 Tensorflow AI 推理，图像处理，等扩展。如果您需要自己为 Android 编译一个 WasmEdge Runtime，可以<a href="os/../extend/build_for_android.html">参考这个文档</a>。</p>
-<h2 id="在-android-环境下安装-wasmedge-tensorflow-tools"><a class="header" href="#在-android-环境下安装-wasmedge-tensorflow-tools">在 Android 环境下安装 WasmEdge-TensorFlow-Tools</a></h2>
-<p>本章节使用 WasmEdge-TensorFlow-Tools 的 pre-release 版本软件包，配合 Android 版本的 TensorFlow-Lite 动态链接库在 Android 平台上运行并测试。</p>
-<h3 id="环境准备"><a class="header" href="#环境准备">环境准备</a></h3>
-<h4 id="android-开发者选项"><a class="header" href="#android-开发者选项">Android 开发者选项</a></h4>
-<p>目前 WasmEdge 仅支持 Android 平台的 arm64-v8a 架构，开发者需要准备 arm64-v8a 架构的 Android 模拟器或一台已经 <a href="https://developer.android.com/studio/debug/dev-options">启用开发者选项和 USB 调试</a> 的 Android 设备便于测试，最低系统版本为 Android 6.0。</p>
-<h4 id="android-命令行工具"><a class="header" href="#android-命令行工具">Android 命令行工具</a></h4>
-<p>Ubuntu 环境下，开发者可以通过 <code>apt-get</code> 获取 Android 平台调试工具 <code>adb</code> 。通过 <code>adb shell</code> 指令，开发者可以进入设备并使用命令行操作 Android 操作系统。</p>
-<pre><code class="language-bash">$ sudo apt-get install adb
-$ adb devices
-* daemon not running; starting now at tcp:5037
-* daemon started successfully
-List of devices attached
-c657c643 device
-$ adb shell
-sirius:/ $
-</code></pre>
-<h3 id="获取-wasmedge-tensorflow-tools-软件包"><a class="header" href="#获取-wasmedge-tensorflow-tools-软件包">获取 WasmEdge-TensorFlow-Tools 软件包</a></h3>
-<p>获取 WasmEdge-TensorFlow-Tools 的 pre-release 版本软件包。</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.9.1-beta.2/WasmEdge-tensorflow-tools-0.9.1-beta.2-android_aarch64.tar.gz
-$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.9.1-beta.2-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
-show-tflite-tensor
-wasmedge-tensorflow-lite
-</code></pre>
-<h3 id="获取-android-版本的-tensorflow-lite-动态链接库"><a class="header" href="#获取-android-版本的-tensorflow-lite-动态链接库">获取 Android 版本的 TensorFlow-Lite 动态链接库</a></h3>
-<p>在 WasmEdge-TensorFlow-deps 中已经为用户提供了 Android 版本的 TensorFlow-Lite 动态链接库，用户可以直接下载并使用。</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.9.1-beta.2/WasmEdge-tensorflow-deps-TFLite-0.9.1-beta.2-android_aarch64.tar.gz
-$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.9.1-beta.2-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
-._libtensorflowlite_c.so
-libtensorflowlite_c.so
-</code></pre>
-<p>将 WasmEdge-TensorFlow 的工具及其依赖一起推送到 Android 设备上。</p>
-<pre><code class="language-bash">adb push WasmEdge-tensorflow-tools /data/local/tmp
-</code></pre>
-<h2 id="测试"><a class="header" href="#测试">测试</a></h2>
-<h3 id="获取测试样例"><a class="header" href="#获取测试样例">获取测试样例</a></h3>
-<p><a href="https://github.com/second-state/wasm-learning.git">wasm-learning</a> 中为用户提供了 WasmEdge-TensorFlow-Tools 的测试样例，在 <code>wasm-learning/rust/birds_v1</code> 中提供的例子是通过一张 jpg 图片来识别鸟的种类。</p>
-<pre><code class="language-bash">git clone https://github.com/second-state/wasm-learning.git
-cd wasm-learning/rust/birds_v1
-</code></pre>
-<p>Cargo 构建 wasm 源文件，生成的 wasm 文件位于 <code>target/wasm32-wasi/release/birds_v1.wasm</code> 。</p>
-<pre><code class="language-bash">rustup target add wasm32-wasi
-cargo build --release --target=wasm32-wasi
-</code></pre>
-<p>将测试需要的 wasm 源文件， tensorflow 模型以及 jpg 图片文件推送到 Android 设备上。</p>
-<pre><code class="language-bash">adb push target/wasm32-wasi/release/birds_v1.wasm /data/local/tmp/WasmEdge-tensorflow-tools
-adb push lite-model_aiy_vision_classifier_birds_V1_3.tflite /data/local/tmp/WasmEdge-tensorflow-tools
-adb push bird.jpg /data/local/tmp/WasmEdge-tensorflow-tools
-</code></pre>
-<h3 id="运行-wasmedge-tensorflow-tools"><a class="header" href="#运行-wasmedge-tensorflow-tools">运行 WasmEdge-TensorFlow-Tools</a></h3>
-<p>在命令行输入 <code>adb shell</code> 进入 Android 设备，查看 <code>/data/local/tmp/WasmEdge-tensorflow-tools</code> 文件夹下的工具及测试文件是否齐全。</p>
-<pre><code class="language-bash">$ adb shell
-sirius:/ $ cd /data/local/tmp/WasmEdge-tensorflow-tools
-sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ ls
-bird.jpg               lite-model_aiy_vision_classifier_birds_V1_3.tflite 
-birds_v1.wasm          show-tflite-tensor                                 
-libtensorflowlite_c.so wasmedge-tensorflow-lite
-</code></pre>
-<p>链接 TensorFlow-Lite 动态依赖库，并使用 show-tflite-tensor 检查 TensorFlow-Lite 的可用性。</p>
-<pre><code class="language-bash">sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
-sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ chmod 777 show-tflite-tensor
-sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ ./show-tflite-tensor lite-model_aiy_vision_classifier_birds_V1_3.tflite
-INFO: Initialized TensorFlow Lite runtime.
-Input tensor nums: 1
-    Input tensor name: module/hub_input/images_uint8
-        dimensions: [1 , 224 , 224 , 3]
-        data type: UInt8
-        tensor byte size: 150528
-Output tensor nums: 1
-    Output tensor name: module/prediction
-        dimensions: [1 , 965]
-        data type: UInt8
-        tensor byte size: 965
-</code></pre>
-<p>运行 wasmedge-tensorflow-lite 工具，识别 jpg 图片中鸟的种类。</p>
-<pre><code class="language-bash">sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ chmod 777 wasmedge-tensorflow-lite
-sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ ./wasmedge-tensorflow-lite --dir .:. birds_v1.wasm lite-model_aiy_vision_classifier_birds_V1_3.tflite bird.jpg
-INFO: Initialized TensorFlow Lite runtime.
-166 : 0.84705883
-</code></pre>
-<p>该输出结果表明：识别出的图片中鸟的种类<a href="https://github.com/second-state/wasm-learning/blob/master/rust/birds_v1/aiy_birds_V1_labels.txt#L166">索引为 166</a>，准确率为 84%。</p>
+<p>在 WasmEdge 发布版本中具有用于 Android 操作系统的预构建二进制文件。但是，WasmEdge installer 不支持 Android。 用户必须将发布文件下载到计算机，然后使用 <code>adb</code> 工具将文件传输到 Android 设备或模拟器。我们将向您展示如何做到这一点。</p>
+<blockquote>
+<p>如果您更喜欢自己构建适用于 Android 的 WasmEdge Runtime 二进制文件，可以参考 <a href="os/../extend/build_for_android.html">build WasmEdge for Android</a> 文档。</p>
+</blockquote>
+<ul>
+<li><a href="os/android/cli.html">适用于 Android 的 WasmEdge CLI 工具</a></li>
+<li><a href="os/android/ndk.html">从 NDK 原生应用调用 WasmEdge 函数</a></li>
+<li><a href="os/android/studio.html">从 Android APK 应用调用 WasmEdge 函数</a> </li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sel4"><a class="header" href="#sel4">seL4</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="open-harmony"><a class="header" href="#open-harmony">Open Harmony</a></h1>
 <h2 id="从源码在-openharmony-standard-上构建和测试-wasmedge"><a class="header" href="#从源码在-openharmony-standard-上构建和测试-wasmedge">从源码在 OpenHarmony Standard 上构建和测试 WasmEdge</a></h2>
 <p>请参考这个教程来从源码在 OpenHarmony 标准系统中构建和测试 WasmEdge</p>
-<h2 id="环境准备-1"><a class="header" href="#环境准备-1">环境准备</a></h2>
+<h2 id="环境准备"><a class="header" href="#环境准备">环境准备</a></h2>
 <h3 id="openharmony-标准系统"><a class="header" href="#openharmony-标准系统">OpenHarmony 标准系统</a></h3>
 <p>OpenHarmony 标准系统为开发者提供的 Docker 环境将对应的编译工具链进行了封装，本文档主要介绍在 Docker 环境下构建 WasmEdge 的步骤.</p>
 <p>OpenHarmony 源码的获取与编译可以参考文档 <a href="https://www.openharmony.cn/pages/00010102/">搭建Ubuntu环境-Docker方式</a></p>
@@ -2443,7 +2371,7 @@ post_process
 (root@xxxxxx:/home/openharmony/out/ohos-arm-release/packages/phone/system/bin)$ ls 
 </code></pre>
 <p>当输出的文件名中存在 <code>wasmedge</code> ，表明成功加入 OpenHarmony OS。</p>
-<h2 id="测试-1"><a class="header" href="#测试-1">测试</a></h2>
+<h2 id="测试"><a class="header" href="#测试">测试</a></h2>
 <h3 id="烧录镜像"><a class="header" href="#烧录镜像">烧录镜像</a></h3>
 <p>将重新编译后的 OpenHarmony 标准系统镜像烧录进开发板，具体见 OpenHarmony 文档<a href="https://device.harmonyos.com/cn/docs/documentation/guide/hi3516_upload-0000001052148681">Hi3516DV300开发板烧录</a></p>
 <h3 id="运行应用"><a class="header" href="#运行应用">运行应用</a></h3>
@@ -2489,7 +2417,7 @@ cd WasmEdge
 <li>LLVM 12.0.0 (&gt;= 10.0.0)</li>
 <li>GCC 11.1.0 (&gt;= 9.4.0)</li>
 </ul>
-<h2 id="环境准备-2"><a class="header" href="#环境准备-2">环境准备</a></h2>
+<h2 id="环境准备-1"><a class="header" href="#环境准备-1">环境准备</a></h2>
 <h3 id="docker-镜像"><a class="header" href="#docker-镜像">Docker 镜像</a></h3>
 <p>Dockerhub 上的仓库 <code>wasmedge/wasmedge</code></p>
 <p>你可以使用下面的命令来获取我们最新的镜像：</p>
@@ -2612,7 +2540,7 @@ cd WasmEdge
 <li>LLVM 12.0.0 (&gt;= 10.0.0)，使用 brew 安装，请勿使用系统自带的 LLVM。</li>
 <li>因为最新版本 brew 中的 LLVM 默认版本是 13。请使用 <code>llvm@12</code> 来调整 LLVM 的版本。</li>
 </ul>
-<h3 id="环境准备-3"><a class="header" href="#环境准备-3">环境准备</a></h3>
+<h3 id="环境准备-2"><a class="header" href="#环境准备-2">环境准备</a></h3>
 <pre><code class="language-bash"># 工具和库
 $ brew install boost cmake ninja llvm@12
 # 使用 brew 版本的 llvm，而不是系统自带的 LLVM。
@@ -2753,7 +2681,7 @@ cd -
 <div style="break-before: page; page-break-before: always;"></div><h1 id="为-android-编译"><a class="header" href="#为-android-编译">为 Android 编译</a></h1>
 <h2 id="使用-android-ndk-构建和测试-wasmedge-命令行工具"><a class="header" href="#使用-android-ndk-构建和测试-wasmedge-命令行工具">使用 Android NDK 构建和测试 WasmEdge 命令行工具</a></h2>
 <p>此教程指导使用 Android NDK 构建 Interpreter 模式的 WasmEdge ，并在 Android 设备中测试 wasmedge 命令行工具。</p>
-<h3 id="环境准备-4"><a class="header" href="#环境准备-4">环境准备</a></h3>
+<h3 id="环境准备-3"><a class="header" href="#环境准备-3">环境准备</a></h3>
 <ul>
 <li><a href="https://developer.android.com/ndk/downloads">Android NDK 23b</a>
 <ul>
@@ -2778,7 +2706,7 @@ cd -
 <li>添加 NDK 目录路径到环境变量 <code>ANDROID_NDK_HOME=path/to/you/ndk/dir</code></li>
 <li>执行 WasmEdge 源码路径下的 <code>utils/android/standalone/build_for_android.sh</code> 命令行脚本，将自动执行构建，构建结果在 WasmEdge 目录中的 build 目录</li>
 </ol>
-<h3 id="测试-2"><a class="header" href="#测试-2">测试</a></h3>
+<h3 id="测试-1"><a class="header" href="#测试-1">测试</a></h3>
 <h4 id="推送到-android-设备"><a class="header" href="#推送到-android-设备">推送到 Android 设备</a></h4>
 <ol>
 <li>
