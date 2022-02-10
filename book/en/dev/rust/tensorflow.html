@@ -189,63 +189,62 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
-    let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
+</span>  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
+  let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Next, it reads the image from <code>STDIN</code> and converts it to the size and RGB pixel arrangement required by the Tensorflow Lite model.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let mut buf = Vec::new();
-    io::stdin().read_to_end(&amp;mut buf).unwrap();
+</span>  let mut buf = Vec::new();
+  io::stdin().read_to_end(&amp;mut buf).unwrap();
 
-    let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
+  let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Then, the program runs the TFLite model with its required input tensor (i.e., the flat image in this case), and receives the model output. In this case, the model output is an array of numbers. Each number corresponds to the probability of an object name in the label text file.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
-    session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
-           .run();
-    let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
+</span>  let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
+  session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
+         .run();
+  let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Let's find the object with the highest probability, and then look up the name in the labels file.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let mut i = 0;
-    let mut max_index: i32 = -1;
-    let mut max_value: u8 = 0;
-    while i &lt; res_vec.len() {
-        let cur = res_vec[i];
-        if cur &gt; max_value {
-            max_value = cur;
-            max_index = i as i32;
-        }
-        i += 1;
+</span>  let mut i = 0;
+  let mut max_index: i32 = -1;
+  let mut max_value: u8 = 0;
+  while i &lt; res_vec.len() {
+    let cur = res_vec[i];
+    if cur &gt; max_value {
+      max_value = cur;
+      max_index = i as i32;
     }
+    i += 1;
+  }
 
-    let mut label_lines = labels.lines();
-    for _i in 0..max_index {
-      label_lines.next();
-    }
-
+  let mut label_lines = labels.lines();
+  for _i in 0..max_index {
+    label_lines.next();
+  }
 <span class="boring">}
 </span></code></pre></pre>
 <p>Finally, it prints the result to <code>STDOUT</code>.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let class_name = label_lines.next().unwrap().to_string();
-    if max_value &gt; 50 {
-      println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
-    } else {
-      println!(&quot;It does not appears to be any food item in the picture.&quot;);
-    }
+</span>  let class_name = label_lines.next().unwrap().to_string();
+  if max_value &gt; 50 {
+    println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
+  } else {
+    println!(&quot;It does not appears to be any food item in the picture.&quot;);
+  }
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="deployment-options"><a class="header" href="#deployment-options">Deployment options</a></h2>

@@ -158,80 +158,78 @@
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
-    ... ...
-    let flat_img = image::imageops::thumbnail(&amp;img, 192, 192);
+  ... ...
+  let flat_img = image::imageops::thumbnail(&amp;img, 192, 192);
 
-    let model_data: &amp;[u8] = include_bytes!(&quot;lite-model_aiy_vision_classifier_food_V1_1.tflite&quot;);
-    let labels = include_str!(&quot;aiy_food_V1_labelmap.txt&quot;);
+  let model_data: &amp;[u8] = include_bytes!(&quot;lite-model_aiy_vision_classifier_food_V1_1.tflite&quot;);
+  let labels = include_str!(&quot;aiy_food_V1_labelmap.txt&quot;);
 
-    let mut session = wasmedge_tensorflow_interface::Session::new(
-        model_data,
-        wasmedge_tensorflow_interface::ModelType::TensorFlowLite,
-    );
-    session
-        .add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 192, 192, 3])
-        .run();
-    let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Softmax&quot;);
-    ... ...
+  let mut session = wasmedge_tensorflow_interface::Session::new(
+    model_data,
+    wasmedge_tensorflow_interface::ModelType::TensorFlowLite,
+  );
+  session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 192, 192, 3]).run();
+  let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Softmax&quot;);
+  ... ...
 }
 <span class="boring">}
 </span></code></pre></pre>
 <p>你可以使用标准的 <code>Cargo</code> 命令来将其构建成为一个 WebAssembly 函数。</p>
-<pre><code class="language-bash">$ cd rust_tflite_food
-$ cargo build --target wasm32-wasi --release
-$ cp target/wasm32-wasi/release/rust_tflite_food_lib.wasm ../
-$ cd ../
+<pre><code class="language-bash">cd rust_tflite_food
+cargo build --target wasm32-wasi --release
+cp target/wasm32-wasi/release/rust_tflite_food_lib.wasm ../
+cd ../
 </code></pre>
 <p>你也可以使用我们的 AOT 编译器 <code>wasmedgec</code> 来检测 WebAssembly 文件，以便让其运行的更快。<a href="../../start/universal.html">学习更多</a>。</p>
-<pre><code class="language-bash">$ wasmedgec rust_tflite_food_lib.wasm rust_tflite_food_lib.wasm
+<pre><code class="language-bash">wasmedgec rust_tflite_food_lib.wasm rust_tflite_food_lib.wasm
 </code></pre>
 <h2 id="go-host-应用程序"><a class="header" href="#go-host-应用程序">Go host 应用程序</a></h2>
 <p><a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_TfliteFood/tflite_food.go">Go host 应用程序</a>的源码展示了如何用 Tensorflow 来扩展并实例化一个 WasmEdge runtime，以及如何将图片数据传递给 WasmEdge 中的 Rust 函数，以便来执行推理。</p>
 <pre><code class="language-go">func main() {
-	/// Expected Args[0]: program name (./tflite_food)
-	/// Expected Args[1]: wasm file (rust_tflite_food_lib.wasm)
-	/// Expected Args[2]: input image name (food.jpg)
+  // Expected Args[0]: program name (./tflite_food)
+  // Expected Args[1]: wasm file (rust_tflite_food_lib.wasm)
+  // Expected Args[2]: input image name (food.jpg)
 
-	wasmedge.SetLogErrorLevel()
+  wasmedge.SetLogErrorLevel()
 
-	/// Set Tensorflow not to print debug info
-	os.Setenv(&quot;TF_CPP_MIN_LOG_LEVEL&quot;, &quot;3&quot;)
-	os.Setenv(&quot;TF_CPP_MIN_VLOG_LEVEL&quot;, &quot;3&quot;)
+  // Set Tensorflow not to print debug info
+  os.Setenv(&quot;TF_CPP_MIN_LOG_LEVEL&quot;, &quot;3&quot;)
+  os.Setenv(&quot;TF_CPP_MIN_VLOG_LEVEL&quot;, &quot;3&quot;)
 
-	var conf = wasmedge.NewConfigure(wasmedge.WASI)
-	var vm = wasmedge.NewVMWithConfig(conf)
-	var wasi = vm.GetImportObject(wasmedge.WASI)
-	wasi.InitWasi(
-		os.Args[1:],     /// The args
-		os.Environ(),    /// The envs
-		[]string{&quot;.:.&quot;}, /// The mapping preopens
-	)
+  var conf = wasmedge.NewConfigure(wasmedge.WASI)
+  var vm = wasmedge.NewVMWithConfig(conf)
+  var wasi = vm.GetImportObject(wasmedge.WASI)
+  wasi.InitWasi(
+    os.Args[1:],     // The args
+    os.Environ(),    // The envs
+    []string{&quot;.:.&quot;}, // The mapping preopens
+  )
 
-	/// Register WasmEdge-tensorflow
-	var tfobj = wasmedge.NewTensorflowImportObject()
-	var tfliteobj = wasmedge.NewTensorflowLiteImportObject()
-	vm.RegisterImport(tfobj)
-	vm.RegisterImport(tfliteobj)
+  // Register WasmEdge-tensorflow
+  var tfobj = wasmedge.NewTensorflowImportObject()
+  var tfliteobj = wasmedge.NewTensorflowLiteImportObject()
+  vm.RegisterImport(tfobj)
+  vm.RegisterImport(tfliteobj)
 
-	/// Load and validate the wasm
-	vm.LoadWasmFile(os.Args[1])
-	vm.Validate()
+  // Load and validate the wasm
+  vm.LoadWasmFile(os.Args[1])
+  vm.Validate()
 
-	// Instantiate the bindgen and vm
-	bg := bindgen.Instantiate(vm)
+  // Instantiate the bindgen and vm
+  bg := bindgen.Instantiate(vm)
 
-	img, _ := ioutil.ReadFile(os.Args[2])
-	if res, err := bg.Execute(&quot;infer&quot;, img); err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(string(res))
-	}
+  img, _ := ioutil.ReadFile(os.Args[2])
+  if res, err := bg.Execute(&quot;infer&quot;, img); err != nil {
+    fmt.Println(err)
+  } else {
+    fmt.Println(string(res))
+  }
 
-	bg.Release()
-	vm.Release()
-	conf.Release()
-	tfobj.Release()
-	tfliteobj.Release()
+  bg.Release()
+  vm.Release()
+  conf.Release()
+  tfobj.Release()
+  tfliteobj.Release()
 }
 </code></pre>
 <h2 id="构建和运行"><a class="header" href="#构建和运行">构建和运行</a></h2>
@@ -239,10 +237,10 @@ $ cd ../
 <p>你必须要在你的机器上安装带有 tensorflow 扩展的 WasmEdge。详情可查看<a href="../../start/install.html">安装指南</a>。</p>
 </blockquote>
 <p>如下命令用 WasmEdge Go SDK 和它的 tensorflow 扩展，构建了 Go host 应用程序。</p>
-<pre><code class="language-bash">$ go build -tags tensorflow
+<pre><code class="language-bash">go build -tags tensorflow
 </code></pre>
 <p>现在你就可以运行 Go 应用程序了。它在 WasmEdge 中调用 WebAssembly 函数，以对输入图片进行推理。</p>
-<pre><code class="language-bash">$ ./tflite_food rust_tflite_food_lib.wasm food.jpg
+<pre><code class="language-bash">./tflite_food rust_tflite_food_lib.wasm food.jpg
 </code></pre>
 <p>结果如下。</p>
 <pre><code class="language-bash">Go: Args: [./tflite_food rust_tflite_food_lib.wasm food.jpg]

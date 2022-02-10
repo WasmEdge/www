@@ -155,9 +155,9 @@
 <p>作为先决条件，我们第一步需要安装 KinD。为此，请参阅<a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries">快速入门指南</a>和<a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries">稳定版发布页面</a>来安装最新版本的 KinD CLI。</p>
 <p>如果已经安装了 KinD，我们可以直接从<a href="https://github.com/Liquid-Reply/kind-crun-wasm">这里</a>中的示例开始：</p>
 <pre><code class="language-bash"># Create a &quot;WASM in KinD&quot; Cluster
-$ kind create cluster --image ghcr.io/liquid-reply/kind-crun-wasm:v1.23.0
+kind create cluster --image ghcr.io/liquid-reply/kind-crun-wasm:v1.23.0
 # Run the example
-$ kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>在这个章节的剩余部分，我们会介绍如何去创建一个带有 wasmedge 的支持 KinD 的节点镜像。</p>
 <h2 id="编译-crun"><a class="header" href="#编译-crun">编译 crun</a></h2>

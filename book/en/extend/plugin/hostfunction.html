@@ -196,7 +196,7 @@ class TestHost1 : public TestCluster&lt;TestHost1&gt; {
 public:
   TestHost1(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
   Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2) {
-    /// Operations to `Data` ...
+    // Operations to `Data` ...
     return {};
   }
 };
@@ -205,7 +205,7 @@ class TestHost2 : public TestCluster&lt;TestHost2&gt; {
 public:
   TestHost2(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
   Expect&lt;uint64_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint64_t Param1, double Param2) {
-    /// Operations to `Data` ...
+    // Operations to `Data` ...
     return {};
   }
 };
@@ -258,7 +258,7 @@ class TestHost1 : public TestCluster&lt;TestHost1&gt; {
 public:
   TestHost1(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
   Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2) {
-    /// Operations to `Data` ...
+    // Operations to `Data` ...
     return {};
   }
 };
@@ -267,7 +267,7 @@ class TestHost2 : public TestCluster&lt;TestHost2&gt; {
 public:
   TestHost2(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
   Expect&lt;uint64_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint64_t Param1, double Param2) {
-    /// Operations to `Data` ...
+    // Operations to `Data` ...
     return {};
   }
 };
@@ -275,19 +275,19 @@ public:
 class TestModule : public Runtime::ImportObject {
 public:
   TestModule(std::vector&lt;uint8_t&gt; &amp;Vec) : ImportObject(&quot;test&quot;), Data(Vec) {
-    /// Add function instances with exporting name
+    // Add function instances with exporting name
     addHostFunc(&quot;test_func1&quot;, std::make_unique&lt;TestHost1&gt;(Data));
     addHostFunc(&quot;test_func2&quot;, std::make_unique&lt;TestHost2&gt;(Data));
 
-    /// Add table instance with exporting name
+    // Add table instance with exporting name
     addHostTable(&quot;table&quot;, std::make_unique&lt;Runtime::Instance::TableInstance&gt;(
                               TableType(RefType::FuncRef, 10, 20)));
 
-    /// Add memory instance with exporting name
+    // Add memory instance with exporting name
     addHostMemory(&quot;memory&quot;, std::make_unique&lt;Runtime::Instance::MemoryInstance&gt;(
                                 MemoryType(1, 2)));
 
-    /// Add global instance with exporting name
+    // Add global instance with exporting name
     addHostGlobal(&quot;global_i32&quot;,
                   std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
                       GlobalType(ValType::I32, ValMut::Const), uint32_t(666)));

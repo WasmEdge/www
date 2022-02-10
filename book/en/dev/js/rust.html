@@ -172,16 +172,16 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
 
-    struct HelloFn;
-    impl JsFn for HelloFn {
-        fn call(_ctx: &amp;mut Context, _this_val: JsValue, argv: &amp;[JsValue]) -&gt; JsValue {
-            println!(&quot;hello from rust&quot;);
-            println!(&quot;argv={:?}&quot;, argv);
-            JsValue::UnDefined
-        }
+  struct HelloFn;
+  impl JsFn for HelloFn {
+    fn call(_ctx: &amp;mut Context, _this_val: JsValue, argv: &amp;[JsValue]) -&gt; JsValue {
+      println!(&quot;hello from rust&quot;);
+      println!(&quot;argv={:?}&quot;, argv);
+      JsValue::UnDefined
     }
-    
-    ...
+  }
+  
+  ...
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -190,13 +190,13 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
-    ...
-    
-    let f = ctx.new_function::&lt;HelloFn&gt;(&quot;hello&quot;);
-    ctx.get_global().set(&quot;hi&quot;, f.into());
-    let code = r#&quot;hi(1,2,3)&quot;#;
-    let r = ctx.eval_global_str(code);
-    println!(&quot;return value:{:?}&quot;, r);
+  ...
+  
+  let f = ctx.new_function::&lt;HelloFn&gt;(&quot;hello&quot;);
+  ctx.get_global().set(&quot;hi&quot;, f.into());
+  let code = r#&quot;hi(1,2,3)&quot;#;
+  let r = ctx.eval_global_str(code);
+  println!(&quot;return value:{:?}&quot;, r);
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -212,53 +212,54 @@ return value:UnDefined
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn rust_new_object_and_js_call(ctx: &amp;mut Context) {
-
-    struct ObjectFn;
-    impl JsFn for ObjectFn {
-        fn call(_ctx: &amp;mut Context, this_val: JsValue, argv: &amp;[JsValue]) -&gt; JsValue {
-            println!(&quot;hello from rust&quot;);
-            println!(&quot;argv={:?}&quot;, argv);
-            if let JsValue::Object(obj) = this_val {
-                let obj_map = obj.to_map();
-                println!(&quot;this={:#?}&quot;, obj_map);
-            }
-            JsValue::UnDefined
-        }
+  struct ObjectFn;
+  impl JsFn for ObjectFn {
+    fn call(_ctx: &amp;mut Context, this_val: JsValue, argv: &amp;[JsValue]) -&gt; JsValue {
+      println!(&quot;hello from rust&quot;);
+      println!(&quot;argv={:?}&quot;, argv);
+      if let JsValue::Object(obj) = this_val {
+        let obj_map = obj.to_map();
+        println!(&quot;this={:#?}&quot;, obj_map);
+      }
+      JsValue::UnDefined
     }
+  }
+
+  ...
+}
 <span class="boring">}
 </span></code></pre></pre>
 <p>We then create an &quot;object&quot; on the Rust side, set its data fields, and then register the Rust function as a JavaScript function associated with the objects.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let mut obj = ctx.new_object();
-    obj.set(&quot;a&quot;, 1.into());
-    obj.set(&quot;b&quot;, ctx.new_string(&quot;abc&quot;).into());
-    
-    let f = ctx.new_function::&lt;ObjectFn&gt;(&quot;anything&quot;);
-    obj.set(&quot;f&quot;, f.into());
+</span>let mut obj = ctx.new_object();
+obj.set(&quot;a&quot;, 1.into());
+obj.set(&quot;b&quot;, ctx.new_string(&quot;abc&quot;).into());
+
+let f = ctx.new_function::&lt;ObjectFn&gt;(&quot;anything&quot;);
+obj.set(&quot;f&quot;, f.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>Next, we make the Rust &quot;object&quot; available as JavaScript object <code>test_obj</code> in the JavaScript interpreter.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    ctx.get_global().set(&quot;test_obj&quot;, obj.into());
+</span>ctx.get_global().set(&quot;test_obj&quot;, obj.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>In the JavaScript code, you can now directly use <code>test_obj</code> as part of the API.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let code = r#&quot;
-      print('test_obj keys=',Object.keys(test_obj))
-      print('test_obj.a=',test_obj.a)
-      print('test_obj.b=',test_obj.b)
-      test_obj.f(1,2,3,&quot;hi&quot;)
-    &quot;#;
+</span>let code = r#&quot;
+  print('test_obj keys=',Object.keys(test_obj))
+  print('test_obj.a=',test_obj.a)
+  print('test_obj.b=',test_obj.b)
+  test_obj.f(1,2,3,&quot;hi&quot;)
+&quot;#;
 
-    ctx.eval_global_str(code);
-}
+ctx.eval_global_str(code);
 <span class="boring">}
 </span></code></pre></pre>
 <p>The execution result is as follows.</p>
@@ -268,23 +269,23 @@ test_obj.b= abc
 hello from rust
 argv=[Int(1), Int(2), Int(3), String(JsString(hi))]
 this=Ok(
-    {
-        &quot;a&quot;: Int(
-            1,
-        ),
-        &quot;b&quot;: String(
-            JsString(
-                abc,
-            ),
-        ),
-        &quot;f&quot;: Function(
-            JsFunction(
-                function anything() {
-                    [native code]
-                },
-            ),
-        ),
-    },
+  {
+    &quot;a&quot;: Int(
+      1,
+    ),
+    &quot;b&quot;: String(
+      JsString(
+        abc,
+      ),
+    ),
+    &quot;f&quot;: Function(
+      JsFunction(
+        function anything() {
+          [native code]
+        },
+      ),
+    ),
+  },
 )
 </code></pre>
 <h2 id="a-complete-javascript-object-api"><a class="header" href="#a-complete-javascript-object-api">A complete JavaScript object API</a></h2>
@@ -297,120 +298,120 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod point {
-    use wasmedge_quickjs::*;
+  use wasmedge_quickjs::*;
 
-    #[derive(Debug)]
-    struct Point(i32, i32);
+  #[derive(Debug)]
+  struct Point(i32, i32);
 
-    struct PointDef;
+  struct PointDef;
 
-    impl JsClassDef&lt;Point&gt; for PointDef {
-        const CLASS_NAME: &amp;'static str = &quot;Point\0&quot;;
-        const CONSTRUCTOR_ARGC: u8 = 2;
+  impl JsClassDef&lt;Point&gt; for PointDef {
+    const CLASS_NAME: &amp;'static str = &quot;Point\0&quot;;
+    const CONSTRUCTOR_ARGC: u8 = 2;
 
-        fn constructor(_: &amp;mut Context, argv: &amp;[JsValue]) -&gt; Option&lt;Point&gt; {
-            println!(&quot;rust-&gt; new Point {:?}&quot;, argv);
-            let x = argv.get(0);
-            let y = argv.get(1);
-            if let ((Some(JsValue::Int(ref x)), Some(JsValue::Int(ref y)))) = (x, y) {
-                Some(Point(*x, *y))
-            } else {
-                None
-            }
-        }
-
-        fn proto_init(p: &amp;mut JsClassProto&lt;Point, PointDef&gt;) {
-            struct X;
-            impl JsClassGetterSetter&lt;Point&gt; for X {
-                const NAME: &amp;'static str = &quot;x\0&quot;;
-
-                fn getter(_: &amp;mut Context, this_val: &amp;mut Point) -&gt; JsValue {
-                    println!(&quot;rust-&gt; get x&quot;);
-                    this_val.0.into()
-                }
-
-                fn setter(_: &amp;mut Context, this_val: &amp;mut Point, val: JsValue) {
-                    println!(&quot;rust-&gt; set x:{:?}&quot;, val);
-                    if let JsValue::Int(x) = val {
-                        this_val.0 = x
-                    }
-                }
-            }
-
-            struct Y;
-            impl JsClassGetterSetter&lt;Point&gt; for Y {
-                const NAME: &amp;'static str = &quot;y\0&quot;;
-
-                fn getter(_: &amp;mut Context, this_val: &amp;mut Point) -&gt; JsValue {
-                    println!(&quot;rust-&gt; get y&quot;);
-                    this_val.1.into()
-                }
-
-                fn setter(_: &amp;mut Context, this_val: &amp;mut Point, val: JsValue) {
-                    println!(&quot;rust-&gt; set y:{:?}&quot;, val);
-                    if let JsValue::Int(y) = val {
-                        this_val.1 = y
-                    }
-                }
-            }
-
-            struct FnPrint;
-            impl JsMethod&lt;Point&gt; for FnPrint {
-                const NAME: &amp;'static str = &quot;pprint\0&quot;;
-                const LEN: u8 = 0;
-
-                fn call(_: &amp;mut Context, this_val: &amp;mut Point, _argv: &amp;[JsValue]) -&gt; JsValue {
-                    println!(&quot;rust-&gt; pprint: {:?}&quot;, this_val);
-                    JsValue::Int(1)
-                }
-            }
-
-            p.add_getter_setter(X);
-            p.add_getter_setter(Y);
-            p.add_function(FnPrint);
-        }
+    fn constructor(_: &amp;mut Context, argv: &amp;[JsValue]) -&gt; Option&lt;Point&gt; {
+      println!(&quot;rust-&gt; new Point {:?}&quot;, argv);
+      let x = argv.get(0);
+      let y = argv.get(1);
+      if let ((Some(JsValue::Int(ref x)), Some(JsValue::Int(ref y)))) = (x, y) {
+        Some(Point(*x, *y))
+      } else {
+        None
+      }
     }
 
-    struct PointModule;
-    impl ModuleInit for PointModule {
-        fn init_module(ctx: &amp;mut Context, m: &amp;mut JsModuleDef) {
-            m.add_export(&quot;Point\0&quot;, PointDef::class_value(ctx));
-        }
-    }
+    fn proto_init(p: &amp;mut JsClassProto&lt;Point, PointDef&gt;) {
+      struct X;
+      impl JsClassGetterSetter&lt;Point&gt; for X {
+        const NAME: &amp;'static str = &quot;x\0&quot;;
 
-    pub fn init_point_module(ctx: &amp;mut Context) {
-        ctx.register_class(PointDef);
-        ctx.register_module(&quot;point\0&quot;, PointModule, &amp;[&quot;Point\0&quot;]);
+        fn getter(_: &amp;mut Context, this_val: &amp;mut Point) -&gt; JsValue {
+          println!(&quot;rust-&gt; get x&quot;);
+          this_val.0.into()
+        }
+
+        fn setter(_: &amp;mut Context, this_val: &amp;mut Point, val: JsValue) {
+          println!(&quot;rust-&gt; set x:{:?}&quot;, val);
+          if let JsValue::Int(x) = val {
+            this_val.0 = x
+          }
+        }
+      }
+
+      struct Y;
+      impl JsClassGetterSetter&lt;Point&gt; for Y {
+        const NAME: &amp;'static str = &quot;y\0&quot;;
+
+        fn getter(_: &amp;mut Context, this_val: &amp;mut Point) -&gt; JsValue {
+          println!(&quot;rust-&gt; get y&quot;);
+          this_val.1.into()
+        }
+
+        fn setter(_: &amp;mut Context, this_val: &amp;mut Point, val: JsValue) {
+          println!(&quot;rust-&gt; set y:{:?}&quot;, val);
+          if let JsValue::Int(y) = val {
+            this_val.1 = y
+          }
+        }
+      }
+
+      struct FnPrint;
+      impl JsMethod&lt;Point&gt; for FnPrint {
+        const NAME: &amp;'static str = &quot;pprint\0&quot;;
+        const LEN: u8 = 0;
+
+        fn call(_: &amp;mut Context, this_val: &amp;mut Point, _argv: &amp;[JsValue]) -&gt; JsValue {
+          println!(&quot;rust-&gt; pprint: {:?}&quot;, this_val);
+          JsValue::Int(1)
+        }
+      }
+
+      p.add_getter_setter(X);
+      p.add_getter_setter(Y);
+      p.add_function(FnPrint);
     }
+  }
+
+  struct PointModule;
+  impl ModuleInit for PointModule {
+    fn init_module(ctx: &amp;mut Context, m: &amp;mut JsModuleDef) {
+      m.add_export(&quot;Point\0&quot;, PointDef::class_value(ctx));
+    }
+  }
+
+  pub fn init_point_module(ctx: &amp;mut Context) {
+    ctx.register_class(PointDef);
+    ctx.register_module(&quot;point\0&quot;, PointModule, &amp;[&quot;Point\0&quot;]);
+  }
 }
 <span class="boring">}
 </span></code></pre></pre>
 <p>In the interpreter implementation, we call <code>point::init_point_module</code> first to register the Rust module with the JavaScript context, and then we can run a JavaScript program that simply use the <code>point</code> object.</p>
 <pre><pre class="playground"><code class="language-rust">use wasmedge_quickjs::*;
 fn main() {
-    let mut ctx = Context::new();
-    point::init_point_module(&amp;mut ctx);
+  let mut ctx = Context::new();
+  point::init_point_module(&amp;mut ctx);
 
-    let code = r#&quot;
-      import('point').then((point)=&gt;{
-        let p0 = new point.Point(1,2)
-        print(&quot;js-&gt;&quot;,p0.x,p0.y)
-        p0.pprint()
-        try{
-            let p = new point.Point()
-            print(&quot;js-&gt; p:&quot;,p)
-            print(&quot;js-&gt;&quot;,p.x,p.y)
-            p.x=2
-            p.pprint()
-        } catch(e) {
-            print(&quot;An error has been caught&quot;);
-            print(e)
-        }    
-      })
-    &quot;#;
+  let code = r#&quot;
+    import('point').then((point)=&gt;{
+    let p0 = new point.Point(1,2)
+    print(&quot;js-&gt;&quot;,p0.x,p0.y)
+    p0.pprint()
+    try{
+      let p = new point.Point()
+      print(&quot;js-&gt; p:&quot;,p)
+      print(&quot;js-&gt;&quot;,p.x,p.y)
+      p.x=2
+      p.pprint()
+    } catch(e) {
+      print(&quot;An error has been caught&quot;);
+      print(e)
+    }  
+    })
+  &quot;#;
 
-    ctx.eval_global_str(code);
-    ctx.promise_loop_poll();
+  ctx.eval_global_str(code);
+  ctx.promise_loop_poll();
 }
 </code></pre></pre>
 <p>The execution result from the above application is as follows.</p>

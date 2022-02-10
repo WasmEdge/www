@@ -206,7 +206,7 @@
 <h2 id="wasmedge-installation"><a class="header" href="#wasmedge-installation">WasmEdge Installation</a></h2>
 <h3 id="download-and-install"><a class="header" href="#download-and-install">Download And Install</a></h3>
 <p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>wget</code> as prerequisites.</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1
 </code></pre>
 <p>For more details, please refer to the <a href="/start/install.html">Installation Guide</a> for the WasmEdge installation.</p>
 <h3 id="compile-sources"><a class="header" href="#compile-sources">Compile Sources</a></h3>
@@ -230,7 +230,7 @@ int main() {
 <li>
 <p>Run and get the expected output.</p>
 <pre><code class="language-bash">$ ./a.out
-WasmEdge version: 0.9.0
+WasmEdge version: 0.9.1
 </code></pre>
 </li>
 </ol>

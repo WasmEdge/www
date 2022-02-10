@@ -153,10 +153,10 @@
 <p>The <a href="https://github.com/containers/crun">crun project</a> has WasmEdge support baked in.
 For now, the easiest approach is just built it yourself from source. First, let's make sure that <code>crun</code> dependencies are installed on your Ubuntu 20.04.
 For other Linux distributions, please <a href="https://github.com/containers/crun#readme">see here</a>.</p>
-<pre><code class="language-bash">$ sudo apt update
-$ sudo apt install -y make git gcc build-essential pkgconf libtool \
-      libsystemd-dev libprotobuf-c-dev libcap-dev libseccomp-dev libyajl-dev \
-      go-md2man libtool autoconf python3 automake
+<pre><code class="language-bash">sudo apt update
+sudo apt install -y make git gcc build-essential pkgconf libtool \
+    libsystemd-dev libprotobuf-c-dev libcap-dev libseccomp-dev libyajl-dev \
+    go-md2man libtool autoconf python3 automake
 </code></pre>
 <p>Next, configure, build, and install a <code>crun</code> binary with WasmEdge support.</p>
 <pre><code class="language-bash">git clone https://github.com/containers/crun

@@ -288,7 +288,7 @@ confidence: 0.8941176470588236
 </code></pre>
 <h2 id="install-a-specific-version-of-wasmedge"><a class="header" href="#install-a-specific-version-of-wasmedge">Install a specific version of WasmEdge</a></h2>
 <p>You could install specific versions of WasmEdge, including pre-releases or old releases by passing the <code>-v</code> argument to the install script. Here is an example.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.1
 </code></pre>
 <p>If you are interested in the latest builds from the <code>HEAD</code> of the <code>master</code> branch, which is basically WasmEdge's nightly builds, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
 <h2 id="whats-installed"><a class="header" href="#whats-installed">What's installed</a></h2>
@@ -998,63 +998,62 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
-    let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
+</span>  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
+  let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Next, it reads the image from <code>STDIN</code> and converts it to the size and RGB pixel arrangement required by the Tensorflow Lite model.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let mut buf = Vec::new();
-    io::stdin().read_to_end(&amp;mut buf).unwrap();
+</span>  let mut buf = Vec::new();
+  io::stdin().read_to_end(&amp;mut buf).unwrap();
 
-    let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
+  let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Then, the program runs the TFLite model with its required input tensor (i.e., the flat image in this case), and receives the model output. In this case, the model output is an array of numbers. Each number corresponds to the probability of an object name in the label text file.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
-    session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
-           .run();
-    let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
+</span>  let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
+  session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
+         .run();
+  let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Let's find the object with the highest probability, and then look up the name in the labels file.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let mut i = 0;
-    let mut max_index: i32 = -1;
-    let mut max_value: u8 = 0;
-    while i &lt; res_vec.len() {
-        let cur = res_vec[i];
-        if cur &gt; max_value {
-            max_value = cur;
-            max_index = i as i32;
-        }
-        i += 1;
+</span>  let mut i = 0;
+  let mut max_index: i32 = -1;
+  let mut max_value: u8 = 0;
+  while i &lt; res_vec.len() {
+    let cur = res_vec[i];
+    if cur &gt; max_value {
+      max_value = cur;
+      max_index = i as i32;
     }
+    i += 1;
+  }
 
-    let mut label_lines = labels.lines();
-    for _i in 0..max_index {
-      label_lines.next();
-    }
-
+  let mut label_lines = labels.lines();
+  for _i in 0..max_index {
+    label_lines.next();
+  }
 <span class="boring">}
 </span></code></pre></pre>
 <p>Finally, it prints the result to <code>STDOUT</code>.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let class_name = label_lines.next().unwrap().to_string();
-    if max_value &gt; 50 {
-      println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
-    } else {
-      println!(&quot;It does not appears to be any food item in the picture.&quot;);
-    }
+</span>  let class_name = label_lines.next().unwrap().to_string();
+  if max_value &gt; 50 {
+    println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
+  } else {
+    println!(&quot;It does not appears to be any food item in the picture.&quot;);
+  }
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="deployment-options"><a class="header" href="#deployment-options">Deployment options</a></h2>
@@ -1090,24 +1089,24 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <pre><pre class="playground"><code class="language-rust">use wasmedge_http_req::request;
 
 fn main() {
-    let mut writer = Vec::new(); //container for body of a response
-    let res = request::get(&quot;http://127.0.0.1:1234/get&quot;, &amp;mut writer).unwrap();
+  let mut writer = Vec::new(); //container for body of a response
+  let res = request::get(&quot;http://127.0.0.1:1234/get&quot;, &amp;mut writer).unwrap();
 
-    println!(&quot;GET&quot;);
-    println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
-    println!(&quot;Headers {}&quot;, res.headers());
-    println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
+  println!(&quot;GET&quot;);
+  println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
+  println!(&quot;Headers {}&quot;, res.headers());
+  println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
 
-    let mut writer = Vec::new(); //container for body of a response
-    const BODY: &amp;[u8; 27] = b&quot;field1=value1&amp;field2=value2&quot;;
-    // let res = request::post(&quot;https://httpbin.org/post&quot;, BODY, &amp;mut writer).unwrap();
-    // no https , no dns
-    let res = request::post(&quot;http://127.0.0.1:1234/post&quot;, BODY, &amp;mut writer).unwrap();
+  let mut writer = Vec::new(); //container for body of a response
+  const BODY: &amp;[u8; 27] = b&quot;field1=value1&amp;field2=value2&quot;;
+  // let res = request::post(&quot;https://httpbin.org/post&quot;, BODY, &amp;mut writer).unwrap();
+  // no https , no dns
+  let res = request::post(&quot;http://127.0.0.1:1234/post&quot;, BODY, &amp;mut writer).unwrap();
 
-    println!(&quot;POST&quot;);
-    println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
-    println!(&quot;Headers {}&quot;, res.headers());
-    println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
+  println!(&quot;POST&quot;);
+  println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
+  println!(&quot;Headers {}&quot;, res.headers());
+  println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
 }
 </code></pre></pre>
 <p>To compile this source code, you must have the following in your <code>Cargo.toml</code>.</p>
@@ -1131,60 +1130,60 @@ use std::net::{Shutdown, TcpListener, TcpStream};
 use wasmedge_wasi_socket::{Shutdown, TcpListener, TcpStream};
 
 fn handle_http(req: Request&lt;String&gt;) -&gt; bytecodec::Result&lt;Response&lt;String&gt;&gt; {
-    Ok(Response::new(
-        HttpVersion::V1_0,
-        StatusCode::new(200)?,
-        ReasonPhrase::new(&quot;&quot;)?,
-        format!(&quot;echo: {}&quot;, req.body()),
-    ))
+  Ok(Response::new(
+    HttpVersion::V1_0,
+    StatusCode::new(200)?,
+    ReasonPhrase::new(&quot;&quot;)?,
+    format!(&quot;echo: {}&quot;, req.body()),
+  ))
 }
 
 fn handle_client(mut stream: TcpStream) -&gt; std::io::Result&lt;()&gt; {
-    let mut buff = [0u8; 1024];
-    let mut data = Vec::new();
+  let mut buff = [0u8; 1024];
+  let mut data = Vec::new();
 
-    loop {
-        let n = stream.read(&amp;mut buff)?;
-        data.extend_from_slice(&amp;buff[0..n]);
-        if n &lt; 1024 {
-            break;
-        }
+  loop {
+    let n = stream.read(&amp;mut buff)?;
+    data.extend_from_slice(&amp;buff[0..n]);
+    if n &lt; 1024 {
+      break;
     }
+  }
 
-    let mut decoder =
-        RequestDecoder::&lt;httpcodec::BodyDecoder&lt;bytecodec::bytes::Utf8Decoder&gt;&gt;::default();
+  let mut decoder =
+    RequestDecoder::&lt;httpcodec::BodyDecoder&lt;bytecodec::bytes::Utf8Decoder&gt;&gt;::default();
 
-    let req = match decoder.decode_from_bytes(data.as_slice()) {
-        Ok(req) =&gt; handle_http(req),
-        Err(e) =&gt; Err(e),
-    };
+  let req = match decoder.decode_from_bytes(data.as_slice()) {
+    Ok(req) =&gt; handle_http(req),
+    Err(e) =&gt; Err(e),
+  };
 
-    let r = match req {
-        Ok(r) =&gt; r,
-        Err(e) =&gt; {
-            let err = format!(&quot;{:?}&quot;, e);
-            Response::new(
-                HttpVersion::V1_0,
-                StatusCode::new(500).unwrap(),
-                ReasonPhrase::new(err.as_str()).unwrap(),
-                err.clone(),
-            )
-        }
-    };
+  let r = match req {
+    Ok(r) =&gt; r,
+    Err(e) =&gt; {
+      let err = format!(&quot;{:?}&quot;, e);
+      Response::new(
+        HttpVersion::V1_0,
+        StatusCode::new(500).unwrap(),
+        ReasonPhrase::new(err.as_str()).unwrap(),
+        err.clone(),
+      )
+    }
+  };
 
-    let write_buf = r.to_string();
-    stream.write(write_buf.as_bytes())?;
-    stream.shutdown(Shutdown::Both)?;
-    Ok(())
+  let write_buf = r.to_string();
+  stream.write(write_buf.as_bytes())?;
+  stream.shutdown(Shutdown::Both)?;
+  Ok(())
 }
 
 fn main() -&gt; std::io::Result&lt;()&gt; {
-    let port = std::env::var(&quot;PORT&quot;).unwrap_or(1234.to_string());
-    println!(&quot;new connection at {}&quot;, port);
-    let listener = TcpListener::bind(format!(&quot;0.0.0.0:{}&quot;, port))?;
-    loop {
-        let _ = handle_client(listener.accept()?.0);
-    }
+  let port = std::env::var(&quot;PORT&quot;).unwrap_or(1234.to_string());
+  println!(&quot;new connection at {}&quot;, port);
+  let listener = TcpListener::bind(format!(&quot;0.0.0.0:{}&quot;, port))?;
+  loop {
+    let _ = handle_client(listener.accept()?.0);
+  }
 }
 </code></pre></pre>
 <p>To compile this source code, you must have the following in your <code>Cargo.toml</code>.</p>
@@ -1518,39 +1517,39 @@ echo:WasmEdge
 <pre><code class="language-javascript">import { fetch } from 'http'
 
 async function test_fetch() {
-    try {
-        let r = await fetch(&quot;http://152.136.235.225/get?id=1&quot;)
-        print('test_fetch\n', await r.text())
-    } catch (e) {
-        print(e)
-    }
+  try {
+    let r = await fetch(&quot;http://152.136.235.225/get?id=1&quot;)
+    print('test_fetch\n', await r.text())
+  } catch (e) {
+    print(e)
+  }
 }
 test_fetch()
 </code></pre>
 <p>The code snippet below shows how to do an sync HTTP POST to a remote server.</p>
 <pre><code class="language-javascript">async function test_fetch_post() {
-    try {
-        let r = await fetch(&quot;http://152.136.235.225/post&quot;, { method: 'post', 'body': 'post_body' })
-        print('test_fetch_post\n', await r.text())
-    } catch (e) {
-        print(e)
-    }
+  try {
+    let r = await fetch(&quot;http://152.136.235.225/post&quot;, { method: 'post', 'body': 'post_body' })
+    print('test_fetch_post\n', await r.text())
+  } catch (e) {
+    print(e)
+  }
 }
 test_fetch_post()
 </code></pre>
 <p>An async HTTP PUT request is as follows.</p>
 <pre><code class="language-javascript">async function test_fetch_put() {
-    try {
-        let r = await fetch(&quot;http://152.136.235.225/put&quot;,
-            {
-                method: &quot;put&quot;,
-                body: JSON.stringify({ a: 1 }),
-                headers: { 'Context-type': 'application/json' }
-            })
-        print('test_fetch_put\n', await r.text())
-    } catch (e) {
-        print(e)
-    }
+  try {
+    let r = await fetch(&quot;http://152.136.235.225/put&quot;,
+      {
+        method: &quot;put&quot;,
+        body: JSON.stringify({ a: 1 }),
+        headers: { 'Context-type': 'application/json' }
+      })
+    print('test_fetch_put\n', await r.text())
+  } catch (e) {
+    print(e)
+  }
 }
 test_fetch_put()
 </code></pre>
@@ -1946,16 +1945,16 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
 
-    struct HelloFn;
-    impl JsFn for HelloFn {
-        fn call(_ctx: &amp;mut Context, _this_val: JsValue, argv: &amp;[JsValue]) -&gt; JsValue {
-            println!(&quot;hello from rust&quot;);
-            println!(&quot;argv={:?}&quot;, argv);
-            JsValue::UnDefined
-        }
+  struct HelloFn;
+  impl JsFn for HelloFn {
+    fn call(_ctx: &amp;mut Context, _this_val: JsValue, argv: &amp;[JsValue]) -&gt; JsValue {
+      println!(&quot;hello from rust&quot;);
+      println!(&quot;argv={:?}&quot;, argv);
+      JsValue::UnDefined
     }
-    
-    ...
+  }
+  
+  ...
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -1964,13 +1963,13 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
-    ...
-    
-    let f = ctx.new_function::&lt;HelloFn&gt;(&quot;hello&quot;);
-    ctx.get_global().set(&quot;hi&quot;, f.into());
-    let code = r#&quot;hi(1,2,3)&quot;#;
-    let r = ctx.eval_global_str(code);
-    println!(&quot;return value:{:?}&quot;, r);
+  ...
+  
+  let f = ctx.new_function::&lt;HelloFn&gt;(&quot;hello&quot;);
+  ctx.get_global().set(&quot;hi&quot;, f.into());
+  let code = r#&quot;hi(1,2,3)&quot;#;
+  let r = ctx.eval_global_str(code);
+  println!(&quot;return value:{:?}&quot;, r);
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -1986,53 +1985,54 @@ return value:UnDefined
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn rust_new_object_and_js_call(ctx: &amp;mut Context) {
-
-    struct ObjectFn;
-    impl JsFn for ObjectFn {
-        fn call(_ctx: &amp;mut Context, this_val: JsValue, argv: &amp;[JsValue]) -&gt; JsValue {
-            println!(&quot;hello from rust&quot;);
-            println!(&quot;argv={:?}&quot;, argv);
-            if let JsValue::Object(obj) = this_val {
-                let obj_map = obj.to_map();
-                println!(&quot;this={:#?}&quot;, obj_map);
-            }
-            JsValue::UnDefined
-        }
+  struct ObjectFn;
+  impl JsFn for ObjectFn {
+    fn call(_ctx: &amp;mut Context, this_val: JsValue, argv: &amp;[JsValue]) -&gt; JsValue {
+      println!(&quot;hello from rust&quot;);
+      println!(&quot;argv={:?}&quot;, argv);
+      if let JsValue::Object(obj) = this_val {
+        let obj_map = obj.to_map();
+        println!(&quot;this={:#?}&quot;, obj_map);
+      }
+      JsValue::UnDefined
     }
+  }
+
+  ...
+}
 <span class="boring">}
 </span></code></pre></pre>
 <p>We then create an &quot;object&quot; on the Rust side, set its data fields, and then register the Rust function as a JavaScript function associated with the objects.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let mut obj = ctx.new_object();
-    obj.set(&quot;a&quot;, 1.into());
-    obj.set(&quot;b&quot;, ctx.new_string(&quot;abc&quot;).into());
-    
-    let f = ctx.new_function::&lt;ObjectFn&gt;(&quot;anything&quot;);
-    obj.set(&quot;f&quot;, f.into());
+</span>let mut obj = ctx.new_object();
+obj.set(&quot;a&quot;, 1.into());
+obj.set(&quot;b&quot;, ctx.new_string(&quot;abc&quot;).into());
+
+let f = ctx.new_function::&lt;ObjectFn&gt;(&quot;anything&quot;);
+obj.set(&quot;f&quot;, f.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>Next, we make the Rust &quot;object&quot; available as JavaScript object <code>test_obj</code> in the JavaScript interpreter.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    ctx.get_global().set(&quot;test_obj&quot;, obj.into());
+</span>ctx.get_global().set(&quot;test_obj&quot;, obj.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>In the JavaScript code, you can now directly use <code>test_obj</code> as part of the API.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    let code = r#&quot;
-      print('test_obj keys=',Object.keys(test_obj))
-      print('test_obj.a=',test_obj.a)
-      print('test_obj.b=',test_obj.b)
-      test_obj.f(1,2,3,&quot;hi&quot;)
-    &quot;#;
+</span>let code = r#&quot;
+  print('test_obj keys=',Object.keys(test_obj))
+  print('test_obj.a=',test_obj.a)
+  print('test_obj.b=',test_obj.b)
+  test_obj.f(1,2,3,&quot;hi&quot;)
+&quot;#;
 
-    ctx.eval_global_str(code);
-}
+ctx.eval_global_str(code);
 <span class="boring">}
 </span></code></pre></pre>
 <p>The execution result is as follows.</p>
@@ -2042,23 +2042,23 @@ test_obj.b= abc
 hello from rust
 argv=[Int(1), Int(2), Int(3), String(JsString(hi))]
 this=Ok(
-    {
-        &quot;a&quot;: Int(
-            1,
-        ),
-        &quot;b&quot;: String(
-            JsString(
-                abc,
-            ),
-        ),
-        &quot;f&quot;: Function(
-            JsFunction(
-                function anything() {
-                    [native code]
-                },
-            ),
-        ),
-    },
+  {
+    &quot;a&quot;: Int(
+      1,
+    ),
+    &quot;b&quot;: String(
+      JsString(
+        abc,
+      ),
+    ),
+    &quot;f&quot;: Function(
+      JsFunction(
+        function anything() {
+          [native code]
+        },
+      ),
+    ),
+  },
 )
 </code></pre>
 <h2 id="a-complete-javascript-object-api"><a class="header" href="#a-complete-javascript-object-api">A complete JavaScript object API</a></h2>
@@ -2071,120 +2071,120 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod point {
-    use wasmedge_quickjs::*;
+  use wasmedge_quickjs::*;
 
-    #[derive(Debug)]
-    struct Point(i32, i32);
+  #[derive(Debug)]
+  struct Point(i32, i32);
 
-    struct PointDef;
+  struct PointDef;
 
-    impl JsClassDef&lt;Point&gt; for PointDef {
-        const CLASS_NAME: &amp;'static str = &quot;Point\0&quot;;
-        const CONSTRUCTOR_ARGC: u8 = 2;
+  impl JsClassDef&lt;Point&gt; for PointDef {
+    const CLASS_NAME: &amp;'static str = &quot;Point\0&quot;;
+    const CONSTRUCTOR_ARGC: u8 = 2;
 
-        fn constructor(_: &amp;mut Context, argv: &amp;[JsValue]) -&gt; Option&lt;Point&gt; {
-            println!(&quot;rust-&gt; new Point {:?}&quot;, argv);
-            let x = argv.get(0);
-            let y = argv.get(1);
-            if let ((Some(JsValue::Int(ref x)), Some(JsValue::Int(ref y)))) = (x, y) {
-                Some(Point(*x, *y))
-            } else {
-                None
-            }
-        }
-
-        fn proto_init(p: &amp;mut JsClassProto&lt;Point, PointDef&gt;) {
-            struct X;
-            impl JsClassGetterSetter&lt;Point&gt; for X {
-                const NAME: &amp;'static str = &quot;x\0&quot;;
-
-                fn getter(_: &amp;mut Context, this_val: &amp;mut Point) -&gt; JsValue {
-                    println!(&quot;rust-&gt; get x&quot;);
-                    this_val.0.into()
-                }
-
-                fn setter(_: &amp;mut Context, this_val: &amp;mut Point, val: JsValue) {
-                    println!(&quot;rust-&gt; set x:{:?}&quot;, val);
-                    if let JsValue::Int(x) = val {
-                        this_val.0 = x
-                    }
-                }
-            }
-
-            struct Y;
-            impl JsClassGetterSetter&lt;Point&gt; for Y {
-                const NAME: &amp;'static str = &quot;y\0&quot;;
-
-                fn getter(_: &amp;mut Context, this_val: &amp;mut Point) -&gt; JsValue {
-                    println!(&quot;rust-&gt; get y&quot;);
-                    this_val.1.into()
-                }
-
-                fn setter(_: &amp;mut Context, this_val: &amp;mut Point, val: JsValue) {
-                    println!(&quot;rust-&gt; set y:{:?}&quot;, val);
-                    if let JsValue::Int(y) = val {
-                        this_val.1 = y
-                    }
-                }
-            }
-
-            struct FnPrint;
-            impl JsMethod&lt;Point&gt; for FnPrint {
-                const NAME: &amp;'static str = &quot;pprint\0&quot;;
-                const LEN: u8 = 0;
-
-                fn call(_: &amp;mut Context, this_val: &amp;mut Point, _argv: &amp;[JsValue]) -&gt; JsValue {
-                    println!(&quot;rust-&gt; pprint: {:?}&quot;, this_val);
-                    JsValue::Int(1)
-                }
-            }
-
-            p.add_getter_setter(X);
-            p.add_getter_setter(Y);
-            p.add_function(FnPrint);
-        }
+    fn constructor(_: &amp;mut Context, argv: &amp;[JsValue]) -&gt; Option&lt;Point&gt; {
+      println!(&quot;rust-&gt; new Point {:?}&quot;, argv);
+      let x = argv.get(0);
+      let y = argv.get(1);
+      if let ((Some(JsValue::Int(ref x)), Some(JsValue::Int(ref y)))) = (x, y) {
+        Some(Point(*x, *y))
+      } else {
+        None
+      }
     }
 
-    struct PointModule;
-    impl ModuleInit for PointModule {
-        fn init_module(ctx: &amp;mut Context, m: &amp;mut JsModuleDef) {
-            m.add_export(&quot;Point\0&quot;, PointDef::class_value(ctx));
-        }
-    }
+    fn proto_init(p: &amp;mut JsClassProto&lt;Point, PointDef&gt;) {
+      struct X;
+      impl JsClassGetterSetter&lt;Point&gt; for X {
+        const NAME: &amp;'static str = &quot;x\0&quot;;
 
-    pub fn init_point_module(ctx: &amp;mut Context) {
-        ctx.register_class(PointDef);
-        ctx.register_module(&quot;point\0&quot;, PointModule, &amp;[&quot;Point\0&quot;]);
+        fn getter(_: &amp;mut Context, this_val: &amp;mut Point) -&gt; JsValue {
+          println!(&quot;rust-&gt; get x&quot;);
+          this_val.0.into()
+        }
+
+        fn setter(_: &amp;mut Context, this_val: &amp;mut Point, val: JsValue) {
+          println!(&quot;rust-&gt; set x:{:?}&quot;, val);
+          if let JsValue::Int(x) = val {
+            this_val.0 = x
+          }
+        }
+      }
+
+      struct Y;
+      impl JsClassGetterSetter&lt;Point&gt; for Y {
+        const NAME: &amp;'static str = &quot;y\0&quot;;
+
+        fn getter(_: &amp;mut Context, this_val: &amp;mut Point) -&gt; JsValue {
+          println!(&quot;rust-&gt; get y&quot;);
+          this_val.1.into()
+        }
+
+        fn setter(_: &amp;mut Context, this_val: &amp;mut Point, val: JsValue) {
+          println!(&quot;rust-&gt; set y:{:?}&quot;, val);
+          if let JsValue::Int(y) = val {
+            this_val.1 = y
+          }
+        }
+      }
+
+      struct FnPrint;
+      impl JsMethod&lt;Point&gt; for FnPrint {
+        const NAME: &amp;'static str = &quot;pprint\0&quot;;
+        const LEN: u8 = 0;
+
+        fn call(_: &amp;mut Context, this_val: &amp;mut Point, _argv: &amp;[JsValue]) -&gt; JsValue {
+          println!(&quot;rust-&gt; pprint: {:?}&quot;, this_val);
+          JsValue::Int(1)
+        }
+      }
+
+      p.add_getter_setter(X);
+      p.add_getter_setter(Y);
+      p.add_function(FnPrint);
     }
+  }
+
+  struct PointModule;
+  impl ModuleInit for PointModule {
+    fn init_module(ctx: &amp;mut Context, m: &amp;mut JsModuleDef) {
+      m.add_export(&quot;Point\0&quot;, PointDef::class_value(ctx));
+    }
+  }
+
+  pub fn init_point_module(ctx: &amp;mut Context) {
+    ctx.register_class(PointDef);
+    ctx.register_module(&quot;point\0&quot;, PointModule, &amp;[&quot;Point\0&quot;]);
+  }
 }
 <span class="boring">}
 </span></code></pre></pre>
 <p>In the interpreter implementation, we call <code>point::init_point_module</code> first to register the Rust module with the JavaScript context, and then we can run a JavaScript program that simply use the <code>point</code> object.</p>
 <pre><pre class="playground"><code class="language-rust">use wasmedge_quickjs::*;
 fn main() {
-    let mut ctx = Context::new();
-    point::init_point_module(&amp;mut ctx);
+  let mut ctx = Context::new();
+  point::init_point_module(&amp;mut ctx);
 
-    let code = r#&quot;
-      import('point').then((point)=&gt;{
-        let p0 = new point.Point(1,2)
-        print(&quot;js-&gt;&quot;,p0.x,p0.y)
-        p0.pprint()
-        try{
-            let p = new point.Point()
-            print(&quot;js-&gt; p:&quot;,p)
-            print(&quot;js-&gt;&quot;,p.x,p.y)
-            p.x=2
-            p.pprint()
-        } catch(e) {
-            print(&quot;An error has been caught&quot;);
-            print(e)
-        }    
-      })
-    &quot;#;
+  let code = r#&quot;
+    import('point').then((point)=&gt;{
+    let p0 = new point.Point(1,2)
+    print(&quot;js-&gt;&quot;,p0.x,p0.y)
+    p0.pprint()
+    try{
+      let p = new point.Point()
+      print(&quot;js-&gt; p:&quot;,p)
+      print(&quot;js-&gt;&quot;,p.x,p.y)
+      p.x=2
+      p.pprint()
+    } catch(e) {
+      print(&quot;An error has been caught&quot;);
+      print(e)
+    }  
+    })
+  &quot;#;
 
-    ctx.eval_global_str(code);
-    ctx.promise_loop_poll();
+  ctx.eval_global_str(code);
+  ctx.promise_loop_poll();
 }
 </code></pre></pre>
 <p>The execution result from the above application is as follows.</p>
@@ -2216,7 +2216,7 @@ The source code in <code>main.go</code> file is as follows.</p>
 <pre><code class="language-go">package main
 
 func main() {
-    println(&quot;Hello TinyGo from WasmEdge!&quot;)
+  println(&quot;Hello TinyGo from WasmEdge!&quot;)
 }
 </code></pre>
 <blockquote>
@@ -2241,16 +2241,16 @@ func main(){
 
 //export fibArray
 func fibArray(n int32) int32{
-        arr := make([]int32, n)
-        for i := int32(0); i &lt; n; i++ {
-                switch {
-                case i &lt; 2:
-                        arr[i] = i
-                default:
-                        arr[i] = arr[i-1] + arr[i-2]
-                }
-        }
-        return arr[n-1]
+  arr := make([]int32, n)
+  for i := int32(0); i &lt; n; i++ {
+    switch {
+    case i &lt; 2:
+      arr[i] = i
+    default:
+      arr[i] = arr[i-1] + arr[i-2]
+    }
+  }
+  return arr[n-1]
 }
 </code></pre>
 <h3 id="a-simple-function-compile-and-build"><a class="header" href="#a-simple-function-compile-and-build">A simple function: Compile and build</a></h3>
@@ -2373,8 +2373,8 @@ int main(int Argc, const char* Argv[]) {
   /* Compile the WASM file with input and output paths. */
   Res = WasmEdge_CompilerCompile(CompilerCxt, Argv[1], Argv[2]);
   if (!WasmEdge_ResultOK(Res)) {
-      printf(&quot;Compilation failed: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
-      return 1;
+    printf(&quot;Compilation failed: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return 1;
   }
 
   WasmEdge_CompilerDelete(CompilerCxt);
@@ -2465,7 +2465,7 @@ sys 0m0.011s
 <h2 id="wasmedge-installation"><a class="header" href="#wasmedge-installation">WasmEdge Installation</a></h2>
 <h3 id="download-and-install"><a class="header" href="#download-and-install">Download And Install</a></h3>
 <p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>wget</code> as prerequisites.</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1
 </code></pre>
 <p>For more details, please refer to the <a href="embed/c//start/install.html">Installation Guide</a> for the WasmEdge installation.</p>
 <h3 id="compile-sources"><a class="header" href="#compile-sources">Compile Sources</a></h3>
@@ -2489,7 +2489,7 @@ int main() {
 <li>
 <p>Run and get the expected output.</p>
 <pre><code class="language-bash">$ ./a.out
-WasmEdge version: 0.9.0
+WasmEdge version: 0.9.1
 </code></pre>
 </li>
 </ol>
@@ -4429,14 +4429,14 @@ enum WasmEdge_CompilerOutputFormat {
 go version go1.16.5 linux/amd64
 </code></pre>
 <p>Meantime, please make sure you have installed <a href="embed/../start/install.html">the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release version.</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1
 </code></pre>
 <p>If you need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0 -e tensorflow,image
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1 -e tensorflow,image
 </code></pre>
 <p>Noticed that the <code>TensorFlow</code> and <code>Image</code> extensions are only for the <code>Linux</code> platforms.</p>
 <p>Install the <code>WasmEdge-go</code> package and build in your Go project directory:</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build
 </code></pre>
 <h2 id="wasmedge-go-extensions"><a class="header" href="#wasmedge-go-extensions">WasmEdge-go Extensions</a></h2>
@@ -4498,48 +4498,48 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 fn main() {
-    // Get the argv.
-    let args: Vec&lt;String&gt; = env::args().collect();
-    if args.len() &lt;= 1 {
-        println!(&quot;Rust: ERROR - No input file name.&quot;);
-        return;
-    }
+  // Get the argv.
+  let args: Vec&lt;String&gt; = env::args().collect();
+  if args.len() &lt;= 1 {
+    println!(&quot;Rust: ERROR - No input file name.&quot;);
+    return;
+  }
 
-    // Open the file.
-    println!(&quot;Rust: Opening input file \&quot;{}\&quot;...&quot;, args[1]);
-    let file = match File::open(&amp;args[1]) {
-        Err(why) =&gt; {
-            println!(&quot;Rust: ERROR - Open file \&quot;{}\&quot; failed: {}&quot;, args[1], why);
-            return;
-        },
-        Ok(file) =&gt; file,
-    };
+  // Open the file.
+  println!(&quot;Rust: Opening input file \&quot;{}\&quot;...&quot;, args[1]);
+  let file = match File::open(&amp;args[1]) {
+    Err(why) =&gt; {
+      println!(&quot;Rust: ERROR - Open file \&quot;{}\&quot; failed: {}&quot;, args[1], why);
+      return;
+    },
+    Ok(file) =&gt; file,
+  };
 
-    // Read lines.
-    let reader = io::BufReader::new(file);
-    let mut texts:Vec&lt;String&gt; = Vec::new();
-    for line in reader.lines() {
-        if let Ok(text) = line {
-            texts.push(text);
-        }
+  // Read lines.
+  let reader = io::BufReader::new(file);
+  let mut texts:Vec&lt;String&gt; = Vec::new();
+  for line in reader.lines() {
+    if let Ok(text) = line {
+      texts.push(text);
     }
-    println!(&quot;Rust: Read input file \&quot;{}\&quot; succeeded.&quot;, args[1]);
+  }
+  println!(&quot;Rust: Read input file \&quot;{}\&quot; succeeded.&quot;, args[1]);
 
-    // Get stdin to print lines.
-    println!(&quot;Rust: Please input the line number to print the line of file.&quot;);
-    let stdin = io::stdin();
-    for line in stdin.lock().lines() {
-        let input = line.unwrap();
-        match input.parse::&lt;usize&gt;() {
-            Ok(n) =&gt; if n &gt; 0 &amp;&amp; n &lt;= texts.len() {
-                println!(&quot;{}&quot;, texts[n - 1]);
-            } else {
-                println!(&quot;Rust: ERROR - Line \&quot;{}\&quot; is out of range.&quot;, n);
-            },
-            Err(e) =&gt; println!(&quot;Rust: ERROR - Input \&quot;{}\&quot; is not an integer: {}&quot;, input, e),
-        }
+  // Get stdin to print lines.
+  println!(&quot;Rust: Please input the line number to print the line of file.&quot;);
+  let stdin = io::stdin();
+  for line in stdin.lock().lines() {
+    let input = line.unwrap();
+    match input.parse::&lt;usize&gt;() {
+      Ok(n) =&gt; if n &gt; 0 &amp;&amp; n &lt;= texts.len() {
+        println!(&quot;{}&quot;, texts[n - 1]);
+      } else {
+        println!(&quot;Rust: ERROR - Line \&quot;{}\&quot; is out of range.&quot;, n);
+      },
+      Err(e) =&gt; println!(&quot;Rust: ERROR - Input \&quot;{}\&quot; is not an integer: {}&quot;, input, e),
     }
-    println!(&quot;Rust: Process end.&quot;);
+  }
+  println!(&quot;Rust: Process end.&quot;);
 }
 </code></pre></pre>
 <p>Compile the application into WebAssembly.</p>
@@ -4551,32 +4551,32 @@ $ cargo build --target wasm32-wasi
 <pre><code class="language-go">package main
 
 import (
-    &quot;os&quot;
-    &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+  &quot;os&quot;
+  &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
 )
 
 func main() {
-    wasmedge.SetLogErrorLevel()
+  wasmedge.SetLogErrorLevel()
 
-    var conf = wasmedge.NewConfigure(wasmedge.REFERENCE_TYPES)
-    conf.AddConfig(wasmedge.WASI)
-    var vm = wasmedge.NewVMWithConfig(conf)
-    var wasi = vm.GetImportObject(wasmedge.WASI)
-    wasi.InitWasi(
-        os.Args[1:],     /// The args
-        os.Environ(),    /// The envs
-        []string{&quot;.:.&quot;}, /// The mapping directories
-    )
+  var conf = wasmedge.NewConfigure(wasmedge.REFERENCE_TYPES)
+  conf.AddConfig(wasmedge.WASI)
+  var vm = wasmedge.NewVMWithConfig(conf)
+  var wasi = vm.GetImportObject(wasmedge.WASI)
+  wasi.InitWasi(
+    os.Args[1:],     // The args
+    os.Environ(),    // The envs
+    []string{&quot;.:.&quot;}, // The mapping directories
+  )
 
-    /// Instantiate wasm. _start refers to the main() function
-    vm.RunWasmFile(os.Args[1], &quot;_start&quot;)
+  // Instantiate wasm. _start refers to the main() function
+  vm.RunWasmFile(os.Args[1], &quot;_start&quot;)
 
-    vm.Release()
-    conf.Release()
+  vm.Release()
+  conf.Release()
 }
 </code></pre>
 <p>Next, let's build the Go application with the WasmEdge Go SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build
 </code></pre>
 <p>Run the Golang application.</p>
@@ -4908,7 +4908,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build greet_memory.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from Rust.</p>
@@ -5034,7 +5034,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build greet_memory.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from TinyGo.</p>
@@ -5197,7 +5197,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build run.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from Rust.</p>
@@ -5348,7 +5348,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build run.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from TinyGo.</p>
@@ -5413,9 +5413,9 @@ cd ../
   var vm = wasmedge.NewVMWithConfig(conf)
   var wasi = vm.GetImportObject(wasmedge.WASI)
   wasi.InitWasi(
-    os.Args[1:],     /// The args
-    os.Environ(),    /// The envs
-    []string{&quot;.:.&quot;}, /// The mapping preopens
+    os.Args[1:],     // The args
+    os.Environ(),    // The envs
+    []string{&quot;.:.&quot;}, // The mapping preopens
   )
 
   // Register WasmEdge-tensorflow
@@ -5519,62 +5519,62 @@ $ rustwasmc build
 <pre><code class="language-go">package main
 
 import (
-    &quot;fmt&quot;
-    &quot;os&quot;
-    &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+  &quot;fmt&quot;
+  &quot;os&quot;
+  &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
 )
 
 func main() {
-    /// Expected Args[0]: program name (./bindgen_funcs)
-    /// Expected Args[1]: wasm or wasm-so file (rust_bindgen_funcs_lib_bg.wasm))
+  /// Expected Args[0]: program name (./bindgen_funcs)
+  /// Expected Args[1]: wasm or wasm-so file (rust_bindgen_funcs_lib_bg.wasm))
 
-    wasmedge.SetLogErrorLevel()
+  wasmedge.SetLogErrorLevel()
 
-    var conf = wasmedge.NewConfigure(wasmedge.WASI)
-    var vm = wasmedge.NewVMWithConfig(conf)
-    var wasi = vm.GetImportObject(wasmedge.WASI)
-    wasi.InitWasi(
-        os.Args[1:],     /// The args
-        os.Environ(),    /// The envs
-        []string{&quot;.:.&quot;}, /// The mapping directories
-    )
+  var conf = wasmedge.NewConfigure(wasmedge.WASI)
+  var vm = wasmedge.NewVMWithConfig(conf)
+  var wasi = vm.GetImportObject(wasmedge.WASI)
+  wasi.InitWasi(
+    os.Args[1:],   /// The args
+    os.Environ(),  /// The envs
+    []string{&quot;.:.&quot;}, /// The mapping directories
+  )
 
-    /// Instantiate wasm
-    vm.LoadWasmFile(os.Args[1])
-    vm.Validate()
-    vm.Instantiate()
+  /// Instantiate wasm
+  vm.LoadWasmFile(os.Args[1])
+  vm.Validate()
+  vm.Instantiate()
 
-    /// Run bindgen functions
-    var res interface{}
-    var err error
-    
-    res, err = vm.ExecuteBindgen(&quot;say&quot;, wasmedge.Bindgen_return_array, []byte(&quot;bindgen funcs test&quot;))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- say:&quot;, string(res.([]byte)))
-    } 
-    res, err = vm.ExecuteBindgen(&quot;obfusticate&quot;, wasmedge.Bindgen_return_array, []byte(&quot;A quick brown fox jumps over the lazy dog&quot;))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- obfusticate:&quot;, string(res.([]byte)))
-    } 
-    res, err = vm.ExecuteBindgen(&quot;lowest_common_multiple&quot;, wasmedge.Bindgen_return_i32, int32(123), int32(2))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- lowest_common_multiple:&quot;, res.(int32))
-    } 
-    res, err = vm.ExecuteBindgen(&quot;sha3_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- sha3_digest:&quot;, res.([]byte))
-    } 
-    res, err = vm.ExecuteBindgen(&quot;keccak_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- keccak_digest:&quot;, res.([]byte))
-    } 
+  /// Run bindgen functions
+  var res interface{}
+  var err error
+  
+  res, err = vm.ExecuteBindgen(&quot;say&quot;, wasmedge.Bindgen_return_array, []byte(&quot;bindgen funcs test&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- say:&quot;, string(res.([]byte)))
+  } 
+  res, err = vm.ExecuteBindgen(&quot;obfusticate&quot;, wasmedge.Bindgen_return_array, []byte(&quot;A quick brown fox jumps over the lazy dog&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- obfusticate:&quot;, string(res.([]byte)))
+  } 
+  res, err = vm.ExecuteBindgen(&quot;lowest_common_multiple&quot;, wasmedge.Bindgen_return_i32, int32(123), int32(2))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- lowest_common_multiple:&quot;, res.(int32))
+  } 
+  res, err = vm.ExecuteBindgen(&quot;sha3_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- sha3_digest:&quot;, res.([]byte))
+  } 
+  res, err = vm.ExecuteBindgen(&quot;keccak_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- keccak_digest:&quot;, res.([]byte))
+  } 
 
-    vm.Release()
-    conf.Release()
+  vm.Release()
+  conf.Release()
 }
 </code></pre>
 <p>Next, let's build the Go application with the WasmEdge Go SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build
 </code></pre>
 <p>Run the Go application and it will run the WebAssembly functions embedded in the WasmEdge runtime.</p>
@@ -5646,16 +5646,16 @@ go version go1.16.5 linux/amd64
 </code></pre>
 <h3 id="wasmedge-installation-1"><a class="header" href="#wasmedge-installation-1">WasmEdge Installation</a></h3>
 <p>Developers must <a href="embed/go/start/install.html">install the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release or pre-release version.</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1
 </code></pre>
 <p>For the developers need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.9.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.9.1
 </code></pre>
 <p>Noticed that the <code>TensorFlow</code> and <code>Image</code> extensions are only for the <code>Linux</code> platforms.
 After installation, developers can use the <code>source</code> command to update the include and linking searching path.</p>
 <h3 id="get-wasmedge-go"><a class="header" href="#get-wasmedge-go">Get WasmEdge-go</a></h3>
 <p>After the WasmEdge installation, developers can get the <code>WasmEdge-go</code> package and build it in your Go project directory.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build
 </code></pre>
 <h3 id="wasmedge-go-extensions-1"><a class="header" href="#wasmedge-go-extensions-1">WasmEdge-go Extensions</a></h3>
@@ -5760,8 +5760,8 @@ import (
 )
 
 func main() {
-    /// Expected Args[0]: program name (./bindgen_funcs)
-    /// Expected Args[1]: wasm or wasm-so file (rust_bindgen_funcs_lib_bg.wasm)
+    // Expected Args[0]: program name (./bindgen_funcs)
+    // Expected Args[1]: wasm or wasm-so file (rust_bindgen_funcs_lib_bg.wasm)
 
     wasmedge.SetLogErrorLevel()
 
@@ -5769,17 +5769,17 @@ func main() {
     var vm = wasmedge.NewVMWithConfig(conf)
     var wasi = vm.GetImportObject(wasmedge.WASI)
     wasi.InitWasi(
-        os.Args[1:],     /// The args
-        os.Environ(),    /// The envs
-        []string{&quot;.:.&quot;}, /// The mapping directories
+        os.Args[1:],     // The args
+        os.Environ(),    // The envs
+        []string{&quot;.:.&quot;}, // The mapping directories
     )
 
-    /// Instantiate wasm
+    // Instantiate wasm
     vm.LoadWasmFile(os.Args[1])
     vm.Validate()
     vm.Instantiate()
 
-    /// Run bindgen functions
+    // Run bindgen functions
     var res interface{}
     var err error
     
@@ -5809,7 +5809,7 @@ func main() {
 }
 </code></pre>
 <p>Next, build the Golang application with the WasmEdge Golang SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build
 </code></pre>
 <p>Run the Golang application and it will run the WebAssembly functions embedded in the WasmEdge runtime.</p>
@@ -5902,12 +5902,12 @@ func main() {
     var vm = wasmedge.NewVMWithConfig(conf)
     var wasi = vm.GetImportObject(wasmedge.WASI)
     wasi.InitWasi(
-        os.Args[1:],     /// The args
-        os.Environ(),    /// The envs
-        []string{&quot;.:.&quot;}, /// The mapping directories
+        os.Args[1:],     // The args
+        os.Environ(),    // The envs
+        []string{&quot;.:.&quot;}, // The mapping directories
     )
 
-    /// Instantiate and run WASM &quot;_start&quot; function, which refers to the main() function
+    // Instantiate and run WASM &quot;_start&quot; function, which refers to the main() function
     vm.RunWasmFile(os.Args[1], &quot;_start&quot;)
 
     vm.Release()
@@ -5915,7 +5915,7 @@ func main() {
 }
 </code></pre>
 <p>Next, build the Golang application with the WasmEdge Golang SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 go build
 </code></pre>
 <p>Run the Golang application.</p>
@@ -6237,14 +6237,14 @@ conf.Release()
     CompilerOptLevel_O3 = CompilerOptimizationLevel(C.WasmEdge_CompilerOptimizationLevel_O3)
     // Optimize for small code size as much as possible without triggering significant incremental compile time or execution time slowdowns.
     CompilerOptLevel_Os = CompilerOptimizationLevel(C.WasmEdge_CompilerOptimizationLevel_Os)
-    /// Optimize for small code size as much as possible.
+    // Optimize for small code size as much as possible.
     CompilerOptLevel_Oz = CompilerOptimizationLevel(C.WasmEdge_CompilerOptimizationLevel_Oz)
 )
 
 const (
-    /// Native dynamic library format.
+    // Native dynamic library format.
     CompilerOutputFormat_Native = CompilerOutputFormat(C.WasmEdge_CompilerOutputFormat_Native)
-    /// WebAssembly with AOT compiled codes in custom section.
+    // WebAssembly with AOT compiled codes in custom section.
     CompilerOutputFormat_Wasm = CompilerOutputFormat(C.WasmEdge_CompilerOutputFormat_Wasm)
 )
 </code></pre>
@@ -6339,7 +6339,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK: (the 21 Fibonacci number is 17711 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 $ go build
 $ ./wasmedge_test
 Get fibonacci[21]: 17711
@@ -6644,7 +6644,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 25th Fibonacci number is 121393 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 $ go build
 $ ./wasmedge_test
 Get fibonacci[25]: 121393
@@ -6732,7 +6732,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the only exported function in <code>fibonacci.wasm</code> is <code>fib</code>)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 $ go build
 $ ./wasmedge_test
 Exported function name: fib
@@ -6840,7 +6840,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 18th Fibonacci number is 1346269 in 30-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 $ go build
 $ ./wasmedge_test
 Exported function name: fib
@@ -7215,11 +7215,11 @@ In WasmEdge-go, developers can create the <code>Function</code>, <code>Memory</c
     // add: i32, i32 -&gt; i32
     res := params[0].(int32) + params[1].(int32)
 
-    /// Set the returns
+    // Set the returns
     returns := make([]interface{}, 1)
     returns[0] = res
 
-    /// Return
+    // Return
     return returns, wasmedge.Result_Success
 }
 </code></pre>
@@ -7250,11 +7250,11 @@ func host_add(data interface{}, mem *wasmedge.Memory, params []interface{}) ([]i
     // add: i32, i32 -&gt; i32
     res := params[0].(int32) + params[1].(int32)
 
-    /// Set the returns
+    // Set the returns
     returns := make([]interface{}, 1)
     returns[0] = res
 
-    /// Return
+    // Return
     return returns, wasmedge.Result_Success
 }
 
@@ -7356,11 +7356,11 @@ func host_add(data interface{}, mem *wasmedge.Memory, params []interface{}) ([]i
     // add: i32, i32 -&gt; i32
     res := params[0].(int32) + params[1].(int32)
 
-    /// Set the returns
+    // Set the returns
     returns := make([]interface{}, 1)
     returns[0] = res
 
-    /// Return
+    // Return
     return returns, wasmedge.Result_Success
 }
 
@@ -7425,7 +7425,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 $ go build
 $ ./wasmedge_test
 Get the result: 6912
@@ -7448,14 +7448,14 @@ func host_add(data interface{}, mem *wasmedge.Memory, params []interface{}) ([]i
     // add: i32, i32 -&gt; i32
     res := params[0].(int32) + params[1].(int32)
 
-    /// Set the returns
+    // Set the returns
     returns := make([]interface{}, 1)
     returns[0] = res
 
     // Also set the result to the data.
     *data.(*int32) = res
 
-    /// Return
+    // Return
     return returns, wasmedge.Result_Success
 }
 
@@ -7524,7 +7524,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
 $ go build
 $ ./wasmedge_test
 Get the result: 6912
@@ -7551,14 +7551,14 @@ The WasmEdge AOT (ahead-of-time) compiler compiles the WASM files for running in
     CompilerOptLevel_O3 = CompilerOptimizationLevel(C.WasmEdge_CompilerOptimizationLevel_O3)
     // Optimize for small code size as much as possible without triggering significant incremental compile time or execution time slowdowns.
     CompilerOptLevel_Os = CompilerOptimizationLevel(C.WasmEdge_CompilerOptimizationLevel_Os)
-    /// Optimize for small code size as much as possible.
+    // Optimize for small code size as much as possible.
     CompilerOptLevel_Oz = CompilerOptimizationLevel(C.WasmEdge_CompilerOptimizationLevel_Oz)
 )
 
 const (
-    /// Native dynamic library format.
+    // Native dynamic library format.
     CompilerOutputFormat_Native = CompilerOutputFormat(C.WasmEdge_CompilerOutputFormat_Native)
-    /// WebAssembly with AOT compiled codes in custom section.
+    // WebAssembly with AOT compiled codes in custom section.
     CompilerOutputFormat_Wasm = CompilerOutputFormat(C.WasmEdge_CompilerOutputFormat_Wasm)
 )
 </code></pre>
@@ -7682,12 +7682,12 @@ hello Wasm
 <p><img src="embed//articles/getting-started-with-rust-function-01.png" alt="getting-started-with-rust-function" /></p>
 <p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/public/index.html">HTML file</a> contains the client side JavaScript to submit the web form to <code>/solve</code>, and put result into the <code>#roots</code> HTML element on the page.</p>
 <pre><code class="language-javascript">$(function() {
-    var options = {
-      target: '#roots',
-      url: &quot;/solve&quot;,
-      type: &quot;post&quot;
-    };
-    $('#solve').ajaxForm(options);
+  var options = {
+    target: '#roots',
+    url: &quot;/solve&quot;,
+    type: &quot;post&quot;
+  };
+  $('#solve').ajaxForm(options);
 });
 </code></pre>
 <p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/server.js">Node.js application</a> behind the <code>/solve</code> URL endpoint is as follows. It reads the data from the input form, passes them into the <code>solve</code> function as an array, and puts the return value in the HTTP response.</p>
@@ -8081,10 +8081,10 @@ sudo buildah push --authfile ~/.docker/config.json http_server docker://docker.i
 <p>The <a href="https://github.com/containers/crun">crun project</a> has WasmEdge support baked in.
 For now, the easiest approach is just built it yourself from source. First, let's make sure that <code>crun</code> dependencies are installed on your Ubuntu 20.04.
 For other Linux distributions, please <a href="https://github.com/containers/crun#readme">see here</a>.</p>
-<pre><code class="language-bash">$ sudo apt update
-$ sudo apt install -y make git gcc build-essential pkgconf libtool \
-      libsystemd-dev libprotobuf-c-dev libcap-dev libseccomp-dev libyajl-dev \
-      go-md2man libtool autoconf python3 automake
+<pre><code class="language-bash">sudo apt update
+sudo apt install -y make git gcc build-essential pkgconf libtool \
+    libsystemd-dev libprotobuf-c-dev libcap-dev libseccomp-dev libyajl-dev \
+    go-md2man libtool autoconf python3 automake
 </code></pre>
 <p>Next, configure, build, and install a <code>crun</code> binary with WasmEdge support.</p>
 <pre><code class="language-bash">git clone https://github.com/containers/crun
@@ -9490,25 +9490,25 @@ func genSha1(buf []byte) string {
 // initVM initialize WasmEdge's VM
 func initVM() (*wasmedge.Configure, *wasmedge.VM) {
   wasmedge.SetLogErrorLevel()
-  /// Set Tensorflow not to print debug info
+  // Set Tensorflow not to print debug info
   os.Setenv(&quot;TF_CPP_MIN_LOG_LEVEL&quot;, &quot;3&quot;)
   os.Setenv(&quot;TF_CPP_MIN_VLOG_LEVEL&quot;, &quot;3&quot;)
 
-  /// Create configure
+  // Create configure
   vmConf := wasmedge.NewConfigure(wasmedge.WASI)
 
-  /// Create VM with configure
+  // Create VM with configure
   vm := wasmedge.NewVMWithConfig(vmConf)
 
-  /// Init WASI
+  // Init WASI
   var wasi = vm.GetImportObject(wasmedge.WASI)
   wasi.InitWasi(
-    os.Args[1:],   /// The args
-    os.Environ(),  /// The envs
-    []string{&quot;.:.&quot;}, /// The mapping directories
+    os.Args[1:],     // The args
+    os.Environ(),    // The envs
+    []string{&quot;.:.&quot;}, // The mapping directories
   )
 
-  /// Register WasmEdge-tensorflow and WasmEdge-image
+  // Register WasmEdge-tensorflow and WasmEdge-image
   var tfobj = wasmedge.NewTensorflowImportObject()
   var tfliteobj = wasmedge.NewTensorflowLiteImportObject()
   vm.RegisterImport(tfobj)
@@ -9516,7 +9516,7 @@ func initVM() (*wasmedge.Configure, *wasmedge.VM) {
   var imgobj = wasmedge.NewImageImportObject()
   vm.RegisterImport(imgobj)
 
-  /// Instantiate wasm
+  // Instantiate wasm
   vm.LoadWasmFile(&quot;rust_mobilenet_food_lib.so&quot;)
   vm.Validate()
 
@@ -9906,10 +9906,10 @@ fn main() {
   let mut buf = vec![];
   match image_format_detected {
     ImageFormat::Gif =&gt; {
-        filtered.write_to(&amp;mut buf, ImageOutputFormat::Gif).unwrap();
+      filtered.write_to(&amp;mut buf, ImageOutputFormat::Gif).unwrap();
     },
     _ =&gt; {
-        filtered.write_to(&amp;mut buf, ImageOutputFormat::Png).unwrap();
+      filtered.write_to(&amp;mut buf, ImageOutputFormat::Png).unwrap();
     },
   };
   io::stdout().write_all(&amp;buf).unwrap();
@@ -10055,10 +10055,10 @@ fn main() {
   let mut buf = vec![];
   match image_format_detected {
     ImageFormat::Gif =&gt; {
-        filtered.write_to(&amp;mut buf, ImageOutputFormat::Gif).unwrap();
+      filtered.write_to(&amp;mut buf, ImageOutputFormat::Gif).unwrap();
     },
     _ =&gt; {
-        filtered.write_to(&amp;mut buf, ImageOutputFormat::Png).unwrap();
+      filtered.write_to(&amp;mut buf, ImageOutputFormat::Png).unwrap();
     },
   };
   io::stdout().write_all(&amp;buf).unwrap();
@@ -10106,37 +10106,37 @@ module.exports = (req, res) =&gt; {
 <p>The <a href="https://60ff7e2d10fe590008db70a9--reverent-hodgkin-dc1f51.netlify.app/">second demo</a> application allows users to upload an image and then invoke a serverless function to classify the main subject on the image.</p>
 <p>It is in <a href="https://github.com/second-state/netlify-wasm-runtime/tree/tensorflow">the same GitHub repo</a> as the previous example but in the <code>tensorflow</code> branch. The backend serverless function for image classification is in the <a href="https://github.com/second-state/netlify-wasm-runtime/tree/tensorflow/api/functions/image-classification"><code>api/functions/image-classification</code></a> folder in the <code>tensorflow</code> branch.  The <a href="https://github.com/second-state/netlify-wasm-runtime/blob/tensorflow/api/functions/image-classification/src/main.rs"><code>src/main.rs</code></a> file contains the Rust program’s source code. The Rust program reads image data from the <code>STDIN</code>, and then outputs the text output to the <code>STDOUT</code>. It utilizes the WasmEdge Tensorflow API to run the AI inference.</p>
 <pre><pre class="playground"><code class="language-rust">pub fn main() {
-    // Step 1: Load the TFLite model
-    let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
-    let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
+  // Step 1: Load the TFLite model
+  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
+  let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
 
-    // Step 2: Read image from STDIN
-    let mut buf = Vec::new();
-    io::stdin().read_to_end(&amp;mut buf).unwrap();
+  // Step 2: Read image from STDIN
+  let mut buf = Vec::new();
+  io::stdin().read_to_end(&amp;mut buf).unwrap();
 
-    // Step 3: Resize the input image for the tensorflow model
-    let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
+  // Step 3: Resize the input image for the tensorflow model
+  let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
 
-    // Step 4: AI inference
-    let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
-    session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
-           .run();
-    let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
+  // Step 4: AI inference
+  let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
+  session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
+         .run();
+  let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
 
-    // Step 5: Find the food label that responds to the highest probability in res_vec
-    // ... ...
-    let mut label_lines = labels.lines();
-    for _i in 0..max_index {
-      label_lines.next();
-    }
+  // Step 5: Find the food label that responds to the highest probability in res_vec
+  // ... ...
+  let mut label_lines = labels.lines();
+  for _i in 0..max_index {
+    label_lines.next();
+  }
 
-    // Step 6: Generate the output text
-    let class_name = label_lines.next().unwrap().to_string();
-    if max_value &gt; 50 {
-      println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
-    } else {
-      println!(&quot;It does not appears to be any food item in the picture.&quot;);
-    }
+  // Step 6: Generate the output text
+  let class_name = label_lines.next().unwrap().to_string();
+  if max_value &gt; 50 {
+    println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
+  } else {
+    println!(&quot;It does not appears to be any food item in the picture.&quot;);
+  }
 }
 </code></pre></pre>
 <p>You can use the <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
@@ -10204,10 +10204,10 @@ fn main() {
   let mut buf = vec![];
   match image_format_detected {
     ImageFormat::Gif =&gt; {
-        filtered.write_to(&amp;mut buf, ImageOutputFormat::Gif).unwrap();
+      filtered.write_to(&amp;mut buf, ImageOutputFormat::Gif).unwrap();
     },
     _ =&gt; {
-        filtered.write_to(&amp;mut buf, ImageOutputFormat::Png).unwrap();
+      filtered.write_to(&amp;mut buf, ImageOutputFormat::Png).unwrap();
     },
   };
   io::stdout().write_all(&amp;buf).unwrap();
@@ -10307,37 +10307,37 @@ CMD [ &quot;hello.handler&quot; ]
 <p>The <a href="https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow">second demo</a> application allows users to upload an image and then invoke a serverless function to classify the main subject on the image.</p>
 <p>It is in <a href="https://github.com/second-state/aws-lambda-wasm-runtime/tree/tensorflow">the same GitHub repo</a> as the previous example but in the <code>tensorflow</code> branch. The backend serverless function for image classification is in the <code>api/functions/image-classification</code> folder in the <code>tensorflow</code> branch. The <code>src/main.rs</code> file contains the Rust program’s source code. The Rust program reads image data from the <code>STDIN</code>, and then outputs the text output to the <code>STDOUT</code>. It utilizes the WasmEdge Tensorflow API to run the AI inference.</p>
 <pre><pre class="playground"><code class="language-rust">pub fn main() {
-    // Step 1: Load the TFLite model
-    let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
-    let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
+  // Step 1: Load the TFLite model
+  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
+  let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
 
-    // Step 2: Read image from STDIN
-    let mut buf = Vec::new();
-    io::stdin().read_to_end(&amp;mut buf).unwrap();
+  // Step 2: Read image from STDIN
+  let mut buf = Vec::new();
+  io::stdin().read_to_end(&amp;mut buf).unwrap();
 
-    // Step 3: Resize the input image for the tensorflow model
-    let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
+  // Step 3: Resize the input image for the tensorflow model
+  let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
 
-    // Step 4: AI inference
-    let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
-    session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
-           .run();
-    let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
+  // Step 4: AI inference
+  let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
+  session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
+         .run();
+  let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
 
-    // Step 5: Find the food label that responds to the highest probability in res_vec
-    // ... ...
-    let mut label_lines = labels.lines();
-    for _i in 0..max_index {
-      label_lines.next();
-    }
+  // Step 5: Find the food label that responds to the highest probability in res_vec
+  // ... ...
+  let mut label_lines = labels.lines();
+  for _i in 0..max_index {
+    label_lines.next();
+  }
 
-    // Step 6: Generate the output text
-    let class_name = label_lines.next().unwrap().to_string();
-    if max_value &gt; 50 {
-      println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
-    } else {
-      println!(&quot;It does not appears to be any food item in the picture.&quot;);
-    }
+  // Step 6: Generate the output text
+  let class_name = label_lines.next().unwrap().to_string();
+  if max_value &gt; 50 {
+    println!(&quot;It {} a &lt;a href='https://www.google.com/search?q={}'&gt;{}&lt;/a&gt; in the picture&quot;, confidence.to_string(), class_name, class_name);
+  } else {
+    println!(&quot;It does not appears to be any food item in the picture.&quot;);
+  }
 }
 </code></pre></pre>
 <p>You can use the <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
@@ -10433,7 +10433,7 @@ You can install it via our standard install script.</p>
 </blockquote>
 <ul>
 <li><a href="os/android/cli.html">WasmEdge CLI tools for Android</a></li>
-<li><a href="os/android/ndk.html">Call WasmEdge functions from an NDK native app</a> </li>
+<li><a href="os/android/ndk.html">Call WasmEdge functions from an NDK native app</a></li>
 <li><a href="os/android/studio.html">Call WasmEdge functions from an Android APK app</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="android-cli-tools"><a class="header" href="#android-cli-tools">Android CLI tools</a></h1>
@@ -10524,7 +10524,7 @@ INFO: Initialized TensorFlow Lite runtime.
 <p>Currently, WasmEdge only supports the arm64-v8a architecture on Android devices. You need an arm64-v8a Android simulator or a physical device with <a href="https://developer.android.com/studio/debug/dev-options">developer options turned on</a>. WasmEdge requires Android 6.0 and above.</p>
 <h3 id="android-development-cli-1"><a class="header" href="#android-development-cli-1">Android development CLI</a></h3>
 <p>In Ubuntu Linux, you can use the <code>apt-get</code> command to install Android debugging and testing tool <code>adb</code>. Using the <code>adb shell</code> command on the Ubuntu dev machine, you can open a CLI shell to execute commands on the connected Android device.</p>
-<pre><code class="language-bash">$ sudo apt-get install adb
+<pre><code class="language-bash">sudo apt-get install adb
 </code></pre>
 <h3 id="android-ndk"><a class="header" href="#android-ndk">Android NDK</a></h3>
 <p>To compile programs with the wasmedge-tensorflow c api, you need to install the <a href="https://developer.android.google.cn/ndk/downloads">Android NDK</a>. In this example, we use the latest LTS version (r23b).</p>
@@ -10588,27 +10588,27 @@ int main(int argc, char *argv[]) {
 <h2 id="build-1"><a class="header" href="#build-1">Build</a></h2>
 <h3 id="install-dependencies"><a class="header" href="#install-dependencies">Install dependencies</a></h3>
 <p>Use the following commands to download WasmEdge for Android on your Ubuntu dev machine.</p>
-<pre><code class="language-bash">$ wget https://github.com/WasmEdge/WasmEdge/releases/download/0.9.1-rc.1/WasmEdge-0.9.1-rc.1-android_aarch64.tar.gz
-$ wget https://github.com/second-state/WasmEdge-image/releases/download/0.9.1-rc.1/WasmEdge-image-0.9.1-rc.1-android_aarch64.tar.gz
-$ wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.9.1-rc.1/WasmEdge-tensorflowlite-0.9.1-rc.1-android_aarch64.tar.gz
-$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.9.1-rc.1/WasmEdge-tensorflow-deps-TFLite-0.9.1-rc.1-android_aarch64.tar.gz
-$ tar -zxf WasmEdge-0.9.1-rc.1-android_aarch64.tar.gz
-$ tar -zxf WasmEdge-image-0.9.1-rc.1-android_aarch64.tar.gz -C WasmEdge-0.9.1-rc.1-Android/
-$ tar -zxf WasmEdge-tensorflowlite-0.9.1-rc.1-android_aarch64.tar.gz -C WasmEdge-0.9.1-rc.1-Android/
-$ tar -zxf WasmEdge-tensorflow-deps-TFLite-0.9.1-rc.1-android_aarch64.tar.gz -C WasmEdge-0.9.1-rc.1-Android/lib/
+<pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.9.1-rc.1/WasmEdge-0.9.1-rc.1-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-image/releases/download/0.9.1-rc.1/WasmEdge-image-0.9.1-rc.1-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.9.1-rc.1/WasmEdge-tensorflowlite-0.9.1-rc.1-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.9.1-rc.1/WasmEdge-tensorflow-deps-TFLite-0.9.1-rc.1-android_aarch64.tar.gz
+tar -zxf WasmEdge-0.9.1-rc.1-android_aarch64.tar.gz
+tar -zxf WasmEdge-image-0.9.1-rc.1-android_aarch64.tar.gz -C WasmEdge-0.9.1-rc.1-Android/
+tar -zxf WasmEdge-tensorflowlite-0.9.1-rc.1-android_aarch64.tar.gz -C WasmEdge-0.9.1-rc.1-Android/
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.9.1-rc.1-android_aarch64.tar.gz -C WasmEdge-0.9.1-rc.1-Android/lib/
 </code></pre>
 <h3 id="compile"><a class="header" href="#compile">Compile</a></h3>
 <p>The following command compiles the C program to <code>a.out</code> on your Ubunu dev machine.</p>
-<pre><code class="language-bash">$ (/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.9.1-rc.1-Android/include -L./WasmEdge-0.9.1-rc.1-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge_c
+<pre><code class="language-bash">(/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.9.1-rc.1-Android/include -L./WasmEdge-0.9.1-rc.1-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge_c
 </code></pre>
 <h2 id="run-2"><a class="header" href="#run-2">Run</a></h2>
 <h3 id="push-files-onto-android"><a class="header" href="#push-files-onto-android">Push files onto Android</a></h3>
 <p>Install the compiled program, Tensorflow Lite model file, test image file, as well as WasmEdge shared library files for Android, onto the Android device using <code>adb</code> from your Ubuntu dev machine.</p>
-<pre><code class="language-bash">$ adb push a.out /data/local/tmp
-$ adb push birds_v1.wasm /data/local/tmp
-$ adb push lite-model_aiy_vision_classifier_birds_V1_3.tflite /data/local/tmp
-$ adb push bird.jpg /data/local/tmp
-$ adb push ./WasmEdge-0.9.1-rc.1-Android/lib /data/local/tmp
+<pre><code class="language-bash">adb push a.out /data/local/tmp
+adb push birds_v1.wasm /data/local/tmp
+adb push lite-model_aiy_vision_classifier_birds_V1_3.tflite /data/local/tmp
+adb push bird.jpg /data/local/tmp
+adb push ./WasmEdge-0.9.1-rc.1-Android/lib /data/local/tmp
 </code></pre>
 <h3 id="run-the-example"><a class="header" href="#run-the-example">Run the example</a></h3>
 <p>Now you can run the compiled C program on the Android device via a remote shell command. Run <code>adb shell</code> from your Ubuntu dev machine.</p>
@@ -10630,95 +10630,92 @@ INFO: Initialized TensorFlow Lite runtime.
 <li>Sign your APK file with <code>apksigner</code>. The apk file is at <code>./app/build/outputs/apk/release</code>. The <code>apksigner</code> utility is at <code>$ANDROID_HOME/build-tools/$VERSION/apksigner</code>.</li>
 </ol>
 <h3 id="building-project-with-android-studio"><a class="header" href="#building-project-with-android-studio">Building Project with Android Studio</a></h3>
-<p>Open this folder with <a href="https://developer.android.com/studio">Android Studio</a> 2020.3.1 or later </p>
+<p>Open this folder with <a href="https://developer.android.com/studio">Android Studio</a> 2020.3.1 or later.</p>
 <p>For Release APK, click <code>Menu -&gt; Build -&gt; Generate Signed Bundle/APK</code>, select APK, setup keystore configuration and wait for build finished.</p>
 <h2 id="review-of-the-source-code"><a class="header" href="#review-of-the-source-code">Review of the source code</a></h2>
 <p>The Android UI app is written in Kotlin, and it uses JNI (Java Native Interface) to load a C shared library, which in turn embeds WasmEdge.</p>
 <h3 id="android-ui"><a class="header" href="#android-ui">Android UI</a></h3>
 <p>The Android UI application is <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/app/src/main/java/org/wasmedge/example_app/MainActivity.kt">located here</a>. It is written in Kotlin using the Android SDK.</p>
 <pre><code class="language-java">class MainActivity : AppCompatActivity() {
+  lateinit var lib: NativeLib
 
-    lateinit var lib: NativeLib
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    val tv = findViewById&lt;TextView&gt;(R.id.tv_text)
 
-        val tv = findViewById&lt;TextView&gt;(R.id.tv_text)
+    lib = NativeLib(this)
 
-        lib = NativeLib(this)
-
-        Thread {
-            val lines = Vector&lt;String&gt;()
-            val idxArr = arrayOf(20, 25, 28, 30, 32)
-            for (idx: Int in idxArr) {
-                lines.add(&quot;running fib(${idx}) ...&quot;)
-                runOnUiThread {
-                    tv.text = lines.joinToString(&quot;\n&quot;)
-                }
-                val begin = System.currentTimeMillis()
-                val retVal = lib.wasmFibonacci(idx)
-                val end = System.currentTimeMillis()
-                lines.removeLast()
-                lines.add(&quot;fib(${idx}) -&gt; ${retVal}, ${end - begin}ms&quot;)
-                runOnUiThread {
-                    tv.text = lines.joinToString(&quot;\n&quot;)
-                }
-            }
-        }.start()
-    }
+    Thread {
+      val lines = Vector&lt;String&gt;()
+      val idxArr = arrayOf(20, 25, 28, 30, 32)
+      for (idx: Int in idxArr) {
+        lines.add(&quot;running fib(${idx}) ...&quot;)
+        runOnUiThread {
+          tv.text = lines.joinToString(&quot;\n&quot;)
+        }
+        val begin = System.currentTimeMillis()
+        val retVal = lib.wasmFibonacci(idx)
+        val end = System.currentTimeMillis()
+        lines.removeLast()
+        lines.add(&quot;fib(${idx}) -&gt; ${retVal}, ${end - begin}ms&quot;)
+        runOnUiThread {
+          tv.text = lines.joinToString(&quot;\n&quot;)
+        }
+      }
+    }.start()
+  }
 }
 </code></pre>
 <h3 id="the-native-library"><a class="header" href="#the-native-library">The native library</a></h3>
-<p>The Android UI app calls a <code>NativeLib</code> Kotlin object to access WasmEdge functions. The <code>NativeLib</code> source code is <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/lib/src/main/java/org/wasmedge/native_lib/NativeLib.kt">available here</a>. It uses JNI (Java Native Interface) to load a C shared library called <code>wasmedge_lib</code>. It then calls the <code>nativeWasmFibonacci</code> function in <code>wasmedge_lib</code> to execute the <code>fibonacci.wasm</code> WebAssembly bytecode. </p>
+<p>The Android UI app calls a <code>NativeLib</code> Kotlin object to access WasmEdge functions. The <code>NativeLib</code> source code is <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/lib/src/main/java/org/wasmedge/native_lib/NativeLib.kt">available here</a>. It uses JNI (Java Native Interface) to load a C shared library called <code>wasmedge_lib</code>. It then calls the <code>nativeWasmFibonacci</code> function in <code>wasmedge_lib</code> to execute the <code>fibonacci.wasm</code> WebAssembly bytecode.</p>
 <pre><code class="language-java">class NativeLib(ctx : Context) {
-    private external fun nativeWasmFibonacci(imageBytes : ByteArray, idx : Int ) : Int
+  private external fun nativeWasmFibonacci(imageBytes : ByteArray, idx : Int ) : Int
 
-    companion object {
-        init {
-            System.loadLibrary(&quot;wasmedge_lib&quot;)
-        }
+  companion object {
+    init {
+      System.loadLibrary(&quot;wasmedge_lib&quot;)
     }
+  }
 
-    private var fibonacciWasmImageBytes : ByteArray = ctx.assets.open(&quot;fibonacci.wasm&quot;).readBytes()
+  private var fibonacciWasmImageBytes : ByteArray = ctx.assets.open(&quot;fibonacci.wasm&quot;).readBytes()
 
-    fun wasmFibonacci(idx : Int) : Int{
-        return nativeWasmFibonacci(fibonacciWasmImageBytes, idx)
-    }
+  fun wasmFibonacci(idx : Int) : Int{
+    return nativeWasmFibonacci(fibonacciWasmImageBytes, idx)
+  }
 }
 </code></pre>
 <h3 id="the-c-shared-library"><a class="header" href="#the-c-shared-library">The C shared library</a></h3>
 <p>The C shared library source code <code>wasmedge_lib.cpp</code> is <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/lib/src/main/cpp/wasmedge_lib.cpp">available here</a>. It uses the WasmEdge C SDK to embed a WasmEdge VM and execute the WebAssembly function.</p>
-<pre><code class="language-c">extern &quot;C&quot;
-JNIEXPORT jint JNICALL
-Java_org_wasmedge_native_1lib_NativeLib_nativeWasmFibonacci(JNIEnv *env, jobject, jbyteArray image_bytes,
-                                                            jint idx) {
-    jsize buffer_size = env-&gt;GetArrayLength(image_bytes);
-    jbyte *buffer = env-&gt;GetByteArrayElements(image_bytes, nullptr);
+<pre><code class="language-c">extern &quot;C&quot; JNIEXPORT jint JNICALL
+Java_org_wasmedge_native_1lib_NativeLib_nativeWasmFibonacci(
+    JNIEnv *env, jobject, jbyteArray image_bytes, jint idx) {
+  jsize buffer_size = env-&gt;GetArrayLength(image_bytes);
+  jbyte *buffer = env-&gt;GetByteArrayElements(image_bytes, nullptr);
 
-    WasmEdge_ConfigureContext *conf = WasmEdge_ConfigureCreate();
-    WasmEdge_ConfigureAddHostRegistration(conf, WasmEdge_HostRegistration_Wasi);
+  WasmEdge_ConfigureContext *conf = WasmEdge_ConfigureCreate();
+  WasmEdge_ConfigureAddHostRegistration(conf, WasmEdge_HostRegistration_Wasi);
 
-    WasmEdge_VMContext *vm_ctx = WasmEdge_VMCreate(conf, nullptr);
+  WasmEdge_VMContext *vm_ctx = WasmEdge_VMCreate(conf, nullptr);
 
-    const WasmEdge_String &amp;func_name = WasmEdge_StringCreateByCString(&quot;fib&quot;);
-    std::array&lt;WasmEdge_Value, 1&gt; params{WasmEdge_ValueGenI32(idx)};
-    std::array&lt;WasmEdge_Value, 1&gt; ret_val{};
+  const WasmEdge_String &amp;func_name = WasmEdge_StringCreateByCString(&quot;fib&quot;);
+  std::array&lt;WasmEdge_Value, 1&gt; params{WasmEdge_ValueGenI32(idx)};
+  std::array&lt;WasmEdge_Value, 1&gt; ret_val{};
 
-    const WasmEdge_Result &amp;res = WasmEdge_VMRunWasmFromBuffer(vm_ctx, (uint8_t *) buffer,
-                                                              buffer_size,
-                                                              func_name, params.data(), params.size(),
-                                                              ret_val.data(), ret_val.size());
+  const WasmEdge_Result &amp;res = WasmEdge_VMRunWasmFromBuffer(
+      vm_ctx, (uint8_t *)buffer, buffer_size, func_name, params.data(),
+      params.size(), ret_val.data(), ret_val.size());
 
-    WasmEdge_VMDelete(vm_ctx);
-    WasmEdge_ConfigureDelete(conf);
-    WasmEdge_StringDelete(func_name);
+  WasmEdge_VMDelete(vm_ctx);
+  WasmEdge_ConfigureDelete(conf);
+  WasmEdge_StringDelete(func_name);
 
-    env-&gt;ReleaseByteArrayElements(image_bytes, buffer, 0);
-    if (!WasmEdge_ResultOK(res)) {
-        return -1;
-    }
-    return WasmEdge_ValueGetI32(ret_val[0]);
+  env-&gt;ReleaseByteArrayElements(image_bytes, buffer, 0);
+  if (!WasmEdge_ResultOK(res)) {
+    return -1;
+  }
+  return WasmEdge_ValueGetI32(ret_val[0]);
 }
 </code></pre>
 <h3 id="the-webassembly-function"><a class="header" href="#the-webassembly-function">The WebAssembly function</a></h3>
@@ -10900,22 +10897,22 @@ If you want to build from source, you may need to install these dependencies by 
 </tbody></table>
 <h3 id="install-dependencies-on-ubuntu-2004-manually"><a class="header" href="#install-dependencies-on-ubuntu-2004-manually">Install dependencies on Ubuntu 20.04 manually</a></h3>
 <pre><code class="language-bash"># Tools and libraries
-$ sudo apt install -y \
+sudo apt install -y \
    software-properties-common \
    cmake \
    libboost-all-dev
 
 # And you will need to install llvm for wasmedgec tool
-$ sudo apt install -y \
+sudo apt install -y \
    llvm-12-dev \
    liblld-12-dev
 
 # WasmEdge supports both clang++ and g++ compilers
 # You can choose one of them for building this project
 # If you prefer GCC
-$ sudo apt install -y gcc g++
+sudo apt install -y gcc g++
 # Else you can choose clang
-$ sudo apt install -y clang-12
+sudo apt install -y clang-12
 </code></pre>
 <h3 id="support-for-legacy-operating-systems"><a class="header" href="#support-for-legacy-operating-systems">Support for legacy operating systems</a></h3>
 <p>Our development environment requires <code>libLLVM-12</code> and <code>&gt;=GLIBCXX_3.4.33</code>.</p>
@@ -11270,7 +11267,7 @@ class TestHost1 : public TestCluster&lt;TestHost1&gt; {
 public:
   TestHost1(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
   Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2) {
-    /// Operations to `Data` ...
+    // Operations to `Data` ...
     return {};
   }
 };
@@ -11279,7 +11276,7 @@ class TestHost2 : public TestCluster&lt;TestHost2&gt; {
 public:
   TestHost2(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
   Expect&lt;uint64_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint64_t Param1, double Param2) {
-    /// Operations to `Data` ...
+    // Operations to `Data` ...
     return {};
   }
 };
@@ -11332,7 +11329,7 @@ class TestHost1 : public TestCluster&lt;TestHost1&gt; {
 public:
   TestHost1(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
   Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2) {
-    /// Operations to `Data` ...
+    // Operations to `Data` ...
     return {};
   }
 };
@@ -11341,7 +11338,7 @@ class TestHost2 : public TestCluster&lt;TestHost2&gt; {
 public:
   TestHost2(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
   Expect&lt;uint64_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint64_t Param1, double Param2) {
-    /// Operations to `Data` ...
+    // Operations to `Data` ...
     return {};
   }
 };
@@ -11349,19 +11346,19 @@ public:
 class TestModule : public Runtime::ImportObject {
 public:
   TestModule(std::vector&lt;uint8_t&gt; &amp;Vec) : ImportObject(&quot;test&quot;), Data(Vec) {
-    /// Add function instances with exporting name
+    // Add function instances with exporting name
     addHostFunc(&quot;test_func1&quot;, std::make_unique&lt;TestHost1&gt;(Data));
     addHostFunc(&quot;test_func2&quot;, std::make_unique&lt;TestHost2&gt;(Data));
 
-    /// Add table instance with exporting name
+    // Add table instance with exporting name
     addHostTable(&quot;table&quot;, std::make_unique&lt;Runtime::Instance::TableInstance&gt;(
                               TableType(RefType::FuncRef, 10, 20)));
 
-    /// Add memory instance with exporting name
+    // Add memory instance with exporting name
     addHostMemory(&quot;memory&quot;, std::make_unique&lt;Runtime::Instance::MemoryInstance&gt;(
                                 MemoryType(1, 2)));
 
-    /// Add global instance with exporting name
+    // Add global instance with exporting name
     addHostGlobal(&quot;global_i32&quot;,
                   std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
                       GlobalType(ValType::I32, ValMut::Const), uint32_t(666)));
@@ -11465,37 +11462,37 @@ uint32_t SquareFunc(uint32_t A) { return A * A; }
 uint32_t AddFunc(uint32_t A, uint32_t B) { return A + B; }
 uint32_t MulFunc(uint32_t A, uint32_t B) { return A * B; }
 
-/// Host function to call `SquareFunc` by external reference
+// Host function to call `SquareFunc` by external reference
 WasmEdge_Result ExternSquare(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
                              const WasmEdge_Value *In, WasmEdge_Value *Out) {
-  /// Function type: {externref, i32} -&gt; {i32}
+  // Function type: {externref, i32} -&gt; {i32}
   uint32_t (*Func)(uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
   uint32_t C = Func(WasmEdge_ValueGetI32(In[1]));
   Out[0] = WasmEdge_ValueGenI32(C);
   return WasmEdge_Result_Success;
 }
 
-/// Host function to call `AddFunc` by external reference
+// Host function to call `AddFunc` by external reference
 WasmEdge_Result ExternAdd(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
-  /// Function type: {externref, i32, i32} -&gt; {i32}
+  // Function type: {externref, i32, i32} -&gt; {i32}
   uint32_t (*Func)(uint32_t, uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
   uint32_t C = Func(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
   Out[0] = WasmEdge_ValueGenI32(C);
   return WasmEdge_Result_Success;
 }
 
-/// Host function to call `ExternMul` by external reference
+// Host function to call `ExternMul` by external reference
 WasmEdge_Result ExternMul(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
-  /// Function type: {externref, i32, i32} -&gt; {i32}
+  // Function type: {externref, i32, i32} -&gt; {i32}
   uint32_t (*Func)(uint32_t, uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
   uint32_t C = Func(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
   Out[0] = WasmEdge_ValueGenI32(C);
   return WasmEdge_Result_Success;
 }
 
-/// Helper function to create the &quot;extern_module&quot; import object.
+// Helper function to create the &quot;extern_module&quot; import object.
 WasmEdge_ImportObjectContext *CreateExternModule() {
   WasmEdge_String HostName;
   WasmEdge_FunctionTypeContext *HostFType = NULL;
@@ -11506,7 +11503,7 @@ WasmEdge_ImportObjectContext *CreateExternModule() {
   WasmEdge_ImportObjectContext *ImpObj = WasmEdge_ImportObjectCreate(HostName);
   WasmEdge_StringDelete(HostName);
 
-  /// Add host function &quot;functor_square&quot;: {externref, i32} -&gt; {i32}
+  // Add host function &quot;functor_square&quot;: {externref, i32} -&gt; {i32}
   P[0] = WasmEdge_ValType_ExternRef;
   P[1] = WasmEdge_ValType_I32;
   R[0] = WasmEdge_ValType_I32;
@@ -11517,7 +11514,7 @@ WasmEdge_ImportObjectContext *CreateExternModule() {
   WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
   WasmEdge_StringDelete(HostName);
 
-  /// Add host function &quot;class_add&quot;: {externref, i32, i32} -&gt; {i32}
+  // Add host function &quot;class_add&quot;: {externref, i32, i32} -&gt; {i32}
   P[2] = WasmEdge_ValType_I32;
   HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1);
   HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternAdd, NULL, 0);
@@ -11526,7 +11523,7 @@ WasmEdge_ImportObjectContext *CreateExternModule() {
   WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
   WasmEdge_StringDelete(HostName);
 
-  /// Add host function &quot;func_mul&quot;: {externref, i32, i32} -&gt; {i32}
+  // Add host function &quot;func_mul&quot;: {externref, i32, i32} -&gt; {i32}
   HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1);
   HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternMul, NULL, 0);
   WasmEdge_FunctionTypeDelete(HostFType);
@@ -11565,7 +11562,7 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  /// Test 1: call add -- 1234 + 5678
+  // Test 1: call add -- 1234 + 5678
   P[0] = WasmEdge_ValueGenExternRef(AddFunc);
   P[1] = WasmEdge_ValueGenI32(1234);
   P[2] = WasmEdge_ValueGenI32(5678);
@@ -11580,7 +11577,7 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  /// Test 2: call mul -- 789 * 4321
+  // Test 2: call mul -- 789 * 4321
   P[0] = WasmEdge_ValueGenExternRef(MulFunc);
   P[1] = WasmEdge_ValueGenI32(789);
   P[2] = WasmEdge_ValueGenI32(4321);
@@ -11595,7 +11592,7 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  /// Test 3: call square -- 8256^2
+  // Test 3: call square -- 8256^2
   P[0] = WasmEdge_ValueGenExternRef(SquareFunc);
   P[1] = WasmEdge_ValueGenI32(8256);
   FuncName = WasmEdge_StringCreateByCString(&quot;call_square&quot;);
@@ -11622,7 +11619,7 @@ int main() {
 </li>
 <li>
 <p>Compile</p>
-<pre><code class="language-bash">$ gcc main.c -lwasmedge_c
+<pre><code class="language-bash">gcc main.c -lwasmedge_c
 # Or you can use g++ for the C++ case, or use the clang.
 </code></pre>
 </li>
@@ -11782,16 +11779,16 @@ WasmEdge_Result Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 3, R, 1);
 WasmEdge_StringDelete(FuncName);
 if (WasmEdge_ResultOK(Res)) {
   std::cout &lt;&lt; &quot;Result : &quot; &lt;&lt; WasmEdge_ValueGetI32(R[0]) std::endl;
-  /// Will print `6912`.
+  // Will print `6912`.
 } else {
   return EXIT_FAILURE;
 }
 </code></pre>
 <p>In the host function which would access the object by reference, users can use the <code>WasmEdge_ValueGetExternRef()</code> API to retrieve the reference to the object.</p>
-<pre><code class="language-cpp">/// Modify the `ExternAdd` in the above tutorial.
+<pre><code class="language-cpp">// Modify the `ExternAdd` in the above tutorial.
 WasmEdge_Result ExternAdd(void *, WasmEdge_MemoryInstanceContext *,
                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
-  /// Function type: {externref, i32, i32} -&gt; {i32}
+  // Function type: {externref, i32, i32} -&gt; {i32}
   void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
   AddClass &amp;Obj = *reinterpret_cast&lt;AddClass *&gt;(Ptr);
   uint32_t C =
@@ -11817,16 +11814,16 @@ WasmEdge_Result Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 2, R, 1);
 WasmEdge_StringDelete(FuncName);
 if (WasmEdge_ResultOK(Res)) {
   std::cout &lt;&lt; &quot;Result : &quot; &lt;&lt; WasmEdge_ValueGetI32(R[0]) std::endl;
-  /// Will print `1048576`.
+  // Will print `1048576`.
 } else {
   return EXIT_FAILURE;
 }
 </code></pre>
 <p>In the host function which would access the object by reference, users can use the <code>WasmEdge_ValueGetExternRef</code> API to retrieve the reference to the object, and the reference is a functor.</p>
-<pre><code class="language-cpp">/// Modify the `ExternSquare` in the above tutorial.
+<pre><code class="language-cpp">// Modify the `ExternSquare` in the above tutorial.
 WasmEdge_Result ExternSquare(void *, WasmEdge_MemoryInstanceContext *,
                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
-  /// Function type: {externref, i32, i32} -&gt; {i32}
+  // Function type: {externref, i32, i32} -&gt; {i32}
   void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
   SquareStruct &amp;Obj = *reinterpret_cast&lt;SquareStruct *&gt;(Ptr);
   uint32_t C = Obj(WasmEdge_ValueGetI32(In[1]));
@@ -11838,11 +11835,11 @@ WasmEdge_Result ExternSquare(void *, WasmEdge_MemoryInstanceContext *,
 <p>The <a href="extend/plugin/../test/externref/externrefTestData/stl.wasm">example Wasm binary</a> (<a href="extend/plugin/../test/externref/externrefTestData/stl.wat">this WAT</a> is the corresponding text format) provides functions to interact with host functions which can access C++ STL objects.
 Assume that the WASM file <code>stl.wasm</code> is copied into the current directory.</p>
 <p>Take the <code>std::ostream</code> and <code>std::string</code> objects for example. Assume that there's a host function accesses to a <code>std::ostream</code> and a <code>std::string</code> through <code>externref</code>s:</p>
-<pre><code class="language-cpp">/// Host function to output std::string through std::ostream
+<pre><code class="language-cpp">// Host function to output std::string through std::ostream
 WasmEdge_Result ExternSTLOStreamStr(void *, WasmEdge_MemoryInstanceContext *,
                                     const WasmEdge_Value *In,
                                     WasmEdge_Value *) {
-  /// Function type: {externref, externref} -&gt; {}
+  // Function type: {externref, externref} -&gt; {}
   void *Ptr0 = WasmEdge_ValueGetExternRef(In[0]);
   void *Ptr1 = WasmEdge_ValueGetExternRef(In[1]);
   std::ostream &amp;RefOS = *reinterpret_cast&lt;std::ostream *&gt;(Ptr0);
@@ -11876,7 +11873,7 @@ P[0] = WasmEdge_ValueGenExternRef(&amp;std::cout);
 P[1] = WasmEdge_ValueGenExternRef(&amp;PrintStr);
 WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;call_ostream_str&quot;);
 WasmEdge_Result Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 2, R, 1);
-/// Will print &quot;Hello world!&quot; to stdout.
+// Will print &quot;Hello world!&quot; to stdout.
 WasmEdge_StringDelete(FuncName);
 if (!WasmEdge_ResultOK(Res)) {
   return EXIT_FAILURE;

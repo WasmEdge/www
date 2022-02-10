@@ -177,10 +177,10 @@ fn main() {
   let mut buf = vec![];
   match image_format_detected {
     ImageFormat::Gif =&gt; {
-        filtered.write_to(&amp;mut buf, ImageOutputFormat::Gif).unwrap();
+      filtered.write_to(&amp;mut buf, ImageOutputFormat::Gif).unwrap();
     },
     _ =&gt; {
-        filtered.write_to(&amp;mut buf, ImageOutputFormat::Png).unwrap();
+      filtered.write_to(&amp;mut buf, ImageOutputFormat::Png).unwrap();
     },
   };
   io::stdout().write_all(&amp;buf).unwrap();

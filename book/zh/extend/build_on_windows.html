@@ -155,8 +155,8 @@
 <p>如果想要在 Windows 10 上开发 WasmEdge，请继续阅读本文以进行从源码构建和测试。</p>
 <p>下文中将以 <code>AOT</code> 代替 <code>ahead-of-time</code> ，<code>ahead-of-time</code> 的含义是将 WASM 文件提前编译为机器码。</p>
 <h2 id="下载源代码"><a class="header" href="#下载源代码">下载源代码</a></h2>
-<pre><code class="language-bash">$ git clone https://github.com/WasmEdge/WasmEdge.git
-$ cd WasmEdge
+<pre><code class="language-bash">git clone https://github.com/WasmEdge/WasmEdge.git
+cd WasmEdge
 </code></pre>
 <h2 id="依赖说明"><a class="header" href="#依赖说明">依赖说明</a></h2>
 <p>WasmEdge 尝试用最新的 LLVM 发行版本来创建我们的 nightly 版本。</p>
@@ -185,8 +185,8 @@ $Env:CC = &quot;clang-cl&quot;
 $Env:CXX = &quot;clang-cl&quot;
 </code></pre>
 <h3 id="如果不需要构建aot运行时或者编译器"><a class="header" href="#如果不需要构建aot运行时或者编译器">如果不需要构建AOT运行时或者编译器</a></h3>
-<p>如果不需要 AOT 运行时或者编译器，可以将 CMake 选项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code>  设置为 <code>OFF </code>。</p>
-<pre><code class="language-bash">$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
+<p>如果不需要 AOT 运行时或者编译器，可以将 CMake 选项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code>  设置为 <code>OFF</code>。</p>
+<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="构建-wasmedge"><a class="header" href="#构建-wasmedge">构建 WasmEdge</a></h2>
 <p>为应对不同的性能需求，WasmEdge 提供了多种运行时环境和工具。</p>

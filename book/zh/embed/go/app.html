@@ -157,48 +157,48 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 fn main() {
-    // 获取参数。
-    let args: Vec&lt;String&gt; = env::args().collect();
-    if args.len() &lt;= 1 {
-        println!(&quot;Rust: ERROR - No input file name.&quot;);
-        return;
-    }
+  // 获取参数。
+  let args: Vec&lt;String&gt; = env::args().collect();
+  if args.len() &lt;= 1 {
+    println!(&quot;Rust: ERROR - No input file name.&quot;);
+    return;
+  }
 
-    // 打开文件。
-    println!(&quot;Rust: Opening input file \&quot;{}\&quot;...&quot;, args[1]);
-    let file = match File::open(&amp;args[1]) {
-        Err(why) =&gt; {
-            println!(&quot;Rust: ERROR - Open file \&quot;{}\&quot; failed: {}&quot;, args[1], why);
-            return;
-        },
-        Ok(file) =&gt; file,
-    };
+  // 打开文件。
+  println!(&quot;Rust: Opening input file \&quot;{}\&quot;...&quot;, args[1]);
+  let file = match File::open(&amp;args[1]) {
+    Err(why) =&gt; {
+      println!(&quot;Rust: ERROR - Open file \&quot;{}\&quot; failed: {}&quot;, args[1], why);
+      return;
+    },
+    Ok(file) =&gt; file,
+  };
 
-    // 按行读取文件内容。
-    let reader = io::BufReader::new(file);
-    let mut texts:Vec&lt;String&gt; = Vec::new();
-    for line in reader.lines() {
-        if let Ok(text) = line {
-            texts.push(text);
-        }
+  // 按行读取文件内容。
+  let reader = io::BufReader::new(file);
+  let mut texts:Vec&lt;String&gt; = Vec::new();
+  for line in reader.lines() {
+    if let Ok(text) = line {
+      texts.push(text);
     }
-    println!(&quot;Rust: Read input file \&quot;{}\&quot; succeeded.&quot;, args[1]);
+  }
+  println!(&quot;Rust: Read input file \&quot;{}\&quot; succeeded.&quot;, args[1]);
 
-    // 获取 stdin 来打印内容。
-    println!(&quot;Rust: Please input the line number to print the line of file.&quot;);
-    let stdin = io::stdin();
-    for line in stdin.lock().lines() {
-        let input = line.unwrap();
-        match input.parse::&lt;usize&gt;() {
-            Ok(n) =&gt; if n &gt; 0 &amp;&amp; n &lt;= texts.len() {
-                println!(&quot;{}&quot;, texts[n - 1]);
-            } else {
-                println!(&quot;Rust: ERROR - Line \&quot;{}\&quot; is out of range.&quot;, n);
-            },
-            Err(e) =&gt; println!(&quot;Rust: ERROR - Input \&quot;{}\&quot; is not an integer: {}&quot;, input, e),
-        }
+  // 获取 stdin 来打印内容。
+  println!(&quot;Rust: Please input the line number to print the line of file.&quot;);
+  let stdin = io::stdin();
+  for line in stdin.lock().lines() {
+    let input = line.unwrap();
+    match input.parse::&lt;usize&gt;() {
+      Ok(n) =&gt; if n &gt; 0 &amp;&amp; n &lt;= texts.len() {
+        println!(&quot;{}&quot;, texts[n - 1]);
+      } else {
+        println!(&quot;Rust: ERROR - Line \&quot;{}\&quot; is out of range.&quot;, n);
+      },
+      Err(e) =&gt; println!(&quot;Rust: ERROR - Input \&quot;{}\&quot; is not an integer: {}&quot;, input, e),
     }
-    println!(&quot;Rust: Process end.&quot;);
+  }
+  println!(&quot;Rust: Process end.&quot;);
 }
 </code></pre></pre>
 <p>将应用程序编译成 WebAssembly。</p>
@@ -210,33 +210,33 @@ $ cargo build --target wasm32-wasi
 <pre><code class="language-go">package main
 
 import (
-    &quot;os&quot;
-    &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+  &quot;os&quot;
+  &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
 )
 
 func main() {
-    wasmedge.SetLogErrorLevel()
+  wasmedge.SetLogErrorLevel()
 
-    var conf = wasmedge.NewConfigure(wasmedge.REFERENCE_TYPES)
-    conf.AddConfig(wasmedge.WASI)
-    var vm = wasmedge.NewVMWithConfig(conf)
-    var wasi = vm.GetImportObject(wasmedge.WASI)
-    wasi.InitWasi(
-        os.Args[1:],     /// 参数
-        os.Environ(),    /// 环境变量
-        []string{&quot;.:.&quot;}, /// 目录映射
-    )
+  var conf = wasmedge.NewConfigure(wasmedge.REFERENCE_TYPES)
+  conf.AddConfig(wasmedge.WASI)
+  var vm = wasmedge.NewVMWithConfig(conf)
+  var wasi = vm.GetImportObject(wasmedge.WASI)
+  wasi.InitWasi(
+    os.Args[1:],     // 参数
+    os.Environ(),    // 环境变量
+    []string{&quot;.:.&quot;}, // 目录映射
+  )
 
-    /// 实例化 wasm。_start 指的是 wasm 程序的 main() 函数
-    vm.RunWasmFile(os.Args[1], &quot;_start&quot;)
+  // 实例化 wasm。_start 指的是 wasm 程序的 main() 函数
+  vm.RunWasmFile(os.Args[1], &quot;_start&quot;)
 
-    vm.Release()
-    conf.Release()
+  vm.Release()
+  conf.Release()
 }
 </code></pre>
 <p>接下来，让我们用 WasmEdge Go SDK 构建 Go 应用程序。</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
-$ go build
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
+go build
 </code></pre>
 <p>运行 Golang 应用程序。</p>
 <pre><code class="language-bash">$ ./read_file rust_readfile/target/wasm32-wasi/debug/rust_readfile.wasm file.txt

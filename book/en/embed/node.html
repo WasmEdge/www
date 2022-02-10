@@ -268,12 +268,12 @@ hello Wasm
 <p><img src="/articles/getting-started-with-rust-function-01.png" alt="getting-started-with-rust-function" /></p>
 <p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/public/index.html">HTML file</a> contains the client side JavaScript to submit the web form to <code>/solve</code>, and put result into the <code>#roots</code> HTML element on the page.</p>
 <pre><code class="language-javascript">$(function() {
-    var options = {
-      target: '#roots',
-      url: &quot;/solve&quot;,
-      type: &quot;post&quot;
-    };
-    $('#solve').ajaxForm(options);
+  var options = {
+    target: '#roots',
+    url: &quot;/solve&quot;,
+    type: &quot;post&quot;
+  };
+  $('#solve').ajaxForm(options);
 });
 </code></pre>
 <p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/server.js">Node.js application</a> behind the <code>/solve</code> URL endpoint is as follows. It reads the data from the input form, passes them into the <code>solve</code> function as an array, and puts the return value in the HTTP response.</p>

@@ -156,24 +156,24 @@
 <pre><pre class="playground"><code class="language-rust">use wasmedge_http_req::request;
 
 fn main() {
-    let mut writer = Vec::new(); //container for body of a response
-    let res = request::get(&quot;http://127.0.0.1:1234/get&quot;, &amp;mut writer).unwrap();
+  let mut writer = Vec::new(); //container for body of a response
+  let res = request::get(&quot;http://127.0.0.1:1234/get&quot;, &amp;mut writer).unwrap();
 
-    println!(&quot;GET&quot;);
-    println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
-    println!(&quot;Headers {}&quot;, res.headers());
-    println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
+  println!(&quot;GET&quot;);
+  println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
+  println!(&quot;Headers {}&quot;, res.headers());
+  println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
 
-    let mut writer = Vec::new(); //container for body of a response
-    const BODY: &amp;[u8; 27] = b&quot;field1=value1&amp;field2=value2&quot;;
-    // let res = request::post(&quot;https://httpbin.org/post&quot;, BODY, &amp;mut writer).unwrap();
-    // no https , no dns
-    let res = request::post(&quot;http://127.0.0.1:1234/post&quot;, BODY, &amp;mut writer).unwrap();
+  let mut writer = Vec::new(); //container for body of a response
+  const BODY: &amp;[u8; 27] = b&quot;field1=value1&amp;field2=value2&quot;;
+  // let res = request::post(&quot;https://httpbin.org/post&quot;, BODY, &amp;mut writer).unwrap();
+  // no https , no dns
+  let res = request::post(&quot;http://127.0.0.1:1234/post&quot;, BODY, &amp;mut writer).unwrap();
 
-    println!(&quot;POST&quot;);
-    println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
-    println!(&quot;Headers {}&quot;, res.headers());
-    println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
+  println!(&quot;POST&quot;);
+  println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
+  println!(&quot;Headers {}&quot;, res.headers());
+  println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
 }
 </code></pre></pre>
 <p>To compile this source code, you must have the following in your <code>Cargo.toml</code>.</p>
@@ -197,60 +197,60 @@ use std::net::{Shutdown, TcpListener, TcpStream};
 use wasmedge_wasi_socket::{Shutdown, TcpListener, TcpStream};
 
 fn handle_http(req: Request&lt;String&gt;) -&gt; bytecodec::Result&lt;Response&lt;String&gt;&gt; {
-    Ok(Response::new(
-        HttpVersion::V1_0,
-        StatusCode::new(200)?,
-        ReasonPhrase::new(&quot;&quot;)?,
-        format!(&quot;echo: {}&quot;, req.body()),
-    ))
+  Ok(Response::new(
+    HttpVersion::V1_0,
+    StatusCode::new(200)?,
+    ReasonPhrase::new(&quot;&quot;)?,
+    format!(&quot;echo: {}&quot;, req.body()),
+  ))
 }
 
 fn handle_client(mut stream: TcpStream) -&gt; std::io::Result&lt;()&gt; {
-    let mut buff = [0u8; 1024];
-    let mut data = Vec::new();
+  let mut buff = [0u8; 1024];
+  let mut data = Vec::new();
 
-    loop {
-        let n = stream.read(&amp;mut buff)?;
-        data.extend_from_slice(&amp;buff[0..n]);
-        if n &lt; 1024 {
-            break;
-        }
+  loop {
+    let n = stream.read(&amp;mut buff)?;
+    data.extend_from_slice(&amp;buff[0..n]);
+    if n &lt; 1024 {
+      break;
     }
+  }
 
-    let mut decoder =
-        RequestDecoder::&lt;httpcodec::BodyDecoder&lt;bytecodec::bytes::Utf8Decoder&gt;&gt;::default();
+  let mut decoder =
+    RequestDecoder::&lt;httpcodec::BodyDecoder&lt;bytecodec::bytes::Utf8Decoder&gt;&gt;::default();
 
-    let req = match decoder.decode_from_bytes(data.as_slice()) {
-        Ok(req) =&gt; handle_http(req),
-        Err(e) =&gt; Err(e),
-    };
+  let req = match decoder.decode_from_bytes(data.as_slice()) {
+    Ok(req) =&gt; handle_http(req),
+    Err(e) =&gt; Err(e),
+  };
 
-    let r = match req {
-        Ok(r) =&gt; r,
-        Err(e) =&gt; {
-            let err = format!(&quot;{:?}&quot;, e);
-            Response::new(
-                HttpVersion::V1_0,
-                StatusCode::new(500).unwrap(),
-                ReasonPhrase::new(err.as_str()).unwrap(),
-                err.clone(),
-            )
-        }
-    };
+  let r = match req {
+    Ok(r) =&gt; r,
+    Err(e) =&gt; {
+      let err = format!(&quot;{:?}&quot;, e);
+      Response::new(
+        HttpVersion::V1_0,
+        StatusCode::new(500).unwrap(),
+        ReasonPhrase::new(err.as_str()).unwrap(),
+        err.clone(),
+      )
+    }
+  };
 
-    let write_buf = r.to_string();
-    stream.write(write_buf.as_bytes())?;
-    stream.shutdown(Shutdown::Both)?;
-    Ok(())
+  let write_buf = r.to_string();
+  stream.write(write_buf.as_bytes())?;
+  stream.shutdown(Shutdown::Both)?;
+  Ok(())
 }
 
 fn main() -&gt; std::io::Result&lt;()&gt; {
-    let port = std::env::var(&quot;PORT&quot;).unwrap_or(1234.to_string());
-    println!(&quot;new connection at {}&quot;, port);
-    let listener = TcpListener::bind(format!(&quot;0.0.0.0:{}&quot;, port))?;
-    loop {
-        let _ = handle_client(listener.accept()?.0);
-    }
+  let port = std::env::var(&quot;PORT&quot;).unwrap_or(1234.to_string());
+  println!(&quot;new connection at {}&quot;, port);
+  let listener = TcpListener::bind(format!(&quot;0.0.0.0:{}&quot;, port))?;
+  loop {
+    let _ = handle_client(listener.accept()?.0);
+  }
 }
 </code></pre></pre>
 <p>To compile this source code, you must have the following in your <code>Cargo.toml</code>.</p>
