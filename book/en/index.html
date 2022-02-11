@@ -158,6 +158,9 @@ After that, you can create new programs for WasmEdge and run them in different h
 Your system should have <code>git</code> and <code>curl</code> as prerequisites.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
+<p>For Windows 10, you could use Windows Package Manager Client (aka winget.exe) to install WasmEdge with a single command in your terminal.</p>
+<pre><code>winget install wasmedge
+</code></pre>
 <p>If you would like to install WasmEdge with its <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and image processing extensions</a>, please run the following command. It will attempt to install Tensorflow and image shared libraries on your system.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
