@@ -3033,7 +3033,199 @@ Hello 1 2 3
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-插件-api"><a class="header" href="#wasmedge-插件-api">WasmEdge 插件 API</a></h1>
 <p>WasmEdge 提供了一套基于 C++ 的 API 用来注册自定义扩展和 host 函数。虽然 WasmEdge 各种语言语言 SDK 允许将主机应用注册为主机功能函数，但插件 API 方式允许这种扩展被纳入 WasmEdge 自己的构建和发布过程。</p>
 <p>事实上，WasmEdge 对 Tensorflow 、图像处理、键值存储等的扩展都是通过插件 API 实现的。插件 API 是你可以为 WasmEdge Runtime 本身贡献新功能的方式。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="host-functions"><a class="header" href="#host-functions">Host functions</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="host-函数"><a class="header" href="#host-函数">Host 函数</a></h1>
+<p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#syntax-hostfunc">Host 函数</a> 是在 WebAssembly 之外的函数，它们以导入的方式传递到 WASM 模块中。以下步骤是将 <code>host module</code> 注册到 WasmEdge runtime 的示例。</p>
+<p>此示例适用于使用 C++ 编写的 WasmEdge 项目的源代码编译。如果开发者想使用C/C++ 和 WasmEdge C API 来实现 host 函数，而不用 WasmEdge 项目进行编译，请参阅 <a href="extend/plugin/../../embed/c/ref.html#host-functions">C API 文档</a>。</p>
+<h2 id="host-实例定义"><a class="header" href="#host-实例定义">Host 实例定义</a></h2>
+<p>WasmEdge 支持以导入的形式注册 <code>host function</code> 、<code>memory</code> 、<code>table</code> 和 <code>global</code> 等实例。
+详情请参阅 <code>include/host/wasi/</code> 和 <code>test/core/spectest.h</code> 中的示例。</p>
+<h3 id="函数"><a class="header" href="#函数">函数</a></h3>
+<p>可以按照如下方式声明一个简单的 host 函数类：</p>
+<pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
+#include &quot;runtime/hostfunc.h&quot;
+#include &quot;runtime/instance/memory.h&quot;
+
+namespace WasmEdge {
+namespace Host {
+
+class TestHost : public Runtime::HostFunction&lt;TestHost&gt; {
+public:
+  Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2);
+};
+
+} // namespace Host
+} // namespace WasmEdge
+</code></pre>
+<p>在上述示例中，返回类型 <code>Expect&lt;T&gt;</code> 表示该 host 函数的预期返回类型 <code>T</code>。 <code>Param1</code> 和 <code>Param2</code> 的类型表示此 host 函数的参数类型。 host 函数仅支持 WASM 的内置类型（如 <code>uint32_t</code>、 <code>uint64_t</code>、 <code>float</code> 以及 <code>double</code>）。在实例化时会生成 <code>vec(valtype) -&gt; resulttype</code> 的函数签名，它能被 WASM 模块导入。</p>
+<p>注意：目前 host 函数仅支持单个返回值。</p>
+<p>另一种情况是传递需要由 <code>host function</code> 体访问的环境或信息。 以下示例展示了如何实现 host 函数集群：</p>
+<pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
+#include &quot;runtime/hostfunc.h&quot;
+#include &quot;runtime/instance/memory.h&quot;
+#include &lt;vector&gt;
+
+namespace WasmEdge {
+namespace Host {
+
+template &lt;typename T&gt; class TestCluster : public Runtime::HostFunction&lt;T&gt; {
+public:
+  TestCluster(std::vector&lt;uint8_t&gt; &amp;Vec) : Data(Vec) {}
+
+protected:
+  std::vector&lt;uint8_t&gt; &amp;Data;
+};
+
+class TestHost1 : public TestCluster&lt;TestHost1&gt; {
+public:
+  TestHost1(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
+  Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2) {
+    /// Operations to `Data` ...
+    return {};
+  }
+};
+
+class TestHost2 : public TestCluster&lt;TestHost2&gt; {
+public:
+  TestHost2(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
+  Expect&lt;uint64_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint64_t Param1, double Param2) {
+    /// Operations to `Data` ...
+    return {};
+  }
+};
+
+} // namespace Host
+} // namespace WasmEdge
+</code></pre>
+<h3 id="表-内存-以及全局实例"><a class="header" href="#表-内存-以及全局实例">表、 内存、 以及全局实例</a></h3>
+<p>要创建 <code>host table</code>、 <code>memory</code> 以及 <code>global</code> 实例，唯一的办法就是使用 <code>host module</code> 中它们各自的构造器来创建。以下关于 <code>host module</code> 的章节将提供更详细的示例。</p>
+<h2 id="host-modules-host-模块"><a class="header" href="#host-modules-host-模块">Host Modules/ host 模块</a></h2>
+<p><code>Host module</code> 是一个可以注册到 WasmEdge runtime 的对象。<code>Host module</code> 包含了 <code>host functions</code>、 <code>tables</code>、 <code>memories</code>、 <code>globals</code> 以及其它用户自定义的数据。WasmEdge 提供 API 来注册 <code>host modules</code>。在注册后，<code>host modules</code> 中的这些 host 实例可以被 WASM 模块所导入。</p>
+<h3 id="声明"><a class="header" href="#声明">声明</a></h3>
+<p><code>Host module</code> 提供了导出的模块名称，并且可以包含自定义数据。 构建 <code>host modules</code> 时需要填写模块名称。</p>
+<pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
+#include &quot;runtime/hostfunc.h&quot;
+#include &quot;runtime/importobj.h&quot;
+
+namespace WasmEdge {
+namespace Host {
+
+class TestModule : public Runtime::ImportObject {
+public:
+  TestModule() : ImportObject(&quot;test&quot;);
+  virtual ~TestModule() = default;
+};
+
+} // namespace Host
+} // namespace WasmEdge
+</code></pre>
+<h3 id="添加实例"><a class="header" href="#添加实例">添加实例</a></h3>
+<p><code>Host module</code> 提供了以下四种方法 <code>addHostFunc()</code>、 <code>addHostTable()</code>、 <code>addHostMemory()</code> 和 <code>addHostGlobal()</code> 来插入具有唯一名称的实例。插入操作可以在构造器中完成。下面的示例代码中还展示了如何创建 <code>host memories</code>、 <code>tables</code> 和 <code>globals</code>。</p>
+<pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
+#include &quot;runtime/hostfunc.h&quot;
+#include &quot;runtime/importobj.h&quot;
+#include &lt;memory&gt;
+#include &lt;vector&gt;
+
+namespace WasmEdge {
+namespace Host {
+
+template &lt;typename T&gt; class TestCluster : public Runtime::HostFunction&lt;T&gt; {
+public:
+  TestCluster(std::vector&lt;uint8_t&gt; &amp;Vec) : Data(Vec) {}
+
+protected:
+  std::vector&lt;uint8_t&gt; &amp;Data;
+};
+
+class TestHost1 : public TestCluster&lt;TestHost1&gt; {
+public:
+  TestHost1(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
+  Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2) {
+    /// Operations to `Data` ...
+    return {};
+  }
+};
+
+class TestHost2 : public TestCluster&lt;TestHost2&gt; {
+public:
+  TestHost2(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
+  Expect&lt;uint64_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint64_t Param1, double Param2) {
+    /// Operations to `Data` ...
+    return {};
+  }
+};
+
+class TestModule : public Runtime::ImportObject {
+public:
+  TestModule(std::vector&lt;uint8_t&gt; &amp;Vec) : ImportObject(&quot;test&quot;), Data(Vec) {
+    /// Add function instances with exporting name
+    addHostFunc(&quot;test_func1&quot;, std::make_unique&lt;TestHost1&gt;(Data));
+    addHostFunc(&quot;test_func2&quot;, std::make_unique&lt;TestHost2&gt;(Data));
+
+    /// Add table instance with exporting name
+    addHostTable(&quot;table&quot;, std::make_unique&lt;Runtime::Instance::TableInstance&gt;(
+                              TableType(RefType::FuncRef, 10, 20)));
+
+    /// Add memory instance with exporting name
+    addHostMemory(&quot;memory&quot;, std::make_unique&lt;Runtime::Instance::MemoryInstance&gt;(
+                                MemoryType(1, 2)));
+
+    /// Add global instance with exporting name
+    addHostGlobal(&quot;global_i32&quot;,
+                  std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
+                      GlobalType(ValType::I32, ValMut::Const), uint32_t(666)));
+    addHostGlobal(&quot;global_i64&quot;,
+                  std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
+                      GlobalType(ValType::I64, ValMut::Const), uint64_t(666)));
+    addHostGlobal(&quot;global_f32&quot;,
+                  std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
+                      GlobalType(ValType::F32, ValMut::Const), float(666)));
+    addHostGlobal(&quot;global_f64&quot;,
+                  std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
+                      GlobalType(ValType::F64, ValMut::Const), double(666)));
+  }
+  virtual ~TestModule() = default;
+
+private:
+  std::vector&lt;uint8_t&gt; &amp;Data;
+};
+
+} // namespace Host
+} // namespace WasmEdge
+</code></pre>
+<p><code>Host module</code> 提供了以下四种方法 <code>getFuncs()</code>、 <code>getTables()</code>、 <code>getMems()</code> 和 <code>getGlobals()</code> 用来通过唯一的导出名称搜索已注册的实例。更多细节和 APIs 请参阅 <code>include/runtime/importobj.h</code>。</p>
+<h3 id="在-wasmedge-中注册-host-module"><a class="header" href="#在-wasmedge-中注册-host-module">在 WasmEdge 中注册 host module</a></h3>
+<p>用户可以通过 <code>WasmEdge::VM::registerModule()</code> API 来注册 <code>host module</code>。</p>
+<pre><code class="language-cpp">#include &quot;common/configure.h&quot;
+#include &quot;vm/vm.h&quot;
+#include &lt;vector&gt;
+
+WasmEdge::Configure Conf;
+WasmEdge::VM::VM VM(Conf);
+std::vector&lt;uint8_t&gt; Data;
+WasmEdge::Host::TestModule TestMod(Data);
+VM.registerModule(TestMod);
+</code></pre>
+<h3 id="在-cmakefile-中链接库以及包含目录"><a class="header" href="#在-cmakefile-中链接库以及包含目录">在 CMakeFile 中链接库以及包含目录</a></h3>
+<p>为了从 WasmEdge 的包含目录中查找头文件以及链接静态库，CMakeFile 需要如下设置</p>
+<pre><code>add_library(wasmedgeHostModuleTest  # Static library name of host modules
+  test.cpp  # Path to host modules cpp files
+)
+
+target_include_directories(wasmedgeHostModuleTest
+  PUBLIC
+  ${Boost_INCLUDE_DIRS}
+  ${PROJECT_SOURCE_DIR}/include
+)
+</code></pre>
+<h2 id="host-函数体实现"><a class="header" href="#host-函数体实现">host 函数体实现</a></h2>
+<p>以下是一些实现 host 函数体的小技巧。</p>
+<h3 id="使用时检查-memory-实例"><a class="header" href="#使用时检查-memory-实例">使用时检查 Memory 实例</a></h3>
+<p>Host 函数能够访问 WASM 内存，这些内存通常以 <code>MemoryInstance *</code> 参数的形式被传递。 当发生<a href="https://webassembly.github.io/spec/core/exec/instructions.html#function-calls">函数调用</a> 时，被调用函数所属的带有模块的帧将被压入<code>堆栈</code>。 在 host 函数的例子中，堆栈顶部栈帧中的内存实例将作为 host 函数体的参数被传递。然而，一个 WASM 模块中可以不包含内存实例。因此，用户在访问时应检查内存实例指针是否为空指针。</p>
+<h3 id="预期返回"><a class="header" href="#预期返回">预期返回</a></h3>
+<p>在我们的机制里， <code>include/common/errcode.h</code> 中声明的 <code>Expect&lt;T&gt;</code> 被用作函数体的结果类型。在 <code>Expect&lt;void&gt;</code> 的情况下，预期场景需要 <code>return {};</code> 。其它情况下， 预期场景需要 <code>return Value;</code> ，其中 <code>Value</code> 是 <code>T</code> 类型的一个变量。如果出现意外情况，用户可以调用 <code>return Unexpect(Code);</code> 来返回一个错误，其中 <code>Code</code> 是枚举 <code>ErrCode</code> 的一个元素。</p>
+<h3 id="强制终止"><a class="header" href="#强制终止">强制终止</a></h3>
+<p>WasmEdge 提供了一种在 host 函数中终止 WASM 执行的方法。开发者可以返回 <code>ErrCode::Terminated</code>  来触发当前执行的强制终止，并将 <code>ErrCode::Terminated</code>  传递给 host 函数的调用者。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="external-references"><a class="header" href="#external-references">External references</a></h1>
 
                     </main>
