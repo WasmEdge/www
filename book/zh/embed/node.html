@@ -150,6 +150,283 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="nodejs-sdk"><a class="header" href="#nodejs-sdk">Node.js SDK</a></h1>
+<p>在这篇教程中，我会向你展示如何通过 WasmEdge Node.js SDK 将用 Rust 写的 WebAssembly 函数合并进 Node.js 的服务端应用程序
+中。这个方法可以将 Rust 的<strong>性能</strong>，WebAssembly 的<strong>安全性</strong>和<strong>可移植性</strong>，和 JavaScript 的<strong>易用性</strong>结合。一个典型的应用程序就像这样。</p>
+<ul>
+<li>host 应用程序是一个用 JavaScript 写的 Node.js web 应用程序，它可以调用 WebAssembly 函数。</li>
+<li>WebAssembly 字节码程序是用 Rust 写的，运行在 WasmEdge Runtime，可以被 Node.js web 应用程序调用。</li>
+</ul>
+<blockquote>
+<p><a href="https://github.com/second-state/wasmedge-nodejs-starter/fork">Fork 这个 Github 仓库</a>来开始写代码！</p>
+</blockquote>
+<h2 id="先决条件"><a class="header" href="#先决条件">先决条件</a></h2>
+<p>为了搭建一个包含 Rust 和 WebAssembly 的高性能 Node.js 环境，你需要如下准备：</p>
+<ul>
+<li>一个现代的 Linux 发行版, 比如 Ubuntu Server 20.04 LTS</li>
+<li><a href="https://www.rust-lang.org/tools/install">Rust 语言</a></li>
+<li><a href="https://nodejs.org/en/download/package-manager/">Node.js</a></li>
+<li>Node.js 的 <a href="../start/install.html#install-wasmedge-for-node.js">WasmEdge Runtime</a></li>
+<li><a href="/dev/rust/bindgen.html">rustwasmc 编译器工具链</a></li>
+</ul>
+<h3 id="docker"><a class="header" href="#docker">Docker</a></h3>
+<p>最简单的启动方式就是使用 Docker 来搭建开发环境。只需要<a href="https://github.com/second-state/wasmedge-nodejs-starter/">克隆这个模板</a>到你的电脑，然后运行如下 Docker 命令：</p>
+<pre><code class="language-bash"># 克隆代码到本地
+$ git clone https://github.com/second-state/wasmedge-nodejs-starter
+$ cd wasmedge-nodejs-starter
+
+# 启动 Docker 容器
+$ docker pull wasmedge/appdev_x86_64:0.8.2
+$ docker run -p 3000:3000 --rm -it -v $(pwd):/app wasmedge/appdev_x86_64:0.8.2
+(docker) $ cd /app
+</code></pre>
+<p>好了，你现在可以编译和运行代码了。</p>
+<h3 id="没有-docker-的手动启动"><a class="header" href="#没有-docker-的手动启动">没有 Docker 的手动启动</a></h3>
+<p>命令如下。</p>
+<pre><code class="language-bash"># 安装 Rust
+$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+$ source $HOME/.cargo/env
+$ rustup override set 1.50.0
+
+# 安装 Node.js 和 npm
+$ curl -sL https://deb.nodesource.com/setup_14.x |  bash
+$ sudo apt-get install -y nodejs npm
+
+# 安装 rustwasmc 工具链
+$ npm install -g rustwasmc # 如果权限有问题，加上 --unsafe-perm
+
+# WasmEdge 需要的系统依赖
+$ sudo apt-get update
+$ sudo apt-get -y upgrade
+$ sudo apt install -y build-essential curl wget git vim libboost-all-dev llvm-dev liblld-10-dev
+
+# 安装 WasmEdge 需要的 nodejs addon 
+$ npm install wasmedge-core
+$ npm install wasmedge-extensions
+</code></pre>
+<blockquote>
+<p>WasmEdge Runtime 需要最新版本的 <code>libstdc++</code>。 Ubuntu 20.04 LTS 已经有最新的库了。 如果你使用的是比较老的 Linux 发行版中，有一些选项需要升级，<a href="https://www.secondstate.io/articles/ubuntu-req-ssvm-20200715/">更详细的信息在这儿</a>。</p>
+</blockquote>
+<p>然后，克隆示例源代码仓库。</p>
+<pre><code class="language-bash">$ git clone https://github.com/second-state/wasmedge-nodejs-starter
+$ cd wasmedge-nodejs-starter
+</code></pre>
+<h2 id="hello-world"><a class="header" href="#hello-world">Hello World</a></h2>
+<p>第一个示例是一个 hello world，向你展示应用程序的各个部分如何组合在一起。</p>
+<h3 id="rust-写的-webassembly-程序"><a class="header" href="#rust-写的-webassembly-程序">Rust 写的 WebAssembly 程序</a></h3>
+<p>在这个例子中，Rust 程序将输入的字符串添加到 “hello” 后面。下面是 Rust 程序内容，位于 src/lib.rs。你可以在这个库文件中定义多个外部方法，所有的这些方法都可以在 host JavaScript 应用中通过 WebAssembly 调用。记得需要给每个函数添加 <code>#[wasm_bindgen]</code> 注解，这样 <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> 就知道在构建时为这些函数生成正确的 JavaScript 到 Rust 接口。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+pub fn say(s: String) -&gt; String {
+  let r = String::from(&quot;hello &quot;);
+  return r + &amp;s;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>然后你可以将 Rust 源代码编译成 WebAssembly 字节码，并且生成相应的 JavaScript 模块供 Node.js host 环境调用。</p>
+<pre><code class="language-bash">$ rustwasmc build
+</code></pre>
+<p>生成的文件在 <code>pkg/</code> 目录下，<code>.wasm</code> 文件是 WebAssembly 字节码程序，<code>.js</code> 文件是 JavaScript 模块。</p>
+<h3 id="nodejs-host-应用程序"><a class="header" href="#nodejs-host-应用程序">Node.js host 应用程序</a></h3>
+<p>然后进入 <code>node</code> 文件夹下，检查 JavaScript 程序 <code>app.js</code>。有了生成的 <code>wasmedge_nodejs_starter_lib.js</code> 模块，就很容易写出调用 WebAssembly 函数的 JavaScript 了。下面是 node 应用程序 <code>app.js</code>。简单的从生成的模块中引入 <code>say()</code> 函数。 node 应用程序从 HTTP GET 请求中拿到 <code>name</code> 参数后返回 “hello <code>name</code>”。</p>
+<pre><code class="language-javascript">const { say } = require('../pkg/wasmedge_nodejs_starter_lib.js');
+
+const http = require('http');
+const url = require('url');
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) =&gt; {
+  const queryObject = url.parse(req.url,true).query;
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end(say(queryObject['name']));
+});
+
+server.listen(port, hostname, () =&gt; {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+</code></pre>
+<p>像下面一样启动 Node.js 应用程序。</p>
+<pre><code class="language-bash">$ node node/app.js
+Server running at http://127.0.0.1:3000/
+</code></pre>
+<p>然后，你可以在另外一个终端窗口中测试。</p>
+<pre><code class="language-bash">$ curl http://127.0.0.1:3000/?name=Wasm
+hello Wasm
+</code></pre>
+<h2 id="完整的-web-应用程序"><a class="header" href="#完整的-web-应用程序">完整的 web 应用程序</a></h2>
+<p>下面的例子展示了一个计算二次方程根的 web 应用程序，请在这里查看<a href="https://github.com/second-state/wasm-learning/tree/master/nodejs/quadratic">完整源代码</a>.</p>
+<p>用户在 web 表单中输入 <code>a</code>, <code>b</code>, <code>c</code> 三个值，web 应用程序调用 web 服务 <code>/solve</code>，计算出二次方程的根。</p>
+<pre><code class="language-src">a*X^2 + b*X + c = 0
+</code></pre>
+<p><code>X</code> 的根展示在输入表单下面。</p>
+<p><img src="/articles/getting-started-with-rust-function-01.png" alt="" /></p>
+<p><a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/public/index.html">HTML 文件</a> 包含提交 web 表单到 <code>/solve</code> 的客户端 JavaScript，并且将结果放到页面的 <code>#roots</code> HTML 元素里。</p>
+<pre><code class="language-javascript">$(function() {
+    var options = {
+      target: '#roots',
+      url: &quot;/solve&quot;,
+      type: &quot;post&quot;
+    };
+    $('#solve').ajaxForm(options);
+});
+</code></pre>
+<p><code>/solve</code> URL 端点后的 <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/server.js">Node.js 应用程序</a>如下所示。他从输入表单中读取数据，将他们作为数组传递给 <code>solve</code> 函数，将返回结果放到 HTTP 返回内容中。</p>
+<pre><code class="language-javascript">app.post('/solve', function (req, res) {
+  var a = parseFloat(req.body.a);
+  var b = parseFloat(req.body.b);
+  var c = parseFloat(req.body.c);
+  res.send(solve([a, b, c]))
+})
+</code></pre>
+<p><a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/src/lib.rs">用 Rust 写的 <code>solve</code> 函数</a>，运行在 WasmEdge Runtime。如果 JavaScript 端的调用参数是数组，Rust 函数接收到一个封装数组的 JSON 对象。在 Rust 代码中，我们首先解码 JSON，执行计算，然后返回一个 JSON 字符串的结果。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+pub fn solve(params: &amp;str) -&gt; String {
+  let ps: (f32, f32, f32) = serde_json::from_str(&amp;params).unwrap();
+  let discriminant: f32 = (ps.1 * ps.1) - (4. * ps.0 * ps.2);
+  let mut solution: (f32, f32) = (0., 0.);
+  if discriminant &gt;= 0. {
+    solution.0 = (((-1.) * ps.1) + discriminant.sqrt()) / (2. * ps.0);
+    solution.1 = (((-1.) * ps.1) - discriminant.sqrt()) / (2. * ps.0);
+    return serde_json::to_string(&amp;solution).unwrap();
+  } else {
+    return String::from(&quot;not real numbers&quot;);
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>让我们试试。</p>
+<pre><code class="language-bash">$ rustwasmc build
+$ npm install express # 这个应用程序需要 Node.js 的 express 框架
+$ node node/server.js
+</code></pre>
+<p>在 web 浏览器中，输入 <code>http://ip-addr:8080/</code> 来获取应用程序。注意：如果你使用的是 Docker，确保 Docker 容器中的 8080 端口映射到宿主的 8080 端口。</p>
+<p>这就是二次方程的例子。</p>
+<h2 id="更多例子"><a class="header" href="#更多例子">更多例子</a></h2>
+<p>在 Rust 和 JavaScript 之间除了可以传递字符串值外， <code>rustwasmc</code> 工具支持下面的数据类型。</p>
+<ul>
+<li>Rust 调用参数可以是 <code>i32</code>、<code>String</code>、<code>&amp;str</code>、<code>Vec&lt;u8&gt;</code> 和 <code>&amp;[u8]</code> 的组合。</li>
+<li>返回值可能是 <code>i32</code> 或者 <code>String</code> 或者 <code>Vec&lt;u8&gt;</code> 或者 void。</li>
+<li>对于复杂的数据结构，比如结构体，你可以使用 JSON 字符串来传递数据。 </li>
+</ul>
+<blockquote>
+<p>支持了 JSON，你可以用任意数量的输入参数调用 Rust 函数，并返回任意数量、任意类型的结果。</p>
+</blockquote>
+<p><a href="https://github.com/second-state/wasm-learning/tree/master/nodejs/functions">函数示例</a>中的 Rust 程序 <code>src/lib.rs</code> 演示了如何传递多个不同类型的调用参数和返回结果。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[wasm_bindgen]
+pub fn obfusticate(s: String) -&gt; String {
+  (&amp;s).chars().map(|c| {
+    match c {
+      'A' ..= 'M' | 'a' ..= 'm' =&gt; ((c as u8) + 13) as char,
+      'N' ..= 'Z' | 'n' ..= 'z' =&gt; ((c as u8) - 13) as char,
+      _ =&gt; c
+    }
+  }).collect()
+}
+
+#[wasm_bindgen]
+pub fn lowest_common_denominator(a: i32, b: i32) -&gt; i32 {
+  let r = lcm(a, b);
+  return r;
+}
+
+#[wasm_bindgen]
+pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
+  return Sha3_256::digest(&amp;v).as_slice().to_vec();
+}
+
+#[wasm_bindgen]
+pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
+  return Keccak256::digest(s).as_slice().to_vec();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>最有意思的可能是 <code>create_line()</code> 函数。它需要两个 JSON 字符串，每一个都代表一个 <code>Point</code> 结构，返回一个 JSON 字符串代表 <code>Line</code> 结构。注意，<code>Point</code> 和 <code>Line</code> 结构都使用了 <code>Serialize</code> 和 <code>Deserialize</code> 注解，这样 Rust 编译器就会自动生成必要的代码来支持和 JSON 字符串之间的转换。</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Point {
+  x: f32, 
+  y: f32
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Line {
+  points: Vec&lt;Point&gt;,
+  valid: bool,
+  length: f32,
+  desc: String
+}
+
+#[wasm_bindgen]
+pub fn create_line (p1: &amp;str, p2: &amp;str, desc: &amp;str) -&gt; String {
+  let point1: Point = serde_json::from_str(p1).unwrap();
+  let point2: Point = serde_json::from_str(p2).unwrap();
+  let length = ((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y)).sqrt();
+
+  let valid = if length == 0.0 { false } else { true };
+  let line = Line { points: vec![point1, point2], valid: valid, length: length, desc: desc.to_string() };
+  return serde_json::to_string(&amp;line).unwrap();
+}
+
+#[wasm_bindgen]
+pub fn say(s: &amp;str) -&gt; String {
+  let r = String::from(&quot;hello &quot;);
+  return r + s;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>然后，让我们来检查下 JavaScript 程序 <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/functions/node/app.js"><code>app.js</code></a>，它展示了如何调用 Rust 函数。你可以看到，<code>String</code> 和 <code>&amp;str</code> 在 JavaScript 是简单的字符串，<code>i32</code> 是数字，<code>Vec&lt;u8&gt;</code> 或者 <code>&amp;[8]</code> 是 JavaScript <code>Uint8Array</code>。JavaScript 对象在传入或者从 Rust 函数结果返回需要通过 <code>JSON.stringify()</code> 或者 <code>JSON.parse()</code> 转换。</p>
+<pre><code class="language-javascript">const { say, obfusticate, lowest_common_denominator, sha3_digest, keccak_digest, create_line } = require('./functions_lib.js');
+
+var util = require('util');
+const encoder = new util.TextEncoder();
+console.hex = (d) =&gt; console.log((Object(d).buffer instanceof ArrayBuffer ? new Uint8Array(d.buffer) : typeof d === 'string' ? (new util.TextEncoder('utf-8')).encode(d) : new Uint8ClampedArray(d)).reduce((p, c, i, a) =&gt; p + (i % 16 === 0 ? i.toString(16).padStart(6, 0) + '  ' : ' ') + c.toString(16).padStart(2, 0) + (i === a.length - 1 || i % 16 === 15 ?  ' '.repeat((15 - i % 16) * 3) + Array.from(a).splice(i - i % 16, 16).reduce((r, v) =&gt; r + (v &gt; 31 &amp;&amp; v &lt; 127 || v &gt; 159 ? String.fromCharCode(v) : '.'), '  ') + '\n' : ''), ''));
+
+console.log( say(&quot;WasmEdge&quot;) );
+console.log( obfusticate(&quot;A quick brown fox jumps over the lazy dog&quot;) );
+console.log( lowest_common_denominator(123, 2) );
+console.hex( sha3_digest(encoder.encode(&quot;This is an important message&quot;)) );
+console.hex( keccak_digest(encoder.encode(&quot;This is an important message&quot;)) );
+
+var p1 = {x:1.5, y:3.8};
+var p2 = {x:2.5, y:5.8};
+var line = JSON.parse(create_line(JSON.stringify(p1), JSON.stringify(p2), &quot;A thin red line&quot;));
+console.log( line );
+</code></pre>
+<p>在运行 <code>rustwasmc</code> 来构建 Rust 库后，在 Node.js 环境中运行 <code>app.js</code> 会产生如下结果。</p>
+<pre><code class="language-bash">$ rustwasmc build
+... Building the wasm file and JS shim file in pkg/ ...
+
+$ node node/app.js
+hello WasmEdge
+N dhvpx oebja sbk whzcf bire gur ynml qbt
+246
+000000  57 1b e7 d1 bd 69 fb 31 9f 0a d3 fa 0f 9f 9a b5  W.çÑ½iû1..Óú...µ
+000010  2b da 1a 8d 38 c7 19 2d 3c 0a 14 a3 36 d3 c3 cb  +Ú..8Ç.-&lt;..£6ÓÃË
+
+000000  7e c2 f1 c8 97 74 e3 21 d8 63 9f 16 6b 03 b1 a9  ~ÂñÈ.tã!Øc..k.±©
+000010  d8 bf 72 9c ae c1 20 9f f6 e4 f5 85 34 4b 37 1b  Ø¿r.®Á .öäõ.4K7.
+
+{ points: [ { x: 1.5, y: 3.8 }, { x: 2.5, y: 5.8 } ],
+  valid: true,
+  length: 2.2360682,
+  desc: 'A thin red line' }  
+</code></pre>
 
                     </main>
 
