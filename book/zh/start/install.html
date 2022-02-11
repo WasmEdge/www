@@ -154,6 +154,9 @@
 <p>安装 WasmEdge 最简单的方式是执行以下的命令（前提是你的系统已经安装了 <code>git</code> 和 <code>curl</code>）：</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
+<p>如果你正在使用Windows 10，你可以使用Windows Package Manager Client (也称winget.exe)来安装WasmEdge。</p>
+<pre><code>winget install wasmedge
+</code></pre>
 <p>如果你希望一并安装 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow 和图像处理扩展</a>，请执行以下命令。它将尝试在你的系统上安装 Tensorflow 和图像共享库。</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
@@ -173,6 +176,7 @@
 <p>如果你对 <code>master</code> 分支的 <code>HEAD</code> 中的最新的构建感兴趣（也就是 WasmEdge 的 nightly 版本），你可以直接从 Github Action 的 CI artifact 中下载已发布的包。<a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">例子请看这里。</a></p>
 <h2 id="安装内容"><a class="header" href="#安装内容">安装内容</a></h2>
 <p>安装完成后，你将会得到以下的目录和文件。这里我们假设你将 WasmEdge 安装到 <code>$HOME/.wasmedge</code> 目录中。如果你想进行系统范围的安装，你也可以将安装目录更改为 <code>/usr/local</code>。</p>
+<p>如果你使用winget来安装WasmEdge，安装目录在<code>C:\Program Files\WasmEdge</code>。</p>
 <ul>
 <li><code>$HOME/.wasmedge/bin</code> 目录包含 WasmEdge Runtime CLI 可执行文件。你可以拷贝这些文件并放置到任意目录中。
 <ul>
@@ -197,6 +201,9 @@
 <blockquote>
 <p>如果 <code>wasmedge</code> 二进制文件的父目录中包含 <code>.wasmedge</code>，那么该目录将会被一并删除。举例来说，该脚本将会完全删除默认的 <code>$HOME/.wasmedge</code> 目录。</p>
 </blockquote>
+<p>如果你使用的是winget来安装WasmEdge，可以使用下面的命令卸载：</p>
+<pre><code>winget uninstall wasmedge
+</code></pre>
 
                     </main>
 

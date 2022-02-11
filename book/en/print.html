@@ -156,6 +156,9 @@ After that, you can create new programs for WasmEdge and run them in different h
 Your system should have <code>git</code> and <code>curl</code> as prerequisites.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
+<p>For Windows 10, you could use Windows Package Manager Client (aka winget.exe) to install WasmEdge with a single command in your terminal.</p>
+<pre><code>winget install wasmedge
+</code></pre>
 <p>If you would like to install WasmEdge with its <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and image processing extensions</a>, please run the following command. It will attempt to install Tensorflow and image shared libraries on your system.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
@@ -272,6 +275,9 @@ confidence: 0.8941176470588236
 <p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>curl</code> as prerequisites.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
+<p>For Windows 10, you could use Windows Package Manager Client (aka winget.exe) to install WasmEdge with a single command in your terminal.</p>
+<pre><code>winget install wasmedge
+</code></pre>
 <p>If you would like to install WasmEdge with its <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and image processing extensions</a>, please run the following command. It will attempt to install Tensorflow and image shared libraries on your system.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
 </code></pre>
@@ -293,6 +299,7 @@ confidence: 0.8941176470588236
 <p>If you are interested in the latest builds from the <code>HEAD</code> of the <code>master</code> branch, which is basically WasmEdge's nightly builds, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
 <h2 id="whats-installed"><a class="header" href="#whats-installed">What's installed</a></h2>
 <p>After installation, you have the following directories and files. Here we assume that you installed into the <code>$HOME/.wasmedge</code> directory. You could also change it to <code>/usr/local</code> if you did a system-wide install.</p>
+<p>If you used winget to install WasmEdge, files are located at <code>C:\Program Files\WasmEdge</code>.</p>
 <ul>
 <li>The <code>$HOME/.wasmedge/bin</code> directory contains the WasmEdge Runtime CLI executable files. You can copy and move them around on your file system.
 <ul>
@@ -317,6 +324,9 @@ confidence: 0.8941176470588236
 <blockquote>
 <p>If a parent folder of the <code>wasmedge</code> binary contains <code>.wasmedge</code>, the folder will be considered for removal. For example, the script removes the default <code>$HOME/.wasmedge</code> folder altogether.</p>
 </blockquote>
+<p>If you used winget to install WasmEdge, run the following command.</p>
+<pre><code>winget uninstall wasmedge
+</code></pre>
 <h2 id="install-wasmedge-for-nodejs"><a class="header" href="#install-wasmedge-for-nodejs">Install WasmEdge for Node.js</a></h2>
 <p>WasmEdge can run <a href="https://www.secondstate.io/articles/getting-started-with-rust-function/">WebAssembly functions emebedded in Node.js</a> applications. To install the WasmEdge module in your Node.js environment is easy. Just use the <code>npm</code> tool.</p>
 <pre><code class="language-bash">npm install -g wasmedge-core # Append --unsafe-perm if permission denied
