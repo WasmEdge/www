@@ -1168,7 +1168,75 @@ sys 0m0.011s
 </code></pre>
 <p>如果要了解这些 API 的细节，请参考<a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">API 头文件</a>。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="api-references"><a class="header" href="#api-references">API references</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="go-sdk"><a class="header" href="#go-sdk">Go SDK</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-sdk"><a class="header" href="#wasmedge-go-sdk">WasmEdge Go SDK</a></h1>
+<p>这是一份如何使用 WasmEdge Go API 的指南。你可以通过 WasmEdge Go API 将 WasmEdge 嵌入在你的 Go 应用程序中。</p>
+<h2 id="快速开始-2"><a class="header" href="#快速开始-2">快速开始</a></h2>
+<p>WasmEdge-go 要求 Go 语言版本 &gt;= 1.15。在安装之前请检查你的 Go 语言版本。你可以<a href="https://golang.org/dl/">从这里下载 Go 语言</a>。</p>
+<pre><code class="language-bash">$ go version
+go version go1.16.5 linux/amd64
+</code></pre>
+<p>同时，请确保你已经安装了和 <code>WasmEdge-go</code> 同一发布版本的 <a href="embed/../start/install.html">WasmEdge 共享库</a>。</p>
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1
+</code></pre>
+<p>如果你需要 <code>WasmEdge-go</code> 的 <code>TensorFlow</code> 或 <code>Image</code> 扩展，请安装带有这些扩展的 <code>WasmEdge</code> ：</p>
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1 -e tensorflow,image
+</code></pre>
+<p>注意 <code>TensorFlow</code> 和 <code>Image</code> 扩展仅支持 <code>Linux</code> 平台。</p>
+<p>安装 <code>WasmEdge-go</code> 包并在你的 Go 项目目录下构建：</p>
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
+go build
+</code></pre>
+<h2 id="wasmedge-go-扩展"><a class="header" href="#wasmedge-go-扩展">WasmEdge-go 扩展</a></h2>
+<p>默认情况下， <code>WasmEdge-go</code> 只打开基本运行时。</p>
+<p><code>WasmEdge-go</code> 有以下扩展：</p>
+<ul>
+<li>
+<p>TensorFlow</p>
+<ul>
+<li>
+<p>该扩展支持 <a href="https://github.com/second-state/WasmEdge-tensorflow">WasmEdge-tensorflow</a> 中的 host 函数。</p>
+</li>
+<li>
+<p>若要安装 <code>tensorflow</code> 扩展。请在 WasmEdge 安装器命令中使用 <code>-e tensorflow</code> 标志。</p>
+</li>
+<li>
+<p>若使用该扩展，在构建时需要打上 <code>tensorflow</code> 标签：</p>
+<pre><code class="language-bash">go build -tags tensorflow
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Image</p>
+<ul>
+<li>
+<p>该扩展支持 <a href="https://github.com/second-state/WasmEdge-image">WasmEdge-image</a> 中的 host 函数。</p>
+</li>
+<li>
+<p>若要安装 <code>image</code> 扩展。请在 WasmEdge 安装器命令中使用 <code>-e image</code> 标志。</p>
+</li>
+<li>
+<p>若使用该扩展，在构建时需要打上 <code>image</code> 标签：</p>
+<pre><code class="language-bash">go build -tags image
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>你也可以在构建的时候打开多个扩展：</p>
+<pre><code class="language-bash">go build -tags image,tensorflow
+</code></pre>
+<p>有关示例，请参考 <a href="https://github.com/second-state/WasmEdge-go-examples/">示例仓库</a>。</p>
+<h3 id="go-中的-wasmedge-aot-编译器"><a class="header" href="#go-中的-wasmedge-aot-编译器">Go 中的 WasmEdge AOT 编译器</a></h3>
+<p><a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_WasmAOT">go_WasmAOT 示例</a> 演示了如何通过一个 Go 应用程序将一个 WASM 文件编译成本机二进制文件文件（AOT 编译）。</p>
+<h2 id="相关示例"><a class="header" href="#相关示例">相关示例</a></h2>
+<ul>
+<li><a href="embed/go/app.html">嵌入一个独立的 Wasm 应用</a></li>
+<li><a href="embed/go/function.html">嵌入一个 Wasm 函数</a></li>
+<li><a href="embed/go/memory.html">将复杂的参数传递到 Wasm 函数</a></li>
+<li><a href="embed/go/tensorflow.html">嵌入一个 Tensorflow 推理函数</a></li>
+<li><a href="embed/go/bindgen.html">嵌入一个 bindgen 函数</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="嵌入-wasm-应用程序"><a class="header" href="#嵌入-wasm-应用程序">嵌入 WASM 应用程序</a></h1>
 <p>WasmEdge Go SDK 能<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_ReadFile">嵌入单独的 WebAssembly 应用程序</a> — 比如，一个带着 <code>main()</code> 函数，编译成 WebAssembly 的 Rust 应用程序。</p>
 <p>我们的 <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_ReadFile/rust_readfile">demo Rust 应用程序</a>从一个文件中读取内容。注意，WebAssembly 程序的输入和输出数据现在是通过 STDIN 和 STDOUT 传递的。</p>
@@ -1832,7 +1900,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust-sdk"><a class="header" href="#rust-sdk">Rust SDK</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="python-sdk"><a class="header" href="#python-sdk">Python SDK</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="用-kubernetes-管理-wasmedge-应用"><a class="header" href="#用-kubernetes-管理-wasmedge-应用">用 Kubernetes 管理 WasmEdge 应用</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="快速开始-2"><a class="header" href="#快速开始-2">快速开始</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="快速开始-3"><a class="header" href="#快速开始-3">快速开始</a></h1>
 <p>我们为你创建了基于 Ubuntu 的脚本，以便你在标准 Kubernetes 设置中快速开始使用以下运行时组合。</p>
 <table><thead><tr><th>CRI（高级）runtime</th><th>OCI（低级）runtime</th><th></th></tr></thead><tbody>
 <tr><td>CRI-O</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio.yml">脚本</a></td></tr>
@@ -1956,7 +2024,7 @@ $ sudo buildah push --authfile ~/.docker/config.json http_server docker://docker
 <div style="break-before: page; page-break-before: always;"></div><h1 id="youki"><a class="header" href="#youki">youki</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cri-runtimes"><a class="header" href="#cri-runtimes">CRI runtimes</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cri-o"><a class="header" href="#cri-o">CRI-O</a></h1>
-<h2 id="快速开始-3"><a class="header" href="#快速开始-3">快速开始</a></h2>
+<h2 id="快速开始-4"><a class="header" href="#快速开始-4">快速开始</a></h2>
 <p><a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> 包含 CRI-O 相关示例的脚本和 Github Actions，以下是相关链接。</p>
 <ul>
 <li>WebAssembly 简单示例  <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/crio.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4317457300?check_suite_focus=true#step:4:37">Successful run</a></li>
@@ -2135,7 +2203,7 @@ echo: name=WasmEdge
 </code></pre>
 <p>接下来，你可尝试在 <a href="kubernetes/cri/../../kubernetes/kubernetes.html">Kubernetes</a> 中运行这个应用!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="containerd"><a class="header" href="#containerd">containerd</a></h1>
-<h2 id="快速开始-4"><a class="header" href="#快速开始-4">快速开始</a></h2>
+<h2 id="快速开始-5"><a class="header" href="#快速开始-5">快速开始</a></h2>
 <p><a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a>包含 containerd 相关示例的脚本和 Github Actions，以下是相关链接。</p>
 <ul>
 <li>WebAssembly 简单示例 <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4328930139?check_suite_focus=true#step:4:25">Successful run</a></li>
@@ -2218,7 +2286,7 @@ echo: name=WasmEdge
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes--containerd"><a class="header" href="#kubernetes--containerd">Kubernetes + containerd</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kind"><a class="header" href="#kind">KinD</a></h1>
 <p>KinD 是在 Docker 内部运行的 Kubernetes 发行版，非常适合本地开发或集成测试。</p>
-<h2 id="快速开始-5"><a class="header" href="#快速开始-5">快速开始</a></h2>
+<h2 id="快速开始-6"><a class="header" href="#快速开始-6">快速开始</a></h2>
 <p>作为先决条件，我们第一步需要安装 KinD。为此，请参阅<a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries">快速入门指南</a>和<a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries">稳定版发布页面</a>来安装最新版本的 KinD CLI。</p>
 <p>如果已经安装了 KinD，我们可以直接从<a href="https://github.com/Liquid-Reply/kind-crun-wasm">这里</a>中的示例开始：</p>
 <pre><code class="language-bash"># Create a &quot;WASM in KinD&quot; Cluster
