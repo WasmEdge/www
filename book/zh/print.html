@@ -2084,7 +2084,13 @@ buildah --help
 $ sudo buildah push --authfile ~/.docker/config.json http_server docker://docker.io/avengermojo/http_server:with-wasm-annotation
 </code></pre>
 <p>好了！ 现在你可以尝试在 <a href="kubernetes/demo/../cri/crio.html#run-a-http-server-app">CRI-O</a> 或 <a href="kubernetes/demo/../kubernetes/kubernetes.html#run-a-http-server-app">Kubernetes</a> 上运行它了！</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="container-runtimes"><a class="header" href="#container-runtimes">Container runtimes</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="容器运行时"><a class="header" href="#容器运行时">容器运行时</a></h1>
+<p>容器镜像可以由任何与开放容器标准（OCI）兼容的容器运行时（runtime）启动，例如：</p>
+<ul>
+<li><a href="kubernetes/container/crun.html">crun</a>：高性能的轻量级容器运行时，用 C 语言编写</li>
+<li><a href="kubernetes/container/runc.html">runc</a>：应用广泛的容器运行时，用 Go 语言编写</li>
+<li><a href="kubernetes/container/youki.html">youki</a>：兼容 OCI 的容器运行时实现，用 Rust 编写</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="crun"><a class="header" href="#crun">crun</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="runc"><a class="header" href="#runc">runc</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="youki"><a class="header" href="#youki">youki</a></h1>
