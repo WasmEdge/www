@@ -207,8 +207,8 @@ $ npm install wasmedge-extensions
 <p>WasmEdge Runtime 需要最新版本的 <code>libstdc++</code>。 Ubuntu 20.04 LTS 已经有最新的库了。 如果你使用的是比较老的 Linux 发行版中，有一些选项需要升级，<a href="https://www.secondstate.io/articles/ubuntu-req-ssvm-20200715/">更详细的信息在这儿</a>。</p>
 </blockquote>
 <p>然后，克隆示例源代码仓库。</p>
-<pre><code class="language-bash">$ git clone https://github.com/second-state/wasmedge-nodejs-starter
-$ cd wasmedge-nodejs-starter
+<pre><code class="language-bash">git clone https://github.com/second-state/wasmedge-nodejs-starter
+cd wasmedge-nodejs-starter
 </code></pre>
 <h2 id="hello-world"><a class="header" href="#hello-world">Hello World</a></h2>
 <p>第一个示例是一个 hello world，向你展示应用程序的各个部分如何组合在一起。</p>
@@ -227,7 +227,7 @@ pub fn say(s: String) -&gt; String {
 <span class="boring">}
 </span></code></pre></pre>
 <p>然后你可以将 Rust 源代码编译成 WebAssembly 字节码，并且生成相应的 JavaScript 模块供 Node.js host 环境调用。</p>
-<pre><code class="language-bash">$ rustwasmc build
+<pre><code class="language-bash">rustwasmc build
 </code></pre>
 <p>生成的文件在 <code>pkg/</code> 目录下，<code>.wasm</code> 文件是 WebAssembly 字节码程序，<code>.js</code> 文件是 JavaScript 模块。</p>
 <h3 id="nodejs-host-应用程序"><a class="header" href="#nodejs-host-应用程序">Node.js host 应用程序</a></h3>
@@ -264,7 +264,7 @@ hello Wasm
 <pre><code class="language-src">a*X^2 + b*X + c = 0
 </code></pre>
 <p><code>X</code> 的根展示在输入表单下面。</p>
-<p><img src="/articles/getting-started-with-rust-function-01.png" alt="" /></p>
+<p><img src="https://www.secondstate.io/articles/getting-started-with-rust-function-01.png" alt="getting-started-with-rust-function" /></p>
 <p><a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/public/index.html">HTML 文件</a> 包含提交 web 表单到 <code>/solve</code> 的客户端 JavaScript，并且将结果放到页面的 <code>#roots</code> HTML 元素里。</p>
 <pre><code class="language-javascript">$(function() {
     var options = {
@@ -303,9 +303,9 @@ pub fn solve(params: &amp;str) -&gt; String {
 <span class="boring">}
 </span></code></pre></pre>
 <p>让我们试试。</p>
-<pre><code class="language-bash">$ rustwasmc build
-$ npm install express # 这个应用程序需要 Node.js 的 express 框架
-$ node node/server.js
+<pre><code class="language-bash">rustwasmc build
+npm install express # 这个应用程序需要 Node.js 的 express 框架
+node node/server.js
 </code></pre>
 <p>在 web 浏览器中，输入 <code>http://ip-addr:8080/</code> 来获取应用程序。注意：如果你使用的是 Docker，确保 Docker 容器中的 8080 端口映射到宿主的 8080 端口。</p>
 <p>这就是二次方程的例子。</p>
@@ -314,7 +314,7 @@ $ node node/server.js
 <ul>
 <li>Rust 调用参数可以是 <code>i32</code>、<code>String</code>、<code>&amp;str</code>、<code>Vec&lt;u8&gt;</code> 和 <code>&amp;[u8]</code> 的组合。</li>
 <li>返回值可能是 <code>i32</code> 或者 <code>String</code> 或者 <code>Vec&lt;u8&gt;</code> 或者 void。</li>
-<li>对于复杂的数据结构，比如结构体，你可以使用 JSON 字符串来传递数据。 </li>
+<li>对于复杂的数据结构，比如结构体，你可以使用 JSON 字符串来传递数据。</li>
 </ul>
 <blockquote>
 <p>支持了 JSON，你可以用任意数量的输入参数调用 Rust 函数，并返回任意数量、任意类型的结果。</p>
