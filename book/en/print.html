@@ -157,7 +157,7 @@ Your system should have <code>git</code> and <code>curl</code> as prerequisites.
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
 <p>For Windows 10, you could use Windows Package Manager Client (aka winget.exe) to install WasmEdge with a single command in your terminal.</p>
-<pre><code>winget install wasmedge
+<pre><code class="language-bash">winget install wasmedge
 </code></pre>
 <p>If you would like to install WasmEdge with its <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and image processing extensions</a>, please run the following command. It will attempt to install Tensorflow and image shared libraries on your system.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
@@ -276,7 +276,7 @@ confidence: 0.8941176470588236
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
 <p>For Windows 10, you could use Windows Package Manager Client (aka winget.exe) to install WasmEdge with a single command in your terminal.</p>
-<pre><code>winget install wasmedge
+<pre><code class="language-bash">winget install wasmedge
 </code></pre>
 <p>If you would like to install WasmEdge with its <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and image processing extensions</a>, please run the following command. It will attempt to install Tensorflow and image shared libraries on your system.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
@@ -325,7 +325,7 @@ confidence: 0.8941176470588236
 <p>If a parent folder of the <code>wasmedge</code> binary contains <code>.wasmedge</code>, the folder will be considered for removal. For example, the script removes the default <code>$HOME/.wasmedge</code> folder altogether.</p>
 </blockquote>
 <p>If you used winget to install WasmEdge, run the following command.</p>
-<pre><code>winget uninstall wasmedge
+<pre><code class="language-bash">winget uninstall wasmedge
 </code></pre>
 <h2 id="install-wasmedge-for-nodejs"><a class="header" href="#install-wasmedge-for-nodejs">Install WasmEdge for Node.js</a></h2>
 <p>WasmEdge can run <a href="https://www.secondstate.io/articles/getting-started-with-rust-function/">WebAssembly functions emebedded in Node.js</a> applications. To install the WasmEdge module in your Node.js environment is easy. Just use the <code>npm</code> tool.</p>
@@ -7689,7 +7689,7 @@ hello Wasm
 <pre><code class="language-src">a*X^2 + b*X + c = 0
 </code></pre>
 <p>The roots for <code>X</code> are displayed in the area below the input form.</p>
-<p><img src="embed//articles/getting-started-with-rust-function-01.png" alt="getting-started-with-rust-function" /></p>
+<p><img src="https://www.secondstate.io/articles/getting-started-with-rust-function-01.png" alt="getting-started-with-rust-function" /></p>
 <p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/node/public/index.html">HTML file</a> contains the client side JavaScript to submit the web form to <code>/solve</code>, and put result into the <code>#roots</code> HTML element on the page.</p>
 <pre><code class="language-javascript">$(function() {
   var options = {

@@ -324,7 +324,7 @@ VM.registerModule(TestMod);
 </code></pre>
 <h3 id="在-cmakefile-中链接库以及包含目录"><a class="header" href="#在-cmakefile-中链接库以及包含目录">在 CMakeFile 中链接库以及包含目录</a></h3>
 <p>为了从 WasmEdge 的包含目录中查找头文件以及链接静态库，CMakeFile 需要如下设置</p>
-<pre><code>add_library(wasmedgeHostModuleTest  # Static library name of host modules
+<pre><code class="language-cmake">add_library(wasmedgeHostModuleTest  # Static library name of host modules
   test.cpp  # Path to host modules cpp files
 )
 
