@@ -157,12 +157,84 @@
 <p>The <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> crate defines a group of low-level Rust APIs, which simply wrap WasmEdge C APIs and provide the safe counterparts. The APIs in <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> should be used to construct high-level libraries.</p>
 </li>
 <li>
-<p>The <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-rs</a> crate is based on the wasmedge-sys crate and provides a more elegant and idiomatic Rust APIs. These APIs are more suitable for business-oriented design and development. The wasmedge-rs crate is still under active development. Check out <a href="https://github.com/WasmEdge/WasmEdge/tree/master/bindings/rust">the source code</a> on GitHub. Feedbacks and contributions are welcome.</p>
+<p>The <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-rs</a> crate is based on the wasmedge-sys crate and provides a more elegant and idiomatic Rust APIs. These APIs are more suitable for business-oriented design and development. The wasmedge-rs crate is still under active development and coming soon.</p>
+</li>
+</ul>
+<h2 id="build-wasmedge-sys-crate"><a class="header" href="#build-wasmedge-sys-crate">Build <code>wasmedge-sys</code> crate</a></h2>
+<p><code>wasmedge-sys</code> depends on the dynamic library and the header files of <code>WasmEdge</code>. To <code>cargo build</code> <code>wasmedge-sys</code> there are several choices to specify the dependencies:</p>
+<ul>
+<li>
+<p>By specifying <code>WASMEDGE_INCLUDE_DIR</code> and <code>WASMEDGE_LIB_DIR</code></p>
+<ul>
+<li>
+<p>Suppose that you have already downloaded the <code>Wasmedge-0.9.1</code> binary package from <a href="https://github.com/WasmEdge/WasmEdge/releases">WasmEdge Releases</a> and put it in the <code>~/workspace/me/</code> directory. The directory structure of the released package is shown below.</p>
+<pre><code class="language-bash">root@0a877562f39e:~/workspace/me/WasmEdge-0.9.1-Linux# pwd
+/root/workspace/me/WasmEdge-0.9.1-Linux
+
+root@0a877562f39e:~/workspace/me/WasmEdge-0.9.1-Linux# tree .
+.
+|-- bin
+|   |-- wasmedge
+|   `-- wasmedgec
+|-- include
+|   `-- wasmedge
+|       |-- enum_configure.h
+|       |-- enum_errcode.h
+|       |-- enum_types.h
+|       |-- int128.h
+|       |-- version.h
+|       `-- wasmedge.h
+`-- lib64
+    `-- libwasmedge_c.so
+
+4 directories, 9 files
+</code></pre>
+</li>
+<li>
+<p>Set <code>WASMEDGE_INCLUDE_DIR</code> and <code>WASMEDGE_LIB_DIR</code> environment variables to specify the <code>include</code> and <code>lib</code> (or <code>lib64</code>) directories. After that, go to the <code>wasmedge-sys</code> directory and <code>cargo build</code> the crate.</p>
+<pre><code class="language-bash">root@0a877562f39e:~/workspace/me/WasmEdge/bindings/rust/wasmedge-sys# export WASMEDGE_INCLUDE_DIR=/root/workspace/me/WasmEdge-0.9.1-Linux/include/wasmedge
+
+root@0a877562f39e:~/workspace/me/WasmEdge/bindings/rust/wasmedge-sys# export WASMEDGE_LIB_DIR=/root/workspace/me/WasmEdge-0.9.1-Linux/lib64
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>By specifying <code>WASMEDGE_BUILD_DIR</code></p>
+<ul>
+<li>
+<p>Suppose that you <code>git clone</code> WasmEdge repo in <code>~/workspace/me/WasmEdge</code>, and follow the <a href="https://wasmedge.org/book/en/extend/build.html">instructions</a> to build WasmEdge native library. The generated <code>include</code> and <code>lib</code> directories should be in <code>~/workspace/me/WasmEdge/build</code>.</p>
+</li>
+<li>
+<p>Then, set <code>WASMEDGE_BUILD_DIR</code> environment variable to specify the <code>build</code> directory. After that, go to the <code>wasmedge-sys</code> directory and <code>cargo build</code> the crate.</p>
+<pre><code class="language-bash">root@0a877562f39e:~/workspace/me/WasmEdge# export WASMEDGE_BUILD_DIR=/root/workspace/me/WasmEdge/build
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>By the <code>standalone</code> mode</p>
+<p>Besides the two methods mentioned above, the <code>standalone</code> mode enables building <code>WasmEdge</code> native library directly before building the crate itself.</p>
+<ul>
+<li>
+<p>Suppose that you <code>git clone</code> WasmEdge repo in <code>~/workspace/me/WasmEdge</code>. Go to the <code>wasmedge-sys</code> directory, and follow the instructions shown below:</p>
+<pre><code class="language-bash">// set WASMEDGE_DIR
+root@0a877562f39e:~/workspace/me/WasmEdge/bindings/rust/wasmedge-sys# export WASMEDGE_DIR=/root/workspace/me/WasmEdge
+
+// cargo build with standalone feature
+root@0a877562f39e:~/workspace/me/WasmEdge/bindings/rust/wasmedge-sys# cargo build --features standalone
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>By WasmEdge docker image</p>
+<p>If you choose WasmEdge docker image to build your own container for development, the pre-built WasmEdge binary package is located in <code>$HOME/.wasmedge</code> directory by default. The build script (<code>build.rs</code>) of <code>wasmedge-sys</code> crate can detect the package and build the crate automatically.</p>
 </li>
 </ul>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
-<li><a href="rust/wasmedge-sys-api.html">Run a WebAssembly function with WasmEdge low-level APIs</a></li>
+<li><a href="rust/wasmedge_sys_api.html">Run a WebAssembly function with WasmEdge low-level APIs</a></li>
 </ul>
 
                     </main>
