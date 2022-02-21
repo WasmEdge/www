@@ -149,7 +149,132 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="embed-bindgen-funcs"><a class="header" href="#embed-bindgen-funcs">Embed bindgen funcs</a></h1>
+                        <h1 id="嵌入-bindgen-函数"><a class="header" href="#嵌入-bindgen-函数">嵌入 bindgen 函数</a></h1>
+<blockquote>
+<p>本章节中讨论的 <code>wasm_bindgen</code> 方法已经废弃，我们推荐你查看 <a href="function.html">wasmedge_bindgen</a>，或者直接传入内存指针；</p>
+</blockquote>
+<p>在这个例子中，我们将演示如何从 Go 应用中调用一些非常简单的 WebAssembly 函数。这些<a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">函数</a>都是基于  Rust 语言编写，并且调用参数和返回值都比较复杂。编译工具需要函数声明  <code>#[wasm_bindgen]</code> 宏才能自动生成正确的代码，以便支持从 Go 中传递调用参数给 WebAssembly。</p>
+<p>WebAssembly 规范只支持几种开箱即用的简单数据类型，并不支持字符串和数组类型。为了实现在 Go 中向 WebAssembly 传递更丰富的类型，编译器需要将其转换成简单的整数。比如，将一个字符串转换成内存地址和字符串长度。<code>wasm_bindgen</code> 工具嵌入在 <a href="../../dev/rust/bindgen.html">rustwasmc</a> 中自动执行转换。</p>
+<blockquote>
+<p>在编写本文档的时候，我们要求 Rust 编译器必须是 1.50 或者以下的版本，这样才能够让 WebAssembly 函数与 WasmEdge 的 Go API 正常工作。当接口类型规范最终确定并完成支持后，我们会尽快迁移到<a href="https://github.com/WasmEdge/WasmEdge/issues/264">最新的 Rust 版本 </a>。</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasm_bindgen::prelude::*;
+use num_integer::lcm;
+use sha3::{Digest, Sha3_256, Keccak256};
+
+#[wasm_bindgen]
+pub fn say(s: &amp;str) -&gt; String {
+  let r = String::from(&quot;hello &quot;);
+  return r + s;
+}
+
+#[wasm_bindgen]
+pub fn obfusticate(s: String) -&gt; String {
+  (&amp;s).chars().map(|c| {
+    match c {
+      'A' ..= 'M' | 'a' ..= 'm' =&gt; ((c as u8) + 13) as char,
+      'N' ..= 'Z' | 'n' ..= 'z' =&gt; ((c as u8) - 13) as char,
+      _ =&gt; c
+    }
+  }).collect()
+}
+
+#[wasm_bindgen]
+pub fn lowest_common_multiple(a: i32, b: i32) -&gt; i32 {
+  let r = lcm(a, b);
+  return r;
+}
+
+#[wasm_bindgen]
+pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
+  return Sha3_256::digest(&amp;v).as_slice().to_vec();
+}
+
+#[wasm_bindgen]
+pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
+  return Keccak256::digest(s).as_slice().to_vec();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>首先，我们使用 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/book/en/src/dev/rust/bindgen.md">rustwasmc</a> 工具将 Rust 源代码编译成字节码。</p>
+<pre><code class="language-bash">$ rustup default 1.50.0
+$ cd rust_bindgen_funcs
+$ rustwasmc build
+# The output WASM will be pkg/rust_bindgen_funcs_lib_bg.wasm
+</code></pre>
+<p>我们在 Go 程序里面嵌入 WasmEdge 运行 WebAssembly 函数，<a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_BindgenFuncs/bindgen_funcs.go">Go 程序源码如下</a>，<code>ExecuteBindgen()</code> 函数调用 <code>#[wasm_bindgen]</code> 转换后的 WebAssembly 函数并传递调用参数。</p>
+<pre><code class="language-golang">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;os&quot;
+    &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+)
+
+func main() {
+    /// Expected Args[0]: program name (./bindgen_funcs)
+    /// Expected Args[1]: wasm or wasm-so file (rust_bindgen_funcs_lib_bg.wasm))
+
+    wasmedge.SetLogErrorLevel()
+
+    var conf = wasmedge.NewConfigure(wasmedge.WASI)
+    var vm = wasmedge.NewVMWithConfig(conf)
+    var wasi = vm.GetImportObject(wasmedge.WASI)
+    wasi.InitWasi(
+        os.Args[1:],     /// The args
+        os.Environ(),    /// The envs
+        []string{&quot;.:.&quot;}, /// The mapping directories
+    )
+
+    /// Instantiate wasm
+    vm.LoadWasmFile(os.Args[1])
+    vm.Validate()
+    vm.Instantiate()
+
+    /// Run bindgen functions
+    var res interface{}
+    var err error
+
+    res, err = vm.ExecuteBindgen(&quot;say&quot;, wasmedge.Bindgen_return_array, []byte(&quot;bindgen funcs test&quot;))
+    if err == nil {
+        fmt.Println(&quot;Run bindgen -- say:&quot;, string(res.([]byte)))
+    }
+    res, err = vm.ExecuteBindgen(&quot;obfusticate&quot;, wasmedge.Bindgen_return_array, []byte(&quot;A quick brown fox jumps over the lazy dog&quot;))
+    if err == nil {
+        fmt.Println(&quot;Run bindgen -- obfusticate:&quot;, string(res.([]byte)))
+    }
+    res, err = vm.ExecuteBindgen(&quot;lowest_common_multiple&quot;, wasmedge.Bindgen_return_i32, int32(123), int32(2))
+    if err == nil {
+        fmt.Println(&quot;Run bindgen -- lowest_common_multiple:&quot;, res.(int32))
+    }
+    res, err = vm.ExecuteBindgen(&quot;sha3_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
+    if err == nil {
+        fmt.Println(&quot;Run bindgen -- sha3_digest:&quot;, res.([]byte))
+    }
+    res, err = vm.ExecuteBindgen(&quot;keccak_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
+    if err == nil {
+        fmt.Println(&quot;Run bindgen -- keccak_digest:&quot;, res.([]byte))
+    }
+
+    vm.Release()
+    conf.Release()
+}
+</code></pre>
+<p>接下来，让我们用 WasmEdge Go SDK 来构建 Go 应用。</p>
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+go build
+</code></pre>
+<p>执行 Go 应用程序，该应用将在 WasmEdge runtime 中执行嵌入的 WebAssembly 函数。</p>
+<pre><code class="language-bash">$ ./bindgen_funcs rust_bindgen_funcs/pkg/rust_bindgen_funcs_lib_bg.wasm
+Run bindgen -- say: hello bindgen funcs test
+Run bindgen -- obfusticate: N dhvpx oebja sbk whzcf bire gur ynml qbt
+Run bindgen -- lowest_common_multiple: 246
+Run bindgen -- sha3_digest: [87 27 231 209 189 105 251 49 159 10 211 250 15 159 154 181 43 218 26 141 56 199 25 45 60 10 20 163 54 211 195 203]
+Run bindgen -- keccak_digest: [126 194 241 200 151 116 227 33 216 99 159 22 107 3 177 169 216 191 114 156 174 193 32 159 246 228 245 133 52 75 55 27]
+</code></pre>
 
                     </main>
 
