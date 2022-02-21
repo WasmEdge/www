@@ -4254,7 +4254,465 @@ target_include_directories(wasmedgeHostModuleTest
 <p>在我们的机制里， <code>include/common/errcode.h</code> 中声明的 <code>Expect&lt;T&gt;</code> 被用作函数体的结果类型。在 <code>Expect&lt;void&gt;</code> 的情况下，预期场景需要 <code>return {};</code> 。其它情况下， 预期场景需要 <code>return Value;</code> ，其中 <code>Value</code> 是 <code>T</code> 类型的一个变量。如果出现意外情况，用户可以调用 <code>return Unexpect(Code);</code> 来返回一个错误，其中 <code>Code</code> 是枚举 <code>ErrCode</code> 的一个元素。</p>
 <h3 id="强制终止"><a class="header" href="#强制终止">强制终止</a></h3>
 <p>WasmEdge 提供了一种在 host 函数中终止 WASM 执行的方法。开发者可以返回 <code>ErrCode::Terminated</code>  来触发当前执行的强制终止，并将 <code>ErrCode::Terminated</code>  传递给 host 函数的调用者。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="external-references"><a class="header" href="#external-references">External references</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="自定义外部引用"><a class="header" href="#自定义外部引用">自定义外部引用</a></h1>
+<p><a href="https://webassembly.github.io/reference-types/core/syntax/types.html#syntax-reftype">外部引用</a>指示对 host 对象的不透明且不可伪造的引用。新的 <code>externref</code> 类型可以被传递到 Wasm 模块或从 Wasm 模块返回。Wasm 模块不能显示 <code>externref</code> 值的位模式，也不能通过整数值创建一个假的 host 引用。</p>
+<h2 id="教程"><a class="header" href="#教程">教程</a></h2>
+<p>下面的教程是对 WasmEdge 中的 <code>externref</code> 示例的总结。</p>
+<h3 id="准备-wasm-文件"><a class="header" href="#准备-wasm-文件">准备 Wasm 文件</a></h3>
+<p>Wasm 文件应该包含接受 <code>externref</code> 的 host 函数导入。以<a href="extend/plugin/../test/externref/externrefTestData/funcs.wasm">这个 WASM 测试用例</a>为例（<a href="extend/plugin/../test/externref/externrefTestData/funcs.wat">WAT</a>是相对应的文本格式）。</p>
+<pre><code class="language-wasm">(module
+  (type $t0 (func (param externref i32) (result i32)))
+  (type $t1 (func (param externref i32 i32) (result i32)))
+  (type $t2 (func (param externref externref i32 i32) (result i32)))
+  (import &quot;extern_module&quot; &quot;functor_square&quot; (func $functor_square (type $t0)))
+  (import &quot;extern_module&quot; &quot;class_add&quot; (func $class_add (type $t1)))
+  (import &quot;extern_module&quot; &quot;func_mul&quot; (func $func_mul (type $t1)))
+  (func $call_add (export &quot;call_add&quot;) (type $t1) (param $p0 externref) (param $p1 i32) (param $p2 i32) (result i32)
+    (call $class_add
+      (local.get $p0)
+      (local.get $p1)
+      (local.get $p2)))
+  (func $call_mul (export &quot;call_mul&quot;) (type $t1) (param $p0 externref) (param $p1 i32) (param $p2 i32) (result i32)
+    (call $func_mul
+      (local.get $p0)
+      (local.get $p1)
+      (local.get $p2)))
+  (func $call_square (export &quot;call_square&quot;) (type $t0) (param $p0 externref) (param $p1 i32) (result i32)
+    (call $functor_square
+      (local.get $p0)
+      (local.get $p1)))
+  (func $call_add_square (export &quot;call_add_square&quot;) (type $t2) (param $p0 externref) (param $p1 externref) (param $p2 i32) (param $p3 i32) (result i32)
+    (call $functor_square
+      (local.get $p1)
+      (call $class_add
+        (local.get $p0)
+        (local.get $p2)
+        (local.get $p3))))
+  (memory $memory (export &quot;memory&quot;) 1))
+</code></pre>
+<p>你可以通过 <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm</a> 在线实时工具将 <code>wat</code> 转换为 <code>wasm</code>。注意页面上的 <code>reference types</code> 复选框必须勾选。</p>
+<h3 id="实现-host-模块以及在-wasmedge-中注册"><a class="header" href="#实现-host-模块以及在-wasmedge-中注册">实现 Host 模块以及在 WasmEdge 中注册</a></h3>
+<p>在执行 Wasm 执行前，host 模块必须实现以及在 WasmEdge 中注册。假设下面的代码保存为 <code>main.c</code>：</p>
+<pre><code class="language-cpp">#include &lt;wasmedge/wasmedge.h&gt;
+
+#include &lt;stdio.h&gt;
+
+uint32_t SquareFunc(uint32_t A) { return A * A; }
+uint32_t AddFunc(uint32_t A, uint32_t B) { return A + B; }
+uint32_t MulFunc(uint32_t A, uint32_t B) { return A * B; }
+
+// Host 函数通过外部引用调用 `SquareFunc`
+WasmEdge_Result ExternSquare(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
+                             const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  // 函数类型: {externref, i32} -&gt; {i32}
+  uint32_t (*Func)(uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
+  uint32_t C = Func(WasmEdge_ValueGetI32(In[1]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+
+// Host 函数通过外部引用调用 `AddFunc`
+WasmEdge_Result ExternAdd(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  // 函数类型: {externref, i32, i32} -&gt; {i32}
+  uint32_t (*Func)(uint32_t, uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
+  uint32_t C = Func(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+
+// host 函数通过外部引用调用 `ExternMul`
+WasmEdge_Result ExternMul(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  // 函数类型: {externref, i32, i32} -&gt; {i32}
+  uint32_t (*Func)(uint32_t, uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
+  uint32_t C = Func(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+
+// 创建“extern_module”引入对象的辅助函数。
+WasmEdge_ImportObjectContext *CreateExternModule() {
+  WasmEdge_String HostName;
+  WasmEdge_FunctionTypeContext *HostFType = NULL;
+  WasmEdge_FunctionInstanceContext *HostFunc = NULL;
+  enum WasmEdge_ValType P[3], R[1];
+
+  HostName = WasmEdge_StringCreateByCString(&quot;extern_module&quot;);
+  WasmEdge_ImportObjectContext *ImpObj = WasmEdge_ImportObjectCreate(HostName);
+  WasmEdge_StringDelete(HostName);
+
+  // 添加 host 函数 &quot;functor_square&quot;: {externref, i32} -&gt; {i32}
+  P[0] = WasmEdge_ValType_ExternRef;
+  P[1] = WasmEdge_ValType_I32;
+  R[0] = WasmEdge_ValType_I32;
+  HostFType = WasmEdge_FunctionTypeCreate(P, 2, R, 1);
+  HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternSquare, NULL, 0);
+  WasmEdge_FunctionTypeDelete(HostFType);
+  HostName = WasmEdge_StringCreateByCString(&quot;functor_square&quot;);
+  WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+  WasmEdge_StringDelete(HostName);
+
+  // 添加 host 函数 &quot;class_add&quot;: {externref, i32, i32} -&gt; {i32}
+  P[2] = WasmEdge_ValType_I32;
+  HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1);
+  HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternAdd, NULL, 0);
+  WasmEdge_FunctionTypeDelete(HostFType);
+  HostName = WasmEdge_StringCreateByCString(&quot;class_add&quot;);
+  WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+  WasmEdge_StringDelete(HostName);
+
+  // 添加 host 函数 &quot;func_mul&quot;: {externref, i32, i32} -&gt; {i32}
+  HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1);
+  HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternMul, NULL, 0);
+  WasmEdge_FunctionTypeDelete(HostFType);
+  HostName = WasmEdge_StringCreateByCString(&quot;func_mul&quot;);
+  WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+  WasmEdge_StringDelete(HostName);
+
+  return ImpObj;
+}
+
+int main() {
+  WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+  WasmEdge_ImportObjectContext *ImpObj = CreateExternModule();
+  WasmEdge_Value P[3], R[1];
+  WasmEdge_String FuncName;
+  WasmEdge_Result Res;
+
+  Res = WasmEdge_VMRegisterModuleFromImport(VMCxt, ImpObj);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Import object registration failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+  Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;funcs.wasm&quot;);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;WASM file loading failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+  Res = WasmEdge_VMValidate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;WASM validation failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+  Res = WasmEdge_VMInstantiate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;WASM instantiation failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+
+  // 测试用例 1：调用 add -- 1234 + 5678
+  P[0] = WasmEdge_ValueGenExternRef(AddFunc);
+  P[1] = WasmEdge_ValueGenI32(1234);
+  P[2] = WasmEdge_ValueGenI32(5678);
+  FuncName = WasmEdge_StringCreateByCString(&quot;call_add&quot;);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 3, R, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Test 1 -- `call_add` -- 1234 + 5678 = %d\n&quot;,
+           WasmEdge_ValueGetI32(R[0]));
+  } else {
+    printf(&quot;Test 1 -- `call_add` -- 1234 + 5678 -- failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+
+  // 测试用例 2：调用 mul -- 789 * 4321
+  P[0] = WasmEdge_ValueGenExternRef(MulFunc);
+  P[1] = WasmEdge_ValueGenI32(789);
+  P[2] = WasmEdge_ValueGenI32(4321);
+  FuncName = WasmEdge_StringCreateByCString(&quot;call_mul&quot;);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 3, R, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Test 2 -- `call_mul` -- 789 * 4321 = %d\n&quot;,
+           WasmEdge_ValueGetI32(R[0]));
+  } else {
+    printf(&quot;Test 2 -- `call_mul` -- 789 * 4321 -- failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+
+  // 测试用例 3：调用 square -- 8256^2
+  P[0] = WasmEdge_ValueGenExternRef(SquareFunc);
+  P[1] = WasmEdge_ValueGenI32(8256);
+  FuncName = WasmEdge_StringCreateByCString(&quot;call_square&quot;);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 2, R, 1);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Test 3 -- `call_mul` -- 8256 ^ 2 = %d\n&quot;,
+           WasmEdge_ValueGetI32(R[0]));
+  } else {
+    printf(&quot;Test 3 -- `call_mul` -- 8256 ^ 2 -- failed\n&quot;);
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
+}
+</code></pre>
+<h3 id="设置环境并编译"><a class="header" href="#设置环境并编译">设置环境并编译</a></h3>
+<ol>
+<li>
+<p>安装 WasmEdge 共享库。</p>
+<p>详细信息请参阅<a href="extend/plugin/install.html">安装</a>。</p>
+</li>
+<li>
+<p>如上所示准备 WASM 文件和 <code>main.c</code> 源文件。</p>
+</li>
+<li>
+<p>编译</p>
+<pre><code class="language-bash">gcc main.c -lwasmedge_c
+# 或者你可以在 C++ 场景下使用 g++，或者使用 clang。
+</code></pre>
+</li>
+<li>
+<p>运行测试用例</p>
+<pre><code class="language-bash">$ ./a.out
+Test 1 -- `call_add` -- 1234 + 5678 = 6912
+Test 2 -- `call_mul` -- 789 * 4321 = 3409269
+Test 3 -- `call_mul` -- 8256 ^ 2 = 68161536
+</code></pre>
+</li>
+</ol>
+<h2 id="使用外部引用的--wasm"><a class="header" href="#使用外部引用的--wasm">使用外部引用的  Wasm</a></h2>
+<p>以下文的 <code>wat</code> 为例：</p>
+<pre><code class="language-wasm">(module
+  (type $t0 (func (param externref i32) (result i32)))
+  ;; Import a host function which type is {externref i32} -&gt; {i32}
+  (import &quot;extern_module&quot; &quot;functor_square&quot; (func $functor_square (type $t0)))
+  ;; Wasm function which type is {externref i32} -&gt; {i32} and exported as &quot;call_square&quot;
+  (func $call_square (export &quot;call_square&quot;) (type $t0) (param $p0 externref) (param $p1 i32) (result i32)
+    (call $functor_square (local.get $p0) (local.get $p1))
+  )
+  (memory $memory (export &quot;memory&quot;) 1))
+</code></pre>
+<p>Wasm 函数 &quot;<code>call_square</code>&quot; 包含一个 <code>externref</code> 参数，并用这个 <code>externref</code> 调用导入的 host 函数 <code>functor_square</code>。所以，当你调用 Wasm 函数 <code>call_square</code> 并传递对象的引用时，host 函数 <code>functor_square</code> 就能获得该对应引用。</p>
+<h2 id="wasmedge-externref-示例"><a class="header" href="#wasmedge-externref-示例">WasmEdge ExternRef 示例</a></h2>
+<p>下面的例子展示了如何在 Wasm 里通过 WasmEdge C API 使用 <code>externref</code>。</p>
+<h3 id="wasm-代码"><a class="header" href="#wasm-代码">Wasm 代码</a></h3>
+<p>Wasm 代码必须将 <code>externref</code> 传递给想要访问它的 host 函数。以下文的 <code>wat</code> 为例，这是 <a href="extend/plugin/../test/externref/externrefTestData/funcs.wat">WASM 测试用例</a>的其中一部分：</p>
+<pre><code class="language-wasm">(module
+  (type $t0 (func (param externref i32 i32) (result i32)))
+  (import &quot;extern_module&quot; &quot;func_mul&quot; (func $func_mul (type $t0)))
+  (func $call_mul (export &quot;call_mul&quot;) (type $t0) (param $p0 externref) (param $p1 i32) (param $p2 i32) (result i32)
+    (call $func_mul (local.get $p0) (local.get $p1) (local.get $p2))
+  )
+  (memory $memory (export &quot;memory&quot;) 1))
+</code></pre>
+<p>host 函数 <code>extern_module::func_mul</code> 将 <code>externref</code> 作为一个函数指针用来将参数 1 和参数 2 相乘并返回其结果。输出的 Wasm 函数 <code>call_mul</code> 调用 <code>func_mul</code> 并传递 <code>externref</code> 和 2 个数字作为参数。</p>
+<h3 id="host-函数-1"><a class="header" href="#host-函数-1">Host 函数</a></h3>
+<p>要实例化上面的 Wasm 示例，host 函数必须注册到 WasmEdge 中。详见 <a href="extend/plugin/../../embed/c/ref.html#host-functions">Host 函数</a>。接受 <code>externref</code> 的 host 函数必须知道原始对象的类型。我们以函数指针为例。</p>
+<pre><code class="language-c">/* 作为函数指针传递的函数。 */
+uint32_t MulFunc(uint32_t A, uint32_t B) { return A * B; }
+
+/* Host 函数通过外部引用作为函数指针来调用函数 */
+WasmEdge_Result ExternMul(void *, WasmEdge_MemoryInstanceContext *,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /* 函数类型: {externref, i32, i32} -&gt; {i32} */
+  void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
+  uint32_t (*Obj)(uint32_t, uint32_t) = Ptr;
+  /*
+   * 对于 C++ 来说，`reinterpret_cast` 是必需的：
+   * uint32_t (*Obj)(uint32_t, uint32_t) = 
+   *   *reinterpret_cast&lt;uint32_t (*)(uint32_t, uint32_t)&gt;(Ptr);
+   */
+  uint32_t C = Obj(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<p>&quot;<code>MulFunc</code>&quot; 是一个函数，将作为 <code>externref</code> 传递给 Wasm。在 host 函数 &quot;<code>func_mul</code>&quot; 中，你可以使用 &quot;<code>WasmEdge_ValueGetExternRef</code>&quot; API 从包含 <code>externref</code> 的 <code>WasmEdge_Value</code> 中获取指针。</p>
+<p>开发人员可以将带有名称的 host 函数添加到导入对象中。</p>
+<pre><code class="language-c">/* 创建一个导入对象。 */
+WasmEdge_String HostName = WasmEdge_StringCreateByCString(&quot;extern_module&quot;);
+WasmEdge_ImportObjectContext *ImpObj = WasmEdge_ImportObjectCreate(HostName);
+WasmEdge_StringDelete(HostName);
+
+/* 创建一个函数实例并添加到一个导入对象中。 */
+enum WasmEdge_ValType P[3], R[1];
+P[0] = WasmEdge_ValType_ExternRef;
+P[1] = WasmEdge_ValType_I32;
+P[2] = WasmEdge_ValType_I32;
+R[0] = WasmEdge_ValType_I32;
+WasmEdge_FunctionTypeContext *HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1);
+WasmEdge_FunctionInstanceContext *HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternFuncMul, NULL, 0);
+WasmEdge_FunctionTypeDelete(HostFType);
+HostName = WasmEdge_StringCreateByCString(&quot;func_mul&quot;);
+WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+WasmEdge_StringDelete(HostName);
+
+...
+</code></pre>
+<h3 id="执行"><a class="header" href="#执行">执行</a></h3>
+<p>以<a href="extend/plugin/../test/externref/externrefTestData/funcs.wasm">这个 WASM 测试用例</a>为例（<a href="extend/plugin/../test/externref/externrefTestData/funcs.wat">WAT</a>是相对应的文本格式）。假设函数 <code>funcs.wasm</code> 被复制到了当前目录。下面的例子展示了如何在 Wasm 里用 WasmEdge C API 使用 <code>externref</code>。</p>
+<pre><code class="language-c">/* 创建 VM 上下文。 */
+WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+/* 创建包含 host 函数的导入对象上下文。 */
+WasmEdge_ImportObjectContext *ImpObj = /* Ignored ... */;
+/* 假设 host 函数被添加到上面的导入对象中。 */
+WasmEdge_Value P[3], R[1];
+WasmEdge_String FuncName;
+WasmEdge_Result Res;
+
+/* 将导入对象注册到 VM。 */
+Res = WasmEdge_VMRegisterModuleFromImport(VMCxt, ImpObj);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;Import object registration failed\n&quot;);
+  return EXIT_FAILURE;
+}
+/* 从文件中加载 WASM。 */
+Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;funcs.wasm&quot;);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM file loading failed\n&quot;);
+  return EXIT_FAILURE;
+}
+/* 验证 WASM。 */
+Res = WasmEdge_VMValidate(VMCxt);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM validation failed\n&quot;);
+  return EXIT_FAILURE;
+}
+/* 实例化 WASM 模块。 */
+Res = WasmEdge_VMInstantiate(VMCxt);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM instantiation failed\n&quot;);
+  return EXIT_FAILURE;
+}
+
+/* 运行 WASM 函数。 */
+P[0] = WasmEdge_ValueGenExternRef(AddFunc);
+P[1] = WasmEdge_ValueGenI32(1234);
+P[2] = WasmEdge_ValueGenI32(5678);
+/* 运行 `call_add` 函数。 */
+FuncName = WasmEdge_StringCreateByCString(&quot;call_add&quot;);
+Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 3, R, 1);
+WasmEdge_StringDelete(FuncName);
+if (WasmEdge_ResultOK(Res)) {
+  printf(&quot;Run -- `call_add` -- 1234 + 5678 = %d\n&quot;,
+          WasmEdge_ValueGetI32(R[0]));
+} else {
+  printf(&quot;Run -- `call_add` -- 1234 + 5678 -- failed\n&quot;);
+  return EXIT_FAILURE;
+}
+</code></pre>
+<h2 id="传递对象"><a class="header" href="#传递对象">传递对象</a></h2>
+<p>上面的例子是传递一个函数引用 <code>externref</code>。下面的例子是关于如何在 C++ 中将对象引用作为 <code>externref</code> 传递给 WASM 的。</p>
+<h3 id="传递一个类"><a class="header" href="#传递一个类">传递一个类</a></h3>
+<p>将一个类通过 <code>externref</code> 传递，对象实例是必须的。</p>
+<pre><code class="language-cpp">class AddClass {
+public:
+  uint32_t add(uint32_t A, uint32_t B) const { return A + B; }
+};
+
+AddClass AC;
+</code></pre>
+<p>然后你可以通过使用 <code>WasmEdge_ValueGenExternRef()</code> API 将对象传入 WasmEdge。</p>
+<pre><code class="language-cpp">WasmEdge_Value P[3], R[1];
+P[0] = WasmEdge_ValueGenExternRef(&amp;AC);
+P[1] = WasmEdge_ValueGenI32(1234);
+P[2] = WasmEdge_ValueGenI32(5678);
+WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;call_add&quot;);
+WasmEdge_Result Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 3, R, 1);
+WasmEdge_StringDelete(FuncName);
+if (WasmEdge_ResultOK(Res)) {
+  std::cout &lt;&lt; &quot;Result : &quot; &lt;&lt; WasmEdge_ValueGetI32(R[0]) std::endl;
+  // 将会打印 `6912`.
+} else {
+  return EXIT_FAILURE;
+}
+</code></pre>
+<p>在通过引用访问对象的 host 函数中，你可以使用 <code>WasmEdge_ValueGetExternRef()</code> API 来检索对对象的引用。</p>
+<pre><code class="language-cpp">// 修改上面的教程中的 `ExternAdd`。
+WasmEdge_Result ExternAdd(void *, WasmEdge_MemoryInstanceContext *,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  // 函数类型：{externref, i32, i32} -&gt; {i32}
+  void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
+  AddClass &amp;Obj = *reinterpret_cast&lt;AddClass *&gt;(Ptr);
+  uint32_t C =
+      Obj.add(WasmEdge_ValueGetI32(In[1]), WasmEdge_ValueGetI32(In[2]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<h3 id="传递一个对象作为仿函数"><a class="header" href="#传递一个对象作为仿函数">传递一个对象作为仿函数</a></h3>
+<p>与传递类实例一样，需要 functor 对象实例。</p>
+<pre><code class="language-cpp">struct SquareStruct {
+  uint32_t operator()(uint32_t Val) const { return Val * Val; }
+};
+
+SquareStruct SS;
+</code></pre>
+<p>然后你可以通过使用 <code>WasmEdge_ValueGenExternRef()</code> API 将对象传递到 WasmEdge。</p>
+<pre><code class="language-cpp">WasmEdge_Value P[2], R[1];
+P[0] = WasmEdge_ValueGenExternRef(&amp;SS);
+P[1] = WasmEdge_ValueGenI32(1024);
+WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;call_square&quot;);
+WasmEdge_Result Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 2, R, 1);
+WasmEdge_StringDelete(FuncName);
+if (WasmEdge_ResultOK(Res)) {
+  std::cout &lt;&lt; &quot;Result : &quot; &lt;&lt; WasmEdge_ValueGetI32(R[0]) std::endl;
+  // 将会打印 `1048576`.
+} else {
+  return EXIT_FAILURE;
+}
+</code></pre>
+<p>在通过引用访问对象的 host 函数中，你可以使用 <code>WasmEdge_ValueGetExternRef</code> API 来检索对该对象的引用，而该引用是一个 functor。</p>
+<pre><code class="language-cpp">// 修改上文教程中的 `ExternSquare`。
+WasmEdge_Result ExternSquare(void *, WasmEdge_MemoryInstanceContext *,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  // 函数类型：{externref, i32, i32} -&gt; {i32}
+  void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
+  SquareStruct &amp;Obj = *reinterpret_cast&lt;SquareStruct *&gt;(Ptr);
+  uint32_t C = Obj(WasmEdge_ValueGetI32(In[1]));
+  Out[0] = WasmEdge_ValueGenI32(C);
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<h3 id="传递-stl-对象"><a class="header" href="#传递-stl-对象">传递 STL 对象</a></h3>
+<p><a href="extend/plugin/../test/externref/externrefTestData/stl.wasm">example Wasm binary</a> 提供了与 host 函数交互的函数可以访问 C++ STL 对象的示例（<a href="extend/plugin/../test/externref/externrefTestData/stl.wat">WAT</a> 是相对应的文本格式）。</p>
+<p>假设 WASM 文件 <code>stl.wasm</code> 被复制到了当前目录。</p>
+<p>以下文的 <code>std::ostream</code> 和 <code>std::string</code> 为例。假设有一个 host 函数可以通过 <code>externref</code> 访问 <code>std::ostream</code> 和 <code>std::string</code>。</p>
+<pre><code class="language-cpp">// Host 函数，通过 std::ostream 输出 std::string
+WasmEdge_Result ExternSTLOStreamStr(void *, WasmEdge_MemoryInstanceContext *,
+                                    const WasmEdge_Value *In,
+                                    WasmEdge_Value *) {
+  // 函数类型：{externref, externref} -&gt; {}
+  void *Ptr0 = WasmEdge_ValueGetExternRef(In[0]);
+  void *Ptr1 = WasmEdge_ValueGetExternRef(In[1]);
+  std::ostream &amp;RefOS = *reinterpret_cast&lt;std::ostream *&gt;(Ptr0);
+  std::string &amp;RefStr = *reinterpret_cast&lt;std::string *&gt;(Ptr1);
+  RefOS &lt;&lt; RefStr;
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<p>假设上面的 host 函数被添加到一个导入对象 <code>ImpObj</code> 中，并且 <code>ImpObj</code> 被注册到一个虚拟机上下文 <code>VMCxt</code> 中。然后你可以通过以下代码实例化 Wasm 模块：</p>
+<pre><code class="language-cpp">WasmEdge_Result Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;stl.wasm&quot;);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM file loading failed\n&quot;);
+  return EXIT_FAILURE;
+}
+Res = WasmEdge_VMValidate(VMCxt);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM validation failed\n&quot;);
+  return EXIT_FAILURE;
+}
+Res = WasmEdge_VMInstantiate(VMCxt);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;WASM instantiation failed\n&quot;);
+  return EXIT_FAILURE;
+}
+</code></pre>
+<p>最后，通过外部引用传递 <code>std::cout</code> 和 <code>std::string</code> 对象。</p>
+<pre><code class="language-cpp">std::string PrintStr(&quot;Hello world!&quot;);
+WasmEdge_Value P[2], R[1];
+P[0] = WasmEdge_ValueGenExternRef(&amp;std::cout);
+P[1] = WasmEdge_ValueGenExternRef(&amp;PrintStr);
+WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;call_ostream_str&quot;);
+WasmEdge_Result Res = WasmEdge_VMExecute(VMCxt, FuncName, P, 2, R, 1);
+// 将会打印 &quot;Hello world!&quot; 到标准输出 stdout.
+WasmEdge_StringDelete(FuncName);
+if (!WasmEdge_ResultOK(Res)) {
+  return EXIT_FAILURE;
+}
+</code></pre>
+<p>对于其它 C++ STL 对象的情况，例如 <code>std::vector&lt;T&gt;</code>，<code>std::map&lt;T, U&gt;</code> 或 <code>std::set&lt;T&gt;</code>，如果 <code>reinterpret_cast</code> 中的类型是正确的，该对象就可以在 host 函数中被正确访问到。</p>
 
                     </main>
 
