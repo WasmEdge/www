@@ -2139,7 +2139,19 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 </code></pre>
 <p>你应该会在控制台日志中看到 WebAssembly 程序打印的结果。<a href="https://github.com/second-state/wasmedge-containers-examples/runs/4577789181?check_suite_focus=true#step:6:3010">这里是一个例子</a>。</p>
 <p>继续阅读本章的其余部分，了解这些运行时的具体配置方式。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="demo-apps"><a class="header" href="#demo-apps">Demo apps</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="demo-应用"><a class="header" href="#demo-应用">Demo 应用</a></h1>
+<p>在本章中，我们将介绍两个 demo 应用。 我们将从 Rust 源码进行构建，并围绕它们构建 OCI 镜像，然后将这些镜像发布到 Docker Hub。</p>
+<p>如果你还没有这样做，请先</p>
+<ul>
+<li><a href="https://www.rust-lang.org/tools/install">安装 Rust</a></li>
+<li><a href="https://hub.docker.com/">注册 Docker Hub</a></li>
+</ul>
+<p>接下来，探索示例</p>
+<ul>
+<li><a href="kubernetes/demo/wasi.html">一个简单的 WASI 示例</a></li>
+<li><a href="kubernetes/demo/server.html">一个 HTTP 服务器示例</a></li>
+</ul>
+<p>由于我们已经在 Docker Hub 上构建并发布了这些 demo 应用，你也可以直接进入容器运行时部分来使用这些镜像。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="一个简单的-wasi-例子"><a class="header" href="#一个简单的-wasi-例子">一个简单的 WASI 例子</a></h1>
 <p>在这篇文章中，我会向你展示如何去构建一个 WebAssemblely 应用的容器镜像。然后可以通过 Kubernetes 生态系统工具（例如 CRI-O、Docker、crun 和 Kubernetes）来启动和管理它。</p>
 <h2 id="先决条件-1"><a class="header" href="#先决条件-1">先决条件</a></h2>
