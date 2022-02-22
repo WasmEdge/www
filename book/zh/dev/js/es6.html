@@ -150,6 +150,45 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="es6-模块"><a class="header" href="#es6-模块">ES6 模块</a></h1>
+<p>WasmEdge QuickJS runtime 提供了对 ES6 模块的支持。我们在 <a href="ssr.html">React SSR</a> 例子中使用的 rollup 命令实际上是将  CommonJS 和 NPM 模块转换并且捆绑为 ES6 模块，以便它们可以在 WasmEdge QuickJS 中执行。这篇文章将告诉你如何在 WasmEdge 中使用 ES6 模块。</p>
+<p>我们将以 <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/es6_module_demo">example_js/es6_module_demo</a> 文件夹中的例子为例。该文件夹中的 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/es6_module_demo/module_def.js">module_def.js</a> 文件定义并导出了一个简单的 JS 函数。</p>
+<pre><code class="language-javascript">function hello(){
+  console.log('hello from module_def.js');
+}
+
+export {hello};
+</code></pre>
+<p><a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/es6_module_demo/module_def_async.js">module_def_async.js</a> 文件定义并导出了一个 aysnc 函数和一个变量。</p>
+<pre><code class="language-javascript">export async function hello() {
+  console.log('hello from module_def_async.js');
+  return 'module_def_async.js : return value';
+}
+
+export var something = 'async thing';
+</code></pre>
+<p><a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/es6_module_demo/demo.js">demo.js</a> 文件从这些模块导入函数和变量并执行这些函数。</p>
+<pre><code class="language-javascript">import {hello as module_def_hello} from './module_def.js';
+
+module_def_hello();
+
+var f = async () =&gt; {
+  let {hello, something} = await import('./module_def_async.js');
+  await hello();
+  console.log('./module_def_async.js `something` is ', something);
+};
+
+f();
+</code></pre>
+<p>要运行这个例子，你可以在 CLI 上做如下操作。</p>
+<pre><code class="language-javascript">$ cd example_js/es6_module_demo
+$ wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm demo.js
+hello from module_def.js
+hello from module_def_async.js
+./module_def_async.js `something` is  async thing
+</code></pre>
+<blockquote>
+<p>注意：命令行中的 <code>--dir .:.</code> 是为了赋予 wasmedge 权限，让其读取文件系统中 <code>demo.js</code> 文件的本地目录。</p>
+</blockquote>
 
                     </main>
 
