@@ -3644,6 +3644,11 @@ cd ../
 <div style="break-before: page; page-break-before: always;"></div><h1 id="mosn"><a class="header" href="#mosn">MOSN</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="apache-eventmesh"><a class="header" href="#apache-eventmesh">Apache EventMesh</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="应用框架"><a class="header" href="#应用框架">应用框架</a></h1>
+<p>WasmEdge 为应用程序提供安全高效的扩展机制。当然，应用程序开发人员随时可以使用 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/book/en/src/embed.md">WasmEdge SDK</a> 来嵌入 WebAssembly 函数。但有些应用程序和框架选择在 WasmEdge SDK 之上构建扩展/嵌入 API，后者支持与应用程序的本地应用场景和编程模型进行更符合人体工程学的集成。</p>
+<ul>
+<li><a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/book/en/src/frameworks/app/yomo.md">YoMo</a> 是一个数据流处理框架。WasmEdge 函数可以插入到框架中来处理流中的数据。</li>
+<li><a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/book/en/src/frameworks/app/reactr.md">Reactr</a> 是一个 Go 语言框架，用于管理和扩展 WebAssembly 函数，以便轻松嵌入到其他 Go 应用程序中。</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="yomo"><a class="header" href="#yomo">YoMo</a></h1>
 <p><a href="https://yomo.run/">YoMo</a> 是一个让开发者能够构建分布式云系统（地理分布式云系统）的编程框架。YoMo 的通信层是建立在 QUIC 协议之上，QUIC 协议带来了高速的数据传输。另外，YoMo 内置了流式 Serverless 的 “流式函数”，这可以显著提升分布式云系统的开发体验。YoMo 构建的分布式云系统提供了近场算力与终端之间的超高速通信机制， 使得它在元宇宙、VR/AR、IoT 等领域有着广泛的应用。</p>
 <blockquote>
