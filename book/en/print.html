@@ -11663,10 +11663,6 @@ If you are looking for the pre-built binaries for the older operating system, we
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
 </tbody></table>
-<h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
-<p>If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
-<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
-</code></pre>
 <h2 id="build-wasmedge"><a class="header" href="#build-wasmedge">Build WasmEdge</a></h2>
 <p>WasmEdge provides various tools for enabling different runtime environments for optimal performance.
 After the build is finished, you can find there are several wasmedge related tools:</p>
@@ -11705,6 +11701,10 @@ docker run -it --rm \
 cd /root/wasmedge
 mkdir -p build &amp;&amp; cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
+</code></pre>
+<h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
+<p>If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
+<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="run-built-in-tests"><a class="header" href="#run-built-in-tests">Run built-in tests</a></h2>
 <p>The following built-in tests are only available when the build flag <code>WASMEDGE_BUILD_TESTS</code> sets to <code>ON</code>.</p>
