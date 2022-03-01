@@ -208,10 +208,6 @@ sudo apt install -y clang
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
 </tbody></table>
-<h3 id="如果你不需要预编译运行时编译器"><a class="header" href="#如果你不需要预编译运行时编译器">如果你不需要预编译运行时/编译器</a></h3>
-<p>如果用户不需要预编译运行时和编译器特性的话，可以将 CMAKE 配置项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 设置成 <code>OFF</code>。</p>
-<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
-</code></pre>
 <h2 id="构建-wasmedge"><a class="header" href="#构建-wasmedge">构建 WasmEdge</a></h2>
 <p>WasmEdge 提供了丰富的工具来支撑更好的性能以及更多样的运行时环境，
 编译完成后，你可以找到以下几个 WasmEdge 相关的工具：</p>
@@ -249,6 +245,10 @@ docker run -it --rm \
 cd /root/wasmedge
 mkdir -p build &amp;&amp; cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
+</code></pre>
+<h3 id="如果你不需要预编译运行时编译器"><a class="header" href="#如果你不需要预编译运行时编译器">如果你不需要预编译运行时/编译器</a></h3>
+<p>如果用户不需要预编译运行时和编译器特性的话，可以将 CMAKE 配置项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 设置成 <code>OFF</code>。</p>
+<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="执行内置的测试"><a class="header" href="#执行内置的测试">执行内置的测试</a></h2>
 <p>下面所提到的测试只有在构建配置 <code>WASMEDGE_BUILD_TESTS</code> 设置为 <code>ON</code> 的时候才有效。</p>
