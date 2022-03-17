@@ -154,9 +154,8 @@
 <h2 id="set-up-an-openyurt-cluster"><a class="header" href="#set-up-an-openyurt-cluster">Set up an OpenYurt Cluster</a></h2>
 <p>Here, we introduce two ways to set up an OpenYurt Cluster.
 The first one is to set up an OpenYurt Cluster from scratch, use <code>yurtctl convert</code> to realize a K8s Cluster conversion to an OpenYurt Cluster.
-The second one is to use the ability of OpenYurt Experience Center, 
-which is easy to achieve an OpenYurt Cluster. </p>
-<h3 id="prerequisite"><a class="header" href="#prerequisite">prerequisite</a></h3>
+The second one is to use the ability of OpenYurt Experience Center, which is easy to achieve an OpenYurt Cluster.</p>
+<h3 id="prerequisite"><a class="header" href="#prerequisite">Prerequisite</a></h3>
 <table><thead><tr><th></th><th>OS/kernel</th><th>Private IP/Public IP</th></tr></thead><tbody>
 <tr><td>Master</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.169/120.55.126.18</td></tr>
 <tr><td>Node</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.170/121.43.113.152</td></tr>
@@ -164,22 +163,21 @@ which is easy to achieve an OpenYurt Cluster. </p>
 <p>It should be noted that some steps may differ slightly depending on the operating system differences.
 Please refer to the installation of <a href="https://github.com/openyurtio/openyurt">OpenYurt</a> and <a href="https://github.com/containers/crun">crun</a>.</p>
 <p>We use <code>yurtctl convert</code> to convert a K8s Cluster to OpenYurt Cluster, so we should set up a K8s Cluster.
-If you use <code>yurtctl init/join</code> to set up an OpenYurt Cluster, you can skip this step which introduces the process of installl
-K8s.</p>
-<p>Find the difference of <code>yurtctl convert/revert</code> and <code>yurtctl init/join</code>, you can refer the following two articles.</p>
+If you use <code>yurtctl init/join</code> to set up an OpenYurt Cluster, you can skip this step which introduces the process of installing K8s.</p>
+<p>Find the difference between <code>yurtctl convert/revert</code> and <code>yurtctl init/join</code>, you can refer to the following two articles.</p>
 <p><a href="https://openyurt.io/docs/installation/yurtctl-init-join">how use <code>Yurtctl init/join</code></a></p>
 <p><a href="https://openyurt.io/docs/installation/yurtctl-convert-revert">Conversion between OpenYurt and Kubernetes:<code>yurtctl convert/revert</code></a></p>
 <ul>
 <li>Close the swap space of the master and node firstly.</li>
 </ul>
-<pre><code class="language-shell">sudo swapoff -a
-//verify    
+<pre><code class="language-bash">sudo swapoff -a
+//verify
 free -m
 </code></pre>
 <ul>
-<li>Configure the file /etc/hosts of two nodes as following.</li>
+<li>Configure the file /etc/hosts of two nodes as the following.</li>
 </ul>
-<pre><code class="language-shell">192.168.3.169  oy-master 
+<pre><code class="language-bash">192.168.3.169  oy-master 
 120.55.126.18  oy-master
 92.168.3.170   oy-node
 121.43.113.152 oy-node
@@ -187,7 +185,7 @@ free -m
 <ul>
 <li>Load the br_netfilter Kernel module and modify the Kernel parameter.</li>
 </ul>
-<pre><code class="language-shell">//load the module
+<pre><code class="language-bash">//load the module
 sudo modprobe br_netfilter
 //verify   
 lsmod | grep br_netfilter
@@ -201,13 +199,13 @@ sudo sysctl --system
 <ul>
 <li>Setup the value of rp-filter (adjusting the value of two parameters in /etc/sysctl.d/10-network-security.conf from 2 to 1 and setting up the value of /proc/sys/net/ipv4/ip_forward to 1)</li>
 </ul>
-<pre><code class="language-shell">sudo vi /etc/sysctl.d/10-network-security.conf
+<pre><code class="language-bash">sudo vi /etc/sysctl.d/10-network-security.conf
 echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 sudo sysctl --system
 </code></pre>
 <h4 id="install-containerd-and-modify-the-default-configure-of-containerd"><a class="header" href="#install-containerd-and-modify-the-default-configure-of-containerd">Install containerd and modify the default configure of containerd</a></h4>
 <p>Use the following commands to install containerd on your edge node which will run a WasmEdge simple demo.</p>
-<pre><code class="language-shell">export VERSION=&quot;1.5.7&quot;
+<pre><code class="language-bash">export VERSION=&quot;1.5.7&quot;
 echo -e &quot;Version: $VERSION&quot;
 echo -e &quot;Installing libseccomp2 ...&quot;
 sudo apt install -y libseccomp2
@@ -222,24 +220,24 @@ sudo tar --no-overwrite-dir -C / -xzf cri-containerd-cni-${VERSION}-linux-amd64.
 sudo systemctl daemon-reload
 </code></pre>
 <p>As the crun project support WasmEdge as default, we just need to configure the containerd configuration for runc. So we need to modify the runc parameters in /etc/containerd/config.toml to curn and add pod_annotation.</p>
-<pre><code class="language-shell">sudo mkdir -p /etc/containerd/
+<pre><code class="language-bash">sudo mkdir -p /etc/containerd/
 sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
 wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/containerd_config.diff
 sudo patch -d/ -p0 &lt; containerd_config.diff
 </code></pre>
 <p>After that, restart containerd to make the configuration take effect.</p>
-<pre><code class="language-shell">systemctl start containerd
+<pre><code class="language-bash">systemctl start containerd
 </code></pre>
 <h4 id="install-wasmedge"><a class="header" href="#install-wasmedge">Install WasmEdge</a></h4>
-<p>Use the <a href="https://wasmedge.org/book/en/start/install.html">simple install script</a> to install WasmEdge on your edge node. </p>
-<pre><code class="language-shell">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+<p>Use the <a href="https://wasmedge.org/book/en/start/install.html">simple install script</a> to install WasmEdge on your edge node.</p>
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
 <h4 id="build-and-install-crun"><a class="header" href="#build-and-install-crun">Build and install crun</a></h4>
 <p>We need a crun binary that supports WasmEdge on the edge node. For now, the most straightforward approach is to build it yourself from the source. First, let's ensure that crun dependencies are installed on your Ubuntu 20.04. For other Linux distributions, please see <a href="https://github.com/containers/crun#readme">here</a>.</p>
 <ul>
 <li>Dependencies are required for the build</li>
 </ul>
-<pre><code class="language-shell">sudo apt update
+<pre><code class="language-bash">sudo apt update
 sudo apt install -y make git gcc build-essential pkgconf libtool \
   libsystemd-dev libprotobuf-c-dev libcap-dev libseccomp-dev libyajl-dev \
   go-md2man libtool autoconf python3 automake
@@ -247,7 +245,7 @@ sudo apt install -y make git gcc build-essential pkgconf libtool \
 <ul>
 <li>Configure, build, and install a crun binary with WasmEdge support.</li>
 </ul>
-<pre><code class="language-shell">git clone https://github.com/containers/crun
+<pre><code class="language-bash">git clone https://github.com/containers/crun
 cd crun
 ./autogen.sh
 ./configure --with-wasmedge
@@ -255,11 +253,11 @@ make
 sudo make install
 </code></pre>
 <h3 id="from-scratch-set-up-an-openyurt-cluster"><a class="header" href="#from-scratch-set-up-an-openyurt-cluster">From scratch set up an OpenYurt Cluster</a></h3>
-<p>In this demo, we will use two machines to set up an OpenYurt Cluster. One simulated cloud node is called Master,the other one simulated edge node is called Node. These two nodes form the simplest
+<p>In this demo, we will use two machines to set up an OpenYurt Cluster. One simulated cloud node is called Master, the other one simulated edge node is called Node. These two nodes form the simplest
 OpenYurt Cluster, where OpenYurt components run on.</p>
 <h4 id="set-up-a-k8s-cluster"><a class="header" href="#set-up-a-k8s-cluster">Set up a K8s Cluster</a></h4>
 <p>Kubernetes version 1.18.9</p>
-<pre><code class="language-shell">$ sudo apt-get update &amp;&amp; sudo apt-get install -y ca-certificates curl software-properties-common apt-transport-https
+<pre><code class="language-bash">$ sudo apt-get update &amp;&amp; sudo apt-get install -y ca-certificates curl software-properties-common apt-transport-https
 // add K8s source
 $ curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
 $ sudo tee /etc/apt/sources.list.d/kubernetes.list &lt;&lt;EOF
@@ -276,13 +274,13 @@ $ kubeadm join 192.168.3.167:6443 --token 3zefbt.99e6denc1cxpk9fg \
 </code></pre>
 <h4 id="install-yurtctl"><a class="header" href="#install-yurtctl">Install yurtctl</a></h4>
 <p>Use the following command line to install yurtctl. The yurtctl CLI tool helps install/uninstall OpenYurt and also convert a standard Kubernetes cluster to an OpenYurt cluster.</p>
-<pre><code class="language-shell">git clone https://github.com/openyurtio/openyurt.git
+<pre><code class="language-bash">git clone https://github.com/openyurtio/openyurt.git
 cd openyurt
 make build WHAT=cmd/yurtctl
 </code></pre>
 <h4 id="install-openyurt-components"><a class="header" href="#install-openyurt-components">Install OpenYurt components</a></h4>
 <p>OpenYurt includes several components. YurtHub is the traffic proxy between the components on the node and Kube-apiserver. The YurtHub on the edge will cache the data returned from the cloud. Yurt controller supplements the upstream node controller to support edge computing requirements. TunnelServer connects with the TunnelAgent daemon running in each edge node via a reverse proxy to establish secure network access between the cloud site control plane and the edge nodes that are connected to the intranet. For more detailed information, you could refer to the <a href="https://github.com/openyurtio/openyurt">OpenYurt docs</a>.</p>
-<pre><code class="language-shell">yurtctl convert --deploy-yurttunnel --cloud-nodes oy-master --provider kubeadm\
+<pre><code class="language-bash">yurtctl convert --deploy-yurttunnel --cloud-nodes oy-master --provider kubeadm\
 --yurt-controller-manager-image=&quot;openyurt/yurt-controller-manager:v0.5.0&quot;\
 --yurt-tunnel-agent-image=&quot;openyurt/yurt-tunnel-agent:v0.5.0&quot;\
 --yurt-tunnel-server-image=&quot;openyurt/yurt-tunnel-server:v0.5.0&quot;\
@@ -290,17 +288,14 @@ make build WHAT=cmd/yurtctl
 --yurthub-image=&quot;openyurt/yurthub:v0.5.0&quot;
 </code></pre>
 <p>We need to change the openyurt/node-server-version to latest here: --node-servant-image=&quot;openyurt/node-servant:latest&quot;</p>
-<p>Actually, OpenYurt components 0.6.0 version is recommended to be installed and proved to be success to run a WasmEdge demo.
+<p>Actually, OpenYurt components 0.6.0 version is recommended to be installed and proved to be a success to run a WasmEdge demo.
 How to install OpenYurt:0.6.0, you can see <a href="https://github.com/openyurtio/openyurt/releases/tag/v0.6.0">this</a></p>
 <h3 id="use-openyurt-experience-center-to-quickly-set-up-an-openyurt-cluster"><a class="header" href="#use-openyurt-experience-center-to-quickly-set-up-an-openyurt-cluster">Use OpenYurt Experience Center to quickly set up an OpenYurt Cluster</a></h3>
-<p>An easier way to set up an OpenYurt Cluster is to use the OpenYurt Experience Center. All you need to do is to sign up for an account for testing, 
-and then you will get an OpenYurt cluster. Next, you could just use <code>yurtctl join</code> command line to join an edge node. See more OpenYurt Experience Center details <a href="https://openyurt.io/docs/installation/openyurt-experience-center/overview/">here</a>.</p>
+<p>An easier way to set up an OpenYurt Cluster is to use the OpenYurt Experience Center. All you need to do is to sign up for an account for testing, and then you will get an OpenYurt cluster. Next, you could just use <code>yurtctl join</code> command line to join an edge node. See more OpenYurt Experience Center details <a href="https://openyurt.io/docs/installation/openyurt-experience-center/overview/">here</a>.</p>
 <h2 id="run-a-simple-webassembly-app"><a class="header" href="#run-a-simple-webassembly-app">Run a simple WebAssembly app</a></h2>
-<p>Next, let's run a WebAssembly program through the OpenYurt cluster as a container in the pod. This section will start off pulling this WebAssembly-based container image 
-from Docker hub. If you want to learn how to compile, package, and publish the WebAssembly program as a container image to Docker hub, please refer to <a href="https://wasmedge.org/book/en/kubernetes/demo/wasi.html">WasmEdge Book</a>.</p>
-<p>One thing is to note that because the kubectl run (version 1.18.9 ) missed annotations parameters, we need to adjust the command line here. If you are using OpenYurt Experience Center with OpenYurt 0.6.0 and Kubernetes 1.20.11 by default,
-please refer to <a href="https://wasmedge.org/book/en/kubernetes/kubernetes.html">the Kubernetes sections</a> in the WasmEdge book to run the wasm app.</p>
-<pre><code class="language-shell">// kubectl 1.18.9
+<p>Next, let's run a WebAssembly program through the OpenYurt cluster as a container in the pod. This section will start off pulling this WebAssembly-based container image from Docker hub. If you want to learn how to compile, package, and publish the WebAssembly program as a container image to Docker hub, please refer to <a href="https://wasmedge.org/book/en/kubernetes/demo/wasi.html">WasmEdge Book</a>.</p>
+<p>One thing is to note that because the kubectl run (version 1.18.9 ) missed annotations parameters, we need to adjust the command line here. If you are using OpenYurt Experience Center with OpenYurt 0.6.0 and Kubernetes 1.20.11 by default, please refer to <a href="https://wasmedge.org/book/en/kubernetes/kubernetes.html">the Kubernetes sections</a> in the WasmEdge book to run the wasm app.</p>
+<pre><code class="language-bash">// kubectl 1.18.9
 $ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 
 // kubectl 1.20.11
@@ -308,7 +303,7 @@ $ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-ex
 
 </code></pre>
 <p>The output from the containerized application is printed into the console. It is the same for all Kubernetes versions.</p>
-<pre><code class="language-shell">Random number: 1123434661
+<pre><code class="language-bash">Random number: 1123434661
 Random bytes: [25, 169, 202, 211, 22, 29, 128, 133, 168, 185, 114, 161, 48, 154, 56, 54, 99, 5, 229, 161, 225, 47, 85, 133, 90, 61, 156, 86, 3, 14, 10, 69, 185, 225, 226, 181, 141, 67, 44, 121, 157, 98, 247, 148, 201, 248, 236, 190, 217, 245, 131, 68, 124, 28, 193, 143, 215, 32, 184, 50, 71, 92, 148, 35, 180, 112, 125, 12, 152, 111, 32, 30, 86, 15, 107, 225, 39, 30, 178, 215, 182, 113, 216, 137, 98, 189, 72, 68, 107, 246, 108, 210, 148, 191, 28, 40, 233, 200, 222, 132, 247, 207, 239, 32, 79, 238, 18, 62, 67, 114, 186, 6, 212, 215, 31, 13, 53, 138, 97, 169, 28, 183, 235, 221, 218, 81, 84, 235]
 Printed from wasi: This is from a main function
 This is from a main function
@@ -320,15 +315,15 @@ File content is This is in a file
 pod &quot;wasi-demo&quot; deleted
 </code></pre>
 <p>You can now check out the pod status through the Kubernetes command line.</p>
-<pre><code class="language-shell">crictl ps -a
+<pre><code class="language-bash">crictl ps -a
 </code></pre>
-<p>You can see the events from scheduling to running the WebAssembly workload in the log. </p>
-<pre><code class="language-shell">CONTAINER           IMAGE               CREATED             STATE               NAME                 ATTEMPT             POD ID
+<p>You can see the events from scheduling to running the WebAssembly workload in the log.</p>
+<pre><code class="language-bash">CONTAINER           IMAGE               CREATED             STATE               NAME                 ATTEMPT             POD ID
 0c176ed65599a       0423b8eb71e31       8 seconds ago       Exited              wasi-demo  
 </code></pre>
 <ul>
-<li>WasmEdge GitHub repo: https://github.com/WasmEdge/WasmEdge</li>
-<li>OpenYurt GitHub repo: https://github.com/openyurtio/openyurt</li>
+<li>WasmEdge GitHub repo: <a href="https://github.com/WasmEdge/WasmEdge">https://github.com/WasmEdge/WasmEdge</a></li>
+<li>OpenYurt GitHub repo: <a href="https://github.com/openyurtio/openyurt">https://github.com/openyurtio/openyurt</a></li>
 </ul>
 
                     </main>

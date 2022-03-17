@@ -151,7 +151,7 @@
                     <main>
                         <h1 id="rust-sdk"><a class="header" href="#rust-sdk">Rust SDK</a></h1>
 <p>你可以通过 WasmEdge Rust SDK 将 WasmEdge 嵌入到 Rust 应用程序中。</p>
-<p>WasmEdge Rust SDK 涉及两个 Rust crate <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> 和 [wasmedge-rs](https://crates.io/crates/wasmedge-sdk），它们根据不同的原则和不同的目的设计。 wasmedge-sys crate 定义了一组底层 Rust API，其仅仅是对 WasmEdge C API 进行封装，以提供相应的安全接口，而 wasmedge-rs crate 提供更优雅和符合人体工程学的 API，更适合应用程序开发。</p>
+<p>WasmEdge Rust SDK 涉及两个 Rust crate <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> 和 <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-rs</a>，它们根据不同的原则和不同的目的设计。 wasmedge-sys crate 定义了一组底层 Rust API，其仅仅是对 WasmEdge C API 进行封装，以提供相应的安全接口，而 wasmedge-rs crate 提供更优雅和符合人体工程学的 API，更适合应用程序开发。</p>
 <ul>
 <li>
 <p><a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> crate 定义了一组底层 Rust API，其仅仅是对 WasmEdge C API 进行封装，以提供相应的安全接口。 <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> 更适合作为基础库，为面向应用的更高层 Rust 库提供服务。</p>
@@ -234,7 +234,7 @@ root@0a877562f39e:~/workspace/me/WasmEdge/bindings/rust/wasmedge-sys# cargo buil
 <p>通过 WasmEdge docker image</p>
 </li>
 </ul>
-<p>如果选择通过 WasmEdge docker 镜像来构建容器进行开发，则预构建 WasmEdge 二进制包默认位于 <code>$HOME/.wasmedge</code> 目录中， wasmedge-sys 的构建脚本 (build.rs) 可以自动检测并构建 crate。</p>
+<p>如果选择通过 WasmEdge docker 镜像来构建容器进行开发，则预构建 WasmEdge 二进制包默认位于 <code>$HOME/.wasmedge</code> 目录中， wasmedge-sys 的构建脚本 （ build.rs ）可以自动检测并构建 crate。</p>
 <h2 id="案例"><a class="header" href="#案例">案例</a></h2>
 <ul>
 <li><a href="rust/wasmedge-sys-api.html">使用 WasmEdge 底层 API 运行 WebAssembly 函数</a></li>

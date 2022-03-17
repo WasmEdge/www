@@ -2285,7 +2285,7 @@ It is very likely a Hot dog in the picture
 <h2 id="如何编写简单的-host-function"><a class="header" href="#如何编写简单的-host-function">如何编写简单的 Host Function</a></h2>
 <p>让我们从一个最简单的例子入手, 来看看如何在一个 Go 程序里编写 Host function。</p>
 <p>先来编写一个简单的 rust 程序。国际惯例，<code>Cargo.toml</code> 不能少。</p>
-<h6 id="cargotoml"><a class="header" href="#cargotoml"><code>Cargo.toml</code></a></h6>
+<p><code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
 name = &quot;rust_host_func&quot;
 version = &quot;0.1.0&quot;
@@ -2297,17 +2297,17 @@ crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
 [dependencies]
 </code></pre>
 <p>再来看看 Rust 代码是什么样的。</p>
-<h6 id="librs"><a class="header" href="#librs"><code>lib.rs</code></a></h6>
+<p><code>lib.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern &quot;C&quot; {
-	fn add(a: i32, b: i32) -&gt; i32;
+  fn add(a: i32, b: i32) -&gt; i32;
 }
 
 #[no_mangle]
 pub unsafe extern fn run() -&gt; i32 {
-	add(1, 2)
+  add(1, 2)
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -2322,56 +2322,56 @@ pub unsafe extern fn run() -&gt; i32 {
 </code></pre>
 <p>可以看到 <code>add</code> 函数被放到了默认名称为 <code>env</code> 的模块的导入段中.</p>
 <p>接下来我们来看如何使用 <a href="https://github.com/second-state/WasmEdge-go">WasmEdge-go</a> SDK 来执行这段 wasm 程序.</p>
-<h6 id="hostfuncgo"><a class="header" href="#hostfuncgo"><code>hostfunc.go</code></a></h6>
+<p><code>hostfunc.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (
-	&quot;fmt&quot;
-	&quot;os&quot;
+  &quot;fmt&quot;
+  &quot;os&quot;
 
-	&quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+  &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
 )
 
 func add(_ interface{}, _ *wasmedge.Memory, params []interface{}) ([]interface{}, wasmedge.Result) {
-	// 将从 wasm 传过来的两个参数做加法运算
-	return []interface{}{params[0].(int32) + params[1].(int32)}, wasmedge.Result_Success
+  // 将从 wasm 传过来的两个参数做加法运算
+  return []interface{}{params[0].(int32) + params[1].(int32)}, wasmedge.Result_Success
 }
 
 func main() {
-	vm := wasmedge.NewVM()
-	
-	// 使用默认名称 env 构建导入段对象
-	obj := wasmedge.NewImportObject(&quot;env&quot;)
+  vm := wasmedge.NewVM()
+ 
+  // 使用默认名称 env 构建导入段对象
+  obj := wasmedge.NewImportObject(&quot;env&quot;)
 
-	// 构建 Host Function 的参数和返回值类型
-	funcAddType := wasmedge.NewFunctionType(
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-			wasmedge.ValType_I32,
-		},
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-		})
-	hostAdd := wasmedge.NewFunction(funcAddType, add, nil, 0)
-	
-	// 将 Host Function 加入到导入段对象中
-	// 注意第一个参数 `add` 是 rust 中定义的外部函数的名称
-	obj.AddFunction(&quot;add&quot;, hostAdd)
+  // 构建 Host Function 的参数和返回值类型
+  funcAddType := wasmedge.NewFunctionType(
+    []wasmedge.ValType{
+      wasmedge.ValType_I32,
+      wasmedge.ValType_I32,
+    },
+    []wasmedge.ValType{
+      wasmedge.ValType_I32,
+    })
+  hostAdd := wasmedge.NewFunction(funcAddType, add, nil, 0)
+ 
+  // 将 Host Function 加入到导入段对象中
+  // 注意第一个参数 `add` 是 rust 中定义的外部函数的名称
+  obj.AddFunction(&quot;add&quot;, hostAdd)
 
-	// 注册导入段对象
-	vm.RegisterImport(obj)
+  // 注册导入段对象
+  vm.RegisterImport(obj)
 
-	// 加载, 验证并实例化 wasm 程序
-	vm.LoadWasmFile(os.Args[1])
-	vm.Validate()
-	vm.Instantiate()
+  // 加载, 验证并实例化 wasm 程序
+  vm.LoadWasmFile(os.Args[1])
+  vm.Validate()
+  vm.Instantiate()
 
-	// 执行 wasm 导出的函数并取得返回值
-	r, _ := vm.Execute(&quot;run&quot;)
-	fmt.Printf(&quot;%d&quot;, r[0].(int32))
+  // 执行 wasm 导出的函数并取得返回值
+  r, _ := vm.Execute(&quot;run&quot;)
+  fmt.Printf(&quot;%d&quot;, r[0].(int32))
 
-	obj.Release()
-	vm.Release()
+  obj.Release()
+  vm.Release()
 }
 
 </code></pre>
@@ -2387,34 +2387,34 @@ func main() {
 <p>在这个例子中, 我们要统计 <code>https://www.google.com</code> 的网页源代码中 <code>google</code> 出现的次数。
 例子的源代码在<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_HostFunc">这里</a>.</p>
 <p>还是先上 Rust 代码。<code>Cargo.toml</code> 是必不可少的，只是我在这里省略了。</p>
-<h6 id="librs-1"><a class="header" href="#librs-1"><code>lib.rs</code></a></h6>
+<p><code>lib.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern &quot;C&quot; {
-	fn fetch(url_pointer: *const u8, url_length: i32) -&gt; i32;
-	fn write_mem(pointer: *const u8);
+  fn fetch(url_pointer: *const u8, url_length: i32) -&gt; i32;
+  fn write_mem(pointer: *const u8);
 }
 
 #[no_mangle]
 pub unsafe extern fn run() -&gt; i32 {
-	let url = &quot;https://www.google.com&quot;;
-	let pointer = url.as_bytes().as_ptr();
+  let url = &quot;https://www.google.com&quot;;
+  let pointer = url.as_bytes().as_ptr();
 
-	// call host function to fetch the source code, return the result length
-	let res_len = fetch(pointer, url.len() as i32) as usize;
+  // call host function to fetch the source code, return the result length
+  let res_len = fetch(pointer, url.len() as i32) as usize;
 
-	// malloc memory
-	let mut buffer = Vec::with_capacity(res_len);
-	let pointer = buffer.as_mut_ptr();
+  // malloc memory
+  let mut buffer = Vec::with_capacity(res_len);
+  let pointer = buffer.as_mut_ptr();
 
-	// call host function to write source code to the memory
-	write_mem(pointer);
+  // call host function to write source code to the memory
+  write_mem(pointer);
 
-	// find occurrences from source code
-	buffer.set_len(res_len);
-	let str = std::str::from_utf8(&amp;buffer).unwrap();
-	str.matches(&quot;google&quot;).count() as i32
+  // find occurrences from source code
+  buffer.set_len(res_len);
+  let str = std::str::from_utf8(&amp;buffer).unwrap();
+  str.matches(&quot;google&quot;).count() as i32
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -2426,107 +2426,107 @@ pub unsafe extern fn run() -&gt; i32 {
 <p>你可能已经看出来了, 要在 Host Function 里传递 string, 实际是通过传递这段 string 所在内存指针和长度来实现的. <code>fetch</code> 接收两个参数, 他们就分别是字符串 <code>https://www.google.com</code> 的指针和字节长度.</p>
 <p><code>fetch</code> 在获取到源代码后, 将源码的字节长度做为返回值返回。Rust 在分配了此长度的内存后, 将内存指针传递给 <code>write_mem</code>, host 将源码写入到这段内存, 进而达到了返回 string 的目的.</p>
 <p>编译的过程同上不再赘述, 接下来展示如何使用 <a href="https://github.com/second-state/WasmEdge-go">WasmEdge-go</a> SDK 来执行这段 Wasm 程序。</p>
-<h6 id="hostfungo"><a class="header" href="#hostfungo"><code>hostfun.go</code></a></h6>
+<p><code>hostfun.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (
-	&quot;fmt&quot;
-	&quot;io&quot;
-	&quot;os&quot;
-	&quot;net/http&quot;
+  &quot;fmt&quot;
+  &quot;io&quot;
+  &quot;os&quot;
+  &quot;net/http&quot;
 
-	&quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+  &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
 )
 
 type host struct {
-	fetchResult []byte
+  fetchResult []byte
 }
 
 // do the http fetch
 func fetch(url string) []byte {
-	resp, err := http.Get(string(url))
-	if err != nil {
-		return nil
-	}
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil
-	}
+  resp, err := http.Get(string(url))
+  if err != nil {
+    return nil
+  }
+  defer resp.Body.Close()
+  body, err := io.ReadAll(resp.Body)
+  if err != nil {
+    return nil
+  }
 
-	return body
+  return body
 }
 
 // Host function for fetching
 func (h *host) fetch(_ interface{}, mem *wasmedge.Memory, params []interface{}) ([]interface{}, wasmedge.Result) {
-	// get url from memory
-	pointer := params[0].(int32)
-	size := params[1].(int32)
-	data, _ := mem.GetData(uint(pointer), uint(size))
-	url := make([]byte, size)
+  // get url from memory
+  pointer := params[0].(int32)
+  size := params[1].(int32)
+  data, _ := mem.GetData(uint(pointer), uint(size))
+  url := make([]byte, size)
 
-	copy(url, data)
+  copy(url, data)
 
-	respBody := fetch(string(url))
+  respBody := fetch(string(url))
 
-	if respBody == nil {
-		return nil, wasmedge.Result_Fail
-	}
+  if respBody == nil {
+    return nil, wasmedge.Result_Fail
+  }
 
-	// store the source code
-	h.fetchResult = respBody
+  // store the source code
+  h.fetchResult = respBody
 
-	return []interface{}{len(respBody)}, wasmedge.Result_Success
+  return []interface{}{len(respBody)}, wasmedge.Result_Success
 }
 
 // Host function for writting memory
 func (h *host) writeMem(_ interface{}, mem *wasmedge.Memory, params []interface{}) ([]interface{}, wasmedge.Result) {
-	// write source code to memory
-	pointer := params[0].(int32)
-	mem.SetData(h.fetchResult, uint(pointer), uint(len(h.fetchResult)))
+  // write source code to memory
+  pointer := params[0].(int32)
+  mem.SetData(h.fetchResult, uint(pointer), uint(len(h.fetchResult)))
 
-	return nil, wasmedge.Result_Success
+  return nil, wasmedge.Result_Success
 }
 
 func main() {
-	conf := wasmedge.NewConfigure(wasmedge.WASI)
-	vm := wasmedge.NewVMWithConfig(conf)
-	obj := wasmedge.NewImportObject(&quot;env&quot;)
+  conf := wasmedge.NewConfigure(wasmedge.WASI)
+  vm := wasmedge.NewVMWithConfig(conf)
+  obj := wasmedge.NewImportObject(&quot;env&quot;)
 
-	h := host{}
-	// Add host functions into the import object
-	funcFetchType := wasmedge.NewFunctionType(
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-			wasmedge.ValType_I32,
-		},
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-		})
+  h := host{}
+  // Add host functions into the import object
+  funcFetchType := wasmedge.NewFunctionType(
+    []wasmedge.ValType{
+      wasmedge.ValType_I32,
+      wasmedge.ValType_I32,
+    },
+    []wasmedge.ValType{
+      wasmedge.ValType_I32,
+    })
 
-	hostFetch := wasmedge.NewFunction(funcFetchType, h.fetch, nil, 0)
-	obj.AddFunction(&quot;fetch&quot;, hostFetch)
+  hostFetch := wasmedge.NewFunction(funcFetchType, h.fetch, nil, 0)
+  obj.AddFunction(&quot;fetch&quot;, hostFetch)
 
-	funcWriteType := wasmedge.NewFunctionType(
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-		},
-		[]wasmedge.ValType{})
-	hostWrite := wasmedge.NewFunction(funcWriteType, h.writeMem, nil, 0)
-	obj.AddFunction(&quot;write_mem&quot;, hostWrite)
+  funcWriteType := wasmedge.NewFunctionType(
+    []wasmedge.ValType{
+      wasmedge.ValType_I32
+    },
+    []wasmedge.ValType{})
+  hostWrite := wasmedge.NewFunction(funcWriteType, h.writeMem, nil, 0)
+  obj.AddFunction(&quot;write_mem&quot;, hostWrite)
 
-	vm.RegisterImport(obj)
+  vm.RegisterImport(obj)
 
-	vm.LoadWasmFile(os.Args[1])
-	vm.Validate()
-	vm.Instantiate()
+  vm.LoadWasmFile(os.Args[1])
+  vm.Validate()
+  vm.Instantiate()
 
-	r, _ := vm.Execute(&quot;run&quot;)
-	fmt.Printf(&quot;There are %d 'google' in source code of google.com\n&quot;, r[0])
+  r, _ := vm.Execute(&quot;run&quot;)
+  fmt.Printf(&quot;There are %d 'google' in source code of google.com\n&quot;, r[0])
 
-	obj.Release()
-	vm.Release()
-	conf.Release()
+  obj.Release()
+  vm.Release()
+  conf.Release()
 }
 
 </code></pre>
@@ -2548,7 +2548,7 @@ func main() {
 <p>在这个例子中，我们将演示如何从 Go 应用中调用一些非常简单的 WebAssembly 函数。这些<a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">函数</a>都是基于  Rust 语言编写，并且调用参数和返回值都比较复杂。编译工具需要函数声明  <code>#[wasm_bindgen]</code> 宏才能自动生成正确的代码，以便支持从 Go 中传递调用参数给 WebAssembly。</p>
 <p>WebAssembly 规范只支持几种开箱即用的简单数据类型，并不支持字符串和数组类型。为了实现在 Go 中向 WebAssembly 传递更丰富的类型，编译器需要将其转换成简单的整数。比如，将一个字符串转换成内存地址和字符串长度。<code>wasm_bindgen</code> 工具嵌入在 <a href="embed/go/../../dev/rust/bindgen.html">rustwasmc</a> 中自动执行转换。</p>
 <blockquote>
-<p>在编写本文档的时候，我们要求 Rust 编译器必须是 1.50 或者以下的版本，这样才能够让 WebAssembly 函数与 WasmEdge 的 Go API 正常工作。当接口类型规范最终确定并完成支持后，我们会尽快迁移到<a href="https://github.com/WasmEdge/WasmEdge/issues/264">最新的 Rust 版本 </a>。</p>
+<p>在编写本文档的时候，我们要求 Rust 编译器必须是 1.50 或者以下的版本，这样才能够让 WebAssembly 函数与 WasmEdge 的 Go API 正常工作。当接口类型规范最终确定并完成支持后，我们会尽快迁移到<a href="https://github.com/WasmEdge/WasmEdge/issues/264">最新的 Rust 版本</a>。</p>
 </blockquote>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -2598,61 +2598,61 @@ $ rustwasmc build
 # The output WASM will be pkg/rust_bindgen_funcs_lib_bg.wasm
 </code></pre>
 <p>我们在 Go 程序里面嵌入 WasmEdge 运行 WebAssembly 函数，<a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_BindgenFuncs/bindgen_funcs.go">Go 程序源码如下</a>，<code>ExecuteBindgen()</code> 函数调用 <code>#[wasm_bindgen]</code> 转换后的 WebAssembly 函数并传递调用参数。</p>
-<pre><code class="language-golang">package main
+<pre><code class="language-go">package main
 
 import (
-    &quot;fmt&quot;
-    &quot;os&quot;
-    &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+  &quot;fmt&quot;
+  &quot;os&quot;
+  &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
 )
 
 func main() {
-    /// Expected Args[0]: program name (./bindgen_funcs)
-    /// Expected Args[1]: wasm or wasm-so file (rust_bindgen_funcs_lib_bg.wasm))
+  // Expected Args[0]: program name (./bindgen_funcs)
+  // Expected Args[1]: wasm or wasm-so file (rust_bindgen_funcs_lib_bg.wasm))
 
-    wasmedge.SetLogErrorLevel()
+  wasmedge.SetLogErrorLevel()
 
-    var conf = wasmedge.NewConfigure(wasmedge.WASI)
-    var vm = wasmedge.NewVMWithConfig(conf)
-    var wasi = vm.GetImportObject(wasmedge.WASI)
-    wasi.InitWasi(
-        os.Args[1:],     /// The args
-        os.Environ(),    /// The envs
-        []string{&quot;.:.&quot;}, /// The mapping directories
-    )
+  var conf = wasmedge.NewConfigure(wasmedge.WASI)
+  var vm = wasmedge.NewVMWithConfig(conf)
+  var wasi = vm.GetImportObject(wasmedge.WASI)
+  wasi.InitWasi(
+    os.Args[1:],     // The args
+    os.Environ(),    // The envs
+    []string{&quot;.:.&quot;}, // The mapping directories
+  )
 
-    /// Instantiate wasm
-    vm.LoadWasmFile(os.Args[1])
-    vm.Validate()
-    vm.Instantiate()
+  // Instantiate wasm
+  vm.LoadWasmFile(os.Args[1])
+  vm.Validate()
+  vm.Instantiate()
 
-    /// Run bindgen functions
-    var res interface{}
-    var err error
+  // Run bindgen functions
+  var res interface{}
+  var err error
+  
+  res, err = vm.ExecuteBindgen(&quot;say&quot;, wasmedge.Bindgen_return_array, []byte(&quot;bindgen funcs test&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- say:&quot;, string(res.([]byte)))
+  } 
+  res, err = vm.ExecuteBindgen(&quot;obfusticate&quot;, wasmedge.Bindgen_return_array, []byte(&quot;A quick brown fox jumps over the lazy dog&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- obfusticate:&quot;, string(res.([]byte)))
+  } 
+  res, err = vm.ExecuteBindgen(&quot;lowest_common_multiple&quot;, wasmedge.Bindgen_return_i32, int32(123), int32(2))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- lowest_common_multiple:&quot;, res.(int32))
+  } 
+  res, err = vm.ExecuteBindgen(&quot;sha3_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- sha3_digest:&quot;, res.([]byte))
+  } 
+  res, err = vm.ExecuteBindgen(&quot;keccak_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
+  if err == nil {
+    fmt.Println(&quot;Run bindgen -- keccak_digest:&quot;, res.([]byte))
+  } 
 
-    res, err = vm.ExecuteBindgen(&quot;say&quot;, wasmedge.Bindgen_return_array, []byte(&quot;bindgen funcs test&quot;))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- say:&quot;, string(res.([]byte)))
-    }
-    res, err = vm.ExecuteBindgen(&quot;obfusticate&quot;, wasmedge.Bindgen_return_array, []byte(&quot;A quick brown fox jumps over the lazy dog&quot;))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- obfusticate:&quot;, string(res.([]byte)))
-    }
-    res, err = vm.ExecuteBindgen(&quot;lowest_common_multiple&quot;, wasmedge.Bindgen_return_i32, int32(123), int32(2))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- lowest_common_multiple:&quot;, res.(int32))
-    }
-    res, err = vm.ExecuteBindgen(&quot;sha3_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- sha3_digest:&quot;, res.([]byte))
-    }
-    res, err = vm.ExecuteBindgen(&quot;keccak_digest&quot;, wasmedge.Bindgen_return_array, []byte(&quot;This is an important message&quot;))
-    if err == nil {
-        fmt.Println(&quot;Run bindgen -- keccak_digest:&quot;, res.([]byte))
-    }
-
-    vm.Release()
-    conf.Release()
+  vm.Release()
+  conf.Release()
 }
 </code></pre>
 <p>接下来，让我们用 WasmEdge Go SDK 来构建 Go 应用。</p>
@@ -2948,7 +2948,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust-sdk"><a class="header" href="#rust-sdk">Rust SDK</a></h1>
 <p>你可以通过 WasmEdge Rust SDK 将 WasmEdge 嵌入到 Rust 应用程序中。</p>
-<p>WasmEdge Rust SDK 涉及两个 Rust crate <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> 和 [wasmedge-rs](https://crates.io/crates/wasmedge-sdk），它们根据不同的原则和不同的目的设计。 wasmedge-sys crate 定义了一组底层 Rust API，其仅仅是对 WasmEdge C API 进行封装，以提供相应的安全接口，而 wasmedge-rs crate 提供更优雅和符合人体工程学的 API，更适合应用程序开发。</p>
+<p>WasmEdge Rust SDK 涉及两个 Rust crate <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> 和 <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-rs</a>，它们根据不同的原则和不同的目的设计。 wasmedge-sys crate 定义了一组底层 Rust API，其仅仅是对 WasmEdge C API 进行封装，以提供相应的安全接口，而 wasmedge-rs crate 提供更优雅和符合人体工程学的 API，更适合应用程序开发。</p>
 <ul>
 <li>
 <p><a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> crate 定义了一组底层 Rust API，其仅仅是对 WasmEdge C API 进行封装，以提供相应的安全接口。 <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> 更适合作为基础库，为面向应用的更高层 Rust 库提供服务。</p>
@@ -3031,7 +3031,7 @@ root@0a877562f39e:~/workspace/me/WasmEdge/bindings/rust/wasmedge-sys# cargo buil
 <p>通过 WasmEdge docker image</p>
 </li>
 </ul>
-<p>如果选择通过 WasmEdge docker 镜像来构建容器进行开发，则预构建 WasmEdge 二进制包默认位于 <code>$HOME/.wasmedge</code> 目录中， wasmedge-sys 的构建脚本 (build.rs) 可以自动检测并构建 crate。</p>
+<p>如果选择通过 WasmEdge docker 镜像来构建容器进行开发，则预构建 WasmEdge 二进制包默认位于 <code>$HOME/.wasmedge</code> 目录中， wasmedge-sys 的构建脚本 （ build.rs ）可以自动检测并构建 crate。</p>
 <h2 id="案例"><a class="header" href="#案例">案例</a></h2>
 <ul>
 <li><a href="embed/rust/wasmedge-sys-api.html">使用 WasmEdge 底层 API 运行 WebAssembly 函数</a></li>
@@ -3242,7 +3242,7 @@ $ sudo buildah push --authfile ~/.docker/config.json http_server docker://docker
 <li><a href="kubernetes/container/youki.html">youki</a>：兼容 OCI 的容器运行时实现，用 Rust 编写</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="crun"><a class="header" href="#crun">crun</a></h1>
-<p><a href="https://github.com/containers/crun"> crun 项目</a>已经内置了对 WasmEdge 的支持。
+<p><a href="https://github.com/containers/crun">crun 项目</a>已经内置了对 WasmEdge 的支持。
 目前，最简单的方法是自己从源代码构建它。首先，让我们确保 crun 在你的 Ubuntu 20.04 上安装了依赖包。
 对于其他 Linux 发行版，请<a href="https://github.com/containers/crun#readme">参见此处</a>。</p>
 <pre><code class="language-bash">$ sudo apt update
@@ -3577,13 +3577,13 @@ Local Kubernetes cluster is running. Press Ctrl-C to shut it down.
 <p>此时<strong>不要</strong>关闭终端，因为 Kubernetes 正在运行中！</p>
 <h2 id="在-kubernetes-中运行-webassembly-容器镜像"><a class="header" href="#在-kubernetes-中运行-webassembly-容器镜像">在 Kubernetes 中运行 WebAssembly 容器镜像</a></h2>
 <p>本节的内容介绍了如何在 Kubernetes 中，以 pod 中的容器的形式来运行 WebAssembly 程序。我们需要打开另一个终端。</p>
-<pre><code class="language-bash">$ export KUBERNETES_PROVIDER=local
+<pre><code class="language-bash">export KUBERNETES_PROVIDER=local
 
-$ sudo cluster/kubectl.sh config set-cluster local --server=https://localhost:6443 --certificate-authority=/var/run/kubernetes/server-ca.crt
-$ sudo cluster/kubectl.sh config set-credentials myself --client-key=/var/run/kubernetes/client-admin.key --client-certificate=/var/run/kubernetes/client-admin.crt
-$ sudo cluster/kubectl.sh config set-context local --cluster=local --user=myself
-$ sudo cluster/kubectl.sh config use-context local
-$ sudo cluster/kubectl.sh
+sudo cluster/kubectl.sh config set-cluster local --server=https://localhost:6443 --certificate-authority=/var/run/kubernetes/server-ca.crt
+sudo cluster/kubectl.sh config set-credentials myself --client-key=/var/run/kubernetes/client-admin.key --client-certificate=/var/run/kubernetes/client-admin.crt
+sudo cluster/kubectl.sh config set-context local --cluster=local --user=myself
+sudo cluster/kubectl.sh config use-context local
+sudo cluster/kubectl.sh
 </code></pre>
 <p>检查一下集群状态，看看集群有没有正常运行。</p>
 <pre><code class="language-bash">$ sudo cluster/kubectl.sh cluster-info
@@ -3600,7 +3600,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 </code></pre>
 <h3 id="简单的-webassembly-应用"><a class="header" href="#简单的-webassembly-应用">简单的 WebAssembly 应用</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/wasi.html">这篇文章</a> 描述了如何编译、打包一个简单的 WebAssembly WASI 程序，以及将它以容器镜像的形式发布到 Docker hub 的完整过程。</p>
-<pre><code class="language-bash">$ sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>容器化后的应用程序的输出会被打印到控制台上。</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -3639,7 +3639,7 @@ spec:
       periodSeconds: 30
 </code></pre>
 <p>输入下面的命令，可以使用上面的 <code>k8s-http_server.yaml</code> 文件，从 Docker Hub 拉取并运行基于 WebAssembly 的镜像。</p>
-<pre><code class="language-bash">$ sudo ./kubernetes/cluster/kubectl.sh apply -f k8s-http_server.yaml
+<pre><code class="language-bash">sudo ./kubernetes/cluster/kubectl.sh apply -f k8s-http_server.yaml
 </code></pre>
 <p>然后运行以下命令，查看运行中的容器应用程序和他们的 IP 地址。我们在 yaml 配置中用的是 <code>hostNetwork</code> 网络，所以 HTTP 服务器镜像会在 IP 为 <code>127.0.0.1</code> 的本地网络中运行。</p>
 <pre><code class="language-bash">$ sudo cluster/kubectl.sh get pod --all-namespaces -o wide
@@ -4096,14 +4096,14 @@ CONTAINER           IMAGE                                                       
 <ul>
 <li>关闭节点 swap 分区</li>
 </ul>
-<pre><code class="language-shell">sudo swapoff -a
+<pre><code class="language-bash">sudo swapoff -a
 //verify    
 free -m
 </code></pre>
 <ul>
 <li>配置节点 IP 与 DNS 映射</li>
 </ul>
-<pre><code class="language-shell">192.168.3.169  oy-master 
+<pre><code class="language-bash">192.168.3.169  oy-master 
 120.55.126.18  oy-master
 92.168.3.170   oy-node
 121.43.113.152 oy-node
@@ -4111,13 +4111,13 @@ free -m
 <ul>
 <li>加载内核模块 br_netfilter</li>
 </ul>
-<pre><code class="language-shell">sudo modprobe br_netfilter     
+<pre><code class="language-bash">sudo modprobe br_netfilter     
 lsmod | grep br_netfilter    //确认加载
 </code></pre>
 <ul>
 <li>调整内核参数，创建 k8s.conf</li>
 </ul>
-<pre><code class="language-shell">cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/k8s.conf
+<pre><code class="language-bash">cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
@@ -4126,7 +4126,7 @@ sudo sysctl --system
 <ul>
 <li>设置 rp-filter 值，将文件 /etc/sysctl.d/10-network-security.conf 中两个参数的值由2改为1，且将 /proc/sys/net/ipv4/ip_forward 设置为1</li>
 </ul>
-<pre><code class="language-shell">sudo vi /etc/sysctl.d/10-network-security.conf
+<pre><code class="language-bash">sudo vi /etc/sysctl.d/10-network-security.conf
 echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 sudo sysctl --system
 </code></pre>
@@ -4134,7 +4134,7 @@ sudo sysctl --system
 <ul>
 <li>安装 containerd</li>
 </ul>
-<pre><code class="language-shell">export VERSION=&quot;1.5.7&quot;
+<pre><code class="language-bash">export VERSION=&quot;1.5.7&quot;
 echo -e &quot;Version: $VERSION&quot;
 echo -e &quot;Installing libseccomp2 ...&quot;
 sudo apt install -y libseccomp2
@@ -4151,7 +4151,7 @@ sudo systemctl daemon-reload
 <ul>
 <li>配置 containerd 文件 /etc/containerd/config.toml，修改 plugin 中参数，将其中的 runc 改为 crun，添加 pod_annotation</li>
 </ul>
-<pre><code class="language-shell">udo mkdir -p /etc/containerd/
+<pre><code class="language-bash">udo mkdir -p /etc/containerd/
 sudo bash -c &quot;containerd config default &gt; /etc/containerd/config.toml&quot;
 wget https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/containerd/containerd_config.diff
 sudo patch -d/ -p0 &lt; containerd_config.diff
@@ -4159,18 +4159,18 @@ sudo patch -d/ -p0 &lt; containerd_config.diff
 <ul>
 <li>重启 containerd 服务：</li>
 </ul>
-<pre><code class="language-shell">systemctl start containerd
+<pre><code class="language-bash">systemctl start containerd
 </code></pre>
 <h4 id="安装-wasmedge"><a class="header" href="#安装-wasmedge">安装 WasmEdge</a></h4>
 <p>使用 WasmEdge 提供的<a href="https://wasmedge.org/book/en/start/install.html">安装脚本</a> 在你的边缘节点上安装 WasmEdge</p>
-<pre><code class="language-shell">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
 <h4 id="编译安装-crun"><a class="header" href="#编译安装-crun">编译、安装 crun</a></h4>
 <p>我们需要一个在边缘节点支持 WasmEdge 的 crun 二进制文件。最直接的方法就是自己从源码编译。首先，需要确保在 ubuntu 系统上安装 crun 依赖。对于其他的 Linux 发行版，请参考<a href="https://github.com/containers/crun#readme">文章</a></p>
 <ul>
 <li>编译需要的依赖</li>
 </ul>
-<pre><code class="language-shell">sudo apt update
+<pre><code class="language-bash">sudo apt update
 sudo apt install -y make git gcc build-essential pkgconf libtool \
   libsystemd-dev libprotobuf-c-dev libcap-dev libseccomp-dev libyajl-dev \
   go-md2man libtool autoconf python3 automake
@@ -4178,7 +4178,7 @@ sudo apt install -y make git gcc build-essential pkgconf libtool \
 <ul>
 <li>配置、编译、安装支持 WasmEdge 的 crun</li>
 </ul>
-<pre><code class="language-shell">it clone https://github.com/containers/crun
+<pre><code class="language-bash">it clone https://github.com/containers/crun
 cd crun
 ./autogen.sh
 ./configure --with-wasmedge
@@ -4188,7 +4188,7 @@ sudo make install
 <h3 id="从零搭建一个-openyurt-集群"><a class="header" href="#从零搭建一个-openyurt-集群">从零搭建一个 OpenYurt 集群</a></h3>
 <p>在这个 demo 中，我们使用两台虚拟机来搭建 OpenYurt 集群，一台模拟云端节点 Master，一台模拟边缘节点 Node，由这样两个节点构成最简单的 OpenYurt 集群系统。</p>
 <h4 id="搭建一个-kubernetes-集群"><a class="header" href="#搭建一个-kubernetes-集群">搭建一个 kubernetes 集群</a></h4>
-<pre><code class="language-shell">$ sudo apt-get update &amp;&amp; sudo apt-get install -y ca-certificates curl software-properties-common apt-transport-https
+<pre><code class="language-bash">$ sudo apt-get update &amp;&amp; sudo apt-get install -y ca-certificates curl software-properties-common apt-transport-https
 // add K8s source
 $ curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
 $ sudo tee /etc/apt/sources.list.d/kubernetes.list &lt;&lt;EOF
@@ -4205,7 +4205,7 @@ $ kubeadm join 192.168.3.167:6443 --token 3zefbt.99e6denc1cxpk9fg \
 </code></pre>
 <h4 id="安装-yurtctl"><a class="header" href="#安装-yurtctl">安装 yurtctl</a></h4>
 <p>使用下面命令来安装 yurtctl，借助 yurtctl 命令行工具，我们可以安装/卸载 OpenYurt 集群，也可以用于在 kubernetes 集群和 OpenYurt 集群转化。</p>
-<pre><code class="language-shell">git clone https://github.com/openyurtio/openyurt.git
+<pre><code class="language-bash">git clone https://github.com/openyurtio/openyurt.git
 cd openyurt
 make build WHAT=cmd/yurtctl
 </code></pre>
@@ -4214,7 +4214,7 @@ make build WHAT=cmd/yurtctl
 Yurt controller 是对上游节点控制器的补充，以支持边缘计算需求。TunnelServer 通过反向代理与运行在每个
 边缘节点上的 TunnelAgent 守护进程连接，以在云端节点控制平面和连接到内网的边缘节点之间建立安全的网络访问。
 更详细的信息可以参考 <a href="https://github.com/openyurtio/openyurt">OpenYurt Docs</a></p>
-<pre><code class="language-shell">yurtctl convert --deploy-yurttunnel --cloud-nodes oy-master --provider kubeadm\
+<pre><code class="language-bash">yurtctl convert --deploy-yurttunnel --cloud-nodes oy-master --provider kubeadm\
 --yurt-controller-manager-image=&quot;openyurt/yurt-controller-manager:v0.5.0&quot;\
 --yurt-tunnel-agent-image=&quot;openyurt/yurt-tunnel-agent:v0.5.0&quot;\
 --yurt-tunnel-server-image=&quot;openyurt/yurt-tunnel-server:v0.5.0&quot;\
@@ -4231,13 +4231,13 @@ WebAssembly 的容器镜像感兴趣，可以阅读 <a href="https://wasmedge.or
 <p>在验证 OpenYurt 上运行 WasmEdge 应用的时候，我们参考了之前关于 <a href="https://wasmedge.org/book/en/kubernetes/kubernetes.html">kubernetes 的验证</a> ，</p>
 <p>需要注意的是由于命令 <code>kubectl run</code> 在1.18.9版本上缺少 annotations 参数，我们需要修改命令行的内容。
 如果你使用的是 OpenYurt 体验中心，默认情况下搭建的 OpenYurt 的版本是0.6.0，对应的 Kubernetes 版本是1.20.11。</p>
-<pre><code class="language-shell">// kubectl 1.18.9
+<pre><code class="language-bash">// kubectl 1.18.9
 $ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 // kubectl 1.20.11
 $ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 </code></pre>
 <p>容器化应用的结果将会在控制台上输出，对应不同 Kubernetes 版本，得到的结果都是相同的。</p>
-<pre><code class="language-shell">Random number: 1123434661
+<pre><code class="language-bash">Random number: 1123434661
 Random bytes: [25, 169, 202, 211, 22, 29, 128, 133, 168, 185, 114, 161, 48, 154, 56, 54, 99, 5, 229, 161, 225, 47, 85, 133, 90, 61, 156, 86, 3, 14, 10, 69, 185, 225, 226, 181, 141, 67, 44, 121, 157, 98, 247, 148, 201, 248, 236, 190, 217, 245, 131, 68, 124, 28, 193, 143, 215, 32, 184, 50, 71, 92, 148, 35, 180, 112, 125, 12, 152, 111, 32, 30, 86, 15, 107, 225, 39, 30, 178, 215, 182, 113, 216, 137, 98, 189, 72, 68, 107, 246, 108, 210, 148, 191, 28, 40, 233, 200, 222, 132, 247, 207, 239, 32, 79, 238, 18, 62, 67, 114, 186, 6, 212, 215, 31, 13, 53, 138, 97, 169, 28, 183, 235, 221, 218, 81, 84, 235]
 Printed from wasi: This is from a main function
 This is from a main function
@@ -4249,16 +4249,16 @@ File content is This is in a file
 pod &quot;wasi-demo&quot; deleted
 </code></pre>
 <p>我们可以使用如下命令检查 pod 的状态</p>
-<pre><code class="language-shell">crictl ps -a
+<pre><code class="language-bash">crictl ps -a
 </code></pre>
 <p>输出结果如下：</p>
-<pre><code class="language-shell">CONTAINER           IMAGE               CREATED             STATE               NAME                 ATTEMPT             POD ID
+<pre><code class="language-bash">CONTAINER           IMAGE               CREATED             STATE               NAME                 ATTEMPT             POD ID
 0c176ed65599a       0423b8eb71e31       8 seconds ago       Exited              wasi-demo  
 </code></pre>
 <p>至此，在 OpenYurt 上运行一个基于 WasmEdge 应用的简单 demo 已经完成了。如果你在实验的过程中遇到问题或者有一些建议，非常欢迎来到我们项目的 github 上提交 issue，让我们知道你的想法。</p>
 <ul>
-<li>WasmEdge GitHub repo: https://github.com/WasmEdge/WasmEdge</li>
-<li>OpenYurt GitHub repo: https://github.com/openyurtio/openyurt</li>
+<li>WasmEdge GitHub repo: <a href="https://github.com/WasmEdge/WasmEdge">https://github.com/WasmEdge/WasmEdge</a></li>
+<li>OpenYurt GitHub repo: <a href="https://github.com/openyurtio/openyurt">https://github.com/openyurtio/openyurt</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="应用框架与平台"><a class="header" href="#应用框架与平台">应用框架与平台</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="service-mesh-与分布式框架"><a class="header" href="#service-mesh-与分布式框架">Service mesh 与分布式框架</a></h1>
@@ -4596,7 +4596,7 @@ cd ../
 <p>WebAssembly 提供了一个轻量级和高性能的软件容器。 它非常适合作为 YoMo 数据处理 handler 函数的 runtime。</p>
 <p>在本文中，我们将向你展示如何创建一个基于 Tensorflow 图像分类的 Rust 函数，将其编译为 WebAssembly，然后使用 YoMo 作为流数据 handler 运行它。我们使用 <a href="https://wasmedge.org/">WasmEdge</a> 作为我们 WebAssembly runtime，因为与其他 WebAssembly runtime 相比，WasmEdge 提供了最高的性能与灵活性。是唯一能稳定支持 Tensorflow 的 WebAssembly 虚拟机。<a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/book/en/src/embed/go.md">YoMo 通过 WasmEdge 的 Go SDK</a> 来管理 WasmEdge 虚拟机实例和 contained 容器化 WebAssembly 字节码应用。</p>
 <blockquote>
-<p>源码: https://github.com/yomorun/yomo-wasmedge-tensorflow</p>
+<p>源码: <a href="https://github.com/yomorun/yomo-wasmedge-tensorflow">https://github.com/yomorun/yomo-wasmedge-tensorflow</a></p>
 </blockquote>
 <p>详情可查看 <a href="https://www.youtube.com/watch?v=E0ltsn6cLIU">YoMo 中的 WasmEdge 图像分类函数实战</a></p>
 <h2 id="安装前提"><a class="header" href="#安装前提">安装前提</a></h2>

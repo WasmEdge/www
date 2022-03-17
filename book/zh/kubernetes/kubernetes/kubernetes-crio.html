@@ -191,13 +191,13 @@ Local Kubernetes cluster is running. Press Ctrl-C to shut it down.
 <p>此时<strong>不要</strong>关闭终端，因为 Kubernetes 正在运行中！</p>
 <h2 id="在-kubernetes-中运行-webassembly-容器镜像"><a class="header" href="#在-kubernetes-中运行-webassembly-容器镜像">在 Kubernetes 中运行 WebAssembly 容器镜像</a></h2>
 <p>本节的内容介绍了如何在 Kubernetes 中，以 pod 中的容器的形式来运行 WebAssembly 程序。我们需要打开另一个终端。</p>
-<pre><code class="language-bash">$ export KUBERNETES_PROVIDER=local
+<pre><code class="language-bash">export KUBERNETES_PROVIDER=local
 
-$ sudo cluster/kubectl.sh config set-cluster local --server=https://localhost:6443 --certificate-authority=/var/run/kubernetes/server-ca.crt
-$ sudo cluster/kubectl.sh config set-credentials myself --client-key=/var/run/kubernetes/client-admin.key --client-certificate=/var/run/kubernetes/client-admin.crt
-$ sudo cluster/kubectl.sh config set-context local --cluster=local --user=myself
-$ sudo cluster/kubectl.sh config use-context local
-$ sudo cluster/kubectl.sh
+sudo cluster/kubectl.sh config set-cluster local --server=https://localhost:6443 --certificate-authority=/var/run/kubernetes/server-ca.crt
+sudo cluster/kubectl.sh config set-credentials myself --client-key=/var/run/kubernetes/client-admin.key --client-certificate=/var/run/kubernetes/client-admin.crt
+sudo cluster/kubectl.sh config set-context local --cluster=local --user=myself
+sudo cluster/kubectl.sh config use-context local
+sudo cluster/kubectl.sh
 </code></pre>
 <p>检查一下集群状态，看看集群有没有正常运行。</p>
 <pre><code class="language-bash">$ sudo cluster/kubectl.sh cluster-info
@@ -214,7 +214,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 </code></pre>
 <h3 id="简单的-webassembly-应用"><a class="header" href="#简单的-webassembly-应用">简单的 WebAssembly 应用</a></h3>
 <p><a href="../demo/wasi.html">这篇文章</a> 描述了如何编译、打包一个简单的 WebAssembly WASI 程序，以及将它以容器镜像的形式发布到 Docker hub 的完整过程。</p>
-<pre><code class="language-bash">$ sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>容器化后的应用程序的输出会被打印到控制台上。</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -253,7 +253,7 @@ spec:
       periodSeconds: 30
 </code></pre>
 <p>输入下面的命令，可以使用上面的 <code>k8s-http_server.yaml</code> 文件，从 Docker Hub 拉取并运行基于 WebAssembly 的镜像。</p>
-<pre><code class="language-bash">$ sudo ./kubernetes/cluster/kubectl.sh apply -f k8s-http_server.yaml
+<pre><code class="language-bash">sudo ./kubernetes/cluster/kubectl.sh apply -f k8s-http_server.yaml
 </code></pre>
 <p>然后运行以下命令，查看运行中的容器应用程序和他们的 IP 地址。我们在 yaml 配置中用的是 <code>hostNetwork</code> 网络，所以 HTTP 服务器镜像会在 IP 为 <code>127.0.0.1</code> 的本地网络中运行。</p>
 <pre><code class="language-bash">$ sudo cluster/kubectl.sh get pod --all-namespaces -o wide
