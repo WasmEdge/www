@@ -159,7 +159,7 @@
 <h2 id="如何编写简单的-host-function"><a class="header" href="#如何编写简单的-host-function">如何编写简单的 Host Function</a></h2>
 <p>让我们从一个最简单的例子入手, 来看看如何在一个 Go 程序里编写 Host function。</p>
 <p>先来编写一个简单的 rust 程序。国际惯例，<code>Cargo.toml</code> 不能少。</p>
-<h6 id="cargotoml"><a class="header" href="#cargotoml"><code>Cargo.toml</code></a></h6>
+<p><code>Cargo.toml</code>:</p>
 <pre><code class="language-toml">[package]
 name = &quot;rust_host_func&quot;
 version = &quot;0.1.0&quot;
@@ -171,17 +171,17 @@ crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
 [dependencies]
 </code></pre>
 <p>再来看看 Rust 代码是什么样的。</p>
-<h6 id="librs"><a class="header" href="#librs"><code>lib.rs</code></a></h6>
+<p><code>lib.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern &quot;C&quot; {
-	fn add(a: i32, b: i32) -&gt; i32;
+  fn add(a: i32, b: i32) -&gt; i32;
 }
 
 #[no_mangle]
 pub unsafe extern fn run() -&gt; i32 {
-	add(1, 2)
+  add(1, 2)
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -196,56 +196,56 @@ pub unsafe extern fn run() -&gt; i32 {
 </code></pre>
 <p>可以看到 <code>add</code> 函数被放到了默认名称为 <code>env</code> 的模块的导入段中.</p>
 <p>接下来我们来看如何使用 <a href="https://github.com/second-state/WasmEdge-go">WasmEdge-go</a> SDK 来执行这段 wasm 程序.</p>
-<h6 id="hostfuncgo"><a class="header" href="#hostfuncgo"><code>hostfunc.go</code></a></h6>
+<p><code>hostfunc.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (
-	&quot;fmt&quot;
-	&quot;os&quot;
+  &quot;fmt&quot;
+  &quot;os&quot;
 
-	&quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+  &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
 )
 
 func add(_ interface{}, _ *wasmedge.Memory, params []interface{}) ([]interface{}, wasmedge.Result) {
-	// 将从 wasm 传过来的两个参数做加法运算
-	return []interface{}{params[0].(int32) + params[1].(int32)}, wasmedge.Result_Success
+  // 将从 wasm 传过来的两个参数做加法运算
+  return []interface{}{params[0].(int32) + params[1].(int32)}, wasmedge.Result_Success
 }
 
 func main() {
-	vm := wasmedge.NewVM()
-	
-	// 使用默认名称 env 构建导入段对象
-	obj := wasmedge.NewImportObject(&quot;env&quot;)
+  vm := wasmedge.NewVM()
+ 
+  // 使用默认名称 env 构建导入段对象
+  obj := wasmedge.NewImportObject(&quot;env&quot;)
 
-	// 构建 Host Function 的参数和返回值类型
-	funcAddType := wasmedge.NewFunctionType(
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-			wasmedge.ValType_I32,
-		},
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-		})
-	hostAdd := wasmedge.NewFunction(funcAddType, add, nil, 0)
-	
-	// 将 Host Function 加入到导入段对象中
-	// 注意第一个参数 `add` 是 rust 中定义的外部函数的名称
-	obj.AddFunction(&quot;add&quot;, hostAdd)
+  // 构建 Host Function 的参数和返回值类型
+  funcAddType := wasmedge.NewFunctionType(
+    []wasmedge.ValType{
+      wasmedge.ValType_I32,
+      wasmedge.ValType_I32,
+    },
+    []wasmedge.ValType{
+      wasmedge.ValType_I32,
+    })
+  hostAdd := wasmedge.NewFunction(funcAddType, add, nil, 0)
+ 
+  // 将 Host Function 加入到导入段对象中
+  // 注意第一个参数 `add` 是 rust 中定义的外部函数的名称
+  obj.AddFunction(&quot;add&quot;, hostAdd)
 
-	// 注册导入段对象
-	vm.RegisterImport(obj)
+  // 注册导入段对象
+  vm.RegisterImport(obj)
 
-	// 加载, 验证并实例化 wasm 程序
-	vm.LoadWasmFile(os.Args[1])
-	vm.Validate()
-	vm.Instantiate()
+  // 加载, 验证并实例化 wasm 程序
+  vm.LoadWasmFile(os.Args[1])
+  vm.Validate()
+  vm.Instantiate()
 
-	// 执行 wasm 导出的函数并取得返回值
-	r, _ := vm.Execute(&quot;run&quot;)
-	fmt.Printf(&quot;%d&quot;, r[0].(int32))
+  // 执行 wasm 导出的函数并取得返回值
+  r, _ := vm.Execute(&quot;run&quot;)
+  fmt.Printf(&quot;%d&quot;, r[0].(int32))
 
-	obj.Release()
-	vm.Release()
+  obj.Release()
+  vm.Release()
 }
 
 </code></pre>
@@ -261,34 +261,34 @@ func main() {
 <p>在这个例子中, 我们要统计 <code>https://www.google.com</code> 的网页源代码中 <code>google</code> 出现的次数。
 例子的源代码在<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_HostFunc">这里</a>.</p>
 <p>还是先上 Rust 代码。<code>Cargo.toml</code> 是必不可少的，只是我在这里省略了。</p>
-<h6 id="librs-1"><a class="header" href="#librs-1"><code>lib.rs</code></a></h6>
+<p><code>lib.rs</code>:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern &quot;C&quot; {
-	fn fetch(url_pointer: *const u8, url_length: i32) -&gt; i32;
-	fn write_mem(pointer: *const u8);
+  fn fetch(url_pointer: *const u8, url_length: i32) -&gt; i32;
+  fn write_mem(pointer: *const u8);
 }
 
 #[no_mangle]
 pub unsafe extern fn run() -&gt; i32 {
-	let url = &quot;https://www.google.com&quot;;
-	let pointer = url.as_bytes().as_ptr();
+  let url = &quot;https://www.google.com&quot;;
+  let pointer = url.as_bytes().as_ptr();
 
-	// call host function to fetch the source code, return the result length
-	let res_len = fetch(pointer, url.len() as i32) as usize;
+  // call host function to fetch the source code, return the result length
+  let res_len = fetch(pointer, url.len() as i32) as usize;
 
-	// malloc memory
-	let mut buffer = Vec::with_capacity(res_len);
-	let pointer = buffer.as_mut_ptr();
+  // malloc memory
+  let mut buffer = Vec::with_capacity(res_len);
+  let pointer = buffer.as_mut_ptr();
 
-	// call host function to write source code to the memory
-	write_mem(pointer);
+  // call host function to write source code to the memory
+  write_mem(pointer);
 
-	// find occurrences from source code
-	buffer.set_len(res_len);
-	let str = std::str::from_utf8(&amp;buffer).unwrap();
-	str.matches(&quot;google&quot;).count() as i32
+  // find occurrences from source code
+  buffer.set_len(res_len);
+  let str = std::str::from_utf8(&amp;buffer).unwrap();
+  str.matches(&quot;google&quot;).count() as i32
 }
 <span class="boring">}
 </span></code></pre></pre>
@@ -300,107 +300,107 @@ pub unsafe extern fn run() -&gt; i32 {
 <p>你可能已经看出来了, 要在 Host Function 里传递 string, 实际是通过传递这段 string 所在内存指针和长度来实现的. <code>fetch</code> 接收两个参数, 他们就分别是字符串 <code>https://www.google.com</code> 的指针和字节长度.</p>
 <p><code>fetch</code> 在获取到源代码后, 将源码的字节长度做为返回值返回。Rust 在分配了此长度的内存后, 将内存指针传递给 <code>write_mem</code>, host 将源码写入到这段内存, 进而达到了返回 string 的目的.</p>
 <p>编译的过程同上不再赘述, 接下来展示如何使用 <a href="https://github.com/second-state/WasmEdge-go">WasmEdge-go</a> SDK 来执行这段 Wasm 程序。</p>
-<h6 id="hostfungo"><a class="header" href="#hostfungo"><code>hostfun.go</code></a></h6>
+<p><code>hostfun.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (
-	&quot;fmt&quot;
-	&quot;io&quot;
-	&quot;os&quot;
-	&quot;net/http&quot;
+  &quot;fmt&quot;
+  &quot;io&quot;
+  &quot;os&quot;
+  &quot;net/http&quot;
 
-	&quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
+  &quot;github.com/second-state/WasmEdge-go/wasmedge&quot;
 )
 
 type host struct {
-	fetchResult []byte
+  fetchResult []byte
 }
 
 // do the http fetch
 func fetch(url string) []byte {
-	resp, err := http.Get(string(url))
-	if err != nil {
-		return nil
-	}
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil
-	}
+  resp, err := http.Get(string(url))
+  if err != nil {
+    return nil
+  }
+  defer resp.Body.Close()
+  body, err := io.ReadAll(resp.Body)
+  if err != nil {
+    return nil
+  }
 
-	return body
+  return body
 }
 
 // Host function for fetching
 func (h *host) fetch(_ interface{}, mem *wasmedge.Memory, params []interface{}) ([]interface{}, wasmedge.Result) {
-	// get url from memory
-	pointer := params[0].(int32)
-	size := params[1].(int32)
-	data, _ := mem.GetData(uint(pointer), uint(size))
-	url := make([]byte, size)
+  // get url from memory
+  pointer := params[0].(int32)
+  size := params[1].(int32)
+  data, _ := mem.GetData(uint(pointer), uint(size))
+  url := make([]byte, size)
 
-	copy(url, data)
+  copy(url, data)
 
-	respBody := fetch(string(url))
+  respBody := fetch(string(url))
 
-	if respBody == nil {
-		return nil, wasmedge.Result_Fail
-	}
+  if respBody == nil {
+    return nil, wasmedge.Result_Fail
+  }
 
-	// store the source code
-	h.fetchResult = respBody
+  // store the source code
+  h.fetchResult = respBody
 
-	return []interface{}{len(respBody)}, wasmedge.Result_Success
+  return []interface{}{len(respBody)}, wasmedge.Result_Success
 }
 
 // Host function for writting memory
 func (h *host) writeMem(_ interface{}, mem *wasmedge.Memory, params []interface{}) ([]interface{}, wasmedge.Result) {
-	// write source code to memory
-	pointer := params[0].(int32)
-	mem.SetData(h.fetchResult, uint(pointer), uint(len(h.fetchResult)))
+  // write source code to memory
+  pointer := params[0].(int32)
+  mem.SetData(h.fetchResult, uint(pointer), uint(len(h.fetchResult)))
 
-	return nil, wasmedge.Result_Success
+  return nil, wasmedge.Result_Success
 }
 
 func main() {
-	conf := wasmedge.NewConfigure(wasmedge.WASI)
-	vm := wasmedge.NewVMWithConfig(conf)
-	obj := wasmedge.NewImportObject(&quot;env&quot;)
+  conf := wasmedge.NewConfigure(wasmedge.WASI)
+  vm := wasmedge.NewVMWithConfig(conf)
+  obj := wasmedge.NewImportObject(&quot;env&quot;)
 
-	h := host{}
-	// Add host functions into the import object
-	funcFetchType := wasmedge.NewFunctionType(
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-			wasmedge.ValType_I32,
-		},
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-		})
+  h := host{}
+  // Add host functions into the import object
+  funcFetchType := wasmedge.NewFunctionType(
+    []wasmedge.ValType{
+      wasmedge.ValType_I32,
+      wasmedge.ValType_I32,
+    },
+    []wasmedge.ValType{
+      wasmedge.ValType_I32,
+    })
 
-	hostFetch := wasmedge.NewFunction(funcFetchType, h.fetch, nil, 0)
-	obj.AddFunction(&quot;fetch&quot;, hostFetch)
+  hostFetch := wasmedge.NewFunction(funcFetchType, h.fetch, nil, 0)
+  obj.AddFunction(&quot;fetch&quot;, hostFetch)
 
-	funcWriteType := wasmedge.NewFunctionType(
-		[]wasmedge.ValType{
-			wasmedge.ValType_I32,
-		},
-		[]wasmedge.ValType{})
-	hostWrite := wasmedge.NewFunction(funcWriteType, h.writeMem, nil, 0)
-	obj.AddFunction(&quot;write_mem&quot;, hostWrite)
+  funcWriteType := wasmedge.NewFunctionType(
+    []wasmedge.ValType{
+      wasmedge.ValType_I32
+    },
+    []wasmedge.ValType{})
+  hostWrite := wasmedge.NewFunction(funcWriteType, h.writeMem, nil, 0)
+  obj.AddFunction(&quot;write_mem&quot;, hostWrite)
 
-	vm.RegisterImport(obj)
+  vm.RegisterImport(obj)
 
-	vm.LoadWasmFile(os.Args[1])
-	vm.Validate()
-	vm.Instantiate()
+  vm.LoadWasmFile(os.Args[1])
+  vm.Validate()
+  vm.Instantiate()
 
-	r, _ := vm.Execute(&quot;run&quot;)
-	fmt.Printf(&quot;There are %d 'google' in source code of google.com\n&quot;, r[0])
+  r, _ := vm.Execute(&quot;run&quot;)
+  fmt.Printf(&quot;There are %d 'google' in source code of google.com\n&quot;, r[0])
 
-	obj.Release()
-	vm.Release()
-	conf.Release()
+  obj.Release()
+  vm.Release()
+  conf.Release()
 }
 
 </code></pre>
