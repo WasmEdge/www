@@ -8820,7 +8820,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 <p>The definitions of WasmEdge Rust SDK involve two Rust crates, <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> and <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-rs</a>. They are designed based on different principles and for different purposes. The wasmedge-sys crate defines a group of low-level Rust APIs, which simply wrap WasmEdge C APIs and provide the safe counterpart, while the wasmedge-rs crate provides more elegant and ergonomic APIs, which are more suitable for application development.</p>
 <ul>
 <li>
-<p>The <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> crate defines a group of low-level Rust APIs, which simply wrap WasmEdge C APIs and provide the safe counterparts. The APIs in <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> should be used to construct high-level libraries.</p>
+<p>The <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> crate defines a group of low-level Rust APIs, which simply wrap WasmEdge C APIs and provide the safe counterparts. The APIs in <a href="https://crates.io/crates/wasmedge-sys">wasmedge-sys</a> should be used to construct high-level libraries. For the details of the APIs, please visit <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sys/">wasmedge-sys API documentation</a>.</p>
 </li>
 <li>
 <p>The <a href="https://crates.io/crates/wasmedge-sdk">wasmedge-rs</a> crate is based on the wasmedge-sys crate and provides a more elegant and idiomatic Rust APIs. These APIs are more suitable for business-oriented design and development. The wasmedge-rs crate is still under active development and coming soon.</p>
@@ -8963,7 +8963,7 @@ let loader = Loader::create(None).expect(&quot;fail to create a Loader context&q
 
 // load a wasm module from a specified wasm file, and return a WasmEdge AST Module instance
 let path = PathBuf::from(&quot;fibonacci.wasm&quot;);
-let mut module = loader.from_file(path).expect(&quot;fail to load the WebAssembly file&quot;);
+let module = loader.from_file(path).expect(&quot;fail to load the WebAssembly file&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="step-2-create-a-wasmedge-vm-context"><a class="header" href="#step-2-create-a-wasmedge-vm-context">Step 2: Create a WasmEdge <code>Vm</code> context</a></h2>
@@ -8977,10 +8977,10 @@ let mut module = loader.from_file(path).expect(&quot;fail to load the WebAssembl
 let config = Config::create().expect(&quot;fail to create a Config context&quot;);
 
 // create a Store context
-let store = Store::create().expect(&quot;fail to create a Store context&quot;);
+let mut store = Store::create().expect(&quot;fail to create a Store context&quot;);
 
 // create a Vm context with the given Config and Store
-let mut vm = Vm::create(Some(config), Some(store)).expect(&quot;fail to create a Vm context&quot;);
+let mut vm = Vm::create(Some(config), Some(&amp;mut store)).expect(&quot;fail to create a Vm context&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="step-3-invoke-the-fib-function"><a class="header" href="#step-3-invoke-the-fib-function">Step 3: Invoke the <code>fib</code> function</a></h2>
@@ -9013,10 +9013,10 @@ let mut config = Config::create()?;
 config.bulk_memory_operations(true);
 
 // create a Store context
-let store = Store::create()?;
+let mut store = Store::create()?;
 
 // create a Vm context with the given Config and Store
-let mut vm = Vm::create(Some(config), Some(store))?;
+let mut vm = Vm::create(Some(config), Some(&amp;mut store))?;
 
 // register a wasm module from a wasm file
 let file = std::path::PathBuf::from(env!(&quot;WASMEDGE_DIR&quot;))
