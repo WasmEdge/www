@@ -1526,7 +1526,7 @@ WasmEdge_StringDelete(ModName);
  * Create and add the host functions, tables, memories, and globals into the module instance.
  */
 
-/* Register the module instance into store with the export module. */
+/* Register the module instance into store with the exported module name. */
 /* The export module name is in the module instance already. */
 Res = WasmEdge_ExecutorRegisterImport(ExecCxt, StoreCxt, HostModCxt);
 if (!WasmEdge_ResultOK(Res)) {
@@ -1683,18 +1683,20 @@ WasmEdge_StringDelete(FuncName);
 <li>
 <p>Function instance</p>
 <p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#syntax-hostfunc">Host functions</a> are functions outside WebAssembly and passed to WASM modules as imports.
-In WasmEdge, developers can create the <code>Function</code> contexts for host functions and add them into an <code>Import Object</code> context for registering into a <code>VM</code> or a <code>Store</code>.
-For both host functions and the functions get from <code>Store</code>, developers can retrieve the <code>Function Type</code> from the <code>Function</code> contexts.
+In WasmEdge, developers can create the <code>Function</code> contexts for host functions and add them into an <code>Module</code> instance context for registering into a <code>VM</code> or a <code>Store</code>.
+Developers can retrieve the <code>Function Type</code> from the <code>Function</code> contexts through the API.
 For the details of the <code>Host Function</code> guide, please refer to the <a href="#host-functions">next chapter</a>.</p>
-<pre><code class="language-c">/* Retrieve the function instance from the store context. */
+<pre><code class="language-c">/* Retrieve the function instance from the module instance context. */
 WasmEdge_FunctionInstanceContext *FuncCxt = ...;
 WasmEdge_FunctionTypeContext *FuncTypeCxt = WasmEdge_FunctionInstanceGetFunctionType(FuncCxt);
 /* The `FuncTypeCxt` is owned by the `FuncCxt` and should __NOT__ be destroyed. */
+
+/* For the function instance creation, please refer to the `Host Function` guide. */
 </code></pre>
 </li>
 <li>
 <p>Table instance</p>
-<p>In WasmEdge, developers can create the <code>Table</code> contexts and add them into an <code>Import Object</code> context for registering into a <code>VM</code> or a <code>Store</code>.
+<p>In WasmEdge, developers can create the <code>Table</code> contexts and add them into an <code>Module</code> instance context for registering into a <code>VM</code> or a <code>Store</code>.
 The <code>Table</code> contexts supply APIs to control the data in table instances.</p>
 <pre><code class="language-c">WasmEdge_Limit TabLimit = {.HasMax = true, .Min = 10, .Max = 20};
 /* Create the table type with limit and the `FuncRef` element type. */
@@ -1741,7 +1743,7 @@ WasmEdge_TableInstanceDelete(HostTable);
 </li>
 <li>
 <p>Memory instance</p>
-<p>In WasmEdge, developers can create the <code>Memory</code> contexts and add them into an <code>Import Object</code> context for registering into a <code>VM</code> or a <code>Store</code>.
+<p>In WasmEdge, developers can create the <code>Memory</code> contexts and add them into an <code>Module</code> instance context for registering into a <code>VM</code> or a <code>Store</code>.
 The <code>Memory</code> contexts supply APIs to control the data in memory instances.</p>
 <pre><code class="language-c">WasmEdge_Limit MemLimit = {.HasMax = true, .Min = 1, .Max = 5};
 /* Create the memory type with limit. The memory page size is 64KiB. */
@@ -1789,7 +1791,7 @@ WasmEdge_MemoryInstanceDelete(HostMemory);
 </li>
 <li>
 <p>Global instance</p>
-<p>In WasmEdge, developers can create the <code>Global</code> contexts and add them into an <code>Import Object</code> context for registering into a <code>VM</code> or a <code>Store</code>.
+<p>In WasmEdge, developers can create the <code>Global</code> contexts and add them into an <code>Module</code> instance context for registering into a <code>VM</code> or a <code>Store</code>.
 The <code>Global</code> contexts supply APIs to control the value in global instances.</p>
 <pre><code class="language-c">WasmEdge_Value Val = WasmEdge_ValueGenI64(1000);
 /* Create the global type with value type and mutation. */
