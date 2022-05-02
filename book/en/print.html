@@ -12464,8 +12464,8 @@ Through extensions, WasmEdge applications can use languages like Rust, C, and Ja
 <p>In this chapter, we will cover how to build WasmEdge from source code for different operating systems and platforms.
 We will then discuss the WasmEdge plug-in API, which allows developers to create extensions that can be distributed with official WasmEdge releases.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-from-source"><a class="header" href="#build-wasmedge-from-source">Build WasmEdge from source</a></h1>
-<p>Please follow this guide to build and test WasmEdge from source code.</p>
-<p>The following guide is based on Linux distributions. For MacOS, please refer to <a href="extend/build_on_mac.html">Build for macOS</a>. For Windows, please refer to <a href="extend/build_on_windows.html">Build for Windows</a>. For Android, please refer to <a href="extend/build_for_android.html">Build for Android</a>.</p>
+<p>Please follow this guide to build and test WasmEdge from the source code.</p>
+<p>The following guide is for Linux distributions. For MacOS, please refer to <a href="extend/build_on_mac.html">Build for macOS</a>. For Windows, please refer to <a href="extend/build_on_windows.html">Build for Windows</a>. For Android, please refer to <a href="extend/build_for_android.html">Build for Android</a>.</p>
 <blockquote>
 <p>If you just want the latest builds from the <code>HEAD</code> of the <code>master</code> branch, and do not want to build it yourself, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
 </blockquote>
@@ -12474,17 +12474,17 @@ We will then discuss the WasmEdge plug-in API, which allows developers to create
 cd WasmEdge
 </code></pre>
 <h2 id="check-dependencies"><a class="header" href="#check-dependencies">Check Dependencies</a></h2>
-<p>WasmEdge will try to use the latest LLVM release to create our nightly build.
-If you want to build from source, you may need to install these dependencies by yourself or using our docker images which provides several Linux distribution support.</p>
+<p>WasmEdge will try to use the latest LLVM release to build the nightly build.
+If you want to build from source, you may need to install these dependencies by yourself or using our docker images which support several Linux distributions.</p>
 <ul>
 <li>LLVM 12.0.0 (&gt;= 10.0.0)</li>
 <li>GCC 11.1.0 (&gt;= 9.4.0)</li>
 </ul>
 <h2 id="prepare-the-environment"><a class="header" href="#prepare-the-environment">Prepare the Environment</a></h2>
 <h3 id="docker-images"><a class="header" href="#docker-images">Docker Images</a></h3>
-<p>Repository on dockerhub <code>wasmedge/wasmedge</code></p>
+<p>Repository on <a href="https://hub.docker.com/search?q=wasmedge">dockerhub</a> <code>wasmedge/wasmedge</code></p>
 <p>You can use the following commands to get our latest docker image:</p>
-<pre><code class="language-bash">docker pull wasmedge/wasmedge # Equals to wasmedge/wasmedge:latest
+<pre><code class="language-bash">docker pull wasmedge/wasmedge # Pulls the latest - wasmedge/wasmedge:latest
 </code></pre>
 <h4 id="available-tags"><a class="header" href="#available-tags">Available Tags</a></h4>
 <table><thead><tr><th>tag name</th><th>arch</th><th>based operating system</th><th>LLVM version</th><th>ENVs</th><th>compatibility</th><th>comments</th></tr></thead><tbody>
@@ -12512,14 +12512,14 @@ sudo apt install -y \
 
 # WasmEdge supports both clang++ and g++ compilers
 # You can choose one of them for building this project
-# If you prefer GCC
+# If you prefer GCC then
 sudo apt install -y gcc g++
-# Else you can choose clang
+# Or if you prefer clang then
 sudo apt install -y clang-12
 </code></pre>
 <h3 id="support-for-legacy-operating-systems"><a class="header" href="#support-for-legacy-operating-systems">Support for legacy operating systems</a></h3>
 <p>Our development environment requires <code>libLLVM-12</code> and <code>&gt;=GLIBCXX_3.4.33</code>.</p>
-<p>If users are using the older operating system than Ubuntu 20.04, please use our special docker image to build WasmEdge.
+<p>If users are using operating systems older than Ubuntu 20.04, please use our special docker image to build WasmEdge.
 If you are looking for the pre-built binaries for the older operating system, we also provide several pre-built binaries based on manylinux* distribution.</p>
 <table><thead><tr><th>Portable Linux Built Distributions Tags</th><th>Base Image</th><th>Provided Requirements</th><th>Docker Image</th></tr></thead><tbody>
 <tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5</br>CXXABI &lt;= 3.4.8</br>GLIBCXX &lt;= 3.4.9</br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
@@ -12529,30 +12529,30 @@ If you are looking for the pre-built binaries for the older operating system, we
 </tbody></table>
 <h2 id="build-wasmedge"><a class="header" href="#build-wasmedge">Build WasmEdge</a></h2>
 <p>WasmEdge provides various tools for enabling different runtime environments for optimal performance.
-After the build is finished, you can find there are several wasmedge related tools:</p>
+You can find that there are several wasmedge related tools:</p>
 <ol>
-<li><code>wasmedge</code> is for general wasm runtime.
+<li><code>wasmedge</code> is the general wasm runtime.
 <ul>
-<li><code>wasmedge</code> executes a <code>WASM</code> file in interpreter mode or a compiled WASM <code>so</code> file in ahead-of-time compilation mode.</li>
+<li><code>wasmedge</code> executes a <code>WASM</code> file in the interpreter mode or a compiled WASM <code>so</code> (shared object) file in the ahead-of-time compilation mode.</li>
 <li>To disable building all tools, you can set the CMake option <code>WASMEDGE_BUILD_TOOLS</code> to <code>OFF</code>.</li>
 </ul>
 </li>
-<li><code>wasmedgec</code> is for ahead-of-time <code>WASM</code> compiler.
+<li><code>wasmedgec</code> is the ahead-of-time <code>WASM</code> compiler.
 <ul>
-<li><code>wasmedgec</code> compiles a general <code>WASM</code> file into a <code>so</code> file.</li>
+<li><code>wasmedgec</code> compiles a general <code>WASM</code> file into a <code>so</code> (shared object) file.</li>
 <li>To disable building the ahead-of-time compiler only, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</li>
 </ul>
 </li>
 <li><code>libwasmedge_c.so</code> is the WasmEdge C API shared library.
 <ul>
-<li><code>libwasmedge_c.so</code> provides C API for the ahead-of-time compiler and the WASM runtime.</li>
-<li>The APIs about the ahead-of-time compiler will always return failed if the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set as <code>OFF</code>.</li>
-<li>To disable building the shared library only, you can set the CMake option <code>WASMEDGE_BUILD_SHARED_LIB</code> to <code>OFF</code>.</li>
+<li><code>libwasmedge_c.so</code> provides the C API for the ahead-of-time compiler and the WASM runtime.</li>
+<li>The APIs related to the ahead-of-time compiler will always fail if the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set as <code>OFF</code>.</li>
+<li>To disable building just the shared library, you can set the CMake option <code>WASMEDGE_BUILD_SHARED_LIB</code> to <code>OFF</code>.</li>
 </ul>
 </li>
-<li><code>ssvm-qitc</code> is for AI application, supporting ONNC runtime for AI model in ONNX format.
+<li><code>ssvm-qitc</code> is for AI applications and supports the ONNC runtime for AI models in the ONNX format.
 <ul>
-<li>If you want to try <code>ssvm-qitc</code>, please refer to <a href="https://github.com/ONNC/onnc-wasm">ONNC-Wasm</a> project to set up the working environment and run several examples.</li>
+<li>If you want to try <code>ssvm-qitc</code>, please refer to <a href="https://github.com/ONNC/onnc-wasm">ONNC-Wasm</a> project to set up the working environment and tryout several examples.</li>
 <li>And here is our <a href="https://www.youtube.com/watch?v=cbiPuHMS-iQ">tutorial for ONNC-Wasm project(YouTube Video)</a>.</li>
 </ul>
 </li>
@@ -12563,6 +12563,7 @@ docker run -it --rm \
     wasmedge/wasmedge:latest
 # In docker
 cd /root/wasmedge
+# If you don't use docker then you need to run only the following commands in the cloned repository root
 mkdir -p build &amp;&amp; cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
 </code></pre>
@@ -12571,8 +12572,8 @@ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
 <pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="run-built-in-tests"><a class="header" href="#run-built-in-tests">Run built-in tests</a></h2>
-<p>The following built-in tests are only available when the build flag <code>WASMEDGE_BUILD_TESTS</code> sets to <code>ON</code>.</p>
-<p>Users can use these tests to verify the correctness of WasmEdge binaries.</p>
+<p>The following built-in tests are only available when the build flag <code>WASMEDGE_BUILD_TESTS</code> is set to <code>ON</code>.</p>
+<p>Users can use these tests to verify the correctness of WasmEdge binaries built.</p>
 <pre><code class="language-bash"># In docker
 cd &lt;path/to/wasmedge/build_folder&gt;
 LD_LIBRARY_PATH=$(pwd)/lib/api ctest
