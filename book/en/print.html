@@ -294,7 +294,7 @@ confidence: 0.8941176470588236
 </code></pre>
 <h2 id="install-a-specific-version-of-wasmedge"><a class="header" href="#install-a-specific-version-of-wasmedge">Install a specific version of WasmEdge</a></h2>
 <p>You could install specific versions of WasmEdge, including pre-releases or old releases by passing the <code>-v</code> argument to the install script. Here is an example.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.10.0-alpha.1
 </code></pre>
 <p>If you are interested in the latest builds from the <code>HEAD</code> of the <code>master</code> branch, which is basically WasmEdge's nightly builds, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
 <h2 id="whats-installed"><a class="header" href="#whats-installed">What's installed</a></h2>
@@ -3354,9 +3354,9 @@ real 0m0.036s
 user 0m0.022s
 sys 0m0.011s
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-0100-unreleased-api-documentation"><a class="header" href="#wasmedge-c-0100-unreleased-api-documentation">WasmEdge C 0.10.0 (unreleased) API Documentation</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-0100-api-documentation"><a class="header" href="#wasmedge-c-0100-api-documentation">WasmEdge C 0.10.0 API Documentation</a></h1>
 <p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
-<p><strong>This document is for the <code>master</code> branch. For the stable <code>0.9.1</code> version, please refer to the <a href="embed/c/0.9.1/ref.html">document here</a>.</strong></p>
+<p><strong>This document is for the pre-release <code>0.10.0-alpha.1</code> version. For the stable <code>0.9.1</code> version, please refer to the <a href="embed/c/0.9.1/ref.html">document here</a>.</strong></p>
 <p><strong>Developers can refer <a href="embed/c/0.9.1/upgrade_to_0.10.0.html">here to upgrade to 0.10.0</a>.</strong></p>
 <h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
 <ul>
@@ -14591,15 +14591,15 @@ sirius:/ $
 </code></pre>
 <h3 id="install-wasmedge-tensorflow-tools-packages"><a class="header" href="#install-wasmedge-tensorflow-tools-packages">Install WasmEdge-TensorFlow-Tools packages</a></h3>
 <p>Use the following commands on your Ubuntu dev machine to download the WasmEdge-TensorFlow-Tools pre-release packages.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.9.1-beta.2/WasmEdge-tensorflow-tools-0.9.1-beta.2-android_aarch64.tar.gz
-$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.9.1-beta.2-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.10.0-alpha.1/WasmEdge-tensorflow-tools-0.10.0-alpha.1-android_aarch64.tar.gz
+$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 show-tflite-tensor
 wasmedge-tensorflow-lite
 </code></pre>
 <h3 id="install-android-version-of-the-tensorflow-lite-shared-library"><a class="header" href="#install-android-version-of-the-tensorflow-lite-shared-library">Install Android version of the TensorFlow-Lite shared library</a></h3>
 <p>We provide an Android compatible version of TensorFlow-Lite dynamic shared library in the WasmEdge-Tensorflow-deps package. Download the package to your Ubuntu dev machine as follows.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.9.1-beta.2/WasmEdge-tensorflow-deps-TFLite-0.9.1-beta.2-android_aarch64.tar.gz
-$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.9.1-beta.2-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.10.0-alpha.1/WasmEdge-tensorflow-deps-TFLite-0.10.0-alpha.1-android_aarch64.tar.gz
+$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 libtensorflowlite_c.so
 </code></pre>
 <p>Next use the <code>adb</code> tool to push the downloaded WasmEdge-TensorFlow packages onto a connected Android device.</p>
@@ -14723,18 +14723,18 @@ int main(int argc, char *argv[]) {
 <h2 id="build-1"><a class="header" href="#build-1">Build</a></h2>
 <h3 id="install-dependencies"><a class="header" href="#install-dependencies">Install dependencies</a></h3>
 <p>Use the following commands to download WasmEdge for Android on your Ubuntu dev machine.</p>
-<pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.9.1-rc.1/WasmEdge-0.9.1-rc.1-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-image/releases/download/0.9.1-rc.1/WasmEdge-image-0.9.1-rc.1-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.9.1-rc.1/WasmEdge-tensorflowlite-0.9.1-rc.1-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.9.1-rc.1/WasmEdge-tensorflow-deps-TFLite-0.9.1-rc.1-android_aarch64.tar.gz
-tar -zxf WasmEdge-0.9.1-rc.1-android_aarch64.tar.gz
-tar -zxf WasmEdge-image-0.9.1-rc.1-android_aarch64.tar.gz -C WasmEdge-0.9.1-rc.1-Android/
-tar -zxf WasmEdge-tensorflowlite-0.9.1-rc.1-android_aarch64.tar.gz -C WasmEdge-0.9.1-rc.1-Android/
-tar -zxf WasmEdge-tensorflow-deps-TFLite-0.9.1-rc.1-android_aarch64.tar.gz -C WasmEdge-0.9.1-rc.1-Android/lib/
+<pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.10.0-alpha.1/WasmEdge-0.10.0-alpha.1-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-image/releases/download/0.10.0-alpha.1/WasmEdge-image-0.10.0-alpha.1-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.10.0-alpha.1/WasmEdge-tensorflowlite-0.10.0-alpha.1-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.10.0-alpha.1/WasmEdge-tensorflow-deps-TFLite-0.10.0-alpha.1-android_aarch64.tar.gz
+tar -zxf WasmEdge-0.10.0-alpha.1-android_aarch64.tar.gz
+tar -zxf WasmEdge-image-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-0.10.0-alpha.1-Android/
+tar -zxf WasmEdge-tensorflowlite-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-0.10.0-alpha.1-Android/
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-0.10.0-alpha.1-Android/lib/
 </code></pre>
 <h3 id="compile"><a class="header" href="#compile">Compile</a></h3>
 <p>The following command compiles the C program to <code>a.out</code> on your Ubunu dev machine.</p>
-<pre><code class="language-bash">(/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.9.1-rc.1-Android/include -L./WasmEdge-0.9.1-rc.1-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge_c
+<pre><code class="language-bash">(/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.10.0-alpha.1-Android/include -L./WasmEdge-0.10.0-alpha.1-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge_c
 </code></pre>
 <h2 id="run-2"><a class="header" href="#run-2">Run</a></h2>
 <h3 id="push-files-onto-android"><a class="header" href="#push-files-onto-android">Push files onto Android</a></h3>
@@ -14743,7 +14743,7 @@ tar -zxf WasmEdge-tensorflow-deps-TFLite-0.9.1-rc.1-android_aarch64.tar.gz -C Wa
 adb push birds_v1.wasm /data/local/tmp
 adb push lite-model_aiy_vision_classifier_birds_V1_3.tflite /data/local/tmp
 adb push bird.jpg /data/local/tmp
-adb push ./WasmEdge-0.9.1-rc.1-Android/lib /data/local/tmp
+adb push ./WasmEdge-0.10.0-alpha.1-Android/lib /data/local/tmp
 </code></pre>
 <h3 id="run-the-example"><a class="header" href="#run-the-example">Run the example</a></h3>
 <p>Now you can run the compiled C program on the Android device via a remote shell command. Run <code>adb shell</code> from your Ubuntu dev machine.</p>
