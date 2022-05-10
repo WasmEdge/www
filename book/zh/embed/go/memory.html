@@ -219,7 +219,7 @@ func main() {
   store := wasmedge.NewStore()
   vm := wasmedge.NewVMWithConfigAndStore(conf, store)
 
-  wasi := vm.GetImportObject(wasmedge.WASI)
+  wasi := vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],
     os.Environ(),
@@ -282,7 +282,7 @@ func main() {
 }
 </code></pre>
 <p>要构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build greet_memory.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序来运行从 Rust 编译的 WebAssembly 插件：</p>
@@ -345,7 +345,7 @@ func main() {
   store := wasmedge.NewStore()
   vm := wasmedge.NewVMWithConfigAndStore(conf, store)
 
-  wasi := vm.GetImportObject(wasmedge.WASI)
+  wasi := vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],
     os.Environ(),
@@ -406,7 +406,7 @@ func main() {
 }
 </code></pre>
 <p>要构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build greet_memory.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序运行从 TinyGo 编译的 WebAssembly 插件：</p>
@@ -497,7 +497,7 @@ func main() {
   store := wasmedge.NewStore()
   vm := wasmedge.NewVMWithConfigAndStore(conf, store)
 
-  wasi := vm.GetImportObject(wasmedge.WASI)
+  wasi := vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],
     os.Environ(),
@@ -566,7 +566,7 @@ func main() {
 }
 </code></pre>
 <p>为了构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build run.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序运行从 Rust 编译的 WebAssembly 插件：</p>
@@ -644,7 +644,7 @@ func main() {
   store := wasmedge.NewStore()
   vm := wasmedge.NewVMWithConfigAndStore(conf, store)
 
-  wasi := vm.GetImportObject(wasmedge.WASI)
+  wasi := vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],
     os.Environ(),
@@ -712,7 +712,7 @@ func main() {
 }
 </code></pre>
 <p>要构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build run.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序运行从 TinyGo 编译的 WebAssembly 插件：</p>

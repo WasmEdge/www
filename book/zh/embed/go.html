@@ -152,19 +152,19 @@
                         <h1 id="wasmedge-go-sdk"><a class="header" href="#wasmedge-go-sdk">WasmEdge Go SDK</a></h1>
 <p>这是一份如何使用 WasmEdge Go API 的指南。你可以通过 WasmEdge Go API 将 WasmEdge 嵌入在你的 Go 应用程序中。</p>
 <h2 id="快速开始"><a class="header" href="#快速开始">快速开始</a></h2>
-<p>WasmEdge-go 要求 Go 语言版本 &gt;= 1.15。在安装之前请检查你的 Go 语言版本。你可以<a href="https://golang.org/dl/">从这里下载 Go 语言</a>。</p>
+<p>WasmEdge-go 要求 Go 语言版本 &gt;= 1.16。在安装之前请检查你的 Go 语言版本。你可以<a href="https://golang.org/dl/">从这里下载 Go 语言</a>。</p>
 <pre><code class="language-bash">$ go version
 go version go1.16.5 linux/amd64
 </code></pre>
 <p>同时，请确保你已经安装了和 <code>WasmEdge-go</code> 同一发布版本的 <a href="../start/install.html">WasmEdge 共享库</a>。</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1
 </code></pre>
 <p>如果你需要 <code>WasmEdge-go</code> 的 <code>TensorFlow</code> 或 <code>Image</code> 扩展，请安装带有这些扩展的 <code>WasmEdge</code> ：</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1 -e tensorflow,image
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1 -e tensorflow,image
 </code></pre>
 <p>注意 <code>TensorFlow</code> 和 <code>Image</code> 扩展仅支持 <code>Linux</code> 平台。</p>
 <p>安装 <code>WasmEdge-go</code> 包并在你的 Go 项目目录下构建：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build
 </code></pre>
 <h2 id="wasmedge-go-扩展"><a class="header" href="#wasmedge-go-扩展">WasmEdge-go 扩展</a></h2>
