@@ -198,7 +198,7 @@ cd ../
 
   var conf = wasmedge.NewConfigure(wasmedge.WASI)
   var vm = wasmedge.NewVMWithConfig(conf)
-  var wasi = vm.GetImportObject(wasmedge.WASI)
+  var wasi = vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],     // The args
     os.Environ(),    // The envs
@@ -206,10 +206,10 @@ cd ../
   )
 
   // Register WasmEdge-tensorflow
-  var tfobj = wasmedge.NewTensorflowImportObject()
-  var tfliteobj = wasmedge.NewTensorflowLiteImportObject()
-  vm.RegisterImport(tfobj)
-  vm.RegisterImport(tfliteobj)
+  var tfmod = wasmedge.NewTensorflowModule()
+  var tflitemod = wasmedge.NewTensorflowLiteModule()
+  vm.RegisterModule(tfmod)
+  vm.RegisterModule(tflitemod)
 
   // Load and validate the wasm
   vm.LoadWasmFile(os.Args[1])
@@ -228,8 +228,8 @@ cd ../
   bg.Release()
   vm.Release()
   conf.Release()
-  tfobj.Release()
-  tfliteobj.Release()
+  tfmod.Release()
+  tflitemod.Release()
 }
 </code></pre>
 <h2 id="构建和运行"><a class="header" href="#构建和运行">构建和运行</a></h2>

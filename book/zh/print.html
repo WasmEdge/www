@@ -1531,19 +1531,19 @@ sys 0m0.011s
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-sdk"><a class="header" href="#wasmedge-go-sdk">WasmEdge Go SDK</a></h1>
 <p>这是一份如何使用 WasmEdge Go API 的指南。你可以通过 WasmEdge Go API 将 WasmEdge 嵌入在你的 Go 应用程序中。</p>
 <h2 id="快速开始-2"><a class="header" href="#快速开始-2">快速开始</a></h2>
-<p>WasmEdge-go 要求 Go 语言版本 &gt;= 1.15。在安装之前请检查你的 Go 语言版本。你可以<a href="https://golang.org/dl/">从这里下载 Go 语言</a>。</p>
+<p>WasmEdge-go 要求 Go 语言版本 &gt;= 1.16。在安装之前请检查你的 Go 语言版本。你可以<a href="https://golang.org/dl/">从这里下载 Go 语言</a>。</p>
 <pre><code class="language-bash">$ go version
 go version go1.16.5 linux/amd64
 </code></pre>
 <p>同时，请确保你已经安装了和 <code>WasmEdge-go</code> 同一发布版本的 <a href="embed/../start/install.html">WasmEdge 共享库</a>。</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1
 </code></pre>
 <p>如果你需要 <code>WasmEdge-go</code> 的 <code>TensorFlow</code> 或 <code>Image</code> 扩展，请安装带有这些扩展的 <code>WasmEdge</code> ：</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.9.1 -e tensorflow,image
+<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1 -e tensorflow,image
 </code></pre>
 <p>注意 <code>TensorFlow</code> 和 <code>Image</code> 扩展仅支持 <code>Linux</code> 平台。</p>
 <p>安装 <code>WasmEdge-go</code> 包并在你的 Go 项目目录下构建：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build
 </code></pre>
 <h2 id="wasmedge-go-扩展"><a class="header" href="#wasmedge-go-扩展">WasmEdge-go 扩展</a></h2>
@@ -1668,7 +1668,7 @@ func main() {
   var conf = wasmedge.NewConfigure(wasmedge.REFERENCE_TYPES)
   conf.AddConfig(wasmedge.WASI)
   var vm = wasmedge.NewVMWithConfig(conf)
-  var wasi = vm.GetImportObject(wasmedge.WASI)
+  var wasi = vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],     // 参数
     os.Environ(),    // 环境变量
@@ -1683,7 +1683,7 @@ func main() {
 }
 </code></pre>
 <p>接下来，让我们用 WasmEdge Go SDK 构建 Go 应用程序。</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build
 </code></pre>
 <p>运行 Golang 应用程序。</p>
@@ -1800,7 +1800,7 @@ $ cd ../
   wasmedge.SetLogErrorLevel()
   var conf = wasmedge.NewConfigure(wasmedge.WASI)
   var vm = wasmedge.NewVMWithConfig(conf)
-  var wasi = vm.GetImportObject(wasmedge.WASI)
+  var wasi = vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],     // The args
     os.Environ(),    // The envs
@@ -1949,7 +1949,7 @@ func main() {
   store := wasmedge.NewStore()
   vm := wasmedge.NewVMWithConfigAndStore(conf, store)
 
-  wasi := vm.GetImportObject(wasmedge.WASI)
+  wasi := vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],
     os.Environ(),
@@ -2012,7 +2012,7 @@ func main() {
 }
 </code></pre>
 <p>要构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build greet_memory.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序来运行从 Rust 编译的 WebAssembly 插件：</p>
@@ -2075,7 +2075,7 @@ func main() {
   store := wasmedge.NewStore()
   vm := wasmedge.NewVMWithConfigAndStore(conf, store)
 
-  wasi := vm.GetImportObject(wasmedge.WASI)
+  wasi := vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],
     os.Environ(),
@@ -2136,7 +2136,7 @@ func main() {
 }
 </code></pre>
 <p>要构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build greet_memory.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序运行从 TinyGo 编译的 WebAssembly 插件：</p>
@@ -2227,7 +2227,7 @@ func main() {
   store := wasmedge.NewStore()
   vm := wasmedge.NewVMWithConfigAndStore(conf, store)
 
-  wasi := vm.GetImportObject(wasmedge.WASI)
+  wasi := vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],
     os.Environ(),
@@ -2296,7 +2296,7 @@ func main() {
 }
 </code></pre>
 <p>为了构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build run.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序运行从 Rust 编译的 WebAssembly 插件：</p>
@@ -2374,7 +2374,7 @@ func main() {
   store := wasmedge.NewStore()
   vm := wasmedge.NewVMWithConfigAndStore(conf, store)
 
-  wasi := vm.GetImportObject(wasmedge.WASI)
+  wasi := vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],
     os.Environ(),
@@ -2442,7 +2442,7 @@ func main() {
 }
 </code></pre>
 <p>要构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build run.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序运行从 TinyGo 编译的 WebAssembly 插件：</p>
@@ -2502,7 +2502,7 @@ cd ../
 
   var conf = wasmedge.NewConfigure(wasmedge.WASI)
   var vm = wasmedge.NewVMWithConfig(conf)
-  var wasi = vm.GetImportObject(wasmedge.WASI)
+  var wasi = vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],     // The args
     os.Environ(),    // The envs
@@ -2510,10 +2510,10 @@ cd ../
   )
 
   // Register WasmEdge-tensorflow
-  var tfobj = wasmedge.NewTensorflowImportObject()
-  var tfliteobj = wasmedge.NewTensorflowLiteImportObject()
-  vm.RegisterImport(tfobj)
-  vm.RegisterImport(tfliteobj)
+  var tfmod = wasmedge.NewTensorflowModule()
+  var tflitemod = wasmedge.NewTensorflowLiteModule()
+  vm.RegisterModule(tfmod)
+  vm.RegisterModule(tflitemod)
 
   // Load and validate the wasm
   vm.LoadWasmFile(os.Args[1])
@@ -2532,8 +2532,8 @@ cd ../
   bg.Release()
   vm.Release()
   conf.Release()
-  tfobj.Release()
-  tfliteobj.Release()
+  tfmod.Release()
+  tflitemod.Release()
 }
 </code></pre>
 <h2 id="构建和运行"><a class="header" href="#构建和运行">构建和运行</a></h2>
@@ -2551,6 +2551,7 @@ cd ../
 It is very likely a Hot dog in the picture
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="如何用-go-编写-host-function"><a class="header" href="#如何用-go-编写-host-function">如何用 Go 编写 Host Function</a></h1>
+<p><strong>This file is needed to update to 0.10.0 and translate into English.</strong></p>
 <h2 id="什么是-host-function"><a class="header" href="#什么是-host-function">什么是 Host Function</a></h2>
 <p>顾名思义, Host Function 就是定义在 Host 程序中的函数. 对于 Wasm 来说, Host Function 可以做为导入段 <code>import</code> 被注册到一个模块 <code>module</code> 中, 之后便可以在 Wasm 运行时被调用.</p>
 <p>Wasm 目前的能力有限，但那些 Wasm 本身做不了的事情, 都可以依靠 Host Function 来解决, 这极大地扩展了 Wasm 的能力范围.</p>
@@ -2889,7 +2890,7 @@ func main() {
 
   var conf = wasmedge.NewConfigure(wasmedge.WASI)
   var vm = wasmedge.NewVMWithConfig(conf)
-  var wasi = vm.GetImportObject(wasmedge.WASI)
+  var wasi = vm.GetImportModule(wasmedge.WASI)
   wasi.InitWasi(
     os.Args[1:],     // The args
     os.Environ(),    // The envs
@@ -2931,7 +2932,7 @@ func main() {
 }
 </code></pre>
 <p>接下来，让我们用 WasmEdge Go SDK 来构建 Go 应用。</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.9.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
 go build
 </code></pre>
 <p>执行 Go 应用程序，该应用将在 WasmEdge runtime 中执行嵌入的 WebAssembly 函数。</p>
