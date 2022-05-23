@@ -249,7 +249,7 @@ Java_org_wasmedge_native_1lib_NativeLib_nativeWasmFibonacci(
 }
 </code></pre>
 <h3 id="the-webassembly-function"><a class="header" href="#the-webassembly-function">The WebAssembly function</a></h3>
-<p>The <code>factorial.wat</code> is a <a href="https://github.com/WasmEdge/WasmEdge/blob/master/tools/wasmedge/examples/fibonacci.wat">handwritten WebAssembly script</a> to compute factorial numbers. It is compiled into WebAssembly using the <a href="https://github.com/WebAssembly/wabt">WABT tool</a>.</p>
+<p>The <code>factorial.wat</code> is a <a href="https://github.com/WasmEdge/WasmEdge/blob/master/examples/wasm/fibonacci.wat">handwritten WebAssembly script</a> to compute factorial numbers. It is compiled into WebAssembly using the <a href="https://github.com/WebAssembly/wabt">WABT tool</a>.</p>
 <h3 id="build-dependencies"><a class="header" href="#build-dependencies">Build dependencies</a></h3>
 <p>Android Studio and Gradle use CMake to build the C shared library. The <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/lib/src/main/cpp/CMakeLists.txt">CMakeLists.txt file</a> builds the WasmEdge source into Android shared library files and embeds them into the final APK application. In this case, there is no seperate step to install WasmEdge share libraries onto the Android device.</p>
 

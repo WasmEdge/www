@@ -912,7 +912,7 @@ conf.Release()
 <p>In this partition, we will introduce the functions of <code>wasmedge.VM</code> object and show examples of executing WASM functions.</p>
 <h3 id="wasm-execution-example-with-vm-object"><a class="header" href="#wasm-execution-example-with-vm-object">WASM Execution Example With VM Object</a></h3>
 <p>The following shows the example of running the WASM for getting the Fibonacci.
-This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
+This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.</p>
 <pre><code class="language-wasm">(module
  (export &quot;fib&quot; (func $fib))
  (func $fib (param $n i32) (result i32)
@@ -936,7 +936,7 @@ This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEd
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current <code>wasmedge_test</code> directory, and create and edit the Go file <code>main.go</code> as following:</p>
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current <code>wasmedge_test</code> directory, and create and edit the Go file <code>main.go</code> as following:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -1167,7 +1167,7 @@ WasmEdge VM provides APIs for developers to register and export any WASM modules
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.
 Then create and edit the Go file <code>main.go</code> as following:</p>
 <pre><code class="language-go">package main
 
@@ -1275,7 +1275,7 @@ Please refer to the <a href="#Instances">Instances in runtime</a> for the detail
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
+<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -1351,7 +1351,7 @@ functype := vm.GetFunctionType(&quot;fib&quot;)
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
+<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (

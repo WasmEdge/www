@@ -176,7 +176,7 @@ $ docker run --rm -v $(pwd):/app -it wasmedge/appdev_x86_64:0.9.0
 <h2 id="webassembly-examples"><a class="header" href="#webassembly-examples">WebAssembly examples</a></h2>
 <p>We have several WebAssembly bytecode program examples for you to try out on your newly installed WasmEdge CLI.</p>
 <h3 id="hello-world"><a class="header" href="#hello-world">Hello world</a></h3>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/hello.wasm">hello.wasm</a> WebAssembly program contains a <code>main()</code> function.
+<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/hello.wasm">hello.wasm</a> WebAssembly program contains a <code>main()</code> function.
 Checkout its <a href="https://github.com/second-state/wasm-learning/tree/master/cli/hello">Rust source code project</a>.
 It prints out <code>hello</code> followed by the command line arguments.</p>
 <pre><code class="language-bash">$ wasmedge hello.wasm second state
@@ -185,14 +185,14 @@ second
 state
 </code></pre>
 <h3 id="call-a-function-written-in-rust"><a class="header" href="#call-a-function-written-in-rust">Call a function written in Rust</a></h3>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/add.wasm">add.wasm</a> WebAssembly program contains an <code>add()</code> function.
+<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/add.wasm">add.wasm</a> WebAssembly program contains an <code>add()</code> function.
 Checkout its <a href="https://github.com/second-state/wasm-learning/tree/master/cli/add">Rust source code project</a>.
 We use WasmEdge in reactor mode to call the <code>add()</code> with two integer input parameters.</p>
 <pre><code class="language-bash">$ wasmedge --reactor add.wasm add 2 2
 4
 </code></pre>
 <h3 id="call-a-function-written-in-wat"><a class="header" href="#call-a-function-written-in-wat">Call a function written in WAT</a></h3>
-<p>We created the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a> program by hand and used the <a href="https://github.com/WebAssembly/wabt">wat2wasm</a> compiler to build the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a> WebAssembly program.
+<p>We created the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wat">fibonacci.wat</a> program by hand and used the <a href="https://github.com/WebAssembly/wabt">wat2wasm</a> compiler to build the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> WebAssembly program.
 It contains a <code>fib()</code> function which takes a single integer as input parameter. We use wasmedge in reactor mode to call the exported function.</p>
 <pre><code class="language-bash">$ wasmedge --reactor fibonacci.wasm fib 10
 89
@@ -215,7 +215,7 @@ state
 <h3 id="with-gas-limit-enabled"><a class="header" href="#with-gas-limit-enabled">With gas-limit enabled</a></h3>
 <p>The CLI supports <code>--gas-limit</code> flags for controlling the execution costs.</p>
 <pre><code class="language-bash"># cd &lt;path/to/WasmEdge&gt;
-$ cd tools/wasmedge/examples
+$ cd examples/wasm
 # With enough gas
 $ wasmedge --enable-all-statistics --gas-limit 20425 hello.wasm second state
 hello
@@ -247,13 +247,13 @@ $ wasmedge --enable-all-statistics --gas-limit 20 hello.wasm second state
 </code></pre>
 <h2 id="javascript-examples"><a class="header" href="#javascript-examples">JavaScript examples</a></h2>
 <p>It is possible to use WasmEdge as a high-performance, secure, extensible, easy to deploy, and <a href="https://github.com/second-state/wasmedge-containers-examples">Kubernetes-compliant</a> JavaScript runtime.</p>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/js/qjs.wasm">qjs.wasm</a> program is a JavaScript interpreter compiled into WebAssembly.
-The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/js/hello.js">hello.js</a> file is a very simple JavaScript program.</p>
+<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/js/qjs.wasm">qjs.wasm</a> program is a JavaScript interpreter compiled into WebAssembly.
+The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/js/hello.js">hello.js</a> file is a very simple JavaScript program.</p>
 <pre><code class="language-bash">$ wasmedge --dir .:. qjs.wasm hello.js 1 2 3
 Hello 1 2 3
 </code></pre>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/js/qjs_tf.wasm">qjs_tf.wasm</a> is a JavaScript interpreter with <a href="https://www.secondstate.io/articles/wasi-tensorflow/">WasmEdge Tensorflow extension</a> compiled into WebAssembly.
-To run <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/js/qjs_tf.wasm">qjs_tf.wasm</a>, you must use the <code>wasmedge-tensorflow-lite</code> CLI tool, which is a build of WasmEdge with Tensorflow extension built-in.
+<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/js/qjs_tf.wasm">qjs_tf.wasm</a> is a JavaScript interpreter with <a href="https://www.secondstate.io/articles/wasi-tensorflow/">WasmEdge Tensorflow extension</a> compiled into WebAssembly.
+To run <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/js/qjs_tf.wasm">qjs_tf.wasm</a>, you must use the <code>wasmedge-tensorflow-lite</code> CLI tool, which is a build of WasmEdge with Tensorflow extension built-in.
 You can download a full <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/tensorflow_lite_demo">Tensorflow-based JavaScript example</a> to classify images.</p>
 <pre><code class="language-bash"># Download the Tensorflow example
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/aiy_food_V1_labelmap.txt

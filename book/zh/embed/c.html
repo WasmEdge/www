@@ -153,7 +153,7 @@
 <p>文档 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> 里提供了访问 WasmEdge 运行时的接口。以下内容是关于如何使用 WasmEdge C API 的简单说明。如果要了解 WasmEdge C API 的更多细节，请参考<a href="c/ref.html">完整的文档</a>。</p>
 <h2 id="wasmedge-运行时快速指南"><a class="header" href="#wasmedge-运行时快速指南">WasmEdge 运行时快速指南</a></h2>
 <p>以下是运行一个 WASM 文件的示例。
-假设 WASM 文件<a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a>已经被拷贝到当前目录，并且 C 文件 <code>test_wasmedge.c</code> 的源代码如下所示：</p>
+假设 WASM 文件<a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a>已经被拷贝到当前目录，并且 C 文件 <code>test_wasmedge.c</code> 的源代码如下所示：</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main(int Argc, const char* Argv[]) {
@@ -192,7 +192,7 @@ Get result: 3524578
 </code></pre>
 <p>如果要了解 API 的细节，请参考 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">API 头文件</a>.</p>
 <h2 id="wasmedge-aot-编译器快速指南"><a class="header" href="#wasmedge-aot-编译器快速指南">WasmEdge AOT 编译器快速指南</a></h2>
-<p>假设 WASM 文件 <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> 已经被拷贝到当前目录，并且 C 文件 <code>test_wasmedge_compiler.c</code> 的代码如下所示：</p>
+<p>假设 WASM 文件 <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> 已经被拷贝到当前目录，并且 C 文件 <code>test_wasmedge_compiler.c</code> 的代码如下所示：</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main(int Argc, const char* Argv[]) {

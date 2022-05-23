@@ -374,7 +374,7 @@ if (!WasmEdge_ResultOK(Res)) {
 </li>
 <li>
 <p>WASM function invokation</p>
-<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.
+<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.
 In WasmEdge <code>0.9.1</code> version, developers can invoke a WASM function with the export function name:</p>
 <pre><code class="language-c">/* Create the store context. The store context holds the instances. */
 WasmEdge_StoreContext *StoreCxt = WasmEdge_StoreCreate();
@@ -462,7 +462,7 @@ WasmEdge_StoreDelete(StoreCxt);
 </li>
 </ol>
 <h2 id="instances-retrievement"><a class="header" href="#instances-retrievement">Instances retrievement</a></h2>
-<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
+<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.</p>
 <p>Before the WasmEdge <code>0.9.1</code> versions, developers can retrieve all exported instances of named or anonymous modules from <code>Store</code>:</p>
 <pre><code class="language-c">/* Create the store context. The store context holds the instances. */
 WasmEdge_StoreContext *StoreCxt = WasmEdge_StoreCreate();
