@@ -189,8 +189,9 @@ List of devices attached
 </li>
 <li>
 <p>Use the <code>adb push</code> command to push the entire <code>build/tools/wasmedge</code> folder into the <code>/data/local/tmp</code> folder on your Android device.</p>
-<pre><code class="language-bash">cd build
-adb push ./tools/wasmedge /data/local/tmp  
+<pre><code class="language-bash">cp -r examples build/tools/wasmedge/examples
+cd build
+adb push ./tools/wasmedge /data/local/tmp
 </code></pre>
 </li>
 </ol>
@@ -200,7 +201,7 @@ adb push ./tools/wasmedge /data/local/tmp
 <li>Follow the steps to test the WasmEdge CLI on the Android device.</li>
 </ol>
 <pre><code class="language-bash">$ cd /data/local/tmp/wasmedge/examples
-$ ../wasmedge hello.wasm 1 2 3                                                           
+$ ../wasmedge hello.wasm 1 2 3
 hello
 1
 2

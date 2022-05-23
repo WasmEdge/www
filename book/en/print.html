@@ -174,7 +174,7 @@ $ docker run --rm -v $(pwd):/app -it wasmedge/appdev_x86_64:0.9.0
 <h2 id="webassembly-examples"><a class="header" href="#webassembly-examples">WebAssembly examples</a></h2>
 <p>We have several WebAssembly bytecode program examples for you to try out on your newly installed WasmEdge CLI.</p>
 <h3 id="hello-world"><a class="header" href="#hello-world">Hello world</a></h3>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/hello.wasm">hello.wasm</a> WebAssembly program contains a <code>main()</code> function.
+<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/hello.wasm">hello.wasm</a> WebAssembly program contains a <code>main()</code> function.
 Checkout its <a href="https://github.com/second-state/wasm-learning/tree/master/cli/hello">Rust source code project</a>.
 It prints out <code>hello</code> followed by the command line arguments.</p>
 <pre><code class="language-bash">$ wasmedge hello.wasm second state
@@ -183,14 +183,14 @@ second
 state
 </code></pre>
 <h3 id="call-a-function-written-in-rust"><a class="header" href="#call-a-function-written-in-rust">Call a function written in Rust</a></h3>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/add.wasm">add.wasm</a> WebAssembly program contains an <code>add()</code> function.
+<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/add.wasm">add.wasm</a> WebAssembly program contains an <code>add()</code> function.
 Checkout its <a href="https://github.com/second-state/wasm-learning/tree/master/cli/add">Rust source code project</a>.
 We use WasmEdge in reactor mode to call the <code>add()</code> with two integer input parameters.</p>
 <pre><code class="language-bash">$ wasmedge --reactor add.wasm add 2 2
 4
 </code></pre>
 <h3 id="call-a-function-written-in-wat"><a class="header" href="#call-a-function-written-in-wat">Call a function written in WAT</a></h3>
-<p>We created the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a> program by hand and used the <a href="https://github.com/WebAssembly/wabt">wat2wasm</a> compiler to build the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a> WebAssembly program.
+<p>We created the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wat">fibonacci.wat</a> program by hand and used the <a href="https://github.com/WebAssembly/wabt">wat2wasm</a> compiler to build the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> WebAssembly program.
 It contains a <code>fib()</code> function which takes a single integer as input parameter. We use wasmedge in reactor mode to call the exported function.</p>
 <pre><code class="language-bash">$ wasmedge --reactor fibonacci.wasm fib 10
 89
@@ -213,7 +213,7 @@ state
 <h3 id="with-gas-limit-enabled"><a class="header" href="#with-gas-limit-enabled">With gas-limit enabled</a></h3>
 <p>The CLI supports <code>--gas-limit</code> flags for controlling the execution costs.</p>
 <pre><code class="language-bash"># cd &lt;path/to/WasmEdge&gt;
-$ cd tools/wasmedge/examples
+$ cd examples/wasm
 # With enough gas
 $ wasmedge --enable-all-statistics --gas-limit 20425 hello.wasm second state
 hello
@@ -245,13 +245,13 @@ $ wasmedge --enable-all-statistics --gas-limit 20 hello.wasm second state
 </code></pre>
 <h2 id="javascript-examples"><a class="header" href="#javascript-examples">JavaScript examples</a></h2>
 <p>It is possible to use WasmEdge as a high-performance, secure, extensible, easy to deploy, and <a href="https://github.com/second-state/wasmedge-containers-examples">Kubernetes-compliant</a> JavaScript runtime.</p>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/js/qjs.wasm">qjs.wasm</a> program is a JavaScript interpreter compiled into WebAssembly.
-The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/js/hello.js">hello.js</a> file is a very simple JavaScript program.</p>
+<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/js/qjs.wasm">qjs.wasm</a> program is a JavaScript interpreter compiled into WebAssembly.
+The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/js/hello.js">hello.js</a> file is a very simple JavaScript program.</p>
 <pre><code class="language-bash">$ wasmedge --dir .:. qjs.wasm hello.js 1 2 3
 Hello 1 2 3
 </code></pre>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/js/qjs_tf.wasm">qjs_tf.wasm</a> is a JavaScript interpreter with <a href="https://www.secondstate.io/articles/wasi-tensorflow/">WasmEdge Tensorflow extension</a> compiled into WebAssembly.
-To run <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/js/qjs_tf.wasm">qjs_tf.wasm</a>, you must use the <code>wasmedge-tensorflow-lite</code> CLI tool, which is a build of WasmEdge with Tensorflow extension built-in.
+<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/js/qjs_tf.wasm">qjs_tf.wasm</a> is a JavaScript interpreter with <a href="https://www.secondstate.io/articles/wasi-tensorflow/">WasmEdge Tensorflow extension</a> compiled into WebAssembly.
+To run <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/js/qjs_tf.wasm">qjs_tf.wasm</a>, you must use the <code>wasmedge-tensorflow-lite</code> CLI tool, which is a build of WasmEdge with Tensorflow extension built-in.
 You can download a full <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/tensorflow_lite_demo">Tensorflow-based JavaScript example</a> to classify images.</p>
 <pre><code class="language-bash"># Download the Tensorflow example
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/aiy_food_V1_labelmap.txt
@@ -359,7 +359,7 @@ $ docker run --rm -v $(pwd):/app -it wasmedge/appdev_aarch64:0.9.0
 <li>Examples in the <code>/root/examples/</code> folder</li>
 </ul>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
-<p>Hello World. <a href="https://github.com/WasmEdge/WasmEdge/tree/master/tools/wasmedge/examples">See more simple examples</a></p>
+<p>Hello World. <a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/wasm">See more simple examples</a></p>
 <pre><code class="language-bash">$ wasmedge hello.wasm world
 hello
 world
@@ -370,7 +370,7 @@ $ wasmedge hello.wasm world
 hello
 world
 </code></pre>
-<p>Here are some JavaScript examples. <a href="https://github.com/WasmEdge/WasmEdge/tree/master/tools/wasmedge/examples/js">See more</a></p>
+<p>Here are some JavaScript examples. <a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/js">See more</a></p>
 <pre><code class="language-bash">$ wasmedge --dir .:. qjs.wasm hello.js 1 2 3
 Hello 1 2 3
 
@@ -3267,7 +3267,7 @@ cargo build --release --target wasm32-wasi --features=&quot;freeze-stdlib&quot;
 <p>The WasmEdge C API also the fundamental API for other languages' SDK.</p>
 <h2 id="quick-start-guide-for-the-wasmedge-runner"><a class="header" href="#quick-start-guide-for-the-wasmedge-runner">Quick Start Guide for the WasmEdge runner</a></h2>
 <p>The following is an example for running a WASM file.
-Assume that the WASM file <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a> is copied into the current directory, and the C file <code>test_wasmedge.c</code> is as following:</p>
+Assume that the WASM file <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> is copied into the current directory, and the C file <code>test_wasmedge.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main(int Argc, const char* Argv[]) {
@@ -3305,7 +3305,7 @@ $ ./test_wasmedge fibonacci.wasm
 Get result: 3524578
 </code></pre>
 <h2 id="quick-start-guide-for-the-wasmedge-aot-compiler"><a class="header" href="#quick-start-guide-for-the-wasmedge-aot-compiler">Quick Start Guide for the WasmEdge AOT compiler</a></h2>
-<p>Assume that the WASM file <a href="https://github.com/WasmEdge/WasmEdge/raw/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a> is copied into the current directory, and the C file <code>test_wasmedge_compiler.c</code> is as following:</p>
+<p>Assume that the WASM file <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> is copied into the current directory, and the C file <code>test_wasmedge_compiler.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main(int Argc, const char* Argv[]) {
@@ -3950,7 +3950,7 @@ WasmEdge_StatisticsDelete(StatCxt);
 <p>In this partition, we will introduce the functions of <code>WasmEdge_VMContext</code> object and show examples of executing WASM functions.</p>
 <h3 id="wasm-execution-example-with-vm-context"><a class="header" href="#wasm-execution-example-with-vm-context">WASM Execution Example With VM Context</a></h3>
 <p>The following shows the example of running the WASM for getting the Fibonacci.
-This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
+This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.</p>
 <pre><code class="language-wasm">(module
   (export &quot;fib&quot; (func $fib))
   (func $fib (param $n i32) (result i32)
@@ -3970,7 +3970,7 @@ This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEd
 <ol>
 <li>
 <p>Run WASM functions rapidly</p>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -4201,7 +4201,7 @@ WasmEdge VM provides APIs for developers to register and export any WASM modules
 <li>
 <p>Register the WASM modules with exported module names</p>
 <p>Unless the module instances have already contained the module names, every WASM module should be named uniquely when registering.
-Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.</p>
+Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.</p>
 <pre><code class="language-c">WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
 WasmEdge_String ModName = WasmEdge_StringCreateByCString(&quot;mod&quot;);
 WasmEdge_Result Res = WasmEdge_VMRegisterModuleFromFile(VMCxt, ModName, &quot;fibonacci.wasm&quot;);
@@ -4278,7 +4278,7 @@ Get the result: 10946
 <ol>
 <li>
 <p>Asynchronously run WASM functions rapidly</p>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -4433,7 +4433,7 @@ WasmEdge_StoreDelete(StoreCxt);
 <p>List exported functions</p>
 <p>After the WASM module instantiation, developers can use the <code>WasmEdge_VMExecute()</code> API to invoke the exported WASM functions. For this purpose, developers may need information about the exported WASM function list.
 Please refer to the <a href="embed/c/ref.html#instances">Instances in runtime</a> for the details about the function types.
-Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -4518,7 +4518,7 @@ const WasmEdge_ModuleInstanceContext *ModCxt = WasmEdge_VMGetActiveModule(VMCxt)
 <p>In this partition, we will introduce the objects of WasmEdge runtime manually.</p>
 <h3 id="wasm-execution-example-step-by-step"><a class="header" href="#wasm-execution-example-step-by-step">WASM Execution Example Step-By-Step</a></h3>
 <p>Besides the WASM execution through the <a href="embed/c/ref.html#wasmedge-vm"><code>VM</code> context</a>, developers can execute the WASM functions or instantiate WASM modules step-by-step with the <code>Loader</code>, <code>Validator</code>, <code>Executor</code>, and <code>Store</code> contexts.
-Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -5396,7 +5396,7 @@ Data value: 6912
 <p>WasmEdge runs the WASM files in interpreter mode, and WasmEdge also supports the AOT (ahead-of-time) mode running without modifying any code.
 The WasmEdge AOT (ahead-of-time) compiler compiles the WASM files for running in AOT mode which is much faster than interpreter mode. Developers can compile the WASM files into the compiled-WASM files in shared library format for universal WASM format for the AOT mode execution.</p>
 <h3 id="compilation-example"><a class="header" href="#compilation-example">Compilation Example</a></h3>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -6041,7 +6041,7 @@ WasmEdge_StatisticsDelete(StatCxt);
 <p>In this partition, we will introduce the functions of <code>WasmEdge_VMContext</code> object and show examples of executing WASM functions.</p>
 <h3 id="wasm-execution-example-with-vm-context-1"><a class="header" href="#wasm-execution-example-with-vm-context-1">WASM Execution Example With VM Context</a></h3>
 <p>The following shows the example of running the WASM for getting the Fibonacci.
-This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
+This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.</p>
 <pre><code class="language-wasm">(module
  (export &quot;fib&quot; (func $fib))
  (func $fib (param $n i32) (result i32)
@@ -6061,7 +6061,7 @@ This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEd
 <ol>
 <li>
 <p>Run WASM functions rapidly</p>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -6289,7 +6289,7 @@ WasmEdge VM provides APIs for developers to register and export any WASM modules
 <li>
 <p>Register the WASM modules with exported module names</p>
 <p>Unless the import objects have already contained the module names, every WASM module should be named uniquely when registering.
-Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.</p>
+Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.</p>
 <pre><code class="language-c">WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
 WasmEdge_String ModName = WasmEdge_StringCreateByCString(&quot;mod&quot;);
 WasmEdge_Result Res = WasmEdge_VMRegisterModuleFromFile(VMCxt, ModName, &quot;fibonacci.wasm&quot;);
@@ -6366,7 +6366,7 @@ Get the result: 10946
 <ol>
 <li>
 <p>Asynchronously run WASM functions rapidly</p>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -6521,7 +6521,7 @@ WasmEdge_StoreDelete(StoreCxt);
 <p>List exported functions</p>
 <p>After the WASM module instantiation, developers can use the <code>WasmEdge_VMExecute()</code> API to invoke the exported WASM functions. For this purpose, developers may need information about the exported WASM function list.
 Please refer to the <a href="embed/c/0.9.1/ref.html#instances">Instances in runtime</a> for the details about the function types.
-Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -6589,7 +6589,7 @@ WasmEdge_StringDelete(FuncName);
 <p>In this partition, we will introduce the objects of WasmEdge runtime manually.</p>
 <h3 id="wasm-execution-example-step-by-step-1"><a class="header" href="#wasm-execution-example-step-by-step-1">WASM Execution Example Step-By-Step</a></h3>
 <p>Besides the WASM execution through the <a href="embed/c/0.9.1/ref.html#wasmedge-vm"><code>VM</code> context</a>, developers can execute the WASM functions or instantiate WASM modules step-by-step with the <code>Loader</code>, <code>Validator</code>, <code>Executor</code>, and <code>Store</code> contexts.
-Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -7410,7 +7410,7 @@ Data value: 6912
 <p>WasmEdge runs the WASM files in interpreter mode, and WasmEdge also supports the AOT (ahead-of-time) mode running without modifying any code.
 The WasmEdge AOT (ahead-of-time) compiler compiles the WASM files for running in AOT mode which is much faster than interpreter mode. Developers can compile the WASM files into the compiled-WASM files in shared library format for universal WASM format for the AOT mode execution.</p>
 <h3 id="compilation-example-1"><a class="header" href="#compilation-example-1">Compilation Example</a></h3>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and the C file <code>test.c</code> is as following:</p>
 <pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 #include &lt;stdio.h&gt;
 int main() {
@@ -7697,7 +7697,7 @@ if (!WasmEdge_ResultOK(Res)) {
 </li>
 <li>
 <p>WASM function invokation</p>
-<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.
+<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.
 In WasmEdge <code>0.9.1</code> version, developers can invoke a WASM function with the export function name:</p>
 <pre><code class="language-c">/* Create the store context. The store context holds the instances. */
 WasmEdge_StoreContext *StoreCxt = WasmEdge_StoreCreate();
@@ -7785,7 +7785,7 @@ WasmEdge_StoreDelete(StoreCxt);
 </li>
 </ol>
 <h2 id="instances-retrievement"><a class="header" href="#instances-retrievement">Instances retrievement</a></h2>
-<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
+<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.</p>
 <p>Before the WasmEdge <code>0.9.1</code> versions, developers can retrieve all exported instances of named or anonymous modules from <code>Store</code>:</p>
 <pre><code class="language-c">/* Create the store context. The store context holds the instances. */
 WasmEdge_StoreContext *StoreCxt = WasmEdge_StoreCreate();
@@ -9919,7 +9919,7 @@ conf.Release()
 <p>In this partition, we will introduce the functions of <code>wasmedge.VM</code> object and show examples of executing WASM functions.</p>
 <h3 id="wasm-execution-example-with-vm-object"><a class="header" href="#wasm-execution-example-with-vm-object">WASM Execution Example With VM Object</a></h3>
 <p>The following shows the example of running the WASM for getting the Fibonacci.
-This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
+This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.</p>
 <pre><code class="language-wasm">(module
   (export &quot;fib&quot; (func $fib))
   (func $fib (param $n i32) (result i32)
@@ -9943,7 +9943,7 @@ This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEd
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current <code>wasmedge_test</code> directory, and create and edit the Go file <code>main.go</code> as following:</p>
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current <code>wasmedge_test</code> directory, and create and edit the Go file <code>main.go</code> as following:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -10174,7 +10174,7 @@ WasmEdge VM provides APIs for developers to register and export any WASM modules
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.
 Then create and edit the Go file <code>main.go</code> as following:</p>
 <pre><code class="language-go">package main
 
@@ -10282,7 +10282,7 @@ Please refer to the <a href="embed/go/ref.html#Instances">Instances in runtime</
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
+<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -10370,7 +10370,7 @@ mod := vm.GetActiveModule()
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
+<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -11967,7 +11967,7 @@ conf.Release()
 <p>In this partition, we will introduce the functions of <code>wasmedge.VM</code> object and show examples of executing WASM functions.</p>
 <h3 id="wasm-execution-example-with-vm-object-1"><a class="header" href="#wasm-execution-example-with-vm-object-1">WASM Execution Example With VM Object</a></h3>
 <p>The following shows the example of running the WASM for getting the Fibonacci.
-This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
+This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.</p>
 <pre><code class="language-wasm">(module
  (export &quot;fib&quot; (func $fib))
  (func $fib (param $n i32) (result i32)
@@ -11991,7 +11991,7 @@ This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEd
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current <code>wasmedge_test</code> directory, and create and edit the Go file <code>main.go</code> as following:</p>
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current <code>wasmedge_test</code> directory, and create and edit the Go file <code>main.go</code> as following:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -12222,7 +12222,7 @@ WasmEdge VM provides APIs for developers to register and export any WASM modules
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.
+<p>Assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory.
 Then create and edit the Go file <code>main.go</code> as following:</p>
 <pre><code class="language-go">package main
 
@@ -12330,7 +12330,7 @@ Please refer to the <a href="embed/go/0.9.1/ref.html#Instances">Instances in run
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
+<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -12406,7 +12406,7 @@ functype := vm.GetFunctionType(&quot;fib&quot;)
 <pre><code class="language-bash">mkdir wasmedge_test &amp;&amp; cd wasmedge_test
 go mod init wasmedge_test
 </code></pre>
-<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
+<p>Then assume that the WASM file <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> is copied into the current directory, and create and edit a Go file <code>main.go</code>:</p>
 <pre><code class="language-go">package main
 
 import (
@@ -13422,7 +13422,7 @@ if err != nil {
 </li>
 <li>
 <p>WASM function invokation</p>
-<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.
+<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.
 In WasmEdge-Go <code>v0.9.2</code> version, developers can invoke a WASM function with the export function name:</p>
 <pre><code class="language-go">// Create the store object. The store object holds the instances.
 store := wasmedge.NewStore()
@@ -13506,7 +13506,7 @@ store.Release()
 </li>
 </ol>
 <h2 id="instances-retrievement-1"><a class="header" href="#instances-retrievement-1">Instances retrievement</a></h2>
-<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/tools/wasmedge/examples/fibonacci.wat">fibonacci.wat</a>.</p>
+<p>This example uses the <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a>, and the corresponding WAT file is at <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/fibonacci.wat">fibonacci.wat</a>.</p>
 <p>Before the WasmEdge-Go <code>v0.9.2</code> versions, developers can retrieve all exported instances of named or anonymous modules from <code>Store</code>:</p>
 <pre><code class="language-go">// Create the store object. The store object holds the instances.
 store := wasmedge.NewStore()
@@ -17805,7 +17805,7 @@ Java_org_wasmedge_native_1lib_NativeLib_nativeWasmFibonacci(
 }
 </code></pre>
 <h3 id="the-webassembly-function"><a class="header" href="#the-webassembly-function">The WebAssembly function</a></h3>
-<p>The <code>factorial.wat</code> is a <a href="https://github.com/WasmEdge/WasmEdge/blob/master/tools/wasmedge/examples/fibonacci.wat">handwritten WebAssembly script</a> to compute factorial numbers. It is compiled into WebAssembly using the <a href="https://github.com/WebAssembly/wabt">WABT tool</a>.</p>
+<p>The <code>factorial.wat</code> is a <a href="https://github.com/WasmEdge/WasmEdge/blob/master/examples/wasm/fibonacci.wat">handwritten WebAssembly script</a> to compute factorial numbers. It is compiled into WebAssembly using the <a href="https://github.com/WebAssembly/wabt">WABT tool</a>.</p>
 <h3 id="build-dependencies"><a class="header" href="#build-dependencies">Build dependencies</a></h3>
 <p>Android Studio and Gradle use CMake to build the C shared library. The <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/lib/src/main/cpp/CMakeLists.txt">CMakeLists.txt file</a> builds the WasmEdge source into Android shared library files and embeds them into the final APK application. In this case, there is no seperate step to install WasmEdge share libraries onto the Android device.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-on-sel4"><a class="header" href="#wasmedge-on-sel4">WasmEdge on seL4</a></h1>
@@ -18269,8 +18269,9 @@ List of devices attached
 </li>
 <li>
 <p>Use the <code>adb push</code> command to push the entire <code>build/tools/wasmedge</code> folder into the <code>/data/local/tmp</code> folder on your Android device.</p>
-<pre><code class="language-bash">cd build
-adb push ./tools/wasmedge /data/local/tmp  
+<pre><code class="language-bash">cp -r examples build/tools/wasmedge/examples
+cd build
+adb push ./tools/wasmedge /data/local/tmp
 </code></pre>
 </li>
 </ol>
@@ -18280,7 +18281,7 @@ adb push ./tools/wasmedge /data/local/tmp
 <li>Follow the steps to test the WasmEdge CLI on the Android device.</li>
 </ol>
 <pre><code class="language-bash">$ cd /data/local/tmp/wasmedge/examples
-$ ../wasmedge hello.wasm 1 2 3                                                           
+$ ../wasmedge hello.wasm 1 2 3
 hello
 1
 2
@@ -18308,9 +18309,9 @@ Hello 1 2 3
 <p>WasmEdge provides a C++ based API for registering extension modules and host functions. While the WasmEdge language SDKs allow registering host functions from a host (wrapping) application, the plugin API allows such extensions to be incorporated into WasmEdge's own building and releasing process.</p>
 <p>In fact, the WasmEdge extensions for Tensorflow, image processing, key-value storage etc are all implemented using the plugin API. The plugin API is how you could contribute new functions to the WasmEdge Runtime itself.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="loadable-plugin"><a class="header" href="#loadable-plugin">Loadable plugin</a></h1>
-<p>Loadable plugin is a standalong so/dylib/dll file that WasmEdge can load during runtime environment, and provide modules to be imported. The following steps give an example of making a loadable plugin.</p>
-<h1 id="example-code"><a class="header" href="#example-code">Example code</a></h1>
-<p>See <code>/example/get-string</code> directory for plugin example code.</p>
+<p>Loadable plugin is a stand-along <code>.so</code>/<code>.dylib</code>/<code>.dll</code> file that WasmEdge can load during runtime environment, and provide modules to be imported. The following steps give an example of making a loadable plugin.</p>
+<h2 id="example-code"><a class="header" href="#example-code">Example code</a></h2>
+<p>See <code>examples/plugin/get-string</code> directory for the plugin example code.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="host-functions-6"><a class="header" href="#host-functions-6">Host Functions</a></h1>
 <p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#syntax-hostfunc">Host functions</a> are functions outside WebAssembly and passed to WASM modules as imports. The following steps give an example of registering a <code>host module</code> into WasmEdge runtime.</p>
 <p>This example is for the sources compile with the WasmEdge project in C++.
