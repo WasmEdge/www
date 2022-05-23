@@ -1740,7 +1740,7 @@ runner = &quot;wasmedge --dir /static:../client/build&quot;
 <p>We forked the Percy repository and made a ready-to-build <a href="https://github.com/second-state/percy/tree/master/examples/isomorphic/server-wasmedge">server-wasmedge</a> example project for you. Happy coding!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="command-interface"><a class="header" href="#command-interface">Command interface</a></h1>
 <p>WASI enables WebAssembly programs to call standard library functions in the host operating system. It does so through a fine-grained security model known as “capability-based security”. The WebAssembly VM owner can grant access to host system resources when the VM starts up. The program cannot access any resources (e.g., file folders) that are not explicitly allowed.</p>
-<p>Now, why limit ourselves to standard library functions? The same approach can be used to call just any host functions from WebAssembly. The Second State WebAssembly VM provides a WASI-like extension to access any command line programs in the host operating system.</p>
+<p>Now, why limit ourselves to standard library functions? The same approach can be used to call just any host functions from WebAssembly. WasmEdge provides a WASI-like extension to access any command line programs in the host operating system.</p>
 <p>The command line program can</p>
 <ul>
 <li>Take input via command line arguments, as well as the <code>STDIN</code> stream.</li>
