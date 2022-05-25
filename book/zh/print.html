@@ -2530,6 +2530,84 @@ cargo build --release --target wasm32-wasi --features=&quot;freeze-stdlib&quot;
 <pre><code class="language-bash">wasmedge --dir .:. ./target/wasm32-wasi/release/rustpython.wasm
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="go"><a class="header" href="#go">Go</a></h1>
+<p>在 WasmEdge 中运行 Go 程序的最佳方式是使用 <a href="https://tinygo.org/">TinyGo</a> 将 Go 源代码编译为 WebAssembly。在本文中，我们将向你展示如何操作。</p>
+<h2 id="安装-tinygo"><a class="header" href="#安装-tinygo">安装 TinyGo</a></h2>
+<p>在安装 TinyGo 之前，你的机器上必须已经安装了 <a href="https://go.dev/doc/install">Go</a>。建议使用 Go v1.17 或更高版本。
+对于 x86 处理器上的 Ubuntu 或其他基于 Debian 的 Linux 系统，你可以使用以下命令行来安装 TinyGo。其他平台请参考 <a href="https://tinygo.org/getting-started/install/">TinyGo 文档</a>。</p>
+<pre><code class="language-bash">wget https://github.com/tinygo-org/tinygo/releases/download/v0.21.0/tinygo_0.21.0_amd64.deb
+sudo dpkg -i tinygo_0.21.0_amd64.deb`
+</code></pre>
+<p>接下来，运行以下命令行检查是否安装成功。</p>
+<pre><code class="language-bash">$ tinygo version
+tinygo version 0.21.0 linux/amd64 (using go version go1.16.7 and LLVM version 11.0.0)
+</code></pre>
+<h2 id="hello-world-2"><a class="header" href="#hello-world-2">Hello world</a></h2>
+<p>以下是个简单的 Go 应用程序，<code>main()</code> 函数主要用来向控制台打印一条消息。
+<code>main.go</code> 文件中的源代码如下：</p>
+<pre><code class="language-go">package main
+
+func main() {
+  println(&quot;Hello TinyGo from WasmEdge!&quot;)
+}
+</code></pre>
+<blockquote>
+<p>在 <code>main()</code> 函数中，你可以使用 Go 标准 API 读取/写入文件，以及访问命令行参数和 <code>env</code> 变量。</p>
+</blockquote>
+<h3 id="hello-world编译和构建"><a class="header" href="#hello-world编译和构建">Hello world：编译和构建</a></h3>
+<p>接下来，使用 TinyGo 将 <code>main.go</code> 程序编译为 WebAssembly。</p>
+<pre><code class="language-bash">tinygo build -o hello.wasm -target wasi main.go
+</code></pre>
+<p>你将在同一目录中看到一个名为 <code>hello.wasm</code> 的文件。这是一个 WebAssembly 字节码文件。</p>
+<h3 id="hello-world运行"><a class="header" href="#hello-world运行">Hello world：运行</a></h3>
+<p>你可以使用 <a href="dev/../start/cli.html">WasmEdge命令行</a> 运行。</p>
+<pre><code class="language-bash">$ wasmedge hello.wasm
+Hello TinyGo from WasmEdge!
+</code></pre>
+<h2 id="一个简单的函数-1"><a class="header" href="#一个简单的函数-1">一个简单的函数</a></h2>
+<p>第二个例子是一个 Go 函数，输入一个参数，计算一个斐波那契数。但是，为了让 Go 应用程序设置对操作系统的正确权限（例如，获得命令行参数的权限），你必须在源代码中包含一个空的 <code>main()</code> 函数。</p>
+<pre><code class="language-go">package main
+
+func main(){
+}
+
+//export fibArray
+func fibArray(n int32) int32{
+  arr := make([]int32, n)
+  for i := int32(0); i &lt; n; i++ {
+    switch {
+    case i &lt; 2:
+      arr[i] = i
+    default:
+      arr[i] = arr[i-1] + arr[i-2]
+    }
+  }
+  return arr[n-1]
+}
+</code></pre>
+<h3 id="一个简单的函数编译和构建"><a class="header" href="#一个简单的函数编译和构建">一个简单的函数：编译和构建</a></h3>
+<p>接下来，使用 TinyGo 将 <code>main.go</code> 程序编译为 WebAssembly。</p>
+<pre><code class="language-bash">tinygo build -o fib.wasm -target wasi main.go
+</code></pre>
+<p>你将在同一目录中看到一个名为 <code>fib.wasm</code> 的文件。这是一个 WebAssembly 字节码文件。</p>
+<h3 id="一个简单的函数运行"><a class="header" href="#一个简单的函数运行">一个简单的函数：运行</a></h3>
+<p>你可以使用 <a href="dev/../start/cli.html">WasmEdge命令行</a> 在其 <code>--reactor</code> 模式下运行它。
+<code>wasm</code> 文件后面的命令行参数是函数名及其调用参数。</p>
+<pre><code class="language-bash">$ wasmedge --reactor fib.wasm fibArray 10
+34
+</code></pre>
+<h2 id="性能提升"><a class="header" href="#性能提升">性能提升</a></h2>
+<p>要为这些应用程序达到原生 Go 性能，你可以使用 <code>wasmedgec</code> 命令来 AOT 编译 <code>wasm</code> 程序，然后使用 <code>wasmedge</code> 命令运行它。</p>
+<pre><code class="language-bash">$ wasmedgec hello.wasm hello.wasm
+
+$ wasmedge hello.wasm
+Hello TinyGo from WasmEdge!
+</code></pre>
+<p>对于 <code>--reactor</code> 模式，</p>
+<pre><code class="language-bash">$ wasmedgec fib.wasm fib.wasm
+
+$ wasmedge --reactor fib.wasm fibArray 10
+34
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="swift"><a class="header" href="#swift">Swift</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="assemblyscript"><a class="header" href="#assemblyscript">AssemblyScript</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="kotlin"><a class="header" href="#kotlin">Kotlin</a></h1>
@@ -2689,7 +2767,7 @@ go build
 </code></pre>
 <p>有关示例，请参考 <a href="https://github.com/second-state/WasmEdge-go-examples/">示例仓库</a>。</p>
 <h3 id="go-中的-wasmedge-aot-编译器"><a class="header" href="#go-中的-wasmedge-aot-编译器">Go 中的 WasmEdge AOT 编译器</a></h3>
-<p><a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_WasmAOT">go_WasmAOT 示例</a> 演示了如何通过一个 Go 应用程序将一个 WASM 文件编译成本机二进制文件文件（AOT 编译）。</p>
+<p><a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_WasmAOT">go_WasmAOT 示例</a> 演示了如何通过一个 Go 应用程序将一个 WASM 文件编译成本机二进制文件（AOT 编译）。</p>
 <h2 id="相关示例"><a class="header" href="#相关示例">相关示例</a></h2>
 <ul>
 <li><a href="embed/go/app.html">嵌入一个独立的 Wasm 应用</a></li>
@@ -4106,7 +4184,7 @@ $ npm install wasmedge-extensions
 <pre><code class="language-bash">git clone https://github.com/second-state/wasmedge-nodejs-starter
 cd wasmedge-nodejs-starter
 </code></pre>
-<h2 id="hello-world-2"><a class="header" href="#hello-world-2">Hello World</a></h2>
+<h2 id="hello-world-3"><a class="header" href="#hello-world-3">Hello World</a></h2>
 <p>第一个示例是一个 hello world，向你展示应用程序的各个部分如何组合在一起。</p>
 <h3 id="rust-写的-webassembly-程序"><a class="header" href="#rust-写的-webassembly-程序">Rust 写的 WebAssembly 程序</a></h3>
 <p>在这个例子中，Rust 程序将输入的字符串添加到 “hello” 后面。下面是 Rust 程序内容，位于 src/lib.rs。你可以在这个库文件中定义多个外部方法，所有的这些方法都可以在 host JavaScript 应用中通过 WebAssembly 调用。记得需要给每个函数添加 <code>#[wasm_bindgen]</code> 注解，这样 <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> 就知道在构建时为这些函数生成正确的 JavaScript 到 Rust 接口。</p>
