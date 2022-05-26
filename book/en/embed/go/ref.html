@@ -160,6 +160,7 @@
 <li><a href="#wasmedge-installation">WasmEdge Installation</a></li>
 <li><a href="#get-wasmedge-go">Get WasmEdge-go</a></li>
 <li><a href="#wasmedge-go-extensions">WasmEdge-go Extensions</a></li>
+<li><a href="#example-repository">Example repository</a></li>
 <li><a href="#example-of-embedding-a-function-with-wasmedge-bindgen">Example of Embedding A Function with wasmedge-bindgen</a></li>
 <li><a href="#example-of-embedding-a-full-wasi-program">Example of Embedding A Full WASI Program</a></li>
 </ul>
@@ -211,16 +212,16 @@ go version go1.16.5 linux/amd64
 </code></pre>
 <h3 id="wasmedge-installation"><a class="header" href="#wasmedge-installation">WasmEdge Installation</a></h3>
 <p>Developers must <a href="start/install.html">install the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release or pre-release version.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0
 </code></pre>
 <p>For the developers need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.10.0-alpha.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.10.0
 </code></pre>
 <p>Noticed that the <code>TensorFlow</code> and <code>Image</code> extensions are only for the <code>Linux</code> platforms.
 After installation, developers can use the <code>source</code> command to update the include and linking searching path.</p>
 <h3 id="get-wasmedge-go"><a class="header" href="#get-wasmedge-go">Get WasmEdge-go</a></h3>
 <p>After the WasmEdge installation, developers can get the <code>WasmEdge-go</code> package and build it in your Go project directory.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <h3 id="wasmedge-go-extensions"><a class="header" href="#wasmedge-go-extensions">WasmEdge-go Extensions</a></h3>
@@ -263,6 +264,8 @@ go build
 <p>Users can also turn on the multiple extensions when building:</p>
 <pre><code class="language-bash">go build -tags image,tensorflow
 </code></pre>
+<h3 id="example-repository"><a class="header" href="#example-repository">Example Repository</a></h3>
+<p>Developers can refer to <a href="https://github.com/second-state/WasmEdge-go-examples/">the example repository</a> for the WasmEdge-Go examples.</p>
 <h3 id="example-of-embedding-a-function-with-wasmedge-bindgen"><a class="header" href="#example-of-embedding-a-function-with-wasmedge-bindgen">Example of Embedding A Function with wasmedge-bindgen</a></h3>
 <p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_BindgenFuncs">this example</a>, we will demonstrate how to call a few simple WebAssembly functions with wasmedge-bindgen from a Golang app. The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">functions</a> are written in Rust, and require complex call parameters and return values.</p>
 <p>While the WebAssembly only supports a few simple data types out of the box. It <a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">does not support</a> types such as string and array. In order to pass rich types in Golang to WebAssembly, the compiler needs to convert them to simple integers. For example, it converts a string into an integer memory address and an integer length. The <code>#[wasmedge_bindgen]</code> macro does this conversion automatically, combining it with Golang's <code>wasmedge-bindgen</code> package to auto-generate the correct code to pass call parameters from Golang to WebAssembly.</p>
@@ -434,7 +437,7 @@ func main() {
 }
 </code></pre>
 <p>Next, build the Golang application with the WasmEdge Golang SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go get github.com/second-state/wasmedge-bindgen@v0.1.12
 go build
 </code></pre>
@@ -542,7 +545,7 @@ func main() {
 }
 </code></pre>
 <p>Next, build the Golang application with the WasmEdge Golang SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <p>Run the Golang application.</p>
@@ -971,7 +974,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK: (the 21 Fibonacci number is 17711 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Get fibonacci[21]: 17711
@@ -1239,7 +1242,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 25th Fibonacci number is 121393 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Get fibonacci[25]: 121393
@@ -1327,7 +1330,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the only exported function in <code>fibonacci.wasm</code> is <code>fib</code>)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Exported function name: fib
@@ -1454,7 +1457,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 18th Fibonacci number is 1346269 in 30-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Exported function name: fib
@@ -2063,7 +2066,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Get the result: 6912
@@ -2162,7 +2165,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Get the result: 6912

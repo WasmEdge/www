@@ -216,19 +216,18 @@ public:
 <h3 id="tables-memories-and-globals"><a class="header" href="#tables-memories-and-globals">Tables, Memories, and Globals</a></h3>
 <p>To create a <code>host table</code>, <code>memory</code>, and <code>global</code> instance, the only way is to create them with their constructor in the <code>host module</code>. The following chapter about the <code>host module</code> will provide examples.</p>
 <h2 id="host-modules"><a class="header" href="#host-modules">Host Modules</a></h2>
-<p><code>Host module</code> is an object which can be registered into WasmEdge runtime. <code>Host module</code> contains <code>host functions</code>, <code>tables</code>, <code>memories</code>, <code>globals</code>, and other user-customized data. WasmEdge provides API to register <code>host modules</code>. After registering, these host instances in the <code>host module</code> can be imported by WASM modules.</p>
+<p>The host module is a module instance which can be registered into WasmEdge runtime. A module instance contains <code>host functions</code>, <code>tables</code>, <code>memories</code>, <code>globals</code>, and other user-customized data. WasmEdge provides API to register a module instance into a <code>VM</code> or <code>Store</code>. After registering, these host instances in the module instance can be imported by WASM modules.</p>
 <h3 id="declaration"><a class="header" href="#declaration">Declaration</a></h3>
-<p><code>Host module</code> supplies exported module name and can contain customized data. A module name is needed when constructing <code>host modules</code>.</p>
+<p>Module instance supplies exported module name and can contain customized data. A module name is needed when constructing module instances.</p>
 <pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
-#include &quot;runtime/hostfunc.h&quot;
-#include &quot;runtime/importobj.h&quot;
+#include &quot;runtime/instance/module.h&quot;
 
 namespace WasmEdge {
 namespace Host {
 
-class TestModule : public Runtime::ImportObject {
+class TestModule : public Runtime::Instance::ModuleInstance {
 public:
-  TestModule() : ImportObject(&quot;test&quot;);
+  TestModule() : ModuleInstance(&quot;test&quot;);
   virtual ~TestModule() = default;
 };
 
@@ -236,10 +235,10 @@ public:
 } // namespace WasmEdge
 </code></pre>
 <h3 id="add-instances"><a class="header" href="#add-instances">Add Instances</a></h3>
-<p><code>Host module</code> provides <code>addHostFunc()</code>, <code>addHostTable()</code>, <code>addHostMemory()</code>, and <code>addHostGlobal()</code> to insert instances with their unique names. Insertion can be done in constructor. The following example also shows how to create <code>host memories</code>, <code>tables</code>, and <code>globals</code>.</p>
+<p>Module instance provides <code>addHostFunc()</code>, <code>addHostTable()</code>, <code>addHostMemory()</code>, and <code>addHostGlobal()</code> to insert instances with their unique names. Insertion can be done in constructor. The following example also shows how to create <code>host memories</code>, <code>tables</code>, and <code>globals</code>.</p>
 <pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
 #include &quot;runtime/hostfunc.h&quot;
-#include &quot;runtime/importobj.h&quot;
+#include &quot;runtime/instance/module.h&quot;
 #include &lt;memory&gt;
 #include &lt;vector&gt;
 
@@ -272,9 +271,10 @@ public:
   }
 };
 
-class TestModule : public Runtime::ImportObject {
+
+class TestModule : public Runtime::Instance::ModuleInstance {
 public:
-  TestModule(std::vector&lt;uint8_t&gt; &amp;Vec) : ImportObject(&quot;test&quot;), Data(Vec) {
+  TestModule(std::vector&lt;uint8_t&gt; &amp;Vec) : ModuleInstance(&quot;test&quot;), Data(Vec) {
     // Add function instances with exporting name
     addHostFunc(&quot;test_func1&quot;, std::make_unique&lt;TestHost1&gt;(Data));
     addHostFunc(&quot;test_func2&quot;, std::make_unique&lt;TestHost2&gt;(Data));
@@ -310,7 +310,7 @@ private:
 } // namespace Host
 } // namespace WasmEdge
 </code></pre>
-<p><code>Host module</code> supplies <code>getFuncs()</code>, <code>getTables()</code>, <code>getMems()</code>, and <code>getGlobals()</code> to search registered instances by unique exporting name. For more details, APIs can be found in <code>include/runtime/importobj.h</code>.</p>
+<p>Module instance supplies <code>getFuncs()</code>, <code>getTables()</code>, <code>getMems()</code>, and <code>getGlobals()</code> to search registered instances by unique exporting name. For more details, APIs can be found in <code>include/runtime/importobj.h</code>.</p>
 <h3 id="register-host-modules-to-wasmedge"><a class="header" href="#register-host-modules-to-wasmedge">Register Host Modules to WasmEdge</a></h3>
 <p>Users can register host modules via <code>WasmEdge::VM::registerModule()</code> API.</p>
 <pre><code class="language-cpp">#include &quot;common/configure.h&quot;
