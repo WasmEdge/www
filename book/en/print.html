@@ -294,7 +294,7 @@ confidence: 0.8941176470588236
 </code></pre>
 <h2 id="install-a-specific-version-of-wasmedge"><a class="header" href="#install-a-specific-version-of-wasmedge">Install a specific version of WasmEdge</a></h2>
 <p>You could install specific versions of WasmEdge, including pre-releases or old releases by passing the <code>-v</code> argument to the install script. Here is an example.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.10.0-alpha.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.10.0
 </code></pre>
 <p>If you are interested in the latest builds from the <code>HEAD</code> of the <code>master</code> branch, which is basically WasmEdge's nightly builds, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">Here is an example</a>.</p>
 <h2 id="whats-installed"><a class="header" href="#whats-installed">What's installed</a></h2>
@@ -3356,7 +3356,7 @@ sys 0m0.011s
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-0100-api-documentation"><a class="header" href="#wasmedge-c-0100-api-documentation">WasmEdge C 0.10.0 API Documentation</a></h1>
 <p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
-<p><strong>This document is for the pre-release <code>0.10.0-alpha.1</code> version. For the stable <code>0.9.1</code> version, please refer to the <a href="embed/c/0.9.1/ref.html">document here</a>.</strong></p>
+<p><strong>This document is for the <code>0.10.0</code> version. For the older <code>0.9.1</code> version, please refer to the <a href="embed/c/0.9.1/ref.html">document here</a>.</strong></p>
 <p><strong>Developers can refer <a href="embed/c/0.9.1/upgrade_to_0.10.0.html">here to upgrade to 0.10.0</a>.</strong></p>
 <h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
 <ul>
@@ -3412,9 +3412,8 @@ sys 0m0.011s
 </ul>
 <h2 id="wasmedge-installation"><a class="header" href="#wasmedge-installation">WasmEdge Installation</a></h2>
 <h3 id="download-and-install"><a class="header" href="#download-and-install">Download And Install</a></h3>
-<p><strong>This is for the installation of the pre-release <code>0.10.0-alpha.1</code> version. For the latest stable release, please use the <code>0.9.1</code> version.</strong></p>
 <p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>wget</code> as prerequisites.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0
 </code></pre>
 <p>For more details, please refer to the <a href="embed/c//start/install.html">Installation Guide</a> for the WasmEdge installation.</p>
 <h3 id="compile-sources"><a class="header" href="#compile-sources">Compile Sources</a></h3>
@@ -3438,7 +3437,7 @@ int main() {
 <li>
 <p>Run and get the expected output.</p>
 <pre><code class="language-bash">$ ./a.out
-WasmEdge version: 0.10.0-alpha.1
+WasmEdge version: 0.10.0
 </code></pre>
 </li>
 </ol>
@@ -7472,8 +7471,8 @@ enum WasmEdge_CompilerOutputFormat {
 };
 </code></pre>
 <p>Please refer to the <a href="embed/c/0.9.1/ref.html#configurations">AOT compiler options configuration</a> for details.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-0100-unreleased"><a class="header" href="#upgrade-to-wasmedge-0100-unreleased">Upgrade to WasmEdge 0.10.0 (Unreleased)</a></h1>
-<p>Due to the WasmEdge C API breaking changes, this document shows the guideline of programming with WasmEdge C API to upgrade from <code>0.9.1</code> to the future <code>0.10.0</code> version.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-0100"><a class="header" href="#upgrade-to-wasmedge-0100">Upgrade to WasmEdge 0.10.0</a></h1>
+<p>Due to the WasmEdge C API breaking changes, this document shows the guideline of programming with WasmEdge C API to upgrade from the <code>0.9.1</code> to the <code>0.10.0</code> version.</p>
 <h2 id="concepts"><a class="header" href="#concepts">Concepts</a></h2>
 <ol>
 <li>
@@ -7996,14 +7995,14 @@ WasmEdge_ModuleInstanceDelete(HostModCxt);
 go version go1.16.5 linux/amd64
 </code></pre>
 <p>Meantime, please make sure you have installed <a href="embed/../start/install.html">the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release version.</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0
 </code></pre>
 <p>If you need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1 -e tensorflow,image
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0 -e tensorflow,image
 </code></pre>
 <p>Noticed that the <code>TensorFlow</code> and <code>Image</code> extensions are only for the <code>Linux</code> platforms.</p>
 <p>Install the <code>WasmEdge-go</code> package and build in your Go project directory:</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <h2 id="wasmedge-go-extensions"><a class="header" href="#wasmedge-go-extensions">WasmEdge-go Extensions</a></h2>
@@ -8143,7 +8142,7 @@ func main() {
 }
 </code></pre>
 <p>Next, let's build the Go application with the WasmEdge Go SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <p>Run the Golang application.</p>
@@ -8475,7 +8474,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build greet_memory.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from Rust.</p>
@@ -8601,7 +8600,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build greet_memory.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from TinyGo.</p>
@@ -8764,7 +8763,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build run.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from Rust.</p>
@@ -8915,7 +8914,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build run.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from TinyGo.</p>
@@ -9141,7 +9140,7 @@ func main() {
 }
 </code></pre>
 <p>Next, let's build the Go application with the WasmEdge Go SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <p>Run the Go application and it will run the WebAssembly functions embedded in the WasmEdge runtime.</p>
@@ -9163,6 +9162,7 @@ Run bindgen -- keccak_digest: [126 194 241 200 151 116 227 33 216 99 159 22 107 
 <li><a href="embed/go/ref.html#wasmedge-installation">WasmEdge Installation</a></li>
 <li><a href="embed/go/ref.html#get-wasmedge-go">Get WasmEdge-go</a></li>
 <li><a href="embed/go/ref.html#wasmedge-go-extensions">WasmEdge-go Extensions</a></li>
+<li><a href="embed/go/ref.html#example-repository">Example repository</a></li>
 <li><a href="embed/go/ref.html#example-of-embedding-a-function-with-wasmedge-bindgen">Example of Embedding A Function with wasmedge-bindgen</a></li>
 <li><a href="embed/go/ref.html#example-of-embedding-a-full-wasi-program">Example of Embedding A Full WASI Program</a></li>
 </ul>
@@ -9214,16 +9214,16 @@ go version go1.16.5 linux/amd64
 </code></pre>
 <h3 id="wasmedge-installation-2"><a class="header" href="#wasmedge-installation-2">WasmEdge Installation</a></h3>
 <p>Developers must <a href="embed/go/start/install.html">install the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release or pre-release version.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0
 </code></pre>
 <p>For the developers need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.10.0-alpha.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.10.0
 </code></pre>
 <p>Noticed that the <code>TensorFlow</code> and <code>Image</code> extensions are only for the <code>Linux</code> platforms.
 After installation, developers can use the <code>source</code> command to update the include and linking searching path.</p>
 <h3 id="get-wasmedge-go"><a class="header" href="#get-wasmedge-go">Get WasmEdge-go</a></h3>
 <p>After the WasmEdge installation, developers can get the <code>WasmEdge-go</code> package and build it in your Go project directory.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <h3 id="wasmedge-go-extensions-1"><a class="header" href="#wasmedge-go-extensions-1">WasmEdge-go Extensions</a></h3>
@@ -9266,6 +9266,8 @@ go build
 <p>Users can also turn on the multiple extensions when building:</p>
 <pre><code class="language-bash">go build -tags image,tensorflow
 </code></pre>
+<h3 id="example-repository"><a class="header" href="#example-repository">Example Repository</a></h3>
+<p>Developers can refer to <a href="https://github.com/second-state/WasmEdge-go-examples/">the example repository</a> for the WasmEdge-Go examples.</p>
 <h3 id="example-of-embedding-a-function-with-wasmedge-bindgen"><a class="header" href="#example-of-embedding-a-function-with-wasmedge-bindgen">Example of Embedding A Function with wasmedge-bindgen</a></h3>
 <p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_BindgenFuncs">this example</a>, we will demonstrate how to call a few simple WebAssembly functions with wasmedge-bindgen from a Golang app. The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">functions</a> are written in Rust, and require complex call parameters and return values.</p>
 <p>While the WebAssembly only supports a few simple data types out of the box. It <a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">does not support</a> types such as string and array. In order to pass rich types in Golang to WebAssembly, the compiler needs to convert them to simple integers. For example, it converts a string into an integer memory address and an integer length. The <code>#[wasmedge_bindgen]</code> macro does this conversion automatically, combining it with Golang's <code>wasmedge-bindgen</code> package to auto-generate the correct code to pass call parameters from Golang to WebAssembly.</p>
@@ -9437,7 +9439,7 @@ func main() {
 }
 </code></pre>
 <p>Next, build the Golang application with the WasmEdge Golang SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go get github.com/second-state/wasmedge-bindgen@v0.1.12
 go build
 </code></pre>
@@ -9545,7 +9547,7 @@ func main() {
 }
 </code></pre>
 <p>Next, build the Golang application with the WasmEdge Golang SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <p>Run the Golang application.</p>
@@ -9974,7 +9976,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK: (the 21 Fibonacci number is 17711 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Get fibonacci[21]: 17711
@@ -10242,7 +10244,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 25th Fibonacci number is 121393 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Get fibonacci[25]: 121393
@@ -10330,7 +10332,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the only exported function in <code>fibonacci.wasm</code> is <code>fib</code>)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Exported function name: fib
@@ -10457,7 +10459,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 18th Fibonacci number is 1346269 in 30-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Exported function name: fib
@@ -11066,7 +11068,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Get the result: 6912
@@ -11165,7 +11167,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 $ go build
 $ ./wasmedge_test
 Get the result: 6912
@@ -13209,8 +13211,8 @@ const (
 )
 </code></pre>
 <p>Please refer to the <a href="embed/go/0.9.1/ref.html#Configurations">AOT compiler options configuration</a> for details.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-go-v0100-unreleased"><a class="header" href="#upgrade-to-wasmedge-go-v0100-unreleased">Upgrade to WasmEdge-Go v0.10.0 (Unreleased)</a></h1>
-<p>Due to the WasmEdge-Go API breaking changes, this document shows the guideline of programming with WasmEdge-Go API to upgrade from <code>v0.9.2</code> to the future <code>v0.10.0</code> version.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-go-v0100"><a class="header" href="#upgrade-to-wasmedge-go-v0100">Upgrade to WasmEdge-Go v0.10.0</a></h1>
+<p>Due to the WasmEdge-Go API breaking changes, this document shows the guideline of programming with WasmEdge-Go API to upgrade from the <code>v0.9.2</code> to the <code>v0.10.0</code> version.</p>
 <p><strong>Due to the <code>v0.9.1</code> is retracted, we use the version <code>v0.9.2</code> here.</strong></p>
 <h2 id="concepts-1"><a class="header" href="#concepts-1">Concepts</a></h2>
 <ol>
@@ -17542,15 +17544,15 @@ sirius:/ $
 </code></pre>
 <h3 id="install-wasmedge-tensorflow-tools-packages"><a class="header" href="#install-wasmedge-tensorflow-tools-packages">Install WasmEdge-TensorFlow-Tools packages</a></h3>
 <p>Use the following commands on your Ubuntu dev machine to download the WasmEdge-TensorFlow-Tools pre-release packages.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.10.0-alpha.1/WasmEdge-tensorflow-tools-0.10.0-alpha.1-android_aarch64.tar.gz
-$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.10.0/WasmEdge-tensorflow-tools-0.10.0-android_aarch64.tar.gz
+$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.10.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 show-tflite-tensor
 wasmedge-tensorflow-lite
 </code></pre>
 <h3 id="install-android-version-of-the-tensorflow-lite-shared-library"><a class="header" href="#install-android-version-of-the-tensorflow-lite-shared-library">Install Android version of the TensorFlow-Lite shared library</a></h3>
 <p>We provide an Android compatible version of TensorFlow-Lite dynamic shared library in the WasmEdge-Tensorflow-deps package. Download the package to your Ubuntu dev machine as follows.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.10.0-alpha.1/WasmEdge-tensorflow-deps-TFLite-0.10.0-alpha.1-android_aarch64.tar.gz
-$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.10.0/WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz
+$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 libtensorflowlite_c.so
 </code></pre>
 <p>Next use the <code>adb</code> tool to push the downloaded WasmEdge-TensorFlow packages onto a connected Android device.</p>
@@ -17674,18 +17676,18 @@ int main(int argc, char *argv[]) {
 <h2 id="build-2"><a class="header" href="#build-2">Build</a></h2>
 <h3 id="install-dependencies"><a class="header" href="#install-dependencies">Install dependencies</a></h3>
 <p>Use the following commands to download WasmEdge for Android on your Ubuntu dev machine.</p>
-<pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.10.0-alpha.1/WasmEdge-0.10.0-alpha.1-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-image/releases/download/0.10.0-alpha.1/WasmEdge-image-0.10.0-alpha.1-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.10.0-alpha.1/WasmEdge-tensorflowlite-0.10.0-alpha.1-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.10.0-alpha.1/WasmEdge-tensorflow-deps-TFLite-0.10.0-alpha.1-android_aarch64.tar.gz
-tar -zxf WasmEdge-0.10.0-alpha.1-android_aarch64.tar.gz
-tar -zxf WasmEdge-image-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-0.10.0-alpha.1-Android/
-tar -zxf WasmEdge-tensorflowlite-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-0.10.0-alpha.1-Android/
-tar -zxf WasmEdge-tensorflow-deps-TFLite-0.10.0-alpha.1-android_aarch64.tar.gz -C WasmEdge-0.10.0-alpha.1-Android/lib/
+<pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.10.0/WasmEdge-0.10.0-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-image/releases/download/0.10.0/WasmEdge-image-0.10.0-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.10.0/WasmEdge-tensorflowlite-0.10.0-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.10.0/WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz
+tar -zxf WasmEdge-0.10.0-android_aarch64.tar.gz
+tar -zxf WasmEdge-image-0.10.0-android_aarch64.tar.gz -C WasmEdge-0.10.0-Android/
+tar -zxf WasmEdge-tensorflowlite-0.10.0-android_aarch64.tar.gz -C WasmEdge-0.10.0-Android/
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz -C WasmEdge-0.10.0-Android/lib/
 </code></pre>
 <h3 id="compile"><a class="header" href="#compile">Compile</a></h3>
 <p>The following command compiles the C program to <code>a.out</code> on your Ubunu dev machine.</p>
-<pre><code class="language-bash">(/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.10.0-alpha.1-Android/include -L./WasmEdge-0.10.0-alpha.1-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge_c
+<pre><code class="language-bash">(/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.10.0-Android/include -L./WasmEdge-0.10.0-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge_c
 </code></pre>
 <h2 id="run-2"><a class="header" href="#run-2">Run</a></h2>
 <h3 id="push-files-onto-android"><a class="header" href="#push-files-onto-android">Push files onto Android</a></h3>
@@ -17694,7 +17696,7 @@ tar -zxf WasmEdge-tensorflow-deps-TFLite-0.10.0-alpha.1-android_aarch64.tar.gz -
 adb push birds_v1.wasm /data/local/tmp
 adb push lite-model_aiy_vision_classifier_birds_V1_3.tflite /data/local/tmp
 adb push bird.jpg /data/local/tmp
-adb push ./WasmEdge-0.10.0-alpha.1-Android/lib /data/local/tmp
+adb push ./WasmEdge-0.10.0-Android/lib /data/local/tmp
 </code></pre>
 <h3 id="run-the-example"><a class="header" href="#run-the-example">Run the example</a></h3>
 <p>Now you can run the compiled C program on the Android device via a remote shell command. Run <code>adb shell</code> from your Ubuntu dev machine.</p>
@@ -18379,19 +18381,18 @@ public:
 <h3 id="tables-memories-and-globals"><a class="header" href="#tables-memories-and-globals">Tables, Memories, and Globals</a></h3>
 <p>To create a <code>host table</code>, <code>memory</code>, and <code>global</code> instance, the only way is to create them with their constructor in the <code>host module</code>. The following chapter about the <code>host module</code> will provide examples.</p>
 <h2 id="host-modules"><a class="header" href="#host-modules">Host Modules</a></h2>
-<p><code>Host module</code> is an object which can be registered into WasmEdge runtime. <code>Host module</code> contains <code>host functions</code>, <code>tables</code>, <code>memories</code>, <code>globals</code>, and other user-customized data. WasmEdge provides API to register <code>host modules</code>. After registering, these host instances in the <code>host module</code> can be imported by WASM modules.</p>
+<p>The host module is a module instance which can be registered into WasmEdge runtime. A module instance contains <code>host functions</code>, <code>tables</code>, <code>memories</code>, <code>globals</code>, and other user-customized data. WasmEdge provides API to register a module instance into a <code>VM</code> or <code>Store</code>. After registering, these host instances in the module instance can be imported by WASM modules.</p>
 <h3 id="declaration"><a class="header" href="#declaration">Declaration</a></h3>
-<p><code>Host module</code> supplies exported module name and can contain customized data. A module name is needed when constructing <code>host modules</code>.</p>
+<p>Module instance supplies exported module name and can contain customized data. A module name is needed when constructing module instances.</p>
 <pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
-#include &quot;runtime/hostfunc.h&quot;
-#include &quot;runtime/importobj.h&quot;
+#include &quot;runtime/instance/module.h&quot;
 
 namespace WasmEdge {
 namespace Host {
 
-class TestModule : public Runtime::ImportObject {
+class TestModule : public Runtime::Instance::ModuleInstance {
 public:
-  TestModule() : ImportObject(&quot;test&quot;);
+  TestModule() : ModuleInstance(&quot;test&quot;);
   virtual ~TestModule() = default;
 };
 
@@ -18399,10 +18400,10 @@ public:
 } // namespace WasmEdge
 </code></pre>
 <h3 id="add-instances"><a class="header" href="#add-instances">Add Instances</a></h3>
-<p><code>Host module</code> provides <code>addHostFunc()</code>, <code>addHostTable()</code>, <code>addHostMemory()</code>, and <code>addHostGlobal()</code> to insert instances with their unique names. Insertion can be done in constructor. The following example also shows how to create <code>host memories</code>, <code>tables</code>, and <code>globals</code>.</p>
+<p>Module instance provides <code>addHostFunc()</code>, <code>addHostTable()</code>, <code>addHostMemory()</code>, and <code>addHostGlobal()</code> to insert instances with their unique names. Insertion can be done in constructor. The following example also shows how to create <code>host memories</code>, <code>tables</code>, and <code>globals</code>.</p>
 <pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
 #include &quot;runtime/hostfunc.h&quot;
-#include &quot;runtime/importobj.h&quot;
+#include &quot;runtime/instance/module.h&quot;
 #include &lt;memory&gt;
 #include &lt;vector&gt;
 
@@ -18435,9 +18436,10 @@ public:
   }
 };
 
-class TestModule : public Runtime::ImportObject {
+
+class TestModule : public Runtime::Instance::ModuleInstance {
 public:
-  TestModule(std::vector&lt;uint8_t&gt; &amp;Vec) : ImportObject(&quot;test&quot;), Data(Vec) {
+  TestModule(std::vector&lt;uint8_t&gt; &amp;Vec) : ModuleInstance(&quot;test&quot;), Data(Vec) {
     // Add function instances with exporting name
     addHostFunc(&quot;test_func1&quot;, std::make_unique&lt;TestHost1&gt;(Data));
     addHostFunc(&quot;test_func2&quot;, std::make_unique&lt;TestHost2&gt;(Data));
@@ -18473,7 +18475,7 @@ private:
 } // namespace Host
 } // namespace WasmEdge
 </code></pre>
-<p><code>Host module</code> supplies <code>getFuncs()</code>, <code>getTables()</code>, <code>getMems()</code>, and <code>getGlobals()</code> to search registered instances by unique exporting name. For more details, APIs can be found in <code>include/runtime/importobj.h</code>.</p>
+<p>Module instance supplies <code>getFuncs()</code>, <code>getTables()</code>, <code>getMems()</code>, and <code>getGlobals()</code> to search registered instances by unique exporting name. For more details, APIs can be found in <code>include/runtime/importobj.h</code>.</p>
 <h3 id="register-host-modules-to-wasmedge"><a class="header" href="#register-host-modules-to-wasmedge">Register Host Modules to WasmEdge</a></h3>
 <p>Users can register host modules via <code>WasmEdge::VM::registerModule()</code> API.</p>
 <pre><code class="language-cpp">#include &quot;common/configure.h&quot;
@@ -18512,7 +18514,7 @@ target_include_directories(wasmedgeHostModuleTest
 <p>The following tutorial is the summary of the <code>externref</code> example in WasmEdge.</p>
 <h3 id="prepare-your-wasm-file"><a class="header" href="#prepare-your-wasm-file">Prepare Your Wasm File</a></h3>
 <p>The Wasm file should contain importing host functions that would take the <code>externref</code>.
-Take <a href="extend/plugin/../test/externref/externrefTestData/funcs.wasm">the test WASM file</a> (<a href="extend/plugin/../test/externref/externrefTestData/funcs.wat">this WAT</a> is the corresponding text format) as an example:</p>
+Take <a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/externrefTestData/funcs.wasm">the test WASM file</a> (<a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/externrefTestData/funcs.wat">this WAT</a> is the corresponding text format) as an example:</p>
 <pre><code class="language-wasm">(module
   (type $t0 (func (param externref i32) (result i32)))
   (type $t1 (func (param externref i32 i32) (result i32)))
@@ -18584,15 +18586,15 @@ WasmEdge_Result ExternMul(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
   return WasmEdge_Result_Success;
 }
 
-// Helper function to create the &quot;extern_module&quot; import object.
-WasmEdge_ImportObjectContext *CreateExternModule() {
+// Helper function to create the &quot;extern_module&quot; module instance.
+WasmEdge_ModuleInstanceContext *CreateExternModule() {
   WasmEdge_String HostName;
   WasmEdge_FunctionTypeContext *HostFType = NULL;
   WasmEdge_FunctionInstanceContext *HostFunc = NULL;
   enum WasmEdge_ValType P[3], R[1];
 
   HostName = WasmEdge_StringCreateByCString(&quot;extern_module&quot;);
-  WasmEdge_ImportObjectContext *ImpObj = WasmEdge_ImportObjectCreate(HostName);
+  WasmEdge_ModuleInstanceContext *HostMod = WasmEdge_ModuleInstanceCreate(HostName);
   WasmEdge_StringDelete(HostName);
 
   // Add host function &quot;functor_square&quot;: {externref, i32} -&gt; {i32}
@@ -18603,7 +18605,7 @@ WasmEdge_ImportObjectContext *CreateExternModule() {
   HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternSquare, NULL, 0);
   WasmEdge_FunctionTypeDelete(HostFType);
   HostName = WasmEdge_StringCreateByCString(&quot;functor_square&quot;);
-  WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+  WasmEdge_ModuleInstanceAddFunction(HostMod, HostName, HostFunc);
   WasmEdge_StringDelete(HostName);
 
   // Add host function &quot;class_add&quot;: {externref, i32, i32} -&gt; {i32}
@@ -18612,7 +18614,7 @@ WasmEdge_ImportObjectContext *CreateExternModule() {
   HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternAdd, NULL, 0);
   WasmEdge_FunctionTypeDelete(HostFType);
   HostName = WasmEdge_StringCreateByCString(&quot;class_add&quot;);
-  WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+  WasmEdge_ModuleInstanceAddFunction(HostMod, HostName, HostFunc);
   WasmEdge_StringDelete(HostName);
 
   // Add host function &quot;func_mul&quot;: {externref, i32, i32} -&gt; {i32}
@@ -18620,22 +18622,22 @@ WasmEdge_ImportObjectContext *CreateExternModule() {
   HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternMul, NULL, 0);
   WasmEdge_FunctionTypeDelete(HostFType);
   HostName = WasmEdge_StringCreateByCString(&quot;func_mul&quot;);
-  WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+  WasmEdge_ModuleInstanceAddFunction(HostMod, HostName, HostFunc);
   WasmEdge_StringDelete(HostName);
 
-  return ImpObj;
+  return HostMod;
 }
 
 int main() {
   WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
-  WasmEdge_ImportObjectContext *ImpObj = CreateExternModule();
+  WasmEdge_ModuleInstanceContext *HostMod = CreateExternModule();
   WasmEdge_Value P[3], R[1];
   WasmEdge_String FuncName;
   WasmEdge_Result Res;
 
-  Res = WasmEdge_VMRegisterModuleFromImport(VMCxt, ImpObj);
+  Res = WasmEdge_VMRegisterModuleFromImport(VMCxt, HostMod);
   if (!WasmEdge_ResultOK(Res)) {
-    printf(&quot;Import object registration failed\n&quot;);
+    printf(&quot;Host module instance registration failed\n&quot;);
     return EXIT_FAILURE;
   }
   Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;funcs.wasm&quot;);
@@ -18742,7 +18744,7 @@ Therefore, the <code>functor_square</code> host function can get the object refe
 <p>The following examples are how to use <code>externref</code> in Wasm with WasmEdge C API.</p>
 <h3 id="wasm-code"><a class="header" href="#wasm-code">Wasm Code</a></h3>
 <p>The Wasm code must pass the <code>externref</code> to host functions that want to access it.
-Take the following <code>wat</code> for example, which is a part of <a href="extend/plugin/../test/externref/externrefTestData/funcs.wat">the test WASM file</a>:</p>
+Take the following <code>wat</code> for example, which is a part of <a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/externrefTestData/funcs.wat">the test WASM file</a>:</p>
 <pre><code class="language-wasm">(module
   (type $t0 (func (param externref i32 i32) (result i32)))
   (import &quot;extern_module&quot; &quot;func_mul&quot; (func $func_mul (type $t0)))
@@ -18775,13 +18777,13 @@ WasmEdge_Result ExternMul(void *, WasmEdge_MemoryInstanceContext *,
 }
 </code></pre>
 <p>&quot;<code>MulFunc</code>&quot; is a function that will be passed into Wasm as <code>externref</code>. In the &quot;<code>func_mul</code>&quot; host function, users can use &quot;<code>WasmEdge_ValueGetExternRef</code>&quot; API to get the pointer from the <code>WasmEdge_Value</code> which contains a <code>externref</code>.</p>
-<p>Developers can add the host functions with names into an import object.</p>
-<pre><code class="language-c">/* Create an import object. */
+<p>Developers can add the host functions with names into a module instance.</p>
+<pre><code class="language-c">/* Create a module instance. */
 WasmEdge_String HostName = WasmEdge_StringCreateByCString(&quot;extern_module&quot;);
-WasmEdge_ImportObjectContext *ImpObj = WasmEdge_ImportObjectCreate(HostName);
+WasmEdge_ModuleInstanceContext *HostMod = WasmEdge_ModuleInstanceCreate(HostName);
 WasmEdge_StringDelete(HostName);
 
-/* Create a function instance and add into an import object. */
+/* Create a function instance and add into the module instance. */
 enum WasmEdge_ValType P[3], R[1];
 P[0] = WasmEdge_ValType_ExternRef;
 P[1] = WasmEdge_ValType_I32;
@@ -18791,26 +18793,26 @@ WasmEdge_FunctionTypeContext *HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1
 WasmEdge_FunctionInstanceContext *HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternFuncMul, NULL, 0);
 WasmEdge_FunctionTypeDelete(HostFType);
 HostName = WasmEdge_StringCreateByCString(&quot;func_mul&quot;);
-WasmEdge_ImportObjectAddFunction(ImpObj, HostName, HostFunc);
+WasmEdge_ModuleInstanceAddFunction(HostMod, HostName, HostFunc);
 WasmEdge_StringDelete(HostName);
 
 ...
 </code></pre>
 <h3 id="execution"><a class="header" href="#execution">Execution</a></h3>
-<p>Take <a href="extend/plugin/../test/externref/externrefTestData/funcs.wasm">the test WASM file</a> (<a href="extend/plugin/../test/externref/externrefTestData/funcs.wat">this WAT</a> is the corresponding text format) for example.
+<p>Take <a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/externrefTestData/funcs.wasm">the test WASM file</a> (<a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/externrefTestData/funcs.wat">this WAT</a> is the corresponding text format) for example.
 Assume that the <code>funcs.wasm</code> is copied into current directory.
 The following is the example to execute WASM with <code>externref</code> through the WasmEdge C API.</p>
 <pre><code class="language-c">/* Create the VM context. */
 WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
-/* Create the import object context that contains the host functions. */
-WasmEdge_ImportObjectContext *ImpObj = /* Ignored ... */;
-/* Assume that the host functions are added into the import object above. */
+/* Create the module instance context that contains the host functions. */
+WasmEdge_ModuleInstanceContext *HostMod = /* Ignored ... */;
+/* Assume that the host functions are added into the module instance above. */
 WasmEdge_Value P[3], R[1];
 WasmEdge_String FuncName;
 WasmEdge_Result Res;
 
-/* Register the import object into VM. */
-Res = WasmEdge_VMRegisterModuleFromImport(VMCxt, ImpObj);
+/* Register the module instance into VM. */
+Res = WasmEdge_VMRegisterModuleFromImport(VMCxt, HostMod);
 if (!WasmEdge_ResultOK(Res)) {
   printf(&quot;Import object registration failed\n&quot;);
   return EXIT_FAILURE;
@@ -18924,7 +18926,7 @@ WasmEdge_Result ExternSquare(void *, WasmEdge_MemoryInstanceContext *,
 }
 </code></pre>
 <h3 id="passing-stl-objects"><a class="header" href="#passing-stl-objects">Passing STL Objects</a></h3>
-<p>The <a href="extend/plugin/../test/externref/externrefTestData/stl.wasm">example Wasm binary</a> (<a href="extend/plugin/../test/externref/externrefTestData/stl.wat">this WAT</a> is the corresponding text format) provides functions to interact with host functions which can access C++ STL objects.
+<p>The <a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/externrefTestData/stl.wasm">example Wasm binary</a> (<a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/externrefTestData/stl.wat">this WAT</a> is the corresponding text format) provides functions to interact with host functions which can access C++ STL objects.
 Assume that the WASM file <code>stl.wasm</code> is copied into the current directory.</p>
 <p>Take the <code>std::ostream</code> and <code>std::string</code> objects for example. Assume that there's a host function accesses to a <code>std::ostream</code> and a <code>std::string</code> through <code>externref</code>s:</p>
 <pre><code class="language-cpp">// Host function to output std::string through std::ostream
@@ -18940,7 +18942,7 @@ WasmEdge_Result ExternSTLOStreamStr(void *, WasmEdge_MemoryInstanceContext *,
   return WasmEdge_Result_Success;
 }
 </code></pre>
-<p>Assume that the above host function is added into an import object <code>ImpObj</code>, and the <code>ImpObj</code> is register into a VM context <code>VMCxt</code>.
+<p>Assume that the above host function is added into the module instance <code>HostMod</code>, and the <code>HostMod</code> is registered into a VM context <code>VMCxt</code>.
 Then users can instantiate the Wasm module:</p>
 <pre><code class="language-cpp">WasmEdge_Result Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;stl.wasm&quot;);
 if (!WasmEdge_ResultOK(Res)) {

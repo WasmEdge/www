@@ -2715,14 +2715,14 @@ sys 0m0.011s
 go version go1.16.5 linux/amd64
 </code></pre>
 <p>同时，请确保你已经安装了和 <code>WasmEdge-go</code> 同一发布版本的 <a href="embed/../start/install.html">WasmEdge 共享库</a>。</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0
 </code></pre>
 <p>如果你需要 <code>WasmEdge-go</code> 的 <code>TensorFlow</code> 或 <code>Image</code> 扩展，请安装带有这些扩展的 <code>WasmEdge</code> ：</p>
-<pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0-alpha.1 -e tensorflow,image
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.10.0 -e tensorflow,image
 </code></pre>
 <p>注意 <code>TensorFlow</code> 和 <code>Image</code> 扩展仅支持 <code>Linux</code> 平台。</p>
 <p>安装 <code>WasmEdge-go</code> 包并在你的 Go 项目目录下构建：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <h2 id="wasmedge-go-扩展"><a class="header" href="#wasmedge-go-扩展">WasmEdge-go 扩展</a></h2>
@@ -2862,7 +2862,7 @@ func main() {
 }
 </code></pre>
 <p>接下来，让我们用 WasmEdge Go SDK 构建 Go 应用程序。</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <p>运行 Golang 应用程序。</p>
@@ -3191,7 +3191,7 @@ func main() {
 }
 </code></pre>
 <p>要构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build greet_memory.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序来运行从 Rust 编译的 WebAssembly 插件：</p>
@@ -3315,7 +3315,7 @@ func main() {
 }
 </code></pre>
 <p>要构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build greet_memory.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序运行从 TinyGo 编译的 WebAssembly 插件：</p>
@@ -3475,7 +3475,7 @@ func main() {
 }
 </code></pre>
 <p>为了构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build run.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序运行从 Rust 编译的 WebAssembly 插件：</p>
@@ -3621,7 +3621,7 @@ func main() {
 }
 </code></pre>
 <p>要构建 Go SDK 示例，请运行以下命令：</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build run.go
 </code></pre>
 <p>现在你可以使用 Go 应用程序运行从 TinyGo 编译的 WebAssembly 插件：</p>
@@ -4111,7 +4111,7 @@ func main() {
 }
 </code></pre>
 <p>接下来，让我们用 WasmEdge Go SDK 来构建 Go 应用。</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0-alpha.1
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.10.0
 go build
 </code></pre>
 <p>执行 Go 应用程序，该应用将在 WasmEdge runtime 中执行嵌入的 WebAssembly 函数。</p>
