@@ -18149,7 +18149,7 @@ cmake --build build --target test
 <li>wasmedgeProcessTests</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-from-source-on-windows-10"><a class="header" href="#build-from-source-on-windows-10">Build from source on Windows 10</a></h1>
-<p>WasmEdge supports Windows 10. Currently, we also provide pre-built binaries and libraries for Windows.</p>
+<p>WasmEdge supports Windows 10. We also provide pre-built binaries and libraries for Windows. (Those using Windows 11 can use the same instructions specified here)</p>
 <p>You can find the details <a href="https://github.com/WasmEdge/WasmEdge/blob/master/.github/workflows/build.yml#L266-L322">here</a></p>
 <p>If you would like to develop WasmEdge on Windows 10, please follow this guide to build and test from source code.</p>
 <h2 id="get-source-code-2"><a class="header" href="#get-source-code-2">Get Source Code</a></h2>
@@ -18157,56 +18157,55 @@ cmake --build build --target test
 cd WasmEdge
 </code></pre>
 <h2 id="requirements-and-dependencies-1"><a class="header" href="#requirements-and-dependencies-1">Requirements and Dependencies</a></h2>
-<p>WasmEdge will try to use the latest LLVM release to create our nightly build.
-If you want to build from source, you may need to install these dependencies by yourself.</p>
+<p>WasmEdge will require LLVM 13 to build our nightly build and you may need to install these dependencies by yourself.</p>
 <ul>
 <li>Chocolatey, we use it to install cmake, ninja, and vswhere</li>
 <li>Windows SDK 19041</li>
-<li>LLVM 13.0.0, you can find the pre-built files in the following section.</li>
+<li>LLVM 13.0.1, you can find the pre-built files <a href="https://github.com/WasmEdge/llvm-windows/releases">here</a> or you can just follow the instructions/commands to download automatically.</li>
 </ul>
 <h3 id="prepare-the-environment-2"><a class="header" href="#prepare-the-environment-2">Prepare the environment</a></h3>
-<pre><code class="language-powershell"># Instal tools
+<pre><code class="language-powershell"># Install the required tools
 choco install cmake ninja vswhere
 
 $vsPath = (vswhere -latest -property installationPath)
 Import-Module (Join-Path $vsPath &quot;Common7\Tools\Microsoft.VisualStudio.DevShell.dll&quot;)
 Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -DevCmdArguments &quot;-arch=x64 -host_arch=x64 -winsdk=10.0.19041.0&quot;
 
-# Download our pre-built LLVM 13
-$llvm = &quot;LLVM-13.0.0-win64.zip&quot;
-curl -sLO https://github.com/WasmEdge/llvm-windows/releases/download/llvmorg-13.0.0/LLVM-13.0.0-win64.zip -o $llvm
+# Download our pre-built LLVM 13 binary
+$llvm = &quot;LLVM-13.0.1-win64.zip&quot;
+curl -sLO https://github.com/WasmEdge/llvm-windows/releases/download/llvmorg-13.0.1/LLVM-13.0.1-win64.zip -o $llvm
 Expand-Archive -Path $llvm
 
 # Set LLVM environment
-$llvm_dir = &quot;$pwd\\LLVM-13.0.0-win64\\LLVM-13.0.0-win64\\lib\\cmake\\llvm&quot;
+$llvm_dir = &quot;$pwd\\LLVM-13.0.1-win64\\LLVM-13.0.1-win64\\lib\\cmake\\llvm&quot;
 $Env:CC = &quot;clang-cl&quot;
 $Env:CXX = &quot;clang-cl&quot;
 </code></pre>
-<h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler-2"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler-2">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
-<p>If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
+<h3 id="if-you-dont-need-the-ahead-of-time-runtimecompiler"><a class="header" href="#if-you-dont-need-the-ahead-of-time-runtimecompiler">If you don't need the Ahead-of-Time runtime/compiler</a></h3>
+<p>If you don't need Ahead-of-Time runtime/compiler support, then set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
 <pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
 <h2 id="build-wasmedge-2"><a class="header" href="#build-wasmedge-2">Build WasmEdge</a></h2>
 <p>WasmEdge provides various tools for enabling different runtime environments for optimal performance.
 After the build is finished, you can find there are several wasmedge related tools:</p>
 <ol>
-<li><code>wasmedge</code> is for general wasm runtime.
+<li><code>wasmedge</code> is the general wasm runtime.
 <ul>
-<li><code>wasmedge</code> executes a <code>WASM</code> file in interpreter mode or a compiled WASM <code>dll</code> file in ahead-of-time compilation mode.</li>
-<li>To disable building all tools, you can set the CMake option <code>WASMEDGE_BUILD_TOOLS</code> to <code>OFF</code>.</li>
+<li><code>wasmedge</code> executes a <code>WASM</code> file in the interpreter mode or a compiled WASM <code>dll</code> file in the ahead-of-time compilation mode.</li>
+<li>To disable building all tools, set the CMake option <code>WASMEDGE_BUILD_TOOLS</code> to <code>OFF</code>.</li>
 </ul>
 </li>
-<li><code>wasmedgec</code> is for ahead-of-time <code>WASM</code> compiler.
+<li><code>wasmedgec</code> is the ahead-of-time <code>WASM</code> compiler.
 <ul>
 <li><code>wasmedgec</code> compiles a general <code>WASM</code> file into a <code>dll</code> file.</li>
-<li>To disable building the ahead-of-time compiler only, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</li>
+<li>To disable building the ahead-of-time compiler, set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</li>
 </ul>
 </li>
 <li><code>libwasmedge_c.dll</code> is the WasmEdge C API shared library.
 <ul>
-<li><code>libwasmedge_c.dll</code> provides C API for the ahead-of-time compiler and the WASM runtime.</li>
-<li>The APIs about the ahead-of-time compiler will always return failed if the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set as <code>OFF</code>.</li>
-<li>To disable building the shared library only, you can set the CMake option <code>WASMEDGE_BUILD_SHARED_LIB</code> to <code>OFF</code>.</li>
+<li><code>libwasmedge_c.dll</code> provides the C API for the ahead-of-time compiler and the WASM runtime.</li>
+<li>The APIs related to the ahead-of-time compiler will always fail if the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set to <code>OFF</code>.</li>
+<li>To disable building the shared library, set the CMake option <code>WASMEDGE_BUILD_SHARED_LIB</code> to <code>OFF</code>.</li>
 </ul>
 </li>
 </ol>
@@ -18217,8 +18216,11 @@ Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -DevCmdArguments 
 cmake -Bbuild -GNinja -DCMAKE_SYSTEM_VERSION=10.0.19041.0 -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL &quot;-DLLVM_DIR=$llvm_dir&quot; -DWASMEDGE_BUILD_TESTS=ON -DWASMEDGE_BUILD_PACKAGE=&quot;ZIP&quot; .
 cmake --build build
 </code></pre>
+<blockquote>
+<p>If you encounter any issues in building, please check the <a href="https://github.com/WasmEdge/WasmEdge/issues/">issues</a> section of the repository for help.</p>
+</blockquote>
 <h2 id="run-built-in-tests-2"><a class="header" href="#run-built-in-tests-2">Run built-in tests</a></h2>
-<p>The following built-in tests are only available when the build flag <code>WASMEDGE_BUILD_TESTS</code> sets to <code>ON</code>.</p>
+<p>The following built-in tests are available only when the build flag <code>WASMEDGE_BUILD_TESTS</code> was set to <code>ON</code>.</p>
 <p>Users can use these tests to verify the correctness of WasmEdge binaries.</p>
 <pre><code class="language-bash">$vsPath = (vswhere -latest -property installationPath)
 Import-Module (Join-Path $vsPath &quot;Common7\Tools\Microsoft.VisualStudio.DevShell.dll&quot;)
@@ -18230,7 +18232,7 @@ ctest --output-on-failure
 cd -
 </code></pre>
 <h2 id="run-applications-2"><a class="header" href="#run-applications-2">Run applications</a></h2>
-<p>Next, follow <a href="extend/run.html">this guide</a> to run WebAssembly bytecode programs in <code>wasmedge</code>.</p>
+<p>Next, you can follow <a href="extend/run.html">this guide</a> to run WebAssembly bytecode programs in <code>wasmedge</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-from-source-for-android-platforms"><a class="header" href="#build-from-source-for-android-platforms">Build from source for Android platforms</a></h1>
 <p>Please follow this guide to build and test WasmEdge from source code with Android NDK.</p>
 <blockquote>
