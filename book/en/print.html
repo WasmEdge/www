@@ -603,14 +603,29 @@ WasmEdge uses the output file extension to determine generated file format. For 
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly-standard-extensions"><a class="header" href="#webassembly-standard-extensions">WebAssembly standard extensions</a></h1>
-<p>WasmEdge supports optional WebAssembly features and proposals. Those proposals are likely to become official WebAssembly specifications in the future. WasmEdge supports the following proposals.</p>
-<ul>
-<li><a href="https://github.com/WebAssembly/WASI">WASI (WebAssembly Systems Interface) spec</a>. WasmEdge has supported the WASI spec for WebAssembly programs to interact with the host Linux operating system securely.</li>
-<li><a href="https://webassembly.github.io/reference-types/core/">Reference Types</a>. It allows WebAssembly programs to exchange data with host applications and operating systems.</li>
-<li><a href="https://github.com/WebAssembly/bulk-memory-operations">Bulk memory operations</a>. The WebAssembly program sees faster memory access and performs better with bulk memory operations.</li>
-<li><a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/simd.md">SIMD (Single instruction, multiple data)</a>. For modern devices with multiple CPU cores, the SIMD allows data processing programs to take advantage of the CPUs fully. SIMD could significantly enhance the performance of data applications.</li>
-</ul>
-<p>Meanwhile, the WasmEdge team is exploring the wasi-socket proposal to support network access in WebAssembly programs.</p>
+<h2 id="webassembly-proposals"><a class="header" href="#webassembly-proposals">WebAssembly proposals</a></h2>
+<p>WasmEdge supports the following <a href="https://github.com/WebAssembly/proposals">WebAssembly proposals</a>. Those proposals are likely to become official WebAssembly specifications in the future.</p>
+<table><thead><tr><th>Proposal</th><th>WasmEdge CLI flag</th><th>WasmEdge C API enumeration</th><th>Default turning on</th><th>Interpreter mode</th><th>AOT mode</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/WebAssembly/mutable-global">Import/Export of Mutable Globals</a></td><td><code>--disable-import-export-mut-globals</code></td><td><code>WasmEdge_Proposal_ImportExportMutGlobals</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions">Non-trapping float-to-int conversions</a></td><td><code>--disable-non-trap-float-to-int</code></td><td><code>WasmEdge_Proposal_NonTrapFloatToIntConversions</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/WebAssembly/sign-extension-ops">Sign-extension operators</a></td><td><code>--disable-sign-extension-operators</code></td><td><code>WasmEdge_Proposal_SignExtensionOperators</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/WebAssembly/multi-value">Multi-value</a></td><td><code>--disable-multi-value</code></td><td><code>WasmEdge_Proposal_MultiValue</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/WebAssembly/reference-types">Reference Types</a></td><td><code>--disable-reference-types</code></td><td><code>WasmEdge_Proposal_ReferenceTypes</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/WebAssembly/bulk-memory-operations">Bulk memory operations</a></td><td><code>--disable-bulk-memory</code></td><td><code>WasmEdge_Proposal_BulkMemoryOperations</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/webassembly/simd">Fixed-width SIMD</a></td><td><code>--disable-simd</code></td><td><code>WasmEdge_Proposal_SIMD</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/WebAssembly/tail-call">Tail call</a></td><td><code>--enable-tail-call</code></td><td><code>WasmEdge_Proposal_TailCall</code></td><td></td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/WebAssembly/multi-memory">Multiple memories</a></td><td><code>--enable-multi-memory</code></td><td><code>WasmEdge_Proposal_MultiMemories</code></td><td></td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/WebAssembly/extended-const">Extended Constant Expressions</a></td><td><code>--enable-extended-const</code></td><td><code>WasmEdge_Proposal_ExtendedConst</code></td><td></td><td>✓</td><td>✓</td></tr>
+<tr><td><a href="https://github.com/webassembly/threads">Threads</a></td><td></td><td><code>WasmEdge_Proposal_Threads</code></td><td></td><td></td><td></td></tr>
+</tbody></table>
+<h2 id="wasi-proposals"><a class="header" href="#wasi-proposals">WASI proposals</a></h2>
+<p>WasmEdge implements the following <a href="https://github.com/WebAssembly/WASI/blob/main/Proposals.md">WASI proposals</a>.</p>
+<table><thead><tr><th>Proposal</th><th>Platforms</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/WebAssembly/wasi-sockets">Sockets</a></td><td></td></tr>
+<tr><td><a href="https://github.com/WebAssembly/wasi-crypto">Crypto</a></td><td></td></tr>
+<tr><td><a href="https://github.com/WebAssembly/wasi-nn">Machine Learning (wasi-nn)</a></td><td><code>x86_64 Linux (OpenVINO backend)</code></td></tr>
+<tr><td><a href="https://github.com/proxy-wasm/spec">proxy-wasm</a></td><td><code>x86_64 Linux (Interpreter only)</code></td></tr>
+</tbody></table>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-extensions"><a class="header" href="#wasmedge-extensions">WasmEdge extensions</a></h1>
 <p>A key differentiator of WasmEdge from other WebAssembly VMs is its support for non-standard extensions. The WASI spec provides a mechanism for developers to extend WebAssembly VMs efficiently and securely. The WasmEdge team created the following WASI-like extensions based on real-world customer demands.</p>
 <ul>
