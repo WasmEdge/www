@@ -149,7 +149,87 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="nodejs--npm-模块"><a class="header" href="#nodejs--npm-模块">NodeJS &amp; NPM 模块</a></h1>
+                        <h1 id="nodejs-和-npm-模块"><a class="header" href="#nodejs-和-npm-模块">NodeJS 和 NPM 模块</a></h1>
+<p>使用 <a href="https://rollupjs.org/guide/en/">rollup.js</a>，我们也可以在 WasmEdge 上运行 CommonJS (CJS) 和 NodeJS (NPM) 模块。 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/simple_common_js_demo/npm_main.js">simple_common_js_demo/npm_main.js</a> 演示展示了它是如何工作的。它使用了第三方的 <code>md5</code> 和 <code>mathjs</code> 模块。</p>
+<pre><code class="language-javascript">const md5 = require('md5');
+console.log('md5(message)=', md5('message'));
+
+const {sqrt} = require('mathjs');
+console.log('sqrt(-4)=', sqrt(-4).toString());
+</code></pre>
+<p>为运行上述代码，我们必须先使用 <a href="https://rollupjs.org/guide/en/">rollup.js</a> 工具将所有依赖项构建到一个文件中。在此过程中，<code>rollup.js</code> 将 CommonJS 模块转换为 <a href="es6.html">WasmEdge 兼容的 ES6 模块</a>。构建脚本是 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/simple_common_js_demo/rollup.config.js">rollup.config.js</a>。</p>
+<pre><code class="language-javascript">const {babel} = require('@rollup/plugin-babel');
+const nodeResolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const replace = require('@rollup/plugin-replace');
+
+const globals = require('rollup-plugin-node-globals');
+const builtins = require('rollup-plugin-node-builtins');
+const plugin_async = require('rollup-plugin-async');
+
+const babelOptions = {
+  'presets': ['@babel/preset-react']
+};
+
+module.exports = [
+  {
+    input: './npm_main.js',
+    output: {
+      inlineDynamicImports: true,
+      file: 'dist/npm_main.mjs',
+      format: 'esm',
+    },
+    external: ['process', 'wasi_net','std'],
+    plugins: [
+      plugin_async(),
+      nodeResolve(),
+      commonjs({ignoreDynamicRequires: false}),
+      babel(babelOptions),
+      globals(),
+      builtins(),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        'process.env.NODE_DEBUG': JSON.stringify(''),
+      }),
+    ],
+  },
+];
+</code></pre>
+<p><a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/simple_common_js_demo/package.json">package.json</a> 文件指定了 <code>rollup.js</code> 依赖项和命令，以构建 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/simple_common_js_demo/npm_main.js">npm_main.js</a> 演示程序成一个包。</p>
+<pre><code class="language-json">{
+  &quot;dependencies&quot;: {
+    &quot;mathjs&quot;: &quot;^9.5.1&quot;,
+    &quot;md5&quot;: &quot;^2.3.0&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@babel/core&quot;: &quot;^7.16.5&quot;,
+    &quot;@babel/preset-env&quot;: &quot;^7.16.5&quot;,
+    &quot;@babel/preset-react&quot;: &quot;^7.16.5&quot;,
+    &quot;@rollup/plugin-babel&quot;: &quot;^5.3.0&quot;,
+    &quot;@rollup/plugin-commonjs&quot;: &quot;^21.0.1&quot;,
+    &quot;@rollup/plugin-node-resolve&quot;: &quot;^7.1.3&quot;,
+    &quot;@rollup/plugin-replace&quot;: &quot;^3.0.0&quot;,
+    &quot;rollup&quot;: &quot;^2.60.1&quot;,
+    &quot;rollup-plugin-babel&quot;: &quot;^4.4.0&quot;,
+    &quot;rollup-plugin-node-builtins&quot;: &quot;^2.1.2&quot;,
+    &quot;rollup-plugin-node-globals&quot;: &quot;^1.4.0&quot;,
+    &quot;rollup-plugin-async&quot;: &quot;^1.2.0&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;build&quot;: &quot;rollup -c rollup.config.js&quot;
+  }
+}
+</code></pre>
+<p>运行以下 NPM 命令将 <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/simple_common_js_demo/npm_main.js">npm_main.js</a> 演示程序构建到 <code>dist/npm_main.mjs</code> 中。</p>
+<pre><code class="language-bash">npm install
+npm run build
+</code></pre>
+<p>在 WasmEdge CLI 中运行结果 JS 文件，如下所示。</p>
+<pre><code class="language-bash">$ wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm dist/npm_main.mjs
+md5(message)= 78e731027d8fd50ed642340b7c9a63b3
+sqrt(-4)= 2i
+</code></pre>
+<p>你可以通过这种方式在 WasmEdge 中导入和运行任何纯 JS NPM 包。</p>
 
                     </main>
 
