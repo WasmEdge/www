@@ -407,7 +407,7 @@ WasmEdge_FunctionTypeDelete(FuncTypeCxt);
 <li>
 <p>Table type context</p>
 <p>The <code>Table Type</code> context is used for <code>Table</code> instance creation or getting information from <code>Table</code> instances.</p>
-<pre><code class="language-c">WasmEdge_Limit TabLim = {.HasMax = true, .Min = 10, .Max = 20};
+<pre><code class="language-c">WasmEdge_Limit TabLim = {.HasMax = true, .Shared = false, .Min = 10, .Max = 20};
 WasmEdge_TableTypeContext *TabTypeCxt = WasmEdge_TableTypeCreate(WasmEdge_RefType_ExternRef, TabLim);
 
 enum WasmEdge_RefType GotRefType = WasmEdge_TableTypeGetRefType(TabTypeCxt);
@@ -421,7 +421,7 @@ WasmEdge_TableTypeDelete(TabTypeCxt);
 <li>
 <p>Memory type context</p>
 <p>The <code>Memory Type</code> context is used for <code>Memory</code> instance creation or getting information from <code>Memory</code> instances.</p>
-<pre><code class="language-c">WasmEdge_Limit MemLim = {.HasMax = true, .Min = 10, .Max = 20};
+<pre><code class="language-c">WasmEdge_Limit MemLim = {.HasMax = true, .Shared = false, .Min = 10, .Max = 20};
 WasmEdge_MemoryTypeContext *MemTypeCxt = WasmEdge_MemoryTypeCreate(MemLim);
 
 WasmEdge_Limit GotMemLim = WasmEdge_MemoryTypeGetLimit(MemTypeCxt);
@@ -1701,7 +1701,7 @@ WasmEdge_FunctionTypeContext *FuncTypeCxt = WasmEdge_FunctionInstanceGetFunction
 <p>Table instance</p>
 <p>In WasmEdge, developers can create the <code>Table</code> contexts and add them into an <code>Module</code> instance context for registering into a <code>VM</code> or a <code>Store</code>.
 The <code>Table</code> contexts supply APIs to control the data in table instances.</p>
-<pre><code class="language-c">WasmEdge_Limit TabLimit = {.HasMax = true, .Min = 10, .Max = 20};
+<pre><code class="language-c">WasmEdge_Limit TabLimit = {.HasMax = true, .Shared = false, .Min = 10, .Max = 20};
 /* Create the table type with limit and the `FuncRef` element type. */
 WasmEdge_TableTypeContext *TabTypeCxt = WasmEdge_TableTypeCreate(WasmEdge_RefType_FuncRef, TabLimit);
 /* Create the table instance with table type. */
@@ -1748,7 +1748,7 @@ WasmEdge_TableInstanceDelete(HostTable);
 <p>Memory instance</p>
 <p>In WasmEdge, developers can create the <code>Memory</code> contexts and add them into an <code>Module</code> instance context for registering into a <code>VM</code> or a <code>Store</code>.
 The <code>Memory</code> contexts supply APIs to control the data in memory instances.</p>
-<pre><code class="language-c">WasmEdge_Limit MemLimit = {.HasMax = true, .Min = 1, .Max = 5};
+<pre><code class="language-c">WasmEdge_Limit MemLimit = {.HasMax = true, .Shared = false, .Min = 1, .Max = 5};
 /* Create the memory type with limit. The memory page size is 64KiB. */
 WasmEdge_MemoryTypeContext *MemTypeCxt = WasmEdge_MemoryTypeCreate(MemLimit);
 /* Create the memory instance with memory type. */
@@ -1910,8 +1910,8 @@ WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;add&quot;);
 WasmEdge_ModuleInstanceAddFunction(HostModCxt, FuncName, HostFunc);
 WasmEdge_StringDelete(FuncName);
 
-/* Create and add a table instance into the module instance. */
-WasmEdge_Limit TableLimit = {.HasMax = true, .Min = 10, .Max = 20};
+/* Create and add a table instance into the import object. */
+WasmEdge_Limit TableLimit = {.HasMax = true, .Shared = false, .Min = 10, .Max = 20};
 WasmEdge_TableTypeContext *HostTType = 
   WasmEdge_TableTypeCreate(WasmEdge_RefType_FuncRef, TableLimit);
 WasmEdge_TableInstanceContext *HostTable = WasmEdge_TableInstanceCreate(HostTType);
@@ -1920,8 +1920,8 @@ WasmEdge_String TableName = WasmEdge_StringCreateByCString(&quot;table&quot;);
 WasmEdge_ModuleInstanceAddTable(HostModCxt, TableName, HostTable);
 WasmEdge_StringDelete(TableName);
 
-/* Create and add a memory instance into the module instance. */
-WasmEdge_Limit MemoryLimit = {.HasMax = true, .Min = 1, .Max = 2};
+/* Create and add a memory instance into the import object. */
+WasmEdge_Limit MemoryLimit = {.HasMax = true, .Shared = false, .Min = 1, .Max = 2};
 WasmEdge_MemoryTypeContext *HostMType = WasmEdge_MemoryTypeCreate(MemoryLimit);
 WasmEdge_MemoryInstanceContext *HostMemory = WasmEdge_MemoryInstanceCreate(HostMType);
 WasmEdge_MemoryTypeDelete(HostMType);
