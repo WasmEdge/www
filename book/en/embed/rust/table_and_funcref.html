@@ -1,0 +1,312 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Table and FuncRef - WasmEdge Runtime</title>
+        <!-- Custom HTML head -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NGPCK7VF2L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NGPCK7VF2L');
+</script>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Getting started</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../start/install.html"><strong aria-hidden="true">1.1.</strong> Install and uninstall</a></li><li class="chapter-item "><a href="../../start/docker.html"><strong aria-hidden="true">1.2.</strong> Use Docker</a></li><li class="chapter-item "><a href="../../start/cli.html"><strong aria-hidden="true">1.3.</strong> WasmEdge command line</a></li><li class="chapter-item "><a href="../../start/universal.html"><strong aria-hidden="true">1.4.</strong> Universal Binary</a></li></ol></li><li class="chapter-item "><a href="../../intro.html"><strong aria-hidden="true">2.</strong> What is WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../intro/use.html"><strong aria-hidden="true">2.1.</strong> Use cases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../intro/use/jamstack.html"><strong aria-hidden="true">2.1.1.</strong> Server-side rendering</a></li><li class="chapter-item "><a href="../../intro/use/microservice.html"><strong aria-hidden="true">2.1.2.</strong> Microservices</a></li><li class="chapter-item "><a href="../../intro/use/saas.html"><strong aria-hidden="true">2.1.3.</strong> Serverless SaaS API</a></li><li class="chapter-item "><a href="../../intro/use/device.html"><strong aria-hidden="true">2.1.4.</strong> Smart devices</a></li></ol></li><li class="chapter-item "><a href="../../intro/features.html"><strong aria-hidden="true">2.2.</strong> Feature highlights</a></li><li class="chapter-item "><a href="../../intro/standard.html"><strong aria-hidden="true">2.3.</strong> Standard extensions</a></li><li class="chapter-item "><a href="../../intro/proprietary.html"><strong aria-hidden="true">2.4.</strong> Proprietary extensions</a></li><li class="chapter-item "><a href="../../intro/integrations.html"><strong aria-hidden="true">2.5.</strong> Integrations</a></li><li class="chapter-item "><a href="../../intro/faq.html"><strong aria-hidden="true">2.6.</strong> FAQ</a></li></ol></li><li class="chapter-item "><a href="../../dev.html"><strong aria-hidden="true">3.</strong> Develop a WasmEdge app</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../dev/rust.html"><strong aria-hidden="true">3.1.</strong> Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../dev/rust/bindgen.html"><strong aria-hidden="true">3.1.1.</strong> Call Rust functions</a></li><li class="chapter-item "><a href="../../dev/rust/wasi.html"><strong aria-hidden="true">3.1.2.</strong> Access OS services</a></li><li class="chapter-item "><a href="../../dev/rust/tensorflow.html"><strong aria-hidden="true">3.1.3.</strong> Tensorflow</a></li><li class="chapter-item "><a href="../../dev/rust/networking.html"><strong aria-hidden="true">3.1.4.</strong> Simple HTTP client & server</a></li><li class="chapter-item "><a href="../../dev/rust/networking-nonblocking.html"><strong aria-hidden="true">3.1.5.</strong> Non-blocking network apps</a></li><li class="chapter-item "><a href="../../dev/rust/ssr.html"><strong aria-hidden="true">3.1.6.</strong> Server-side rendering</a></li><li class="chapter-item "><a href="../../dev/rust/command.html"><strong aria-hidden="true">3.1.7.</strong> Command interface</a></li></ol></li><li class="chapter-item "><a href="../../dev/js.html"><strong aria-hidden="true">3.2.</strong> JavaScript</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../dev/js/quickstart.html"><strong aria-hidden="true">3.2.1.</strong> Getting started</a></li><li class="chapter-item "><a href="../../dev/js/networking.html"><strong aria-hidden="true">3.2.2.</strong> Networking sockets</a></li><li class="chapter-item "><a href="../../dev/js/fetch.html"><strong aria-hidden="true">3.2.3.</strong> Fetch</a></li><li class="chapter-item "><a href="../../dev/js/tensorflow.html"><strong aria-hidden="true">3.2.4.</strong> Tensorflow</a></li><li class="chapter-item "><a href="../../dev/js/ssr.html"><strong aria-hidden="true">3.2.5.</strong> React SSR</a></li><li class="chapter-item "><a href="../../dev/js/es6.html"><strong aria-hidden="true">3.2.6.</strong> ES6 modules</a></li><li class="chapter-item "><a href="../../dev/js/npm.html"><strong aria-hidden="true">3.2.7.</strong> Node.js & NPM modules</a></li><li class="chapter-item "><a href="../../dev/js/modules.html"><strong aria-hidden="true">3.2.8.</strong> Built-in modules</a></li><li class="chapter-item "><a href="../../dev/js/rust.html"><strong aria-hidden="true">3.2.9.</strong> Use Rust to implement JS API</a></li><li class="chapter-item "><a href="../../dev/js/nodejs.html"><strong aria-hidden="true">3.2.10.</strong> Node.js compatibility</a></li></ol></li><li class="chapter-item "><a href="../../dev/go.html"><strong aria-hidden="true">3.3.</strong> Go</a></li><li class="chapter-item "><a href="../../dev/swift.html"><strong aria-hidden="true">3.4.</strong> Swift</a></li><li class="chapter-item "><a href="../../dev/as.html"><strong aria-hidden="true">3.5.</strong> AssemblyScript</a></li><li class="chapter-item "><a href="../../dev/kotlin.html"><strong aria-hidden="true">3.6.</strong> Kotlin</a></li><li class="chapter-item "><a href="../../dev/grain.html"><strong aria-hidden="true">3.7.</strong> Grain</a></li><li class="chapter-item "><a href="../../dev/python.html"><strong aria-hidden="true">3.8.</strong> Python</a></li></ol></li><li class="chapter-item expanded "><a href="../../embed.html"><strong aria-hidden="true">4.</strong> Embed WasmEdge functions</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../embed/c.html"><strong aria-hidden="true">4.1.</strong> C SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../embed/c/ref.html"><strong aria-hidden="true">4.1.1.</strong> 0.10.0 API references</a></li><li class="chapter-item "><a href="../../embed/c/0.9.1/ref.html"><strong aria-hidden="true">4.1.2.</strong> 0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../embed/c/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">4.1.2.1.</strong> Upgrade to 0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../embed/go.html"><strong aria-hidden="true">4.2.</strong> Go SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../embed/go/app.html"><strong aria-hidden="true">4.2.1.</strong> Embed WASM apps</a></li><li class="chapter-item "><a href="../../embed/go/function.html"><strong aria-hidden="true">4.2.2.</strong> Embed WASM funcs</a></li><li class="chapter-item "><a href="../../embed/go/memory.html"><strong aria-hidden="true">4.2.3.</strong> Pass complex data</a></li><li class="chapter-item "><a href="../../embed/go/tensorflow.html"><strong aria-hidden="true">4.2.4.</strong> Tensorflow</a></li><li class="chapter-item "><a href="../../embed/go/bindgen.html"><strong aria-hidden="true">4.2.5.</strong> Embed bindgen funcs</a></li><li class="chapter-item "><a href="../../embed/go/ref.html"><strong aria-hidden="true">4.2.6.</strong> 0.10.0 API references</a></li><li class="chapter-item "><a href="../../embed/go/0.9.1/ref.html"><strong aria-hidden="true">4.2.7.</strong> 0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../embed/go/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">4.2.7.1.</strong> Upgrade to 0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../embed/node.html"><strong aria-hidden="true">4.3.</strong> Node.js SDK</a></li><li class="chapter-item expanded "><a href="../../embed/rust.html"><strong aria-hidden="true">4.4.</strong> Rust SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../embed/rust/say_hello.html"><strong aria-hidden="true">4.4.1.</strong> Hello World!</a></li><li class="chapter-item "><a href="../../embed/rust/memory_manipulation.html"><strong aria-hidden="true">4.4.2.</strong> Memory Manipulation</a></li><li class="chapter-item expanded "><a href="../../embed/rust/table_and_funcref.html" class="active"><strong aria-hidden="true">4.4.3.</strong> Table and FuncRef</a></li><li class="chapter-item "><a href="../../embed/rust/sys_run_host_func.html"><strong aria-hidden="true">4.4.4.</strong> Run a WebAssembly function with WasmEdge low-level APIs</a></li><li class="chapter-item "><a href="../../embed/rust/concurrent_fib.html"><strong aria-hidden="true">4.4.5.</strong> Compute Fibonacci numbers concurrently</a></li><li class="chapter-item "><a href="../../embed/rust/how_to_use_module_instance.html"><strong aria-hidden="true">4.4.6.</strong> Usage of WasmEdge module instances</a></li></ol></li><li class="chapter-item "><a href="../../embed/python.html"><strong aria-hidden="true">4.5.</strong> Python SDK</a></li></ol></li><li class="chapter-item "><a href="../../kubernetes.html"><strong aria-hidden="true">5.</strong> WasmEdge in Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/quickstart.html"><strong aria-hidden="true">5.1.</strong> Quick start</a></li><li class="chapter-item "><a href="../../kubernetes/demo.html"><strong aria-hidden="true">5.2.</strong> Demo apps</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/demo/wasi.html"><strong aria-hidden="true">5.2.1.</strong> Simple example</a></li><li class="chapter-item "><a href="../../kubernetes/demo/server.html"><strong aria-hidden="true">5.2.2.</strong> HTTP service</a></li></ol></li><li class="chapter-item "><a href="../../kubernetes/container.html"><strong aria-hidden="true">5.3.</strong> Container runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/container/crun.html"><strong aria-hidden="true">5.3.1.</strong> crun</a></li><li class="chapter-item "><a href="../../kubernetes/container/runc.html"><strong aria-hidden="true">5.3.2.</strong> runc</a></li><li class="chapter-item "><a href="../../kubernetes/container/youki.html"><strong aria-hidden="true">5.3.3.</strong> youki</a></li></ol></li><li class="chapter-item "><a href="../../kubernetes/cri.html"><strong aria-hidden="true">5.4.</strong> CRI runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/cri/crio.html"><strong aria-hidden="true">5.4.1.</strong> CRI-O</a></li><li class="chapter-item "><a href="../../kubernetes/cri/containerd.html"><strong aria-hidden="true">5.4.2.</strong> containerd</a></li></ol></li><li class="chapter-item "><a href="../../kubernetes/kubernetes.html"><strong aria-hidden="true">5.5.</strong> Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../kubernetes/kubernetes/kubernetes-crio.html"><strong aria-hidden="true">5.5.1.</strong> Kubernetes + CRI-O</a></li><li class="chapter-item "><a href="../../kubernetes/kubernetes/kubernetes-containerd.html"><strong aria-hidden="true">5.5.2.</strong> Kubernetes + containerd</a></li><li class="chapter-item "><a href="../../kubernetes/kubernetes/kind.html"><strong aria-hidden="true">5.5.3.</strong> KinD</a></li><li class="chapter-item "><a href="../../kubernetes/kubernetes/kubeedge.html"><strong aria-hidden="true">5.5.4.</strong> KubeEdge</a></li><li class="chapter-item "><a href="../../kubernetes/kubernetes/superedge.html"><strong aria-hidden="true">5.5.5.</strong> SuperEdge</a></li><li class="chapter-item "><a href="../../kubernetes/kubernetes/openyurt.html"><strong aria-hidden="true">5.5.6.</strong> OpenYurt</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../frameworks.html"><strong aria-hidden="true">6.</strong> App frameworks & platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../frameworks/mesh.html"><strong aria-hidden="true">6.1.</strong> Service mesh & runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../frameworks/mesh/dapr.html"><strong aria-hidden="true">6.1.1.</strong> Dapr</a></li><li class="chapter-item "><a href="../../frameworks/mesh/mosn.html"><strong aria-hidden="true">6.1.2.</strong> MOSN</a></li><li class="chapter-item "><a href="../../frameworks/mesh/wasm-nginx-module.html"><strong aria-hidden="true">6.1.3.</strong> Nginx</a></li><li class="chapter-item "><a href="../../frameworks/mesh/eventmesh.html"><strong aria-hidden="true">6.1.4.</strong> Apache EventMesh</a></li></ol></li><li class="chapter-item "><a href="../../frameworks/app.html"><strong aria-hidden="true">6.2.</strong> Application frameworks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../frameworks/app/yomo.html"><strong aria-hidden="true">6.2.1.</strong> YoMo</a></li><li class="chapter-item "><a href="../../frameworks/app/reactr.html"><strong aria-hidden="true">6.2.2.</strong> Reactr</a></li></ol></li><li class="chapter-item "><a href="../../frameworks/serverless.html"><strong aria-hidden="true">6.3.</strong> Serverless platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../frameworks/serverless/vercel.html"><strong aria-hidden="true">6.3.1.</strong> Vercel</a></li><li class="chapter-item "><a href="../../frameworks/serverless/netlify.html"><strong aria-hidden="true">6.3.2.</strong> Netlify</a></li><li class="chapter-item "><a href="../../frameworks/serverless/aws.html"><strong aria-hidden="true">6.3.3.</strong> AWS</a></li><li class="chapter-item "><a href="../../frameworks/serverless/tencent.html"><strong aria-hidden="true">6.3.4.</strong> Tencent</a></li><li class="chapter-item "><a href="../../frameworks/serverless/secondstate.html"><strong aria-hidden="true">6.3.5.</strong> Second State</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../os.html"><strong aria-hidden="true">7.</strong> Operating systems</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../os/linux.html"><strong aria-hidden="true">7.1.</strong> Linux</a></li><li class="chapter-item "><a href="../../os/windows.html"><strong aria-hidden="true">7.2.</strong> Windows</a></li><li class="chapter-item "><a href="../../os/mac.html"><strong aria-hidden="true">7.3.</strong> Mac</a></li><li class="chapter-item "><a href="../../os/android.html"><strong aria-hidden="true">7.4.</strong> Android</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../os/android/cli.html"><strong aria-hidden="true">7.4.1.</strong> CLI tools</a></li><li class="chapter-item "><a href="../../os/android/ndk.html"><strong aria-hidden="true">7.4.2.</strong> NDK native app</a></li><li class="chapter-item "><a href="../../os/android/apk.html"><strong aria-hidden="true">7.4.3.</strong> APK app</a></li></ol></li><li class="chapter-item "><a href="../../os/sel4.html"><strong aria-hidden="true">7.5.</strong> seL4</a></li><li class="chapter-item "><a href="../../os/openharmony.html"><strong aria-hidden="true">7.6.</strong> Open Harmony</a></li><li class="chapter-item "><a href="../../os/raspberrypi.html"><strong aria-hidden="true">7.7.</strong> Raspberry Pi</a></li></ol></li><li class="chapter-item "><a href="../../extend.html"><strong aria-hidden="true">8.</strong> Contribute to WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../extend/build.html"><strong aria-hidden="true">8.1.</strong> Build WasmEdge from source</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../extend/build_on_mac.html"><strong aria-hidden="true">8.1.1.</strong> Build for Mac</a></li><li class="chapter-item "><a href="../../extend/build_on_windows.html"><strong aria-hidden="true">8.1.2.</strong> Build for Windows</a></li><li class="chapter-item "><a href="../../extend/build_for_android.html"><strong aria-hidden="true">8.1.3.</strong> Build for Android</a></li></ol></li><li class="chapter-item "><a href="../../extend/plugin.html"><strong aria-hidden="true">8.2.</strong> WasmEdge plug-in API</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../extend/plugin/loadable.html"><strong aria-hidden="true">8.2.1.</strong> Plug-in System</a></li><li class="chapter-item "><a href="../../extend/plugin/hostfunction.html"><strong aria-hidden="true">8.2.2.</strong> Host functions</a></li><li class="chapter-item "><a href="../../extend/plugin/externref.html"><strong aria-hidden="true">8.2.3.</strong> External references</a></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">WasmEdge Runtime</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/WasmEdge/WasmEdge" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/WasmEdge/WasmEdge/tree/master/docs/book/en/src/embed/rust/table_and_funcref.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="table-and-funcref"><a class="header" href="#table-and-funcref">Table and FuncRef</a></h1>
+<p>In this example, we'll present how to use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Table.html">Table</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.FuncRef.html">FuncRef</a> stored in a slot of a <code>Table</code> instance to implement indirect function invocation.</p>
+<h2 id="prerequisite"><a class="header" href="#prerequisite">Prerequisite</a></h2>
+<p>In this example we defines a native function <code>real_add</code> that takes two numbers and returns their sum. This function will be registered as a host function into WasmEdge runtime environment</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn real_add(input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+    println!(&quot;Rust: Entering Rust function real_add&quot;);
+
+    if input.len() != 2 {
+        return Err(1);
+    }
+
+    let a = if input[0].ty() == ValType::I32 {
+        input[0].to_i32()
+    } else {
+        return Err(2);
+    };
+
+    let b = if input[1].ty() == ValType::I32 {
+        input[1].to_i32()
+    } else {
+        return Err(3);
+    };
+
+    let c = a + b;
+    println!(&quot;Rust: calcuating in real_add c: {:?}&quot;, c);
+
+    println!(&quot;Rust: Leaving Rust function real_add&quot;);
+    Ok(vec![WasmValue::from_i32(c)])
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>In addition, the following imports are used in this example.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use wasmedge_sdk::{
+    config::{CommonConfigOptions, ConfigBuilder},
+    params,
+    types::Val,
+    Executor, Func, ImportObjectBuilder, Store, Table, WasmVal,
+};
+use wasmedge_sys::WasmValue;
+use wasmedge_types::{RefType, TableType, ValType};
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="register-table-instance"><a class="header" href="#register-table-instance">Register Table instance</a></h2>
+<p>The first thing we need to do is to create a <code>Table</code> instance. After that, we register the table instance along with an import module into the WasmEdge runtime environment. Now let's see the code.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// create an executor
+let config = ConfigBuilder::new(CommonConfigOptions::default()).build()?;
+let mut executor = Executor::new(Some(&amp;config), None)?;
+
+// create a store
+let mut store = Store::new()?;
+
+// create a table instance
+let result = Table::new(TableType::new(RefType::FuncRef, 10, Some(20)));
+assert!(result.is_ok());
+let table = result.unwrap();
+
+// create an import object
+let import = ImportObjectBuilder::new()
+    .with_table(&quot;my-table&quot;, table)?
+    .build(&quot;extern&quot;)?;
+
+// register the import object into the store
+store.register_import_module(&amp;mut executor, &amp;import)?;
+<span class="boring">}
+</span></code></pre></pre>
+<p>In the code snippet above, we create a <code>Table</code> instance with the initial size of <code>10</code> and the maximum size of 20. The element type of the <code>Table</code> instance is <code>reference to function</code>.</p>
+<h2 id="store-a-function-reference-into-table"><a class="header" href="#store-a-function-reference-into-table">Store a function reference into Table</a></h2>
+<p>In the previous steps, we defined a native function <code>real_add</code> and registered a <code>Table</code> instance named <code>my-table</code> into the runtime environment. Now we'll save a reference to <code>read_add</code> function to a slot of <code>my-table</code>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// get the exported table instance
+let mut table = instance
+    .table(&quot;my-table&quot;)
+    .expect(&quot;Not found table instance named 'my-table'&quot;);
+
+// create a host function
+let host_func = Func::wrap::&lt;(i32, i32), i32&gt;(Box::new(real_add))?;
+
+// store the reference to host_func at the given index of the table instance
+table.set(3, Val::FuncRef(Some(host_func.as_ref())))?;
+<span class="boring">}
+</span></code></pre></pre>
+<p>We save the reference to <code>host_func</code> into the third slot of <code>my-table</code>. Next, we can retrieve the function reference from the table instance by index and call the function via its reference.</p>
+<h2 id="call-native-function-via-funcref"><a class="header" href="#call-native-function-via-funcref">Call native function via <code>FuncRef</code></a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// retrieve the function reference at the given index of the table instance
+let value = table.get(3)?;
+if let Val::FuncRef(Some(func_ref)) = value {
+    // get the function type by func_ref
+    let func_ty = func_ref.ty()?;
+
+    // arguments
+    assert_eq!(func_ty.args_len(), 2);
+    let param_tys = func_ty.args().unwrap();
+    assert_eq!(param_tys, [ValType::I32, ValType::I32]);
+
+    // returns
+    assert_eq!(func_ty.returns_len(), 1);
+    let return_tys = func_ty.returns().unwrap();
+    assert_eq!(return_tys, [ValType::I32]);
+
+    // call the function by func_ref
+    let returns = func_ref.call(&amp;mut executor, params!(1, 2))?;
+    assert_eq!(returns.len(), 1);
+    assert_eq!(returns[0].to_i32(), 3);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>The complete code of this example can be found <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/table_and_funcref.rs">here</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../embed/rust/memory_manipulation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../embed/rust/sys_run_host_func.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../embed/rust/memory_manipulation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../embed/rust/sys_run_host_func.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
