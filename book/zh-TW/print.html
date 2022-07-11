@@ -1,0 +1,923 @@
+<!DOCTYPE HTML>
+<html lang="zh-TW" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>WasmEdge Runtime</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NGPCK7VF2L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NGPCK7VF2L');
+</script>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item "><a href="index.html"><strong aria-hidden="true">1.</strong> 快速開始指引</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="start/install.html"><strong aria-hidden="true">1.1.</strong> 安裝與解除安裝</a></li><li class="chapter-item "><a href="start/docker.html"><strong aria-hidden="true">1.2.</strong> 使用 Docker image</a></li><li class="chapter-item "><a href="start/cli.html"><strong aria-hidden="true">1.3.</strong> WasmEdge 命令列</a></li><li class="chapter-item "><a href="start/universal.html"><strong aria-hidden="true">1.4.</strong> 通用 Wasm binary 格式</a></li></ol></li><li class="chapter-item "><a href="intro.html"><strong aria-hidden="true">2.</strong> 什麼是 WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="intro/use.html"><strong aria-hidden="true">2.1.</strong> 使用情境</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="intro/use/runtime.html"><strong aria-hidden="true">2.1.1.</strong> 雲端原生 runtime</a></li><li class="chapter-item "><a href="intro/use/js.html"><strong aria-hidden="true">2.1.2.</strong> JavaScript 或 DSL runtime</a></li><li class="chapter-item "><a href="intro/use/serverless.html"><strong aria-hidden="true">2.1.3.</strong> 公開雲端中的 Serverless 函式即服務</a></li><li class="chapter-item "><a href="intro/use/edge.html"><strong aria-hidden="true">2.1.4.</strong> 邊緣運算</a></li><li class="chapter-item "><a href="intro/use/saas.html"><strong aria-hidden="true">2.1.5.</strong> 用於 SaaS 的互動函式</a></li></ol></li><li class="chapter-item "><a href="intro/features.html"><strong aria-hidden="true">2.2.</strong> WasmEdge 的優勢與特色</a></li><li class="chapter-item "><a href="intro/standard.html"><strong aria-hidden="true">2.3.</strong> WebAssembly 標準擴充</a></li><li class="chapter-item "><a href="intro/proprietary.html"><strong aria-hidden="true">2.4.</strong> WasmEdge 特有的擴充</a></li><li class="chapter-item "><a href="intro/integrations.html"><strong aria-hidden="true">2.5.</strong> 與第三方框架結合</a></li><li class="chapter-item "><a href="intro/faq.html"><strong aria-hidden="true">2.6.</strong> FAQ</a></li></ol></li><li class="chapter-item "><a href="dev.html"><strong aria-hidden="true">3.</strong> 開發 WasmEdge 應用程式</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="dev/rust.html"><strong aria-hidden="true">3.1.</strong> Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="dev/rust/wasi.html"><strong aria-hidden="true">3.1.1.</strong> 使用系統服務</a></li><li class="chapter-item "><a href="dev/rust/tensorflow.html"><strong aria-hidden="true">3.1.2.</strong> 使用 Tensorflow</a></li><li class="chapter-item "><a href="dev/rust/networking.html"><strong aria-hidden="true">3.1.3.</strong> 使用網路服務</a></li><li class="chapter-item "><a href="dev/rust/command.html"><strong aria-hidden="true">3.1.4.</strong> 命令列接口</a></li><li class="chapter-item "><a href="dev/rust/bindgen.html"><strong aria-hidden="true">3.1.5.</strong> rustwasmc</a></li></ol></li><li class="chapter-item "><a href="dev/js.html"><strong aria-hidden="true">3.2.</strong> JavaScript</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="dev/js/quickstart.html"><strong aria-hidden="true">3.2.1.</strong> 快速開始</a></li><li class="chapter-item "><a href="dev/js/networking.html"><strong aria-hidden="true">3.2.2.</strong> 使用網路服務</a></li><li class="chapter-item "><a href="dev/js/fetch.html"><strong aria-hidden="true">3.2.3.</strong> Fetch</a></li><li class="chapter-item "><a href="dev/js/tensorflow.html"><strong aria-hidden="true">3.2.4.</strong> 使用 Tensorflow</a></li><li class="chapter-item "><a href="dev/js/ssr.html"><strong aria-hidden="true">3.2.5.</strong> 範例： React SSR</a></li><li class="chapter-item "><a href="dev/js/es6.html"><strong aria-hidden="true">3.2.6.</strong> ES6 模組</a></li><li class="chapter-item "><a href="dev/js/npm.html"><strong aria-hidden="true">3.2.7.</strong> NodeJS & NPM 模組</a></li><li class="chapter-item "><a href="dev/js/rust.html"><strong aria-hidden="true">3.2.8.</strong> 使用 Rust 實作 JS API</a></li></ol></li><li class="chapter-item "><a href="dev/python.html"><strong aria-hidden="true">3.3.</strong> Python</a></li><li class="chapter-item "><a href="dev/go.html"><strong aria-hidden="true">3.4.</strong> Go</a></li><li class="chapter-item "><a href="dev/swift.html"><strong aria-hidden="true">3.5.</strong> Swift</a></li><li class="chapter-item "><a href="dev/as.html"><strong aria-hidden="true">3.6.</strong> AssemblyScript</a></li><li class="chapter-item "><a href="dev/kotlin.html"><strong aria-hidden="true">3.7.</strong> Kotlin</a></li><li class="chapter-item "><a href="dev/grain.html"><strong aria-hidden="true">3.8.</strong> Grain</a></li></ol></li><li class="chapter-item "><a href="embed.html"><strong aria-hidden="true">4.</strong> 嵌入 WasmEdge 函式</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="embed/c.html"><strong aria-hidden="true">4.1.</strong> C SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="embed/c/ref.html"><strong aria-hidden="true">4.1.1.</strong> API 完整說明文件</a></li></ol></li><li class="chapter-item "><a href="embed/go.html"><strong aria-hidden="true">4.2.</strong> Go SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="embed/go/app.html"><strong aria-hidden="true">4.2.1.</strong> 嵌入 WASM 應用程式</a></li><li class="chapter-item "><a href="embed/go/function.html"><strong aria-hidden="true">4.2.2.</strong> 嵌入 WASM 函式</a></li><li class="chapter-item "><a href="embed/go/memory.html"><strong aria-hidden="true">4.2.3.</strong> 傳遞複雜參數</a></li><li class="chapter-item "><a href="embed/go/tensorflow.html"><strong aria-hidden="true">4.2.4.</strong> 使用 Tensorflow</a></li><li class="chapter-item "><a href="embed/go/bindgen.html"><strong aria-hidden="true">4.2.5.</strong> 使用 wasm-bindgen</a></li><li class="chapter-item "><a href="embed/go/ref.html"><strong aria-hidden="true">4.2.6.</strong> API 完整說明文件</a></li></ol></li><li class="chapter-item "><a href="embed/node.html"><strong aria-hidden="true">4.3.</strong> Node.js SDK</a></li><li class="chapter-item "><a href="embed/rust.html"><strong aria-hidden="true">4.4.</strong> Rust SDK</a></li><li class="chapter-item "><a href="embed/python.html"><strong aria-hidden="true">4.5.</strong> Python SDK</a></li></ol></li><li class="chapter-item "><a href="kubernetes.html"><strong aria-hidden="true">5.</strong> 在 Kubernetes 使用 WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="kubernetes/quickstart.html"><strong aria-hidden="true">5.1.</strong> 快速開始</a></li><li class="chapter-item "><a href="kubernetes/demo.html"><strong aria-hidden="true">5.2.</strong> Demo 範例</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="kubernetes/demo/wasi.html"><strong aria-hidden="true">5.2.1.</strong> 基本 Wasm 範例</a></li><li class="chapter-item "><a href="kubernetes/demo/server.html"><strong aria-hidden="true">5.2.2.</strong> HTTP 伺服器範例</a></li></ol></li><li class="chapter-item "><a href="kubernetes/container.html"><strong aria-hidden="true">5.3.</strong> Runtimes 容器</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="kubernetes/container/crun.html"><strong aria-hidden="true">5.3.1.</strong> crun</a></li><li class="chapter-item "><a href="kubernetes/container/runc.html"><strong aria-hidden="true">5.3.2.</strong> runc</a></li><li class="chapter-item "><a href="kubernetes/container/youki.html"><strong aria-hidden="true">5.3.3.</strong> youki</a></li></ol></li><li class="chapter-item "><a href="kubernetes/cri.html"><strong aria-hidden="true">5.4.</strong> CRI runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="kubernetes/cri/crio.html"><strong aria-hidden="true">5.4.1.</strong> CRI-O</a></li><li class="chapter-item "><a href="kubernetes/cri/containerd.html"><strong aria-hidden="true">5.4.2.</strong> containerd</a></li></ol></li><li class="chapter-item "><a href="kubernetes/kubernetes.html"><strong aria-hidden="true">5.5.</strong> Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="kubernetes/kubernetes/kubernetes-crio.html"><strong aria-hidden="true">5.5.1.</strong> Kubernetes + CRI-O</a></li><li class="chapter-item "><a href="kubernetes/kubernetes/kubernetes-containerd.html"><strong aria-hidden="true">5.5.2.</strong> Kubernetes + containerd</a></li><li class="chapter-item "><a href="kubernetes/kubernetes/kind.html"><strong aria-hidden="true">5.5.3.</strong> KinD</a></li><li class="chapter-item "><a href="kubernetes/kubernetes/kubeedge.html"><strong aria-hidden="true">5.5.4.</strong> KubeEdge</a></li><li class="chapter-item "><a href="kubernetes/kubernetes/superedge.html"><strong aria-hidden="true">5.5.5.</strong> SuperEdge</a></li><li class="chapter-item "><a href="kubernetes/kubernetes/openyurt.html"><strong aria-hidden="true">5.5.6.</strong> OpenYurt</a></li></ol></li></ol></li><li class="chapter-item "><a href="frameworks.html"><strong aria-hidden="true">6.</strong> 應用程式框架與平台</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="frameworks/mesh.html"><strong aria-hidden="true">6.1.</strong> Service mesh 與分散式框架</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="frameworks/mesh/dapr.html"><strong aria-hidden="true">6.1.1.</strong> Dapr</a></li><li class="chapter-item "><a href="frameworks/mesh/mosn.html"><strong aria-hidden="true">6.1.2.</strong> MOSN</a></li><li class="chapter-item "><a href="frameworks/mesh/eventmesh.html"><strong aria-hidden="true">6.1.3.</strong> Apache EventMesh</a></li></ol></li><li class="chapter-item "><a href="frameworks/app.html"><strong aria-hidden="true">6.2.</strong> 應用程式框架</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="frameworks/app/yomo.html"><strong aria-hidden="true">6.2.1.</strong> YoMo</a></li><li class="chapter-item "><a href="frameworks/app/reactr.html"><strong aria-hidden="true">6.2.2.</strong> Reactr</a></li></ol></li><li class="chapter-item "><a href="frameworks/serverless.html"><strong aria-hidden="true">6.3.</strong> Serverless 平台</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="frameworks/serverless/vercel.html"><strong aria-hidden="true">6.3.1.</strong> Vercel</a></li><li class="chapter-item "><a href="frameworks/serverless/netlify.html"><strong aria-hidden="true">6.3.2.</strong> Netlify</a></li><li class="chapter-item "><a href="frameworks/serverless/aws.html"><strong aria-hidden="true">6.3.3.</strong> AWS</a></li><li class="chapter-item "><a href="frameworks/serverless/tencent.html"><strong aria-hidden="true">6.3.4.</strong> Tencent</a></li><li class="chapter-item "><a href="frameworks/serverless/secondstate.html"><strong aria-hidden="true">6.3.5.</strong> Second State</a></li></ol></li></ol></li><li class="chapter-item "><a href="os.html"><strong aria-hidden="true">7.</strong> 作業系統支援</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="os/linux.html"><strong aria-hidden="true">7.1.</strong> Linux</a></li><li class="chapter-item "><a href="os/windows.html"><strong aria-hidden="true">7.2.</strong> Windows</a></li><li class="chapter-item "><a href="os/mac.html"><strong aria-hidden="true">7.3.</strong> Mac</a></li><li class="chapter-item "><a href="os/android.html"><strong aria-hidden="true">7.4.</strong> Android</a></li><li class="chapter-item "><a href="os/sel4.html"><strong aria-hidden="true">7.5.</strong> seL4</a></li><li class="chapter-item "><a href="os/openharmony.html"><strong aria-hidden="true">7.6.</strong> Open Harmony</a></li><li class="chapter-item "><a href="os/raspberrypi.html"><strong aria-hidden="true">7.7.</strong> Raspberry Pi</a></li></ol></li><li class="chapter-item "><a href="extend.html"><strong aria-hidden="true">8.</strong> 貢獻 WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="extend/build.html"><strong aria-hidden="true">8.1.</strong> 從原始碼編譯 WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="extend/build_on_mac.html"><strong aria-hidden="true">8.1.1.</strong> 在 Mac 上編譯</a></li><li class="chapter-item "><a href="extend/build_on_windows.html"><strong aria-hidden="true">8.1.2.</strong> 在 Windows 上編譯</a></li><li class="chapter-item "><a href="extend/build_for_android.html"><strong aria-hidden="true">8.1.3.</strong> 為 Android 編譯</a></li></ol></li><li class="chapter-item "><a href="extend/plugin.html"><strong aria-hidden="true">8.2.</strong> WasmEdge 外掛 API</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="extend/plugin/hostfunction.html"><strong aria-hidden="true">8.2.1.</strong> Host functions</a></li><li class="chapter-item "><a href="extend/plugin/externref.html"><strong aria-hidden="true">8.2.2.</strong> External references</a></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">WasmEdge Runtime</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/WasmEdge/WasmEdge" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="快速开始"><a class="header" href="#快速开始">快速开始</a></h1>
+<p>使用 WasmEdge 最簡單的方式就是使用 WasmEdge 命令列工具（ CLI ）。
+開發者能使用 WasmEdge CLI 工具來執行我們的 WebAssembly 與 Javascript 範例程式。
+此外，我們也能使用它來建立新的 WasmEdge 程式，並部署到不同的應用程式或框架中執行。</p>
+<h2 id="安裝"><a class="header" href="#安裝">安裝</a></h2>
+<p>您可以使用我們的安裝腳本來安裝 WasmEdge 。
+您的環境必須已有安裝 <code>git</code> 和 <code>curl</code> 。</p>
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+</code></pre>
+<p>若您想安裝附帶有 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow 與 image 擴充</a> 的 WasmEdge ，請執行以下指令。
+下列指令將嘗試在您的系統安裝 Tensorflow 與 image 相關的相依函式庫。</p>
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
+</code></pre>
+<p>執行以下指令可以讓已安裝的 WasmEdge 執行檔與函式庫在當前 session 加入 <code>PATH</code> 路徑中。</p>
+<pre><code class="language-bash">source $HOME/.wasmedge/env
+</code></pre>
+<h2 id="使用-docker"><a class="header" href="#使用-docker">使用 Docker</a></h2>
+<p>若您使用 Docker ，您可以使用 WasmEdge 應用程式開發用的映像檔 (<a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">x86</a> 和 <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_aarch64">arm64</a>) 。這些映像檔裡包含了所有開發 WasmEdge 應用程式所需要的工具。</p>
+<pre><code class="language-bash">$ docker pull wasmedge/appdev_x86_64:0.9.0
+$ docker run --rm -v $(pwd):/app -it wasmedge/appdev_x86_64:0.9.0
+(docker) #
+</code></pre>
+<h2 id="webassembly-範例"><a class="header" href="#webassembly-範例">WebAssembly 範例</a></h2>
+<p>我們有數個 WebAssembly 應用程式範例，您可以使用您安裝的 WasmEdge CLI 嘗試。</p>
+<h3 id="hello-world"><a class="header" href="#hello-world">Hello world</a></h3>
+<p><a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/hello.wasm">hello.wasm</a> 這個 WebAssembly 應用程式包含一個 <code>main()</code> 函式。
+請參考它的 <a href="https://github.com/second-state/wasm-learning/tree/master/cli/hello">Rust 原始碼</a>。
+它會在標準輸出印出 <code>hello</code> 與傳入的命令列參數。</p>
+<pre><code class="language-bash">$ wasmedge hello.wasm second state
+hello
+second
+state
+</code></pre>
+<h3 id="呼叫一個使用-rust-編寫的函式"><a class="header" href="#呼叫一個使用-rust-編寫的函式">呼叫一個使用 Rust 編寫的函式</a></h3>
+<p><a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/add.wasm">add.wasm</a> 這個 WebAssembly 應用程式包含一個 <code>add()</code> 函式。
+請參考它的 <a href="https://github.com/second-state/wasm-learning/tree/master/cli/add">Rust 原始碼</a>。
+我們使用 WasmEdge 的 reactor 模式來呼叫 <code>add()</code> ，並傳入兩個整數作為參數。</p>
+<pre><code class="language-bash">$ wasmedge --reactor add.wasm add 2 2
+4
+</code></pre>
+<h3 id="呼叫一個使用-wat-編寫的函式"><a class="header" href="#呼叫一個使用-wat-編寫的函式">呼叫一個使用 WAT 編寫的函式</a></h3>
+<p>我們編寫了一個 <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wat">fibonacci.wat</a> 程式，並使用 <a href="https://github.com/WebAssembly/wabt">wat2wasm</a> 工具來組譯成 <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> 這個 WebAssembly 檔案。
+它包含一個 <code>fib()</code> 函式，並以一個整數作為參數。我們使用 WasmEdge 的 reactor 模式來呼叫這個函式。</p>
+<pre><code class="language-bash">$ wasmedge --reactor fibonacci.wasm fib 10
+89
+</code></pre>
+<h3 id="啟用統計資訊"><a class="header" href="#啟用統計資訊">啟用統計資訊</a></h3>
+<p>CLI 工具支援 <code>--enable-all-statistics</code> 選項，可以啟用統計和 gas 計算等相關設置。</p>
+<pre><code class="language-bash">$ wasmedge --enable-all-statistics hello.wasm second state
+hello
+second
+state
+[2021-12-09 16:03:33.261] [info] ====================  Statistics  ====================
+[2021-12-09 16:03:33.261] [info]  Total execution time: 268266 ns
+[2021-12-09 16:03:33.261] [info]  Wasm instructions execution time: 251610 ns
+[2021-12-09 16:03:33.261] [info]  Host functions execution time: 16656 ns
+[2021-12-09 16:03:33.261] [info]  Executed wasm instructions count: 20425
+[2021-12-09 16:03:33.261] [info]  Gas costs: 20425
+[2021-12-09 16:03:33.261] [info]  Instructions per second: 81177218
+[2021-12-09 16:03:33.261] [info] =======================   End   ======================
+</code></pre>
+<h3 id="啟用-gas-limit-設定"><a class="header" href="#啟用-gas-limit-設定">啟用 gas-limit 設定</a></h3>
+<p>CLI 工具支援 <code>--gas-limit</code> 選項，可以限制執行的 gas 限制。</p>
+<pre><code class="language-bash"># cd &lt;path/to/WasmEdge&gt;
+$ cd examples/wasm
+# With enough gas
+$ wasmedge --enable-all-statistics --gas-limit 20425 hello.wasm second state
+hello
+second
+state
+[2021-12-09 16:03:33.261] [info] ====================  Statistics  ====================
+[2021-12-09 16:03:33.261] [info]  Total execution time: 268266 ns
+[2021-12-09 16:03:33.261] [info]  Wasm instructions execution time: 251610 ns
+[2021-12-09 16:03:33.261] [info]  Host functions execution time: 16656 ns
+[2021-12-09 16:03:33.261] [info]  Executed wasm instructions count: 20425
+[2021-12-09 16:03:33.261] [info]  Gas costs: 20425
+[2021-12-09 16:03:33.261] [info]  Instructions per second: 81177218
+[2021-12-09 16:03:33.261] [info] =======================   End   ======================
+
+# Without enough gas
+$ wasmedge --enable-all-statistics --gas-limit 20 hello.wasm second state
+[2021-12-23 15:19:06.690] [error] Cost exceeded limit. Force terminate the execution.
+[2021-12-23 15:19:06.690] [error]     In instruction: ref.func (0xd2) , Bytecode offset: 0x00000000
+[2021-12-23 15:19:06.690] [error]     At AST node: expression
+[2021-12-23 15:19:06.690] [error]     At AST node: element segment
+[2021-12-23 15:19:06.690] [error]     At AST node: element section
+[2021-12-23 15:19:06.690] [error]     At AST node: module
+[2021-12-23 15:19:06.690] [info] ====================  Statistics  ====================
+[2021-12-23 15:19:06.690] [info]  Total execution time: 0 ns
+[2021-12-23 15:19:06.690] [info]  Wasm instructions execution time: 0 ns
+[2021-12-23 15:19:06.690] [info]  Host functions execution time: 0 ns
+[2021-12-23 15:19:06.690] [info]  Executed wasm instructions count: 21
+[2021-12-23 15:19:06.690] [info]  Gas costs: 20
+</code></pre>
+<h2 id="javascript-範例"><a class="header" href="#javascript-範例">JavaScript 範例</a></h2>
+<p>WasmEdge 也可以作為一個高效能、安全、可擴充、容易部署、以及 <a href="https://github.com/second-state/wasmedge-containers-examples">相容 Kubernetes</a> 的 JavaScript runtime 來使用。</p>
+<p><a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/qjs.wasm">qjs.wasm</a> 是一個編譯成 WebAssembly 的 JavaScript 直譯器。
+<a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/hello.js">hello.js</a> 是一個簡單的 JavaScript 應用程式。</p>
+<pre><code class="language-bash">$ wasmedge --dir .:. qjs.wasm hello.js 1 2 3
+Hello 1 2 3
+</code></pre>
+<p><a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/qjs_tf.wasm">qjs_tf.wasm</a> 是一個附有 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">WasmEdge Tensorflow 擴充</a> 的 WebAssembly 版本的 JavaScript 直譯器。
+為了可以執行 <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/qjs_tf.wasm">qjs_tf.wasm</a> ，您必須使用 <code>wasmedge-tensorflow-lite</code> 這個 CLI 工具，這個工具裡內建了 WasmEdge 的 Tensorflow 擴充。
+您可以下載一個完整的 <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/tensorflow_lite_demo">基於 Tensorflow 的 JavaScript 範例</a> 來嘗試分辨圖片。</p>
+<pre><code class="language-bash"># Download the Tensorflow example
+$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/aiy_food_V1_labelmap.txt
+$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/food.jpg
+$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/lite-model_aiy_vision_classifier_food_V1_1.tflite
+$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/main.js
+
+$ wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
+label: Hot dog
+confidence: 0.8941176470588236
+</code></pre>
+<p>您可以繼續閱讀來學習使用 WasmEdge 。</p>
+<ul>
+<li><a href="start/install.html">WasmEdge 的安裝與解除安裝</a></li>
+<li><a href="start/cli.html">WasmEdge 命令列</a></li>
+<li><a href="intro/use.html">WasmEdge 使用情境</a></li>
+<li><a href="intro/features.html">WasmEdge 的優勢與特色</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-的安裝與解除安裝"><a class="header" href="#wasmedge-的安裝與解除安裝">WasmEdge 的安裝與解除安裝</a></h1>
+<h2 id="快速安裝"><a class="header" href="#快速安裝">快速安裝</a></h2>
+<p>安裝 WasmEdge 最簡單的方式是執行以下指令來執行安裝腳本。
+您的環境必須已有安裝 <code>git</code> 和 <code>curl</code> 。</p>
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+</code></pre>
+<p>若您想安裝附帶有 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow 與 image 擴充</a> 的 WasmEdge ，請執行以下指令。
+下列指令將嘗試在您的系統安裝 Tensorflow 與 image 相關的相依函式庫。</p>
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
+</code></pre>
+<p>執行以下指令可以讓已安裝的 WasmEdge 執行檔與函式庫在當前 session 加入 <code>PATH</code> 路徑中。</p>
+<pre><code class="language-bash">source $HOME/.wasmedge/env
+</code></pre>
+<p><strong>恭喜安裝完成！</strong> 您現在可以透過命令列使用 WasmEdge ，或在應用程式中使用 WasmEdge 函式庫。若要升級 WasmEdge ，您只需要重新執行上述步驟，舊的版本將會被覆寫。</p>
+<h2 id="為所有使用者安裝-wasmedge"><a class="header" href="#為所有使用者安裝-wasmedge">為所有使用者安裝 WasmEdge</a></h2>
+<p>WasmEdge 預設將安裝在 <code>$HOME/.wasmedge</code> 資料夾。您也可以安裝在系統資料夾中，例如 <code>/usr/local</code> ，以便所有使用者都能使用 WasmEdge 。若要在安裝時指定路徑，您可以在執行 <code>install.sh</code> 腳本時加上 <code>-p</code> 參數。由於安裝將進行在系統資料夾，您需要以 <code>root</code> 使用者或是 <code>sudo</code> 權限執行以下指令。</p>
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
+</code></pre>
+<p>您也可以一起安裝全部擴充：</p>
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -p /usr/local
+</code></pre>
+<h2 id="安裝-wasmedge-指定版本"><a class="header" href="#安裝-wasmedge-指定版本">安裝 WasmEdge 指定版本</a></h2>
+<p>您可以在執行 <code>install.sh</code> 腳本時加上 <code>-v</code> 參數來指定安裝的版本，包含預覽發行與較舊的發行版本。範例如下：</p>
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.9.1
+</code></pre>
+<p>如果您對 <code>master</code> 分支的 <code>HEAD</code> 最新的編譯版本，也就是 WasmEdge 的 nightly 版本感到興趣，您可以直接從 Github Action 的 CI artifact 下載。<a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">請參考此範例</a>。</p>
+<h2 id="安裝內容"><a class="header" href="#安裝內容">安裝內容</a></h2>
+<p>WasmEdge 將安裝以下內容。假設您將 WasmEdge 安裝到 <code>$HOME/.wasmedge</code> 資料夾內。若您想進行系統層級的安裝，您也可以指定變更安裝路徑到 <code>/usr/local</code> 下。</p>
+<ul>
+<li><code>$HOME/.wasmedge/bin</code> 資料夾包含 WasmEdge Runtime CLI 執行檔。您可以複製或移動到您的其他路徑。
+<ul>
+<li><code>wasmedge</code> 工具是標準的 WasmEdge runtime 。您可以在命令列中執行它： <code>wasmedge --dir .:. app.wasm</code></li>
+<li><code>wasmedgec</code> 工具是 能將 <code>wasm</code> 檔案編譯成原生 <code>so</code> 檔案的 AOT 編譯器：<code>wasmedgec app.wasm app.so</code> 之後 <code>wasmedge</code> 可以執行 <code>so</code> 檔案：<code>wasmedge --dir .:. app.so</code></li>
+<li><code>wasmedge-tensorflow</code> 和 <code>wasmedge-tensorflow-lite</code> 工具是支援 WasmEdge Tensorflow SDK 的 WasmEdge runtime 。</li>
+</ul>
+</li>
+<li><code>$HOME/.wasmedge/lib</code> 資料夾包含 WasmEdge 的共享函式庫和相依函式庫。使用到 WasmEdge SDK 的應用程式將會用到這些函式庫。</li>
+<li><code>$HOME/.wasmedge/include</code> 資料夾包含 WasmEdge 的標頭檔。這些檔案用於 WasmEdge SDK 。</li>
+</ul>
+<h2 id="解除安裝"><a class="header" href="#解除安裝">解除安裝</a></h2>
+<p>執行以下指令可以解除安裝 WasmEdge ：</p>
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh)
+</code></pre>
+<p>如果 <code>wasmedge</code> 執行檔位置未在 <code>$PATH</code> 環境變數內，而且 WasmEdge 並非安裝在預設的 <code>$HOME/.wasmedge</code> 資料夾下，您必須提供安裝路徑。</p>
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -p /path/to/parent/folder
+</code></pre>
+<p>如果您希望以自動模式解除安裝 WasmEdge ，您可以加上 <code>--quick</code> 或 <code>-q</code> 選項。</p>
+<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -q
+</code></pre>
+<blockquote>
+<p>若 <code>wasmedge</code> 執行檔的上層資料夾中包含 <code>.wasmedge</code> ，該資料夾也會一並移除。舉例來說，解除安裝腳本將會移除預設安裝的 <code>$HOME/.wasmedge</code> 資料夾。</p>
+</blockquote>
+<h2 id="安裝-nodejs-使用的-wasmedge"><a class="header" href="#安裝-nodejs-使用的-wasmedge">安裝 Node.js 使用的 WasmEdge</a></h2>
+<p>WasmEdge 可以用來執行 <a href="https://www.secondstate.io/articles/getting-started-with-rust-function/">內嵌在 Node.js 下的 WebAssembly 函式</a> 。在 Node.js 環境下安裝 WasmEdge 模組非常簡單，只需要使用 <code>npm</code> 工具。</p>
+<pre><code class="language-bash">npm install -g wasmedge-core # Append --unsafe-perm if permission denied
+</code></pre>
+<p>您也可以安裝含有 <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow 與其他擴充的 WasmEdge</a> 。</p>
+<pre><code class="language-bash">npm install -g wasmedge-extensions # Append --unsafe-perm if permission denied
+</code></pre>
+<p><a href="https://www.secondstate.io/faas/">Second State Functions</a> 是一個在 Node.js 上基於 WasmEdge 的 FaaS 服務。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用-docker-開發-wasmedge-應用程式"><a class="header" href="#使用-docker-開發-wasmedge-應用程式">使用 Docker 開發 WasmEdge 應用程式</a></h1>
+<p>我們提供一系列 <code>appdev</code> 的 Docker 映像檔，他們提供了完整的 WasmEdge 應用程式開發環境。請參考以下文件來使用。</p>
+<h2 id="使用-x86_64-環境"><a class="header" href="#使用-x86_64-環境">使用 x86_64 環境</a></h2>
+<pre><code class="language-bash">$ docker pull wasmedge/appdev_x86_64:0.9.0
+$ docker run --rm -v $(pwd):/app -it wasmedge/appdev_x86_64:0.9.0
+(docker) #
+</code></pre>
+<p>請參考 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/docker/Dockerfile.appdev_x86_64">Dockerfile</a> 和 <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">Docker Hub image</a>.</p>
+<h2 id="使用-arm64-環境"><a class="header" href="#使用-arm64-環境">使用 arm64 環境</a></h2>
+<pre><code class="language-bash">$ docker pull wasmedge/appdev_aarch64:0.9.0
+$ docker run --rm -v $(pwd):/app -it wasmedge/appdev_aarch64:0.9.0
+(docker) #
+</code></pre>
+<p>請參考 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/docker/Dockerfile.appdev_aarch64">Dockerfile</a> 和 <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_aarch64">Docker Hub image</a>.</p>
+<p>這些 <code>appdev</code> 映像檔安裝了以下套件：</p>
+<ul>
+<li>WasmEdge CLI 和共享函式庫</li>
+<li>包含 Tensorflow 擴充的 WasmEdge CLI 和函式庫（僅限於 x86_64 版本）</li>
+<li>Golang</li>
+<li>Rust</li>
+<li>Node.js with WasmEdge addons</li>
+<li>在 <code>/root/examples/</code> 資料夾下的範例</li>
+</ul>
+<h2 id="範例"><a class="header" href="#範例">範例</a></h2>
+<p>Hello World. <a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/wasm">請在此參考更多範例</a> 。</p>
+<pre><code class="language-bash">$ wasmedge hello.wasm world
+hello
+world
+</code></pre>
+<p>使用 AOT 模式來<strong>更快速</strong>的執行。</p>
+<pre><code class="language-bash">$ wasmedgec hello.wasm hello.wasm
+$ wasmedge hello.wasm world
+hello
+world
+</code></pre>
+<p>這裡也有一些 <a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/js">JavaScript 範例</a>。</p>
+<pre><code class="language-bash">$ wasmedge --dir .:. qjs.wasm hello.js 1 2 3
+Hello 1 2 3
+
+$ wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm tf_image_classify.js
+label: Hot dog
+confidence: 0.8941176470588236
+</code></pre>
+<h2 id="組建並發布-appdev-映像檔"><a class="header" href="#組建並發布-appdev-映像檔">組建並發布 appdev 映像檔</a></h2>
+<p>執行以下指令來組建並發布 <code>appdev</code> Docker 映像檔。</p>
+<h3 id="在-x86_64-機器組建"><a class="header" href="#在-x86_64-機器組建">在 x86_64 機器組建</a></h3>
+<pre><code class="language-bash">docker build -t wasmedge/appdev_x86_64:0.9.0 -f Dockerfile.appdev_x86_64 ./
+docker image push wasmedge/appdev_x86_64:0.9.0
+</code></pre>
+<h3 id="在-arm64--aarch64-機器組建"><a class="header" href="#在-arm64--aarch64-機器組建">在 ARM64 / aarch64 機器組建</a></h3>
+<pre><code class="language-bash">docker build -t wasmedge/appdev_aarch64:0.9.0 -f Dockerfile.appdev_aarch64 ./
+docker image push wasmedge/appdev_aarch64:0.9.0
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-命令列工具"><a class="header" href="#wasmedge-命令列工具">WasmEdge 命令列工具</a></h1>
+<p>在 <a href="start/install.html">安裝 WasmEdge</a> 後或啟動 <a href="start/docker.html">WasmEdge 應用程式開發 Docker 容器</a> ，有幾種方式可以執行已經編譯好的 WebAssembly 應用程式。</p>
+<h2 id="wasmedge"><a class="header" href="#wasmedge">wasmedge</a></h2>
+<p><code>wasmedge</code> 執行檔是一個用來執行 WebAssembly 應用程式的命令行工具（ CLI ）。</p>
+<ul>
+<li>若 WebAssembly 檔案包含一個 <code>main()</code> 函式， <code>wasmedge</code> 將在 Command 模式以獨立應用程式的方式執行它。</li>
+<li>若 WebAssembly 檔案是由一個或多個函式組成的公用函式庫， <code>wasmedge</code> 將可以在 Reactor 模式呼叫指定的個別函式。</li>
+</ul>
+<h3 id="命令列選項"><a class="header" href="#命令列選項">命令列選項</a></h3>
+<p><code>wasmedge</code> 命令列工具的選項如下。</p>
+<ol>
+<li>（選用）統計資訊：
+<ul>
+<li>使用 <code>--enable-time-measuring</code> 顯示執行時間。</li>
+<li>使用 <code>--enable-gas-measuring</code> 顯示使用的 gas 數量。</li>
+<li>使用 <code>--enable-instruction-count</code> 顯示執行的 WebAssembly 指令集數量。</li>
+<li>或者使用 <code>--enable-all-statistics</code> 啟用所有統計資訊選項。</li>
+</ul>
+</li>
+<li>（選用）限制使用資源：
+<ul>
+<li>使用 <code>--gas-limit</code> 限制執行花費的 gas 。</li>
+<li>使用 <code>--memory-page-limit</code> 設定每一個 Memory instance 的 pages 限制（每一個 page 為 64 KiB ）。</li>
+</ul>
+</li>
+<li>（選用） Reactor 模式：使用 <code>--reactor</code> 啟用 reactor 模式。在 reactor 模式下， <code>wasmedge</code> 可以單獨執行 WebAssembly 檔案中的特定函式。
+<ul>
+<li>WasmEdge 將執行命令列參數中的第一個參數 <code>ARG[0]</code> 為名的函式。</li>
+<li>若 WebAssembly 檔案內存在名為 <code>_initialize</code> 的函式，這個函式將不帶任何參數最先被執行。</li>
+</ul>
+</li>
+<li>（選用）繫結資料夾進 WASI 虛擬檔案系統。
+<ul>
+<li>每個路徑繫結可以被指定為 <code>--dir guest_path:host_path</code> 。</li>
+</ul>
+</li>
+<li>（選用）環境變數。
+<ul>
+<li>每個環境變數可以被指定為 <code>--env NAME=VALUE</code> 。</li>
+</ul>
+</li>
+<li>Wasm 檔案 (<code>/path/to/wasm/file</code>) 。</li>
+<li>（選用）參數。
+<ul>
+<li>在 Reactor 模式下，第一個參數 <code>ARG[0]</code> 作為指定執行的函數名稱，後續的參數將作為該函式的參數傳入。</li>
+<li>在 Command 模式下，這些參數也將成為 <code>_start</code> 函式的參數，就如同一般命令列應用程式的命令列參數。</li>
+</ul>
+</li>
+</ol>
+<p>WasmEdge 安裝完畢後您可以 <a href="start/../index.html">參考並執行我們的範例</a>。</p>
+<h2 id="wasmedgec"><a class="header" href="#wasmedgec">wasmedgec</a></h2>
+<p><code>wasmedgec</code> 執行檔可以將 WebAssembly 檔案編譯成原生機械碼（即 AOT 編譯器）。
+編譯好的機械碼也可以被<a href="start/universal.html">存放在原本的 <code>wasm</code> 檔案中</a>， <code>wasmedge</code> CLI 在執行的時候若偵測到 <code>wasm</code> 檔案含有原生機械碼，將自動選擇它來執行。</p>
+<p><code>wasmedgec</code> 命令列工具的選項如下。</p>
+<ol>
+<li>輸入的 Wasm 檔案路徑（ <code>/path/to/input/wasm/file</code> ）。</li>
+<li>輸出的檔案名稱（ <code>/path/to/output/file</code> ）。
+<ul>
+<li>預設下將產生 <a href="start/universal.html">通用 Wasm binary 格式</a>。</li>
+<li>使用者也可以透過指定 <code>.so</code> ， <code>.dylib</code> 或者 <code>.dll</code> 這些副檔名來產生原生執行檔格式。</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-bash"># This is slow
+wasmedge app.wasm
+
+# AOT compile
+wasmedgec app.wasm app.wasm
+
+# This is now MUCH faster
+wasmedge app.wasm
+</code></pre>
+<p>在 Linux 作業系統，它也可以生成一個 <code>so</code> 共享函式庫格式檔案並被 <code>wasmedge</code> CLI 執行。</p>
+<pre><code class="language-bash">wasmedgec app.wasm app.so
+wasmedge app.so
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="通用-wasm-binary-格式"><a class="header" href="#通用-wasm-binary-格式">通用 Wasm binary 格式</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="什麼是-wasmedge"><a class="header" href="#什麼是-wasmedge">什麼是 WasmEdge</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用情境"><a class="header" href="#使用情境">使用情境</a></h1>
+<p>WasmEdge 是由 CNCF 託管的雲端原生 WebAssembly runtime ，廣泛應用在邊緣運算、汽車、 Jamstack 、 Serverless 、 SaaS 、 服務網格，甚至是區塊鏈應用程式。 WasmEdge 可以進行 AOT （預先編譯）編譯器最佳化，是目前市場上最快的 WebAssembly runtime 之一。</p>
+<h2 id="目錄"><a class="header" href="#目錄">目錄</a></h2>
+<ul>
+<li><a href="intro/use/runtime.html">雲端原生 runtime</a>
+<ul>
+<li>Dapr</li>
+<li>Kubernetes</li>
+</ul>
+</li>
+<li><a href="intro/use/js.html">JavaScript 或 DSL runtime</a>
+<ul>
+<li>JavaScript</li>
+<li>用於影像辨識的 DSL</li>
+<li>用於聊天機器人的 DSL</li>
+</ul>
+</li>
+<li><a href="intro/use/serverless.html">公開雲端中的 Serverless 函式即服務</a>
+<ul>
+<li>AWS Lambda</li>
+<li>騰訊 Serverless 函式</li>
+<li>Vercel Serverless 函式</li>
+<li>Netlify 函式</li>
+<li>Second State 函式</li>
+</ul>
+</li>
+<li><a href="intro/use/edge.html">邊緣運算</a>
+<ul>
+<li>YoMo Flow</li>
+<li>seL4 微型核心 and RTOS</li>
+</ul>
+</li>
+<li><a href="intro/use/saas.html">用於 SaaS 的互動函式</a>
+<ul>
+<li>Slack</li>
+<li>飛書</li>
+</ul>
+</li>
+</ul>
+<p>如果對於 WasmEdge 有任何建議，歡迎提出 <a href="https://github.com/WasmEdge/WasmEdge/issues">GitHub issue</a> 來討論。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="雲端原生-runtime-作為-docker-的輕量級替代方案"><a class="header" href="#雲端原生-runtime-作為-docker-的輕量級替代方案">雲端原生 runtime （作為 Docker 的輕量級替代方案）</a></h1>
+<p>WasmEdge 可以透過其 <a href="intro/use/../../embed/c.html">C</a> 、 <a href="intro/use/../../embed/go.html">Go</a> 、 <a href="intro/use/../../embed/rust.html">Rust</a> 和<a href="intro/use/../../embed/node.html">JavaScript</a>的 SDK 嵌入到雲端原生基礎架構中。它也是一個符合 OCI 的 runtime ，可以由 <a href="https://www.secondstate.io/articles/manage-webassembly-apps-in-wasmedge-using-docker-tools/">CRI-O 和 Docker 工具直接管理</a> ，作為 Docker 的輕量級和高效能替代方案。</p>
+<h2 id="dapr-分散式應用程式-runtime"><a class="header" href="#dapr-分散式應用程式-runtime">Dapr （分散式應用程式 Runtime）</a></h2>
+<ul>
+<li><a href="https://www.secondstate.io/articles/dapr-wasmedge-webassembly/">教學</a></li>
+<li><a href="https://github.com/second-state/dapr-wasm">程式碼教學</a></li>
+</ul>
+<h2 id="service-mesh-開發進行中"><a class="header" href="#service-mesh-開發進行中">Service mesh （開發進行中）</a></h2>
+<ul>
+<li>Linkerd</li>
+<li>MOSN</li>
+<li>Envoy</li>
+</ul>
+<h2 id="編排和管理"><a class="header" href="#編排和管理">編排和管理</a></h2>
+<ul>
+<li><a href="https://www.secondstate.io/articles/manage-webassembly-apps-in-wasmedge-using-docker-tools/">Kubernetes</a></li>
+<li>KubeEdge</li>
+<li>SuperEdge</li>
+<li>OpenYurt</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-或-dsl-runtime"><a class="header" href="#javascript-或-dsl-runtime">JavaScript 或 DSL runtime</a></h1>
+<p>為了使 WebAssembly runtime 被開發者廣泛採用，它必須支援像 JavaScript 這樣的「簡單」程式語言。或者，更棒的是，透過其高階編譯器工具鏈， WasmEdge 可以支援高效能 DSL （特定領域語言），這是專為特定任務設計的低程式碼解決方案。</p>
+<h2 id="javascript"><a class="header" href="#javascript">JavaScript</a></h2>
+<p>WasmEdge 可以透過嵌入 JS 執行引擎或直譯器來作為雲端原生 JavaScript runtime ，比起在 Docker 中運行 JS 引擎還更快更輕量。 WasmEdge 支援 JS API 呼叫原生擴充函式庫，例如網路 sockets 、 TensorFlow 和使用者定義的共享函式庫。 WasmEdge 還允許將 JS 嵌入其他高效能程式語言（例如 Rust）或使用 Rust/C 來實作 JS 函式。</p>
+<ul>
+<li>教學
+<ul>
+<li><a href="https://www.secondstate.io/articles/run-javascript-in-webassembly-with-wasmedge/">執行 JavaScript</a></li>
+<li><a href="https://www.secondstate.io/articles/embed-javascript-in-rust/">在 Rust 中嵌入 JavaScript</a></li>
+<li><a href="https://www.secondstate.io/articles/embed-rust-in-javascript/">用 Rust 函式建立 JavaScript API</a></li>
+<li><a href="https://www.secondstate.io/articles/call-native-functions-from-javascript/">從 JavaScript 呼叫共享函式庫中的 C 原生函數</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/WasmEdge/WasmEdge/blob/master/examples/js/README.md">範例</a></li>
+<li><a href="https://github.com/second-state/wasmedge-quickjs">WasmEdge 的内嵌 QuickJS 引擎</a></li>
+</ul>
+<h2 id="用於影像辨識的-dsl"><a class="header" href="#用於影像辨識的-dsl">用於影像辨識的 DSL</a></h2>
+<p>影像辨識 DSL 是一種允許使用者指定 TensorFlow 模型與其參數的 YAML 格式。 WasmEdge 將圖片作為 DSL 的輸入，並輸出偵測到的物件名稱/標籤。</p>
+<ul>
+<li>範例： <a href="https://github.com/second-state/wasm-learning/blob/master/cli/classify_yml/config/food.yml">執行 YMAL 以辨識圖片中的食物</a></li>
+</ul>
+<h2 id="用於聊天機器人-dsl"><a class="header" href="#用於聊天機器人-dsl">用於聊天機器人 DSL</a></h2>
+<p>聊天機器人 DSL 函式接受輸入字串並輸出字串進行回覆。 DSL 指定了聊天機器人的內部狀態轉變，以及用於語言理解的 AI 模型。這個項目正在開發中。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="公開雲端中的-serverless-函式即服務"><a class="header" href="#公開雲端中的-serverless-函式即服務">公開雲端中的 Serverless 函式即服務</a></h1>
+<p>WasmEdge 與現有的 Serverless 或 Jamstack 平台配合使用，為函式提供高效能、可移植和安全的 runtime 。即使在這些平台的 Docker 或 microVM 中執行，也能提供顯著的優勢。</p>
+<h2 id="aws-lambda"><a class="header" href="#aws-lambda">AWS Lambda</a></h2>
+<ul>
+<li><a href="https://www.cncf.io/blog/2021/08/25/webassembly-serverless-functions-in-aws-lambda/">教學</a></li>
+<li><a href="https://github.com/second-state/aws-lambda-wasm-runtime">程式碼範本</a></li>
+</ul>
+<h2 id="騰訊-serverless-函式"><a class="header" href="#騰訊-serverless-函式">騰訊 Serverless 函式</a></h2>
+<ul>
+<li><a href="https://my.oschina.net/u/4532842/blog/5172639">中文教學</a></li>
+<li><a href="https://github.com/second-state/tencent-scf-wasm-runtime">程式碼範本</a></li>
+</ul>
+<h2 id="vercel-serverless-函式"><a class="header" href="#vercel-serverless-函式">Vercel Serverless 函式</a></h2>
+<ul>
+<li><a href="https://www.secondstate.io/articles/vercel-wasmedge-webassembly-rust/">教學</a></li>
+<li><a href="https://github.com/second-state/vercel-wasm-runtime">程式碼範本</a></li>
+</ul>
+<h2 id="netlify-函式"><a class="header" href="#netlify-函式">Netlify 函式</a></h2>
+<ul>
+<li><a href="https://www.secondstate.io/articles/netlify-wasmedge-webassembly-rust-serverless/">教學</a></li>
+<li><a href="https://github.com/second-state/netlify-wasm-runtime">程式碼範本</a></li>
+</ul>
+<h2 id="second-state-函式"><a class="header" href="#second-state-函式">Second State 函式</a></h2>
+<ul>
+<li><a href="https://www.secondstate.io/faas/">教學</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="邊緣運算"><a class="header" href="#邊緣運算">邊緣運算</a></h1>
+<p>WasmEdge 非常適合在需要執行關鍵任務的終端裝置或邊緣網路上執行。</p>
+<h2 id="yomo-flow"><a class="header" href="#yomo-flow">YoMo Flow</a></h2>
+<p>YoMo 是一種用於遠端邊緣（far edge）網路的高效能資料流框架。 WasmEdge 集成到 YoMo 中以執行使用者定義的工作負載，例如在工廠組裝線上的影像辨識。</p>
+<ul>
+<li><a href="https://www.secondstate.io/articles/yomo-wasmedge-real-time-data-streams/">教學</a></li>
+<li><a href="https://github.com/yomorun/yomo-wasmedge-tensorflow">程式碼範本</a></li>
+</ul>
+<h2 id="sel4-微型核心作業系統"><a class="header" href="#sel4-微型核心作業系統">seL4 微型核心作業系統</a></h2>
+<p>seL4 是一個高度安全的即時作業系統。 WasmEdge 是唯一可以在 seL4 上以原生速度運行的 WebAssembly runtime 。我們還提供了一個管理工具來支援 Wasm module 的 OTA 部署。</p>
+<ul>
+<li><a href="https://github.com/second-state/wasmedge-seL4">Demo</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="用於-saas-的互動函式"><a class="header" href="#用於-saas-的互動函式">用於 SaaS 的互動函式</a></h1>
+<p>WasmEdge 可以使用 Serverless 函式而不是傳統的網路 API 來支援客製化的 SaaS 擴充或應用程式。這大大地提高 SaaS 使用者和開發者的生產力。</p>
+<h2 id="slack"><a class="header" href="#slack">Slack</a></h2>
+<ul>
+<li><a href="http://reactor.secondstate.info/en/docs/user_guideline.html">為 Slack 建立 serverless 聊天機器人</a></li>
+</ul>
+<h2 id="飛書"><a class="header" href="#飛書">飛書</a></h2>
+<p>飛書為字節跳動，即抖音母公司，旗下的聊天軟體。</p>
+<ul>
+<li><a href="http://reactor.secondstate.info/zh/docs/user_guideline.html">為非書建立 serverless 聊天機器人</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-的優勢與特色"><a class="header" href="#wasmedge-的優勢與特色">WasmEdge 的優勢與特色</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly-標準擴充"><a class="header" href="#webassembly-標準擴充">WebAssembly 標準擴充</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-特有的擴充"><a class="header" href="#wasmedge-特有的擴充">WasmEdge 特有的擴充</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="與第三方框架結合"><a class="header" href="#與第三方框架結合">與第三方框架結合</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="faq"><a class="header" href="#faq">FAQ</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="開發-wasmedge-應用程式"><a class="header" href="#開發-wasmedge-應用程式">開發 WasmEdge 應用程式</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust"><a class="header" href="#rust">Rust</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用系統服務"><a class="header" href="#使用系統服務">使用系統服務</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用-tensorflow"><a class="header" href="#使用-tensorflow">使用 Tensorflow</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用網路服務"><a class="header" href="#使用網路服務">使用網路服務</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="命令列接口"><a class="header" href="#命令列接口">命令列接口</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rustwasmc"><a class="header" href="#rustwasmc">rustwasmc</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-1"><a class="header" href="#javascript-1">JavaScript</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="快速開始"><a class="header" href="#快速開始">快速開始</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用網路服務-1"><a class="header" href="#使用網路服務-1">使用網路服務</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="fetch-api"><a class="header" href="#fetch-api">Fetch API</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用-tensorflow-1"><a class="header" href="#使用-tensorflow-1">使用 Tensorflow</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="範例-react-ssr"><a class="header" href="#範例-react-ssr">範例： React SSR</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="es6-模組"><a class="header" href="#es6-模組">ES6 模組</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="nodejs--npm-模組"><a class="header" href="#nodejs--npm-模組">NodeJS &amp; NPM 模組</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用-rust-實作-js-api"><a class="header" href="#使用-rust-實作-js-api">使用 Rust 實作 JS API</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="python"><a class="header" href="#python">Python</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="go"><a class="header" href="#go">Go</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="swift"><a class="header" href="#swift">Swift</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="assemblyscript"><a class="header" href="#assemblyscript">AssemblyScript</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kotlin"><a class="header" href="#kotlin">Kotlin</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="grain"><a class="header" href="#grain">Grain</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="嵌入-wasmedge-函式"><a class="header" href="#嵌入-wasmedge-函式">嵌入 WasmEdge 函式</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="c-sdk"><a class="header" href="#c-sdk">C SDK</a></h1>
+<p>WasmEdge C API 提供了應用程式接口將 WasmEdge 嵌入至 C 程式中。以下内容是如何使用 WasmEdge C API 的簡單說明。如果要了解 WasmEdge C API 的更多細節，請參考<a href="embed/c/ref.html">完整的說明文件</a>。</p>
+<h2 id="wasmedge-執行-wasm-快速指南"><a class="header" href="#wasmedge-執行-wasm-快速指南">WasmEdge 執行 Wasm 快速指南</a></h2>
+<p>以下是執行一個 WASM 檔案的範例。
+假設 WASM 檔案 <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> 已經被複製到當前資料夾，並且 C 檔案 <code>test_wasmedge.c</code> 的原始碼如下：</p>
+<pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
+#include &lt;stdio.h&gt;
+int main(int Argc, const char* Argv[]) {
+  /* 建立 configure context 以及增加 WASI 支援。 */
+  /* 除非您需要使用 WASI ，否則可以省略這一步。 */
+  WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
+  WasmEdge_ConfigureAddHostRegistration(ConfCxt, WasmEdge_HostRegistration_Wasi);
+  /* 建立 VM context 的時候， store 與 configure 可以傳入 NULL 。 */
+  WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(ConfCxt, NULL);
+
+  /* 參數列及回傳值列。 */
+  WasmEdge_Value Params[1] = { WasmEdge_ValueGenI32(32) };
+  WasmEdge_Value Returns[1];
+  /* 要呼叫的函式名稱。 */
+  WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;fib&quot;);
+  /* 執行 Wasm 檔案中的函式。 */
+  WasmEdge_Result Res = WasmEdge_VMRunWasmFromFile(VMCxt, Argv[1], FuncName, Params, 1, Returns, 1);
+
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get result: %d\n&quot;, WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Error message: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+  }
+
+  /* 清除佔用資源。 */
+  WasmEdge_VMDelete(VMCxt);
+  WasmEdge_ConfigureDelete(ConfCxt);
+  WasmEdge_StringDelete(FuncName);
+  return 0;
+}
+</code></pre>
+<p>接下來您可以編譯並執行：（索引從 0 開始的情况下， Fibonacci 數列的第 32 個數值是 3524578 ）</p>
+<pre><code class="language-bash">$ gcc test_wasmedge.c -lwasmedge_c -o test_wasmedge
+$ ./test_wasmedge fibonacci.wasm
+Get result: 3524578
+</code></pre>
+<p>如果要了解 API 的細節，請參考 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">API 標頭檔</a>.</p>
+<h2 id="wasmedge-aot-編譯器快速指南"><a class="header" href="#wasmedge-aot-編譯器快速指南">WasmEdge AOT 編譯器快速指南</a></h2>
+<p>假設 WASM 檔案 <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm"><code>fibonacci.wasm</code></a> 已經被複製到當前資料夾，並且 C 檔案 <code>test_wasmedge_compiler.c</code> 的原始碼如下：</p>
+<pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
+#include &lt;stdio.h&gt;
+int main(int Argc, const char* Argv[]) {
+  /* 建立 configure context 。 */
+  WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
+  /* ... 可以調整 configure context 的設定。 */
+  /* 結果資料結構。 */
+  WasmEdge_Result Res;
+
+  /* 建立 compiler context 。 Configure context 可以為 NULL 。 */
+  WasmEdge_CompilerContext *CompilerCxt = WasmEdge_CompilerCreate(ConfCxt);
+  /* 根據命令列參數來指定輸入輸出檔案位置。 */
+  Res = WasmEdge_CompilerCompile(CompilerCxt, Argv[1], Argv[2]);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Compilation failed: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return 1;
+  }
+
+  WasmEdge_CompilerDelete(CompilerCxt);
+  WasmEdge_ConfigureDelete(ConfCxt);
+  return 0;
+}
+</code></pre>
+<p>接下來可以編譯並執行（輸出的檔案是 &quot;fibonacci.wasm.so&quot; ）：</p>
+<pre><code class="language-bash">$ gcc test_wasmedge_compiler.c -lwasmedge_c -o test_wasmedge_compiler
+$ ./test_wasmedge_compiler fibonacci.wasm fibonacci.wasm.so
+[2021-07-02 11:08:08.651] [info] compile start
+[2021-07-02 11:08:08.653] [info] verify start
+[2021-07-02 11:08:08.653] [info] optimize start
+[2021-07-02 11:08:08.670] [info] codegen start
+[2021-07-02 11:08:08.706] [info] compile done
+</code></pre>
+<p>編譯後的 WASM 檔案也可以直接使用 WasmEdge 執行。
+以下是直譯模式和 AOT 模式的比較：</p>
+<pre><code class="language-bash">$ time ./test_wasmedge fibonacci.wasm
+Get result: 5702887
+
+real 0m2.715s
+user 0m2.700s
+sys 0m0.008s
+
+$ time ./test_wasmedge fibonacci.wasm.so
+Get result: 5702887
+
+real 0m0.036s
+user 0m0.022s
+sys 0m0.011s
+</code></pre>
+<p>如果要了解 API 的細節，請參考 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">API 標頭檔</a>。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="api-完整說明文件"><a class="header" href="#api-完整說明文件">API 完整說明文件</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="go-sdk"><a class="header" href="#go-sdk">Go SDK</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="嵌入-wasm-應用程式"><a class="header" href="#嵌入-wasm-應用程式">嵌入 WASM 應用程式</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="嵌入-wasm-函式"><a class="header" href="#嵌入-wasm-函式">嵌入 WASM 函式</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="傳遞複雜參數"><a class="header" href="#傳遞複雜參數">傳遞複雜參數</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用-tensorflow-2"><a class="header" href="#使用-tensorflow-2">使用 Tensorflow</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="使用-wasm-bindgen"><a class="header" href="#使用-wasm-bindgen">使用 wasm-bindgen</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="api-完整說明文件-1"><a class="header" href="#api-完整說明文件-1">API 完整說明文件</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="nodejs-sdk"><a class="header" href="#nodejs-sdk">Node.js SDK</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust-sdk"><a class="header" href="#rust-sdk">Rust SDK</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="python-sdk"><a class="header" href="#python-sdk">Python SDK</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="在-kubernetes-使用-wasmedge"><a class="header" href="#在-kubernetes-使用-wasmedge">在 Kubernetes 使用 WasmEdge</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="快速開始-1"><a class="header" href="#快速開始-1">快速開始</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="demo-範例"><a class="header" href="#demo-範例">Demo 範例</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="基本-wasm-範例"><a class="header" href="#基本-wasm-範例">基本 Wasm 範例</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="http-伺服器範例"><a class="header" href="#http-伺服器範例">HTTP 伺服器範例</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="runtimes-容器"><a class="header" href="#runtimes-容器">Runtimes 容器</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="crun"><a class="header" href="#crun">crun</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="runc"><a class="header" href="#runc">runc</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="youki"><a class="header" href="#youki">youki</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cri-runtimes"><a class="header" href="#cri-runtimes">CRI runtimes</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cri-o"><a class="header" href="#cri-o">CRI-O</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="containerd"><a class="header" href="#containerd">containerd</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes--cri-o"><a class="header" href="#kubernetes--cri-o">Kubernetes + CRI-O</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kubernetes--containerd"><a class="header" href="#kubernetes--containerd">Kubernetes + containerd</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kind"><a class="header" href="#kind">KinD</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kubeedge"><a class="header" href="#kubeedge">KubeEdge</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="superedge"><a class="header" href="#superedge">SuperEdge</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="openyurt"><a class="header" href="#openyurt">OpenYurt</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="應用程式框架與平台"><a class="header" href="#應用程式框架與平台">應用程式框架與平台</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="service-mesh-與分散式框架"><a class="header" href="#service-mesh-與分散式框架">Service mesh 與分散式框架</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dapr"><a class="header" href="#dapr">Dapr</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mosn"><a class="header" href="#mosn">MOSN</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="apache-eventmesh"><a class="header" href="#apache-eventmesh">Apache EventMesh</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="應用程式框架"><a class="header" href="#應用程式框架">應用程式框架</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="yomo"><a class="header" href="#yomo">YoMo</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="reactr"><a class="header" href="#reactr">Reactr</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="serverless-平台"><a class="header" href="#serverless-平台">Serverless 平台</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="vercel"><a class="header" href="#vercel">Vercel</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="netlify"><a class="header" href="#netlify">Netlify</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="aws"><a class="header" href="#aws">AWS</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tencent"><a class="header" href="#tencent">Tencent</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="second-state"><a class="header" href="#second-state">Second State</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="作業系統支援"><a class="header" href="#作業系統支援">作業系統支援</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="windows"><a class="header" href="#windows">Windows</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mac"><a class="header" href="#mac">Mac</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="android"><a class="header" href="#android">Android</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sel4"><a class="header" href="#sel4">seL4</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="open-harmony"><a class="header" href="#open-harmony">Open Harmony</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="raspberry-pi-34"><a class="header" href="#raspberry-pi-34">Raspberry Pi 3/4</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="貢獻-wasmedge"><a class="header" href="#貢獻-wasmedge">貢獻 WasmEdge</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="從原始碼編譯-wasmedge"><a class="header" href="#從原始碼編譯-wasmedge">從原始碼編譯 WasmEdge</a></h1>
+<p>請參閱此說明從原始碼編譯和測試 WasmEdge 。
+以下指引基於 Linux 發行版，對於 MacOS 作業系統，請參閱<a href="extend/build_on_mac.html">在 MacOS 上編譯</a>，對於 Windows 作業系統，則請參閱<a href="extend/build_on_windows.html">在 Windows 上編譯</a>。</p>
+<blockquote>
+<p>若您只是需要 <code>master</code> 分支的 <code>HEAD</code> 最新的編譯版本，並不想自行編譯，您可以直接從 Github Action 的 CI artifact 下載。<a href="https://github.com/WasmEdge/WasmEdge/actions/runs/1521549504#artifacts">請參考此範例</a>。</p>
+</blockquote>
+<h2 id="下載原始碼"><a class="header" href="#下載原始碼">下載原始碼</a></h2>
+<pre><code class="language-bash">git clone https://github.com/WasmEdge/WasmEdge.git
+cd WasmEdge
+</code></pre>
+<h2 id="檢查相依套件"><a class="header" href="#檢查相依套件">檢查相依套件</a></h2>
+<p>WasmEdge 會基於最新版本的 LLVM 來編譯我們的最新版本。
+如果您想從原始碼開始編譯，必須先安裝以下相依套件，或是直接使用我們提供的 Docker image 來編譯，我們提供了多個 Linux 發行版本。</p>
+<ul>
+<li>LLVM 12.0.0 (&gt;= 10.0.0)</li>
+<li>GCC 11.1.0 (&gt;= 9.4.0)</li>
+</ul>
+<h2 id="準備編譯環境"><a class="header" href="#準備編譯環境">準備編譯環境</a></h2>
+<h3 id="使用-docker-images"><a class="header" href="#使用-docker-images">使用 Docker Images</a></h3>
+<p>Dockerhub 上的儲存庫 <code>wasmedge/wasmedge</code></p>
+<p>您可以使用下列的指令獲取最新的 docker image ：</p>
+<pre><code class="language-bash">docker pull wasmedge/wasmedge # 等同於 wasmedge/wasmedge:latest
+</code></pre>
+<h4 id="可用的標籤"><a class="header" href="#可用的標籤">可用的標籤</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>標籤名稱</th><th>CPU 架構</th><th>基於的作業系統</th><th>LLVM 版本</th><th>編譯環境</th><th>相容性</th><th>備註</th></tr></thead><tbody>
+<tr><td><code>latest</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>使用於自動測試，會一直更新到最新的 Ubuntu 版本</td></tr>
+<tr><td><code>ubuntu-build-gcc</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>使用於自動測試，會一直更新到最新的 Ubuntu 版本</td></tr>
+<tr><td><code>ubuntu-build-clang</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>使用於自動測試，會一直更新到最新的 Ubuntu 版本</td></tr>
+<tr><td><code>ubuntu2004_x86_64</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>10.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>提供給熟悉 Ubuntu 20.04 LTS 版本的開發者使用</td></tr>
+<tr><td><code>ubuntu2104_armv7l</code></td><td>armhf</td><td>Ubuntu 21.04</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 21.04+</td><td>使用於 armhf 架構的發行</td></tr>
+<tr><td><code>manylinux2014_x86_64</code></td><td>x86_64</td><td>CentOS 7, 7.9.2009</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 16.04+, CentOS 7+</td><td>提供給熟悉 CentOS x86_64 架構的開發者使用</td></tr>
+<tr><td><code>manylinux2014_aarch64</code></td><td>aarch64</td><td>CentOS 7, 7.9.2009</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 16.04+, CentOS 7+</td><td>提供給熟悉 CentOS aarch64 架構的開發者使用</td></tr>
+<tr><td><code>manylinux2010_x86_64</code></td><td>x86_64</td><td>CentOS 6, 6.10</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 6+</td><td>提供給熟悉 x86_64 架構舊版系統的開發者使用</td></tr>
+<tr><td><code>manylinux1_x86_64</code></td><td>x86_64</td><td>CentOS 5, 5.11</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 5+</td><td>提供給熟悉 x86_64 架構舊版系統的開發者使用</td></tr>
+</tbody></table>
+</div>
+<h3 id="在-ubuntu-2004-上手動安裝相依套件"><a class="header" href="#在-ubuntu-2004-上手動安裝相依套件">在 Ubuntu 20.04 上手動安裝相依套件</a></h3>
+<pre><code class="language-bash"># 工具和函式庫
+sudo apt install -y \
+    software-properties-common \
+    cmake \
+    libboost-all-dev
+
+# 需要 llvm 來支援 wasmedgec 工具
+sudo apt install -y \
+    llvm-12-dev \
+    liblld-12-dev
+
+# WasmEdge 同時支援 clang++ 和 g++ 編譯器
+# 您可以選擇其中一個來編譯這個專案
+# 如果您傾向使用 gcc
+sudo apt install -y gcc g++
+# 或者您選擇使用 clang
+sudo apt install -y clang
+</code></pre>
+<h3 id="對舊版作業系統的支援"><a class="header" href="#對舊版作業系統的支援">對舊版作業系統的支援</a></h3>
+<p>我們的開發環境需要 <code>libLLVM-12</code> 和 <code>&gt;=GLIBCXX_3.4.33</code> 。</p>
+<p>如果使用者使用比 Ubuntu 20.04 更舊版的作業系統，請使用我們提供的 docker image 來編譯 WasmEdge 。
+若您在尋找舊版作業系統上使用的執行檔與函式庫，我們也提供了幾個基於 manylinux* 發行版的安裝檔。</p>
+<div class="table-wrapper"><table><thead><tr><th>可移植的 Linux 發行版標籤</th><th>基礎 image</th><th>提供的環境需</th><th>Docker image</th></tr></thead><tbody>
+<tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5</br>CXXABI &lt;= 3.4.8</br>GLIBCXX &lt;= 3.4.9</br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
+<tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12</br>CXXABI &lt;= 1.3.3</br>GLIBCXX &lt;= 3.4.13</br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
+<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
+<tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
+</tbody></table>
+</div>
+<h2 id="編譯-wasmedge"><a class="header" href="#編譯-wasmedge">編譯 WasmEdge</a></h2>
+<p>WasmEdge 提供了各種工具來支援更好的性能以及更多樣的執行期環境，
+編譯完成後，您可以找到以下幾個 WasmEdge 相關工具：</p>
+<ol>
+<li><code>wasmedge</code> 是通用的 WASM runtime 。
+<ul>
+<li><code>wasmedge</code> 可以在直譯器模式下執行一個 <code>WASM</code> 檔案，也可以在 Ahead-of-time 模式下執行一個 <code>so</code> 檔案。</li>
+<li>您可以透過將 CMake 選項 <code>WASMEDGE_BUILD_TOOLS</code> 設為 <code>OFF</code> 來禁止編譯所有工具。</li>
+</ul>
+</li>
+<li><code>wasmedgec</code> 是一個 WASM Ahead-of-time 編譯器。
+<ul>
+<li><code>wasmedgec</code> 可以將一個通用的 <code>WASM</code> 檔案編譯成 <code>so</code> 檔案。</li>
+<li>您可以透過將 CMake 選項 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 設為 <code>OFF</code> 來禁止編譯 Ahead-of-time 編譯器。</li>
+</ul>
+</li>
+<li><code>libwasmedge_c.so</code> 是 WasmEdge C API 的共享函式庫。
+<ul>
+<li><code>libwasmedge_c.so</code> 提供了連接 WASM runtime 和 Ahead-of-time 編譯器的 C 語言 API。</li>
+<li>如果 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 選項被設為 <code>OFF</code> ，與 Ahead-of-time 編譯器相關的 API 都將回傳錯誤。</li>
+<li>您可以透過將 CMake 選項 <code>WASMEDGE_BUILD_SHARED_LIB</code> 設為 <code>OFF</code> 來禁止編譯 WasmEdge C API 的共享函式庫。</li>
+</ul>
+</li>
+<li><code>ssvm-qitc</code> 與 AI 應用程式相關，是支援 ONNX 格式的 AI 模型的 ONNC runtime 。
+<ul>
+<li>若您想嘗試使用 <code>ssvm-qitc</code> ，請參考 <a href="https://github.com/ONNC/onnc-wasm">ONNC-Wasm</a> 專案來設定工作環境與執行幾個範例。</li>
+<li>這是我們的 <a href="https://www.youtube.com/watch?v=cbiPuHMS-iQ">ONNC-Wasm Tutorial （ YouTube 影片 ）</a> 。</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-bash"># 下載 WasmEdge docker image 後
+$ docker run -it --rm \
+    -v &lt;path/to/your/wasmedge/source/folder&gt;:/root/wasmedge \
+    wasmedge/wasmedge:latest
+(docker)$ cd /root/wasmedge
+(docker)$ mkdir -p build &amp;&amp; cd build
+(docker)$ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
+</code></pre>
+<h3 id="如果您不需要編譯-ahead-of-time-編譯器"><a class="header" href="#如果您不需要編譯-ahead-of-time-編譯器">如果您不需要編譯 Ahead-of-time 編譯器</a></h3>
+<p>如果使用者不需要 Ahead-of-time 編譯器支援，可以將 CMake 選項 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 設為 <code>OFF</code> 。</p>
+<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
+</code></pre>
+<h2 id="執行內建測試"><a class="header" href="#執行內建測試">執行內建測試</a></h2>
+<p>內建的測試僅有編譯選項 <code>WASMEDGE_BUILD_TESTS</code> 設為 <code>ON</code> 的時候才會啟用。</p>
+<p>使用者可以使用這些測試來驗證 WasmEdge 執行檔與函式庫的正確性。</p>
+<pre><code class="language-bash">cd &lt;path/to/wasmedge/build_folder&gt;
+LD_LIBRARY_PATH=$(pwd)/lib/api ctest
+</code></pre>
+<h2 id="執行應用程式"><a class="header" href="#執行應用程式">執行應用程式</a></h2>
+<p>接下來，請參考 <a href="extend/../index.html">這份文件</a> 在 <code>wasmedge</code> 上執行 WebAssembly 應用程式。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="在-mac-上編譯"><a class="header" href="#在-mac-上編譯">在 Mac 上編譯</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="在-windows-上編譯"><a class="header" href="#在-windows-上編譯">在 Windows 上編譯</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="為-android-編譯"><a class="header" href="#為-android-編譯">為 Android 編譯</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-外掛-api"><a class="header" href="#wasmedge-外掛-api">WasmEdge 外掛 API</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="host-functions"><a class="header" href="#host-functions">Host functions</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="external-references"><a class="header" href="#external-references">External references</a></h1>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+    </body>
+</html>
