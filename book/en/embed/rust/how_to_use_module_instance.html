@@ -225,8 +225,7 @@
 <ul>
 <li>
 <p>Create Wasi and WasmEdgeProcess module instances implicitly by using a <code>Config</code> while creating a <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// create a Config context
@@ -246,8 +245,7 @@ let mut vm = Vm::create(Some(config), None)?;
 </li>
 <li>
 <p>Retrieve the Wasi and WasmEdgeProcess module instances from the <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// get the default Wasi module
@@ -262,8 +260,7 @@ assert_eq!(wasmedge_process_instance.name(), &quot;wasmedge_process&quot;);
 </li>
 <li>
 <p>Register an import module as a named module into the <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// create ImportModule instance
@@ -321,8 +318,7 @@ vm.register_wasm_from_import(ImportObject::Import(import))?;
 </li>
 <li>
 <p>Retrieve the internal <code>Store</code> instance from the <code>Vm</code>, and retrieve the named module instance from the <code>Store</code> instance.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>let mut store = vm.store_mut()?;
@@ -337,8 +333,7 @@ assert!(named_instance.get_global(&quot;global&quot;).is_ok());
 </li>
 <li>
 <p>Register an active module into the <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// read the wasm bytes
@@ -396,8 +391,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 </li>
 <li>
 <p>Retrieve the active module from the <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// get the active module instance
@@ -414,8 +408,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 <ul>
 <li>
 <p>Create an <code>Executor</code> and a <code>Store</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// create an Executor context
@@ -429,8 +422,7 @@ let mut store = Store::create()?;
 </li>
 <li>
 <p>Register an import module into the <code>Executor</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// read the wasm bytes
@@ -489,8 +481,7 @@ assert!(named_instance.get_func(&quot;fib&quot;).is_ok());
 </li>
 <li>
 <p>Register an active module into the <code>Executor</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// read the wasm bytes

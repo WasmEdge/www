@@ -156,10 +156,11 @@
 The first one is to set up an OpenYurt Cluster from scratch, use <code>yurtctl convert</code> to realize a K8s Cluster conversion to an OpenYurt Cluster.
 The second one is to use the ability of OpenYurt Experience Center, which is easy to achieve an OpenYurt Cluster.</p>
 <h3 id="prerequisite"><a class="header" href="#prerequisite">Prerequisite</a></h3>
-<table><thead><tr><th></th><th>OS/kernel</th><th>Private IP/Public IP</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>OS/kernel</th><th>Private IP/Public IP</th></tr></thead><tbody>
 <tr><td>Master</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.169/120.55.126.18</td></tr>
 <tr><td>Node</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.170/121.43.113.152</td></tr>
 </tbody></table>
+</div>
 <p>It should be noted that some steps may differ slightly depending on the operating system differences.
 Please refer to the installation of <a href="https://github.com/openyurtio/openyurt">OpenYurt</a> and <a href="https://github.com/containers/crun">crun</a>.</p>
 <p>We use <code>yurtctl convert</code> to convert a K8s Cluster to OpenYurt Cluster, so we should set up a K8s Cluster.

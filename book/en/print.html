@@ -605,7 +605,7 @@ WasmEdge uses the output file extension to determine generated file format. For 
 <div style="break-before: page; page-break-before: always;"></div><h1 id="webassembly-standard-extensions"><a class="header" href="#webassembly-standard-extensions">WebAssembly standard extensions</a></h1>
 <h2 id="webassembly-proposals"><a class="header" href="#webassembly-proposals">WebAssembly proposals</a></h2>
 <p>WasmEdge supports the following <a href="https://github.com/WebAssembly/proposals">WebAssembly proposals</a>. Those proposals are likely to become official WebAssembly specifications in the future.</p>
-<table><thead><tr><th>Proposal</th><th>WasmEdge CLI flag</th><th>WasmEdge C API enumeration</th><th>Default turning on</th><th>Interpreter mode</th><th>AOT mode</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Proposal</th><th>WasmEdge CLI flag</th><th>WasmEdge C API enumeration</th><th>Default turning on</th><th>Interpreter mode</th><th>AOT mode</th></tr></thead><tbody>
 <tr><td><a href="https://github.com/WebAssembly/mutable-global">Import/Export of Mutable Globals</a></td><td><code>--disable-import-export-mut-globals</code></td><td><code>WasmEdge_Proposal_ImportExportMutGlobals</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
 <tr><td><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions">Non-trapping float-to-int conversions</a></td><td><code>--disable-non-trap-float-to-int</code></td><td><code>WasmEdge_Proposal_NonTrapFloatToIntConversions</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
 <tr><td><a href="https://github.com/WebAssembly/sign-extension-ops">Sign-extension operators</a></td><td><code>--disable-sign-extension-operators</code></td><td><code>WasmEdge_Proposal_SignExtensionOperators</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
@@ -618,15 +618,16 @@ WasmEdge uses the output file extension to determine generated file format. For 
 <tr><td><a href="https://github.com/WebAssembly/extended-const">Extended Constant Expressions</a></td><td><code>--enable-extended-const</code></td><td><code>WasmEdge_Proposal_ExtendedConst</code></td><td></td><td>✓</td><td>✓</td></tr>
 <tr><td><a href="https://github.com/webassembly/threads">Threads</a></td><td><code>--enable-threads</code></td><td><code>WasmEdge_Proposal_Threads</code></td><td></td><td>✓</td><td>✓</td></tr>
 </tbody></table>
+</div>
 <h2 id="wasi-proposals"><a class="header" href="#wasi-proposals">WASI proposals</a></h2>
 <p>WasmEdge implements the following <a href="https://github.com/WebAssembly/WASI/blob/main/Proposals.md">WASI proposals</a>.</p>
-<table><thead><tr><th>Proposal</th><th>Platforms</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Proposal</th><th>Platforms</th></tr></thead><tbody>
 <tr><td><a href="https://github.com/WebAssembly/wasi-sockets">Sockets</a></td><td></td></tr>
 <tr><td><a href="https://github.com/WebAssembly/wasi-crypto">Crypto</a></td><td></td></tr>
 <tr><td><a href="https://github.com/WebAssembly/wasi-nn">Machine Learning (wasi-nn)</a></td><td><code>x86_64 Linux (OpenVINO backend)</code></td></tr>
 <tr><td><a href="https://github.com/proxy-wasm/spec">proxy-wasm</a></td><td><code>x86_64 Linux (Interpreter only)</code></td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-extensions"><a class="header" href="#wasmedge-extensions">WasmEdge extensions</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-extensions"><a class="header" href="#wasmedge-extensions">WasmEdge extensions</a></h1>
 <p>A key differentiator of WasmEdge from other WebAssembly VMs is its support for non-standard extensions. The WASI spec provides a mechanism for developers to extend WebAssembly VMs efficiently and securely. The WasmEdge team created the following WASI-like extensions based on real-world customer demands.</p>
 <ul>
 <li><a href="https://github.com/second-state/wasmedge-tensorflow">Tensorflow</a>. Developers can write Tensorflow inference functions using <a href="https://github.com/second-state/wasmedge_tensorflow_interface">a simple Rust API</a>, and then run the function securely and at native speed inside WasmEdge.</li>
@@ -668,7 +669,7 @@ WasmEdge uses the output file extension to determine generated file format. For 
 <p>A: Check out our infographic <a href="https://wasmedge.org/wasm_docker/">WebAssembly vs. Docker</a>. WebAssembly runs side by side with Docker in cloud native and edge native applications.</p>
 <p><strong>Q: What's the difference for Native clients (NaCl), Application runtimes, and WebAssembly?</strong></p>
 <p>A: We created a handy table for comparison.</p>
-<table><thead><tr><th></th><th>NaCl</th><th>Application runtimes (eg Node &amp; Python)</th><th>Docker-like container</th><th>WebAssembly</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>NaCl</th><th>Application runtimes (eg Node &amp; Python)</th><th>Docker-like container</th><th>WebAssembly</th></tr></thead><tbody>
 <tr><td>Performance</td><td>Great</td><td>Poor</td><td>OK</td><td>Great</td></tr>
 <tr><td>Resource footprint</td><td>Great</td><td>Poor</td><td>Poor</td><td>Great</td></tr>
 <tr><td>Isolation</td><td>Poor</td><td>OK</td><td>OK</td><td>Great</td></tr>
@@ -679,6 +680,7 @@ WasmEdge uses the output file extension to determine generated file format. For 
 <tr><td>Ease of use</td><td>OK</td><td>Great</td><td>Great</td><td>OK</td></tr>
 <tr><td>Manageability</td><td>Poor</td><td>Poor</td><td>Great</td><td>Great</td></tr>
 </tbody></table>
+</div>
 <p><strong>Q: What's the difference between WebAssembly and eBPF?</strong></p>
 <p>A: eBPF is the bytecode format for a Linux kernel space VM that is suitable for network or security related tasks. WebAssembly is the bytecode format for a user space VM that is suited for business applications. <a href="https://medium.com/codex/ebpf-and-webassembly-whose-vm-reigns-supreme-c2861ce08f89">See details here</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="develop-a-wasmedge-app"><a class="header" href="#develop-a-wasmedge-app">Develop a WasmEdge app</a></h1>
@@ -725,8 +727,7 @@ state
 by the <a href="dev/../start/cli.html">WasmEdge CLI</a> in the reactor mode.</p>
 <p>The full source code for the Rust <a href="https://github.com/second-state/wasm-learning/blob/master/cli/add/src/lib.rs">lib.rs</a> file is as follows.
 It provides a simple <code>add()</code> function.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[no_mangle]
 pub fn add(a: i32, b: i32) -&gt; i32 {
@@ -780,8 +781,7 @@ $ wasmedge --reactor add.wasm add 2 2
 <div style="break-before: page; page-break-before: always;"></div><h1 id="call-rust-functions"><a class="header" href="#call-rust-functions">Call Rust functions</a></h1>
 <p>If your Rust program has a <code>main()</code> function, you could compile it into a WASM bytecode file, and run it using the <code>wasmedge</code> CLI tool as a standalone application. However, a far more common use case is to compile a Rust function into a WASM bytecode file, and then call it from a host application. That is known as an embedded WASM function. The host application uses WasmEdge language SDKs (e.g., <a href="dev/rust/../../embed/go.html">Go</a>, <a href="dev/rust/../../embed/rust.html">Rust</a>, <a href="dev/rust/../../embed/c.html">C</a>, <a href="dev/rust/../../embed/go.html">Python</a> and <a href="dev/rust/../../embed/node.html">Node.js</a>) to call those WASM functions compiled from Rust source code.</p>
 <p>All the WasmEdge host language SDKs support simple function calls. However, the WASM spec only supports a few simple data types as call parameters and return values. The <code>wasmedge-bindgen</code> crate would transform call parameters and return values of Rust functions into simple integer types when the Rust function is compiled into WASM. For example, a string is automatically converted into two integers, a memory address and a length, which can be handled by the standard WASM spec. It is very easy to do this in Rust source code. Just annotate your function with the <code>#[wasmedge-bindgen]</code> macro. You can compile the annotated Rust code using the standard Rust compiler toolchain (e.g., the latest <code>Cargo</code>).</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_bindgen::*;
 use wasmedge_bindgen_macro::*;
@@ -807,8 +807,7 @@ rand = &quot;0.7.3&quot;
 getrandom = &quot;0.1.14&quot;
 </code></pre>
 <p>The Rust code to get random number from WebAssembly is this.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rand::prelude::*;
 
@@ -827,8 +826,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
 </span></code></pre></pre>
 <h2 id="printing-and-debugging-from-rust"><a class="header" href="#printing-and-debugging-from-rust">Printing and debugging from Rust</a></h2>
 <p>The Rust <code>println!</code> marco just works in WASI. The statements print to the <code>STDOUT</code> of the process that runs the WasmEdge.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn echo(content: &amp;str) -&gt; String {
   println!(&quot;Printed from wasi: {}&quot;, content);
@@ -839,8 +837,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
 <h2 id="arguments-and-environment-variables"><a class="header" href="#arguments-and-environment-variables">Arguments and environment variables</a></h2>
 <p>It is possible to pass CLI arguments to and access OS environment variables in a WasmEdge application.
 They are just <code>env::args()</code> and <code>env::vars()</code> arrays in Rust.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::env;
 
@@ -861,8 +858,7 @@ pub fn print_env() {
 <p>WASI allows your Rust functions to access the host computer's file system through the standard Rust <code>std::fs</code> API.
 In the Rust program, you operate on files through a relative path. The relative
 path's root is specified when you start the WasmEdge runtime.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs;
 use std::fs::File;
@@ -929,8 +925,7 @@ In the Rust program, add a helper crate in Cargo.toml so that the WASI initializ
 wasmedge-wasi-helper = &quot;=0.2.0&quot;
 </code></pre>
 <p>In the Rust function, we need to call <code>_initialize()</code> before we access any arguments and environment variables or operate any files.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn print_env() -&gt; i32 {
   _initialize();
@@ -990,16 +985,14 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <h3 id="code-walkthrough"><a class="header" href="#code-walkthrough">Code walkthrough</a></h3>
 <p>It is fairly straightforward to use the WasmEdge Tensorflow API. You can see the entire source code in <a href="https://github.com/second-state/wasm-learning/blob/master/cli/tflite/src/main.rs">main.rs</a>.</p>
 <p>First, it reads the trained TFLite model file (ImageNet) and its label file. The label file maps numeric output from the model to English names for the classified objects.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
   let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Next, it reads the image from <code>STDIN</code> and converts it to the size and RGB pixel arrangement required by the Tensorflow Lite model.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut buf = Vec::new();
   io::stdin().read_to_end(&amp;mut buf).unwrap();
@@ -1008,8 +1001,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>Then, the program runs the TFLite model with its required input tensor (i.e., the flat image in this case), and receives the model output. In this case, the model output is an array of numbers. Each number corresponds to the probability of an object name in the label text file.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
   session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
@@ -1018,8 +1010,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>Let's find the object with the highest probability, and then look up the name in the labels file.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut i = 0;
   let mut max_index: i32 = -1;
@@ -1040,8 +1031,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>Finally, it prints the result to <code>STDOUT</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let class_name = label_lines.next().unwrap().to_string();
   if max_value &gt; 50 {
@@ -1262,8 +1252,7 @@ fn main() {
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
 <p>The following command runs the application in WasmEdge.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>wasmedge target/wasm32-wasi/release/nonblock_http_client.wasm
 <span class="boring">}
@@ -1327,8 +1316,7 @@ fn main() {
 }
 </code></pre></pre>
 <p>The <code>handle_connection()</code> function processes the data from those open connections. In this case, it just writes the request body into the response. It is also done asynchronously -- meaning that the <code>handle_connection()</code> function creates an event for the response, and puts it in the queue. The main application loop processes the event and sends the response when it is waiting for data from other connections.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn handle_connection(
     poll: &amp;mut Poll,
@@ -1526,8 +1514,7 @@ fn main() {
 }
 </code></pre></pre>
 <p>The <code>handler.rs</code> parses the received data to the path and query objects and return the corresponding response.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use crate::response;
 use anyhow::Result;
@@ -1587,8 +1574,7 @@ pub fn handle_req(stream: &amp;mut TcpStream, addr: SocketAddr) -&gt; Result&lt;
 </span></code></pre></pre>
 <p>The <code>response.rs</code> program packs the response object for static assets and for server rendered content.
 For the latter, you could see that SSR happens at <code>app.render().to_string()</code>, the result string is put into HTML by replacing the placeholder text.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use crate::mime::MimeType;
 use anyhow::Result;
@@ -1688,8 +1674,7 @@ pub fn internal_error() -&gt; (Response, Option&lt;Vec&lt;u8&gt;&gt;) {
 <span class="boring">}
 </span></code></pre></pre>
 <p>The <code>mime.rs</code> program is a map for assets' extension name and the Mime type.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct MimeType {
     pub r#type: String,
@@ -1766,8 +1751,7 @@ runner = &quot;wasmedge --dir /static:../client/build&quot;
 rust_process_interface_library = &quot;0.1.3&quot;
 </code></pre>
 <p>In the Rust application, you can now use the API methods to start a new process for the operating system command program, pass in arguments via the <code>arg()</code> method as well as via the <code>STDIN</code>, and receives the return values via the <code>STDOUT</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut cmd = Command::new(&quot;http_proxy&quot;);
 
@@ -2945,8 +2929,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 </blockquote>
 <h2 id="create-a-javascript-function-api"><a class="header" href="#create-a-javascript-function-api">Create a JavaScript function API</a></h2>
 <p>The following code snippet defines a Rust function that can be incorporate into the JavaScript interpreter as an API.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
 
@@ -2964,8 +2947,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 <span class="boring">}
 </span></code></pre></pre>
 <p>The following code snippet shows how to add this Rust function into the JavaScript interpreter, give a name <code>hi()</code> as its JavaScript API, and then call it from JavaScript code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
   ...
@@ -2986,8 +2968,7 @@ return value:UnDefined
 <p>Using this approach, you can create a JavaScript interpreter with customized API functions. The interpreter runs inside WasmEdge, and can execute JavaScript code, which calls such API functions, from CLI or the network.</p>
 <h2 id="create-a-javascript-object-api"><a class="header" href="#create-a-javascript-object-api">Create a JavaScript object API</a></h2>
 <p>In the JavaScript API design, we sometimes need to provide an object that encapsulates both data and function. In the following example, we define a Rust function for the JavaScript API.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn rust_new_object_and_js_call(ctx: &amp;mut Context) {
   struct ObjectFn;
@@ -3008,8 +2989,7 @@ return value:UnDefined
 <span class="boring">}
 </span></code></pre></pre>
 <p>We then create an &quot;object&quot; on the Rust side, set its data fields, and then register the Rust function as a JavaScript function associated with the objects.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut obj = ctx.new_object();
 obj.set(&quot;a&quot;, 1.into());
@@ -3020,15 +3000,13 @@ obj.set(&quot;f&quot;, f.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>Next, we make the Rust &quot;object&quot; available as JavaScript object <code>test_obj</code> in the JavaScript interpreter.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>ctx.get_global().set(&quot;test_obj&quot;, obj.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>In the JavaScript code, you can now directly use <code>test_obj</code> as part of the API.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let code = r#&quot;
   print('test_obj keys=',Object.keys(test_obj))
@@ -3072,8 +3050,7 @@ this=Ok(
 wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
 </code></pre>
 <p>The Rust implementation of the object is a module as follows. It has data fields, constructor, getters and setters, and functions.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod point {
   use wasmedge_quickjs::*;
@@ -8248,8 +8225,7 @@ The full source code for the demo in this chapter is <a href="https://github.com
 <p>In the <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs">Rust project</a>, all you need is to annotate <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">your functions</a> with a <code>[wasmedge_bindgen]</code> macro.
 Those annotated functions will be automatically instrumented by the Rust compiler and turned into WebAssembly functions that can be called from the <code>wasmedge-bindgen</code> GO SDK.
 In the example below, we have several Rust functions that take complex call parameters and return complex values.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_bindgen::*;
 use wasmedge_bindgen_macro::*;
@@ -8432,8 +8408,7 @@ Specially, we will discuss how to pass string data.</p>
 <p>An alternative approach to pass and return complex values to Rust functions in WebAssembly is to use the <code>wasm-bindgen</code> compiler tool. You can <a href="embed/go/bindgen.html">learn more here</a>.</p>
 </blockquote>
 <p>The Rust function takes a memory pointer for the string, and constructs the Rust string itself.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::ffi::{CStr, CString};
 use std::mem;
@@ -8693,8 +8668,7 @@ Hello, WasmEdge!
 </blockquote>
 <p>The <code>fib_array()</code> function takes a array as a call parameter and fill it with a fibonacci sequence of numbers. Alternatively, the <code>fib_array_return_memory()</code> function returns a array of fibonacci sequence of numbers.</p>
 <p>For the array in the call parameter, the Rust function <code>fib_array()</code> takes a memory pointer and constructs the Rust <code>Vec</code> using <code>from_raw_parts</code>. For the array return value, the Rust function <code>fib_array_return_memory()</code> simply returns the pointer.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::mem;
 use std::os::raw::{c_void, c_int};
@@ -9009,8 +8983,7 @@ fibArrayReturnMemory: [0 0 0 0 1 0 0 0 1 0 0 0 2 0 0 0 3 0 0 0 5 0 0 0 8 0 0 0 1
 <h2 id="rust-function-compiled-into-webassembly-1"><a class="header" href="#rust-function-compiled-into-webassembly-1">Rust function compiled into WebAssembly</a></h2>
 <p>The Rust function for image classification is <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_TfliteFood/rust_tflite_food/src/lib.rs">available here</a>.
 It utilizes the <a href="embed/go/../../dev/rust/tensorflow.html">WasmEdge Tensorflow extension API</a> as well as the <a href="embed/go/function.html">wasmedge_bindgen</a> for passing call parameters.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
@@ -9113,8 +9086,7 @@ It is very likely a Hot dog in the picture
 <blockquote>
 <p>At this time, we require Rust compiler version 1.50 or less in order for WebAssembly functions to work with WasmEdge's Go API. We will <a href="https://github.com/WasmEdge/WasmEdge/issues/264">catch up to the latest Rust</a> compiler version once the Interface Types spec is finalized and supported.</p>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 use num_integer::lcm;
@@ -9350,8 +9322,7 @@ go build
 <h3 id="example-of-embedding-a-function-with-wasmedge-bindgen"><a class="header" href="#example-of-embedding-a-function-with-wasmedge-bindgen">Example of Embedding A Function with wasmedge-bindgen</a></h3>
 <p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_BindgenFuncs">this example</a>, we will demonstrate how to call a few simple WebAssembly functions with wasmedge-bindgen from a Golang app. The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">functions</a> are written in Rust, and require complex call parameters and return values.</p>
 <p>While the WebAssembly only supports a few simple data types out of the box. It <a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">does not support</a> types such as string and array. In order to pass rich types in Golang to WebAssembly, the compiler needs to convert them to simple integers. For example, it converts a string into an integer memory address and an integer length. The <code>#[wasmedge_bindgen]</code> macro does this conversion automatically, combining it with Golang's <code>wasmedge-bindgen</code> package to auto-generate the correct code to pass call parameters from Golang to WebAssembly.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_bindgen::*;
 use wasmedge_bindgen_macro::*;
@@ -11403,8 +11374,7 @@ go build
 <h3 id="example-of-embedding-a-function-with-wasmedge-bindgen-1"><a class="header" href="#example-of-embedding-a-function-with-wasmedge-bindgen-1">Example of Embedding A Function with wasmedge-bindgen</a></h3>
 <p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_BindgenFuncs">this example</a>, we will demonstrate how to call a few simple WebAssembly functions with wasmedge-bindgen from a Golang app. The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">functions</a> are written in Rust, and require complex call parameters and return values.</p>
 <p>While the WebAssembly only supports a few simple data types out of the box. It <a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">does not support</a> types such as string and array. In order to pass rich types in Golang to WebAssembly, the compiler needs to convert them to simple integers. For example, it converts a string into an integer memory address and an integer length. The <code>#[wasmedge_bindgen]</code> macro does this conversion automatically, combining it with Golang's <code>wasmedge-bindgen</code> package to auto-generate the correct code to pass call parameters from Golang to WebAssembly.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_bindgen::*;
 use wasmedge_bindgen_macro::*;
@@ -13839,8 +13809,7 @@ cd wasmedge-nodejs-starter
 <p>The first example is a hello world to show you how various parts of the application fit together.</p>
 <h3 id="webassembly-program-in-rust"><a class="header" href="#webassembly-program-in-rust">WebAssembly program in Rust</a></h3>
 <p>In this example, our Rust program appends the input string after “hello”. Below is the content of the Rust program <code>src/lib.rs</code>. You can define multiple external functions in this library file, and all of them will be available to the host JavaScript app via WebAssembly. Just remember to annotate each function with <code>#[wasm_bindgen]</code> so that <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> knows to generate the correct JavaScript to Rust interface for it when you build it.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 
@@ -13909,8 +13878,7 @@ hello Wasm
 })
 </code></pre>
 <p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/src/lib.rs"><code>solve</code> function is written in Rust</a> and runs inside the WasmEdge Runtime. While the call arguments in the JavaScript side is an array of values, the Rust function receives a JSON object that encapsulates the array. In the Rust code, we first decode the JSON, perform the computation, and return the result values in a JSON string.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
 pub fn solve(params: &amp;str) -&gt; String {
@@ -13946,8 +13914,7 @@ node node/server.js
 <p>With JSON support, you can call Rust functions with any number of input parameters and return any number of return values of any type.</p>
 </blockquote>
 <p>The Rust program <code>src/lib.rs</code> in the <a href="https://github.com/second-state/wasm-learning/tree/master/nodejs/functions">functions example</a> demonstrates  how to pass in call arguments in various supported types, and return values.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
 pub fn obfusticate(s: String) -&gt; String {
@@ -13978,8 +13945,7 @@ pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p>Perhaps the most interesting is the <code>create_line()</code> function. It takes two JSON strings, each representing a <code>Point</code> struct, and returns a JSON string representing a <code>Line</code> struct. Notice that both the <code>Point</code> and <code>Line</code> structs are annotated with <code>Serialize</code> and <code>Deserialize</code> so that the Rust compiler automatically generates necessary code to support their conversion to and from JSON strings.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 use serde::{Serialize, Deserialize};
@@ -14266,8 +14232,7 @@ wasmedge-sys = &quot;0.7&quot;
 <p>In this example, we'll use a wasm module, in which a function <code>run</code> is exported and it will call a function <code>say_hello</code> from an import module named <code>env</code>. The imported function <code>say_hello</code> has no inputs and outputs, and only prints a greeting message out.</p>
 <p>N.B. In this example, <code>wasmedge-sdk v0.1.1</code>, <code>wasmedge-sys v0.7.1</code> and <code>wasmedge-types v0.1.3</code> are used.</p>
 <p>Let's start off by getting all imports right away so you can follow along</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// please add this feature if you're using rust of version &lt; 1.63
 // #![feature(explicit_generic_args_with_impl_trait)]
@@ -14279,8 +14244,7 @@ use wasmedge_types::wat2wasm;
 </span></code></pre></pre>
 <h2 id="step-1-define-a-native-function-and-create-an-importobject"><a class="header" href="#step-1-define-a-native-function-and-create-an-importobject">Step 1: Define a native function and Create an ImportObject</a></h2>
 <p>First, let's define a native function named <code>say_hello_world</code> that prints out <code>Hello, World!</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn say_hello_world(_inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
     println!(&quot;Hello, world!&quot;);
@@ -14290,8 +14254,7 @@ use wasmedge_types::wat2wasm;
 <span class="boring">}
 </span></code></pre></pre>
 <p>To use the native function as an import function in the <code>WasmEdge</code> runtime, we need an <code>ImportObject</code>. <code>wasmedge-sdk</code> defines a <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.ImportObjectBuilder.html">ImportObjectBuilder</a>, which provides a group of chaining methods used to create an <code>ImportObject</code>. Let's see how to do it.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// create an import module
 let import = ImportObjectBuilder::new()
@@ -14311,8 +14274,7 @@ let import = ImportObjectBuilder::new()
 </li>
 </ul>
 <p>Here we choose <code>Module::from_bytes</code> method to load our wasm module from an array of in-memory bytes.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let wasm_bytes = wat2wasm(
     br#&quot;
@@ -14338,8 +14300,7 @@ let module = Module::from_bytes(None, &amp;wasm_bytes)?;
 </span></code></pre></pre>
 <h2 id="step-3-register-import-module-and-compiled-module"><a class="header" href="#step-3-register-import-module-and-compiled-module">Step 3: Register import module and compiled module</a></h2>
 <p>To register a compiled module, we need to check if it has dependency on some import modules. In the wasm module this statement <code>(import &quot;env&quot; &quot;say_hello&quot; (func $say_hello (type $no_args_no_rets_t)))</code> tells us that it depends on an import module named <code>env</code>. Therefore, we need to register the import module first before registering the compiled wasm module.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// create an executor
 let mut executor = Executor::new(None, None)?;
@@ -14357,8 +14318,7 @@ let extern_instance = store.register_named_module(&amp;mut executor, &quot;exter
 <p>In the code above we use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Executor.html">Executor</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Store.html">Store</a> to register the import module and the compiled module. <code>wasmedge-sdk</code> also provides alternative APIs to do the same thing: <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html#method.register_import_module">Vm::register_import_module</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html#method.register_module_from_bytes">Vm::register_module_from_bytes</a>.</p>
 <h2 id="step-4-run-the-exported-function"><a class="header" href="#step-4-run-the-exported-function">Step 4: Run the exported function</a></h2>
 <p>Now we are ready to run the exported function.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// get the exported function &quot;run&quot;
 let run = extern_instance
@@ -14412,8 +14372,7 @@ run.call(&amp;mut executor, params!())?;
 <p>Next, we'll demonstrate how to manipulate the linear memory by calling the exported functions.</p>
 <h2 id="load-and-register-module"><a class="header" href="#load-and-register-module">Load and Register Module</a></h2>
 <p>Let's start off by getting all imports right away so you can follow along</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// please add this feature if you're using rust of version &lt; 1.63
 // #![feature(explicit_generic_args_with_impl_trait)]
@@ -14433,8 +14392,7 @@ use wasmedge_types::wat2wasm;
 </li>
 </ul>
 <p>Here we use <code>Module::from_bytes</code> method to load our wasm module from an array of in-memory bytes.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let wasm_bytes = wat2wasm(
         r#&quot;
@@ -14467,8 +14425,7 @@ let module = Module::from_bytes(None, &amp;wasm_bytes)?;
 <span class="boring">}
 </span></code></pre></pre>
 <p>The module returned by <code>Module::from_bytes</code> is a compiled module, also called AST Module in WasmEdge terminology. To use it in WasmEdge runtime environment, we need to instantiate the AST module. We use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Store.html#method.register_named_module">Store::register_named_module</a> API to achieve the goal.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// create an executor
 let mut executor = Executor::new(None, None)?;
@@ -14483,8 +14440,7 @@ let extern_instance = store.register_named_module(&amp;mut executor, &quot;exter
 <p>In the code above, we register the AST module into a <code>Store</code>, in which the module is instantiated, and as a result, a <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Instance.html">module instance</a> named <code>extern</code> is returned.</p>
 <h2 id="memory"><a class="header" href="#memory">Memory</a></h2>
 <p>In the previous section, we get an instance by registering a compiled module into the runtime environment. Now we retrieve the memory instance from the module instance, and make use of the APIs defined in <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Memory.html">Memory</a> to manipulate the linear memory.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// get the exported memory instance
 let mut memory = extern_instance
@@ -14535,8 +14491,7 @@ assert_eq!(returns[0].to_i32(), val);
 <p>In this example, we'll present how to use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Table.html">Table</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.FuncRef.html">FuncRef</a> stored in a slot of a <code>Table</code> instance to implement indirect function invocation.</p>
 <h2 id="prerequisite-1"><a class="header" href="#prerequisite-1">Prerequisite</a></h2>
 <p>In this example we defines a native function <code>real_add</code> that takes two numbers and returns their sum. This function will be registered as a host function into WasmEdge runtime environment</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn real_add(input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
     println!(&quot;Rust: Entering Rust function real_add&quot;);
@@ -14566,8 +14521,7 @@ assert_eq!(returns[0].to_i32(), val);
 <span class="boring">}
 </span></code></pre></pre>
 <p>In addition, the following imports are used in this example.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sdk::{
     config::{CommonConfigOptions, ConfigBuilder},
@@ -14581,8 +14535,7 @@ use wasmedge_types::{RefType, TableType, ValType};
 </span></code></pre></pre>
 <h2 id="register-table-instance"><a class="header" href="#register-table-instance">Register Table instance</a></h2>
 <p>The first thing we need to do is to create a <code>Table</code> instance. After that, we register the table instance along with an import module into the WasmEdge runtime environment. Now let's see the code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// create an executor
 let config = ConfigBuilder::new(CommonConfigOptions::default()).build()?;
@@ -14608,8 +14561,7 @@ store.register_import_module(&amp;mut executor, &amp;import)?;
 <p>In the code snippet above, we create a <code>Table</code> instance with the initial size of <code>10</code> and the maximum size of 20. The element type of the <code>Table</code> instance is <code>reference to function</code>.</p>
 <h2 id="store-a-function-reference-into-table"><a class="header" href="#store-a-function-reference-into-table">Store a function reference into Table</a></h2>
 <p>In the previous steps, we defined a native function <code>real_add</code> and registered a <code>Table</code> instance named <code>my-table</code> into the runtime environment. Now we'll save a reference to <code>read_add</code> function to a slot of <code>my-table</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// get the exported table instance
 let mut table = instance
@@ -14625,8 +14577,7 @@ table.set(3, Val::FuncRef(Some(host_func.as_ref())))?;
 </span></code></pre></pre>
 <p>We save the reference to <code>host_func</code> into the third slot of <code>my-table</code>. Next, we can retrieve the function reference from the table instance by index and call the function via its reference.</p>
 <h2 id="call-native-function-via-funcref"><a class="header" href="#call-native-function-via-funcref">Call native function via <code>FuncRef</code></a></h2>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// retrieve the function reference at the given index of the table instance
 let value = table.get(3)?;
@@ -14705,8 +14656,7 @@ if let Val::FuncRef(Some(func_ref)) = value {
 <p>Then, load a specified WebAssebly file (&quot;fibonacci.wasm&quot;) via the <code>from_file</code> method of the <code>Loader</code> context. If the process is successful, then a WasmEdge <code>AST Module</code> instance is returned.</p>
 </li>
 </ul>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::Loader;
 use std::path::PathBuf;
@@ -14721,8 +14671,7 @@ let module = loader.from_file(path).expect(&quot;fail to load the WebAssembly fi
 </span></code></pre></pre>
 <h3 id="step-2-create-a-wasmedge-vm-context"><a class="header" href="#step-2-create-a-wasmedge-vm-context">Step 2: Create a WasmEdge <code>Vm</code> context</a></h3>
 <p>In WasmEdge, a <code>Vm</code> defines a running environment, in which all varieties of instances and contexts are stored and maintained. In the demo code below, we explicitly create a WasmEdge <code>Store</code> context, and then use it as one of the inputs in the creation of a <code>Vm</code> context. If not specify a <code>Store</code> context explicitly, then <code>Vm</code> will create a store by itself.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::{Config, Store, Vm};
 
@@ -14738,8 +14687,7 @@ let mut vm = Vm::create(Some(config), Some(&amp;mut store)).expect(&quot;fail to
 </span></code></pre></pre>
 <h3 id="step-3-invoke-the-fib-function"><a class="header" href="#step-3-invoke-the-fib-function">Step 3: Invoke the <code>fib</code> function</a></h3>
 <p>In Step 1, we got a module that hosts the target <code>fib</code> function defined in the WebAssembly. Now, we can call the function via the <code>run_wasm_from_module</code> method of the <code>Vm</code> context by passing the exported function name, <code>fib</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::WasmValue;
 
@@ -14764,8 +14712,7 @@ println!(&quot;The result of fib(5) is {}&quot;, returns[0].to_i32());
 <h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
 <p>In the following code, we creates two child threads, <code>thread_a</code> and <code>thread_b</code>, which are responsbile for compute <code>Fib(4)</code> and <code>Fib(5)</code> by calling the host function <code>fib</code>, respectively. After that, the main thread computes <code>Fib(6)</code> by adding the numbers returned by <code>thread_a</code> and <code>thread_b</code>.</p>
 <h3 id="step-1-create-a-vm-context-and-register-the-webassembly-module"><a class="header" href="#step-1-create-a-vm-context-and-register-the-webassembly-module">Step 1: create a Vm context and register the WebAssembly module</a></h3>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// create a Config context
 let mut config = Config::create()?;
@@ -14784,8 +14731,7 @@ vm.register_wasm_from_file(&quot;extern&quot;, file)?;
 <span class="boring">}
 </span></code></pre></pre>
 <h3 id="step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively"><a class="header" href="#step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively">Step 2: create two child threads to compute <code>Fib(4)</code> and <code>Fib(5)</code> respectively</a></h3>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let vm = Arc::new(Mutex::new(vm));
 
@@ -14908,8 +14854,7 @@ fib(6) = fib(5) + fib(1) = 13
 <ul>
 <li>
 <p>Create Wasi and WasmEdgeProcess module instances implicitly by using a <code>Config</code> while creating a <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// create a Config context
@@ -14929,8 +14874,7 @@ let mut vm = Vm::create(Some(config), None)?;
 </li>
 <li>
 <p>Retrieve the Wasi and WasmEdgeProcess module instances from the <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// get the default Wasi module
@@ -14945,8 +14889,7 @@ assert_eq!(wasmedge_process_instance.name(), &quot;wasmedge_process&quot;);
 </li>
 <li>
 <p>Register an import module as a named module into the <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// create ImportModule instance
@@ -15004,8 +14947,7 @@ vm.register_wasm_from_import(ImportObject::Import(import))?;
 </li>
 <li>
 <p>Retrieve the internal <code>Store</code> instance from the <code>Vm</code>, and retrieve the named module instance from the <code>Store</code> instance.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>let mut store = vm.store_mut()?;
@@ -15020,8 +14962,7 @@ assert!(named_instance.get_global(&quot;global&quot;).is_ok());
 </li>
 <li>
 <p>Register an active module into the <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// read the wasm bytes
@@ -15079,8 +15020,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 </li>
 <li>
 <p>Retrieve the active module from the <code>Vm</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// get the active module instance
@@ -15097,8 +15037,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 <ul>
 <li>
 <p>Create an <code>Executor</code> and a <code>Store</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// create an Executor context
@@ -15112,8 +15051,7 @@ let mut store = Store::create()?;
 </li>
 <li>
 <p>Register an import module into the <code>Executor</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// read the wasm bytes
@@ -15172,8 +15110,7 @@ assert!(named_instance.get_func(&quot;fib&quot;).is_ok());
 </li>
 <li>
 <p>Register an active module into the <code>Executor</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>// read the wasm bytes
@@ -15249,10 +15186,11 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 <p>The goal is to load and run WebAssembly OCI images side by side with Linux OCI images (e.g., today's Docker containers) across the entire Kubernetes stack.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h1>
 <p>We have created Ubuntu-based scripts for you to quickly get started with the following combination of runtimes in a standard Kubernetes setup.</p>
-<table><thead><tr><th>CRI (high level) runtime</th><th>OCI (low level) runtime</th><th></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>CRI (high level) runtime</th><th>OCI (low level) runtime</th><th></th></tr></thead><tbody>
 <tr><td>CRI-O</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio.yml">Script</a></td></tr>
 <tr><td>containerd</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd.yml">Script</a></td></tr>
 </tbody></table>
+</div>
 <h2 id="cri-o-and-crun"><a class="header" href="#cri-o-and-crun">CRI-O and crun</a></h2>
 <p>You can use the CRI-O <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/install.sh">install.sh</a> script to install CRI-O and <code>crun</code> on Ubuntu 20.04.</p>
 <pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/install.sh | bash
@@ -16432,10 +16370,11 @@ File content is This is in a file
 The first one is to set up an OpenYurt Cluster from scratch, use <code>yurtctl convert</code> to realize a K8s Cluster conversion to an OpenYurt Cluster.
 The second one is to use the ability of OpenYurt Experience Center, which is easy to achieve an OpenYurt Cluster.</p>
 <h3 id="prerequisite-2"><a class="header" href="#prerequisite-2">Prerequisite</a></h3>
-<table><thead><tr><th></th><th>OS/kernel</th><th>Private IP/Public IP</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>OS/kernel</th><th>Private IP/Public IP</th></tr></thead><tbody>
 <tr><td>Master</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.169/120.55.126.18</td></tr>
 <tr><td>Node</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.170/121.43.113.152</td></tr>
 </tbody></table>
+</div>
 <p>It should be noted that some steps may differ slightly depending on the operating system differences.
 Please refer to the installation of <a href="https://github.com/openyurtio/openyurt">OpenYurt</a> and <a href="https://github.com/containers/crun">crun</a>.</p>
 <p>We use <code>yurtctl convert</code> to convert a K8s Cluster to OpenYurt Cluster, so we should set up a K8s Cluster.
@@ -16740,8 +16679,7 @@ cargo build  --target wasm32-wasi
 <p>The embedded WasmEdge approach requires us to create a WebAssembly function for the business logic (image processing) first, and then embed it into simple Dapr microservices.</p>
 <h3 id="rust-function-for-image-processing"><a class="header" href="#rust-function-for-image-processing">Rust function for image processing</a></h3>
 <p>The <a href="https://github.com/second-state/dapr-wasm/blob/main/functions/grayscale/src/lib.rs">Rust function</a> is simple. It uses the <a href="frameworks/mesh/../../dev/rust/bindgen.html">wasmedge_bindgen</a> macro to makes it easy to call the function from a Go or Rust host embedding the WebAssembly function. It takes and returns base64 encoded image data for the web.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 pub fn grayscale(image_data: String) -&gt; String {
@@ -16751,8 +16689,7 @@ pub fn grayscale(image_data: String) -&gt; String {
 <span class="boring">}
 </span></code></pre></pre>
 <p>The Rust function that actually performs the task is as follows.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn grayscale_internal(image_data: &amp;[u8]) -&gt; String {
     let image_format_detected: ImageFormat = image::guess_format(&amp;image_data).unwrap();
@@ -16801,8 +16738,7 @@ dapr run --app-id image-api-go \
 </code></pre>
 <h3 id="the-rust-host-wrapper-for-microservice"><a class="header" href="#the-rust-host-wrapper-for-microservice">The Rust host wrapper for microservice</a></h3>
 <p>The <a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-rs">Rust-based microservice</a> embeds the above imaging processing function in WasmEdge. The <a href="https://github.com/second-state/dapr-wasm/blob/main/image-api-rs/src/main.rs">microservice itself</a> is a Tokio and Warp based web server.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[tokio::main]
 pub async fn run_server(port: u16) {
@@ -16991,8 +16927,7 @@ YoMo CLI version: v0.1.3
 </code></pre>
 <h2 id="the-image-classification-function"><a class="header" href="#the-image-classification-function">The image classification function</a></h2>
 <p>The <a href="https://github.com/yomorun/yomo-wasmedge-tensorflow/tree/main/flow/rust_mobilenet_food">image classification function</a> to process the YoMo image stream is written in Rust. It utilizes the WasmEdge Tensorflow API to process an input image.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 pub fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
@@ -17242,8 +17177,7 @@ source $HOME/.wasmedge/env
 <h3 id="hello-world-rust-function-compiled-to-webassembly"><a class="header" href="#hello-world-rust-function-compiled-to-webassembly">Hello world: Rust function compiled to WebAssembly</a></h3>
 <p>Let's first create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/hello/hello-echo/src/lib.rs">a simple Rust function</a> to echo hello.
 The Rust function <code>HelloEcho::run()</code> is as follows. It will be exposed to the Go host application through Reactr.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use suborbital::runnable::*;
 
@@ -17327,8 +17261,7 @@ postgres=# CREATE TABLE users (
 <h3 id="database-query-rust-function-compiled-to-webassembly"><a class="header" href="#database-query-rust-function-compiled-to-webassembly">Database query: Rust function compiled to WebAssembly</a></h3>
 <p>Let's create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/db/rs-db/src/lib.rs">a Rust function</a> to access the PostgreSQL database.
 The Rust function <code>RsDbtest::run()</code> is as follows. It will be exposed to the Go host application through Reactr. It uses named queries such as <code>PGInsertUser</code> and <code>PGSelectUserWithUUID</code> to operate the database. Those queries are defined in the Go host application, and we will see them later.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use suborbital::runnable::*;
 use suborbital::db;
@@ -18070,7 +18003,7 @@ It runs not only on Linux-like systems, but also on microkernels such as the seL
 <div style="break-before: page; page-break-before: always;"></div><h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
 <p>WasmEdge supports a wide range of Linux distributions dated back to 2007. The official release contains statically linked binaries and libraries for older Linux systems.
 The table below shows build targets in WasmEdge's official release packages.</p>
-<table><thead><tr><th>tag name</th><th>arch</th><th>based operating system</th><th>LLVM version</th><th>ENVs</th><th>compatibility</th><th>comments</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>tag name</th><th>arch</th><th>based operating system</th><th>LLVM version</th><th>ENVs</th><th>compatibility</th><th>comments</th></tr></thead><tbody>
 <tr><td><code>latest</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>This is for CI, will always use the latest Ubuntu release</td></tr>
 <tr><td><code>ubuntu-build-gcc</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>This is for CI, will always use the latest Ubuntu release</td></tr>
 <tr><td><code>ubuntu-build-clang</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>This is for CI, will always use the latest Ubuntu release</td></tr>
@@ -18081,7 +18014,7 @@ The table below shows build targets in WasmEdge's official release packages.</p>
 <tr><td><code>manylinux2010_x86_64</code></td><td>x86_64</td><td>CentOS 6, 6.10</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 6+</td><td>This is for developers who familiar with legacy system on x86_64 architecture, EOL</td></tr>
 <tr><td><code>manylinux1_x86_64</code></td><td>x86_64</td><td>CentOS 5, 5.11</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 5+</td><td>This is for developers who familiar with legacy system on x86_64 architecture, EOL</td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="windows"><a class="header" href="#windows">Windows</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="windows"><a class="header" href="#windows">Windows</a></h1>
 <p>WasmEdge provides a standard Windows PowerShell binary build as part of its official release package.
 You can install it via our standard install script.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="mac"><a class="header" href="#mac">Mac</a></h1>
@@ -18551,7 +18484,7 @@ If you want to build from source, you may need to install these dependencies by 
 <pre><code class="language-bash">docker pull wasmedge/wasmedge # Pulls the latest - wasmedge/wasmedge:latest
 </code></pre>
 <h4 id="available-tags"><a class="header" href="#available-tags">Available Tags</a></h4>
-<table><thead><tr><th>tag name</th><th>arch</th><th>based operating system</th><th>LLVM version</th><th>ENVs</th><th>compatibility</th><th>comments</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>tag name</th><th>arch</th><th>based operating system</th><th>LLVM version</th><th>ENVs</th><th>compatibility</th><th>comments</th></tr></thead><tbody>
 <tr><td><code>latest</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>This is for CI, will always use the latest Ubuntu release</td></tr>
 <tr><td><code>ubuntu-build-gcc</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>This is for CI, will always use the latest Ubuntu release</td></tr>
 <tr><td><code>ubuntu-build-clang</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>This is for CI, will always use the latest Ubuntu release</td></tr>
@@ -18562,6 +18495,7 @@ If you want to build from source, you may need to install these dependencies by 
 <tr><td><code>manylinux2010_x86_64</code></td><td>x86_64</td><td>CentOS 6, 6.10</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 6+</td><td>This is for developers who familiar with legacy system on x86_64 architecture, EOL</td></tr>
 <tr><td><code>manylinux1_x86_64</code></td><td>x86_64</td><td>CentOS 5, 5.11</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 5+</td><td>This is for developers who familiar with legacy system on x86_64 architecture, EOL</td></tr>
 </tbody></table>
+</div>
 <h3 id="install-dependencies-on-ubuntu-2004-manually"><a class="header" href="#install-dependencies-on-ubuntu-2004-manually">Install dependencies on Ubuntu 20.04 manually</a></h3>
 <pre><code class="language-bash"># Tools and libraries
 sudo apt install -y \
@@ -18585,12 +18519,13 @@ sudo apt install -y clang-12
 <p>Our development environment requires <code>libLLVM-12</code> and <code>&gt;=GLIBCXX_3.4.33</code>.</p>
 <p>If users are using operating systems older than Ubuntu 20.04, please use our special docker image to build WasmEdge.
 If you are looking for the pre-built binaries for the older operating system, we also provide several pre-built binaries based on manylinux* distribution.</p>
-<table><thead><tr><th>Portable Linux Built Distributions Tags</th><th>Base Image</th><th>Provided Requirements</th><th>Docker Image</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Portable Linux Built Distributions Tags</th><th>Base Image</th><th>Provided Requirements</th><th>Docker Image</th></tr></thead><tbody>
 <tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5</br>CXXABI &lt;= 3.4.8</br>GLIBCXX &lt;= 3.4.9</br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
 <tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12</br>CXXABI &lt;= 1.3.3</br>GLIBCXX &lt;= 3.4.13</br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
 </tbody></table>
+</div>
 <h2 id="build-wasmedge"><a class="header" href="#build-wasmedge">Build WasmEdge</a></h2>
 <p>WasmEdge provides various tools for enabling different runtime environments for optimal performance.
 You can find that there are several wasmedge related tools:</p>

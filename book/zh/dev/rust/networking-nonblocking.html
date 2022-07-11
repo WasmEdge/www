@@ -222,8 +222,7 @@ fn main() {
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
 <p>使用如下命令在 WasmEdge 中运行程序。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>wasmedge target/wasm32-wasi/release/nonblock_http_client.wasm
 <span class="boring">}
@@ -287,8 +286,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><code>handle_connection()</code> 函数处理来自于开启的连接的数据。当前它只是将请求的内容写回响应中。这同样是以异步的形式完成的，意味着 <code>handle_connection()</code> 函数为响应创建了一个事件，然后将事件放入了一个队列中。主程序循环处理这些事件，并在等待来自其他连接的数据时发送这些响应。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn handle_connection(
     poll: &amp;mut Poll,

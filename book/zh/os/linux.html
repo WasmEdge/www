@@ -152,7 +152,7 @@
                         <h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
 <p>WasmEdge 支持广泛的2007年之后的 Linux 发行版。官方发布包包含静态链接的二进制文件和库，适用于旧的 Linux 系统。
 下表展示了 WasmEdge 官方发布包中的构建目标。</p>
-<table><thead><tr><th>镜像 tag</th><th>指令集架构</th><th>基础操作系统</th><th>LLVM 版本</th><th>环境变量</th><th>兼容性</th><th>说明</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>镜像 tag</th><th>指令集架构</th><th>基础操作系统</th><th>LLVM 版本</th><th>环境变量</th><th>兼容性</th><th>说明</th></tr></thead><tbody>
 <tr><td><code>latest</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>始终使用最新的 Ubuntu 版本提供给 CI</td></tr>
 <tr><td><code>ubuntu-build-gcc</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>始终使用最新的 Ubuntu 版本提供给 CI</td></tr>
 <tr><td><code>ubuntu-build-clang</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>始终使用最新的 Ubuntu 版本提供给 CI</td></tr>
@@ -163,7 +163,7 @@
 <tr><td><code>manylinux2010_x86_64</code></td><td>x86_64</td><td>CentOS 6, 6.10</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 6+</td><td>提供给熟悉 x86_64 架构的遗留系统的开发人员准备的</td></tr>
 <tr><td><code>manylinux1_x86_64</code></td><td>x86_64</td><td>CentOS 5, 5.11</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 5+</td><td>提供给熟悉 x86_64 架构的遗留系统的开发人员准备的</td></tr>
 </tbody></table>
-
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

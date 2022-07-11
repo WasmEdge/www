@@ -153,8 +153,7 @@
 <p>In this example, we'll present how to use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Table.html">Table</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.FuncRef.html">FuncRef</a> stored in a slot of a <code>Table</code> instance to implement indirect function invocation.</p>
 <h2 id="prerequisite"><a class="header" href="#prerequisite">Prerequisite</a></h2>
 <p>In this example we defines a native function <code>real_add</code> that takes two numbers and returns their sum. This function will be registered as a host function into WasmEdge runtime environment</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn real_add(input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
     println!(&quot;Rust: Entering Rust function real_add&quot;);
@@ -184,8 +183,7 @@
 <span class="boring">}
 </span></code></pre></pre>
 <p>In addition, the following imports are used in this example.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sdk::{
     config::{CommonConfigOptions, ConfigBuilder},
@@ -199,8 +197,7 @@ use wasmedge_types::{RefType, TableType, ValType};
 </span></code></pre></pre>
 <h2 id="register-table-instance"><a class="header" href="#register-table-instance">Register Table instance</a></h2>
 <p>The first thing we need to do is to create a <code>Table</code> instance. After that, we register the table instance along with an import module into the WasmEdge runtime environment. Now let's see the code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// create an executor
 let config = ConfigBuilder::new(CommonConfigOptions::default()).build()?;
@@ -226,8 +223,7 @@ store.register_import_module(&amp;mut executor, &amp;import)?;
 <p>In the code snippet above, we create a <code>Table</code> instance with the initial size of <code>10</code> and the maximum size of 20. The element type of the <code>Table</code> instance is <code>reference to function</code>.</p>
 <h2 id="store-a-function-reference-into-table"><a class="header" href="#store-a-function-reference-into-table">Store a function reference into Table</a></h2>
 <p>In the previous steps, we defined a native function <code>real_add</code> and registered a <code>Table</code> instance named <code>my-table</code> into the runtime environment. Now we'll save a reference to <code>read_add</code> function to a slot of <code>my-table</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// get the exported table instance
 let mut table = instance
@@ -243,8 +239,7 @@ table.set(3, Val::FuncRef(Some(host_func.as_ref())))?;
 </span></code></pre></pre>
 <p>We save the reference to <code>host_func</code> into the third slot of <code>my-table</code>. Next, we can retrieve the function reference from the table instance by index and call the function via its reference.</p>
 <h2 id="call-native-function-via-funcref"><a class="header" href="#call-native-function-via-funcref">Call native function via <code>FuncRef</code></a></h2>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// retrieve the function reference at the given index of the table instance
 let value = table.get(3)?;

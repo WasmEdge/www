@@ -229,8 +229,7 @@ rustwasmc  build --enable-ext
 cp ./pkg/grayscale.wasm ../../image-api-rs/lib
 </code></pre>
 <p><a href="https://github.com/second-state/dapr-wasm/tree/main/functions/classify">classify</a> 函数是一个 Rust 函数，它将图像数据的字节数组作为输入（参数），调用 WasmEdge TensorFlow API 处理，并返回一个字符串用于分类。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_tensorflow_interface;
 pub fn infer_internal(image_data: &amp;[u8]) -&gt; String {
@@ -268,8 +267,7 @@ cp ./pkg/classify_bg.wasm ../../image-api-go/lib/classify_bg.wasm
 <h2 id="图像处理-sidecar"><a class="header" href="#图像处理-sidecar">图像处理 sidecar</a></h2>
 <p><a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-rs">image-api-rs</a> sidecar 应用程序是用 Rust 编写的。在上一步中，已经通过安装 <code>lib/grayscale.wasm</code> 拥有了 WebAssembly 函数。请参考 <a href="https://github.com/second-state/dapr-wasm/blob/main/functions/bin/install.sh">functions/bin/install.sh</a> 脚本来安装 WasmEdge Runtime 的二进制文件 <code>lib/wasmedge-tensorflow-lite</code> 及其依赖项。</p>
 <p>Sidecar 微服务运行了一个基于 Tokio 的事件循环，用于侦听 <code>/api/image</code> 路径上接收到的 HTTP 请求。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[tokio::main]
 pub async fn run_server(port: u16) {
@@ -292,8 +290,7 @@ pub async fn run_server(port: u16) {
 <span class="boring">}
 </span></code></pre></pre>
 <p>一旦它接收到通过 HTTP POST 请求发送的图像文件，就会调用 WasmEdge 中的 WebAssembly 函数来执行图像处理任务。它创建一个 WasmEdge 实例来与 WebAssembly 程序交互。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn image_process(buf: &amp;Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
   let mut child = Command::new(&quot;./lib/wasmedge-tensorflow-lite&quot;)

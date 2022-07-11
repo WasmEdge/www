@@ -152,8 +152,7 @@
                         <h1 id="调用-rust-函数"><a class="header" href="#调用-rust-函数">调用 Rust 函数</a></h1>
 <p>如果你的 Rust 程序包含 <code>main()</code> 函数，你可以将它编译成 WASM 字节码，然后像运行一个独立应用程序一样使用 <code>wasmedge</code> 命令行工具来运行它。然而，更常见的使用场景是将一个 Rust 函数编译成 WASM 字节码，然后在其他宿主程序中调用它。这被称为嵌入的 WASM 函数。宿主应用程序使用 WasmEdge 语言 SDK （比如，<a href="../../embed/go.html">Go</a>、 <a href="../../embed/rust.html">Rust</a>、 <a href="../../embed/c.html">C</a>、 <a href="../../embed/go.html">Python</a> 以及 <a href="../../embed/node.html">Node.js</a>）来运行由 Rust 源代码编译而来的 WASM 函数。</p>
 <p>所有的 WasmEdge 语言 SDK 都支持简单的函数调用。但是，WASM 规范只支持一些基础的数据类型作为参数和返回值。当 Rust 函数被编译成 WASM 时，<code>wasmedge-bindgen</code> 会把 Rust 函数的调用参数和返回值都转换为简单的整型。比如，字符串将被自动转换为两个整型，它的内存地址和它的长度，这些类型可以被标准的 WASM 规范接受。在 Rust 中这很容易完成，只需要给你的函数添加 <code>#[wasmedge-bindgen]</code> 宏就可以。你可以使用标准的 Rust 编译工具链（比如，最新的 <code>Cargo</code>）来编译添加宏之后的 Rust 代码。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_bindgen::*;
 use wasmedge_bindgen_macro::*;

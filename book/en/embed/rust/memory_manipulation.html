@@ -180,8 +180,7 @@
 <p>Next, we'll demonstrate how to manipulate the linear memory by calling the exported functions.</p>
 <h2 id="load-and-register-module"><a class="header" href="#load-and-register-module">Load and Register Module</a></h2>
 <p>Let's start off by getting all imports right away so you can follow along</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// please add this feature if you're using rust of version &lt; 1.63
 // #![feature(explicit_generic_args_with_impl_trait)]
@@ -201,8 +200,7 @@ use wasmedge_types::wat2wasm;
 </li>
 </ul>
 <p>Here we use <code>Module::from_bytes</code> method to load our wasm module from an array of in-memory bytes.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let wasm_bytes = wat2wasm(
         r#&quot;
@@ -235,8 +233,7 @@ let module = Module::from_bytes(None, &amp;wasm_bytes)?;
 <span class="boring">}
 </span></code></pre></pre>
 <p>The module returned by <code>Module::from_bytes</code> is a compiled module, also called AST Module in WasmEdge terminology. To use it in WasmEdge runtime environment, we need to instantiate the AST module. We use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Store.html#method.register_named_module">Store::register_named_module</a> API to achieve the goal.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// create an executor
 let mut executor = Executor::new(None, None)?;
@@ -251,8 +248,7 @@ let extern_instance = store.register_named_module(&amp;mut executor, &quot;exter
 <p>In the code above, we register the AST module into a <code>Store</code>, in which the module is instantiated, and as a result, a <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Instance.html">module instance</a> named <code>extern</code> is returned.</p>
 <h2 id="memory"><a class="header" href="#memory">Memory</a></h2>
 <p>In the previous section, we get an instance by registering a compiled module into the runtime environment. Now we retrieve the memory instance from the module instance, and make use of the APIs defined in <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Memory.html">Memory</a> to manipulate the linear memory.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// get the exported memory instance
 let mut memory = extern_instance

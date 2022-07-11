@@ -173,8 +173,7 @@ crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
 </code></pre>
 <p>再来看看 Rust 代码是什么样的。</p>
 <p><code>lib.rs</code>:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern &quot;C&quot; {
   fn add(a: i32, b: i32) -&gt; i32;
@@ -263,8 +262,7 @@ func main() {
 例子的源代码在<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_HostFunc">这里</a>.</p>
 <p>还是先上 Rust 代码。<code>Cargo.toml</code> 是必不可少的，只是我在这里省略了。</p>
 <p><code>lib.rs</code>:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern &quot;C&quot; {
   fn fetch(url_pointer: *const u8, url_length: i32) -&gt; i32;

@@ -153,8 +153,7 @@
 <p>在这一章节，我们将向你展示如何在 Rust 中创建一个用于图像分类的 Tensorflow 推理函数，然后将其嵌入到 Go 应用程序中。项目的源码可以在<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_TfliteFood">这儿</a>查看。</p>
 <h2 id="将-rust-函数编译成-webassembly"><a class="header" href="#将-rust-函数编译成-webassembly">将 Rust 函数编译成 WebAssembly</a></h2>
 <p>用于图像分类的 Rust 函数在<a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_TfliteFood/rust_tflite_food/src/lib.rs">这儿</a>。它使用 <a href="../../dev/rust/tensorflow.html">WasmEdge Tensorflow 扩展 API</a> 以及 <a href="function.html">wasmedge_bindgen</a> 来传递所有调用参数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {

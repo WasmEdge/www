@@ -265,8 +265,7 @@ cargo build  --target wasm32-wasi
 <p>The embedded WasmEdge approach requires us to create a WebAssembly function for the business logic (image processing) first, and then embed it into simple Dapr microservices.</p>
 <h3 id="rust-function-for-image-processing"><a class="header" href="#rust-function-for-image-processing">Rust function for image processing</a></h3>
 <p>The <a href="https://github.com/second-state/dapr-wasm/blob/main/functions/grayscale/src/lib.rs">Rust function</a> is simple. It uses the <a href="../../dev/rust/bindgen.html">wasmedge_bindgen</a> macro to makes it easy to call the function from a Go or Rust host embedding the WebAssembly function. It takes and returns base64 encoded image data for the web.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 pub fn grayscale(image_data: String) -&gt; String {
@@ -276,8 +275,7 @@ pub fn grayscale(image_data: String) -&gt; String {
 <span class="boring">}
 </span></code></pre></pre>
 <p>The Rust function that actually performs the task is as follows.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn grayscale_internal(image_data: &amp;[u8]) -&gt; String {
     let image_format_detected: ImageFormat = image::guess_format(&amp;image_data).unwrap();
@@ -326,8 +324,7 @@ dapr run --app-id image-api-go \
 </code></pre>
 <h3 id="the-rust-host-wrapper-for-microservice"><a class="header" href="#the-rust-host-wrapper-for-microservice">The Rust host wrapper for microservice</a></h3>
 <p>The <a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-rs">Rust-based microservice</a> embeds the above imaging processing function in WasmEdge. The <a href="https://github.com/second-state/dapr-wasm/blob/main/image-api-rs/src/main.rs">microservice itself</a> is a Tokio and Warp based web server.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[tokio::main]
 pub async fn run_server(port: u16) {

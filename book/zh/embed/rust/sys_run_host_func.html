@@ -194,8 +194,7 @@
 <p>然后，通过 <code>loader</code> 程序实例的 <code>from_file</code> 方法加载指定的 WebAssebly 文件（“fibonacci.wasm”）。如果该过程成功，则返回一个 WasmEdge <code>AST module</code> 实例。</p>
 </li>
 </ul>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::Loader
 use std::path::PathBuf;
@@ -210,8 +209,7 @@ let mut module = loader.from_file(path).expect(&quot;fail to load the WebAssembl
 </span></code></pre></pre>
 <h2 id="步骤-2-创建一个-vm-实例"><a class="header" href="#步骤-2-创建一个-vm-实例">步骤 2: 创建一个 <code>Vm</code> 实例</a></h2>
 <p>在 WasmEdge 中， <code>Vm</code> 定义了一个运行环境，在其中存储和维护各种实例。在下面的演示代码中，我们可以创建一个 WasmEdge <code>store</code> 实例，然后将其用作创建 <code>Vm</code> 实例的输入之一。如果没有明确指定 <code>store</code> 实例，那么 <code>Vm</code> 将自己创建一个 <code>store</code> 。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::{Config, Store, Vm};
 
@@ -227,8 +225,7 @@ let mut vm = Vm::create(Some(config), Some(store)).expect(&quot;fail to create a
 </span></code></pre></pre>
 <h2 id="步骤-3-调用-fib-函数"><a class="header" href="#步骤-3-调用-fib-函数">步骤 3: 调用 fib 函数</a></h2>
 <p>在步骤 1中，我们得到了一个模块，该模块承载 WebAssembly 中定义的目标 <code>fib</code> 函数。现在，我们可以通过传递导出的函数名 <code>fib</code> ，通过 <code>Vm</code> 实例的 <code>run_wasm_from_module</code> 方法调用该函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::Value;
 

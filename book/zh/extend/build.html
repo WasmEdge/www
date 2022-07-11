@@ -169,7 +169,7 @@ cd WasmEdge
 <pre><code class="language-bash">docker pull wasmedge/wasmedge # 等同于 wasmedge/wasmedge:latest
 </code></pre>
 <h4 id="可用的标签"><a class="header" href="#可用的标签">可用的标签</a></h4>
-<table><thead><tr><th>标签名</th><th>体系结构</th><th>基于的操作系统</th><th>LLVM 版本</th><th>环境配置</th><th>兼容性</th><th>备注</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>标签名</th><th>体系结构</th><th>基于的操作系统</th><th>LLVM 版本</th><th>环境配置</th><th>兼容性</th><th>备注</th></tr></thead><tbody>
 <tr><td><code>latest</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>这个是用于持续集成的，会一直使用最新的 Ubuntu 版本</td></tr>
 <tr><td><code>ubuntu-build-gcc</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>这个是用于持续集成的，会一直使用最新的 Ubuntu 版本</td></tr>
 <tr><td><code>ubuntu-build-clang</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>这个是用于持续集成的，会一直使用最新的 Ubuntu 版本</td></tr>
@@ -179,6 +179,7 @@ cd WasmEdge
 <tr><td><code>manylinux2010_x86_64</code></td><td>x86_64</td><td>CentOS 6, 6.10</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 6+</td><td>这个提供给熟悉基于 x86_64 架构的过时系统的开发者使用，后续不再维护</td></tr>
 <tr><td><code>manylinux1_x86_64</code></td><td>x86_64</td><td>CentOS 5, 5.11</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 5+</td><td>这个提供给熟悉基于 x86_64 架构的过时系统的开发者使用，后续不再维护</td></tr>
 </tbody></table>
+</div>
 <h3 id="在-ubuntu-2004-上手动安装依赖"><a class="header" href="#在-ubuntu-2004-上手动安装依赖">在 Ubuntu 20.04 上手动安装依赖</a></h3>
 <pre><code class="language-bash"># 工具和库
 sudo apt install -y \
@@ -202,12 +203,13 @@ sudo apt install -y clang
 <p>我们的开发环境依赖于 <code>libLLVM-12</code> 和 <code>&gt;=GLIBCXX_3.4.33</code>。</p>
 <p>如果用户的系统是比 Ubuntu 20.04 还早的版本，请使用我们定制的 docker 镜像来构建 WasmEdge 。
 如果你需要的是在过时版本的操作系统上使用的二进制包，我们也提供了几个基于 manylinux* 发行版本的安装包。</p>
-<table><thead><tr><th>可移植的 Linux 发行版标签</th><th>基础镜像</th><th>提供的依赖</th><th>Docker 镜像</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>可移植的 Linux 发行版标签</th><th>基础镜像</th><th>提供的依赖</th><th>Docker 镜像</th></tr></thead><tbody>
 <tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5</br>CXXABI &lt;= 3.4.8</br>GLIBCXX &lt;= 3.4.9</br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
 <tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12</br>CXXABI &lt;= 1.3.3</br>GLIBCXX &lt;= 3.4.13</br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
 </tbody></table>
+</div>
 <h2 id="构建-wasmedge"><a class="header" href="#构建-wasmedge">构建 WasmEdge</a></h2>
 <p>WasmEdge 提供了丰富的工具来支撑更好的性能以及更多样的运行时环境，
 编译完成后，你可以找到以下几个 WasmEdge 相关的工具：</p>
