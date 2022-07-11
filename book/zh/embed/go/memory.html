@@ -163,8 +163,7 @@
 <p>在 WebAssembly 中向 Rust 函数传递和返回复杂值的另一种方法是使用 <code>wasm-bindgen</code> 编译器工具。你可以在<a href="bindgen.html">这里</a>了解更多。</p>
 </blockquote>
 <p>Rust 函数获取字符串的内存指针，并自己构造 Rust 字符串。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::ffi::{CStr, CString};
 use std::mem;
@@ -420,8 +419,7 @@ Hello, WasmEdge!
 </blockquote>
 <p><code>fib_array()</code> 函数将一个数组作为调用参数，并用斐波那契数列填充它。或者，<code>fib_array_return_memory()</code> 函数返回一个斐波那契数列数组。</p>
 <p>对于调用参数中的数组，Rust 函数 <code>fib_array()</code> 需要一个内存指针并使用 <code>from_raw_parts</code> 构造 Rust <code>Vec</code>。对于数组的返回值，Rust 函数 <code>fib_array_return_memory()</code> 只是返回指针。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::mem;
 use std::os::raw::{c_void, c_int};

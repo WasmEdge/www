@@ -162,8 +162,7 @@
 rust_process_interface_library = &quot;0.1.3&quot;
 </code></pre>
 <p>现在你可以在 Rust 应用程序中使用这个接口启动一个新的进程，来运行操作系统中的命令行程序，通过 <code>arg()</code> 方法或者 <code>STDIN</code> 传入参数，并通过 <code>STDOUT</code> 接收返回值。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut cmd = Command::new(&quot;http_proxy&quot;);
 

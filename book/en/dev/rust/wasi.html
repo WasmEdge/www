@@ -160,8 +160,7 @@ rand = &quot;0.7.3&quot;
 getrandom = &quot;0.1.14&quot;
 </code></pre>
 <p>The Rust code to get random number from WebAssembly is this.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rand::prelude::*;
 
@@ -180,8 +179,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
 </span></code></pre></pre>
 <h2 id="printing-and-debugging-from-rust"><a class="header" href="#printing-and-debugging-from-rust">Printing and debugging from Rust</a></h2>
 <p>The Rust <code>println!</code> marco just works in WASI. The statements print to the <code>STDOUT</code> of the process that runs the WasmEdge.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn echo(content: &amp;str) -&gt; String {
   println!(&quot;Printed from wasi: {}&quot;, content);
@@ -192,8 +190,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
 <h2 id="arguments-and-environment-variables"><a class="header" href="#arguments-and-environment-variables">Arguments and environment variables</a></h2>
 <p>It is possible to pass CLI arguments to and access OS environment variables in a WasmEdge application.
 They are just <code>env::args()</code> and <code>env::vars()</code> arrays in Rust.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::env;
 
@@ -214,8 +211,7 @@ pub fn print_env() {
 <p>WASI allows your Rust functions to access the host computer's file system through the standard Rust <code>std::fs</code> API.
 In the Rust program, you operate on files through a relative path. The relative
 path's root is specified when you start the WasmEdge runtime.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs;
 use std::fs::File;
@@ -282,8 +278,7 @@ In the Rust program, add a helper crate in Cargo.toml so that the WASI initializ
 wasmedge-wasi-helper = &quot;=0.2.0&quot;
 </code></pre>
 <p>In the Rust function, we need to call <code>_initialize()</code> before we access any arguments and environment variables or operate any files.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn print_env() -&gt; i32 {
   _initialize();

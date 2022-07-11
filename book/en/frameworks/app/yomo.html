@@ -181,8 +181,7 @@ YoMo CLI version: v0.1.3
 </code></pre>
 <h2 id="the-image-classification-function"><a class="header" href="#the-image-classification-function">The image classification function</a></h2>
 <p>The <a href="https://github.com/yomorun/yomo-wasmedge-tensorflow/tree/main/flow/rust_mobilenet_food">image classification function</a> to process the YoMo image stream is written in Rust. It utilizes the WasmEdge Tensorflow API to process an input image.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 pub fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {

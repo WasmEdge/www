@@ -186,16 +186,14 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <h3 id="code-walkthrough"><a class="header" href="#code-walkthrough">Code walkthrough</a></h3>
 <p>It is fairly straightforward to use the WasmEdge Tensorflow API. You can see the entire source code in <a href="https://github.com/second-state/wasm-learning/blob/master/cli/tflite/src/main.rs">main.rs</a>.</p>
 <p>First, it reads the trained TFLite model file (ImageNet) and its label file. The label file maps numeric output from the model to English names for the classified objects.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
   let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>Next, it reads the image from <code>STDIN</code> and converts it to the size and RGB pixel arrangement required by the Tensorflow Lite model.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut buf = Vec::new();
   io::stdin().read_to_end(&amp;mut buf).unwrap();
@@ -204,8 +202,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>Then, the program runs the TFLite model with its required input tensor (i.e., the flat image in this case), and receives the model output. In this case, the model output is an array of numbers. Each number corresponds to the probability of an object name in the label text file.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
   session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
@@ -214,8 +211,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>Let's find the object with the highest probability, and then look up the name in the labels file.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut i = 0;
   let mut max_index: i32 = -1;
@@ -236,8 +232,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>Finally, it prints the result to <code>STDOUT</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let class_name = label_lines.next().unwrap().to_string();
   if max_value &gt; 50 {

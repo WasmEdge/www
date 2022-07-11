@@ -161,8 +161,7 @@
 <h2 id="example"><a class="header" href="#example">Example</a></h2>
 <p>In the following code, we creates two child threads, <code>thread_a</code> and <code>thread_b</code>, which are responsbile for compute <code>Fib(4)</code> and <code>Fib(5)</code> by calling the host function <code>fib</code>, respectively. After that, the main thread computes <code>Fib(6)</code> by adding the numbers returned by <code>thread_a</code> and <code>thread_b</code>.</p>
 <h3 id="step-1-create-a-vm-context-and-register-the-webassembly-module"><a class="header" href="#step-1-create-a-vm-context-and-register-the-webassembly-module">Step 1: create a Vm context and register the WebAssembly module</a></h3>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// create a Config context
 let mut config = Config::create()?;
@@ -181,8 +180,7 @@ vm.register_wasm_from_file(&quot;extern&quot;, file)?;
 <span class="boring">}
 </span></code></pre></pre>
 <h3 id="step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively"><a class="header" href="#step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively">Step 2: create two child threads to compute <code>Fib(4)</code> and <code>Fib(5)</code> respectively</a></h3>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let vm = Arc::new(Mutex::new(vm));
 

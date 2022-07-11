@@ -186,8 +186,7 @@ state
 by the <a href="../start/cli.html">WasmEdge CLI</a> in the reactor mode.</p>
 <p>The full source code for the Rust <a href="https://github.com/second-state/wasm-learning/blob/master/cli/add/src/lib.rs">lib.rs</a> file is as follows.
 It provides a simple <code>add()</code> function.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[no_mangle]
 pub fn add(a: i32, b: i32) -&gt; i32 {

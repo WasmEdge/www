@@ -183,8 +183,7 @@ state
 <p><a href="https://github.com/second-state/wasm-learning/tree/master/cli/add">add 示例</a>是一个 Rust 库函数，可以被 <a href="../start/cli.html">WasmEdge 命令行接口</a> 接口在 <code>--reactor</code> 模式下执行。</p>
 <p>如下是 <a href="https://github.com/second-state/wasm-learning/blob/master/cli/add/src/lib.rs">lib.rs</a> 的完整代码，它将输出在运行的时候接收到的命令行参数。
 它提供了一个简单的 <code>add()</code> 函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[no_mangle]
 pub fn add(a: i32, b: i32) -&gt; i32 {

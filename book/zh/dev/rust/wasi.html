@@ -160,8 +160,7 @@ rand = &quot;0.7.3&quot;
 getrandom = &quot;0.1.14&quot;
 </code></pre>
 <p>如下是在 WebAssembly 生成随机数的 Rust 代码。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rand::prelude::*;
 
@@ -180,8 +179,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
 </span></code></pre></pre>
 <h2 id="从-rust-中输出和调试"><a class="header" href="#从-rust-中输出和调试">从 Rust 中输出和调试</a></h2>
 <p>Rust 中的 <code>println!</code> 宏同样可以用在 WASI 中。下面的语句向运行 WasmEdge 的进程的 <code>STDOUT</code> 输出。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn echo(content: &amp;str) -&gt; String {
   println!(&quot;Printed from wasi: {}&quot;, content);
@@ -192,8 +190,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
 <h2 id="参数以及环境变量"><a class="header" href="#参数以及环境变量">参数以及环境变量</a></h2>
 <p>在 WasmEdge 应用程序中，你可以传递命令行参数并且获取操作系统环境变量。
 在 Rust 中你可以使用 <code>env::args()</code> 和 <code>env::vars()</code> 访问他们。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::env;
 
@@ -213,8 +210,7 @@ pub fn print_env() {
 <h2 id="读写文件"><a class="header" href="#读写文件">读写文件</a></h2>
 <p>WASI 让你可以通过标准的 Rust <code>std::fs</code> 接口来访问宿主的文件系统。
 在 Rust 程序中，你通过相对路径来操作文件，相对路径的根目录可以在启动 WasmEdge Runtime 的时候被指定。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs;
 use std::fs::File;
@@ -274,8 +270,7 @@ File content is This is in a file
 wasmedge-wasi-helper = &quot;=0.2.0&quot;
 </code></pre>
 <p>在访问任何参数和环境变量或者操作任何文件之前，我们需要调用 _initialize() 函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn print_env() -&gt; i32 {
   _initialize();

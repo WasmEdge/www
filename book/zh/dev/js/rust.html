@@ -167,8 +167,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 </blockquote>
 <h2 id="创建一个-javascript-函数-api"><a class="header" href="#创建一个-javascript-函数-api">创建一个 JavaScript 函数 API</a></h2>
 <p>下面这个代码片段定义了一个 Rust 函数，该函数可以作为一个 API 结合到 JavaScript 解释器中。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
 
@@ -186,8 +185,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 <span class="boring">}
 </span></code></pre></pre>
 <p>下面的代码展示了如何把这个 Rust 函数添加到 JavaScript 解释器中，并为该函数的 JavaScript API 指定一个签名 <code>hi()</code>，随之在 JavaScript 代码中调用它。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
   ...
@@ -208,8 +206,7 @@ return value:UnDefined
 <p>通过这个方法，你可以创建出一个带有自定义 API 函数的 JavaScript 解释器。这个解释器是运行在 WasmEdge 里的，并且可以通过 CLI 或者网络来执行调用了这些 API 函数的 JavaScript 代码。</p>
 <h2 id="创建一个-javascript-对象-api"><a class="header" href="#创建一个-javascript-对象-api">创建一个 JavaScript 对象 API</a></h2>
 <p>在 JavaScript API 的设计中，我们有时需要提供一个封装了数据以及函数的对象。在下面的示例中，我们为 JavaScript API 定义了一个 Rust 函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn rust_new_object_and_js_call(ctx: &amp;mut Context) {
   struct ObjectFn;
@@ -230,8 +227,7 @@ return value:UnDefined
 <span class="boring">}
 </span></code></pre></pre>
 <p>然后，我们在 Rust 端创建一个&quot;对象&quot;，设置它的数据域，然后将该 Rust 函数注册为关联到该对象的 JavaScript 函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut obj = ctx.new_object();
 obj.set(&quot;a&quot;, 1.into());
@@ -242,15 +238,13 @@ obj.set(&quot;f&quot;, f.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>接下来，我们使这个 Rust &quot;对象&quot; 能在 JavaScript 解释器中作为 JavaScript 对象 <code>test_obj</code> 使用。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>ctx.get_global().set(&quot;test_obj&quot;, obj.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>在 JavaScript 代码中，你可以直接将 <code>test_obj</code> 作为 API 的一部分使用了。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let code = r#&quot;
   print('test_obj keys=',Object.keys(test_obj))
@@ -294,8 +288,7 @@ this=Ok(
 wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
 </code></pre>
 <p>该对象的 Rust 实现，如下面这个模块所示。它含有数据域、构造函数、访问器、设置器以及函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod point {
   use wasmedge_quickjs::*;

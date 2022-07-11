@@ -158,10 +158,11 @@
 第二个是使用 <a href="https://openyurt.io/docs/installation/openyurt-experience-center/overview">OpenYurt 体验中心</a>   提供的能力，即只要在 OpenYurt 体验中心注册一个账户，即可拥有一个 OpenYurt 集群，如果需要接入新的节点到 OpenYurt 集群中，只需要使用
 <code>yurtctl join</code> 命令加入节点。</p>
 <h3 id="前置准备"><a class="header" href="#前置准备">前置准备</a></h3>
-<table><thead><tr><th></th><th>OS/kernel</th><th>私网IP/ 公网IP</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>OS/kernel</th><th>私网IP/ 公网IP</th></tr></thead><tbody>
 <tr><td>Master</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.169/120.55.126.18</td></tr>
 <tr><td>Node</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.170/121.43.113.152</td></tr>
 </tbody></table>
+</div>
 <p>由于操作系统的不同，下面的步骤可能有一些微小的变动，主要是关于 <a href="https://github.com/openyurtio/openyurt">OpenYurt</a>  和 <a href="https://github.com/containers/crun">crun</a>  的安装。</p>
 <p>因为我们使用 <code>yurtctl convert</code> 命令将 K8s 集群转化成 OpenYurt 集群，因此我们应该首先搭建一个 kubernetes 集群。当然， OpenYurt 也提供了一个简单的方法， <code>yurtctl init/join</code> 可以允许我们不搭建 kubernetes 集群，直接创建一个 OpenYurt 集群出来。
 更多关于 <code>yurtctl convert/revert</code> 的介绍可以参考文章<a href="https://openyurt.io/docs/installation/yurtctl-convert-revert">Conversion between OpenYurt and Kubernetes:<code>yurtctl convert/revert</code></a> ，

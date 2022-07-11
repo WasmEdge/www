@@ -269,8 +269,7 @@ go build
 <h3 id="example-of-embedding-a-function-with-wasmedge-bindgen"><a class="header" href="#example-of-embedding-a-function-with-wasmedge-bindgen">Example of Embedding A Function with wasmedge-bindgen</a></h3>
 <p>In <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_BindgenFuncs">this example</a>, we will demonstrate how to call a few simple WebAssembly functions with wasmedge-bindgen from a Golang app. The <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">functions</a> are written in Rust, and require complex call parameters and return values.</p>
 <p>While the WebAssembly only supports a few simple data types out of the box. It <a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">does not support</a> types such as string and array. In order to pass rich types in Golang to WebAssembly, the compiler needs to convert them to simple integers. For example, it converts a string into an integer memory address and an integer length. The <code>#[wasmedge_bindgen]</code> macro does this conversion automatically, combining it with Golang's <code>wasmedge-bindgen</code> package to auto-generate the correct code to pass call parameters from Golang to WebAssembly.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_bindgen::*;
 use wasmedge_bindgen_macro::*;

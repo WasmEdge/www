@@ -202,8 +202,7 @@
 <p>Then, load a specified WebAssebly file (&quot;fibonacci.wasm&quot;) via the <code>from_file</code> method of the <code>Loader</code> context. If the process is successful, then a WasmEdge <code>AST Module</code> instance is returned.</p>
 </li>
 </ul>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::Loader;
 use std::path::PathBuf;
@@ -218,8 +217,7 @@ let module = loader.from_file(path).expect(&quot;fail to load the WebAssembly fi
 </span></code></pre></pre>
 <h3 id="step-2-create-a-wasmedge-vm-context"><a class="header" href="#step-2-create-a-wasmedge-vm-context">Step 2: Create a WasmEdge <code>Vm</code> context</a></h3>
 <p>In WasmEdge, a <code>Vm</code> defines a running environment, in which all varieties of instances and contexts are stored and maintained. In the demo code below, we explicitly create a WasmEdge <code>Store</code> context, and then use it as one of the inputs in the creation of a <code>Vm</code> context. If not specify a <code>Store</code> context explicitly, then <code>Vm</code> will create a store by itself.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::{Config, Store, Vm};
 
@@ -235,8 +233,7 @@ let mut vm = Vm::create(Some(config), Some(&amp;mut store)).expect(&quot;fail to
 </span></code></pre></pre>
 <h3 id="step-3-invoke-the-fib-function"><a class="header" href="#step-3-invoke-the-fib-function">Step 3: Invoke the <code>fib</code> function</a></h3>
 <p>In Step 1, we got a module that hosts the target <code>fib</code> function defined in the WebAssembly. Now, we can call the function via the <code>run_wasm_from_module</code> method of the <code>Vm</code> context by passing the exported function name, <code>fib</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::WasmValue;
 

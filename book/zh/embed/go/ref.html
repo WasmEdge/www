@@ -264,8 +264,7 @@ go build
 <p>在<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_BindgenFuncs">这个示例</a> 中，我们将演示如何从 Golang 应用程序中使用 wasm-bindgen 调用一些简单的 WebAssembly 函数. <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">函数</a> 是用 Rust 编写的，需要复杂的调用参数和返回值。 编译器工具需要 <code>#[wasm_bindgen]</code> 宏来自动生成正确的代码，以将调用参数从 Golang 传递到 WebAssembly。</p>
 <p>注意：目前，我们需要 Rust 编译器版本 1.50 或更低版本才能使 WebAssembly 函数与 WasmEdge 的 Golang API 一起使用。一旦接口类型规范最终确定并得到支持，我们将<a href="https://github.com/WasmEdge/WasmEdge/issues/264">赶上最新的 Rust</a> 编译器版本。</p>
 <p>注意：WebAssembly 仅支持一些开箱即用的简单数据类型。它<a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">不支持</a> 字符串和数组等类型。为了将 Golang 中的丰富类型传递给 WebAssembly，编译器需要将它们转换为简单的整数。例如，它将字符串转换为整数内存地址和整数长度。嵌入在 rustwasmc 中的 <code>wasm-bindgen</code> 工具会自动执行此转换。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 use num_integer::lcm;

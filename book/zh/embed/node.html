@@ -214,8 +214,7 @@ cd wasmedge-nodejs-starter
 <p>第一个示例是一个 hello world，向你展示应用程序的各个部分如何组合在一起。</p>
 <h3 id="rust-写的-webassembly-程序"><a class="header" href="#rust-写的-webassembly-程序">Rust 写的 WebAssembly 程序</a></h3>
 <p>在这个例子中，Rust 程序将输入的字符串添加到 “hello” 后面。下面是 Rust 程序内容，位于 src/lib.rs。你可以在这个库文件中定义多个外部方法，所有的这些方法都可以在 host JavaScript 应用中通过 WebAssembly 调用。记得需要给每个函数添加 <code>#[wasm_bindgen]</code> 注解，这样 <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> 就知道在构建时为这些函数生成正确的 JavaScript 到 Rust 接口。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 
@@ -284,8 +283,7 @@ hello Wasm
 })
 </code></pre>
 <p><a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/src/lib.rs">用 Rust 写的 <code>solve</code> 函数</a>，运行在 WasmEdge Runtime。如果 JavaScript 端的调用参数是数组，Rust 函数接收到一个封装数组的 JSON 对象。在 Rust 代码中，我们首先解码 JSON，执行计算，然后返回一个 JSON 字符串的结果。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
 pub fn solve(params: &amp;str) -&gt; String {
@@ -320,8 +318,7 @@ node node/server.js
 <p>支持了 JSON，你可以用任意数量的输入参数调用 Rust 函数，并返回任意数量、任意类型的结果。</p>
 </blockquote>
 <p><a href="https://github.com/second-state/wasm-learning/tree/master/nodejs/functions">函数示例</a>中的 Rust 程序 <code>src/lib.rs</code> 演示了如何传递多个不同类型的调用参数和返回结果。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
 pub fn obfusticate(s: String) -&gt; String {
@@ -352,8 +349,7 @@ pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p>最有意思的可能是 <code>create_line()</code> 函数。它需要两个 JSON 字符串，每一个都代表一个 <code>Point</code> 结构，返回一个 JSON 字符串代表 <code>Line</code> 结构。注意，<code>Point</code> 和 <code>Line</code> 结构都使用了 <code>Serialize</code> 和 <code>Deserialize</code> 注解，这样 Rust 编译器就会自动生成必要的代码来支持和 JSON 字符串之间的转换。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 use serde::{Serialize, Deserialize};

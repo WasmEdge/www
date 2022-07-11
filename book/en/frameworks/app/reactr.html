@@ -189,8 +189,7 @@ source $HOME/.wasmedge/env
 <h3 id="hello-world-rust-function-compiled-to-webassembly"><a class="header" href="#hello-world-rust-function-compiled-to-webassembly">Hello world: Rust function compiled to WebAssembly</a></h3>
 <p>Let's first create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/hello/hello-echo/src/lib.rs">a simple Rust function</a> to echo hello.
 The Rust function <code>HelloEcho::run()</code> is as follows. It will be exposed to the Go host application through Reactr.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use suborbital::runnable::*;
 
@@ -274,8 +273,7 @@ postgres=# CREATE TABLE users (
 <h3 id="database-query-rust-function-compiled-to-webassembly"><a class="header" href="#database-query-rust-function-compiled-to-webassembly">Database query: Rust function compiled to WebAssembly</a></h3>
 <p>Let's create <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/db/rs-db/src/lib.rs">a Rust function</a> to access the PostgreSQL database.
 The Rust function <code>RsDbtest::run()</code> is as follows. It will be exposed to the Go host application through Reactr. It uses named queries such as <code>PGInsertUser</code> and <code>PGSelectUserWithUUID</code> to operate the database. Those queries are defined in the Go host application, and we will see them later.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use suborbital::runnable::*;
 use suborbital::db;

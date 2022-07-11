@@ -170,8 +170,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 </blockquote>
 <h2 id="create-a-javascript-function-api"><a class="header" href="#create-a-javascript-function-api">Create a JavaScript function API</a></h2>
 <p>The following code snippet defines a Rust function that can be incorporate into the JavaScript interpreter as an API.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
 
@@ -189,8 +188,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 <span class="boring">}
 </span></code></pre></pre>
 <p>The following code snippet shows how to add this Rust function into the JavaScript interpreter, give a name <code>hi()</code> as its JavaScript API, and then call it from JavaScript code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
   ...
@@ -211,8 +209,7 @@ return value:UnDefined
 <p>Using this approach, you can create a JavaScript interpreter with customized API functions. The interpreter runs inside WasmEdge, and can execute JavaScript code, which calls such API functions, from CLI or the network.</p>
 <h2 id="create-a-javascript-object-api"><a class="header" href="#create-a-javascript-object-api">Create a JavaScript object API</a></h2>
 <p>In the JavaScript API design, we sometimes need to provide an object that encapsulates both data and function. In the following example, we define a Rust function for the JavaScript API.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn rust_new_object_and_js_call(ctx: &amp;mut Context) {
   struct ObjectFn;
@@ -233,8 +230,7 @@ return value:UnDefined
 <span class="boring">}
 </span></code></pre></pre>
 <p>We then create an &quot;object&quot; on the Rust side, set its data fields, and then register the Rust function as a JavaScript function associated with the objects.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut obj = ctx.new_object();
 obj.set(&quot;a&quot;, 1.into());
@@ -245,15 +241,13 @@ obj.set(&quot;f&quot;, f.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>Next, we make the Rust &quot;object&quot; available as JavaScript object <code>test_obj</code> in the JavaScript interpreter.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>ctx.get_global().set(&quot;test_obj&quot;, obj.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>In the JavaScript code, you can now directly use <code>test_obj</code> as part of the API.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let code = r#&quot;
   print('test_obj keys=',Object.keys(test_obj))
@@ -297,8 +291,7 @@ this=Ok(
 wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
 </code></pre>
 <p>The Rust implementation of the object is a module as follows. It has data fields, constructor, getters and setters, and functions.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod point {
   use wasmedge_quickjs::*;

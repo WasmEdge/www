@@ -638,8 +638,7 @@ state
 <p><a href="https://github.com/second-state/wasm-learning/tree/master/cli/add">add 示例</a>是一个 Rust 库函数，可以被 <a href="dev/../start/cli.html">WasmEdge 命令行接口</a> 接口在 <code>--reactor</code> 模式下执行。</p>
 <p>如下是 <a href="https://github.com/second-state/wasm-learning/blob/master/cli/add/src/lib.rs">lib.rs</a> 的完整代码，它将输出在运行的时候接收到的命令行参数。
 它提供了一个简单的 <code>add()</code> 函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[no_mangle]
 pub fn add(a: i32, b: i32) -&gt; i32 {
@@ -690,8 +689,7 @@ $ wasmedge --reactor add.wasm add 2 2
 <div style="break-before: page; page-break-before: always;"></div><h1 id="调用-rust-函数"><a class="header" href="#调用-rust-函数">调用 Rust 函数</a></h1>
 <p>如果你的 Rust 程序包含 <code>main()</code> 函数，你可以将它编译成 WASM 字节码，然后像运行一个独立应用程序一样使用 <code>wasmedge</code> 命令行工具来运行它。然而，更常见的使用场景是将一个 Rust 函数编译成 WASM 字节码，然后在其他宿主程序中调用它。这被称为嵌入的 WASM 函数。宿主应用程序使用 WasmEdge 语言 SDK （比如，<a href="dev/rust/../../embed/go.html">Go</a>、 <a href="dev/rust/../../embed/rust.html">Rust</a>、 <a href="dev/rust/../../embed/c.html">C</a>、 <a href="dev/rust/../../embed/go.html">Python</a> 以及 <a href="dev/rust/../../embed/node.html">Node.js</a>）来运行由 Rust 源代码编译而来的 WASM 函数。</p>
 <p>所有的 WasmEdge 语言 SDK 都支持简单的函数调用。但是，WASM 规范只支持一些基础的数据类型作为参数和返回值。当 Rust 函数被编译成 WASM 时，<code>wasmedge-bindgen</code> 会把 Rust 函数的调用参数和返回值都转换为简单的整型。比如，字符串将被自动转换为两个整型，它的内存地址和它的长度，这些类型可以被标准的 WASM 规范接受。在 Rust 中这很容易完成，只需要给你的函数添加 <code>#[wasmedge-bindgen]</code> 宏就可以。你可以使用标准的 Rust 编译工具链（比如，最新的 <code>Cargo</code>）来编译添加宏之后的 Rust 代码。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_bindgen::*;
 use wasmedge_bindgen_macro::*;
@@ -717,8 +715,7 @@ rand = &quot;0.7.3&quot;
 getrandom = &quot;0.1.14&quot;
 </code></pre>
 <p>如下是在 WebAssembly 生成随机数的 Rust 代码。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use rand::prelude::*;
 
@@ -737,8 +734,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
 </span></code></pre></pre>
 <h2 id="从-rust-中输出和调试"><a class="header" href="#从-rust-中输出和调试">从 Rust 中输出和调试</a></h2>
 <p>Rust 中的 <code>println!</code> 宏同样可以用在 WASI 中。下面的语句向运行 WasmEdge 的进程的 <code>STDOUT</code> 输出。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn echo(content: &amp;str) -&gt; String {
   println!(&quot;Printed from wasi: {}&quot;, content);
@@ -749,8 +745,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
 <h2 id="参数以及环境变量"><a class="header" href="#参数以及环境变量">参数以及环境变量</a></h2>
 <p>在 WasmEdge 应用程序中，你可以传递命令行参数并且获取操作系统环境变量。
 在 Rust 中你可以使用 <code>env::args()</code> 和 <code>env::vars()</code> 访问他们。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::env;
 
@@ -770,8 +765,7 @@ pub fn print_env() {
 <h2 id="读写文件"><a class="header" href="#读写文件">读写文件</a></h2>
 <p>WASI 让你可以通过标准的 Rust <code>std::fs</code> 接口来访问宿主的文件系统。
 在 Rust 程序中，你通过相对路径来操作文件，相对路径的根目录可以在启动 WasmEdge Runtime 的时候被指定。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs;
 use std::fs::File;
@@ -831,8 +825,7 @@ File content is This is in a file
 wasmedge-wasi-helper = &quot;=0.2.0&quot;
 </code></pre>
 <p>在访问任何参数和环境变量或者操作任何文件之前，我们需要调用 _initialize() 函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn print_env() -&gt; i32 {
   _initialize();
@@ -892,16 +885,14 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <h3 id="浏览代码"><a class="header" href="#浏览代码">浏览代码</a></h3>
 <p>使用 WasmEdge Tensorflow API 是很直观的。你可以在 <a href="https://github.com/second-state/wasm-learning/blob/master/cli/tflite/src/main.rs"><code>main.rs</code></a> 中阅读完整的源代码。</p>
 <p>首先，它加载了在 ImageNet 上训练好的 TFLite 模型文件，以及对应的标签文件。标签文件中存储了模型输出的数值与待分类对象的英文名字的映射。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
   let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>接下来，它从 <code>STDIN</code> 加载图像，并将其转换为 Tensorflow Lite 模型所要求的格式。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut buf = Vec::new();
   io::stdin().read_to_end(&amp;mut buf).unwrap();
@@ -910,8 +901,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>然后，程序运行了 TFLite 模型，输入模型所需的张量（这里指图像），接收模型的输出（这里指一个包含了数字的数组）。每一个数字都对应了标签文件中的一个对象的概率。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
   session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
@@ -920,8 +910,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>让我们找到有最大概率的对象，然后在标签文件中查找它的名字。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut i = 0;
   let mut max_index: i32 = -1;
@@ -942,8 +931,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>最终，它向 <code>STDOUT</code> 输出了结果。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let class_name = label_lines.next().unwrap().to_string();
   if max_value &gt; 50 {
@@ -1164,8 +1152,7 @@ fn main() {
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
 <p>使用如下命令在 WasmEdge 中运行程序。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>wasmedge target/wasm32-wasi/release/nonblock_http_client.wasm
 <span class="boring">}
@@ -1229,8 +1216,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><code>handle_connection()</code> 函数处理来自于开启的连接的数据。当前它只是将请求的内容写回响应中。这同样是以异步的形式完成的，意味着 <code>handle_connection()</code> 函数为响应创建了一个事件，然后将事件放入了一个队列中。主程序循环处理这些事件，并在等待来自其他连接的数据时发送这些响应。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn handle_connection(
     poll: &amp;mut Poll,
@@ -1427,8 +1413,7 @@ fn main() {
 }
 </code></pre></pre>
 <p><code>handler.rs</code> 中的代码解析收到的数据，并返回对应的响应。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use crate::response;
 use anyhow::Result;
@@ -1488,8 +1473,7 @@ pub fn handle_req(stream: &amp;mut TcpStream, addr: SocketAddr) -&gt; Result&lt;
 </span></code></pre></pre>
 <p><code>response.rs</code> 中的代码将静态资源和服务器渲染的内容打包成响应对象。
 对后者来说，你可以看到服务端渲染发生于 <code>app.render().to_string()</code>，产生的字符串替换掉了 HTML 中的占位符。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use crate::mime::MimeType;
 use anyhow::Result;
@@ -1589,8 +1573,7 @@ pub fn internal_error() -&gt; (Response, Option&lt;Vec&lt;u8&gt;&gt;) {
 <span class="boring">}
 </span></code></pre></pre>
 <p><code>mime.rs</code> 中的代码将资源文件的拓展名映射成 MIME 类型。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct MimeType {
     pub r#type: String,
@@ -1667,8 +1650,7 @@ runner = &quot;wasmedge --dir /static:../client/build&quot;
 rust_process_interface_library = &quot;0.1.3&quot;
 </code></pre>
 <p>现在你可以在 Rust 应用程序中使用这个接口启动一个新的进程，来运行操作系统中的命令行程序，通过 <code>arg()</code> 方法或者 <code>STDIN</code> 传入参数，并通过 <code>STDOUT</code> 接收返回值。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut cmd = Command::new(&quot;http_proxy&quot;);
 
@@ -2326,8 +2308,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 </blockquote>
 <h2 id="创建一个-javascript-函数-api"><a class="header" href="#创建一个-javascript-函数-api">创建一个 JavaScript 函数 API</a></h2>
 <p>下面这个代码片段定义了一个 Rust 函数，该函数可以作为一个 API 结合到 JavaScript 解释器中。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
 
@@ -2345,8 +2326,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
 <span class="boring">}
 </span></code></pre></pre>
 <p>下面的代码展示了如何把这个 Rust 函数添加到 JavaScript 解释器中，并为该函数的 JavaScript API 指定一个签名 <code>hi()</code>，随之在 JavaScript 代码中调用它。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn run_rust_function(ctx: &amp;mut Context) {
   ...
@@ -2367,8 +2347,7 @@ return value:UnDefined
 <p>通过这个方法，你可以创建出一个带有自定义 API 函数的 JavaScript 解释器。这个解释器是运行在 WasmEdge 里的，并且可以通过 CLI 或者网络来执行调用了这些 API 函数的 JavaScript 代码。</p>
 <h2 id="创建一个-javascript-对象-api"><a class="header" href="#创建一个-javascript-对象-api">创建一个 JavaScript 对象 API</a></h2>
 <p>在 JavaScript API 的设计中，我们有时需要提供一个封装了数据以及函数的对象。在下面的示例中，我们为 JavaScript API 定义了一个 Rust 函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn rust_new_object_and_js_call(ctx: &amp;mut Context) {
   struct ObjectFn;
@@ -2389,8 +2368,7 @@ return value:UnDefined
 <span class="boring">}
 </span></code></pre></pre>
 <p>然后，我们在 Rust 端创建一个&quot;对象&quot;，设置它的数据域，然后将该 Rust 函数注册为关联到该对象的 JavaScript 函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut obj = ctx.new_object();
 obj.set(&quot;a&quot;, 1.into());
@@ -2401,15 +2379,13 @@ obj.set(&quot;f&quot;, f.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>接下来，我们使这个 Rust &quot;对象&quot; 能在 JavaScript 解释器中作为 JavaScript 对象 <code>test_obj</code> 使用。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>ctx.get_global().set(&quot;test_obj&quot;, obj.into());
 <span class="boring">}
 </span></code></pre></pre>
 <p>在 JavaScript 代码中，你可以直接将 <code>test_obj</code> 作为 API 的一部分使用了。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let code = r#&quot;
   print('test_obj keys=',Object.keys(test_obj))
@@ -2453,8 +2429,7 @@ this=Ok(
 wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
 </code></pre>
 <p>该对象的 Rust 实现，如下面这个模块所示。它含有数据域、构造函数、访问器、设置器以及函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>mod point {
   use wasmedge_quickjs::*;
@@ -2971,8 +2946,7 @@ Rust: Process end.
 <p>在 <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs">Rust 项目</a> 中，你只需要用 “[wasmedge_bindgen] ”宏来注释 [你的函数](https ://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs) 。
 这些带注释的函数将由 Rust 编译器自动检测并转换为可以从 <code>wasmedge-bindgen</code> GO SDK 调用的 WebAssembly 函数。
 在下面的示例中，我们有几个 Rust 函数可以进行复杂的调用参数并返回复杂值。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_bindgen::*;
 use wasmedge_bindgen_macro::*;
@@ -3154,8 +3128,7 @@ Run bindgen -- keccak_digest: [126 194 241 200 151 116 227 33 216 99 159 22 107 
 <p>在 WebAssembly 中向 Rust 函数传递和返回复杂值的另一种方法是使用 <code>wasm-bindgen</code> 编译器工具。你可以在<a href="embed/go/bindgen.html">这里</a>了解更多。</p>
 </blockquote>
 <p>Rust 函数获取字符串的内存指针，并自己构造 Rust 字符串。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::ffi::{CStr, CString};
 use std::mem;
@@ -3411,8 +3384,7 @@ Hello, WasmEdge!
 </blockquote>
 <p><code>fib_array()</code> 函数将一个数组作为调用参数，并用斐波那契数列填充它。或者，<code>fib_array_return_memory()</code> 函数返回一个斐波那契数列数组。</p>
 <p>对于调用参数中的数组，Rust 函数 <code>fib_array()</code> 需要一个内存指针并使用 <code>from_raw_parts</code> 构造 Rust <code>Vec</code>。对于数组的返回值，Rust 函数 <code>fib_array_return_memory()</code> 只是返回指针。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::mem;
 use std::os::raw::{c_void, c_int};
@@ -3718,8 +3690,7 @@ fibArrayReturnMemory: [0 0 0 0 1 0 0 0 1 0 0 0 2 0 0 0 3 0 0 0 5 0 0 0 8 0 0 0 1
 <p>在这一章节，我们将向你展示如何在 Rust 中创建一个用于图像分类的 Tensorflow 推理函数，然后将其嵌入到 Go 应用程序中。项目的源码可以在<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/wasmedge-bindgen/go_TfliteFood">这儿</a>查看。</p>
 <h2 id="将-rust-函数编译成-webassembly-1"><a class="header" href="#将-rust-函数编译成-webassembly-1">将 Rust 函数编译成 WebAssembly</a></h2>
 <p>用于图像分类的 Rust 函数在<a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_TfliteFood/rust_tflite_food/src/lib.rs">这儿</a>。它使用 <a href="embed/go/../../dev/rust/tensorflow.html">WasmEdge Tensorflow 扩展 API</a> 以及 <a href="embed/go/function.html">wasmedge_bindgen</a> 来传递所有调用参数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
@@ -3835,8 +3806,7 @@ crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
 </code></pre>
 <p>再来看看 Rust 代码是什么样的。</p>
 <p><code>lib.rs</code>:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern &quot;C&quot; {
   fn add(a: i32, b: i32) -&gt; i32;
@@ -3925,8 +3895,7 @@ func main() {
 例子的源代码在<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_HostFunc">这里</a>.</p>
 <p>还是先上 Rust 代码。<code>Cargo.toml</code> 是必不可少的，只是我在这里省略了。</p>
 <p><code>lib.rs</code>:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>extern &quot;C&quot; {
   fn fetch(url_pointer: *const u8, url_length: i32) -&gt; i32;
@@ -4087,8 +4056,7 @@ func main() {
 <blockquote>
 <p>在编写本文档的时候，我们要求 Rust 编译器必须是 1.50 或者以下的版本，这样才能够让 WebAssembly 函数与 WasmEdge 的 Go API 正常工作。当接口类型规范最终确定并完成支持后，我们会尽快迁移到<a href="https://github.com/WasmEdge/WasmEdge/issues/264">最新的 Rust 版本</a>。</p>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 use num_integer::lcm;
@@ -4319,8 +4287,7 @@ go build
 <p>在<a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_BindgenFuncs">这个示例</a> 中，我们将演示如何从 Golang 应用程序中使用 wasm-bindgen 调用一些简单的 WebAssembly 函数. <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/go_BindgenFuncs/rust_bindgen_funcs/src/lib.rs">函数</a> 是用 Rust 编写的，需要复杂的调用参数和返回值。 编译器工具需要 <code>#[wasm_bindgen]</code> 宏来自动生成正确的代码，以将调用参数从 Golang 传递到 WebAssembly。</p>
 <p>注意：目前，我们需要 Rust 编译器版本 1.50 或更低版本才能使 WebAssembly 函数与 WasmEdge 的 Golang API 一起使用。一旦接口类型规范最终确定并得到支持，我们将<a href="https://github.com/WasmEdge/WasmEdge/issues/264">赶上最新的 Rust</a> 编译器版本。</p>
 <p>注意：WebAssembly 仅支持一些开箱即用的简单数据类型。它<a href="https://medium.com/wasm/strings-in-webassembly-wasm-57a05c1ea333">不支持</a> 字符串和数组等类型。为了将 Golang 中的丰富类型传递给 WebAssembly，编译器需要将它们转换为简单的整数。例如，它将字符串转换为整数内存地址和整数长度。嵌入在 rustwasmc 中的 <code>wasm-bindgen</code> 工具会自动执行此转换。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 use num_integer::lcm;
@@ -6189,8 +6156,7 @@ cd wasmedge-nodejs-starter
 <p>第一个示例是一个 hello world，向你展示应用程序的各个部分如何组合在一起。</p>
 <h3 id="rust-写的-webassembly-程序"><a class="header" href="#rust-写的-webassembly-程序">Rust 写的 WebAssembly 程序</a></h3>
 <p>在这个例子中，Rust 程序将输入的字符串添加到 “hello” 后面。下面是 Rust 程序内容，位于 src/lib.rs。你可以在这个库文件中定义多个外部方法，所有的这些方法都可以在 host JavaScript 应用中通过 WebAssembly 调用。记得需要给每个函数添加 <code>#[wasm_bindgen]</code> 注解，这样 <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> 就知道在构建时为这些函数生成正确的 JavaScript 到 Rust 接口。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 
@@ -6259,8 +6225,7 @@ hello Wasm
 })
 </code></pre>
 <p><a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/src/lib.rs">用 Rust 写的 <code>solve</code> 函数</a>，运行在 WasmEdge Runtime。如果 JavaScript 端的调用参数是数组，Rust 函数接收到一个封装数组的 JSON 对象。在 Rust 代码中，我们首先解码 JSON，执行计算，然后返回一个 JSON 字符串的结果。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
 pub fn solve(params: &amp;str) -&gt; String {
@@ -6295,8 +6260,7 @@ node node/server.js
 <p>支持了 JSON，你可以用任意数量的输入参数调用 Rust 函数，并返回任意数量、任意类型的结果。</p>
 </blockquote>
 <p><a href="https://github.com/second-state/wasm-learning/tree/master/nodejs/functions">函数示例</a>中的 Rust 程序 <code>src/lib.rs</code> 演示了如何传递多个不同类型的调用参数和返回结果。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
 pub fn obfusticate(s: String) -&gt; String {
@@ -6327,8 +6291,7 @@ pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p>最有意思的可能是 <code>create_line()</code> 函数。它需要两个 JSON 字符串，每一个都代表一个 <code>Point</code> 结构，返回一个 JSON 字符串代表 <code>Line</code> 结构。注意，<code>Point</code> 和 <code>Line</code> 结构都使用了 <code>Serialize</code> 和 <code>Deserialize</code> 注解，这样 Rust 编译器就会自动生成必要的代码来支持和 JSON 字符串之间的转换。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 use serde::{Serialize, Deserialize};
@@ -6537,8 +6500,7 @@ root@0a877562f39e:~/workspace/me/WasmEdge/bindings/rust/wasmedge-sys# cargo buil
 <p>然后，通过 <code>loader</code> 程序实例的 <code>from_file</code> 方法加载指定的 WebAssebly 文件（“fibonacci.wasm”）。如果该过程成功，则返回一个 WasmEdge <code>AST module</code> 实例。</p>
 </li>
 </ul>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::Loader
 use std::path::PathBuf;
@@ -6553,8 +6515,7 @@ let mut module = loader.from_file(path).expect(&quot;fail to load the WebAssembl
 </span></code></pre></pre>
 <h2 id="步骤-2-创建一个-vm-实例"><a class="header" href="#步骤-2-创建一个-vm-实例">步骤 2: 创建一个 <code>Vm</code> 实例</a></h2>
 <p>在 WasmEdge 中， <code>Vm</code> 定义了一个运行环境，在其中存储和维护各种实例。在下面的演示代码中，我们可以创建一个 WasmEdge <code>store</code> 实例，然后将其用作创建 <code>Vm</code> 实例的输入之一。如果没有明确指定 <code>store</code> 实例，那么 <code>Vm</code> 将自己创建一个 <code>store</code> 。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::{Config, Store, Vm};
 
@@ -6570,8 +6531,7 @@ let mut vm = Vm::create(Some(config), Some(store)).expect(&quot;fail to create a
 </span></code></pre></pre>
 <h2 id="步骤-3-调用-fib-函数"><a class="header" href="#步骤-3-调用-fib-函数">步骤 3: 调用 fib 函数</a></h2>
 <p>在步骤 1中，我们得到了一个模块，该模块承载 WebAssembly 中定义的目标 <code>fib</code> 函数。现在，我们可以通过传递导出的函数名 <code>fib</code> ，通过 <code>Vm</code> 实例的 <code>run_wasm_from_module</code> 方法调用该函数。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_sys::Value;
 
@@ -6666,10 +6626,11 @@ fib(6) = fib(5) + fib(1) = 13
 <div style="break-before: page; page-break-before: always;"></div><h1 id="用-kubernetes-管理-wasmedge-应用"><a class="header" href="#用-kubernetes-管理-wasmedge-应用">用 Kubernetes 管理 WasmEdge 应用</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="快速开始-3"><a class="header" href="#快速开始-3">快速开始</a></h1>
 <p>我们为你创建了基于 Ubuntu 的脚本，以便你在标准 Kubernetes 设置中快速开始使用以下运行时组合。</p>
-<table><thead><tr><th>CRI（高级）runtime</th><th>OCI（低级）runtime</th><th></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>CRI（高级）runtime</th><th>OCI（低级）runtime</th><th></th></tr></thead><tbody>
 <tr><td>CRI-O</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio.yml">脚本</a></td></tr>
 <tr><td>containerd</td><td>crun + WasmEdge</td><td><a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd.yml">脚本</a></td></tr>
 </tbody></table>
+</div>
 <h2 id="cri-o-和-crun"><a class="header" href="#cri-o-和-crun">CRI-O 和 crun</a></h2>
 <p>在 Ubuntu 20.04 上你可以使用 CRI-O <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/install.sh">install.sh</a> 脚本来安装 CRI-O 和 <code>crun</code> 。</p>
 <pre><code class="language-bash">wget -qO- https://raw.githubusercontent.com/second-state/wasmedge-containers-examples/main/crio/install.sh | bash
@@ -7711,10 +7672,11 @@ CONTAINER           IMAGE                                                       
 第二个是使用 <a href="https://openyurt.io/docs/installation/openyurt-experience-center/overview">OpenYurt 体验中心</a>   提供的能力，即只要在 OpenYurt 体验中心注册一个账户，即可拥有一个 OpenYurt 集群，如果需要接入新的节点到 OpenYurt 集群中，只需要使用
 <code>yurtctl join</code> 命令加入节点。</p>
 <h3 id="前置准备"><a class="header" href="#前置准备">前置准备</a></h3>
-<table><thead><tr><th></th><th>OS/kernel</th><th>私网IP/ 公网IP</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>OS/kernel</th><th>私网IP/ 公网IP</th></tr></thead><tbody>
 <tr><td>Master</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.169/120.55.126.18</td></tr>
 <tr><td>Node</td><td>Ubuntu  20.04.3 LTS/5.4.0-91-generic</td><td>192.168.3.170/121.43.113.152</td></tr>
 </tbody></table>
+</div>
 <p>由于操作系统的不同，下面的步骤可能有一些微小的变动，主要是关于 <a href="https://github.com/openyurtio/openyurt">OpenYurt</a>  和 <a href="https://github.com/containers/crun">crun</a>  的安装。</p>
 <p>因为我们使用 <code>yurtctl convert</code> 命令将 K8s 集群转化成 OpenYurt 集群，因此我们应该首先搭建一个 kubernetes 集群。当然， OpenYurt 也提供了一个简单的方法， <code>yurtctl init/join</code> 可以允许我们不搭建 kubernetes 集群，直接创建一个 OpenYurt 集群出来。
 更多关于 <code>yurtctl convert/revert</code> 的介绍可以参考文章<a href="https://openyurt.io/docs/installation/yurtctl-convert-revert">Conversion between OpenYurt and Kubernetes:<code>yurtctl convert/revert</code></a> ，
@@ -7981,8 +7943,7 @@ rustwasmc  build --enable-ext
 cp ./pkg/grayscale.wasm ../../image-api-rs/lib
 </code></pre>
 <p><a href="https://github.com/second-state/dapr-wasm/tree/main/functions/classify">classify</a> 函数是一个 Rust 函数，它将图像数据的字节数组作为输入（参数），调用 WasmEdge TensorFlow API 处理，并返回一个字符串用于分类。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_tensorflow_interface;
 pub fn infer_internal(image_data: &amp;[u8]) -&gt; String {
@@ -8020,8 +7981,7 @@ cp ./pkg/classify_bg.wasm ../../image-api-go/lib/classify_bg.wasm
 <h2 id="图像处理-sidecar"><a class="header" href="#图像处理-sidecar">图像处理 sidecar</a></h2>
 <p><a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-rs">image-api-rs</a> sidecar 应用程序是用 Rust 编写的。在上一步中，已经通过安装 <code>lib/grayscale.wasm</code> 拥有了 WebAssembly 函数。请参考 <a href="https://github.com/second-state/dapr-wasm/blob/main/functions/bin/install.sh">functions/bin/install.sh</a> 脚本来安装 WasmEdge Runtime 的二进制文件 <code>lib/wasmedge-tensorflow-lite</code> 及其依赖项。</p>
 <p>Sidecar 微服务运行了一个基于 Tokio 的事件循环，用于侦听 <code>/api/image</code> 路径上接收到的 HTTP 请求。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[tokio::main]
 pub async fn run_server(port: u16) {
@@ -8044,8 +8004,7 @@ pub async fn run_server(port: u16) {
 <span class="boring">}
 </span></code></pre></pre>
 <p>一旦它接收到通过 HTTP POST 请求发送的图像文件，就会调用 WasmEdge 中的 WebAssembly 函数来执行图像处理任务。它创建一个 WasmEdge 实例来与 WebAssembly 程序交互。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn image_process(buf: &amp;Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
   let mut child = Command::new(&quot;./lib/wasmedge-tensorflow-lite&quot;)
@@ -8244,8 +8203,7 @@ YoMo CLI version: v0.1.3
 </code></pre>
 <h2 id="图像分类函数"><a class="header" href="#图像分类函数">图像分类函数</a></h2>
 <p>处理 YoMo 图像流的 <a href="https://github.com/yomorun/yomo-wasmedge-tensorflow/tree/main/flow/rust_mobilenet_food">图像分类函数</a> 是 Rust 写的。它利用 WasmEdge Tensorflow API 来处理输入图像。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 pub fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
@@ -8456,6 +8414,317 @@ go run ./source/main.go ./source/hot-dog.mp4
 <p>在本文中，我们了解了如何使用  WasmEdge Tensorflow API 和 YoMo 框架的 Go 语言 SDK 来近乎实时地处理图像流。</p>
 <p>与 YoMo 合作，我们可以快速地在智能工厂的生产中部署 WasmEdge，以完成各种装配线任务。 WasmEdge 就是边缘计算软件 runtime 的事实标准！</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reactr"><a class="header" href="#reactr">Reactr</a></h1>
+<p><a href="https://github.com/suborbital/reactr">Reactr</a> 是一个用 Go 语言编写的高性能函数调用库。Reactr 的设计十分灵活，你可将其嵌入 Go 程序中运行，它也为 WebAssembly 提供了一流的支持。
+得益于 Go 语言出色的并发性能，Reactr 可以同时管理和执行上百个 WebAssembly 运行时实例，这使得 Reactr 成为了服务端程序框架的一个优秀选择。</p>
+<p>Reactr 让你可以在 Go 程序中调用 WebAssembly 函数，<a href="frameworks/app/../../embed/go.html">WasmEdge Go SDK</a> 也是如此。
+Reactr 的特别之处在于，它在 Go 语言中提供了一套丰富的主机函数，其中包括了对访问网络、数据库等功能的支持。此外，Reactr 提供了 Rust (以及 Swift / AssemblyScript) 的 API，你可以用它在 WebAssembly 函数中调用上述的主机函数。</p>
+<p>本文将向你展示如何将 WasmEdge 与 Reactr 结合起来使用，以充分利用二者的优势。
+WasmEdge 是<a href="frameworks/app/../../intro/features.html">性能最佳且最具拓展性的 WebAssembly 运行时</a>，
+并在 <a href="https://github.com/suborbital/reactr/runs/4476074960?check_suite_focus=true">Reactr 的官方测试用例</a>中是性能最好的。
+我们将演示如何在 WasmEdge 和 Reactr 中运行编译为 WebAssembly 的 Rust 函数以及 JavaScript 程序。</p>
+<blockquote>
+<p>WasmEdge 为 JavaScript 提供了<a href="frameworks/app/../../dev/js.html">增强支持</a>，包括<a href="frameworks/app/../../dev/js/rust.html">将 Rust 与 JavaScript 混合</a>以提高性能。</p>
+</blockquote>
+<ul>
+<li><a href="frameworks/app/reactr.html#hello-world">Hello world</a></li>
+<li><a href="frameworks/app/reactr.html#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2">数据库查询</a></li>
+<li><a href="frameworks/app/reactr.html#%E5%9C%A8-Go-%E4%B8%AD%E5%B5%8C%E5%85%A5-JavaScript">在 Go 中嵌入 JavaScript</a></li>
+</ul>
+<h2 id="环境准备"><a class="header" href="#环境准备">环境准备</a></h2>
+<p>你的系统中需要装有 <a href="https://www.rust-lang.org/zh-CN/tools/install">Rust</a>、<a href="https://go.dev/doc/install">Go</a> 以及 <a href="frameworks/app/../../start/install.html">WasmEdge</a>。
+WasmEdge 需要用到 GCC 编译器（<code>build-essential</code> 中包含 GCC 编译器）。</p>
+<pre><code class="language-bash">sudo apt-get update
+sudo apt-get -y upgrade
+sudo apt install build-essential
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+rustup target add wasm32-wasi
+
+curl -OL https://golang.org/dl/go1.17.5.linux-amd64.tar.gz
+sudo tar -C /usr/local -xvf go1.17.5.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+
+wget -qO- https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+source $HOME/.wasmedge/env
+</code></pre>
+<h2 id="hello-world-4"><a class="header" href="#hello-world-4">Hello world</a></h2>
+<p>你可以在<a href="https://github.com/second-state/wasm-learning/tree/master/reactr/hello">这里</a>找到一个简单的关于 Reactr 的 <code>hello world</code> 示例。</p>
+<h3 id="hello-world-编译为-webassembly-的-rust-函数"><a class="header" href="#hello-world-编译为-webassembly-的-rust-函数">Hello world: 编译为 WebAssembly 的 Rust 函数</a></h3>
+<p>我们首先编写一个<a href="https://github.com/second-state/wasm-learning/blob/master/reactr/hello/hello-echo/src/lib.rs">简单的 Rust 函数</a>，它所做的事只是回应一个 &quot;hello&quot;。
+我们将通过 Reactr 把下面的 Rust 函数 <code>HelloEcho::run()</code> 暴露给 Go 主机应用。</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use suborbital::runnable::*;
+
+struct HelloEcho{}
+
+impl Runnable for HelloEcho {
+  fn run(&amp;self, input: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, RunErr&gt; {
+    let in_string = String::from_utf8(input).unwrap();
+    Ok(format!(&quot;hello {}&quot;, in_string).as_bytes().to_vec())
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>接下来，把这个 Rust 函数构建为 WebAssembly 字节码文件。</p>
+<pre><code class="language-bash">cd hello-echo
+cargo build --target wasm32-wasi --release
+cp target/wasm32-wasi/release/hello_echo.wasm ..
+cd ..
+</code></pre>
+<h3 id="hello-world-go-主机程序"><a class="header" href="#hello-world-go-主机程序">Hello world: Go 主机程序</a></h3>
+<p>接下来，让我们看看执行这个 WebAssembly 函数的 <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/hello/main.go">Go 主机程序</a>。
+<code>Runnable</code> 结构体中的 <code>runBundle()</code> 函数所做的事是调用 <code>run()</code> 函数。</p>
+<pre><code class="language-go">func runBundle() {
+  r := rt.New()
+  doWasm := r.Register(&quot;hello-echo&quot;, rwasm.NewRunner(&quot;./hello_echo.wasm&quot;))
+
+  res, err := doWasm([]byte(&quot;wasmWorker!&quot;)).Then()
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  fmt.Println(string(res.([]byte)))
+}
+</code></pre>
+<p><code>runGroup()</code> 函数会在组内异步地执行由 Rust 编译的 WebAssembly <code>run()</code> 函数，并在返回结果的时候接收它们。</p>
+<pre><code class="language-go">func runGroup() {
+  r := rt.New()
+
+  doWasm := r.Register(&quot;hello-echo&quot;, rwasm.NewRunner(&quot;./hello_echo.wasm&quot;))
+
+  grp := rt.NewGroup()
+  for i := 0; i &lt; 100000; i++ {
+    grp.Add(doWasm([]byte(fmt.Sprintf(&quot;world %d&quot;, i))))
+  }
+
+  if err := grp.Wait(); err != nil {
+    fmt.Println(err)
+  }
+}
+</code></pre>
+<p>现在，我们可以将 Go 主机程序运行起来，并观察控制台中所打印的结果。</p>
+<blockquote>
+<p>只有在设置了 <code>-tags wasmedge</code> 这一标签后，你才能获得 WasmEdge 提供的性能优势以及拓展 WebAssembly API。</p>
+</blockquote>
+<pre><code class="language-bash">go mod tidy
+go run -tags wasmedge main.go
+</code></pre>
+<h2 id="数据库查询"><a class="header" href="#数据库查询">数据库查询</a></h2>
+<p>这个<a href="https://github.com/second-state/wasm-learning/tree/master/reactr/db">示例</a>演示了如何在 WebAssembly 函数中使用 Reactr 主机函数及 API 查询 PostgreSQL 数据库。</p>
+<h3 id="数据库查询下载并安装-postgresql"><a class="header" href="#数据库查询下载并安装-postgresql">数据库查询：下载并安装 PostgreSQL</a></h3>
+<p>我们可以在 Docker 中启动一个 PostgreSQL 实例。</p>
+<pre><code class="language-bash">docker pull postgres
+docker run --name reactr-postgres -p 5432:5432 -e POSTGRES_PASSWORD=12345 -d postgres
+</code></pre>
+<p>接下来，创建一个数据库并向其中填入一些样本数据。</p>
+<pre><code class="language-bash">$ docker run -it --rm --network host postgres psql -h 127.0.0.1 -U postgres
+postgres=# CREATE DATABASE reactr;
+postgres=# \c reactr;
+
+# Create a table:
+postgres=# CREATE TABLE users (
+    uuid        varchar(100) CONSTRAINT firstkey PRIMARY KEY,
+    email       varchar(50) NOT NULL,
+    created_at  date,
+    state       char(1),
+    identifier  integer
+);
+</code></pre>
+<p>保持容器的运行状态，并打开一个新的终端窗口来与 PostgreSQL 服务器进行交互。</p>
+<h3 id="数据库查询编译为-webassembly-的-rust-函数"><a class="header" href="#数据库查询编译为-webassembly-的-rust-函数">数据库查询：编译为 WebAssembly 的 Rust 函数</a></h3>
+<p>让我们编写一个访问 PostgreSQL 数据库的 <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/db/rs-db/src/lib.rs">Rust 函数</a>。
+如下所示的 Rust 函数 <code>RsDbtest::run()</code> 将会通过 Reactr 暴露给 Go 主机程序。它使用 <code>PGInsertUser</code>、<code>PGSelectUserWithUUID</code> 等命名查询来操作数据库，稍后我们会看到定义在 Go 主机程序中的查询。</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use suborbital::runnable::*;
+use suborbital::db;
+use suborbital::util;
+use suborbital::db::query;
+use suborbital::log;
+use uuid::Uuid;
+
+struct RsDbtest{}
+
+impl Runnable for RsDbtest {
+  fn run(&amp;self, _: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, RunErr&gt; {
+    let uuid = Uuid::new_v4().to_string();
+
+    let mut args: Vec&lt;query::QueryArg&gt; = Vec::new();
+    args.push(query::QueryArg::new(&quot;uuid&quot;, uuid.as_str()));
+    args.push(query::QueryArg::new(&quot;email&quot;, &quot;connor@suborbital.dev&quot;));
+
+    match db::insert(&quot;PGInsertUser&quot;, args) {
+      Ok(_) =&gt; log::info(&quot;insert successful&quot;),
+      Err(e) =&gt; {
+        return Err(RunErr::new(500, e.message.as_str()))
+      }
+    };
+
+    let mut args2: Vec&lt;query::QueryArg&gt; = Vec::new();
+    args2.push(query::QueryArg::new(&quot;uuid&quot;, uuid.as_str()));
+
+    match db::update(&quot;PGUpdateUserWithUUID&quot;, args2.clone()) {
+      Ok(rows) =&gt; log::info(format!(&quot;update: {}&quot;, util::to_string(rows).as_str()).as_str()),
+      Err(e) =&gt; {
+        return Err(RunErr::new(500, e.message.as_str()))
+      }
+    }
+
+    match db::select(&quot;PGSelectUserWithUUID&quot;, args2.clone()) {
+      Ok(result) =&gt; log::info(format!(&quot;select: {}&quot;, util::to_string(result).as_str()).as_str()),
+      Err(e) =&gt; {
+        return Err(RunErr::new(500, e.message.as_str()))
+      }
+    }
+
+    match db::delete(&quot;PGDeleteUserWithUUID&quot;, args2.clone()) {
+      Ok(rows) =&gt; log::info(format!(&quot;delete: {}&quot;, util::to_string(rows).as_str()).as_str()),
+      Err(e) =&gt; {
+        return Err(RunErr::new(500, e.message.as_str()))
+      }
+    }
+
+    ... ...
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>让我们把这个 Rust 函数构建为 WebAssembly 字节码文件。</p>
+<pre><code class="language-bash">cd rs-db
+cargo build --target wasm32-wasi --release
+cp target/wasm32-wasi/release/rs_db.wasm ..
+cd ..
+</code></pre>
+<h3 id="数据库查询go-主机程序"><a class="header" href="#数据库查询go-主机程序">数据库查询：Go 主机程序</a></h3>
+<p>在这个 <a href="https://github.com/second-state/wasm-learning/blob/master/reactr/db/main.go">Go 主机程序</a>中，我们首先定义了几个 SQL 查询，并为其命名。
+我们将把这些查询作为配置传入 Reactr 运行时。</p>
+<pre><code class="language-go">func main() {
+  dbConnString, exists := os.LookupEnv(&quot;REACTR_DB_CONN_STRING&quot;)
+  if !exists {
+    fmt.Println(&quot;skipping as conn string env var not set&quot;)
+    return
+  }
+
+  q1 := rcap.Query{
+    Type:     rcap.QueryTypeInsert,
+    Name:     &quot;PGInsertUser&quot;,
+    VarCount: 2,
+    Query: `
+    INSERT INTO users (uuid, email, created_at, state, identifier)
+    VALUES ($1, $2, NOW(), 'A', 12345)`,
+  }
+
+  q2 := rcap.Query{
+    Type:     rcap.QueryTypeSelect,
+    Name:     &quot;PGSelectUserWithUUID&quot;,
+    VarCount: 1,
+    Query: `
+    SELECT * FROM users
+    WHERE uuid = $1`,
+  }
+
+  q3 := rcap.Query{
+    Type:     rcap.QueryTypeUpdate,
+    Name:     &quot;PGUpdateUserWithUUID&quot;,
+    VarCount: 1,
+    Query: `
+    UPDATE users SET state='B' WHERE uuid = $1`,
+  }
+
+  q4 := rcap.Query{
+    Type:     rcap.QueryTypeDelete,
+    Name:     &quot;PGDeleteUserWithUUID&quot;,
+    VarCount: 1,
+    Query: `
+    DELETE FROM users WHERE uuid = $1`,
+  }
+
+  config := rcap.DefaultConfigWithDB(vlog.Default(), rcap.DBTypePostgres, dbConnString, []rcap.Query{q1, q2, q3, q4})
+
+  r, err := rt.NewWithConfig(config)
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  ... ...
+}
+</code></pre>
+<p>接下来便可以在 Reactr 中运行这个 WebAssembly 函数了。</p>
+<pre><code class="language-go">func main() {
+  ... ...
+
+  doWasm := r.Register(&quot;rs-db&quot;, rwasm.NewRunner(&quot;./rs_db.wasm&quot;))
+
+  res, err := doWasm(nil).Then()
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  fmt.Println(string(res.([]byte)))
+}
+</code></pre>
+<p>最后，让我们运行 Go 主机程序并观察控制台中打印出的结果。</p>
+<blockquote>
+<p>只有在设置了 <code>-tags wasmedge</code> 这一标签后，你才能获得 WasmEdge 提供的性能优势以及拓展 WebAssembly API。</p>
+</blockquote>
+<pre><code class="language-bash">export REACTR_DB_CONN_STRING='postgresql://postgres:12345@127.0.0.1:5432/reactr'
+go mod tidy
+go run -tags wasmedge main.go
+</code></pre>
+<h2 id="在-go-中嵌入-javascript"><a class="header" href="#在-go-中嵌入-javascript">在 Go 中嵌入 JavaScript</a></h2>
+<p>我们前面提过，WasmEdge 运行时的一大特点就是它<a href="frameworks/app/../../dev/js.html">对 JavaScript 的高级支持</a>，这使得我们能在轻量、高性能、安全、支持多语言的<a href="frameworks/app/../../kubernetes.html">Kubernetes 管理的 WasmEdge 容器</a>中运行 JavaScript 程序。
+你可以在<a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs">这里</a>找到一个在 Reactr 中嵌入的 JavaScript 函数示例。</p>
+<h3 id="javascript-示例-1"><a class="header" href="#javascript-示例-1">JavaScript 示例</a></h3>
+<p>这个<a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs/hello.js">示例函数</a>十分简单，仅仅是返回一个字符串值。</p>
+<pre><code class="language-javascript">let h = 'hello';
+let w = 'wasmedge';
+`${h} ${w}`;
+</code></pre>
+<h3 id="javascript-示例go-主机程序"><a class="header" href="#javascript-示例go-主机程序">JavaScript 示例：Go 主机程序</a></h3>
+<p>这个 <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs/main.go">Go 主机程序</a> 使用了 Reactr API 来运行 WasmEdge 的标准 JavaScript 解释器（<a href="https://github.com/second-state/wasm-learning/blob/master/reactr/quickjs/rs_embed_js.wasm">rs_embed_js.wasm</a>）。你也可以通过修改这个 <a href="https://github.com/second-state/wasm-learning/tree/master/reactr/quickjs/rs-embed-js">Rust 项目</a> 来使用其他版本的 JavaScript 解释器。</p>
+<blockquote>
+<p>你可以点击这两个超链接来了解如何<a href="https://github.com/second-state/wasmedge-quickjs/tree/main/examples/embed_js">将 JavaScript 代码嵌入 Rust</a> 以及<a href="frameworks/app/../../dev/js/rust.html">使用 Rust 实现 JavaScript API</a>。</p>
+</blockquote>
+<p>Go 主机程序只需要启动 <code>rs_embed_js.wasm</code> 的任务并将 JavaScript 内容传入它。接下来可以用 Go 程序来捕获并打印出返回值。</p>
+<pre><code class="language-go">func main() {
+  r := rt.New()
+  doWasm := r.Register(&quot;hello-quickjs&quot;, rwasm.NewRunner(&quot;./rs_embed_js.wasm&quot;))
+
+  code, err := ioutil.ReadFile(os.Args[1])
+  if err != nil {
+    fmt.Print(err)
+  }
+  res, err := doWasm(code).Then()
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  fmt.Println(string(res.([]byte)))
+}
+</code></pre>
+<p>使用下面的命令运行 Go 主机程序。</p>
+<pre><code class="language-bash">$ cd quickjs
+$ go mod tidy
+$ go run -tags wasmedge main.go hello.js
+String(JsString(hello wasmedge))
+</code></pre>
+<p>打印出来的结果中包含了 Rust 和 Go API 中的字符串类型信息。你可以对 Rust / Go 程序进行修改来将其移除。</p>
+<h3 id="javascript-示例功能实例"><a class="header" href="#javascript-示例功能实例">JavaScript 示例：功能实例</a></h3>
+<p>WasmEdge 支持许多 JavaScript 高级特性。在了解了上面的三个简单例子后，你可以尝试使用我们的 <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/react_ssr">React SSR 示例</a>来通过一个 Reactr 函数生成 HTML UI。
+你可以只从 React SSR 示例中构建 <code>dist/main.js</code>，并将其复制到这个示例的文件夹中，然后你就能让它工作起来了！</p>
+<pre><code class="language-bash">$ cd quickjs
+# 从 react ssr 示例中拷贝出 dist/main.js
+$ go mod tidy
+$ go run -tags wasmedge main.go main.js
+&lt;div data-reactroot=&quot;&quot;&gt;&lt;div&gt;This is home&lt;/div&gt;&lt;div&gt;&lt;div&gt;This is page&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+UnDefined
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="serverless-平台"><a class="header" href="#serverless-平台">Serverless 平台</a></h1>
 <p>在云原生基础设施中，我们希望将 WebAssembly 作为轻量级运行时的替代方案，与 Docker 和 microVMs 一同使用。WebAssembly 提供了比类似 Docker 的容器或 microVMs 更高的性能和更少的资源消耗。然而，公有云只支持在 microVM 中运行 WebAssembly。尽管如此，在 microVM 中运行 WebAssembly 函数仍然比与运行容器化的 NaCI 程序有诸多优势。</p>
 <p>与直接在 Docker 容器中运行 NaCI 程序相比，在类似 Docker 的容器中运行 WebAssembly 函数具有如下优势：</p>
@@ -8498,7 +8767,7 @@ go run ./source/main.go ./source/hot-dog.mp4
 <div style="break-before: page; page-break-before: always;"></div><h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
 <p>WasmEdge 支持广泛的2007年之后的 Linux 发行版。官方发布包包含静态链接的二进制文件和库，适用于旧的 Linux 系统。
 下表展示了 WasmEdge 官方发布包中的构建目标。</p>
-<table><thead><tr><th>镜像 tag</th><th>指令集架构</th><th>基础操作系统</th><th>LLVM 版本</th><th>环境变量</th><th>兼容性</th><th>说明</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>镜像 tag</th><th>指令集架构</th><th>基础操作系统</th><th>LLVM 版本</th><th>环境变量</th><th>兼容性</th><th>说明</th></tr></thead><tbody>
 <tr><td><code>latest</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>始终使用最新的 Ubuntu 版本提供给 CI</td></tr>
 <tr><td><code>ubuntu-build-gcc</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>始终使用最新的 Ubuntu 版本提供给 CI</td></tr>
 <tr><td><code>ubuntu-build-clang</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>始终使用最新的 Ubuntu 版本提供给 CI</td></tr>
@@ -8509,7 +8778,7 @@ go run ./source/main.go ./source/hot-dog.mp4
 <tr><td><code>manylinux2010_x86_64</code></td><td>x86_64</td><td>CentOS 6, 6.10</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 6+</td><td>提供给熟悉 x86_64 架构的遗留系统的开发人员准备的</td></tr>
 <tr><td><code>manylinux1_x86_64</code></td><td>x86_64</td><td>CentOS 5, 5.11</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 5+</td><td>提供给熟悉 x86_64 架构的遗留系统的开发人员准备的</td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="windows"><a class="header" href="#windows">Windows</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="windows"><a class="header" href="#windows">Windows</a></h1>
 <p>WasmEdge 提供了一个标准的 Windows PowerShell 二进制构建程序作为其官方发布包的一部分。你可以通过我们的标准安装脚本来安装它。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="mac"><a class="header" href="#mac">Mac</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="android"><a class="header" href="#android">Android</a></h1>
@@ -8652,7 +8921,7 @@ hello, sel4
 <div style="break-before: page; page-break-before: always;"></div><h1 id="open-harmony"><a class="header" href="#open-harmony">Open Harmony</a></h1>
 <h2 id="从源码在-openharmony-standard-上构建和测试-wasmedge"><a class="header" href="#从源码在-openharmony-standard-上构建和测试-wasmedge">从源码在 OpenHarmony Standard 上构建和测试 WasmEdge</a></h2>
 <p>请参考这个教程来从源码在 OpenHarmony 标准系统中构建和测试 WasmEdge</p>
-<h2 id="环境准备"><a class="header" href="#环境准备">环境准备</a></h2>
+<h2 id="环境准备-1"><a class="header" href="#环境准备-1">环境准备</a></h2>
 <h3 id="openharmony-标准系统"><a class="header" href="#openharmony-标准系统">OpenHarmony 标准系统</a></h3>
 <p>OpenHarmony 标准系统为开发者提供的 Docker 环境将对应的编译工具链进行了封装，本文档主要介绍在 Docker 环境下构建 WasmEdge 的步骤.</p>
 <p>OpenHarmony 源码的获取与编译可以参考文档 <a href="https://www.openharmony.cn/pages/00010102/">搭建Ubuntu环境-Docker方式</a></p>
@@ -8771,14 +9040,14 @@ cd WasmEdge
 <li>LLVM 12.0.0 (&gt;= 10.0.0)</li>
 <li>GCC 11.1.0 (&gt;= 9.4.0)</li>
 </ul>
-<h2 id="环境准备-1"><a class="header" href="#环境准备-1">环境准备</a></h2>
+<h2 id="环境准备-2"><a class="header" href="#环境准备-2">环境准备</a></h2>
 <h3 id="docker-镜像"><a class="header" href="#docker-镜像">Docker 镜像</a></h3>
 <p>Dockerhub 上的仓库 <code>wasmedge/wasmedge</code></p>
 <p>你可以使用下面的命令来获取我们最新的镜像：</p>
 <pre><code class="language-bash">docker pull wasmedge/wasmedge # 等同于 wasmedge/wasmedge:latest
 </code></pre>
 <h4 id="可用的标签"><a class="header" href="#可用的标签">可用的标签</a></h4>
-<table><thead><tr><th>标签名</th><th>体系结构</th><th>基于的操作系统</th><th>LLVM 版本</th><th>环境配置</th><th>兼容性</th><th>备注</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>标签名</th><th>体系结构</th><th>基于的操作系统</th><th>LLVM 版本</th><th>环境配置</th><th>兼容性</th><th>备注</th></tr></thead><tbody>
 <tr><td><code>latest</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>这个是用于持续集成的，会一直使用最新的 Ubuntu 版本</td></tr>
 <tr><td><code>ubuntu-build-gcc</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>这个是用于持续集成的，会一直使用最新的 Ubuntu 版本</td></tr>
 <tr><td><code>ubuntu-build-clang</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>这个是用于持续集成的，会一直使用最新的 Ubuntu 版本</td></tr>
@@ -8788,6 +9057,7 @@ cd WasmEdge
 <tr><td><code>manylinux2010_x86_64</code></td><td>x86_64</td><td>CentOS 6, 6.10</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 6+</td><td>这个提供给熟悉基于 x86_64 架构的过时系统的开发者使用，后续不再维护</td></tr>
 <tr><td><code>manylinux1_x86_64</code></td><td>x86_64</td><td>CentOS 5, 5.11</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 5+</td><td>这个提供给熟悉基于 x86_64 架构的过时系统的开发者使用，后续不再维护</td></tr>
 </tbody></table>
+</div>
 <h3 id="在-ubuntu-2004-上手动安装依赖"><a class="header" href="#在-ubuntu-2004-上手动安装依赖">在 Ubuntu 20.04 上手动安装依赖</a></h3>
 <pre><code class="language-bash"># 工具和库
 sudo apt install -y \
@@ -8811,12 +9081,13 @@ sudo apt install -y clang
 <p>我们的开发环境依赖于 <code>libLLVM-12</code> 和 <code>&gt;=GLIBCXX_3.4.33</code>。</p>
 <p>如果用户的系统是比 Ubuntu 20.04 还早的版本，请使用我们定制的 docker 镜像来构建 WasmEdge 。
 如果你需要的是在过时版本的操作系统上使用的二进制包，我们也提供了几个基于 manylinux* 发行版本的安装包。</p>
-<table><thead><tr><th>可移植的 Linux 发行版标签</th><th>基础镜像</th><th>提供的依赖</th><th>Docker 镜像</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>可移植的 Linux 发行版标签</th><th>基础镜像</th><th>提供的依赖</th><th>Docker 镜像</th></tr></thead><tbody>
 <tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5</br>CXXABI &lt;= 3.4.8</br>GLIBCXX &lt;= 3.4.9</br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
 <tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12</br>CXXABI &lt;= 1.3.3</br>GLIBCXX &lt;= 3.4.13</br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
 </tbody></table>
+</div>
 <h2 id="构建-wasmedge-1"><a class="header" href="#构建-wasmedge-1">构建 WasmEdge</a></h2>
 <p>WasmEdge 提供了丰富的工具来支撑更好的性能以及更多样的运行时环境，
 编译完成后，你可以找到以下几个 WasmEdge 相关的工具：</p>
@@ -8894,7 +9165,7 @@ cd WasmEdge
 <li>LLVM 12.0.0 (&gt;= 10.0.0)，使用 brew 安装，请勿使用系统自带的 LLVM。</li>
 <li>因为最新版本 brew 中的 LLVM 默认版本是 13。请使用 <code>llvm@12</code> 来调整 LLVM 的版本。</li>
 </ul>
-<h3 id="环境准备-2"><a class="header" href="#环境准备-2">环境准备</a></h3>
+<h3 id="环境准备-3"><a class="header" href="#环境准备-3">环境准备</a></h3>
 <pre><code class="language-bash"># 工具和库
 $ brew install boost cmake ninja llvm@12
 # 使用 brew 版本的 llvm，而不是系统自带的 LLVM。
@@ -9035,7 +9306,7 @@ cd -
 <div style="break-before: page; page-break-before: always;"></div><h1 id="为-android-编译"><a class="header" href="#为-android-编译">为 Android 编译</a></h1>
 <h2 id="使用-android-ndk-构建和测试-wasmedge-命令行工具"><a class="header" href="#使用-android-ndk-构建和测试-wasmedge-命令行工具">使用 Android NDK 构建和测试 WasmEdge 命令行工具</a></h2>
 <p>此教程指导使用 Android NDK 构建 Interpreter 模式的 WasmEdge ，并在 Android 设备中测试 wasmedge 命令行工具。</p>
-<h3 id="环境准备-3"><a class="header" href="#环境准备-3">环境准备</a></h3>
+<h3 id="环境准备-4"><a class="header" href="#环境准备-4">环境准备</a></h3>
 <ul>
 <li><a href="https://developer.android.com/ndk/downloads">Android NDK 23b</a>
 <ul>

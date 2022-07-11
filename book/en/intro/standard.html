@@ -152,7 +152,7 @@
                         <h1 id="webassembly-standard-extensions"><a class="header" href="#webassembly-standard-extensions">WebAssembly standard extensions</a></h1>
 <h2 id="webassembly-proposals"><a class="header" href="#webassembly-proposals">WebAssembly proposals</a></h2>
 <p>WasmEdge supports the following <a href="https://github.com/WebAssembly/proposals">WebAssembly proposals</a>. Those proposals are likely to become official WebAssembly specifications in the future.</p>
-<table><thead><tr><th>Proposal</th><th>WasmEdge CLI flag</th><th>WasmEdge C API enumeration</th><th>Default turning on</th><th>Interpreter mode</th><th>AOT mode</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Proposal</th><th>WasmEdge CLI flag</th><th>WasmEdge C API enumeration</th><th>Default turning on</th><th>Interpreter mode</th><th>AOT mode</th></tr></thead><tbody>
 <tr><td><a href="https://github.com/WebAssembly/mutable-global">Import/Export of Mutable Globals</a></td><td><code>--disable-import-export-mut-globals</code></td><td><code>WasmEdge_Proposal_ImportExportMutGlobals</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
 <tr><td><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions">Non-trapping float-to-int conversions</a></td><td><code>--disable-non-trap-float-to-int</code></td><td><code>WasmEdge_Proposal_NonTrapFloatToIntConversions</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
 <tr><td><a href="https://github.com/WebAssembly/sign-extension-ops">Sign-extension operators</a></td><td><code>--disable-sign-extension-operators</code></td><td><code>WasmEdge_Proposal_SignExtensionOperators</code></td><td>✓</td><td>✓</td><td>✓</td></tr>
@@ -165,15 +165,16 @@
 <tr><td><a href="https://github.com/WebAssembly/extended-const">Extended Constant Expressions</a></td><td><code>--enable-extended-const</code></td><td><code>WasmEdge_Proposal_ExtendedConst</code></td><td></td><td>✓</td><td>✓</td></tr>
 <tr><td><a href="https://github.com/webassembly/threads">Threads</a></td><td><code>--enable-threads</code></td><td><code>WasmEdge_Proposal_Threads</code></td><td></td><td>✓</td><td>✓</td></tr>
 </tbody></table>
+</div>
 <h2 id="wasi-proposals"><a class="header" href="#wasi-proposals">WASI proposals</a></h2>
 <p>WasmEdge implements the following <a href="https://github.com/WebAssembly/WASI/blob/main/Proposals.md">WASI proposals</a>.</p>
-<table><thead><tr><th>Proposal</th><th>Platforms</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Proposal</th><th>Platforms</th></tr></thead><tbody>
 <tr><td><a href="https://github.com/WebAssembly/wasi-sockets">Sockets</a></td><td></td></tr>
 <tr><td><a href="https://github.com/WebAssembly/wasi-crypto">Crypto</a></td><td></td></tr>
 <tr><td><a href="https://github.com/WebAssembly/wasi-nn">Machine Learning (wasi-nn)</a></td><td><code>x86_64 Linux (OpenVINO backend)</code></td></tr>
 <tr><td><a href="https://github.com/proxy-wasm/spec">proxy-wasm</a></td><td><code>x86_64 Linux (Interpreter only)</code></td></tr>
 </tbody></table>
-
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

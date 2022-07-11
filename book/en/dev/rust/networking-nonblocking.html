@@ -222,8 +222,7 @@ fn main() {
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
 <p>The following command runs the application in WasmEdge.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>wasmedge target/wasm32-wasi/release/nonblock_http_client.wasm
 <span class="boring">}
@@ -287,8 +286,7 @@ fn main() {
 }
 </code></pre></pre>
 <p>The <code>handle_connection()</code> function processes the data from those open connections. In this case, it just writes the request body into the response. It is also done asynchronously -- meaning that the <code>handle_connection()</code> function creates an event for the response, and puts it in the queue. The main application loop processes the event and sends the response when it is waiting for data from other connections.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn handle_connection(
     poll: &amp;mut Poll,

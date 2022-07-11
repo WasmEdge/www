@@ -152,8 +152,7 @@
                         <h1 id="call-rust-functions"><a class="header" href="#call-rust-functions">Call Rust functions</a></h1>
 <p>If your Rust program has a <code>main()</code> function, you could compile it into a WASM bytecode file, and run it using the <code>wasmedge</code> CLI tool as a standalone application. However, a far more common use case is to compile a Rust function into a WASM bytecode file, and then call it from a host application. That is known as an embedded WASM function. The host application uses WasmEdge language SDKs (e.g., <a href="../../embed/go.html">Go</a>, <a href="../../embed/rust.html">Rust</a>, <a href="../../embed/c.html">C</a>, <a href="../../embed/go.html">Python</a> and <a href="../../embed/node.html">Node.js</a>) to call those WASM functions compiled from Rust source code.</p>
 <p>All the WasmEdge host language SDKs support simple function calls. However, the WASM spec only supports a few simple data types as call parameters and return values. The <code>wasmedge-bindgen</code> crate would transform call parameters and return values of Rust functions into simple integer types when the Rust function is compiled into WASM. For example, a string is automatically converted into two integers, a memory address and a length, which can be handled by the standard WASM spec. It is very easy to do this in Rust source code. Just annotate your function with the <code>#[wasmedge-bindgen]</code> macro. You can compile the annotated Rust code using the standard Rust compiler toolchain (e.g., the latest <code>Cargo</code>).</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasmedge_bindgen::*;
 use wasmedge_bindgen_macro::*;

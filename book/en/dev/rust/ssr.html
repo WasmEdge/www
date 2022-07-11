@@ -225,8 +225,7 @@ fn main() {
 }
 </code></pre></pre>
 <p>The <code>handler.rs</code> parses the received data to the path and query objects and return the corresponding response.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use crate::response;
 use anyhow::Result;
@@ -286,8 +285,7 @@ pub fn handle_req(stream: &amp;mut TcpStream, addr: SocketAddr) -&gt; Result&lt;
 </span></code></pre></pre>
 <p>The <code>response.rs</code> program packs the response object for static assets and for server rendered content.
 For the latter, you could see that SSR happens at <code>app.render().to_string()</code>, the result string is put into HTML by replacing the placeholder text.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use crate::mime::MimeType;
 use anyhow::Result;
@@ -387,8 +385,7 @@ pub fn internal_error() -&gt; (Response, Option&lt;Vec&lt;u8&gt;&gt;) {
 <span class="boring">}
 </span></code></pre></pre>
 <p>The <code>mime.rs</code> program is a map for assets' extension name and the Mime type.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct MimeType {
     pub r#type: String,

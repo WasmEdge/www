@@ -166,8 +166,7 @@ Specially, we will discuss how to pass string data.</p>
 <p>An alternative approach to pass and return complex values to Rust functions in WebAssembly is to use the <code>wasm-bindgen</code> compiler tool. You can <a href="bindgen.html">learn more here</a>.</p>
 </blockquote>
 <p>The Rust function takes a memory pointer for the string, and constructs the Rust string itself.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::ffi::{CStr, CString};
 use std::mem;
@@ -427,8 +426,7 @@ Hello, WasmEdge!
 </blockquote>
 <p>The <code>fib_array()</code> function takes a array as a call parameter and fill it with a fibonacci sequence of numbers. Alternatively, the <code>fib_array_return_memory()</code> function returns a array of fibonacci sequence of numbers.</p>
 <p>For the array in the call parameter, the Rust function <code>fib_array()</code> takes a memory pointer and constructs the Rust <code>Vec</code> using <code>from_raw_parts</code>. For the array return value, the Rust function <code>fib_array_return_memory()</code> simply returns the pointer.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::mem;
 use std::os::raw::{c_void, c_int};

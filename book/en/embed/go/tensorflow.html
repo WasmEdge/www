@@ -154,8 +154,7 @@
 <h2 id="rust-function-compiled-into-webassembly"><a class="header" href="#rust-function-compiled-into-webassembly">Rust function compiled into WebAssembly</a></h2>
 <p>The Rust function for image classification is <a href="https://github.com/second-state/WasmEdge-go-examples/blob/master/wasmedge-bindgen/go_TfliteFood/rust_tflite_food/src/lib.rs">available here</a>.
 It utilizes the <a href="../../dev/rust/tensorflow.html">WasmEdge Tensorflow extension API</a> as well as the <a href="function.html">wasmedge_bindgen</a> for passing call parameters.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasmedge_bindgen]
 fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {

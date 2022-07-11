@@ -215,8 +215,7 @@ cd wasmedge-nodejs-starter
 <p>The first example is a hello world to show you how various parts of the application fit together.</p>
 <h3 id="webassembly-program-in-rust"><a class="header" href="#webassembly-program-in-rust">WebAssembly program in Rust</a></h3>
 <p>In this example, our Rust program appends the input string after “hello”. Below is the content of the Rust program <code>src/lib.rs</code>. You can define multiple external functions in this library file, and all of them will be available to the host JavaScript app via WebAssembly. Just remember to annotate each function with <code>#[wasm_bindgen]</code> so that <a href="https://github.com/second-state/rustwasmc">rustwasmc</a> knows to generate the correct JavaScript to Rust interface for it when you build it.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 
@@ -285,8 +284,7 @@ hello Wasm
 })
 </code></pre>
 <p>The <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/quadratic/src/lib.rs"><code>solve</code> function is written in Rust</a> and runs inside the WasmEdge Runtime. While the call arguments in the JavaScript side is an array of values, the Rust function receives a JSON object that encapsulates the array. In the Rust code, we first decode the JSON, perform the computation, and return the result values in a JSON string.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
 pub fn solve(params: &amp;str) -&gt; String {
@@ -322,8 +320,7 @@ node node/server.js
 <p>With JSON support, you can call Rust functions with any number of input parameters and return any number of return values of any type.</p>
 </blockquote>
 <p>The Rust program <code>src/lib.rs</code> in the <a href="https://github.com/second-state/wasm-learning/tree/master/nodejs/functions">functions example</a> demonstrates  how to pass in call arguments in various supported types, and return values.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[wasm_bindgen]
 pub fn obfusticate(s: String) -&gt; String {
@@ -354,8 +351,7 @@ pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
 <span class="boring">}
 </span></code></pre></pre>
 <p>Perhaps the most interesting is the <code>create_line()</code> function. It takes two JSON strings, each representing a <code>Point</code> struct, and returns a JSON string representing a <code>Line</code> struct. Notice that both the <code>Point</code> and <code>Line</code> structs are annotated with <code>Serialize</code> and <code>Deserialize</code> so that the Rust compiler automatically generates necessary code to support their conversion to and from JSON strings.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use wasm_bindgen::prelude::*;
 use serde::{Serialize, Deserialize};

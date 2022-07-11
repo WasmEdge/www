@@ -186,16 +186,14 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <h3 id="浏览代码"><a class="header" href="#浏览代码">浏览代码</a></h3>
 <p>使用 WasmEdge Tensorflow API 是很直观的。你可以在 <a href="https://github.com/second-state/wasm-learning/blob/master/cli/tflite/src/main.rs"><code>main.rs</code></a> 中阅读完整的源代码。</p>
 <p>首先，它加载了在 ImageNet 上训练好的 TFLite 模型文件，以及对应的标签文件。标签文件中存储了模型输出的数值与待分类对象的英文名字的映射。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
   let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
 <span class="boring">}
 </span></code></pre></pre>
 <p>接下来，它从 <code>STDIN</code> 加载图像，并将其转换为 Tensorflow Lite 模型所要求的格式。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut buf = Vec::new();
   io::stdin().read_to_end(&amp;mut buf).unwrap();
@@ -204,8 +202,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>然后，程序运行了 TFLite 模型，输入模型所需的张量（这里指图像），接收模型的输出（这里指一个包含了数字的数组）。每一个数字都对应了标签文件中的一个对象的概率。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut session = wasmedge_tensorflow_interface::Session::new(&amp;model_data, wasmedge_tensorflow_interface::ModelType::TensorFlowLite);
   session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
@@ -214,8 +211,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>让我们找到有最大概率的对象，然后在标签文件中查找它的名字。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let mut i = 0;
   let mut max_index: i32 = -1;
@@ -236,8 +232,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <span class="boring">}
 </span></code></pre></pre>
 <p>最终，它向 <code>STDOUT</code> 输出了结果。</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  let class_name = label_lines.next().unwrap().to_string();
   if max_value &gt; 50 {
