@@ -14336,7 +14336,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 <ul>
 <li><a href="embed/rust.html#introduction">Introduction</a></li>
 <li><a href="embed/rust.html#versioning-table">Versioning Table</a></li>
-<li><a href="embed/rust.html#wasmedge-sdk-crate"><code>wasmedge-sdk</code> crate</a></li>
+<li><a href="embed/rust.html#build">Build</a></li>
 <li><a href="embed/rust.html#wasmedge-sys-crate"><code>wasmedge-sys</code> crate</a></li>
 <li><a href="embed/rust.html#docker-image">Docker image</a>
 <ul>
@@ -14377,10 +14377,12 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 </ul>
 <h2 id="versioning-table"><a class="header" href="#versioning-table">Versioning Table</a></h2>
 <p>The following table provides the versioning information about each release of <code>wasmedge-sdk</code> crate and its dependencies.</p>
-<p>| wasmedge-sdk  | WasmEdge lib                                                       | wasmedge-sys  | wasmedge-types|
-| :-----------: | :----------------------------------------------------------------: | :-----------: | :-----------: |
-| 0.1.0         | <a href="https://github.com/WasmEdge/WasmEdge/releases/tag/0.10.0">0.10.0</a> | 0.7           | 0.1           |</p>
-<h2 id="wasmedge-sdk-crate"><a class="header" href="#wasmedge-sdk-crate"><code>wasmedge-sdk</code> crate</a></h2>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">wasmedge-sdk</th><th style="text-align: center">WasmEdge lib</th><th style="text-align: center">wasmedge-sys</th><th style="text-align: center">wasmedge-types</th></tr></thead><tbody>
+<tr><td style="text-align: center">0.2.0</td><td style="text-align: center">0.10.1</td><td style="text-align: center">0.8</td><td style="text-align: center">0.2</td></tr>
+<tr><td style="text-align: center">0.1.0</td><td style="text-align: center">0.10.0</td><td style="text-align: center">0.7</td><td style="text-align: center">0.1</td></tr>
+</tbody></table>
+</div>
+<h2 id="build-1"><a class="header" href="#build-1">Build</a></h2>
 <p>To use <code>wasmedge-sdk</code> in your project, you should finish the followign two steps before building your project:</p>
 <ul>
 <li>
@@ -14437,44 +14439,9 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 </li>
 <li>
 <p>By specifying <code>WASMEDGE_INCLUDE_DIR</code> and <code>WASMEDGE_LIB_DIR</code>.</p>
-<ul>
-<li>
-<p><code>WASMEDGE_INCLUDE_DIR</code> is used to specify the directory in which the header files are.</p>
-</li>
-<li>
-<p><code>WASMEDGE_LIB_DIR</code> is used to specify the directory in which the <code>wasmedge_c</code> library is.</p>
-</li>
-<li>
-<p>For example, suppose that you have already downloaded the <code>Wasmedge-0.10.0</code> binary package from <a href="https://github.com/WasmEdge/WasmEdge/releases/tag/0.10.0">WasmEdge Releases</a> and placed it into a local directory, for example, <code>~/workspace/me/</code>. The directory structure of the released package should looks like below:</p>
-<pre><code class="language-bash">root@0a877562f39e:~/workspace/me/WasmEdge-0.10.0-Linux# tree .
-.
-├── bin
-│   ├── wasmedge
-│   └── wasmedgec
-├── include
-│   └── wasmedge
-│       ├── dense_enum_map.h
-│       ├── enum.inc
-│       ├── enum_configure.h
-│       ├── enum_errcode.h
-│       ├── enum_types.h
-│       ├── int128.h
-│       ├── spare_enum_map.h
-│       ├── version.h
-│       └── wasmedge.h
-└── lib64
-    ├── libwasmedge_c.so
-    └── wasmedge
-        └── libwasmedgePluginWasmEdgeProcess.so
-
-5 directories, 13 files
-</code></pre>
-</li>
-</ul>
-<p>Then set <code>WASMEDGE_INCLUDE_DIR</code> and <code>WASMEDGE_LIB_DIR</code> environment variables to specify the <code>include</code> and <code>lib</code> (here is <code>lib64</code>) directories.</p>
-<pre><code class="language-bash">root@0a877562f39e:~/workspace/me/WasmEdge/bindings/rust/wasmedge-sys# export WASMEDGE_INCLUDE_DIR=/root/workspace/me/WasmEdge-0.10.0-Linux/include/wasmedge
-
-root@0a877562f39e:~/workspace/me/WasmEdge/bindings/rust/wasmedge-sys# export WASMEDGE_LIB_DIR=/root/workspace/me/WasmEdge-0.10.0-Linux/lib64
+<p>If you choose to use <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/install.sh">install.sh</a> to install WasmEdge Runtime on your local system. Please use <code>WASMEDGE_INCLUDE_DIR</code> and <code>WASMEDGE_LIB_DIR</code> to specify the paths to the <code>include</code> and <code>lib</code> directories, respectively. For example, use the following commands to specify the paths after using <code>bash install.sh --path=$HOME/wasmedge-install</code> to install WasmEdge Runtime on Ubuntu 20.04:</p>
+<pre><code class="language-bash">export WASMEDGE_INCLUDE_DIR=$HOME/wasmedge-install/include 
+export WASMEDGE_LIB_DIR=$HOME/wasmedge-install/lib
 </code></pre>
 </li>
 <li>
@@ -18494,7 +18461,7 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 </code></pre>
-<h2 id="build-1"><a class="header" href="#build-1">Build</a></h2>
+<h2 id="build-2"><a class="header" href="#build-2">Build</a></h2>
 <h3 id="install-dependencies"><a class="header" href="#install-dependencies">Install dependencies</a></h3>
 <p>Use the following commands to download WasmEdge for Android on your Ubuntu dev machine.</p>
 <pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.10.0/WasmEdge-0.10.0-android_aarch64.tar.gz
