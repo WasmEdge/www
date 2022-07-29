@@ -240,11 +240,11 @@ The output is in the <code>dist/main.mjs</code> file.</p>
 <pre><code class="language-bash">npm install
 npm run build
 </code></pre>
-<p>Copy over the system's <code>modules</code> to the working directory for Node.js API support as <a href="nodejs.html#note-to-developers">noted here</a>.</p>
+<p>Copy over the system's <code>modules</code> to the working directory for Node.js API support as <a href="nodejs.html">noted here</a>.</p>
 <pre><code class="language-bash">cp -r ../../modules .
 </code></pre>
 <p>To run the example, do the following on the CLI to start the server.</p>
-<pre><code class="language-bash">nohup wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm dist/main.mjs &amp;
+<pre><code class="language-bash">nohup wasmedge --dir .:. /path/to/wasmedge_quickjs.wasm dist/main.mjs &amp;
 </code></pre>
 <p>Send the server a HTTP request via <code>curl</code> or the browser.</p>
 <pre><code class="language-bash">curl http://localhost:8001
@@ -341,11 +341,11 @@ The output is in the <code>dist/main.mjs</code> file.</p>
 <pre><code class="language-bash">npm install
 npm run build
 </code></pre>
-<p>Copy over the system's <code>modules</code> to the working directory for Node.js API support as <a href="nodejs.html#note-to-developers">noted here</a>.</p>
+<p>Copy over the system's <code>modules</code> to the working directory for Node.js API support as <a href="nodejs.html">noted here</a>.</p>
 <pre><code class="language-bash">cp -r ../../modules .
 </code></pre>
 <p>To run the example, do the following on the CLI to start the server.</p>
-<pre><code class="language-bash">nohup wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm dist/main.mjs &amp;
+<pre><code class="language-bash">nohup wasmedge --dir .:. /path/to/wasmedge_quickjs.wasm dist/main.mjs &amp;
 </code></pre>
 <p>Send the server a HTTP request via <code>curl</code> or the browser.</p>
 <pre><code class="language-bash">curl http://localhost:8002

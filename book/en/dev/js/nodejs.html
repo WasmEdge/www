@@ -150,13 +150,17 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="nodejs-support"><a class="header" href="#nodejs-support">Node.js support</a></h1>
-<p>Many existing JavaScript apps simply use Node.js built-in APIs. In order to support and reuse these JavaScript apps, we are in the process of implementing many Node.JS APIs for WasmEdge QuickJS. The goal is to have Node.js programs running without change in WasmEdge QuickJS.</p>
-<h2 id="note-to-developers"><a class="header" href="#note-to-developers">Note to developers</a></h2>
-<p>In order to use Node.js APIs in WasmEdge, you must have the <code>modules</code> directory from <a href="https://github.com/second-state/wasmedge-quickjs">wasmedge-quickjs</a> mapped to the <code>modules</code> directory inside the WasmEdge Runtime. There are two ways to do that.</p>
-<ul>
-<li>The simplest is simply to have the <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/modules">modules</a> directory copied to the directory where you run <code>wasmedge</code>. You will map the working directory into the runtime as follows: <code>wasmedge --dir .:. wasmedge_quickjs.wasm app.js</code></li>
-<li>Or, you can use the <code>--dir</code> CLI option to map the directory. a typical CLI command will look like this: <code>wasmedge --dir .:. --dir ./modules:/path/to/modules wasmedge_quickjs.wasm app.js</code></li>
-</ul>
+<p>Many existing JavaScript apps simply use Node.js built-in APIs. In order to support and reuse these JavaScript apps, we are in the process of implementing many Node.JS APIs for WasmEdge QuickJS. The goal is to have unmodified Node.js programs running in WasmEdge QuickJS.</p>
+<p>In order to use Node.js APIs in WasmEdge, you must make the <code>modules</code> directory from <a href="https://github.com/second-state/wasmedge-quickjs">wasmedge-quickjs</a> accessible to the WasmEdge Runtime. The simplest approach is to clone the <a href="https://github.com/second-state/wasmedge-quickjs">wasmedge-quickjs</a> repo, and run the Node.js app from the repo's top directory.</p>
+<pre><code class="language-bash">git clone https://github.com/second-state/wasmedge-quickjs
+cd wasmedge-quickjs
+curl -OL https://github.com/second-state/wasmedge-quickjs/releases/download/v0.4.0-alpha/wasmedge_quickjs.wasm
+cp -r /path/to/my_node_app .
+wasmedge --dir .:. wasmedge_quickjs.wasm my_node_app/index.js
+</code></pre>
+<blockquote>
+<p>If you want to run <code>wasmedge</code> from a directory outside of the repo, you will need to tell it where to find the <code>modules</code> directory using the <code>--dir</code> option. A typical command will look like this: <code>wasmedge --dir .:. --dir ./modules:/path/to/modules wasmedge_quickjs.wasm app.js</code></p>
+</blockquote>
 <p>The progress of Node.js support in WasmEdge QuickJS is <strong><a href="https://github.com/WasmEdge/WasmEdge/issues/1535">tracked in this issue</a>.</strong> There are two approaches for supporting Node.js APIs in WasmEdge QuickJS.</p>
 <h2 id="the-javascript-modules"><a class="header" href="#the-javascript-modules">The JavaScript modules</a></h2>
 <p>Some Node.js functions can be implemented in pure JavaScript using the <a href="modules.html">modules</a> approach. For example, </p>
