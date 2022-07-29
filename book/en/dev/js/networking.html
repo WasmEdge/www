@@ -200,7 +200,7 @@ test_fetch_post()
 test_fetch_put()
 </code></pre>
 <p>To run this example, use the following WasmEdge CLI command.</p>
-<pre><code class="language-bash">wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/wasi_http_fetch.js
+<pre><code class="language-bash">wasmedge --dir .:. /path/to/wasmedge_quickjs.wasm example_js/wasi_http_fetch.js
 </code></pre>
 <p>You can see the HTTP responses printed to the console.</p>
 <h2 id="http-server"><a class="header" href="#http-server">HTTP server</a></h2>
@@ -241,7 +241,7 @@ createServer((req, resp) =&gt; {
 }
 </code></pre>
 <p>To run this example, use the following WasmEdge CLI command.</p>
-<pre><code class="language-bash">wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/wasi_http_echo.js
+<pre><code class="language-bash">wasmedge --dir .:. /path/to/wasmedge_quickjs.wasm example_js/wasi_http_echo.js
 </code></pre>
 <h2 id="tcp-server"><a class="header" href="#tcp-server">TCP server</a></h2>
 <p>The WasmEdge runtime goes beyond the Node.js API. With the <code>WasiTcpServer</code> API, it can create a server that accepts non-HTTP requests. The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/wasi_net_echo.js">example_js/wasi_net_echo.js</a> example shows you how to this.</p>
@@ -302,7 +302,7 @@ server_start();
 connect_test();
 </code></pre>
 <p>To run this example, use the following WasmEdge CLI command.</p>
-<pre><code class="language-bash">wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/wasi_net_echo.js
+<pre><code class="language-bash">wasmedge --dir .:. /path/to/wasmedge_quickjs.wasm example_js/wasi_net_echo.js
 </code></pre>
 <p>With async HTTP networking, developers can create I/O intensive applications, such as database-driven microservices, in JavaScript and run them safely and efficiently in WasmEdge.</p>
 

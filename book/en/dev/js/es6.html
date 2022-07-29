@@ -180,14 +180,11 @@ var f = async () =&gt; {
 f();
 </code></pre>
 <p>To run the example, you can do the following on the CLI.</p>
-<pre><code class="language-javascript">$ wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/es6_module_demo/demo.js
+<pre><code class="language-javascript">$ wasmedge --dir .:. /path/to/wasmedge_quickjs.wasm example_js/es6_module_demo/demo.js
 hello from module_def.js
 hello from module_def_async.js
 ./module_def_async.js `something` is  async thing
 </code></pre>
-<blockquote>
-<p>Note: the <code>--dir .:.</code> on the command line is to give wasmedge permission to read the local directory in the file system for the <code>demo.js</code> file.</p>
-</blockquote>
 
                     </main>
 
