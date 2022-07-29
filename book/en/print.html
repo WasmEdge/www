@@ -388,6 +388,56 @@ docker image push wasmedge/appdev_x86_64:0.9.0
 <pre><code class="language-bash">docker build -t wasmedge/appdev_aarch64:0.9.0 -f Dockerfile.appdev_aarch64 ./
 docker image push wasmedge/appdev_aarch64:0.9.0
 </code></pre>
+<h2 id="use-wasmedge-release-images"><a class="header" href="#use-wasmedge-release-images">Use WasmEdge release images</a></h2>
+<p>The <code>wasmedge/wasmedge:release-{version}</code> Docker images provide a slim WasmEdge images built with <a href="https://dockersl.im">DockerSlim</a> every releases.</p>
+<ul>
+<li>Image <code>wasmedge/wasmedge:release-{version}</code> includes the following command line utilities:
+<ul>
+<li><code>wasmedge</code></li>
+<li><code>wasmedgec</code></li>
+</ul>
+</li>
+<li>Image <code>wasmedge/wasmedge:release-{version}-tensorflow</code> includes the following command line utilities:
+<ul>
+<li><code>wasmedge</code></li>
+<li><code>wasmedgec</code></li>
+<li><code>wasmedge-tensorflow-lite</code></li>
+<li><code>wasmedge-tensorflow</code></li>
+<li><code>show-tflite-tensor</code></li>
+</ul>
+</li>
+<li>The working directory of the release docker image is <code>/app</code>.</li>
+</ul>
+<h3 id="examples-1"><a class="header" href="#examples-1">Examples</a></h3>
+<p>Use <code>wasmedgec</code> and <code>wasmedge</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/wasm">link</a>):</p>
+<pre><code class="language-bash">$ docker pull wasmedge/wasmedge:release-0.10.1
+
+$ docker run -it --rm -v $PWD:/app wasmedge/wasmedge:release-0.10.1 wasmedgec hello.wasm hello.aot.wasm
+[2022-07-07 08:15:49.154] [info] compile start
+[2022-07-07 08:15:49.163] [info] verify start
+[2022-07-07 08:15:49.169] [info] optimize start
+[2022-07-07 08:15:49.808] [info] codegen start
+[2022-07-07 08:15:50.419] [info] output start
+[2022-07-07 08:15:50.421] [info] compile done
+[2022-07-07 08:15:50.422] [info] output start
+
+$ docker run -it --rm -v $PWD:/app wasmedge/wasmedge:release-0.10.1 wasmedge hello.aot.wasm world
+hello
+world
+</code></pre>
+<p>Use <code>wasmedge-tensorflow-lite</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/js">link</a>):</p>
+<pre><code class="language-bash">$ docker pull wasmedge/wasmedge:release-0.10.1-tensorflow
+$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/aiy_food_V1_labelmap.txt
+$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/food.jpg
+$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/lite-model_aiy_vision_classifier_food_V1_1.tflite
+$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/main.js
+
+$ docker run -it --rm -v $PWD:/app wasmedge/wasmedge:release-0.10.1-tensorflow wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
+label:
+Hot dog
+confidence:
+0.8941176470588236
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-command-line-tool-cli"><a class="header" href="#wasmedge-command-line-tool-cli">WasmEdge command line tool (CLI)</a></h1>
 <p>After <a href="start/install.html">installing WasmEdge</a> or starting the <a href="start/docker.html">WasmEdge app dev Docker container</a>, there are several ways to run compiled WebAssembly programs.</p>
 <h2 id="wasmedge"><a class="header" href="#wasmedge">wasmedge</a></h2>
@@ -8246,7 +8296,7 @@ go build
 <p>For examples, please refer to the <a href="https://github.com/second-state/WasmEdge-go-examples/">example repository</a>.</p>
 <h3 id="wasmedge-aot-compiler-in-go"><a class="header" href="#wasmedge-aot-compiler-in-go">WasmEdge AOT Compiler in Go</a></h3>
 <p>The <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_WasmAOT">go_WasmAOT example</a> demonstrates how to compile a WASM file into a native binary (AOT compile) from within a Go application.</p>
-<h2 id="examples-1"><a class="header" href="#examples-1">Examples</a></h2>
+<h2 id="examples-2"><a class="header" href="#examples-2">Examples</a></h2>
 <ul>
 <li><a href="embed/go/app.html">Embed a standalone Wasm app</a></li>
 <li><a href="embed/go/function.html">Embed a Wasm function</a></li>
@@ -14311,7 +14361,7 @@ wasmedge-sys = &quot;0.7&quot;
 <p>For those who would like to dev in Docker environment, you can reference the <a href="embed//src/start/docker.html">Use Docker</a> section of this book, which details how to use Docker for <code>WasmEdge</code> application development.</p>
 <h3 id="windows-users"><a class="header" href="#windows-users">Windows Users</a></h3>
 <p>Duo to <a href="https://github.com/WasmEdge/WasmEdge/issues/1527">issue 1527</a>, WasmEdger Rust bindings can not be used directly on Windows platform for now. Please choose to use our <a href="embed/rust.html#docker-image">docker image</a>. We'll fix the issue as soon as possible.</p>
-<h2 id="examples-2"><a class="header" href="#examples-2">Examples</a></h2>
+<h2 id="examples-3"><a class="header" href="#examples-3">Examples</a></h2>
 <p>For helping you get familiar with WasmEdge Rust bindings, the following quick examples demonstrate how to use the APIs defined in <code>wasmedge-sdk</code> and <code>wasmedge-sys</code>, respectively. In addition, we'll add more examples continuously. Please file an issue <a href="https://github.com/WasmEdge/WasmEdge/issues">here</a> and let us know if you have any problems with the API usage.</p>
 <h3 id="wasmedge-sdk-examples"><a class="header" href="#wasmedge-sdk-examples"><code>wasmedge-sdk</code> Examples</a></h3>
 <ul>
@@ -14957,7 +15007,7 @@ fib(6) = fib(5) + fib(1) = 13
 </ul>
 </li>
 </ul>
-<h2 id="examples-3"><a class="header" href="#examples-3">Examples</a></h2>
+<h2 id="examples-4"><a class="header" href="#examples-4">Examples</a></h2>
 <h3 id="example-1"><a class="header" href="#example-1">Example 1</a></h3>
 <p>In this example, we'll demonstrate how to use the APIs of <code>Vm</code> to</p>
 <ul>
