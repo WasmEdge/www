@@ -14208,6 +14208,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 <li><a href="embed/rust.html#versioning-table">Versioning Table</a></li>
 <li><a href="embed/rust.html#build">Build</a></li>
 <li><a href="embed/rust.html#wasmedge-sys-crate"><code>wasmedge-sys</code> crate</a></li>
+<li><a href="embed/rust.html#enable-wasmedge-plugins">Enable WasmEdge Plugins</a></li>
 <li><a href="embed/rust.html#docker-image">Docker image</a>
 <ul>
 <li><a href="embed/rust.html#windows-users">Windows Users</a></li>
@@ -14248,7 +14249,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 <h2 id="versioning-table"><a class="header" href="#versioning-table">Versioning Table</a></h2>
 <p>The following table provides the versioning information about each release of <code>wasmedge-sdk</code> crate and its dependencies.</p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: center">wasmedge-sdk</th><th style="text-align: center">WasmEdge lib</th><th style="text-align: center">wasmedge-sys</th><th style="text-align: center">wasmedge-types</th></tr></thead><tbody>
-<tr><td style="text-align: center">0.2.0</td><td style="text-align: center">0.10.1</td><td style="text-align: center">0.8</td><td style="text-align: center">0.2</td></tr>
+<tr><td style="text-align: center">0.3.0</td><td style="text-align: center">0.10.1</td><td style="text-align: center">0.8</td><td style="text-align: center">0.2</td></tr>
 <tr><td style="text-align: center">0.1.0</td><td style="text-align: center">0.10.0</td><td style="text-align: center">0.7</td><td style="text-align: center">0.1</td></tr>
 </tbody></table>
 </div>
@@ -14338,12 +14339,14 @@ export WASMEDGE_LIB_DIR=$HOME/wasmedge-install/lib
 wasmedge-sdk = &quot;0.1&quot;
 </code></pre>
 <h2 id="wasmedge-sys-crate"><a class="header" href="#wasmedge-sys-crate"><code>wasmedge-sys</code> crate</a></h2>
-<p><code>wasmedge-sys</code> serves as a wraper layer of <code>WasmEdge</code> C-API, and provides a group of safe low-level Rust interfaces. For those who are interested in using <code>wasmedge-sys</code> in their projects, you should also deploy the <code>WasmEdge</code> library on your local system as described in the <a href="embed/rust.html#wasmedge-sdk-crate">wasmedge-sdk crate</a> section. Then, copy/paste the following code in the <code>Cargo.toml</code> file of your project.</p>
+<p><code>wasmedge-sys</code> serves as a wraper layer of <code>WasmEdge</code> C-API, and provides a group of safe low-level Rust interfaces. For those who are interested in using <code>wasmedge-sys</code> in their projects, you should also deploy the <code>WasmEdge</code> library on your local system as described in the <a href="embed/rust.html#wasmedge-sdk-crate">wasmedge-sdk crate</a> section. Then, copy/paste the following code in the <code>Cargo.toml</code> file of your project. For details, please refer to <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/README.md">README</a>.</p>
 <pre><code class="language-toml">[dependencies]
 wasmedge-sys = &quot;0.7&quot;
 </code></pre>
-<p><em>For Windows users, duo to <a href="https://github.com/WasmEdge/WasmEdge/issues/1527">issue 1527</a>, the current version of <code>wasmedge-sys</code> does not support <code>standalone</code> mode on Windows platform. Please choose to use our <a href="embed/rust.html#docker-image">docker image</a>. We'll fix the issue as soon as possible.</em></p>
-<p>For those who want to build <code>wasmedge-sys</code> from source in terminal, just go to the <code>wasmedge-sys</code> directory and type <code>cargo build --features standalone</code> command that will compile the <code>wasmedge-sys</code> crate in <code>standalone</code> mode.</p>
+<h2 id="enable-wasmedge-plugins"><a class="header" href="#enable-wasmedge-plugins">Enable WasmEdge Plugins</a></h2>
+<p>If you'd like to enable WasmEdge Plugins (currently, only available on Linux platform), please use <code>WASMEDGE_PLUGIN_PATH</code> environment variable to specify the path to the directory containing the plugins. For example, use the following commands to specify the path on Ubuntu 20.04:</p>
+<pre><code class="language-bash">export WASMEDGE_PLUGIN_PATH=$HOME/.wasmedge/lib/wasmedge
+</code></pre>
 <h2 id="docker-image"><a class="header" href="#docker-image">Docker image</a></h2>
 <p>For those who would like to dev in Docker environment, you can reference the <a href="embed//src/start/docker.html">Use Docker</a> section of this book, which details how to use Docker for <code>WasmEdge</code> application development.</p>
 <h3 id="windows-users"><a class="header" href="#windows-users">Windows Users</a></h3>
