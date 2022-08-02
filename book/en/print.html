@@ -1429,7 +1429,7 @@ kp.publickey()?.signature_verify(&quot;hello&quot;, &amp;signature)?;
 </span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="simple-networking-sockets"><a class="header" href="#simple-networking-sockets">Simple networking sockets</a></h1>
 <p>The <a href="https://github.com/second-state/wasmedge_wasi_socket">wasmedge_wasi_socket</a> crate enables Rust developers to create networking applications and compile them into WebAssembly for WasmEdge Runtime. One of the key features of WasmEdge is that it supports non-blocking sockets. That allows even a single threaded WASM application to handle concurrent network requests. For example, while the program is waiting for data to stream in from one connection, it can start or handle another connection.</p>
-<p>In this chapter, we will start with simple HTTP client and server examples. Then <a href="dev/rust/networking-nonblocking.html">in the next chapter</a>, we will cover the more complex non-blocking examples.</p>
+<p>In this chapter, we will start with simple HTTP client and server examples. Then <a href="dev/rust/networking-nonblocking.html">in the next chapter</a>, we will cover the more complex non-blocking examples. And <a href="dev/rust/networking-https.html">in this chapter</a>, we will give the examples for HTTPS requests.</p>
 <h2 id="an-http-client-example"><a class="header" href="#an-http-client-example">An HTTP client example</a></h2>
 <p>The <a href="https://github.com/second-state/wasmedge_wasi_socket/tree/main/examples/http_client">source code</a> for the HTTP client is available as follows.</p>
 <pre><pre class="playground"><code class="language-rust">use wasmedge_http_req::request;
