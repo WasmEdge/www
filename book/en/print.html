@@ -409,7 +409,7 @@ docker image push wasmedge/appdev_aarch64:0.9.0
 </li>
 <li>The working directory of the release docker image is <code>/app</code>.</li>
 </ul>
-<h3 id="examples-1"><a class="header" href="#examples-1">Examples</a></h3>
+<h3 id="docker-examples"><a class="header" href="#docker-examples">Docker Examples</a></h3>
 <p>Use <code>wasmedgec</code> and <code>wasmedge</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/wasm">link</a>):</p>
 <pre><code class="language-bash">$ docker pull wasmedge/wasmedge:release-0.10.1
 
@@ -2187,7 +2187,7 @@ rustup target add wasm32-wasi
 # Build the QuickJS JavaScript interpreter
 cargo build --target wasm32-wasi --release
 </code></pre>
-<p>The WebAssembly-based JavaScript interpreter program is located in the build <code>target</code> directory. </p>
+<p>The WebAssembly-based JavaScript interpreter program is located in the build <code>target</code> directory.</p>
 <p>WasmEdge provides a <code>wasmedgec</code> utility to compile and add a native machine code section to the <code>wasm</code> file. You can use <code>wasmedge</code> to run the natively instrumented <code>wasm</code> file to get much faster performance.</p>
 <pre><code class="language-bash">wasmedgec target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
 wasmedge --dir .:. wasmedge_quickjs.wasm example_js/hello.js
@@ -2207,7 +2207,7 @@ wasmedge --dir .:. wasmedge_quickjs.wasm my_node_app/index.js
 </blockquote>
 <p>The progress of Node.js support in WasmEdge QuickJS is <strong><a href="https://github.com/WasmEdge/WasmEdge/issues/1535">tracked in this issue</a>.</strong> There are two approaches for supporting Node.js APIs in WasmEdge QuickJS.</p>
 <h2 id="the-javascript-modules"><a class="header" href="#the-javascript-modules">The JavaScript modules</a></h2>
-<p>Some Node.js functions can be implemented in pure JavaScript using the <a href="dev/js/modules.html">modules</a> approach. For example, </p>
+<p>Some Node.js functions can be implemented in pure JavaScript using the <a href="dev/js/modules.html">modules</a> approach. For example,</p>
 <ul>
 <li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/querystring.js">querystring</a> functions just perform string manipulations.</li>
 <li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/buffer.js">buffer</a> functions manage and encode arrays and memory structures.</li>
@@ -2217,12 +2217,12 @@ wasmedge --dir .:. wasmedge_quickjs.wasm my_node_app/index.js
 <p>Other Node.js functions must be implemented in Rust using the <a href="dev/js/rust.html">internal_module</a> approach. There are two reasons for that. First, some Node.js API functions are CPU intensive (e.g., encoding) and is most efficiently implemented in Rust. Second, some Node.js API functions require access to the underlying system (e.g., networking and file system) through native host functions.</p>
 <ul>
 <li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/src/internal_module/core.rs">core</a> module provides OS level functions such as <code>timeout</code>.</li>
-<li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/src/internal_module/encoding.rs">encoding</a> module provides high-performance encoding and decoding functions, which are in turn <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/encoding.js">wrapped into Node.js encoding APIs</a>. </li>
+<li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/src/internal_module/encoding.rs">encoding</a> module provides high-performance encoding and decoding functions, which are in turn <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/encoding.js">wrapped into Node.js encoding APIs</a>.</li>
 <li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/src/internal_module/wasi_net_module.rs">wasi_net_module</a> provides JavaScript networking functions implemented via the Rust-based WasmEdge WASI socket API. It is then wrapped into the <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/http.js">Node.js http module</a>.</li>
 </ul>
 <p>Node.js compatibility support in WasmEdge QuickJS is a work in progress. It is a great way for new developers to get familiar with WasmEdge QuickJS. Join us!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="http-and-networking-apps"><a class="header" href="#http-and-networking-apps">HTTP and networking apps</a></h1>
-<p>The QuickJS WasmEdge Runtime supports Node.js's <code>http</code> and <code>fetch</code> APIs via the WasmEdge <a href="https://github.com/second-state/wasmedge_wasi_socket">networking socket extension</a>. That enables WasmEdge developers to create HTTP server and client, as well as TCP/IP server and client, applications in JavaScript. </p>
+<p>The QuickJS WasmEdge Runtime supports Node.js's <code>http</code> and <code>fetch</code> APIs via the WasmEdge <a href="https://github.com/second-state/wasmedge_wasi_socket">networking socket extension</a>. That enables WasmEdge developers to create HTTP server and client, as well as TCP/IP server and client, applications in JavaScript.</p>
 <p>The networking API in WasmEdge is non-blocking and hence supports asynchronous I/O intensive applications. With this API, the JavaScript program can open multiple connections concurrently. It polls those connections, or registers async callback functions, to process data whenever data comes in, without waiting for any one connection to complete its data transfer. That allows the single-threaded application to handle multiple multiple concurrent requests.</p>
 <ul>
 <li><a href="dev/js/networking.html#fetch-client">Fetch client</a></li>
@@ -2235,39 +2235,39 @@ wasmedge --dir .:. wasmedge_quickjs.wasm my_node_app/index.js
 <p>The <code>fetch</code> API is widely used in browser and node-based JavaScript applications to fetch content over the network. Building on top of its non-blocking aysnc network socket API, the WasmEdge QuickJS runtime supports the <code>fetch</code> API. That makes a lot of JS APIs and modules reusable out of the box.</p>
 <p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/wasi_http_fetch.js">example_js/wasi_http_fetch.js</a> example demonstrates how to use the <code>fetch</code> API in WasmEdge. The code snippet below shows an async HTTP GET from the <code>httpbin.org</code> test server. While the program waits for and processes the GET content, it can start another request.</p>
 <pre><code class="language-javascript">async function test_fetch() {
-    try {
-        let r = await fetch('http://httpbin.org/get?id=1')
-        print('test_fetch\n', await r.text())
-    } catch (e) {
-        print(e)
-    }
+  try {
+    let r = await fetch('http://httpbin.org/get?id=1')
+    print('test_fetch\n', await r.text())
+  } catch (e) {
+    print(e)
+  }
 }
 test_fetch()
 </code></pre>
 <p>The code snippet below shows how to do an sync HTTP POST to a remote server.</p>
 <pre><code class="language-javascript">async function test_fetch_post() {
-    try {
-        let r = await fetch(&quot;http://httpbin.org/post&quot;, { method: 'post', 'body': 'post_body' })
-        print('test_fetch_post\n', await r.text())
-    } catch (e) {
-        print(e)
-    }
+  try {
+    let r = await fetch(&quot;http://httpbin.org/post&quot;, { method: 'post', 'body': 'post_body' })
+    print('test_fetch_post\n', await r.text())
+  } catch (e) {
+    print(e)
+  }
 }
 test_fetch_post()
 </code></pre>
 <p>An async HTTP PUT request is as follows.</p>
 <pre><code class="language-javascript">async function test_fetch_put() {
-    try {
-        let r = await fetch(&quot;http://httpbin.org/put&quot;,
-            {
-                method: &quot;put&quot;,
-                body: JSON.stringify({ a: 1 }),
-                headers: { 'Context-type': 'application/json' }
-            })
-        print('test_fetch_put\n', await r.text())
-    } catch (e) {
-        print(e)
-    }
+  try {
+    let r = await fetch(&quot;http://httpbin.org/put&quot;,
+      {
+        method: &quot;put&quot;,
+        body: JSON.stringify({ a: 1 }),
+        headers: { 'Context-type': 'application/json' }
+      })
+    print('test_fetch_put\n', await r.text())
+  } catch (e) {
+    print(e)
+  }
 }
 test_fetch_put()
 </code></pre>
@@ -3070,37 +3070,37 @@ sqrt(-4)= 2i
 </code></pre>
 <p>You can import and run any NPM packages in WasmEdge this way.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="system-modules"><a class="header" href="#system-modules">System modules</a></h1>
-<p>The WasmEdge QuickJS runtime supports <a href="dev/js/es6.html">ES6</a> and <a href="dev/js/npm.html">NPM</a> modules for application developers. However, those approaches are too cumbersome for system developers. They need an easier way to add multiple JavaScript modules and APIs into the runtime without having to go through build tools like rollup.js. The WasmEdge QuickJS modules system allow developers to just drop JavaScript files into a <code>modules</code> folder, and have the JavaScript functions defined in the files immediately available to all JavaScript programs in the runtime. A good use case for this modules system is to support <a href="dev/js/nodejs.html">Node.js</a> APIs in WasmEdge. </p>
-<p>The module system is just a collection of JavaScript files in the <code>modules</code> directory in the WasmEdge QuickJS distribution. To use the JavaScript functions and APIs defined in those modules, you just need to map this directory to the <code>/modules</code> directory inside the WasmEdge Runtime instance. The following example shows how to do this on the WasmEdge CLI. You can do this with any of the host language SDKs that support embedded use of WasmEdge. </p>
-<pre><code>ls modules
+<p>The WasmEdge QuickJS runtime supports <a href="dev/js/es6.html">ES6</a> and <a href="dev/js/npm.html">NPM</a> modules for application developers. However, those approaches are too cumbersome for system developers. They need an easier way to add multiple JavaScript modules and APIs into the runtime without having to go through build tools like rollup.js. The WasmEdge QuickJS modules system allow developers to just drop JavaScript files into a <code>modules</code> folder, and have the JavaScript functions defined in the files immediately available to all JavaScript programs in the runtime. A good use case for this modules system is to support <a href="dev/js/nodejs.html">Node.js</a> APIs in WasmEdge.</p>
+<p>The module system is just a collection of JavaScript files in the <code>modules</code> directory in the WasmEdge QuickJS distribution. To use the JavaScript functions and APIs defined in those modules, you just need to map this directory to the <code>/modules</code> directory inside the WasmEdge Runtime instance. The following example shows how to do this on the WasmEdge CLI. You can do this with any of the host language SDKs that support embedded use of WasmEdge.</p>
+<pre><code class="language-bash">$ ls modules
 
     buffer.js encoding.js events.js http.js
     ... JavaScript files for the modules ...
 
-wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/hello.js WasmEdge Runtime
+$ wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/hello.js WasmEdge Runtime
 </code></pre>
 <p>The <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/module_demo">module_demo</a> shows how you can use the modules system to add your own JavaScript APIs. To run the demo, first copy the two files in the demo's <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/module_demo/modules">modules</a> directory to your WasmEdge QuickJS's <code>modules</code> directory.</p>
-<pre><code>cp example_js/module_demo/modules/* modules/
+<pre><code class="language-bash">cp example_js/module_demo/modules/* modules/
 </code></pre>
 <p>The two JavaScript files in the <code>modules</code> directory provide two simple functions. Below is the <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/module_demo/modules/my_mod_1.js">modules/my_mod_1.js</a> file.</p>
-<pre><code>export function hello_mod_1(){
-    console.log('hello from &quot;my_mod_1.js&quot;')
+<pre><code class="language-javascript">export function hello_mod_1(){
+  console.log('hello from &quot;my_mod_1.js&quot;')
 }
 </code></pre>
 <p>And the <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/module_demo/modules/my_mod_2.js">modules/my_mod_2.js</a> file.</p>
-<pre><code>export function hello_mod_2(){
-    console.log('hello from &quot;my_mod_2.js&quot;')
+<pre><code class="language-javascript">export function hello_mod_2(){
+  console.log('hello from &quot;my_mod_2.js&quot;')
 }
 </code></pre>
 <p>Then, just run the <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/module_demo/demo.js">demo.js</a> file to call the two exported functions from the modules.</p>
-<pre><code>import { hello_mod_1 } from 'my_mod_1'
+<pre><code class="language-javascript">import { hello_mod_1 } from 'my_mod_1'
 import { hello_mod_2 } from 'my_mod_2'
 
 hello_mod_1()
 hello_mod_2()
 </code></pre>
 <p>Here is the command to run the demo and the output.</p>
-<pre><code>wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/module_demo/demo.js
+<pre><code class="language-bash">$ wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/module_demo/demo.js
 
 hello from &quot;my_mod_1.js&quot;
 hello from &quot;my_mod_2.js&quot;
@@ -8283,7 +8283,7 @@ go build
 <p>For examples, please refer to the <a href="https://github.com/second-state/WasmEdge-go-examples/">example repository</a>.</p>
 <h3 id="wasmedge-aot-compiler-in-go"><a class="header" href="#wasmedge-aot-compiler-in-go">WasmEdge AOT Compiler in Go</a></h3>
 <p>The <a href="https://github.com/second-state/WasmEdge-go-examples/tree/master/go_WasmAOT">go_WasmAOT example</a> demonstrates how to compile a WASM file into a native binary (AOT compile) from within a Go application.</p>
-<h2 id="examples-2"><a class="header" href="#examples-2">Examples</a></h2>
+<h2 id="examples-1"><a class="header" href="#examples-1">Examples</a></h2>
 <ul>
 <li><a href="embed/go/app.html">Embed a standalone Wasm app</a></li>
 <li><a href="embed/go/function.html">Embed a Wasm function</a></li>
@@ -14351,7 +14351,7 @@ wasmedge-sys = &quot;0.7&quot;
 <p>For those who would like to dev in Docker environment, you can reference the <a href="embed//src/start/docker.html">Use Docker</a> section of this book, which details how to use Docker for <code>WasmEdge</code> application development.</p>
 <h3 id="windows-users"><a class="header" href="#windows-users">Windows Users</a></h3>
 <p>Duo to <a href="https://github.com/WasmEdge/WasmEdge/issues/1527">issue 1527</a>, WasmEdger Rust bindings can not be used directly on Windows platform for now. Please choose to use our <a href="embed/rust.html#docker-image">docker image</a>. We'll fix the issue as soon as possible.</p>
-<h2 id="examples-3"><a class="header" href="#examples-3">Examples</a></h2>
+<h2 id="examples-2"><a class="header" href="#examples-2">Examples</a></h2>
 <p>For helping you get familiar with WasmEdge Rust bindings, the following quick examples demonstrate how to use the APIs defined in <code>wasmedge-sdk</code> and <code>wasmedge-sys</code>, respectively. In addition, we'll add more examples continuously. Please file an issue <a href="https://github.com/WasmEdge/WasmEdge/issues">here</a> and let us know if you have any problems with the API usage.</p>
 <h3 id="wasmedge-sdk-examples"><a class="header" href="#wasmedge-sdk-examples"><code>wasmedge-sdk</code> Examples</a></h3>
 <ul>
@@ -14997,7 +14997,7 @@ fib(6) = fib(5) + fib(1) = 13
 </ul>
 </li>
 </ul>
-<h2 id="examples-4"><a class="header" href="#examples-4">Examples</a></h2>
+<h2 id="examples-3"><a class="header" href="#examples-3">Examples</a></h2>
 <h3 id="example-1"><a class="header" href="#example-1">Example 1</a></h3>
 <p>In this example, we'll demonstrate how to use the APIs of <code>Vm</code> to</p>
 <ul>
@@ -16862,15 +16862,15 @@ pub fn grayscale(image_data: String) -&gt; String {
 <h3 id="the-go-host-wrapper-for-microservice"><a class="header" href="#the-go-host-wrapper-for-microservice">The Go host wrapper for microservice</a></h3>
 <p>The <a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-go">Go-based microservice</a> embeds the above imaging processing function in WasmEdge. The <a href="https://github.com/second-state/dapr-wasm/blob/main/image-api-go/image_api.go">microservice itself</a> is a web server and utilizes the Dapr Go SDK.</p>
 <pre><code class="language-go">func main() {
-	s := daprd.NewService(&quot;:9003&quot;)
+  s := daprd.NewService(&quot;:9003&quot;)
 
-	if err := s.AddServiceInvocationHandler(&quot;/api/image&quot;, imageHandlerWASI); err != nil {
-		log.Fatalf(&quot;error adding invocation handler: %v&quot;, err)
-	}
+  if err := s.AddServiceInvocationHandler(&quot;/api/image&quot;, imageHandlerWASI); err != nil {
+    log.Fatalf(&quot;error adding invocation handler: %v&quot;, err)
+  }
 
-	if err := s.Start(); err != nil &amp;&amp; err != http.ErrServerClosed {
-		log.Fatalf(&quot;error listenning: %v&quot;, err)
-	}
+  if err := s.Start(); err != nil &amp;&amp; err != http.ErrServerClosed {
+    log.Fatalf(&quot;error listenning: %v&quot;, err)
+  }
 }
 </code></pre>
 <p>The <code>imageHandlerWASI()</code> function <a href="frameworks/mesh/../../embed/go/function.html">starts a WasmEdge instance</a> and calls the image processing (grayscale) function in it via <a href="frameworks/mesh/../../dev/rust/bindgen.html">wasmedge_bindgen</a>.</p>
@@ -16944,16 +16944,16 @@ dapr run --app-id image-api-rs \
 <p>In order to follow along the tutorials in this chapter, you will need to first <a href="https://github.com/api7/wasm-nginx-module#install-dependencies">build your Nginx with wasm-nginx-module included and WasmEdge shared library installed in the right path</a>.</p>
 <p>Once you have Nginx installed, let me show you a real world example - using Wasm to inject custom responses in Nginx.</p>
 <h2 id="inject-custom-response-via-go-in-nginx-step-by-step"><a class="header" href="#inject-custom-response-via-go-in-nginx-step-by-step">Inject Custom Response via Go in Nginx, Step by Step</a></h2>
-<h3 id="step-1-write-code-based-on-proxy-wasm-go-sdk"><a class="header" href="#step-1-write-code-based-on-proxy-wasm-go-sdk">Step 1: Write code based on proxy-wasm-go-sdk</a></h3>
+<h3 id="go-step-1-write-code-based-on-proxy-wasm-go-sdk"><a class="header" href="#go-step-1-write-code-based-on-proxy-wasm-go-sdk">Go Step 1: Write code based on proxy-wasm-go-sdk</a></h3>
 <p>The implementation code (including <code>go.mod</code> and others) can be found at <a href="https://github.com/apache/apisix/tree/master/t/wasm">here</a>.</p>
 <p>It should be explained that although the proxy-wasm-go-sdk project carries the Go name, it actually uses tinygo instead of native Go, which has some problems supporting WASI (which you can think of as a non-browser WASM runtime interface), see <a href="https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/main/doc/OVERVIEW.md#tinygo-vs-the-official-go-compiler">here</a> for more details.</p>
 <p>We also provide a Rust version (including Cargo.toml and others) <a href="https://github.com/api7/wasm-nginx-module/tree/main/t/testdata/rust/fault-injection">there</a>.</p>
-<h3 id="step-2-build-the-corresponding-wasm-file"><a class="header" href="#step-2-build-the-corresponding-wasm-file">Step 2: Build the corresponding Wasm file</a></h3>
+<h3 id="go-step-2-build-the-corresponding-wasm-file"><a class="header" href="#go-step-2-build-the-corresponding-wasm-file">Go Step 2: Build the corresponding Wasm file</a></h3>
 <pre><code class="language-shell">tinygo build -o ./fault-injection/main.go.wasm -scheduler=none -target=wasi ./fault-injection/main.go
 </code></pre>
-<h3 id="step-3-load-and-execute-the-wasm-file"><a class="header" href="#step-3-load-and-execute-the-wasm-file">Step 3: Load and execute the Wasm file</a></h3>
+<h3 id="go-step-3-load-and-execute-the-wasm-file"><a class="header" href="#go-step-3-load-and-execute-the-wasm-file">Go Step 3: Load and execute the Wasm file</a></h3>
 <p>Then, start Nginx with the configuration below:</p>
-<pre><code>worker_processes  1;
+<pre><code class="language-conf">worker_processes  1;
 
 error_log  /tmp/error.log warn;
 
@@ -16982,23 +16982,23 @@ http {
 }
 </code></pre>
 <p>This configuration loads the Wasm file we just built, executes it with the configuration <code>{&quot;http_status&quot;: 403, &quot;body&quot;: &quot;powered by wasm-nginx-module&quot;}</code>.</p>
-<h3 id="step-4-verify-the-result"><a class="header" href="#step-4-verify-the-result">Step 4: verify the result</a></h3>
+<h3 id="go-step-4-verify-the-result"><a class="header" href="#go-step-4-verify-the-result">Go Step 4: verify the result</a></h3>
 <p>After Nginx starts, we can use <code>curl http://127.0.0.1:1980/ -i</code> to verify the execution result of the Wasm.</p>
 <p>It is expected to see the output:</p>
-<pre><code>HTTP/1.1 403 Forbidden
+<pre><code class="language-bash">HTTP/1.1 403 Forbidden
 ...
 
 powered by wasm-nginx-module
 </code></pre>
 <h2 id="inject-custom-response-via-rust-in-nginx-step-by-step"><a class="header" href="#inject-custom-response-via-rust-in-nginx-step-by-step">Inject Custom Response via Rust in Nginx, Step by Step</a></h2>
-<h3 id="step-1-write-code-based-on-proxy-wasm-rust-sdk"><a class="header" href="#step-1-write-code-based-on-proxy-wasm-rust-sdk">Step 1: Write code based on proxy-wasm-rust-sdk</a></h3>
+<h3 id="rust-step-1-write-code-based-on-proxy-wasm-rust-sdk"><a class="header" href="#rust-step-1-write-code-based-on-proxy-wasm-rust-sdk">Rust Step 1: Write code based on proxy-wasm-rust-sdk</a></h3>
 <p>We also provide a Rust version (including Cargo.toml and others) <a href="https://github.com/api7/wasm-nginx-module/tree/main/t/testdata/rust/fault-injection">there</a>.</p>
-<h3 id="step-2-build-the-corresponding-wasm-file-1"><a class="header" href="#step-2-build-the-corresponding-wasm-file-1">Step 2: Build the corresponding Wasm file</a></h3>
+<h3 id="rust-step-2-build-the-corresponding-wasm-file"><a class="header" href="#rust-step-2-build-the-corresponding-wasm-file">Rust Step 2: Build the corresponding Wasm file</a></h3>
 <pre><code class="language-shell">cargo build --target=wasm32-wasi
 </code></pre>
-<h3 id="step-3-load-and-execute-the-wasm-file-1"><a class="header" href="#step-3-load-and-execute-the-wasm-file-1">Step 3: Load and execute the Wasm file</a></h3>
+<h3 id="rust-step-3-load-and-execute-the-wasm-file"><a class="header" href="#rust-step-3-load-and-execute-the-wasm-file">Rust Step 3: Load and execute the Wasm file</a></h3>
 <p>Then, start Nginx with the configuration below:</p>
-<pre><code>worker_processes  1;
+<pre><code class="language-conf">worker_processes  1;
 
 error_log  /tmp/error.log warn;
 
@@ -17027,10 +17027,10 @@ http {
 }
 </code></pre>
 <p>This configuration loads the Wasm file we just built, executes it with the configuration <code>{&quot;http_status&quot;: 403, &quot;body&quot;: &quot;powered by wasm-nginx-module&quot;}</code>.</p>
-<h3 id="step-4-verify-the-result-1"><a class="header" href="#step-4-verify-the-result-1">Step 4: verify the result</a></h3>
+<h3 id="rust-step-4-verify-the-result"><a class="header" href="#rust-step-4-verify-the-result">Rust Step 4: verify the result</a></h3>
 <p>After Nginx starts, we can use <code>curl http://127.0.0.1:1980/ -i</code> to verify the execution result of the Wasm.</p>
 <p>It is expected to see the output:</p>
-<pre><code>HTTP/1.1 403 Forbidden
+<pre><code class="language-bash">HTTP/1.1 403 Forbidden
 ...
 
 powered by wasm-nginx-module

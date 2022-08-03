@@ -1033,7 +1033,7 @@ if err == nil {
 </li>
 </ol>
 <h3 id="创建-vm"><a class="header" href="#创建-vm">创建 VM</a></h3>
-<p><code>VM</code> 的创建 API 接收 <code>Configure</code> 对象和 <code>Store</code> 对象。<br />
+<p><code>VM</code> 的创建 API 接收 <code>Configure</code> 对象和 <code>Store</code> 对象。
 请注意，如果 <code>VM</code> 使用外部 <code>Store</code> 对象创建，则 <code>VM</code> 将在该 <code>Store</code> 对象上执行 WASM。如果将<code>Store</code>对象设置成多个<code>VM</code>对象，在执行时可能会造成数据冲突。
 <code>Store</code> 对象的详细信息将在 <a href="#Store">Store</a> 中介绍。</p>
 <pre><code class="language-go">conf := wasmedge.NewConfigure()
@@ -1386,7 +1386,7 @@ Exported function name: fib
 Get fibonacci[30]: 1346269
 </code></pre>
 <h3 id="加载器"><a class="header" href="#加载器">加载器</a></h3>
-<p><code>Loader</code> 对象从文件或缓冲区加载 WASM 二进制文件。<br />
+<p><code>Loader</code> 对象从文件或缓冲区加载 WASM 二进制文件。
 支持 <a href="#WasmEdge-AOT-Compiler">WasmEdge AOT Compiler</a> 中的 WASM 和已编译的 WASM。</p>
 <pre><code class="language-go">var buf []byte
 // ... 将 WASM 代码读取到 `buf`。
@@ -1437,7 +1437,7 @@ if err != nil {
 validator.Release()
 </code></pre>
 <h3 id="执行器"><a class="header" href="#执行器">执行器</a></h3>
-<p><code>Executor</code> 对象是 WASM 和编译型 WASM 的执行器。<br />
+<p><code>Executor</code> 对象是 WASM 和编译型 WASM 的执行器。
 这个对象应该基于 <code>Store</code> 对象工作。<code>Store</code> 对象的详细信息，请参考 <a href="#Store">下一章</a>。</p>
 <ol>
 <li>
@@ -1531,7 +1531,7 @@ for _, export := range exports {
 ast.Release()
 </code></pre>
 <h3 id="store"><a class="header" href="#store">Store</a></h3>
-<p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#store">Store</a> 是 runtime 结构，用于表示在抽象机（Abstract Machine）的生命周期分配的所有 <code>Function</code>、 <code>Table</code>、<code>Memory</code> 和 <code>Global</code> 实例。<br />
+<p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#store">Store</a> 是 runtime 结构，用于表示在抽象机（Abstract Machine）的生命周期分配的所有 <code>Function</code>、 <code>Table</code>、<code>Memory</code> 和 <code>Global</code> 实例。
 WasmEdge-go 中的 Store 对象提供了 API 来列出导出的实例及其名称或通过导出的名称查找实例。要将实例添加到 <code>Store</code> 对象中，请通过 <code>Executor</code> API 实例化或注册 WASM 模块或 <code>ImportObject</code> 对象。</p>
 <ol>
 <li>
@@ -1601,7 +1601,7 @@ functype := funcobj.GetFunctionType()
 <ol>
 <li>
 <p>表实例</p>
-<p>在 WasmEdge 中，你可以创建 <code>Table</code> 对象并将它们添加到 <code>ImportObject</code> 对象中，以便注册到 <code>VM</code> 或 <code>Store</code> 中。<br />
+<p>在 WasmEdge 中，你可以创建 <code>Table</code> 对象并将它们添加到 <code>ImportObject</code> 对象中，以便注册到 <code>VM</code> 或 <code>Store</code> 中。
 <code>Table</code> 对象提供 API 来控制表实例中的数据。</p>
 <pre><code class="language-go">lim := wasmedge.NewLimitWithMax(10, 20)
 // 创建具有限制和 `FuncRef` 元素类型的表类型。
@@ -1681,7 +1681,7 @@ meminst.Release()
 </li>
 <li>
 <p>全局实例</p>
-<p>在 WasmEdge 中，你可以创建 <code>Global</code> 对象并将它们添加到 <code>ImportObject</code> 对象中，以便注册到 <code>VM</code> 或 <code>Store</code> 中。<br />
+<p>在 WasmEdge 中，你可以创建 <code>Global</code> 对象并将它们添加到 <code>ImportObject</code> 对象中，以便注册到 <code>VM</code> 或 <code>Store</code> 中。
 <code>Global</code> 对象提供 API 来控制全局实例中的值。</p>
 <pre><code class="language-go">// 创建具有值类型和突变的全局类型。
 globtype := wasmedge.NewGlobalType(wasmedge.ValType_I64, wasmedge.ValMut_Var)
@@ -1711,7 +1711,7 @@ globinst.Release()
 </li>
 </ol>
 <h3 id="host-函数"><a class="header" href="#host-函数">Host 函数</a></h3>
-<p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#syntax-hostfunc">Host 函数</a> 是 WebAssembly 之外的函数，并作为导入传递给 WASM 模块。<br />
+<p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#syntax-hostfunc">Host 函数</a> 是 WebAssembly 之外的函数，并作为导入传递给 WASM 模块。
 在 WasmEdge-go 中，你可以创建 <code>Function</code>、<code>Memory</code>、<code>Table</code> 和 <code>Global</code> 对象并将它们添加到 <code>ImportObject</code> 对象中，以便注册到 <code>VM</code> 或 <code>Store</code> 中。</p>
 <ol>
 <li>
@@ -1805,8 +1805,8 @@ impobj.Release()
 </li>
 <li>
 <p>指定导入对象</p>
-<p><code>wasmedge.NewWasiImportObject()</code> API 可以创建和初始化 <code>WASI</code> 导入对象。<br />
-<code>wasmedge.NewWasmEdgeProcessImportObject()</code> API 可以创建和初始化 <code>wasmedge_process</code> 导入对象。<br />
+<p><code>wasmedge.NewWasiImportObject()</code> API 可以创建和初始化 <code>WASI</code> 导入对象。
+<code>wasmedge.NewWasmEdgeProcessImportObject()</code> API 可以创建和初始化 <code>wasmedge_process</code> 导入对象。
 你可以创建这些导入对象对象并将它们注册到 <code>Store</code> 或 <code>VM</code> 对象中，而不是调整 <code>Configure</code> 对象中的设置。</p>
 <pre><code class="language-go">wasiobj := wasmedge.NewWasiImportObject(
     os.Args[1:], // 参数
@@ -1867,7 +1867,7 @@ func host_add(data interface{}, mem *wasmedge.Memory, params []interface{}) ([]i
     res := params[0].(int32) + params[1].(int32)
 
     // 设置返回
-	    returns := make([]interface{}, 1)
+  returns := make([]interface{}, 1)
     returns[0] = res
 
     // 返回

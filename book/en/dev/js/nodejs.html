@@ -163,7 +163,7 @@ wasmedge --dir .:. wasmedge_quickjs.wasm my_node_app/index.js
 </blockquote>
 <p>The progress of Node.js support in WasmEdge QuickJS is <strong><a href="https://github.com/WasmEdge/WasmEdge/issues/1535">tracked in this issue</a>.</strong> There are two approaches for supporting Node.js APIs in WasmEdge QuickJS.</p>
 <h2 id="the-javascript-modules"><a class="header" href="#the-javascript-modules">The JavaScript modules</a></h2>
-<p>Some Node.js functions can be implemented in pure JavaScript using the <a href="modules.html">modules</a> approach. For example, </p>
+<p>Some Node.js functions can be implemented in pure JavaScript using the <a href="modules.html">modules</a> approach. For example,</p>
 <ul>
 <li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/querystring.js">querystring</a> functions just perform string manipulations.</li>
 <li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/buffer.js">buffer</a> functions manage and encode arrays and memory structures.</li>
@@ -173,7 +173,7 @@ wasmedge --dir .:. wasmedge_quickjs.wasm my_node_app/index.js
 <p>Other Node.js functions must be implemented in Rust using the <a href="rust.html">internal_module</a> approach. There are two reasons for that. First, some Node.js API functions are CPU intensive (e.g., encoding) and is most efficiently implemented in Rust. Second, some Node.js API functions require access to the underlying system (e.g., networking and file system) through native host functions.</p>
 <ul>
 <li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/src/internal_module/core.rs">core</a> module provides OS level functions such as <code>timeout</code>.</li>
-<li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/src/internal_module/encoding.rs">encoding</a> module provides high-performance encoding and decoding functions, which are in turn <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/encoding.js">wrapped into Node.js encoding APIs</a>. </li>
+<li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/src/internal_module/encoding.rs">encoding</a> module provides high-performance encoding and decoding functions, which are in turn <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/encoding.js">wrapped into Node.js encoding APIs</a>.</li>
 <li>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/src/internal_module/wasi_net_module.rs">wasi_net_module</a> provides JavaScript networking functions implemented via the Rust-based WasmEdge WASI socket API. It is then wrapped into the <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/modules/http.js">Node.js http module</a>.</li>
 </ul>
 <p>Node.js compatibility support in WasmEdge QuickJS is a work in progress. It is a great way for new developers to get familiar with WasmEdge QuickJS. Join us!</p>

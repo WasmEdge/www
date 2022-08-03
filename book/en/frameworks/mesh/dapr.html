@@ -299,15 +299,15 @@ pub fn grayscale(image_data: String) -&gt; String {
 <h3 id="the-go-host-wrapper-for-microservice"><a class="header" href="#the-go-host-wrapper-for-microservice">The Go host wrapper for microservice</a></h3>
 <p>The <a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-go">Go-based microservice</a> embeds the above imaging processing function in WasmEdge. The <a href="https://github.com/second-state/dapr-wasm/blob/main/image-api-go/image_api.go">microservice itself</a> is a web server and utilizes the Dapr Go SDK.</p>
 <pre><code class="language-go">func main() {
-	s := daprd.NewService(&quot;:9003&quot;)
+  s := daprd.NewService(&quot;:9003&quot;)
 
-	if err := s.AddServiceInvocationHandler(&quot;/api/image&quot;, imageHandlerWASI); err != nil {
-		log.Fatalf(&quot;error adding invocation handler: %v&quot;, err)
-	}
+  if err := s.AddServiceInvocationHandler(&quot;/api/image&quot;, imageHandlerWASI); err != nil {
+    log.Fatalf(&quot;error adding invocation handler: %v&quot;, err)
+  }
 
-	if err := s.Start(); err != nil &amp;&amp; err != http.ErrServerClosed {
-		log.Fatalf(&quot;error listenning: %v&quot;, err)
-	}
+  if err := s.Start(); err != nil &amp;&amp; err != http.ErrServerClosed {
+    log.Fatalf(&quot;error listenning: %v&quot;, err)
+  }
 }
 </code></pre>
 <p>The <code>imageHandlerWASI()</code> function <a href="../../embed/go/function.html">starts a WasmEdge instance</a> and calls the image processing (grayscale) function in it via <a href="../../dev/rust/bindgen.html">wasmedge_bindgen</a>.</p>
