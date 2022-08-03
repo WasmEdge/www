@@ -186,7 +186,7 @@ rustup target add wasm32-wasi
 # Build the QuickJS JavaScript interpreter
 cargo build --target wasm32-wasi --release
 </code></pre>
-<p>The WebAssembly-based JavaScript interpreter program is located in the build <code>target</code> directory. </p>
+<p>The WebAssembly-based JavaScript interpreter program is located in the build <code>target</code> directory.</p>
 <p>WasmEdge provides a <code>wasmedgec</code> utility to compile and add a native machine code section to the <code>wasm</code> file. You can use <code>wasmedge</code> to run the natively instrumented <code>wasm</code> file to get much faster performance.</p>
 <pre><code class="language-bash">wasmedgec target/wasm32-wasi/release/wasmedge_quickjs.wasm wasmedge_quickjs.wasm
 wasmedge --dir .:. wasmedge_quickjs.wasm example_js/hello.js

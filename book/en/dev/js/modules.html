@@ -150,37 +150,37 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="system-modules"><a class="header" href="#system-modules">System modules</a></h1>
-<p>The WasmEdge QuickJS runtime supports <a href="es6.html">ES6</a> and <a href="npm.html">NPM</a> modules for application developers. However, those approaches are too cumbersome for system developers. They need an easier way to add multiple JavaScript modules and APIs into the runtime without having to go through build tools like rollup.js. The WasmEdge QuickJS modules system allow developers to just drop JavaScript files into a <code>modules</code> folder, and have the JavaScript functions defined in the files immediately available to all JavaScript programs in the runtime. A good use case for this modules system is to support <a href="nodejs.html">Node.js</a> APIs in WasmEdge. </p>
-<p>The module system is just a collection of JavaScript files in the <code>modules</code> directory in the WasmEdge QuickJS distribution. To use the JavaScript functions and APIs defined in those modules, you just need to map this directory to the <code>/modules</code> directory inside the WasmEdge Runtime instance. The following example shows how to do this on the WasmEdge CLI. You can do this with any of the host language SDKs that support embedded use of WasmEdge. </p>
-<pre><code>ls modules
+<p>The WasmEdge QuickJS runtime supports <a href="es6.html">ES6</a> and <a href="npm.html">NPM</a> modules for application developers. However, those approaches are too cumbersome for system developers. They need an easier way to add multiple JavaScript modules and APIs into the runtime without having to go through build tools like rollup.js. The WasmEdge QuickJS modules system allow developers to just drop JavaScript files into a <code>modules</code> folder, and have the JavaScript functions defined in the files immediately available to all JavaScript programs in the runtime. A good use case for this modules system is to support <a href="nodejs.html">Node.js</a> APIs in WasmEdge.</p>
+<p>The module system is just a collection of JavaScript files in the <code>modules</code> directory in the WasmEdge QuickJS distribution. To use the JavaScript functions and APIs defined in those modules, you just need to map this directory to the <code>/modules</code> directory inside the WasmEdge Runtime instance. The following example shows how to do this on the WasmEdge CLI. You can do this with any of the host language SDKs that support embedded use of WasmEdge.</p>
+<pre><code class="language-bash">$ ls modules
 
     buffer.js encoding.js events.js http.js
     ... JavaScript files for the modules ...
 
-wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/hello.js WasmEdge Runtime
+$ wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/hello.js WasmEdge Runtime
 </code></pre>
 <p>The <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/module_demo">module_demo</a> shows how you can use the modules system to add your own JavaScript APIs. To run the demo, first copy the two files in the demo's <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/module_demo/modules">modules</a> directory to your WasmEdge QuickJS's <code>modules</code> directory.</p>
-<pre><code>cp example_js/module_demo/modules/* modules/
+<pre><code class="language-bash">cp example_js/module_demo/modules/* modules/
 </code></pre>
 <p>The two JavaScript files in the <code>modules</code> directory provide two simple functions. Below is the <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/module_demo/modules/my_mod_1.js">modules/my_mod_1.js</a> file.</p>
-<pre><code>export function hello_mod_1(){
-    console.log('hello from &quot;my_mod_1.js&quot;')
+<pre><code class="language-javascript">export function hello_mod_1(){
+  console.log('hello from &quot;my_mod_1.js&quot;')
 }
 </code></pre>
 <p>And the <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/module_demo/modules/my_mod_2.js">modules/my_mod_2.js</a> file.</p>
-<pre><code>export function hello_mod_2(){
-    console.log('hello from &quot;my_mod_2.js&quot;')
+<pre><code class="language-javascript">export function hello_mod_2(){
+  console.log('hello from &quot;my_mod_2.js&quot;')
 }
 </code></pre>
 <p>Then, just run the <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/module_demo/demo.js">demo.js</a> file to call the two exported functions from the modules.</p>
-<pre><code>import { hello_mod_1 } from 'my_mod_1'
+<pre><code class="language-javascript">import { hello_mod_1 } from 'my_mod_1'
 import { hello_mod_2 } from 'my_mod_2'
 
 hello_mod_1()
 hello_mod_2()
 </code></pre>
 <p>Here is the command to run the demo and the output.</p>
-<pre><code>wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/module_demo/demo.js
+<pre><code class="language-bash">$ wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm example_js/module_demo/demo.js
 
 hello from &quot;my_mod_1.js&quot;
 hello from &quot;my_mod_2.js&quot;
