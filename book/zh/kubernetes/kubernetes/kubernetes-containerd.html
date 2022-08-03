@@ -212,7 +212,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 <h3 id="一个简单的-webassembly-应用程序"><a class="header" href="#一个简单的-webassembly-应用程序">一个简单的 WebAssembly 应用程序</a></h3>
 <p><a href="../demo/wasi.html">另一篇文章</a>解释了如何编译、打包和发布一个简单的 WebAssembly WASI 程序作为容器镜像到 Docker hub。
 在 Kubernetes 集群中运行 Docker Hub 中基于 WebAssembly 的镜像，方法如下。</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 </code></pre>
 <p>容器化应用程序的输出被打印到控制台。</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -229,7 +229,7 @@ pod &quot;wasi-demo-2&quot; deleted
 <h3 id="一个基于-webassembly-的-http-服务"><a class="header" href="#一个基于-webassembly-的-http-服务">一个基于 WebAssembly 的 HTTP 服务</a></h3>
 <p><a href="../demo/server.html">另一篇文章</a>解释了如何编译、打包和发布一个简单的 WebAssembly HTTP 服务应用程序作为容器镜像到 Docker hub。
 在 Kubernetes 集群中运行 Docker Hub 中基于 WebAssembly 的镜像，方法如下。</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
+<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
 </code></pre>
 <p>由于我们在 <code>kubectl run</code> 命令中使用了 <code>hostNetwork</code> ，HTTP 服务器镜像运行在本地网络上，IP 地址是 <code>127.0.0.1</code> 。
 现在，你可以使用 <code>curl</code> 命令来访问 HTTP 服务。</p>

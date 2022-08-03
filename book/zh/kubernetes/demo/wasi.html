@@ -178,8 +178,8 @@ CMD [&quot;/wasi_example_main.wasm&quot;]
 <blockquote>
 <p>请注意，添加自定义注释仍然是 buildah 中的新功能。</p>
 </blockquote>
-<p><code>crun</code> 容器运行时可以启动上述基于 WebAssembly 的容器镜像。但它需要容器镜像上的 <code>module.wasm.image/variant=compat</code> 注释来表明它是一个没有客人操作系统（安装在虚拟机上的系统）的 WebAssembly 应用程序。你可以在<a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">官方 crun repo</a> 中找到详细信息。</p>
-<p>要在容器镜像中添加 <code>module.wasm.image/variant=compat</code> 注释，你需要最新的 <a href="https://buildah.io/">buildah</a>。 目前，Docker 不支持此功能。请按照 <a href="https://github.com/containers/buildah/blob/main/install.md">buildah 的安装说明</a> 构建最新的 buildah 二进制文件。</p>
+<p><code>crun</code> 容器运行时可以启动上述基于 WebAssembly 的容器镜像。但它需要容器镜像上的 <code>module.wasm.image/variant=compat-smart</code> 注释来表明它是一个没有客人操作系统（安装在虚拟机上的系统）的 WebAssembly 应用程序。你可以在<a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">官方 crun repo</a> 中找到详细信息。</p>
+<p>要在容器镜像中添加 <code>module.wasm.image/variant=compat-smart</code> 注释，你需要最新的 <a href="https://buildah.io/">buildah</a>。 目前，Docker 不支持此功能。请按照 <a href="https://github.com/containers/buildah/blob/main/install.md">buildah 的安装说明</a> 构建最新的 buildah 二进制文件。</p>
 <h3 id="在-ubuntu-上编译并安装最新的-buildah"><a class="header" href="#在-ubuntu-上编译并安装最新的-buildah">在 Ubuntu 上编译并安装最新的 buildah</a></h3>
 <p>在 Ubuntu zesty 和 xenial 上，使用这些命令为 buildah 做准备。</p>
 <pre><code class="language-bash">sudo apt-get -y install software-properties-common
@@ -205,7 +205,7 @@ buildah --help
 </code></pre>
 <h3 id="创建和发布具备-buildah-的容器镜像"><a class="header" href="#创建和发布具备-buildah-的容器镜像">创建和发布具备 buildah 的容器镜像</a></h3>
 <p>在 <code>target/wasm32-wasi/release/</code> 文件夹下，执行下列指令。</p>
-<pre><code class="language-bash">$ sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t wasm-wasi-example .
+<pre><code class="language-bash">$ sudo buildah build --annotation &quot;module.wasm.image/variant=compat-smart&quot; -t wasm-wasi-example .
 # make sure docker is install and running
 # systemctl status docker
 # to make sure regular user can use docker
