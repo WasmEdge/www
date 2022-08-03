@@ -192,8 +192,8 @@ CMD [&quot;/http_server.wasm&quot;]
 <blockquote>
 <p>Please note that adding self-defined annotation is still a new feature in buildah.</p>
 </blockquote>
-<p>The <code>crun</code> container runtime can start the above WebAssembly-based container image. But it requires the <code>module.wasm.image/variant=compat</code> annotation on the container image to indicate that it is a WebAssembly application without a guest OS. You can find the details in <a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">Official crun repo</a>.</p>
-<p>To add <code>module.wasm.image/variant=compat</code> annotation in the container image, you will need the latest <a href="https://buildah.io/">buildah</a>. Currently, Docker does not support this feature. Please follow <a href="https://github.com/containers/buildah/blob/main/install.md">the install instructions of buildah</a> to build the latest buildah binary.</p>
+<p>The <code>crun</code> container runtime can start the above WebAssembly-based container image. But it requires the <code>module.wasm.image/variant=compat-smart</code> annotation on the container image to indicate that it is a WebAssembly application without a guest OS. You can find the details in <a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">Official crun repo</a>.</p>
+<p>To add <code>module.wasm.image/variant=compat-smart</code> annotation in the container image, you will need the latest <a href="https://buildah.io/">buildah</a>. Currently, Docker does not support this feature. Please follow <a href="https://github.com/containers/buildah/blob/main/install.md">the install instructions of buildah</a> to build the latest buildah binary.</p>
 <h3 id="build-and-install-the-latest-buildah-on-ubuntu"><a class="header" href="#build-and-install-the-latest-buildah-on-ubuntu">Build and install the latest buildah on Ubuntu</a></h3>
 <p>On Ubuntu zesty and xenial, use these commands to prepare for buildah.</p>
 <pre><code class="language-bash">sudo apt-get -y install software-properties-common
@@ -220,7 +220,7 @@ buildah --help
 </code></pre>
 <h3 id="create-and-publish-a-container-image-with-buildah"><a class="header" href="#create-and-publish-a-container-image-with-buildah">Create and publish a container image with buildah</a></h3>
 <p>In the <code>target/wasm32-wasi/release/</code> folder, do the following.</p>
-<pre><code class="language-bash">sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t http_server .
+<pre><code class="language-bash">sudo buildah build --annotation &quot;module.wasm.image/variant=compat-smart&quot; -t http_server .
 
 #
 # make sure docker is install and running

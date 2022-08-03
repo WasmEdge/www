@@ -214,7 +214,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 <h3 id="a-simple-webassembly-app"><a class="header" href="#a-simple-webassembly-app">A simple WebAssembly app</a></h3>
 <p><a href="../demo/wasi.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly WASI program as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 </code></pre>
 <p>The output from the containerized application is printed into the console.</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -231,7 +231,7 @@ pod &quot;wasi-demo-2&quot; deleted
 <h3 id="a-webassembly-based-http-service"><a class="header" href="#a-webassembly-based-http-service">A WebAssembly-based HTTP service</a></h3>
 <p><a href="../demo/server.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
+<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
 </code></pre>
 <p>Since we are using <code>hostNetwork</code> in the <code>kubectl run</code> command, the HTTP server image is running on the local network with IP address <code>127.0.0.1</code>.
 Now, you can use the <code>curl</code> command to access the HTTP service.</p>

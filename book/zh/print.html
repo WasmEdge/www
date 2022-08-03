@@ -6696,8 +6696,8 @@ CMD [&quot;/wasi_example_main.wasm&quot;]
 <blockquote>
 <p>请注意，添加自定义注释仍然是 buildah 中的新功能。</p>
 </blockquote>
-<p><code>crun</code> 容器运行时可以启动上述基于 WebAssembly 的容器镜像。但它需要容器镜像上的 <code>module.wasm.image/variant=compat</code> 注释来表明它是一个没有客人操作系统（安装在虚拟机上的系统）的 WebAssembly 应用程序。你可以在<a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">官方 crun repo</a> 中找到详细信息。</p>
-<p>要在容器镜像中添加 <code>module.wasm.image/variant=compat</code> 注释，你需要最新的 <a href="https://buildah.io/">buildah</a>。 目前，Docker 不支持此功能。请按照 <a href="https://github.com/containers/buildah/blob/main/install.md">buildah 的安装说明</a> 构建最新的 buildah 二进制文件。</p>
+<p><code>crun</code> 容器运行时可以启动上述基于 WebAssembly 的容器镜像。但它需要容器镜像上的 <code>module.wasm.image/variant=compat-smart</code> 注释来表明它是一个没有客人操作系统（安装在虚拟机上的系统）的 WebAssembly 应用程序。你可以在<a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">官方 crun repo</a> 中找到详细信息。</p>
+<p>要在容器镜像中添加 <code>module.wasm.image/variant=compat-smart</code> 注释，你需要最新的 <a href="https://buildah.io/">buildah</a>。 目前，Docker 不支持此功能。请按照 <a href="https://github.com/containers/buildah/blob/main/install.md">buildah 的安装说明</a> 构建最新的 buildah 二进制文件。</p>
 <h3 id="在-ubuntu-上编译并安装最新的-buildah"><a class="header" href="#在-ubuntu-上编译并安装最新的-buildah">在 Ubuntu 上编译并安装最新的 buildah</a></h3>
 <p>在 Ubuntu zesty 和 xenial 上，使用这些命令为 buildah 做准备。</p>
 <pre><code class="language-bash">sudo apt-get -y install software-properties-common
@@ -6723,7 +6723,7 @@ buildah --help
 </code></pre>
 <h3 id="创建和发布具备-buildah-的容器镜像"><a class="header" href="#创建和发布具备-buildah-的容器镜像">创建和发布具备 buildah 的容器镜像</a></h3>
 <p>在 <code>target/wasm32-wasi/release/</code> 文件夹下，执行下列指令。</p>
-<pre><code class="language-bash">$ sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t wasm-wasi-example .
+<pre><code class="language-bash">$ sudo buildah build --annotation &quot;module.wasm.image/variant=compat-smart&quot; -t wasm-wasi-example .
 # make sure docker is install and running
 # systemctl status docker
 # to make sure regular user can use docker
@@ -6777,8 +6777,8 @@ CMD [&quot;/http_server.wasm&quot;]
 <blockquote>
 <p>请注意，添加自定义注释仍然是 buildah 中的新功能。</p>
 </blockquote>
-<p><code>crun</code> 容器运行时可以启动上述基于 WebAssembly 的容器镜像。但它需要容器镜像上的 <code>module.wasm.image/variant=compat</code> 注释来表明它是一个没有客人操作系统（安装在虚拟机上的系统）的 WebAssembly 应用程序。你可以在<a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">官方 crun repo</a> 中找到详细信息。</p>
-<p>要在容器镜像中添加 <code>module.wasm.image/variant=compat</code> 注释，你需要最新的 <a href="https://buildah.io/">buildah</a>。 目前，Docker 不支持此功能。请按照 <a href="https://github.com/containers/buildah/blob/main/install.md">buildah 的安装说明</a> 构建最新的 buildah 二进制文件。</p>
+<p><code>crun</code> 容器运行时可以启动上述基于 WebAssembly 的容器镜像。但它需要容器镜像上的 <code>module.wasm.image/variant=compat-smart</code> 注释来表明它是一个没有客人操作系统（安装在虚拟机上的系统）的 WebAssembly 应用程序。你可以在<a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">官方 crun repo</a> 中找到详细信息。</p>
+<p>要在容器镜像中添加 <code>module.wasm.image/variant=compat-smart</code> 注释，你需要最新的 <a href="https://buildah.io/">buildah</a>。 目前，Docker 不支持此功能。请按照 <a href="https://github.com/containers/buildah/blob/main/install.md">buildah 的安装说明</a> 构建最新的 buildah 二进制文件。</p>
 <h3 id="在-ubuntu-上编译并安装最新的-buildah-1"><a class="header" href="#在-ubuntu-上编译并安装最新的-buildah-1">在 Ubuntu 上编译并安装最新的 buildah</a></h3>
 <p>在 Ubuntu zesty 和 xenial 上，使用这些命令为 buildah 做准备。</p>
 <pre><code class="language-bash">sudo apt-get -y install software-properties-common
@@ -6805,7 +6805,7 @@ buildah --help
 </code></pre>
 <h3 id="创建和发布具备-buildah-的容器镜像-1"><a class="header" href="#创建和发布具备-buildah-的容器镜像-1">创建和发布具备 buildah 的容器镜像</a></h3>
 <p>在 <code>target/wasm32-wasi/release/</code> 文件夹下，执行下列指令。</p>
-<pre><code class="language-bash">$ sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t http_server .
+<pre><code class="language-bash">$ sudo buildah build --annotation &quot;module.wasm.image/variant=compat-smart&quot; -t http_server .
 
 #
 # make sure docker is install and running
@@ -7080,7 +7080,7 @@ sudo patch -d/ -p0 &lt; containerd_config.diff
 <pre><code class="language-bash">sudo ctr i pull docker.io/hydai/wasm-wasi-example:with-wasm-annotation
 </code></pre>
 <p>现在，您可以使用 ctr（containerd cli 工具）运行此示例。</p>
-<pre><code class="language-bash">sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/hydai/wasm-wasi-example:with-wasm-annotation wasm-example /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/hydai/wasm-wasi-example:with-wasm-annotation wasm-example /wasi_example_main.wasm 50000000
 </code></pre>
 <p>启动容器会执行 WebAssembly 程序， 您可以在控制台中看到输出。</p>
 <pre><code class="language-bash">Creating POD ...
@@ -7102,7 +7102,7 @@ File content is This is in a file
 <pre><code class="language-bash">sudo ctr i pull docker.io/avengermojo/http_server:with-wasm-annotation
 </code></pre>
 <p>现在，您可以使用 ctr（containerd cli 工具）运行该示例。（请注意，我们需要加上 <code>--net-host</code> 参数来运行容器，以便可以从外部访问 WasmEdge 容器内的 HTTP server。）</p>
-<pre><code class="language-bash">sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/avengermojo/http_server:with-wasm-annotation http-server-example /http_server.wasm
+<pre><code class="language-bash">sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/avengermojo/http_server:with-wasm-annotation http-server-example /http_server.wasm
 </code></pre>
 <p>启动容器会执行 WebAssembly 程序， 您可以在控制台中看到输出。</p>
 <pre><code class="language-bash">new connection at 1234
@@ -7187,7 +7187,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 </code></pre>
 <h3 id="简单的-webassembly-应用"><a class="header" href="#简单的-webassembly-应用">简单的 WebAssembly 应用</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/wasi.html">这篇文章</a> 描述了如何编译、打包一个简单的 WebAssembly WASI 程序，以及将它以容器镜像的形式发布到 Docker hub 的完整过程。</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>容器化后的应用程序的输出会被打印到控制台上。</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -7209,7 +7209,7 @@ metadata:
   name: http-server
   namespace: default
   annotations:
-    module.wasm.image/variant: compat
+    module.wasm.image/variant: compat-smart
 spec:
   hostNetwork: true
   containers:
@@ -7302,7 +7302,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 <h3 id="一个简单的-webassembly-应用程序"><a class="header" href="#一个简单的-webassembly-应用程序">一个简单的 WebAssembly 应用程序</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/wasi.html">另一篇文章</a>解释了如何编译、打包和发布一个简单的 WebAssembly WASI 程序作为容器镜像到 Docker hub。
 在 Kubernetes 集群中运行 Docker Hub 中基于 WebAssembly 的镜像，方法如下。</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 </code></pre>
 <p>容器化应用程序的输出被打印到控制台。</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -7319,7 +7319,7 @@ pod &quot;wasi-demo-2&quot; deleted
 <h3 id="一个基于-webassembly-的-http-服务"><a class="header" href="#一个基于-webassembly-的-http-服务">一个基于 WebAssembly 的 HTTP 服务</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/server.html">另一篇文章</a>解释了如何编译、打包和发布一个简单的 WebAssembly HTTP 服务应用程序作为容器镜像到 Docker hub。
 在 Kubernetes 集群中运行 Docker Hub 中基于 WebAssembly 的镜像，方法如下。</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
+<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
 </code></pre>
 <p>由于我们在 <code>kubectl run</code> 命令中使用了 <code>hostNetwork</code> ，HTTP 服务器镜像运行在本地网络上，IP 地址是 <code>127.0.0.1</code> 。
 现在，你可以使用 <code>curl</code> 命令来访问 HTTP 服务。</p>
@@ -7335,7 +7335,7 @@ echo: name=WasmEdge
 <pre><code class="language-bash"># Create a &quot;WASM in KinD&quot; Cluster
 kind create cluster --image ghcr.io/liquid-reply/kind-crun-wasm:v1.23.0
 # Run the example
-kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>在这个章节的剩余部分，我们会介绍如何去创建一个带有 wasmedge 的支持 KinD 的节点镜像。</p>
 <h2 id="编译-crun"><a class="header" href="#编译-crun">编译 crun</a></h2>
@@ -7380,7 +7380,7 @@ RUN echo &quot;Installing Packages ...&quot; \
 <pre><code class="language-bash">$ docker build -t node-wasmedge .
 $ kind create cluster --image node-wasmedge
 # Now you can run the example to validate your cluster
-$ kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+$ kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="为-kubeedge-创建一个-crun-示例"><a class="header" href="#为-kubeedge-创建一个-crun-示例">为 KubeEdge 创建一个 <code>crun</code> 示例</a></h1>
 <h2 id="1-云端设置kubeedge-主节点"><a class="header" href="#1-云端设置kubeedge-主节点">1. 云端设置（KubeEdge 主节点）</a></h2>
@@ -7588,7 +7588,7 @@ master     Ready     control-plane,master   68m   v1.21.0
 <h2 id="4-运行一个简单的-webassembly-应用"><a class="header" href="#4-运行一个简单的-webassembly-应用">4. 运行一个简单的 WebAssembly 应用</a></h2>
 <p>我们可以从 Kubernetes 集群中的 Docker Hub 运行基于 WebAssembly 的镜像。</p>
 <h3 id="云端"><a class="header" href="#云端">云端</a></h3>
-<pre><code class="language-bash">$ kubectl run -it --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">$ kubectl run -it --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 
 Random number: -1694733782
 Random bytes: [6, 226, 176, 126, 136, 114, 90, 2, 216, 17, 241, 217, 143, 189, 123, 197, 17, 60, 49, 37, 71, 69, 67, 108, 66, 39, 105, 9, 6, 72, 232, 238, 102, 5, 148, 243, 249, 183, 52, 228, 54, 176, 63, 249, 216, 217, 46, 74, 88, 204, 130, 191, 182, 19, 118, 193, 77, 35, 189, 6, 139, 68, 163, 214, 231, 100, 138, 246, 185, 47, 37, 49, 3, 7, 176, 97, 68, 124, 20, 235, 145, 166, 142, 159, 114, 163, 186, 46, 161, 144, 191, 211, 69, 19, 179, 241, 8, 207, 8, 112, 80, 170, 33, 51, 251, 33, 105, 0, 178, 175, 129, 225, 112, 126, 102, 219, 106, 77, 242, 104, 198, 238, 193, 247, 23, 47, 22, 29]
@@ -7609,7 +7609,7 @@ Priority:     0
 Node:         edge/192.168.122.229
 Start Time:   Mon, 06 Dec 2021 15:45:34 +0000
 Labels:       run=wasi-demo
-Annotations:  module.wasm.image/variant: compat
+Annotations:  module.wasm.image/variant: compat-smart
 Status:       Succeeded
 IP:           
 IPs:          &lt;none&gt;
@@ -7820,9 +7820,9 @@ WebAssembly 的容器镜像感兴趣，可以阅读 <a href="https://wasmedge.or
 <p>需要注意的是由于命令 <code>kubectl run</code> 在1.18.9版本上缺少 annotations 参数，我们需要修改命令行的内容。
 如果你使用的是 OpenYurt 体验中心，默认情况下搭建的 OpenYurt 的版本是0.6.0，对应的 Kubernetes 版本是1.20.11。</p>
 <pre><code class="language-bash">// kubectl 1.18.9
-$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat-smart&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 // kubectl 1.20.11
-$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 </code></pre>
 <p>容器化应用的结果将会在控制台上输出，对应不同 Kubernetes 版本，得到的结果都是相同的。</p>
 <pre><code class="language-bash">Random number: 1123434661

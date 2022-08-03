@@ -157,7 +157,7 @@
 <pre><code class="language-bash"># Create a &quot;WASM in KinD&quot; Cluster
 kind create cluster --image ghcr.io/liquid-reply/kind-crun-wasm:v1.23.0
 # Run the example
-kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>在这个章节的剩余部分，我们会介绍如何去创建一个带有 wasmedge 的支持 KinD 的节点镜像。</p>
 <h2 id="编译-crun"><a class="header" href="#编译-crun">编译 crun</a></h2>
@@ -202,7 +202,7 @@ RUN echo &quot;Installing Packages ...&quot; \
 <pre><code class="language-bash">$ docker build -t node-wasmedge .
 $ kind create cluster --image node-wasmedge
 # Now you can run the example to validate your cluster
-$ kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+$ kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 
                     </main>

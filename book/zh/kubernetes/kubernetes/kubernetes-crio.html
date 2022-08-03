@@ -214,7 +214,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 </code></pre>
 <h3 id="简单的-webassembly-应用"><a class="header" href="#简单的-webassembly-应用">简单的 WebAssembly 应用</a></h3>
 <p><a href="../demo/wasi.html">这篇文章</a> 描述了如何编译、打包一个简单的 WebAssembly WASI 程序，以及将它以容器镜像的形式发布到 Docker hub 的完整过程。</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>容器化后的应用程序的输出会被打印到控制台上。</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -236,7 +236,7 @@ metadata:
   name: http-server
   namespace: default
   annotations:
-    module.wasm.image/variant: compat
+    module.wasm.image/variant: compat-smart
 spec:
   hostNetwork: true
   containers:

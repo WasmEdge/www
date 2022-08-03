@@ -15405,8 +15405,8 @@ CMD [&quot;/wasi_example_main.wasm&quot;]
 <blockquote>
 <p>Please note that adding self-defined annotation is still a new feature in buildah.</p>
 </blockquote>
-<p>The <code>crun</code> container runtime can start the above WebAssembly-based container image. But it requires the <code>module.wasm.image/variant=compat</code> annotation on the container image to indicate that it is a WebAssembly application without a guest OS. You can find the details in <a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">Official crun repo</a>.</p>
-<p>To add <code>module.wasm.image/variant=compat</code> annotation in the container image, you will need the latest <a href="https://buildah.io/">buildah</a>. Currently, Docker does not support this feature. Please follow <a href="https://github.com/containers/buildah/blob/main/install.md">the install instructions of buildah</a> to build the latest buildah binary.</p>
+<p>The <code>crun</code> container runtime can start the above WebAssembly-based container image. But it requires the <code>module.wasm.image/variant=compat-smart</code> annotation on the container image to indicate that it is a WebAssembly application without a guest OS. You can find the details in <a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">Official crun repo</a>.</p>
+<p>To add <code>module.wasm.image/variant=compat-smart</code> annotation in the container image, you will need the latest <a href="https://buildah.io/">buildah</a>. Currently, Docker does not support this feature. Please follow <a href="https://github.com/containers/buildah/blob/main/install.md">the install instructions of buildah</a> to build the latest buildah binary.</p>
 <h3 id="build-and-install-the-latest-buildah-on-ubuntu"><a class="header" href="#build-and-install-the-latest-buildah-on-ubuntu">Build and install the latest buildah on Ubuntu</a></h3>
 <p>On Ubuntu zesty and xenial, use these commands to prepare for buildah.</p>
 <pre><code class="language-bash">sudo apt-get -y install software-properties-common
@@ -15432,7 +15432,7 @@ buildah --help
 </code></pre>
 <h3 id="create-and-publish-a-container-image-with-buildah"><a class="header" href="#create-and-publish-a-container-image-with-buildah">Create and publish a container image with buildah</a></h3>
 <p>In the <code>target/wasm32-wasi/release/</code> folder, do the following.</p>
-<pre><code class="language-bash">$ sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t wasm-wasi-example .
+<pre><code class="language-bash">$ sudo buildah build --annotation &quot;module.wasm.image/variant=compat-smart&quot; -t wasm-wasi-example .
 # make sure docker is install and running
 # systemctl status docker
 # to make sure regular user can use docker
@@ -15486,8 +15486,8 @@ CMD [&quot;/http_server.wasm&quot;]
 <blockquote>
 <p>Please note that adding self-defined annotation is still a new feature in buildah.</p>
 </blockquote>
-<p>The <code>crun</code> container runtime can start the above WebAssembly-based container image. But it requires the <code>module.wasm.image/variant=compat</code> annotation on the container image to indicate that it is a WebAssembly application without a guest OS. You can find the details in <a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">Official crun repo</a>.</p>
-<p>To add <code>module.wasm.image/variant=compat</code> annotation in the container image, you will need the latest <a href="https://buildah.io/">buildah</a>. Currently, Docker does not support this feature. Please follow <a href="https://github.com/containers/buildah/blob/main/install.md">the install instructions of buildah</a> to build the latest buildah binary.</p>
+<p>The <code>crun</code> container runtime can start the above WebAssembly-based container image. But it requires the <code>module.wasm.image/variant=compat-smart</code> annotation on the container image to indicate that it is a WebAssembly application without a guest OS. You can find the details in <a href="https://github.com/containers/crun/blob/main/docs/wasm-wasi-example.md">Official crun repo</a>.</p>
+<p>To add <code>module.wasm.image/variant=compat-smart</code> annotation in the container image, you will need the latest <a href="https://buildah.io/">buildah</a>. Currently, Docker does not support this feature. Please follow <a href="https://github.com/containers/buildah/blob/main/install.md">the install instructions of buildah</a> to build the latest buildah binary.</p>
 <h3 id="build-and-install-the-latest-buildah-on-ubuntu-1"><a class="header" href="#build-and-install-the-latest-buildah-on-ubuntu-1">Build and install the latest buildah on Ubuntu</a></h3>
 <p>On Ubuntu zesty and xenial, use these commands to prepare for buildah.</p>
 <pre><code class="language-bash">sudo apt-get -y install software-properties-common
@@ -15514,7 +15514,7 @@ buildah --help
 </code></pre>
 <h3 id="create-and-publish-a-container-image-with-buildah-1"><a class="header" href="#create-and-publish-a-container-image-with-buildah-1">Create and publish a container image with buildah</a></h3>
 <p>In the <code>target/wasm32-wasi/release/</code> folder, do the following.</p>
-<pre><code class="language-bash">sudo buildah build --annotation &quot;module.wasm.image/variant=compat&quot; -t http_server .
+<pre><code class="language-bash">sudo buildah build --annotation &quot;module.wasm.image/variant=compat-smart&quot; -t http_server .
 
 #
 # make sure docker is install and running
@@ -15805,7 +15805,7 @@ image from Docker hub using containerd tools.</p>
 <pre><code class="language-bash">sudo ctr i pull docker.io/hydai/wasm-wasi-example:with-wasm-annotation
 </code></pre>
 <p>Now, you can run the example in just one line with ctr (the containerd cli).</p>
-<pre><code class="language-bash">sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/hydai/wasm-wasi-example:with-wasm-annotation wasm-example /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/hydai/wasm-wasi-example:with-wasm-annotation wasm-example /wasi_example_main.wasm 50000000
 </code></pre>
 <p>Starting the container would execute the WebAssembly program. You can see the output in the console.</p>
 <pre><code class="language-bash">Creating POD ...
@@ -15829,7 +15829,7 @@ image from Docker hub using containerd tools.</p>
 <pre><code class="language-bash">sudo ctr i pull docker.io/avengermojo/http_server:with-wasm-annotation
 </code></pre>
 <p>Now, you can run the example in just one line with ctr (the containerd cli). Notice that we are running the container with <code>--net-host</code> so that the HTTP server inside the WasmEdge container is accessible from the outside shell.</p>
-<pre><code class="language-bash">sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat docker.io/avengermojo/http_server:with-wasm-annotation http-server-example /http_server.wasm
+<pre><code class="language-bash">sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/avengermojo/http_server:with-wasm-annotation http-server-example /http_server.wasm
 </code></pre>
 <p>Starting the container would execute the WebAssembly program. You can see the output in the console.</p>
 <pre><code class="language-bash">new connection at 1234
@@ -15914,7 +15914,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 <h3 id="a-simple-webassembly-app"><a class="header" href="#a-simple-webassembly-app">A simple WebAssembly app</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/wasi.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly WASI program as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>The output from the containerized application is printed into the console.</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -15937,7 +15937,7 @@ metadata:
   name: http-server
   namespace: default
   annotations:
-    module.wasm.image/variant: compat
+    module.wasm.image/variant: compat-smart
 spec:
   hostNetwork: true
   containers:
@@ -16033,7 +16033,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 <h3 id="a-simple-webassembly-app-1"><a class="header" href="#a-simple-webassembly-app-1">A simple WebAssembly app</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/wasi.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly WASI program as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 </code></pre>
 <p>The output from the containerized application is printed into the console.</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -16050,7 +16050,7 @@ pod &quot;wasi-demo-2&quot; deleted
 <h3 id="a-webassembly-based-http-service-1"><a class="header" href="#a-webassembly-based-http-service-1">A WebAssembly-based HTTP service</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/server.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
+<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
 </code></pre>
 <p>Since we are using <code>hostNetwork</code> in the <code>kubectl run</code> command, the HTTP server image is running on the local network with IP address <code>127.0.0.1</code>.
 Now, you can use the <code>curl</code> command to access the HTTP service.</p>
@@ -16066,7 +16066,7 @@ echo: name=WasmEdge
 <pre><code class="language-bash"># Create a &quot;WASM in KinD&quot; Cluster
 kind create cluster --image ghcr.io/liquid-reply/kind-crun-wasm:v1.23.0
 # Run the example
-kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>In the rest of this section, we will explain how to create a KinD node image with wasmedge support.</p>
 <h2 id="build-crun"><a class="header" href="#build-crun">Build crun</a></h2>
@@ -16112,7 +16112,7 @@ RUN echo &quot;Installing Packages ...&quot; \
 <pre><code class="language-bash">docker build -t node-wasmedge .
 kind create cluster --image node-wasmedge
 # Now you can run the example to validate your cluster
-kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="create-a-crun-demo-for-kubeedge"><a class="header" href="#create-a-crun-demo-for-kubeedge">Create a crun demo for KubeEdge</a></h1>
 <h2 id="1-setup-cloud-side-kubeedge-master-node"><a class="header" href="#1-setup-cloud-side-kubeedge-master-node">1. Setup Cloud Side (KubeEdge Master Node)</a></h2>
@@ -16320,7 +16320,7 @@ master     Ready     control-plane,master   68m   v1.21.0
 <h2 id="4-run-a-simple-webassembly-app"><a class="header" href="#4-run-a-simple-webassembly-app">4. Run a simple WebAssembly app</a></h2>
 <p>We can run the WebAssembly-based image from Docker Hub in the Kubernetes cluster.</p>
 <h3 id="cloud-side"><a class="header" href="#cloud-side">Cloud Side</a></h3>
-<pre><code class="language-bash">$ kubectl run -it --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">$ kubectl run -it --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 
 Random number: -1694733782
 Random bytes: [6, 226, 176, 126, 136, 114, 90, 2, 216, 17, 241, 217, 143, 189, 123, 197, 17, 60, 49, 37, 71, 69, 67, 108, 66, 39, 105, 9, 6, 72, 232, 238, 102, 5, 148, 243, 249, 183, 52, 228, 54, 176, 63, 249, 216, 217, 46, 74, 88, 204, 130, 191, 182, 19, 118, 193, 77, 35, 189, 6, 139, 68, 163, 214, 231, 100, 138, 246, 185, 47, 37, 49, 3, 7, 176, 97, 68, 124, 20, 235, 145, 166, 142, 159, 114, 163, 186, 46, 161, 144, 191, 211, 69, 19, 179, 241, 8, 207, 8, 112, 80, 170, 33, 51, 251, 33, 105, 0, 178, 175, 129, 225, 112, 126, 102, 219, 106, 77, 242, 104, 198, 238, 193, 247, 23, 47, 22, 29]
@@ -16341,7 +16341,7 @@ Priority:     0
 Node:         edge/192.168.122.229
 Start Time:   Mon, 06 Dec 2021 15:45:34 +0000
 Labels:       run=wasi-demo
-Annotations:  module.wasm.image/variant: compat
+Annotations:  module.wasm.image/variant: compat-smart
 Status:       Succeeded
 IP:           
 IPs:          &lt;none&gt;
@@ -16483,7 +16483,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    module.wasm.image/variant: compat
+    module.wasm.image/variant: compat-smart
   labels:
     run: wasi-demo
   name: wasi-demo
@@ -16660,10 +16660,10 @@ How to install OpenYurt:0.6.0, you can see <a href="https://github.com/openyurti
 <p>Next, let's run a WebAssembly program through the OpenYurt cluster as a container in the pod. This section will start off pulling this WebAssembly-based container image from Docker hub. If you want to learn how to compile, package, and publish the WebAssembly program as a container image to Docker hub, please refer to <a href="https://wasmedge.org/book/en/kubernetes/demo/wasi.html">WasmEdge Book</a>.</p>
 <p>One thing is to note that because the kubectl run (version 1.18.9 ) missed annotations parameters, we need to adjust the command line here. If you are using OpenYurt Experience Center with OpenYurt 0.6.0 and Kubernetes 1.20.11 by default, please refer to <a href="https://wasmedge.org/book/en/kubernetes/kubernetes.html">the Kubernetes sections</a> in the WasmEdge book to run the wasm app.</p>
 <pre><code class="language-bash">// kubectl 1.18.9
-$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat-smart&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 
 // kubectl 1.20.11
-$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 
 </code></pre>
 <p>The output from the containerized application is printed into the console. It is the same for all Kubernetes versions.</p>
