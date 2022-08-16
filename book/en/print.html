@@ -18715,10 +18715,52 @@ cd /root/wasmedge
 mkdir -p build &amp;&amp; cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
 </code></pre>
-<h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
-<p>If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
-<pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
-</code></pre>
+<h3 id="building-options"><a class="header" href="#building-options">Building Options</a></h3>
+<p>Developers can set the CMake options to customize the WasmEdge building.</p>
+<ol>
+<li><code>WASMEDGE_BUILD_TESTS</code>: build the WasmEdge tests. Default is <code>OFF</code>.</li>
+<li><code>WASMEDGE_BUILD_AOT_RUNTIME</code>: build with the Ahead-of-Time compiler supporting. Default is <code>ON</code>.</li>
+<li><code>WASMEDGE_BUILD_SHARED_LIB</code>: build the WasmEdge shared library (<code>libwasmedge_c.so</code>, <code>libwasmedge_c.dylib</code>, or <code>wasmedge_c.dll</code>). Default is <code>ON</code>.
+<ul>
+<li>By default, the WasmEdge shared library will link to the LLVM shared library.</li>
+</ul>
+</li>
+<li><code>WASMEDGE_BUILD_STATIC_LIB</code>: build the WasmEdge static library (<code>libwasmedge_c.a</code>, Linux and MacOS platforms, experimental). Default is <code>OFF</code>.
+<ul>
+<li>If this option is set as <code>ON</code>, the option <code>WASMEDGE_FORCE_DISABLE_LTO</code> will forcefully be set as <code>ON</code>.</li>
+<li>If this option is set as <code>ON</code>, the <code>libz</code> and <code>libtinfo</code> on Linux platforms will be statically linked.</li>
+</ul>
+</li>
+<li><code>WASMEDGE_BUILD_TOOLS</code>: build the <code>wasmedge</code> and <code>wasmedgec</code> tools. Default is <code>ON</code>.
+<ul>
+<li>The <code>wasmedge</code> and <code>wasmedgec</code> tools will link to the WasmEdge shared library by default.</li>
+<li>The option <code>WASMEDGE_BUILD_SHARED_LIB</code> will forcefully be set as <code>ON</code> if the <code>WASMEDGE_BUILD_STATIC_LIB</code> is <code>OFF</code> and the <code>WASMEDGE_LINK_TOOLS_STATIC</code> is <code>OFF</code>.</li>
+<li>If this option is set as <code>ON</code> and <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set as <code>OFF</code>, the <code>wasmedgec</code> tool for the AOT compiler will not be built.</li>
+<li>If this option and the option <code>WASMEDGE_BUILD_STATIC_LIB</code> are both set as <code>ON</code>, the <code>WASMEDGE_LINK_LLVM_STATIC</code> will be set as <code>ON</code> and the <code>wasmedge</code> and <code>wasmedgec</code> tools will link to the WasmEdge static library so that be the standalone tools accordingly.</li>
+</ul>
+</li>
+<li><code>WASMEDGE_BUILD_PLUGINS</code>: build the WasmEdge plugins. Default is <code>ON</code>.</li>
+<li><code>WASMEDGE_BUILD_EXAMPLE</code>: build the WasmEdge examples. Default is <code>OFF</code>.</li>
+<li><code>WASMEDGE_PLUGIN_WASI_NN_BACKEND</code>: build the WasmEdge WASI-NN plugin (Linux platforms only). Default is empty.
+<ul>
+<li>This option is useless if the option <code>WASMEDGE_BUILD_PLUGINS</code> is set as <code>OFF</code>.</li>
+<li>To build the WASI-NN plugin with backend, please use <code>-DWASMEDGE_PLUGIN_WASI_NN_BACKEND=&lt;backend_name&gt;</code>.</li>
+<li>To build the WASI-NN plugin with multiple backends, please use <code>-DWASMEDGE_PLUGIN_WASI_NN_BACKEND=&lt;backend_name1&gt;,&lt;backend_name2&gt;</code>.</li>
+</ul>
+</li>
+<li><code>WASMEDGE_PLUGIN_WASI_CRYPTO</code>: build the WasmEdge WASI-Crypto plugin (Linux platforms only). Default is <code>OFF</code>.
+<ul>
+<li>This option is useless if the option <code>WASMEDGE_BUILD_PLUGINS</code> is set as <code>OFF</code>.</li>
+</ul>
+</li>
+<li><code>WASMEDGE_FORCE_DISABLE_LTO</code>: forcefully turn off the link time optimization. Default is <code>OFF</code>.</li>
+<li><code>WASMEDGE_LINK_LLVM_STATIC</code>: link the LLVM and lld libraries statically (Linux and MacOS platforms only, experimental). Default is <code>OFF</code>.</li>
+<li><code>WASMEDGE_LINK_TOOLS_STATIC</code>: make the <code>wasmedge</code> and <code>wasmedgec</code> tools to link the WasmEdge library and LLVM libraries statically (Linux and MacOS platforms only, experimental). Default is <code>OFF</code>.
+<ul>
+<li>If the option <code>WASMEDGE_BUILD_TOOLS</code> and this option are both set as <code>ON</code>, the <code>WASMEDGE_LINK_LLVM_STATIC</code> will be set as <code>ON</code>.</li>
+</ul>
+</li>
+</ol>
 <h2 id="run-built-in-tests"><a class="header" href="#run-built-in-tests">Run built-in tests</a></h2>
 <p>The following built-in tests are only available when the build flag <code>WASMEDGE_BUILD_TESTS</code> is set to <code>ON</code>.</p>
 <p>Users can use these tests to verify the correctness of WasmEdge binaries built.</p>
@@ -18764,7 +18806,7 @@ export PATH=&quot;/usr/local/opt/llvm@12/bin:$PATH&quot;
 export LDFLAGS=&quot;-L/usr/local/opt/llvm@12/lib -Wl,-rpath,/usr/local/opt/llvm@12/lib&quot;
 export CPPFLAGS=&quot;-I/usr/local/opt/llvm@12/include&quot;
 </code></pre>
-<h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler-1"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler-1">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
+<h3 id="if-you-dont-want-to-build-ahead-of-time-runtimecompiler"><a class="header" href="#if-you-dont-want-to-build-ahead-of-time-runtimecompiler">If you don't want to build Ahead-of-Time runtime/compiler</a></h3>
 <p>If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</p>
 <pre><code class="language-bash">cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_AOT_RUNTIME=OFF ..
 </code></pre>
@@ -18864,9 +18906,9 @@ After the build is finished, you can find there are several wasmedge related too
 <li>To disable building the ahead-of-time compiler, set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</li>
 </ul>
 </li>
-<li><code>libwasmedge_c.dll</code> is the WasmEdge C API shared library.
+<li><code>wasmedge_c.dll</code> is the WasmEdge C API shared library.
 <ul>
-<li><code>libwasmedge_c.dll</code> provides the C API for the ahead-of-time compiler and the WASM runtime.</li>
+<li><code>wasmedge_c.dll</code> provides the C API for the ahead-of-time compiler and the WASM runtime.</li>
 <li>The APIs related to the ahead-of-time compiler will always fail if the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set to <code>OFF</code>.</li>
 <li>To disable building the shared library, set the CMake option <code>WASMEDGE_BUILD_SHARED_LIB</code> to <code>OFF</code>.</li>
 </ul>
