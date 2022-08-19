@@ -14270,13 +14270,11 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 │   └── wasmedgec
 ├── include
 │   └── wasmedge
-│       ├── dense_enum_map.h
 │       ├── enum.inc
 │       ├── enum_configure.h
 │       ├── enum_errcode.h
 │       ├── enum_types.h
 │       ├── int128.h
-│       ├── spare_enum_map.h
 │       ├── version.h
 │       └── wasmedge.h
 └── lib64
@@ -14284,7 +14282,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
     └── wasmedge
         └── libwasmedgePluginWasmEdgeProcess.so
 
-5 directories, 13 files
+5 directories, 11 files
 </code></pre>
 <pre><code class="language-bash">// $HOME/.wasmedge/ on macOS-12
 .
@@ -14293,24 +14291,23 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 │   └── wasmedgec
 ├── include
 │   └── wasmedge
-│       ├── dense_enum_map.h
 │       ├── enum.inc
 │       ├── enum_configure.h
 │       ├── enum_errcode.h
 │       ├── enum_types.h
 │       ├── int128.h
-│       ├── spare_enum_map.h
 │       ├── version.h
 │       └── wasmedge.h
 └── lib
     └── libwasmedge_c.dylib
 
-4 directories, 12 files
+4 directories, 10 files
 </code></pre>
 </li>
 <li>
 <p>By specifying <code>WASMEDGE_INCLUDE_DIR</code> and <code>WASMEDGE_LIB_DIR</code>.</p>
-<p>If you choose to use <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/install.sh">install.sh</a> to install WasmEdge Runtime on your local system. Please use <code>WASMEDGE_INCLUDE_DIR</code> and <code>WASMEDGE_LIB_DIR</code> to specify the paths to the <code>include</code> and <code>lib</code> directories, respectively. For example, use the following commands to specify the paths after using <code>bash install.sh --path=$HOME/wasmedge-install</code> to install WasmEdge Runtime on Ubuntu 20.04:</p>
+<p>If you choose to use <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/install.sh">install.sh</a> to install WasmEdge Runtime on your local system, please use <code>WASMEDGE_INCLUDE_DIR</code> and <code>WASMEDGE_LIB_DIR</code> to specify the paths to the <code>include</code> and <code>lib</code> directories respectively.
+For example, use the following commands to specify the paths after using <code>bash install.sh --path=$HOME/wasmedge-install</code> to install WasmEdge Runtime on Ubuntu 20.04:</p>
 <pre><code class="language-bash">export WASMEDGE_INCLUDE_DIR=$HOME/wasmedge-install/include 
 export WASMEDGE_LIB_DIR=$HOME/wasmedge-install/lib
 </code></pre>
@@ -14339,7 +14336,10 @@ export WASMEDGE_LIB_DIR=$HOME/wasmedge-install/lib
 wasmedge-sdk = &quot;0.1&quot;
 </code></pre>
 <h2 id="wasmedge-sys-crate"><a class="header" href="#wasmedge-sys-crate"><code>wasmedge-sys</code> crate</a></h2>
-<p><code>wasmedge-sys</code> serves as a wraper layer of <code>WasmEdge</code> C-API, and provides a group of safe low-level Rust interfaces. For those who are interested in using <code>wasmedge-sys</code> in their projects, you should also deploy the <code>WasmEdge</code> library on your local system as described in the <a href="embed/rust.html#wasmedge-sdk-crate">wasmedge-sdk crate</a> section. Then, copy/paste the following code in the <code>Cargo.toml</code> file of your project. For details, please refer to <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/README.md">README</a>.</p>
+<p><code>wasmedge-sys</code> serves as a wraper layer of <code>WasmEdge</code> C-API, and provides a group of safe low-level Rust interfaces.
+For those who are interested in using <code>wasmedge-sys</code> in their projects, you should also deploy the <code>WasmEdge</code> library on your local system as described in the <a href="embed/rust.html#build">wasmedge-sdk crate</a> section.
+Then, copy/paste the following code in the <code>Cargo.toml</code> file of your project.
+For details, please refer to <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/README.md">README</a>.</p>
 <pre><code class="language-toml">[dependencies]
 wasmedge-sys = &quot;0.7&quot;
 </code></pre>
