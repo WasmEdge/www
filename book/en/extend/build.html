@@ -181,8 +181,6 @@ If you want to build from source, you may need to install these dependencies by 
 <tr><td><code>ubuntu2104_armv7l</code></td><td>armhf</td><td>Ubuntu 21.04</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 21.04+</td><td>This is for armhf release</td></tr>
 <tr><td><code>manylinux2014_x86_64</code></td><td>x86_64</td><td>CentOS 7, 7.9.2009</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 16.04+, CentOS 7+</td><td>This is for developers who familiar with CentOS on x86_64 architecture</td></tr>
 <tr><td><code>manylinux2014_aarch64</code></td><td>aarch64</td><td>CentOS 7, 7.9.2009</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 16.04+, CentOS 7+</td><td>This is for developers who familiar with CentOS on aarch64 architecture</td></tr>
-<tr><td><code>manylinux2010_x86_64</code></td><td>x86_64</td><td>CentOS 6, 6.10</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 6+</td><td>This is for developers who familiar with legacy system on x86_64 architecture, EOL</td></tr>
-<tr><td><code>manylinux1_x86_64</code></td><td>x86_64</td><td>CentOS 5, 5.11</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 14.04+, CentOS 5+</td><td>This is for developers who familiar with legacy system on x86_64 architecture, EOL</td></tr>
 </tbody></table>
 </div>
 <h3 id="install-dependencies-on-ubuntu-2004-manually"><a class="header" href="#install-dependencies-on-ubuntu-2004-manually">Install dependencies on Ubuntu 20.04 manually</a></h3>
@@ -209,8 +207,6 @@ sudo apt install -y clang-12
 <p>If users are using operating systems older than Ubuntu 20.04, please use our special docker image to build WasmEdge.
 If you are looking for the pre-built binaries for the older operating system, we also provide several pre-built binaries based on manylinux* distribution.</p>
 <div class="table-wrapper"><table><thead><tr><th>Portable Linux Built Distributions Tags</th><th>Base Image</th><th>Provided Requirements</th><th>Docker Image</th></tr></thead><tbody>
-<tr><td><code>manylinux1</code></td><td>CentOS 5.11</td><td>GLIBC &lt;= 2.5</br>CXXABI &lt;= 3.4.8</br>GLIBCXX &lt;= 3.4.9</br>GCC &lt;= 4.2.0</td><td>wasmedge/wasmedge:manylinux1_x86_64</td></tr>
-<tr><td><code>manylinux2010</code></td><td>CentOS 6.10</td><td>GLIBC &lt;= 2.12</br>CXXABI &lt;= 1.3.3</br>GLIBCXX &lt;= 3.4.13</br>GCC &lt;= 4.5.0</td><td>wasmedge/wasmedge:manylinux2010_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_x86_64</td></tr>
 <tr><td><code>manylinux2014</code></td><td>CentOS 7.9</td><td>GLIBC &lt;= 2.17</br>CXXABI &lt;= 1.3.7</br>GLIBCXX &lt;= 3.4.19</br>GCC &lt;= 4.8.0</td><td>wasmedge/wasmedge:manylinux2014_aarch64</td></tr>
 </tbody></table>
