@@ -18728,9 +18728,9 @@ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
 <li><code>WASMEDGE_BUILD_TOOLS</code>: build the <code>wasmedge</code> and <code>wasmedgec</code> tools. Default is <code>ON</code>.
 <ul>
 <li>The <code>wasmedge</code> and <code>wasmedgec</code> tools will link to the WasmEdge shared library by default.</li>
-<li>The option <code>WASMEDGE_BUILD_SHARED_LIB</code> will forcefully be set as <code>ON</code> if the <code>WASMEDGE_BUILD_STATIC_LIB</code> is <code>OFF</code> and the <code>WASMEDGE_LINK_TOOLS_STATIC</code> is <code>OFF</code>.</li>
 <li>If this option is set as <code>ON</code> and <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set as <code>OFF</code>, the <code>wasmedgec</code> tool for the AOT compiler will not be built.</li>
-<li>If this option and the option <code>WASMEDGE_BUILD_STATIC_LIB</code> are both set as <code>ON</code>, the <code>WASMEDGE_LINK_LLVM_STATIC</code> will be set as <code>ON</code> and the <code>wasmedge</code> and <code>wasmedgec</code> tools will link to the WasmEdge static library so that be the standalone tools accordingly.</li>
+<li>If this option is set as <code>ON</code> but the option <code>WASMEDGE_LINK_TOOLS_STATIC</code> is set as <code>OFF</code>, the option <code>WASMEDGE_BUILD_SHARED_LIB</code> will forcefully be set as <code>ON</code>.</li>
+<li>If this option and the option <code>WASMEDGE_LINK_TOOLS_STATIC</code> are both set as <code>ON</code>, the <code>WASMEDGE_LINK_LLVM_STATIC</code> and <code>WASMEDGE_BUILD_STATIC_LIB</code> will both be set as <code>ON</code>, and the <code>wasmedge</code> and <code>wasmedgec</code> tools will link to the WasmEdge static library instead. In this case, the plugins will not work in tools.</li>
 </ul>
 </li>
 <li><code>WASMEDGE_BUILD_PLUGINS</code>: build the WasmEdge plugins. Default is <code>ON</code>.</li>
