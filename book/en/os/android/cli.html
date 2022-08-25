@@ -169,15 +169,15 @@ sirius:/ $
 </code></pre>
 <h3 id="install-wasmedge-tensorflow-tools-packages"><a class="header" href="#install-wasmedge-tensorflow-tools-packages">Install WasmEdge-TensorFlow-Tools packages</a></h3>
 <p>Use the following commands on your Ubuntu dev machine to download the WasmEdge-TensorFlow-Tools pre-release packages.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.10.0/WasmEdge-tensorflow-tools-0.10.0-android_aarch64.tar.gz
-$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.10.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.11.0/WasmEdge-tensorflow-tools-0.11.0-android_aarch64.tar.gz
+$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.11.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 show-tflite-tensor
 wasmedge-tensorflow-lite
 </code></pre>
 <h3 id="install-android-version-of-the-tensorflow-lite-shared-library"><a class="header" href="#install-android-version-of-the-tensorflow-lite-shared-library">Install Android version of the TensorFlow-Lite shared library</a></h3>
 <p>We provide an Android compatible version of TensorFlow-Lite dynamic shared library in the WasmEdge-Tensorflow-deps package. Download the package to your Ubuntu dev machine as follows.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.10.0/WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz
-$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.0/WasmEdge-tensorflow-deps-TFLite-0.11.0-android_aarch64.tar.gz
+$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.11.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 libtensorflowlite_c.so
 </code></pre>
 <p>Next use the <code>adb</code> tool to push the downloaded WasmEdge-TensorFlow packages onto a connected Android device.</p>
@@ -203,8 +203,8 @@ adb push bird.jpg /data/local/tmp/WasmEdge-tensorflow-tools
 <pre><code class="language-bash">$ adb shell
 sirius:/ $ cd /data/local/tmp/WasmEdge-tensorflow-tools
 sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ ls
-bird.jpg               lite-model_aiy_vision_classifier_birds_V1_3.tflite 
-birds_v1.wasm          show-tflite-tensor                                 
+bird.jpg               lite-model_aiy_vision_classifier_birds_V1_3.tflite
+birds_v1.wasm          show-tflite-tensor
 libtensorflowlite_c.so wasmedge-tensorflow-lite
 </code></pre>
 <p>Load the TensorFlow-Lite dynamic shared library, and use the <code>show-tflite-tensor</code> CLI tool to examine the Tensorflow Lite model file.</p>

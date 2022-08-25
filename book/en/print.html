@@ -3535,7 +3535,7 @@ int main(int Argc, const char* Argv[]) {
 }
 </code></pre>
 <p>Then you can compile and run: (the 32th fibonacci number is 3524578 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test_wasmedge.c -lwasmedge_c -o test_wasmedge
+<pre><code class="language-bash">$ gcc test_wasmedge.c -lwasmedge -o test_wasmedge
 $ ./test_wasmedge fibonacci.wasm
 Get result: 3524578
 </code></pre>
@@ -3565,7 +3565,7 @@ int main(int Argc, const char* Argv[]) {
 }
 </code></pre>
 <p>Then you can compile and run (the output file is <code>fibonacci.wasm.so</code>):</p>
-<pre><code class="language-bash">$ gcc test_wasmedge_compiler.c -lwasmedge_c -o test_wasmedge_compiler
+<pre><code class="language-bash">$ gcc test_wasmedge_compiler.c -lwasmedge -o test_wasmedge_compiler
 $ ./test_wasmedge_compiler fibonacci.wasm fibonacci.wasm.so
 [2021-07-02 11:08:08.651] [info] compile start
 [2021-07-02 11:08:08.653] [info] verify start
@@ -3591,6 +3591,8 @@ sys 0m0.011s
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-0100-api-documentation"><a class="header" href="#wasmedge-c-0100-api-documentation">WasmEdge C 0.10.0 API Documentation</a></h1>
 <p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
+<p><strong>Please notice that the WasmEdge C API provides SONAME and SOVERSION after the 0.11.0 release.</strong>
+<strong>Please notice that <code>libwasmedge\_c.so</code> is renamed to <code>libwasmedge.so</code> after the 0.11.0 release. Please use <code>-lwasmedge</code> instead of `-lwasmedge_c</strong></p>
 <p><strong>This document is for the <code>0.10.0</code> version. For the older <code>0.9.1</code> version, please refer to the <a href="embed/c/0.9.1/ref.html">document here</a>.</strong></p>
 <p><strong>Developers can refer <a href="embed/c/0.9.1/upgrade_to_0.10.0.html">here to upgrade to 0.10.0</a>.</strong></p>
 <h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
@@ -3599,6 +3601,7 @@ sys 0m0.011s
 <ul>
 <li><a href="embed/c/ref.html#download-and-install">Download And Install</a></li>
 <li><a href="embed/c/ref.html#compile-sources">Compile Sources</a></li>
+<li><a href="embed/c/ref.html#abi-compatibility">ABI Compatibility</a></li>
 </ul>
 </li>
 <li><a href="embed/c/ref.html#wasmedge-basics">WasmEdge Basics</a>
@@ -3638,7 +3641,7 @@ sys 0m0.011s
 <li><a href="embed/c/ref.html#host-functions">Host Functions</a></li>
 </ul>
 </li>
-<li><a href="embed/c/ref.html#wasmEdge-aot-compiler">WasmEdge AOT Compiler</a>
+<li><a href="embed/c/ref.html#wasmedge-aot-compiler">WasmEdge AOT Compiler</a>
 <ul>
 <li><a href="embed/c/ref.html#compilation-example">Compilation Example</a></li>
 <li><a href="embed/c/ref.html#compiler-options">Compiler Options</a></li>
@@ -3666,7 +3669,7 @@ int main() {
 </li>
 <li>
 <p>Compile the file with <code>gcc</code> or <code>clang</code>.</p>
-<pre><code class="language-bash">gcc test.c -lwasmedge_c
+<pre><code class="language-bash">gcc test.c -lwasmedge
 </code></pre>
 </li>
 <li>
@@ -3676,6 +3679,13 @@ WasmEdge version: 0.10.0
 </code></pre>
 </li>
 </ol>
+<h3 id="abi-compatibility"><a class="header" href="#abi-compatibility">ABI Compatibility</a></h3>
+<p>WasmEdge C API introduces SONAME and SOVERSION in the 0.11.0 release to present the compatibility between different C API versions.</p>
+<p>The releases before 0.11.0 are all unversioned. Please make sure the library version is the same as the corresponding C API version you used.</p>
+<p>| WasmEdge Version | WasmEdge C API Library Name | WasmEdge C API SONAME | WasmEdge C API SOVERSION |
+| ---              | ---                         | ---                   |
+| &lt; 0.11.0         | libwasmedge_c.so           | Unversioned           | Unversioned              |
+| 0.11.0           | libwasmedge.so              | libwasmedge.so.0      | libwasmedge.so.0.0.0     |</p>
 <h2 id="wasmedge-basics"><a class="header" href="#wasmedge-basics">WasmEdge Basics</a></h2>
 <p>In this part, we will introduce the utilities and concepts of WasmEdge shared library.</p>
 <h3 id="version"><a class="header" href="#version">Version</a></h3>
@@ -4241,7 +4251,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 5th Fibonacci number is 8 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 8
 </code></pre>
@@ -4310,7 +4320,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 10th Fibonacci number is 89 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 89
 </code></pre>
@@ -4502,7 +4512,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 20th Fibonacci number is 89 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 10946
 </code></pre>
@@ -4559,7 +4569,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 20th Fibonacci number is 10946 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 10946
 </code></pre>
@@ -4634,7 +4644,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 25th Fibonacci number is 121393 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 121393
 </code></pre>
@@ -4705,7 +4715,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the only exported function in <code>fibonacci.wasm</code> is <code>fib</code>)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get exported function string length: 3, name: fib
 </code></pre>
@@ -4840,7 +4850,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 18th Fibonacci number is 4181 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get exported function string length: 3, name: fib
 Get the result: 4181
@@ -5506,7 +5516,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the result of 1234 + 5678 is 6912)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Host function &quot;Add&quot;: 1234 + 5678
 Get the result: 6912
@@ -5617,7 +5627,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the result of 1234 + 5678 is 6912)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Host function &quot;Add&quot;: 1234 + 5678
 Get the result: 6912
@@ -5655,7 +5665,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run (the output file is &quot;fibonacci.wasm.so&quot;):</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 [2021-07-02 11:08:08.651] [info] compile start
 [2021-07-02 11:08:08.653] [info] verify start
@@ -14278,7 +14288,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 │       ├── version.h
 │       └── wasmedge.h
 └── lib64
-    ├── libwasmedge_c.so
+    ├── libwasmedge.so
     └── wasmedge
         └── libwasmedgePluginWasmEdgeProcess.so
 
@@ -14299,7 +14309,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 │       ├── version.h
 │       └── wasmedge.h
 └── lib
-    └── libwasmedge_c.dylib
+    └── libwasmedge.dylib
 
 4 directories, 10 files
 </code></pre>
@@ -16101,7 +16111,7 @@ FROM kindest/node:v1.23.0
 
 COPY config.toml /etc/containerd/config.toml
 COPY --from=builder /data/crun/crun /usr/local/sbin/runc
-COPY --from=builder /usr/local/lib/libwasmedge_c.so /usr/local/lib/libwasmedge_c.so
+COPY --from=builder /usr/local/lib/libwasmedge.so /usr/local/lib/libwasmedge.so
 
 RUN echo &quot;Installing Packages ...&quot; \
     &amp;&amp; bash -c 'cat &lt;&lt;&lt; $(jq &quot;del(.hooks.createContainer)&quot; /etc/containerd/cri-base.json) &gt; /etc/containerd/cri-base.json' \
@@ -18203,15 +18213,15 @@ sirius:/ $
 </code></pre>
 <h3 id="install-wasmedge-tensorflow-tools-packages"><a class="header" href="#install-wasmedge-tensorflow-tools-packages">Install WasmEdge-TensorFlow-Tools packages</a></h3>
 <p>Use the following commands on your Ubuntu dev machine to download the WasmEdge-TensorFlow-Tools pre-release packages.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.10.0/WasmEdge-tensorflow-tools-0.10.0-android_aarch64.tar.gz
-$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.10.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.11.0/WasmEdge-tensorflow-tools-0.11.0-android_aarch64.tar.gz
+$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.11.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 show-tflite-tensor
 wasmedge-tensorflow-lite
 </code></pre>
 <h3 id="install-android-version-of-the-tensorflow-lite-shared-library"><a class="header" href="#install-android-version-of-the-tensorflow-lite-shared-library">Install Android version of the TensorFlow-Lite shared library</a></h3>
 <p>We provide an Android compatible version of TensorFlow-Lite dynamic shared library in the WasmEdge-Tensorflow-deps package. Download the package to your Ubuntu dev machine as follows.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.10.0/WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz
-$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.0/WasmEdge-tensorflow-deps-TFLite-0.11.0-android_aarch64.tar.gz
+$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.11.0-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 libtensorflowlite_c.so
 </code></pre>
 <p>Next use the <code>adb</code> tool to push the downloaded WasmEdge-TensorFlow packages onto a connected Android device.</p>
@@ -18237,8 +18247,8 @@ adb push bird.jpg /data/local/tmp/WasmEdge-tensorflow-tools
 <pre><code class="language-bash">$ adb shell
 sirius:/ $ cd /data/local/tmp/WasmEdge-tensorflow-tools
 sirius:/data/local/tmp/WasmEdge-tensorflow-tools $ ls
-bird.jpg               lite-model_aiy_vision_classifier_birds_V1_3.tflite 
-birds_v1.wasm          show-tflite-tensor                                 
+bird.jpg               lite-model_aiy_vision_classifier_birds_V1_3.tflite
+birds_v1.wasm          show-tflite-tensor
 libtensorflowlite_c.so wasmedge-tensorflow-lite
 </code></pre>
 <p>Load the TensorFlow-Lite dynamic shared library, and use the <code>show-tflite-tensor</code> CLI tool to examine the Tensorflow Lite model file.</p>
@@ -18335,18 +18345,18 @@ int main(int argc, char *argv[]) {
 <h2 id="build-2"><a class="header" href="#build-2">Build</a></h2>
 <h3 id="install-dependencies"><a class="header" href="#install-dependencies">Install dependencies</a></h3>
 <p>Use the following commands to download WasmEdge for Android on your Ubuntu dev machine.</p>
-<pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.10.0/WasmEdge-0.10.0-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-image/releases/download/0.10.0/WasmEdge-image-0.10.0-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.10.0/WasmEdge-tensorflowlite-0.10.0-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.10.0/WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz
-tar -zxf WasmEdge-0.10.0-android_aarch64.tar.gz
-tar -zxf WasmEdge-image-0.10.0-android_aarch64.tar.gz -C WasmEdge-0.10.0-Android/
-tar -zxf WasmEdge-tensorflowlite-0.10.0-android_aarch64.tar.gz -C WasmEdge-0.10.0-Android/
-tar -zxf WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz -C WasmEdge-0.10.0-Android/lib/
+<pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.11.0/WasmEdge-0.11.0-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-image/releases/download/0.11.0/WasmEdge-image-0.11.0-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.11.0/WasmEdge-tensorflowlite-0.11.0-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.0/WasmEdge-tensorflow-deps-TFLite-0.11.0-android_aarch64.tar.gz
+tar -zxf WasmEdge-0.11.0-android_aarch64.tar.gz
+tar -zxf WasmEdge-image-0.11.0-android_aarch64.tar.gz -C WasmEdge-0.11.0-Android/
+tar -zxf WasmEdge-tensorflowlite-0.11.0-android_aarch64.tar.gz -C WasmEdge-0.11.0-Android/
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.11.0-android_aarch64.tar.gz -C WasmEdge-0.11.0-Android/lib/
 </code></pre>
 <h3 id="compile"><a class="header" href="#compile">Compile</a></h3>
 <p>The following command compiles the C program to <code>a.out</code> on your Ubunu dev machine.</p>
-<pre><code class="language-bash">(/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.10.0-Android/include -L./WasmEdge-0.10.0-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge_c
+<pre><code class="language-bash">(/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.11.0-Android/include -L./WasmEdge-0.11.0-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge
 </code></pre>
 <h2 id="run-3"><a class="header" href="#run-3">Run</a></h2>
 <h3 id="push-files-onto-android"><a class="header" href="#push-files-onto-android">Push files onto Android</a></h3>
@@ -18355,7 +18365,7 @@ tar -zxf WasmEdge-tensorflow-deps-TFLite-0.10.0-android_aarch64.tar.gz -C WasmEd
 adb push birds_v1.wasm /data/local/tmp
 adb push lite-model_aiy_vision_classifier_birds_V1_3.tflite /data/local/tmp
 adb push bird.jpg /data/local/tmp
-adb push ./WasmEdge-0.10.0-Android/lib /data/local/tmp
+adb push ./WasmEdge-0.11.0-Android/lib /data/local/tmp
 </code></pre>
 <h3 id="run-the-example-1"><a class="header" href="#run-the-example-1">Run the example</a></h3>
 <p>Now you can run the compiled C program on the Android device via a remote shell command. Run <code>adb shell</code> from your Ubuntu dev machine.</p>
@@ -18685,9 +18695,9 @@ You can find that there are several wasmedge related tools:</p>
 <li>To disable building the ahead-of-time compiler only, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</li>
 </ul>
 </li>
-<li><code>libwasmedge_c.so</code> is the WasmEdge C API shared library.
+<li><code>libwasmedge.so</code> is the WasmEdge C API shared library.
 <ul>
-<li><code>libwasmedge_c.so</code> provides the C API for the ahead-of-time compiler and the WASM runtime.</li>
+<li><code>libwasmedge.so</code> provides the C API for the ahead-of-time compiler and the WASM runtime.</li>
 <li>The APIs related to the ahead-of-time compiler will always fail if the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set as <code>OFF</code>.</li>
 <li>To disable building just the shared library, you can set the CMake option <code>WASMEDGE_BUILD_SHARED_LIB</code> to <code>OFF</code>.</li>
 </ul>
@@ -18714,12 +18724,12 @@ cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. &amp;&amp; make -j
 <ol>
 <li><code>WASMEDGE_BUILD_TESTS</code>: build the WasmEdge tests. Default is <code>OFF</code>.</li>
 <li><code>WASMEDGE_BUILD_AOT_RUNTIME</code>: build with the Ahead-of-Time compiler supporting. Default is <code>ON</code>.</li>
-<li><code>WASMEDGE_BUILD_SHARED_LIB</code>: build the WasmEdge shared library (<code>libwasmedge_c.so</code>, <code>libwasmedge_c.dylib</code>, or <code>wasmedge_c.dll</code>). Default is <code>ON</code>.
+<li><code>WASMEDGE_BUILD_SHARED_LIB</code>: build the WasmEdge shared library (<code>libwasmedge.so</code>, <code>libwasmedge.dylib</code>, or <code>wasmedge.dll</code>). Default is <code>ON</code>.
 <ul>
 <li>By default, the WasmEdge shared library will link to the LLVM shared library.</li>
 </ul>
 </li>
-<li><code>WASMEDGE_BUILD_STATIC_LIB</code>: build the WasmEdge static library (<code>libwasmedge_c.a</code>, Linux and MacOS platforms, experimental). Default is <code>OFF</code>.
+<li><code>WASMEDGE_BUILD_STATIC_LIB</code>: build the WasmEdge static library (<code>libwasmedge.a</code>, Linux and MacOS platforms, experimental). Default is <code>OFF</code>.
 <ul>
 <li>If this option is set as <code>ON</code>, the option <code>WASMEDGE_FORCE_DISABLE_LTO</code> will forcefully be set as <code>ON</code>.</li>
 <li>If this option is set as <code>ON</code>, the <code>libz</code> and <code>libtinfo</code> on Linux platforms will be statically linked.</li>
@@ -18820,9 +18830,9 @@ After the build is finished, you can find there are several wasmedge related too
 <li>To disable building the ahead-of-time compiler only, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</li>
 </ul>
 </li>
-<li><code>libwasmedge_c.dyld</code> is the WasmEdge C API shared library.
+<li><code>libwasmedge.dyld</code> is the WasmEdge C API shared library.
 <ul>
-<li><code>libwasmedge_c.dyld</code> provides C API for the ahead-of-time compiler and the WASM runtime.</li>
+<li><code>libwasmedge.dyld</code> provides C API for the ahead-of-time compiler and the WASM runtime.</li>
 <li>The APIs about the ahead-of-time compiler will always return failed if the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set as <code>OFF</code>.</li>
 <li>To disable building the shared library only, you can set the CMake option <code>WASMEDGE_BUILD_SHARED_LIB</code> to <code>OFF</code>.</li>
 </ul>
@@ -18900,9 +18910,9 @@ After the build is finished, you can find there are several wasmedge related too
 <li>To disable building the ahead-of-time compiler, set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</li>
 </ul>
 </li>
-<li><code>wasmedge_c.dll</code> is the WasmEdge C API shared library.
+<li><code>wasmedge.dll</code> is the WasmEdge C API shared library.
 <ul>
-<li><code>wasmedge_c.dll</code> provides the C API for the ahead-of-time compiler and the WASM runtime.</li>
+<li><code>wasmedge.dll</code> provides the C API for the ahead-of-time compiler and the WASM runtime.</li>
 <li>The APIs related to the ahead-of-time compiler will always fail if the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set to <code>OFF</code>.</li>
 <li>To disable building the shared library, set the CMake option <code>WASMEDGE_BUILD_SHARED_LIB</code> to <code>OFF</code>.</li>
 </ul>
@@ -19490,7 +19500,7 @@ int main() {
 </li>
 <li>
 <p>Compile</p>
-<pre><code class="language-bash">gcc main.c -lwasmedge_c
+<pre><code class="language-bash">gcc main.c -lwasmedge
 # Or you can use g++ for the C++ case, or use the clang.
 </code></pre>
 </li>

@@ -227,9 +227,9 @@ sudo apt install -y clang
 <li>您可以透過將 CMake 選項 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 設為 <code>OFF</code> 來禁止編譯 Ahead-of-time 編譯器。</li>
 </ul>
 </li>
-<li><code>libwasmedge_c.so</code> 是 WasmEdge C API 的共享函式庫。
+<li><code>libwasmedge.so</code> 是 WasmEdge C API 的共享函式庫。
 <ul>
-<li><code>libwasmedge_c.so</code> 提供了連接 WASM runtime 和 Ahead-of-time 編譯器的 C 語言 API。</li>
+<li><code>libwasmedge.so</code> 提供了連接 WASM runtime 和 Ahead-of-time 編譯器的 C 語言 API。</li>
 <li>如果 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 選項被設為 <code>OFF</code> ，與 Ahead-of-time 編譯器相關的 API 都將回傳錯誤。</li>
 <li>您可以透過將 CMake 選項 <code>WASMEDGE_BUILD_SHARED_LIB</code> 設為 <code>OFF</code> 來禁止編譯 WasmEdge C API 的共享函式庫。</li>
 </ul>

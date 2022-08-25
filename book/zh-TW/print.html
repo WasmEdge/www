@@ -657,7 +657,7 @@ int main(int Argc, const char* Argv[]) {
 }
 </code></pre>
 <p>接下來您可以編譯並執行：（索引從 0 開始的情况下， Fibonacci 數列的第 32 個數值是 3524578 ）</p>
-<pre><code class="language-bash">$ gcc test_wasmedge.c -lwasmedge_c -o test_wasmedge
+<pre><code class="language-bash">$ gcc test_wasmedge.c -lwasmedge -o test_wasmedge
 $ ./test_wasmedge fibonacci.wasm
 Get result: 3524578
 </code></pre>
@@ -688,7 +688,7 @@ int main(int Argc, const char* Argv[]) {
 }
 </code></pre>
 <p>接下來可以編譯並執行（輸出的檔案是 &quot;fibonacci.wasm.so&quot; ）：</p>
-<pre><code class="language-bash">$ gcc test_wasmedge_compiler.c -lwasmedge_c -o test_wasmedge_compiler
+<pre><code class="language-bash">$ gcc test_wasmedge_compiler.c -lwasmedge -o test_wasmedge_compiler
 $ ./test_wasmedge_compiler fibonacci.wasm fibonacci.wasm.so
 [2021-07-02 11:08:08.651] [info] compile start
 [2021-07-02 11:08:08.653] [info] verify start
@@ -854,9 +854,9 @@ sudo apt install -y clang
 <li>您可以透過將 CMake 選項 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 設為 <code>OFF</code> 來禁止編譯 Ahead-of-time 編譯器。</li>
 </ul>
 </li>
-<li><code>libwasmedge_c.so</code> 是 WasmEdge C API 的共享函式庫。
+<li><code>libwasmedge.so</code> 是 WasmEdge C API 的共享函式庫。
 <ul>
-<li><code>libwasmedge_c.so</code> 提供了連接 WASM runtime 和 Ahead-of-time 編譯器的 C 語言 API。</li>
+<li><code>libwasmedge.so</code> 提供了連接 WASM runtime 和 Ahead-of-time 編譯器的 C 語言 API。</li>
 <li>如果 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 選項被設為 <code>OFF</code> ，與 Ahead-of-time 編譯器相關的 API 都將回傳錯誤。</li>
 <li>您可以透過將 CMake 選項 <code>WASMEDGE_BUILD_SHARED_LIB</code> 設為 <code>OFF</code> 來禁止編譯 WasmEdge C API 的共享函式庫。</li>
 </ul>

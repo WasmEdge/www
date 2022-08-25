@@ -204,9 +204,9 @@ $Env:CXX = &quot;clang-cl&quot;
 <li>如果你不需要构建 AOT 编译器，可以将 CMake 选项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code>  设置为  <code>OFF</code> 。</li>
 </ul>
 </li>
-<li><code>wasmedge_c.dll</code> 是 WasmEdge 的 C API 共享库.
+<li><code>wasmedge.dll</code> 是 WasmEdge 的 C API 共享库.
 <ul>
-<li><code>wasmedge_c.dll</code> 为 AOT 编译器和 WASM 运行时提供 C API。</li>
+<li><code>wasmedge.dll</code> 为 AOT 编译器和 WASM 运行时提供 C API。</li>
 <li>CMake 选项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 设置为 <code>OFF</code> 后，调用与 AOT 编译器相关的 API 只会返回失败值。</li>
 <li>如果你不需要构建共享库，可以将 CMake 选项 <code>WASMEDGE_BUILD_SHARED_LIB</code>  设置为 <code>OFF</code> 。</li>
 </ul>
