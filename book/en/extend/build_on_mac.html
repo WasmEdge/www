@@ -205,9 +205,9 @@ After the build is finished, you can find there are several wasmedge related too
 <li>To disable building the ahead-of-time compiler only, you can set the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> to <code>OFF</code>.</li>
 </ul>
 </li>
-<li><code>libwasmedge_c.dyld</code> is the WasmEdge C API shared library.
+<li><code>libwasmedge.dyld</code> is the WasmEdge C API shared library.
 <ul>
-<li><code>libwasmedge_c.dyld</code> provides C API for the ahead-of-time compiler and the WASM runtime.</li>
+<li><code>libwasmedge.dyld</code> provides C API for the ahead-of-time compiler and the WASM runtime.</li>
 <li>The APIs about the ahead-of-time compiler will always return failed if the CMake option <code>WASMEDGE_BUILD_AOT_RUNTIME</code> is set as <code>OFF</code>.</li>
 <li>To disable building the shared library only, you can set the CMake option <code>WASMEDGE_BUILD_SHARED_LIB</code> to <code>OFF</code>.</li>
 </ul>

@@ -151,6 +151,8 @@
                     <main>
                         <h1 id="wasmedge-c-0100-api-documentation"><a class="header" href="#wasmedge-c-0100-api-documentation">WasmEdge C 0.10.0 API Documentation</a></h1>
 <p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
+<p><strong>Please notice that the WasmEdge C API provides SONAME and SOVERSION after the 0.11.0 release.</strong>
+<strong>Please notice that <code>libwasmedge\_c.so</code> is renamed to <code>libwasmedge.so</code> after the 0.11.0 release. Please use <code>-lwasmedge</code> instead of `-lwasmedge_c</strong></p>
 <p><strong>This document is for the <code>0.10.0</code> version. For the older <code>0.9.1</code> version, please refer to the <a href="0.9.1/ref.html">document here</a>.</strong></p>
 <p><strong>Developers can refer <a href="0.9.1/upgrade_to_0.10.0.html">here to upgrade to 0.10.0</a>.</strong></p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
@@ -159,6 +161,7 @@
 <ul>
 <li><a href="#download-and-install">Download And Install</a></li>
 <li><a href="#compile-sources">Compile Sources</a></li>
+<li><a href="#abi-compatibility">ABI Compatibility</a></li>
 </ul>
 </li>
 <li><a href="#wasmedge-basics">WasmEdge Basics</a>
@@ -198,7 +201,7 @@
 <li><a href="#host-functions">Host Functions</a></li>
 </ul>
 </li>
-<li><a href="#wasmEdge-aot-compiler">WasmEdge AOT Compiler</a>
+<li><a href="#wasmedge-aot-compiler">WasmEdge AOT Compiler</a>
 <ul>
 <li><a href="#compilation-example">Compilation Example</a></li>
 <li><a href="#compiler-options">Compiler Options</a></li>
@@ -226,7 +229,7 @@ int main() {
 </li>
 <li>
 <p>Compile the file with <code>gcc</code> or <code>clang</code>.</p>
-<pre><code class="language-bash">gcc test.c -lwasmedge_c
+<pre><code class="language-bash">gcc test.c -lwasmedge
 </code></pre>
 </li>
 <li>
@@ -236,6 +239,13 @@ WasmEdge version: 0.10.0
 </code></pre>
 </li>
 </ol>
+<h3 id="abi-compatibility"><a class="header" href="#abi-compatibility">ABI Compatibility</a></h3>
+<p>WasmEdge C API introduces SONAME and SOVERSION in the 0.11.0 release to present the compatibility between different C API versions.</p>
+<p>The releases before 0.11.0 are all unversioned. Please make sure the library version is the same as the corresponding C API version you used.</p>
+<p>| WasmEdge Version | WasmEdge C API Library Name | WasmEdge C API SONAME | WasmEdge C API SOVERSION |
+| ---              | ---                         | ---                   |
+| &lt; 0.11.0         | libwasmedge_c.so           | Unversioned           | Unversioned              |
+| 0.11.0           | libwasmedge.so              | libwasmedge.so.0      | libwasmedge.so.0.0.0     |</p>
 <h2 id="wasmedge-basics"><a class="header" href="#wasmedge-basics">WasmEdge Basics</a></h2>
 <p>In this part, we will introduce the utilities and concepts of WasmEdge shared library.</p>
 <h3 id="version"><a class="header" href="#version">Version</a></h3>
@@ -801,7 +811,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 5th Fibonacci number is 8 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 8
 </code></pre>
@@ -870,7 +880,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 10th Fibonacci number is 89 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 89
 </code></pre>
@@ -1062,7 +1072,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 20th Fibonacci number is 89 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 10946
 </code></pre>
@@ -1119,7 +1129,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 20th Fibonacci number is 10946 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 10946
 </code></pre>
@@ -1194,7 +1204,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 25th Fibonacci number is 121393 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get the result: 121393
 </code></pre>
@@ -1265,7 +1275,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the only exported function in <code>fibonacci.wasm</code> is <code>fib</code>)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get exported function string length: 3, name: fib
 </code></pre>
@@ -1400,7 +1410,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the 18th Fibonacci number is 4181 in 0-based index)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Get exported function string length: 3, name: fib
 Get the result: 4181
@@ -2066,7 +2076,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the result of 1234 + 5678 is 6912)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Host function &quot;Add&quot;: 1234 + 5678
 Get the result: 6912
@@ -2177,7 +2187,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run: (the result of 1234 + 5678 is 6912)</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 Host function &quot;Add&quot;: 1234 + 5678
 Get the result: 6912
@@ -2215,7 +2225,7 @@ int main() {
 }
 </code></pre>
 <p>Then you can compile and run (the output file is &quot;fibonacci.wasm.so&quot;):</p>
-<pre><code class="language-bash">$ gcc test.c -lwasmedge_c
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
 $ ./a.out
 [2021-07-02 11:08:08.651] [info] compile start
 [2021-07-02 11:08:08.653] [info] verify start

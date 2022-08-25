@@ -203,9 +203,9 @@ $ export CPPFLAGS=&quot;-I/usr/local/opt/llvm@12/include&quot;
 <li>你可以通过将 CMake 配置项 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 设置成 <code>OFF</code> 来禁止构建预编译器。</li>
 </ul>
 </li>
-<li><code>libwasmedge_c.dyld</code> 是 WasmEdge C API 的共享库。
+<li><code>libwasmedge.dyld</code> 是 WasmEdge C API 的共享库。
 <ul>
-<li><code>libwasmedge_c.dyld</code> 提供了访问预编译器和 WASM 运行时的 C 语言 API。</li>
+<li><code>libwasmedge.dyld</code> 提供了访问预编译器和 WASM 运行时的 C 语言 API。</li>
 <li>如果 <code>WASMEDGE_BUILD_AOT_RUNTIME</code> 配置项被设置成 <code>OFF</code> ，那么与预编译器相关的 API 都将会返回错误。</li>
 <li>你可以通过将 CMake 配置项 <code>WASMEDGE_BUILD_SHARED_LIB</code> 设置成 <code>OFF</code> 来禁止构建共享库。</li>
 </ul>
