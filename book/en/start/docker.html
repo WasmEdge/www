@@ -149,70 +149,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="use-docker-for-wasmedge-app-development"><a class="header" href="#use-docker-for-wasmedge-app-development">Use Docker for WasmEdge app development</a></h1>
-<p>The <code>appdev</code> Docker images provide a complete WasmEdge application development environment. To use it, do the following.</p>
-<h2 id="on-x86_64-machines"><a class="header" href="#on-x86_64-machines">On x86_64 machines</a></h2>
-<pre><code class="language-bash">$ docker pull wasmedge/appdev_x86_64:0.9.0
-$ docker run --rm -v $(pwd):/app -it wasmedge/appdev_x86_64:0.9.0
-(docker) #
-</code></pre>
-<p>Here is the <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/docker/Dockerfile.appdev_x86_64">Dockerfile</a> and <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">Docker Hub image</a>.</p>
-<h2 id="on-arm64-machines"><a class="header" href="#on-arm64-machines">On arm64 machines</a></h2>
-<pre><code class="language-bash">$ docker pull wasmedge/appdev_aarch64:0.9.0
-$ docker run --rm -v $(pwd):/app -it wasmedge/appdev_aarch64:0.9.0
-(docker) #
-</code></pre>
-<p>Here is the <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/docker/Dockerfile.appdev_aarch64">Dockerfile</a> and <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_aarch64">Docker Hub image</a>.</p>
-<p>The WasmEdge application development Docker image installs the following components.</p>
+                        <h1 id="use-wasmedge-released-docker-images"><a class="header" href="#use-wasmedge-released-docker-images">Use WasmEdge released Docker images</a></h1>
+<p>The <code>wasmedge/slim:{version}</code> Docker images provide a slim WasmEdge images built with <a href="https://dockersl.im">DockerSlim</a> every releases.</p>
 <ul>
-<li>WasmEdge CLI and shared libraries</li>
-<li>WasmEdge with Tensorflow extension CLI and libraries (x86_64 only)</li>
-<li>Golang</li>
-<li>Rust</li>
-<li>Node.js with WasmEdge addons</li>
-<li>Examples in the <code>/root/examples/</code> folder</li>
-</ul>
-<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
-<p>Hello World. <a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/wasm">See more simple examples</a></p>
-<pre><code class="language-bash">$ wasmedge hello.wasm world
-hello
-world
-</code></pre>
-<p>Use AOT to run it <em>much faster</em>.</p>
-<pre><code class="language-bash">$ wasmedgec hello.wasm hello.wasm
-$ wasmedge hello.wasm world
-hello
-world
-</code></pre>
-<p>Here are some JavaScript examples. <a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/js">See more</a></p>
-<pre><code class="language-bash">$ wasmedge --dir .:. qjs.wasm hello.js 1 2 3
-Hello 1 2 3
-
-$ wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm tf_image_classify.js
-label: Hot dog
-confidence: 0.8941176470588236
-</code></pre>
-<h2 id="build-and-publish-the-appdev-images"><a class="header" href="#build-and-publish-the-appdev-images">Build and publish the appdev images</a></h2>
-<p>Run these commands to build and publish the <code>appdev</code> Docker images.</p>
-<h3 id="build-on-an-x86_64-machine"><a class="header" href="#build-on-an-x86_64-machine">Build on an x86_64 machine</a></h3>
-<pre><code class="language-bash">docker build -t wasmedge/appdev_x86_64:0.9.0 -f Dockerfile.appdev_x86_64 ./ 
-docker image push wasmedge/appdev_x86_64:0.9.0
-</code></pre>
-<h3 id="build-on-an-arm64--aarch64-machine"><a class="header" href="#build-on-an-arm64--aarch64-machine">Build on an ARM64 / aarch64 machine</a></h3>
-<pre><code class="language-bash">docker build -t wasmedge/appdev_aarch64:0.9.0 -f Dockerfile.appdev_aarch64 ./
-docker image push wasmedge/appdev_aarch64:0.9.0
-</code></pre>
-<h2 id="use-wasmedge-release-images"><a class="header" href="#use-wasmedge-release-images">Use WasmEdge release images</a></h2>
-<p>The <code>wasmedge/wasmedge:release-{version}</code> Docker images provide a slim WasmEdge images built with <a href="https://dockersl.im">DockerSlim</a> every releases.</p>
-<ul>
-<li>Image <code>wasmedge/wasmedge:release-{version}-runtime</code> includes only WasmEdge runtime with <code>wasmedge</code> command.</li>
-<li>Image <code>wasmedge/wasmedge:release-{version}</code> includes the following command line utilities:
+<li>Image <code>wasmedge/slim-runtime:{version}</code> includes only WasmEdge runtime with <code>wasmedge</code> command.</li>
+<li>Image <code>wasmedge/slim:{version}</code> includes the following command line utilities:
 <ul>
 <li><code>wasmedge</code></li>
 <li><code>wasmedgec</code></li>
 </ul>
 </li>
-<li>Image <code>wasmedge/wasmedge:release-{version}-tensorflow</code> includes the following command line utilities:
+<li>Image <code>wasmedge/slim-tf:{version}</code> includes the following command line utilities:
 <ul>
 <li><code>wasmedge</code></li>
 <li><code>wasmedgec</code></li>
@@ -223,11 +170,11 @@ docker image push wasmedge/appdev_aarch64:0.9.0
 </li>
 <li>The working directory of the release docker image is <code>/app</code>.</li>
 </ul>
-<h3 id="docker-examples"><a class="header" href="#docker-examples">Docker Examples</a></h3>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <p>Use <code>wasmedgec</code> and <code>wasmedge</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/wasm">link</a>):</p>
-<pre><code class="language-bash">$ docker pull wasmedge/wasmedge:release-0.10.1
+<pre><code class="language-bash">$ docker pull wasmedge/slim:0.11.0
 
-$ docker run -it --rm -v $PWD:/app wasmedge/wasmedge:release-0.10.1 wasmedgec hello.wasm hello.aot.wasm
+$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.11.0 wasmedgec hello.wasm hello.aot.wasm
 [2022-07-07 08:15:49.154] [info] compile start
 [2022-07-07 08:15:49.163] [info] verify start
 [2022-07-07 08:15:49.169] [info] optimize start
@@ -236,18 +183,18 @@ $ docker run -it --rm -v $PWD:/app wasmedge/wasmedge:release-0.10.1 wasmedgec he
 [2022-07-07 08:15:50.421] [info] compile done
 [2022-07-07 08:15:50.422] [info] output start
 
-$ docker run -it --rm -v $PWD:/app wasmedge/wasmedge:release-0.10.1 wasmedge hello.aot.wasm world
+$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.11.0 wasmedge hello.aot.wasm world
 hello
 world
 </code></pre>
 <p>Use <code>wasmedge-tensorflow-lite</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/js">link</a>):</p>
-<pre><code class="language-bash">$ docker pull wasmedge/wasmedge:release-0.10.1-tensorflow
+<pre><code class="language-bash">$ docker pull wasmedge/slim-tf:0.11.0
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/aiy_food_V1_labelmap.txt
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/food.jpg
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/lite-model_aiy_vision_classifier_food_V1_1.tflite
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/main.js
 
-$ docker run -it --rm -v $PWD:/app wasmedge/wasmedge:release-0.10.1-tensorflow wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
+$ docker run -it --rm -v $PWD:/app wasmedge/slim-tf:0.11.0 wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
 label:
 Hot dog
 confidence:
