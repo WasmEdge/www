@@ -155,7 +155,7 @@
 <p>In this example we defines a native function <code>real_add</code> that takes two numbers and returns their sum. This function will be registered as a host function into WasmEdge runtime environment</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>fn real_add(input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+</span>fn real_add(_: &amp;CallingFrame, input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
     println!(&quot;Rust: Entering Rust function real_add&quot;);
 
     if input.len() != 2 {
@@ -187,12 +187,12 @@
 </span><span class="boring">fn main() {
 </span>use wasmedge_sdk::{
     config::{CommonConfigOptions, ConfigBuilder},
+    error::HostFuncError,
     params,
     types::Val,
-    Executor, Func, ImportObjectBuilder, Store, Table, WasmVal,
+    CallingFrame, Executor, Func, ImportObjectBuilder, RefType, Store, Table, TableType, ValType,
+    WasmVal, WasmValue,
 };
-use wasmedge_sys::WasmValue;
-use wasmedge_types::{RefType, TableType, ValType};
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="register-table-instance"><a class="header" href="#register-table-instance">Register Table instance</a></h2>

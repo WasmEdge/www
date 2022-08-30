@@ -150,84 +150,13 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction-to-wasmedge-module-instance"><a class="header" href="#introduction-to-wasmedge-module-instance">Introduction to WasmEdge module instance</a></h1>
-<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
-<p>In this section, we will talk about module instance. In <code>wasmedge-sys</code> crate, four kinds of module instances are defined:</p>
-<ul>
-<li>
-<p><code>Instance</code></p>
-<ul>
-<li>
-<p>An <code>Instance</code> represents a runtime module instance which is held by a WasmEdge <code>Store</code> context. The <code>Store</code> context is either held by a WasmEdge <code>Vm</code>, or related to a WasmEdge <code>Executor</code>.</p>
-</li>
-<li>
-<p>APIs to retrieve an <code>Instance</code>.</p>
-<ul>
-<li>
-<p>If a <code>Vm</code> is available, then</p>
-<ul>
-<li>
-<p>with the <code>Vm::active_module</code> API, you can get an anonymous module instance from this <code>Vm</code>.</p>
-</li>
-<li>
-<p>with the <code>Vm::store_mut</code> and <code>Store::module</code> APIs, you can get a named module instance from this <code>Vm</code>.</p>
-</li>
-</ul>
-</li>
-<li>
-<p>If an <code>Executor</code> is available, then</p>
-<ul>
-<li>
-<p>with the <code>Executor::register_named_module</code> API, you can get a named module instance from this <code>Executor</code>.</p>
-</li>
-<li>
-<p>with the <code>Executor::register_active_module</code> API, you can get an anonymous module instance from this <code>Executor</code>.</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>ImportModule</code></p>
-<ul>
-<li><code>ImportModule</code>, also called import module, represents a module instance to be registered into a WasmEdge <code>Vm</code> or <code>Executor</code>. <code>ImportModule</code> implements the <code>ImportObject</code> trait, meaning that WebAssembly function, table, memory and global instances can be added to an import module, and then be registered and instantiated together when the import module is registered into a <code>Vm</code> or <code>Executor</code>.</li>
-</ul>
-</li>
-<li>
-<p><code>WasiModule</code> and <code>WasmEdgeProcessModule</code></p>
-<ul>
-<li>
-<p><code>WasiModule</code> and <code>WasmEdgeProcessModule</code> are module instances for WASI and WasmEdgeProcess specification, respectively. They also implement the <code>ImportObject</code> trait. Different from <code>ImportModule</code>, these two kinds of module instances can not only be created, but be retrieved from a <code>Vm</code>.</p>
-</li>
-<li>
-<p>APIs to retrieve <code>WasiModule</code> and <code>WasmEdgeProcessModule</code>.</p>
-<ul>
-<li>
-<p>If a <code>Vm</code> is available, then</p>
-<ul>
-<li>
-<p>with the <code>Vm::wasi_module</code> API, you can get a module instance of <code>WasiModule</code> type.</p>
-</li>
-<li>
-<p>with the <code>Vm::wasmedge_process_module</code> API, you can get a <code>WasmEdgeProcessModule</code> from this <code>Vm</code>.</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
-<h3 id="example-1"><a class="header" href="#example-1">Example 1</a></h3>
+<h2 id="example-1"><a class="header" href="#example-1">Example 1</a></h2>
 <p>In this example, we'll demonstrate how to use the APIs of <code>Vm</code> to</p>
 <ul>
 <li>
 <p>Create Wasi and WasmEdgeProcess module instances implicitly by using a <code>Config</code> while creating a <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// create a Config context
 let mut config = Config::create()?;
 config.bulk_memory_operations(true);
@@ -246,8 +175,7 @@ let mut vm = Vm::create(Some(config), None)?;
 <li>
 <p>Retrieve the Wasi and WasmEdgeProcess module instances from the <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// get the default Wasi module
 let wasi_instance = vm.wasi_module_mut()?;
 assert_eq!(wasi_instance.name(), &quot;wasi_snapshot_preview1&quot;);
@@ -261,14 +189,13 @@ assert_eq!(wasmedge_process_instance.name(), &quot;wasmedge_process&quot;);
 <li>
 <p>Register an import module as a named module into the <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// create ImportModule instance
 let module_name = &quot;extern_module&quot;;
 let mut import = ImportModule::create(module_name)?;
 
 // a function to import
-fn real_add(inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+fn real_add(_: &amp;CallingFrame, inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
     if inputs.len() != 2 {
         return Err(1);
     }
@@ -319,8 +246,7 @@ vm.register_wasm_from_import(ImportObject::Import(import))?;
 <li>
 <p>Retrieve the internal <code>Store</code> instance from the <code>Vm</code>, and retrieve the named module instance from the <code>Store</code> instance.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>let mut store = vm.store_mut()?;
 let named_instance = store.module(module_name)?;
 assert!(named_instance.get_func(&quot;add&quot;).is_ok());
@@ -334,8 +260,7 @@ assert!(named_instance.get_global(&quot;global&quot;).is_ok());
 <li>
 <p>Register an active module into the <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// read the wasm bytes
 let wasm_bytes = wat2wasm(
     br#&quot;
@@ -392,8 +317,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 <li>
 <p>Retrieve the active module from the <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// get the active module instance
 let active_instance = vm.active_module()?;
 assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
@@ -403,14 +327,13 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 </li>
 </ul>
 <p>The complete code in this demo can be found on <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/mdbook_example_module_instance.rs">WasmEdge Github</a>.</p>
-<h3 id="example-2"><a class="header" href="#example-2">Example 2</a></h3>
+<h2 id="example-2"><a class="header" href="#example-2">Example 2</a></h2>
 <p>In this example, we'll demonstrate how to use the APIs of <code>Executor</code> to</p>
 <ul>
 <li>
 <p>Create an <code>Executor</code> and a <code>Store</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// create an Executor context
 let mut executor = Executor::create(None, None)?;
 
@@ -423,8 +346,7 @@ let mut store = Store::create()?;
 <li>
 <p>Register an import module into the <code>Executor</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// read the wasm bytes
 let wasm_bytes = wat2wasm(
     br#&quot;
@@ -482,8 +404,7 @@ assert!(named_instance.get_func(&quot;fib&quot;).is_ok());
 <li>
 <p>Register an active module into the <code>Executor</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// read the wasm bytes
 let wasm_bytes = wat2wasm(
     br#&quot;
