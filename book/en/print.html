@@ -17003,7 +17003,8 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 <h2 id="versioning-table"><a class="header" href="#versioning-table">Versioning Table</a></h2>
 <p>The following table provides the versioning information about each release of <code>wasmedge-sdk</code> crate and its dependencies.</p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: center">wasmedge-sdk</th><th style="text-align: center">WasmEdge lib</th><th style="text-align: center">wasmedge-sys</th><th style="text-align: center">wasmedge-types</th></tr></thead><tbody>
-<tr><td style="text-align: center">0.3.0</td><td style="text-align: center">0.10.1</td><td style="text-align: center">0.8</td><td style="text-align: center">0.2</td></tr>
+<tr><td style="text-align: center">0.4.0</td><td style="text-align: center">0.11.0</td><td style="text-align: center">0.9</td><td style="text-align: center">0.2.1</td></tr>
+<tr><td style="text-align: center">0.3.0</td><td style="text-align: center">0.10.1</td><td style="text-align: center">0.8</td><td style="text-align: center">0.2.0</td></tr>
 <tr><td style="text-align: center">0.1.0</td><td style="text-align: center">0.10.0</td><td style="text-align: center">0.7</td><td style="text-align: center">0.1</td></tr>
 </tbody></table>
 </div>
@@ -17133,23 +17134,27 @@ wasmedge-sys = &quot;0.7&quot;
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world-4"><a class="header" href="#hello-world-4">Hello World</a></h1>
 <p>In this example, we'll use a wasm module, in which a function <code>run</code> is exported and it will call a function <code>say_hello</code> from an import module named <code>env</code>. The imported function <code>say_hello</code> has no inputs and outputs, and only prints a greeting message out.</p>
-<p>N.B. In this example, <code>wasmedge-sdk v0.1.1</code>, <code>wasmedge-sys v0.7.1</code> and <code>wasmedge-types v0.1.3</code> are used.</p>
+<p>N.B. In this example, <code>wasmedge-sdk v0.4.0</code>, <code>wasmedge-sys v0.9.0</code> and <code>wasmedge-types v0.2.1</code> are used.</p>
 <p>Let's start off by getting all imports right away so you can follow along</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// please add this feature if you're using rust of version &lt; 1.63
 // #![feature(explicit_generic_args_with_impl_trait)]
 
-use wasmedge_sdk::{params, Executor, ImportObjectBuilder, Module, Store};
-use wasmedge_sys::WasmValue;
-use wasmedge_types::wat2wasm;
+use wasmedge_sdk::{
+    error::HostFuncError, params, wat2wasm, CallingFrame, Executor, ImportObjectBuilder, Module,
+    Store, WasmValue,
+};
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="step-1-define-a-native-function-and-create-an-importobject"><a class="header" href="#step-1-define-a-native-function-and-create-an-importobject">Step 1: Define a native function and Create an ImportObject</a></h2>
 <p>First, let's define a native function named <code>say_hello_world</code> that prints out <code>Hello, World!</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>fn say_hello_world(_inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+</span>fn say_hello_world(
+    _: &amp;CallingFrame,
+    _: Vec&lt;WasmValue&gt;,
+) -&gt; Result&lt;Vec&lt;WasmValue&gt;, HostFuncError&gt; {
     println!(&quot;Hello, world!&quot;);
 
     Ok(vec![])
@@ -17218,7 +17223,8 @@ store.register_import_module(&amp;mut executor, &amp;import)?;
 let extern_instance = store.register_named_module(&amp;mut executor, &quot;extern&quot;, &amp;module)?;
 <span class="boring">}
 </span></code></pre></pre>
-<p>In the code above we use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Executor.html">Executor</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Store.html">Store</a> to register the import module and the compiled module. <code>wasmedge-sdk</code> also provides alternative APIs to do the same thing: <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html#method.register_import_module">Vm::register_import_module</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html#method.register_module_from_bytes">Vm::register_module_from_bytes</a>.</p>
+<p>In the code above we use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Executor.html">Executor</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Store.html">Store</a> to register the import module and the compiled module. <code>wasmedge-sdk</code> also provides alternative APIs to do the same thing:
+<a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html#method.register_import_module">Vm::register_import_module</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html#method.register_module_from_bytes">Vm::register_module_from_bytes</a>.</p>
 <h2 id="step-4-run-the-exported-function"><a class="header" href="#step-4-run-the-exported-function">Step 4: Run the exported function</a></h2>
 <p>Now we are ready to run the exported function.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -17246,7 +17252,7 @@ run.call(&amp;mut executor, params!())?;
 <p>The complete example can be found <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/hello_world.rs">here</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="memory-manipulation"><a class="header" href="#memory-manipulation">Memory Manipulation</a></h1>
 <p>In this example, we'll present how to manipulate the linear memory with the APIs defined in <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Memory.html">wasmedge_sdk::Memory</a>.</p>
-<p>N.B. In this example, <code>wasmedge-sdk v0.1.1</code>, <code>wasmedge-sys v0.7.1</code> and <code>wasmedge-types v0.1.3</code> are used.</p>
+<p>N.B. In this example, <code>wasmedge-sdk v0.4.0</code>, <code>wasmedge-sys v0.9.0</code> and <code>wasmedge-types v0.2.1</code> are used.</p>
 <h2 id="wasm-module"><a class="header" href="#wasm-module">Wasm module</a></h2>
 <p>Before talk about the code, let's first see the wasm module we use in this example. In the wasm module, a linear memory of 1-page (64KiB) size is defined; in addition, three functions are exported from this module: <code>get_at</code>, <code>set_at</code>, and <code>mem_size</code>.</p>
 <pre><code class="language-wasm">(module
@@ -17280,9 +17286,7 @@ run.call(&amp;mut executor, params!())?;
 </span>// please add this feature if you're using rust of version &lt; 1.63
 // #![feature(explicit_generic_args_with_impl_trait)]
 
-use wasmedge_sdk::{params, Executor, ImportObjectBuilder, Module, Store};
-use wasmedge_sys::WasmValue;
-use wasmedge_types::wat2wasm;
+use wasmedge_sdk::{params, wat2wasm, Executor, Module, Store, WasmVal};
 <span class="boring">}
 </span></code></pre></pre>
 <p>To load a <code>Module</code>, <code>wasmedge-sdk</code> defines two methods:</p>
@@ -17356,7 +17360,6 @@ assert_eq!(memory.data_size(), 65536);
 
 // grow memory size
 memory.grow(2)?;
-// check the size (in pages) and the data size (in bytes)
 assert_eq!(memory.size(), 3);
 assert_eq!(memory.data_size(), 3 * 65536);
 
@@ -17368,12 +17371,12 @@ let get_at = extern_instance
     .func(&quot;get_at&quot;)
     .ok_or_else(|| anyhow::Error::msg(&quot;Not found exported function named 'get_at`.&quot;))?;
 
-// set val at mem_addr by calling &quot;set_at&quot;
+// call the exported function named &quot;set_at&quot;
 let mem_addr = 0x2220;
 let val = 0xFEFEFFE;
 set_at.call(&amp;mut executor, params!(mem_addr, val))?;
 
-// get the value at mem_addr by calling &quot;get_at&quot;
+// call the exported function named &quot;get_at&quot;
 let returns = get_at.call(&amp;mut executor, params!(mem_addr))?;
 assert_eq!(returns[0].to_i32(), val);
 
@@ -17396,7 +17399,7 @@ assert_eq!(returns[0].to_i32(), val);
 <p>In this example we defines a native function <code>real_add</code> that takes two numbers and returns their sum. This function will be registered as a host function into WasmEdge runtime environment</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>fn real_add(input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+</span>fn real_add(_: &amp;CallingFrame, input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
     println!(&quot;Rust: Entering Rust function real_add&quot;);
 
     if input.len() != 2 {
@@ -17428,12 +17431,12 @@ assert_eq!(returns[0].to_i32(), val);
 </span><span class="boring">fn main() {
 </span>use wasmedge_sdk::{
     config::{CommonConfigOptions, ConfigBuilder},
+    error::HostFuncError,
     params,
     types::Val,
-    Executor, Func, ImportObjectBuilder, Store, Table, WasmVal,
+    CallingFrame, Executor, Func, ImportObjectBuilder, RefType, Store, Table, TableType, ValType,
+    WasmVal, WasmValue,
 };
-use wasmedge_sys::WasmValue;
-use wasmedge_types::{RefType, TableType, ValType};
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="register-table-instance"><a class="header" href="#register-table-instance">Register Table instance</a></h2>
@@ -17510,8 +17513,8 @@ if let Val::FuncRef(Some(func_ref)) = value {
 <h2 id="prerequisites-4"><a class="header" href="#prerequisites-4">Prerequisites</a></h2>
 <p>This example uses the following crates:</p>
 <ul>
-<li>wasmedge-sys v0.7.0</li>
-<li>wasmedge-types v0.1.1</li>
+<li>wasmedge-sys v0.9.0</li>
+<li>wasmedge-types v0.2.1</li>
 </ul>
 <h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
 <p>This section demonstrates how to use the Rust APIs of the <code>wasmedge-sys</code> crate to run a host function.</p>
@@ -17607,8 +17610,8 @@ println!(&quot;The result of fib(5) is {}&quot;, returns[0].to_i32());
 <h2 id="prerequisites-5"><a class="header" href="#prerequisites-5">Prerequisites</a></h2>
 <p>This example uses the following crates:</p>
 <ul>
-<li>wasmedge-sys v0.7.0</li>
-<li>wasmedge-types v0.1.1</li>
+<li>wasmedge-sys v0.9.0</li>
+<li>wasmedge-types v0.2.1</li>
 </ul>
 <h2 id="overview-1"><a class="header" href="#overview-1">Overview</a></h2>
 <p>In this example, we will demonstrate how to use the objects and the APIs defined in <code>wasmedge-sys</code> to compute Fibonacci numbers concurrently.</p>
@@ -17641,29 +17644,29 @@ vm.register_wasm_from_file(&quot;extern&quot;, file)?;
 // compute fib(4) by a child thread
 let vm_cloned = Arc::clone(&amp;vm);
 let handle_a = thread::spawn(move || {
-  let vm_child_thread = vm_cloned.lock().expect(&quot;fail to lock vm&quot;);
-  let returns = vm_child_thread
-    .run_registered_function(&quot;extern&quot;, &quot;fib&quot;, [WasmValue::from_i32(4)])
-    .expect(&quot;fail to compute fib(4)&quot;);
+    let vm_child_thread = vm_cloned.lock().expect(&quot;fail to lock vm&quot;);
+    let returns = vm_child_thread
+        .run_registered_function(&quot;extern&quot;, &quot;fib&quot;, [WasmValue::from_i32(4)])
+        .expect(&quot;fail to compute fib(4)&quot;);
 
-  let fib4 = returns[0].to_i32();
-  println!(&quot;fib(4) by child thread: {}&quot;, fib4);
+    let fib4 = returns[0].to_i32();
+    println!(&quot;fib(4) by child thread: {}&quot;, fib4);
 
-  fib4
+    fib4
 });
 
 // compute fib(5) by a child thread
 let vm_cloned = Arc::clone(&amp;vm);
 let handle_b = thread::spawn(move || {
-  let vm_child_thread = vm_cloned.lock().expect(&quot;fail to lock vm&quot;);
-  let returns = vm_child_thread
-    .run_registered_function(&quot;extern&quot;, &quot;fib&quot;, [WasmValue::from_i32(5)])
-    .expect(&quot;fail to compute fib(5)&quot;);
+    let vm_child_thread = vm_cloned.lock().expect(&quot;fail to lock vm&quot;);
+    let returns = vm_child_thread
+        .run_registered_function(&quot;extern&quot;, &quot;fib&quot;, [WasmValue::from_i32(5)])
+        .expect(&quot;fail to compute fib(5)&quot;);
 
-  let fib5 = returns[0].to_i32();
-  println!(&quot;fib(5) by child thread: {}&quot;, fib5);
+    let fib5 = returns[0].to_i32();
+    println!(&quot;fib(5) by child thread: {}&quot;, fib5);
 
-  fib5
+    fib5
 });
 
 <span class="boring">}
@@ -17682,84 +17685,13 @@ fib(6) = fib(5) + fib(1) = 13
 </code></pre>
 <p>The complete code in this demo can be found on <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/threads.rs">WasmEdge Github</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="introduction-to-wasmedge-module-instance"><a class="header" href="#introduction-to-wasmedge-module-instance">Introduction to WasmEdge module instance</a></h1>
-<h2 id="overview-2"><a class="header" href="#overview-2">Overview</a></h2>
-<p>In this section, we will talk about module instance. In <code>wasmedge-sys</code> crate, four kinds of module instances are defined:</p>
-<ul>
-<li>
-<p><code>Instance</code></p>
-<ul>
-<li>
-<p>An <code>Instance</code> represents a runtime module instance which is held by a WasmEdge <code>Store</code> context. The <code>Store</code> context is either held by a WasmEdge <code>Vm</code>, or related to a WasmEdge <code>Executor</code>.</p>
-</li>
-<li>
-<p>APIs to retrieve an <code>Instance</code>.</p>
-<ul>
-<li>
-<p>If a <code>Vm</code> is available, then</p>
-<ul>
-<li>
-<p>with the <code>Vm::active_module</code> API, you can get an anonymous module instance from this <code>Vm</code>.</p>
-</li>
-<li>
-<p>with the <code>Vm::store_mut</code> and <code>Store::module</code> APIs, you can get a named module instance from this <code>Vm</code>.</p>
-</li>
-</ul>
-</li>
-<li>
-<p>If an <code>Executor</code> is available, then</p>
-<ul>
-<li>
-<p>with the <code>Executor::register_named_module</code> API, you can get a named module instance from this <code>Executor</code>.</p>
-</li>
-<li>
-<p>with the <code>Executor::register_active_module</code> API, you can get an anonymous module instance from this <code>Executor</code>.</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>ImportModule</code></p>
-<ul>
-<li><code>ImportModule</code>, also called import module, represents a module instance to be registered into a WasmEdge <code>Vm</code> or <code>Executor</code>. <code>ImportModule</code> implements the <code>ImportObject</code> trait, meaning that WebAssembly function, table, memory and global instances can be added to an import module, and then be registered and instantiated together when the import module is registered into a <code>Vm</code> or <code>Executor</code>.</li>
-</ul>
-</li>
-<li>
-<p><code>WasiModule</code> and <code>WasmEdgeProcessModule</code></p>
-<ul>
-<li>
-<p><code>WasiModule</code> and <code>WasmEdgeProcessModule</code> are module instances for WASI and WasmEdgeProcess specification, respectively. They also implement the <code>ImportObject</code> trait. Different from <code>ImportModule</code>, these two kinds of module instances can not only be created, but be retrieved from a <code>Vm</code>.</p>
-</li>
-<li>
-<p>APIs to retrieve <code>WasiModule</code> and <code>WasmEdgeProcessModule</code>.</p>
-<ul>
-<li>
-<p>If a <code>Vm</code> is available, then</p>
-<ul>
-<li>
-<p>with the <code>Vm::wasi_module</code> API, you can get a module instance of <code>WasiModule</code> type.</p>
-</li>
-<li>
-<p>with the <code>Vm::wasmedge_process_module</code> API, you can get a <code>WasmEdgeProcessModule</code> from this <code>Vm</code>.</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="examples-3"><a class="header" href="#examples-3">Examples</a></h2>
-<h3 id="example-1"><a class="header" href="#example-1">Example 1</a></h3>
+<h2 id="example-1"><a class="header" href="#example-1">Example 1</a></h2>
 <p>In this example, we'll demonstrate how to use the APIs of <code>Vm</code> to</p>
 <ul>
 <li>
 <p>Create Wasi and WasmEdgeProcess module instances implicitly by using a <code>Config</code> while creating a <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// create a Config context
 let mut config = Config::create()?;
 config.bulk_memory_operations(true);
@@ -17778,8 +17710,7 @@ let mut vm = Vm::create(Some(config), None)?;
 <li>
 <p>Retrieve the Wasi and WasmEdgeProcess module instances from the <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// get the default Wasi module
 let wasi_instance = vm.wasi_module_mut()?;
 assert_eq!(wasi_instance.name(), &quot;wasi_snapshot_preview1&quot;);
@@ -17793,14 +17724,13 @@ assert_eq!(wasmedge_process_instance.name(), &quot;wasmedge_process&quot;);
 <li>
 <p>Register an import module as a named module into the <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// create ImportModule instance
 let module_name = &quot;extern_module&quot;;
 let mut import = ImportModule::create(module_name)?;
 
 // a function to import
-fn real_add(inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+fn real_add(_: &amp;CallingFrame, inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
     if inputs.len() != 2 {
         return Err(1);
     }
@@ -17851,8 +17781,7 @@ vm.register_wasm_from_import(ImportObject::Import(import))?;
 <li>
 <p>Retrieve the internal <code>Store</code> instance from the <code>Vm</code>, and retrieve the named module instance from the <code>Store</code> instance.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>let mut store = vm.store_mut()?;
 let named_instance = store.module(module_name)?;
 assert!(named_instance.get_func(&quot;add&quot;).is_ok());
@@ -17866,8 +17795,7 @@ assert!(named_instance.get_global(&quot;global&quot;).is_ok());
 <li>
 <p>Register an active module into the <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// read the wasm bytes
 let wasm_bytes = wat2wasm(
     br#&quot;
@@ -17924,8 +17852,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 <li>
 <p>Retrieve the active module from the <code>Vm</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// get the active module instance
 let active_instance = vm.active_module()?;
 assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
@@ -17935,14 +17862,13 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 </li>
 </ul>
 <p>The complete code in this demo can be found on <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/mdbook_example_module_instance.rs">WasmEdge Github</a>.</p>
-<h3 id="example-2"><a class="header" href="#example-2">Example 2</a></h3>
+<h2 id="example-2"><a class="header" href="#example-2">Example 2</a></h2>
 <p>In this example, we'll demonstrate how to use the APIs of <code>Executor</code> to</p>
 <ul>
 <li>
 <p>Create an <code>Executor</code> and a <code>Store</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// create an Executor context
 let mut executor = Executor::create(None, None)?;
 
@@ -17955,8 +17881,7 @@ let mut store = Store::create()?;
 <li>
 <p>Register an import module into the <code>Executor</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// read the wasm bytes
 let wasm_bytes = wat2wasm(
     br#&quot;
@@ -18014,8 +17939,7 @@ assert!(named_instance.get_func(&quot;fib&quot;).is_ok());
 <li>
 <p>Register an active module into the <code>Executor</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
+</span><span class="boring">fn main() {
 </span>// read the wasm bytes
 let wasm_bytes = wat2wasm(
     br#&quot;
@@ -18078,13 +18002,19 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 <p>Compared with Linux containers, <a href="https://www.infoq.com/articles/arm-vs-x86-cloud-performance/">WebAssembly could be 100x faster at startup</a>, have a much smaller memory and disk footprint, and have a better-defined safety sandbox. However, the trade-off is that WebAssembly requires its own language SDKs, and compiler toolchains, making it a more constrained developer environment than Linux containers. WebAssembly is increasingly used in Edge Computing scenarios where it is difficult to deploy Linux containers or when the application performance is vital.</p>
 <p>One of the great advantages of Linux application containers is the rich ecosystem of tools. The good news is that you can use the exact same tools to manage WebAssembly applications, enabling Linux containers and WebAssembly apps to run side-by-side in the same system.</p>
 <p><img src="kubernetes.png" alt="kubernetes" /></p>
-<p>The contents of this chapter are organized as follows.</p>
+<p>The contents of this chapter are organized by the approaches for integrating WasmEdge into container toolchains.</p>
+<ul>
+<li>The <a href="kubernetes/docker/lxc.html">slimmed Linux container tailored for WasmEdge</a> offers the easiest option (but with performance trade-offs) to integrate WasmEdge applications into any container tooling system.</li>
+<li>The most important integration approach is to replace the underlying OCI runtime of the toolchain stack with a WasmEdge-enabled <code>crun</code> runtime.
 <ul>
 <li><a href="kubernetes/quickstart.html">Quick start</a> provides simple and scripted tutorials to run WasmEdge-based applications as container images in Kubernetes.</li>
 <li><a href="kubernetes/demo.html">Demo apps</a> discusses the two demo WasmEdge applications we will run in Kubernetes clusters. Those applications are compiled from Rust source code, packaged as OCI images, and uploaded to Docker Hub.</li>
 <li><a href="kubernetes/container.html">Container runtimes</a> covers how to configure low level container runtimes, such as crun, to load and run WebAssembly OCI images.</li>
 <li><a href="kubernetes/cri.html">CRI runtimes</a> covers how to configure and use high level container runtimes, such as CRI-O and containerd, to load and run WebAssembly OCI images on top of low level container runtimes.</li>
 <li><a href="kubernetes/kubernetes.html">Kubernetes</a> covers how to configure and use Kubernetes and Kubernetes variations, such as KubeEdge and SuperEdge, to load and run WebAssembly OCI images on top of CRI runtimes.</li>
+</ul>
+</li>
+<li>If you cannot replace the OCI runtime in your toolchain with WasmEdge-enabled <code>crun</code>, you can use a <a href="kubernetes/docker/containerd.html">containerd shim</a> to start and run a WasmEdge application without any intrusive change.</li>
 </ul>
 <p>The goal is to load and run WebAssembly OCI images side by side with Linux OCI images (e.g., today's Docker containers) across the entire Kubernetes stack.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h1>
@@ -18194,7 +18124,7 @@ buildah --help
 # newgrp docker
 
 # You may need to use docker login to create the `~/.docker/config.json` for auth.
-$ sudo buildah push --authfile ~/.docker/config.json wasm-wasi-example docker://docker.io/hydai/wasm-wasi-example:with-wasm-annotation
+$ sudo buildah push --authfile ~/.docker/config.json wasm-wasi-example docker://docker.io/wasmedge/example-wasi:latest
 </code></pre>
 <p>That's it! Now you can try to run it in <a href="kubernetes/demo/../cri/crio.html#run-a-simple-webassembly-app">CRI-O</a> or <a href="kubernetes/demo/../kubernetes/kubernetes.html#run-a-simple-webassembly-app">Kubernetes</a>!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="http-server-example"><a class="header" href="#http-server-example">HTTP server example</a></h1>
@@ -18281,7 +18211,7 @@ buildah --help
 #
 # docker login
 
-sudo buildah push --authfile ~/.docker/config.json http_server docker://docker.io/avengermojo/http_server:with-wasm-annotation
+sudo buildah push --authfile ~/.docker/config.json http_server docker://docker.io/wasmedge/example-wasi-http:latest
 </code></pre>
 <p>That's it! Now you can try to run it in <a href="kubernetes/demo/../cri/crio.html#run-a-http-server-app">CRI-O</a> or <a href="kubernetes/demo/../kubernetes/kubernetes.html#run-a-http-server-app">Kubernetes</a>!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="container-runtimes"><a class="header" href="#container-runtimes">Container runtimes</a></h1>
@@ -18324,8 +18254,8 @@ From this chapter, you can check out specific tutorials for CRI-O and containerd
 <p>The <a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> contains scripts and Github Actions for running our example
 apps on CRI-O.</p>
 <ul>
-<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/crio.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4317457300?check_suite_focus=true#step:4:37">Successful run</a></li>
-<li>HTTP service example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/crio-server.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4317457313?check_suite_focus=true#step:4:54">Successful run</a></li>
+<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/crio.yml">Github Actions</a></li>
+<li>HTTP service example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/crio/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/crio-server.yml">Github Actions</a></li>
 </ul>
 <p>In the sections below, we will explain the steps in the quick start scripts.</p>
 <ul>
@@ -18408,7 +18338,7 @@ CONTAINER_ID=1d056e4a8a168f0c76af122d42c98510670255b16242e81f8e8bce8bd3a4476f
 <pre><code class="language-bash"># List the container, the state should be `Created`
 $ sudo crictl ps -a
 CONTAINER           IMAGE                                          CREATED              STATE               NAME                     ATTEMPT             POD ID
-1d056e4a8a168       hydai/wasm-wasi-example:with-wasm-annotation   About a minute ago   Created             podsandbox1-wasm-wasi   0                   7992e75df00cc
+1d056e4a8a168       wasmedge/example-wasi:latest                   About a minute ago   Created             podsandbox1-wasm-wasi   0                   7992e75df00cc
 
 # Start the container
 $ sudo crictl start $CONTAINER_ID
@@ -18418,12 +18348,12 @@ $ sudo crictl start $CONTAINER_ID
 # Because this example is very tiny. You may see Exited at this moment.
 $ sudo crictl ps -a
 CONTAINER           IMAGE                                          CREATED              STATE               NAME                     ATTEMPT             POD ID
-1d056e4a8a168       hydai/wasm-wasi-example:with-wasm-annotation   About a minute ago   Running             podsandbox1-wasm-wasi   0                   7992e75df00cc
+1d056e4a8a168       wasmedge/example-wasi:latest                   About a minute ago   Running             podsandbox1-wasm-wasi   0                   7992e75df00cc
 
 # When the container is finished. You can see the state becomes Exited.
 $ sudo crictl ps -a
 CONTAINER           IMAGE                                          CREATED              STATE               NAME                     ATTEMPT             POD ID
-1d056e4a8a168       hydai/wasm-wasi-example:with-wasm-annotation   About a minute ago   Exited              podsandbox1-wasm-wasi   0                   7992e75df00cc
+1d056e4a8a168       wasmedge/example-wasi:latest                   About a minute ago   Exited              podsandbox1-wasm-wasi   0                   7992e75df00cc
 
 # Check the container's logs. It should show outputs from the WebAssembly programs
 $ sudo crictl logs $CONTAINER_ID
@@ -18494,7 +18424,7 @@ $ sudo crictl start $CONTAINER_ID
 # If not, wait a few seconds and check again
 $ sudo crictl ps -a
 CONTAINER           IMAGE                                          CREATED                  STATE               NAME                ATTEMPT             POD ID
-4eeddf8613691       avengermojo/http_server:with-wasm-annotation   Less than a second ago   Running             http_server         0                   1d84f30e7012e
+4eeddf8613691       wasmedge/example-wasi-http:latest              Less than a second ago   Running             http_server         0                   1d84f30e7012e
 
 # Check the container's logs to see the HTTP server is listening at port 1234
 $ sudo crictl logs $CONTAINER_ID
@@ -18514,8 +18444,8 @@ echo: name=WasmEdge
 <p>The <a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> contains scripts and Github Actions for running our example
 apps on containerd.</p>
 <ul>
-<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4328930139?check_suite_focus=true#step:4:25">Successful run</a></li>
-<li>HTTP service example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd-server.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4328930141?check_suite_focus=true#step:4:44">Successful run</a></li>
+<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd.yml">Github Actions</a></li>
+<li>HTTP service example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd-server.yml">Github Actions</a></li>
 </ul>
 <p>In the sections below, we will explain the steps in the quick start scripts.</p>
 <ul>
@@ -18556,10 +18486,10 @@ sudo patch -d/ -p0 &lt; containerd_config.diff
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using containerd tools.</p>
-<pre><code class="language-bash">sudo ctr i pull docker.io/hydai/wasm-wasi-example:with-wasm-annotation
+<pre><code class="language-bash">sudo ctr i pull docker.io/wasmedge/example-wasi:latest
 </code></pre>
 <p>Now, you can run the example in just one line with ctr (the containerd cli).</p>
-<pre><code class="language-bash">sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/hydai/wasm-wasi-example:with-wasm-annotation wasm-example /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/wasmedge/example-wasi:latest wasm-example /wasi_example_main.wasm 50000000
 </code></pre>
 <p>Starting the container would execute the WebAssembly program. You can see the output in the console.</p>
 <pre><code class="language-bash">Creating POD ...
@@ -18580,10 +18510,10 @@ File content is This is in a file
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using containerd tools.</p>
-<pre><code class="language-bash">sudo ctr i pull docker.io/avengermojo/http_server:with-wasm-annotation
+<pre><code class="language-bash">sudo ctr i pull docker.io/wasmedge/example-wasi-http:latest
 </code></pre>
 <p>Now, you can run the example in just one line with ctr (the containerd cli). Notice that we are running the container with <code>--net-host</code> so that the HTTP server inside the WasmEdge container is accessible from the outside shell.</p>
-<pre><code class="language-bash">sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/avengermojo/http_server:with-wasm-annotation http-server-example /http_server.wasm
+<pre><code class="language-bash">sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/wasmedge/example-wasi-http:latest http-server-example /http_server.wasm
 </code></pre>
 <p>Starting the container would execute the WebAssembly program. You can see the output in the console.</p>
 <pre><code class="language-bash">new connection at 1234
@@ -18607,8 +18537,8 @@ Check out specific instructions for different flavors of Kubernetes setup in thi
 <h2 id="quick-start-3"><a class="header" href="#quick-start-3">Quick start</a></h2>
 <p>The <a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> contains scripts and Github Actions for running our example apps on Kubernetes + CRI-O.</p>
 <ul>
-<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4328930134?check_suite_focus=true#step:6:3007">Successful run</a></li>
-<li>WebAssembly-based HTTP service <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio-server.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4577789182?check_suite_focus=true#step:6:3030">Successful run</a></li>
+<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio.yml">Github Actions</a></li>
+<li>WebAssembly-based HTTP service <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_crio/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-crio-server.yml">Github Actions</a></li>
 </ul>
 <p>In the rest of this section, we will explain the steps in detail.
 We will assume that you have already <a href="kubernetes/kubernetes/../cri/crio.html">installed and configured CRI-O</a> to work with WasmEdge container images.</p>
@@ -18668,7 +18598,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 <h3 id="a-simple-webassembly-app"><a class="header" href="#a-simple-webassembly-app">A simple WebAssembly app</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/wasi.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly WASI program as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>The output from the containerized application is printed into the console.</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -18696,7 +18626,7 @@ spec:
   hostNetwork: true
   containers:
   - name: http-server
-    image: avengermojo/http_server:with-wasm-annotation
+    image: wasmedge/example-wasi-http:latest
     command: [ &quot;/http_server.wasm&quot; ]
     ports:
     - containerPort: 1234
@@ -18726,8 +18656,8 @@ echo: name=WasmEdge
 <h2 id="quick-start-4"><a class="header" href="#quick-start-4">Quick start</a></h2>
 <p>The <a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> contains scripts and Github Actions for running our example apps on Kubernetes + containerd.</p>
 <ul>
-<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4577789181?check_suite_focus=true#step:6:3010">Successful run</a></li>
-<li>WebAssembly-based HTTP service <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd-server.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4577789184?check_suite_focus=true#step:6:3016">Successful run</a></li>
+<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd.yml">Github Actions</a></li>
+<li>WebAssembly-based HTTP service <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/kubernetes_containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/kubernetes-containerd-server.yml">Github Actions</a></li>
 </ul>
 <p>In the rest of this section, we will explain the steps in detail.
 We will assume that you have already <a href="kubernetes/kubernetes/../cri/containerd.html">installed and configured containerd</a> to work with WasmEdge container images.</p>
@@ -18787,7 +18717,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 <h3 id="a-simple-webassembly-app-1"><a class="header" href="#a-simple-webassembly-app-1">A simple WebAssembly app</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/wasi.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly WASI program as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo cluster/kubectl.sh run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 </code></pre>
 <p>The output from the containerized application is printed into the console.</p>
 <pre><code class="language-bash">Random number: 401583443
@@ -18804,7 +18734,7 @@ pod &quot;wasi-demo-2&quot; deleted
 <h3 id="a-webassembly-based-http-service-1"><a class="header" href="#a-webassembly-based-http-service-1">A WebAssembly-based HTTP service</a></h3>
 <p><a href="kubernetes/kubernetes/../demo/server.html">A separate article</a> explains how to compile, package, and publish a simple WebAssembly HTTP service application as a container image to Docker hub.
 Run the WebAssembly-based image from Docker Hub in the Kubernetes cluster as follows.</p>
-<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=avengermojo/http_server:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
+<pre><code class="language-bash">sudo cluster/kubectl.sh run --restart=Never http-server --image=wasmedge/example-wasi-http:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}'
 </code></pre>
 <p>Since we are using <code>hostNetwork</code> in the <code>kubectl run</code> command, the HTTP server image is running on the local network with IP address <code>127.0.0.1</code>.
 Now, you can use the <code>curl</code> command to access the HTTP service.</p>
@@ -18820,11 +18750,11 @@ echo: name=WasmEdge
 <pre><code class="language-bash"># Create a &quot;WASM in KinD&quot; Cluster
 kind create cluster --image ghcr.io/liquid-reply/kind-crun-wasm:v1.23.0
 # Run the example
-kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
+kubectl run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <p>In the rest of this section, we will explain how to create a KinD node image with wasmedge support.</p>
 <h2 id="build-crun"><a class="header" href="#build-crun">Build crun</a></h2>
-<p>KinD uses the kindest/node image for the control plane and worker nodes. The image contains containerd as CRI and runc as OCI Runtime. To enable WasmEdge support we replace runc with crun.</p>
+<p>KinD uses the <code>kindest/node</code> image for the control plane and worker nodes. The image contains containerd as CRI and runc as OCI Runtime. To enable WasmEdge support we replace <code>runc</code> with <code>crun</code>.</p>
 <p>For the node image we only need the crun binary and not the entire build toolchain. Therefore we use a multistage dockerfile where we create crun in the first step and only copy the crun binary to the node image.</p>
 <pre><code class="language-Dockerfile">FROM ubuntu:21.10 AS builder
 WORKDIR /data
@@ -18866,7 +18796,7 @@ RUN echo &quot;Installing Packages ...&quot; \
 <pre><code class="language-bash">docker build -t node-wasmedge .
 kind create cluster --image node-wasmedge
 # Now you can run the example to validate your cluster
-kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
+kubectl run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="create-a-crun-demo-for-kubeedge"><a class="header" href="#create-a-crun-demo-for-kubeedge">Create a crun demo for KubeEdge</a></h1>
 <h2 id="1-setup-cloud-side-kubeedge-master-node"><a class="header" href="#1-setup-cloud-side-kubeedge-master-node">1. Setup Cloud Side (KubeEdge Master Node)</a></h2>
@@ -19074,7 +19004,7 @@ master     Ready     control-plane,master   68m   v1.21.0
 <h2 id="4-run-a-simple-webassembly-app"><a class="header" href="#4-run-a-simple-webassembly-app">4. Run a simple WebAssembly app</a></h2>
 <p>We can run the WebAssembly-based image from Docker Hub in the Kubernetes cluster.</p>
 <h3 id="cloud-side"><a class="header" href="#cloud-side">Cloud Side</a></h3>
-<pre><code class="language-bash">$ kubectl run -it --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">$ kubectl run -it --restart=Never wasi-demo --image=wasmedge/example-wasi:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
 
 Random number: -1694733782
 Random bytes: [6, 226, 176, 126, 136, 114, 90, 2, 216, 17, 241, 217, 143, 189, 123, 197, 17, 60, 49, 37, 71, 69, 67, 108, 66, 39, 105, 9, 6, 72, 232, 238, 102, 5, 148, 243, 249, 183, 52, 228, 54, 176, 63, 249, 216, 217, 46, 74, 88, 204, 130, 191, 182, 19, 118, 193, 77, 35, 189, 6, 139, 68, 163, 214, 231, 100, 138, 246, 185, 47, 37, 49, 3, 7, 176, 97, 68, 124, 20, 235, 145, 166, 142, 159, 114, 163, 186, 46, 161, 144, 191, 211, 69, 19, 179, 241, 8, 207, 8, 112, 80, 170, 33, 51, 251, 33, 105, 0, 178, 175, 129, 225, 112, 126, 102, 219, 106, 77, 242, 104, 198, 238, 193, 247, 23, 47, 22, 29]
@@ -19102,8 +19032,8 @@ IPs:          &lt;none&gt;
 Containers:
   wasi-demo:
     Container ID:  cri-o://1ae4d0d7f671050331a17e9b61b5436bf97ad35ad0358bef043ab820aed81069
-    Image:         hydai/wasm-wasi-example:with-wasm-annotation
-    Image ID:      docker.io/hydai/wasm-wasi-example@sha256:525aab8d6ae8a317fd3e83cdac14b7883b92321c7bec72a545edf276bb2100d6
+    Image:         wasmedge/example-wasi:latest
+    Image ID:      docker.io/wasmedge/example-wasi@sha256:525aab8d6ae8a317fd3e83cdac14b7883b92321c7bec72a545edf276bb2100d6
     Port:          &lt;none&gt;
     Host Port:     &lt;none&gt;
     Args:
@@ -19246,7 +19176,7 @@ spec:
   - args:
     - /wasi_example_main.wasm
     - &quot;50000000&quot;
-    image: hydai/wasm-wasi-example:with-wasm-annotation
+    image: wasmedge/example-wasi:latest
     imagePullPolicy: IfNotPresent
     name: wasi-demo
   hostNetwork: true
@@ -19315,7 +19245,7 @@ EOF
 sudo sysctl --system 
 </code></pre>
 <ul>
-<li>Setup the value of rp-filter (adjusting the value of two parameters in /etc/sysctl.d/10-network-security.conf from 2 to 1 and setting up the value of /proc/sys/net/ipv4/ip_forward to 1)</li>
+<li>Setup the value of rp-filter (adjusting the value of two parameters in <code>/etc/sysctl.d/10-network-security.conf</code> from 2 to 1 and setting up the value of /proc/sys/net/ipv4/ip_forward to 1)</li>
 </ul>
 <pre><code class="language-bash">sudo vi /etc/sysctl.d/10-network-security.conf
 echo 1 &gt; /proc/sys/net/ipv4/ip_forward
@@ -19405,7 +19335,7 @@ make build WHAT=cmd/yurtctl
 --node-servant-image=&quot;openyurt/node-servant:latest&quot;\
 --yurthub-image=&quot;openyurt/yurthub:v0.5.0&quot;
 </code></pre>
-<p>We need to change the openyurt/node-server-version to latest here: --node-servant-image=&quot;openyurt/node-servant:latest&quot;</p>
+<p>We need to change the <code>openyurt/node-server-version</code> to latest here: <code>--node-servant-image=&quot;openyurt/node-servant:latest&quot;</code></p>
 <p>Actually, OpenYurt components 0.6.0 version is recommended to be installed and proved to be a success to run a WasmEdge demo.
 How to install OpenYurt:0.6.0, you can see <a href="https://github.com/openyurtio/openyurt/releases/tag/v0.6.0">this</a></p>
 <h3 id="use-openyurt-experience-center-to-quickly-set-up-an-openyurt-cluster"><a class="header" href="#use-openyurt-experience-center-to-quickly-set-up-an-openyurt-cluster">Use OpenYurt Experience Center to quickly set up an OpenYurt Cluster</a></h3>
@@ -19414,10 +19344,10 @@ How to install OpenYurt:0.6.0, you can see <a href="https://github.com/openyurti
 <p>Next, let's run a WebAssembly program through the OpenYurt cluster as a container in the pod. This section will start off pulling this WebAssembly-based container image from Docker hub. If you want to learn how to compile, package, and publish the WebAssembly program as a container image to Docker hub, please refer to <a href="https://wasmedge.org/book/en/kubernetes/demo/wasi.html">WasmEdge Book</a>.</p>
 <p>One thing is to note that because the kubectl run (version 1.18.9 ) missed annotations parameters, we need to adjust the command line here. If you are using OpenYurt Experience Center with OpenYurt 0.6.0 and Kubernetes 1.20.11 by default, please refer to <a href="https://wasmedge.org/book/en/kubernetes/kubernetes.html">the Kubernetes sections</a> in the WasmEdge book to run the wasm app.</p>
 <pre><code class="language-bash">// kubectl 1.18.9
-$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat-smart&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat-smart&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 
 // kubectl 1.20.11
-$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 
 </code></pre>
 <p>The output from the containerized application is printed into the console. It is the same for all Kubernetes versions.</p>
@@ -19439,10 +19369,6 @@ pod &quot;wasi-demo&quot; deleted
 <pre><code class="language-bash">CONTAINER           IMAGE               CREATED             STATE               NAME                 ATTEMPT             POD ID
 0c176ed65599a       0423b8eb71e31       8 seconds ago       Exited              wasi-demo  
 </code></pre>
-<ul>
-<li>WasmEdge GitHub repo: <a href="https://github.com/WasmEdge/WasmEdge">https://github.com/WasmEdge/WasmEdge</a></li>
-<li>OpenYurt GitHub repo: <a href="https://github.com/openyurtio/openyurt">https://github.com/openyurtio/openyurt</a></li>
-</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="app-frameworks-and-platforms"><a class="header" href="#app-frameworks-and-platforms">App frameworks and platforms</a></h1>
 <p>WasmEdge applications can be plugged into existing application frameworks or platforms. WasmEdge provides a safe and efficient extension mechanism for those frameworks.</p>
 <p>In this chapter, we will cover several such framework and platforms.</p>

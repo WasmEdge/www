@@ -198,7 +198,7 @@ EOF
 sudo sysctl --system 
 </code></pre>
 <ul>
-<li>Setup the value of rp-filter (adjusting the value of two parameters in /etc/sysctl.d/10-network-security.conf from 2 to 1 and setting up the value of /proc/sys/net/ipv4/ip_forward to 1)</li>
+<li>Setup the value of rp-filter (adjusting the value of two parameters in <code>/etc/sysctl.d/10-network-security.conf</code> from 2 to 1 and setting up the value of /proc/sys/net/ipv4/ip_forward to 1)</li>
 </ul>
 <pre><code class="language-bash">sudo vi /etc/sysctl.d/10-network-security.conf
 echo 1 &gt; /proc/sys/net/ipv4/ip_forward
@@ -288,7 +288,7 @@ make build WHAT=cmd/yurtctl
 --node-servant-image=&quot;openyurt/node-servant:latest&quot;\
 --yurthub-image=&quot;openyurt/yurthub:v0.5.0&quot;
 </code></pre>
-<p>We need to change the openyurt/node-server-version to latest here: --node-servant-image=&quot;openyurt/node-servant:latest&quot;</p>
+<p>We need to change the <code>openyurt/node-server-version</code> to latest here: <code>--node-servant-image=&quot;openyurt/node-servant:latest&quot;</code></p>
 <p>Actually, OpenYurt components 0.6.0 version is recommended to be installed and proved to be a success to run a WasmEdge demo.
 How to install OpenYurt:0.6.0, you can see <a href="https://github.com/openyurtio/openyurt/releases/tag/v0.6.0">this</a></p>
 <h3 id="use-openyurt-experience-center-to-quickly-set-up-an-openyurt-cluster"><a class="header" href="#use-openyurt-experience-center-to-quickly-set-up-an-openyurt-cluster">Use OpenYurt Experience Center to quickly set up an OpenYurt Cluster</a></h3>
@@ -297,10 +297,10 @@ How to install OpenYurt:0.6.0, you can see <a href="https://github.com/openyurti
 <p>Next, let's run a WebAssembly program through the OpenYurt cluster as a container in the pod. This section will start off pulling this WebAssembly-based container image from Docker hub. If you want to learn how to compile, package, and publish the WebAssembly program as a container image to Docker hub, please refer to <a href="https://wasmedge.org/book/en/kubernetes/demo/wasi.html">WasmEdge Book</a>.</p>
 <p>One thing is to note that because the kubectl run (version 1.18.9 ) missed annotations parameters, we need to adjust the command line here. If you are using OpenYurt Experience Center with OpenYurt 0.6.0 and Kubernetes 1.20.11 by default, please refer to <a href="https://wasmedge.org/book/en/kubernetes/kubernetes.html">the Kubernetes sections</a> in the WasmEdge book to run the wasm app.</p>
 <pre><code class="language-bash">// kubectl 1.18.9
-$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat-smart&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest  --overrides='{&quot;kind&quot;:&quot;Pod&quot;,&quot;metadata&quot;:{&quot;annotations&quot;:{&quot;module.wasm.image/variant&quot;:&quot;compat-smart&quot;}} , &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 
 // kubectl 1.20.11
-$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=hydai/wasm-wasi-example:with-wasm-annotation --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
+$ sudo kubectl run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; --overrides='{&quot;kind&quot;:&quot;Pod&quot;, &quot;apiVersion&quot;:&quot;v1&quot;, &quot;spec&quot;: {&quot;hostNetwork&quot;: true}}' /wasi_example_main.wasm 50000000
 
 </code></pre>
 <p>The output from the containerized application is printed into the console. It is the same for all Kubernetes versions.</p>
@@ -322,10 +322,6 @@ pod &quot;wasi-demo&quot; deleted
 <pre><code class="language-bash">CONTAINER           IMAGE               CREATED             STATE               NAME                 ATTEMPT             POD ID
 0c176ed65599a       0423b8eb71e31       8 seconds ago       Exited              wasi-demo  
 </code></pre>
-<ul>
-<li>WasmEdge GitHub repo: <a href="https://github.com/WasmEdge/WasmEdge">https://github.com/WasmEdge/WasmEdge</a></li>
-<li>OpenYurt GitHub repo: <a href="https://github.com/openyurtio/openyurt">https://github.com/openyurtio/openyurt</a></li>
-</ul>
 
                     </main>
 

@@ -153,8 +153,8 @@
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <p>This example uses the following crates:</p>
 <ul>
-<li>wasmedge-sys v0.7.0</li>
-<li>wasmedge-types v0.1.1</li>
+<li>wasmedge-sys v0.9.0</li>
+<li>wasmedge-types v0.2.1</li>
 </ul>
 <h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
 <p>In this example, we will demonstrate how to use the objects and the APIs defined in <code>wasmedge-sys</code> to compute Fibonacci numbers concurrently.</p>
@@ -187,29 +187,29 @@ vm.register_wasm_from_file(&quot;extern&quot;, file)?;
 // compute fib(4) by a child thread
 let vm_cloned = Arc::clone(&amp;vm);
 let handle_a = thread::spawn(move || {
-  let vm_child_thread = vm_cloned.lock().expect(&quot;fail to lock vm&quot;);
-  let returns = vm_child_thread
-    .run_registered_function(&quot;extern&quot;, &quot;fib&quot;, [WasmValue::from_i32(4)])
-    .expect(&quot;fail to compute fib(4)&quot;);
+    let vm_child_thread = vm_cloned.lock().expect(&quot;fail to lock vm&quot;);
+    let returns = vm_child_thread
+        .run_registered_function(&quot;extern&quot;, &quot;fib&quot;, [WasmValue::from_i32(4)])
+        .expect(&quot;fail to compute fib(4)&quot;);
 
-  let fib4 = returns[0].to_i32();
-  println!(&quot;fib(4) by child thread: {}&quot;, fib4);
+    let fib4 = returns[0].to_i32();
+    println!(&quot;fib(4) by child thread: {}&quot;, fib4);
 
-  fib4
+    fib4
 });
 
 // compute fib(5) by a child thread
 let vm_cloned = Arc::clone(&amp;vm);
 let handle_b = thread::spawn(move || {
-  let vm_child_thread = vm_cloned.lock().expect(&quot;fail to lock vm&quot;);
-  let returns = vm_child_thread
-    .run_registered_function(&quot;extern&quot;, &quot;fib&quot;, [WasmValue::from_i32(5)])
-    .expect(&quot;fail to compute fib(5)&quot;);
+    let vm_child_thread = vm_cloned.lock().expect(&quot;fail to lock vm&quot;);
+    let returns = vm_child_thread
+        .run_registered_function(&quot;extern&quot;, &quot;fib&quot;, [WasmValue::from_i32(5)])
+        .expect(&quot;fail to compute fib(5)&quot;);
 
-  let fib5 = returns[0].to_i32();
-  println!(&quot;fib(5) by child thread: {}&quot;, fib5);
+    let fib5 = returns[0].to_i32();
+    println!(&quot;fib(5) by child thread: {}&quot;, fib5);
 
-  fib5
+    fib5
 });
 
 <span class="boring">}

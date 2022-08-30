@@ -154,8 +154,8 @@
 <p>The <a href="https://github.com/second-state/wasmedge-containers-examples/">GitHub repo</a> contains scripts and Github Actions for running our example
 apps on containerd.</p>
 <ul>
-<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4328930139?check_suite_focus=true#step:4:25">Successful run</a></li>
-<li>HTTP service example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd-server.yml">Github Actions</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/runs/4328930141?check_suite_focus=true#step:4:44">Successful run</a></li>
+<li>Simple WebAssembly example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd.yml">Github Actions</a></li>
+<li>HTTP service example <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/containerd/http_server/README.md">Quick start</a> | <a href="https://github.com/second-state/wasmedge-containers-examples/blob/main/.github/workflows/containerd-server.yml">Github Actions</a></li>
 </ul>
 <p>In the sections below, we will explain the steps in the quick start scripts.</p>
 <ul>
@@ -196,10 +196,10 @@ sudo patch -d/ -p0 &lt; containerd_config.diff
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using containerd tools.</p>
-<pre><code class="language-bash">sudo ctr i pull docker.io/hydai/wasm-wasi-example:with-wasm-annotation
+<pre><code class="language-bash">sudo ctr i pull docker.io/wasmedge/example-wasi:latest
 </code></pre>
 <p>Now, you can run the example in just one line with ctr (the containerd cli).</p>
-<pre><code class="language-bash">sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/hydai/wasm-wasi-example:with-wasm-annotation wasm-example /wasi_example_main.wasm 50000000
+<pre><code class="language-bash">sudo ctr run --rm --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/wasmedge/example-wasi:latest wasm-example /wasi_example_main.wasm 50000000
 </code></pre>
 <p>Starting the container would execute the WebAssembly program. You can see the output in the console.</p>
 <pre><code class="language-bash">Creating POD ...
@@ -220,10 +220,10 @@ File content is This is in a file
 program as a container image to Docker hub.
 In this section, we will start off pulling this WebAssembly-based container
 image from Docker hub using containerd tools.</p>
-<pre><code class="language-bash">sudo ctr i pull docker.io/avengermojo/http_server:with-wasm-annotation
+<pre><code class="language-bash">sudo ctr i pull docker.io/wasmedge/example-wasi-http:latest
 </code></pre>
 <p>Now, you can run the example in just one line with ctr (the containerd cli). Notice that we are running the container with <code>--net-host</code> so that the HTTP server inside the WasmEdge container is accessible from the outside shell.</p>
-<pre><code class="language-bash">sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/avengermojo/http_server:with-wasm-annotation http-server-example /http_server.wasm
+<pre><code class="language-bash">sudo ctr run --rm --net-host --runc-binary crun --runtime io.containerd.runc.v2 --label module.wasm.image/variant=compat-smart docker.io/wasmedge/example-wasi-http:latest http-server-example /http_server.wasm
 </code></pre>
 <p>Starting the container would execute the WebAssembly program. You can see the output in the console.</p>
 <pre><code class="language-bash">new connection at 1234
