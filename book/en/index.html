@@ -167,6 +167,14 @@ Your system should have <code>git</code> and <code>curl</code> as prerequisites.
 <p>Run the following command to make the installed binary available in the current session.</p>
 <pre><code class="language-bash">source $HOME/.wasmedge/env
 </code></pre>
+<h3 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h3>
+<h4 id="connection-refused-error"><a class="header" href="#connection-refused-error">Connection refused error</a></h4>
+<p>Some users, especially in China, reported that they had encountered the Connection refused error when trying to download the <code>install.sh</code> from the <code>githubusercontent.com</code>.</p>
+<p>Please make sure your network connection can access the <code>github.com</code> and <code>githubusercontent.com</code> via VPN.</p>
+<pre><code class="language-bash"># The error message
+curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused
+</code></pre>
 <h2 id="use-docker"><a class="header" href="#use-docker">Use Docker</a></h2>
 <p>If you use Docker, you can simply run the WasmEdge application developer Docker images (<a href="https://hub.docker.com/repository/docker/wasmedge/appdev_x86_64">x86</a> and <a href="https://hub.docker.com/repository/docker/wasmedge/appdev_aarch64">arm64</a>). Those images contain all the tooling you need for quick WasmEdge development.</p>
 <pre><code class="language-bash">$ docker pull wasmedge/appdev_x86_64:0.9.0
