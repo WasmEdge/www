@@ -5601,7 +5601,8 @@ In WasmEdge, developers can create the <code>Function</code>, <code>Memory</code
                                       WasmEdge_ValType_I32};
 enum WasmEdge_ValType ReturnList[1] = {WasmEdge_ValType_I32};
 /* Create a function type: {i32, i32} -&gt; {i32}. */
-HostFType = WasmEdge_FunctionTypeCreate(ParamList, 2, ReturnList, 1);
+WasmEdge_FunctionTypeContext *HostFType =
+    WasmEdge_FunctionTypeCreate(ParamList, 2, ReturnList, 1);
 /*
  * Create a function context with the function type and host function body.
  * The `Cost` parameter can be 0 if developers do not need the cost
@@ -5614,6 +5615,7 @@ WasmEdge_FunctionInstanceContext *HostFunc =
  * Developers should guarantee the life cycle of the data, and it can be
  * `NULL` if the external data is not needed.
  */
+WasmEdge_FunctionTypeDelete(HostType);
 
 /*
  * If the function instance is __NOT__ added into a module instance context,
@@ -7942,7 +7944,7 @@ In WasmEdge, developers can create the <code>Function</code>, <code>Memory</code
 <pre><code class="language-c">enum WasmEdge_ValType ParamList[2] = { WasmEdge_ValType_I32, WasmEdge_ValType_I32 };
 enum WasmEdge_ValType ReturnList[1] = { WasmEdge_ValType_I32 };
 /* Create a function type: {i32, i32} -&gt; {i32}. */
-HostFType = WasmEdge_FunctionTypeCreate(ParamList, 2, ReturnList, 1);
+WasmEdge_FunctionTypeContext *HostFType = WasmEdge_FunctionTypeCreate(ParamList, 2, ReturnList, 1);
 /* 
  * Create a function context with the function type and host function body.
  * The `Cost` parameter can be 0 if developers do not need the cost measuring.
@@ -7953,6 +7955,7 @@ WasmEdge_FunctionInstanceContext *HostFunc = WasmEdge_FunctionInstanceCreate(Hos
  * Developers should guarantee the life cycle of the data, and it can be
  * `NULL` if the external data is not needed.
  */
+WasmEdge_FunctionTypeDelete(HostType);
 
 /* If the function instance is not added into a module instance context, it should be deleted. */
 WasmEdge_FunctionInstanceDelete(HostFunc);
@@ -21772,201 +21775,225 @@ Documents are written with Markdown. See <a href="https://help.github.com/catego
 <h2 id="example-code"><a class="header" href="#example-code">Example code</a></h2>
 <p>See <code>examples/plugin/get-string</code> directory for the plugin example code.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="host-functions-7"><a class="header" href="#host-functions-7">Host Functions</a></h1>
-<p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#syntax-hostfunc">Host functions</a> are functions outside WebAssembly and passed to WASM modules as imports. The following steps give an example of registering a <code>host module</code> into WasmEdge runtime.</p>
-<p>This example is for the sources compile with the WasmEdge project in C++.
-If developers want to implement the host functions in C/C++ with WasmEdge C API and without compiling with the WasmEdge project, please refer to the <a href="extend/plugin/../../embed/c/ref.html#host-functions">C API Documentation</a>.</p>
-<h2 id="definitions-of-host-instances"><a class="header" href="#definitions-of-host-instances">Definitions of Host Instances</a></h2>
-<p>WasmEdge supports registering <code>host function</code>, <code>memory</code>, <code>table</code>, and <code>global</code> instances as imports.
-For more details, samples can be found in <code>include/host/wasi/</code> and <code>test/core/spectest.h</code>.</p>
+<p><a href="https://webassembly.github.io/spec/core/exec/runtime.html#syntax-hostfunc">Host functions</a> are the functions outside WebAssembly and passed to WASM modules as imports.
+The following steps give an example of implementing host functions and registering a <code>host module</code> into the WasmEdge runtime.</p>
+<h2 id="host-instances"><a class="header" href="#host-instances">Host Instances</a></h2>
+<p>WasmEdge supports registering <code>host function</code>, <code>memory</code>, <code>table</code>, and <code>global</code> instances as imports.</p>
 <h3 id="functions-1"><a class="header" href="#functions-1">Functions</a></h3>
-<p>A simple host function class can be declared as follows:</p>
-<pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
-#include &quot;runtime/hostfunc.h&quot;
-#include &quot;runtime/instance/memory.h&quot;
-
-namespace WasmEdge {
-namespace Host {
-
-class TestHost : public Runtime::HostFunction&lt;TestHost&gt; {
-public:
-  Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2);
-};
-
-} // namespace Host
-} // namespace WasmEdge
+<p>The host function body definition in WasmEdge is defined as follows:</p>
+<pre><code class="language-c">typedef WasmEdge_Result (*WasmEdge_HostFunc_t)(
+    void *Data, const WasmEdge_CallingFrameContext *CallFrameCxt,
+    const WasmEdge_Value *Params, WasmEdge_Value *Returns);
 </code></pre>
-<p>According to example, return type <code>Expect&lt;T&gt;</code> presents the expected return number type <code>T</code> of this host function. Types of <code>Param1</code> and <code>Param2</code> presents argument types of this <code>host function</code>. Only WASM built-in types (aka. <code>uint32_t</code>, <code>uint64_t</code>, <code>float</code>, and <code>double</code>) are supported in <code>host functions</code>. When instantiating, the function signature of <code>vec(valtype) -&gt; resulttype</code> is generated and can be imported by WASM modules.</p>
-<p>Note: In the current state, only a single value returning is supported.</p>
-<p>Another situation is passing environments or information which need to be accessed by <code>host function</code> body. The following sample shows how to implement host function clusters:</p>
-<pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
-#include &quot;runtime/hostfunc.h&quot;
-#include &quot;runtime/instance/memory.h&quot;
-#include &lt;vector&gt;
+<p>A simple host function can be defined as follows:</p>
+<pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 
-namespace WasmEdge {
-namespace Host {
-
-template &lt;typename T&gt; class TestCluster : public Runtime::HostFunction&lt;T&gt; {
-public:
-  TestCluster(std::vector&lt;uint8_t&gt; &amp;Vec) : Data(Vec) {}
-
-protected:
-  std::vector&lt;uint8_t&gt; &amp;Data;
-};
-
-class TestHost1 : public TestCluster&lt;TestHost1&gt; {
-public:
-  TestHost1(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
-  Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2) {
-    // Operations to `Data` ...
-    return {};
-  }
-};
-
-class TestHost2 : public TestCluster&lt;TestHost2&gt; {
-public:
-  TestHost2(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
-  Expect&lt;uint64_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint64_t Param1, double Param2) {
-    // Operations to `Data` ...
-    return {};
-  }
-};
-
-} // namespace Host
-} // namespace WasmEdge
+/* This function can add 2 i32 values and return the result. */
+WasmEdge_Result Add(void *, const WasmEdge_CallingFrameContext *,
+                    const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /*
+  * Params: {i32, i32}
+  * Returns: {i32}
+  */
+ 
+  /* Retrieve the value 1. */
+  int32_t Val1 = WasmEdge_ValueGetI32(In[0]);
+  /* Retrieve the value 2. */
+  int32_t Val2 = WasmEdge_ValueGetI32(In[1]);
+  /* Output value 1 is Val1 + Val2. */
+  Out[0] = WasmEdge_ValueGenI32(Val1 + Val2);
+  /* Return the status of success. */
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<p>For adding the host function into a host module instance, developers should create the function instance with the function type context first.</p>
+<pre><code class="language-c">enum WasmEdge_ValType ParamList[2] = {WasmEdge_ValType_I32,
+                                      WasmEdge_ValType_I32};
+enum WasmEdge_ValType ReturnList[1] = {WasmEdge_ValType_I32};
+/* Create a function type: {i32, i32} -&gt; {i32}. */
+WasmEdge_FunctionTypeContext *HostFType =
+    WasmEdge_FunctionTypeCreate(ParamList, 2, ReturnList, 1);
+/*
+  * Create a function context with the function type and host function body.
+  * The `Cost` parameter can be 0 if developers do not need the cost
+  * measuring.
+  */
+WasmEdge_FunctionInstanceContext *HostFunc =
+    WasmEdge_FunctionInstanceCreate(HostFType, Add, NULL, 0);
+/*
+  * The third parameter is the pointer to the additional data.
+  * Developers should guarantee the life cycle of the data, and it can be NULL if the external data is not needed.
+  */
+WasmEdge_FunctionTypeDelete(HostType);
 </code></pre>
 <h3 id="tables-memories-and-globals"><a class="header" href="#tables-memories-and-globals">Tables, Memories, and Globals</a></h3>
-<p>To create a <code>host table</code>, <code>memory</code>, and <code>global</code> instance, the only way is to create them with their constructor in the <code>host module</code>. The following chapter about the <code>host module</code> will provide examples.</p>
+<p>To create a <code>host table</code>, <code>memory</code>, and <code>global</code> instance, developers can use similar APIs.</p>
+<pre><code class="language-c">/* Create a host table exported as &quot;table&quot;. */
+WasmEdge_Limit TabLimit = {
+    .HasMax = true, .Shared = false, .Min = 10, .Max = 20};
+WasmEdge_TableTypeContext *HostTType =
+    WasmEdge_TableTypeCreate(WasmEdge_RefType_FuncRef, TabLimit);
+WasmEdge_TableInstanceContext *HostTable =
+    WasmEdge_TableInstanceCreate(HostTType);
+WasmEdge_TableTypeDelete(HostTType);
+
+/* Create a host memory exported as &quot;memory&quot;. */
+WasmEdge_Limit MemLimit = {.HasMax = true, .Shared = false, .Min = 1, .Max = 2};
+WasmEdge_MemoryTypeContext *HostMType = WasmEdge_MemoryTypeCreate(MemLimit);
+WasmEdge_MemoryInstanceContext *HostMemory =
+    WasmEdge_MemoryInstanceCreate(HostMType);
+WasmEdge_MemoryTypeDelete(HostMType);
+
+/* Create a host global exported as &quot;global_i32&quot; and initialized as `666`. */
+WasmEdge_GlobalTypeContext *HostGType =
+    WasmEdge_GlobalTypeCreate(WasmEdge_ValType_I32, WasmEdge_Mutability_Const);
+WasmEdge_GlobalInstanceContext *HostGlobal =
+    WasmEdge_GlobalInstanceCreate(HostGType, WasmEdge_ValueGenI32(666));
+WasmEdge_GlobalTypeDelete(HostGType);
+</code></pre>
 <h2 id="host-modules"><a class="header" href="#host-modules">Host Modules</a></h2>
-<p>The host module is a module instance which can be registered into WasmEdge runtime. A module instance contains <code>host functions</code>, <code>tables</code>, <code>memories</code>, <code>globals</code>, and other user-customized data. WasmEdge provides API to register a module instance into a <code>VM</code> or <code>Store</code>. After registering, these host instances in the module instance can be imported by WASM modules.</p>
-<h3 id="declaration"><a class="header" href="#declaration">Declaration</a></h3>
-<p>Module instance supplies exported module name and can contain customized data. A module name is needed when constructing module instances.</p>
-<pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
-#include &quot;runtime/instance/module.h&quot;
-
-namespace WasmEdge {
-namespace Host {
-
-class TestModule : public Runtime::Instance::ModuleInstance {
-public:
-  TestModule() : ModuleInstance(&quot;test&quot;);
-  virtual ~TestModule() = default;
-};
-
-} // namespace Host
-} // namespace WasmEdge
+<p>The host module is a module instance that contains <code>host functions</code>, <code>tables</code>, <code>memories</code>, and <code>globals</code>, the same as the WASM modules. Developers can use APIs to add the instances into a host module.
+After registering the host modules into a <code>VM</code> or <code>Store</code> context, the exported instances in that modules can be imported by WASM modules when instantiating.</p>
+<h3 id="module-instance-creation"><a class="header" href="#module-instance-creation">Module Instance Creation</a></h3>
+<p>Module instance supplies exported module name.</p>
+<pre><code class="language-c">WasmEdge_String HostName = WasmEdge_StringCreateByCString(&quot;test&quot;);
+WasmEdge_ModuleInstanceContext *HostMod =
+    WasmEdge_ModuleInstanceCreate(HostName);
+WasmEdge_StringDelete(HostName);
 </code></pre>
 <h3 id="add-instances"><a class="header" href="#add-instances">Add Instances</a></h3>
-<p>Module instance provides <code>addHostFunc()</code>, <code>addHostTable()</code>, <code>addHostMemory()</code>, and <code>addHostGlobal()</code> to insert instances with their unique names. Insertion can be done in constructor. The following example also shows how to create <code>host memories</code>, <code>tables</code>, and <code>globals</code>.</p>
-<pre><code class="language-cpp">#include &quot;common/errcode.h&quot;
-#include &quot;runtime/hostfunc.h&quot;
-#include &quot;runtime/instance/module.h&quot;
-#include &lt;memory&gt;
-#include &lt;vector&gt;
+<p>Developers can add the <code>host functions</code>, <code>tables</code>, <code>memories</code>, and <code>globals</code> into the module instance with the export name.
+After adding to the module, the ownership of the instances is moved into the module. Developers should <strong>NOT</strong> access or destroy them.</p>
+<pre><code class="language-c">/* Add the host function created above with the export name &quot;add&quot;. */
+HostName = WasmEdge_StringCreateByCString(&quot;add&quot;);
+WasmEdge_ModuleInstanceAddFunction(HostMod, HostName, HostFunc);
+WasmEdge_StringDelete(HostName);
 
-namespace WasmEdge {
-namespace Host {
+/* Add the table created above with the export name &quot;table&quot;. */
+HostName = WasmEdge_StringCreateByCString(&quot;table&quot;);
+WasmEdge_ModuleInstanceAddTable(HostMod, HostName, HostTable);
+WasmEdge_StringDelete(HostName);
 
-template &lt;typename T&gt; class TestCluster : public Runtime::HostFunction&lt;T&gt; {
-public:
-  TestCluster(std::vector&lt;uint8_t&gt; &amp;Vec) : Data(Vec) {}
+/* Add the memory created above with the export name &quot;memory&quot;. */
+HostName = WasmEdge_StringCreateByCString(&quot;memory&quot;);
+WasmEdge_ModuleInstanceAddMemory(HostMod, HostName, HostMemory);
+WasmEdge_StringDelete(HostName);
 
-protected:
-  std::vector&lt;uint8_t&gt; &amp;Data;
-};
-
-class TestHost1 : public TestCluster&lt;TestHost1&gt; {
-public:
-  TestHost1(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
-  Expect&lt;uint32_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint32_t Param1, float Param2) {
-    // Operations to `Data` ...
-    return {};
-  }
-};
-
-class TestHost2 : public TestCluster&lt;TestHost2&gt; {
-public:
-  TestHost2(std::vector&lt;uint8_t&gt; &amp;Vec) : TestCluster(Vec) {}
-  Expect&lt;uint64_t&gt; body(Runtime::Instance::MemoryInstance *MemInst, uint64_t Param1, double Param2) {
-    // Operations to `Data` ...
-    return {};
-  }
-};
-
-
-class TestModule : public Runtime::Instance::ModuleInstance {
-public:
-  TestModule(std::vector&lt;uint8_t&gt; &amp;Vec) : ModuleInstance(&quot;test&quot;), Data(Vec) {
-    // Add function instances with exporting name
-    addHostFunc(&quot;test_func1&quot;, std::make_unique&lt;TestHost1&gt;(Data));
-    addHostFunc(&quot;test_func2&quot;, std::make_unique&lt;TestHost2&gt;(Data));
-
-    // Add table instance with exporting name
-    addHostTable(&quot;table&quot;, std::make_unique&lt;Runtime::Instance::TableInstance&gt;(
-                              TableType(RefType::FuncRef, 10, 20)));
-
-    // Add memory instance with exporting name
-    addHostMemory(&quot;memory&quot;, std::make_unique&lt;Runtime::Instance::MemoryInstance&gt;(
-                                MemoryType(1, 2)));
-
-    // Add global instance with exporting name
-    addHostGlobal(&quot;global_i32&quot;,
-                  std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
-                      GlobalType(ValType::I32, ValMut::Const), uint32_t(666)));
-    addHostGlobal(&quot;global_i64&quot;,
-                  std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
-                      GlobalType(ValType::I64, ValMut::Const), uint64_t(666)));
-    addHostGlobal(&quot;global_f32&quot;,
-                  std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
-                      GlobalType(ValType::F32, ValMut::Const), float(666)));
-    addHostGlobal(&quot;global_f64&quot;,
-                  std::make_unique&lt;Runtime::Instance::GlobalInstance&gt;(
-                      GlobalType(ValType::F64, ValMut::Const), double(666)));
-  }
-  virtual ~TestModule() = default;
-
-private:
-  std::vector&lt;uint8_t&gt; &amp;Data;
-};
-
-} // namespace Host
-} // namespace WasmEdge
+/* Add the global created above with the export name &quot;global_i32&quot;. */
+HostName = WasmEdge_StringCreateByCString(&quot;global_i32&quot;);
+WasmEdge_ModuleInstanceAddGlobal(HostMod, HostName, HostGlobal);
+WasmEdge_StringDelete(HostName);
 </code></pre>
-<p>Module instance supplies <code>getFuncs()</code>, <code>getTables()</code>, <code>getMems()</code>, and <code>getGlobals()</code> to search registered instances by unique exporting name. For more details, APIs can be found in <code>include/runtime/importobj.h</code>.</p>
 <h3 id="register-host-modules-to-wasmedge"><a class="header" href="#register-host-modules-to-wasmedge">Register Host Modules to WasmEdge</a></h3>
-<p>Users can register host modules via <code>WasmEdge::VM::registerModule()</code> API.</p>
-<pre><code class="language-cpp">#include &quot;common/configure.h&quot;
-#include &quot;vm/vm.h&quot;
-#include &lt;vector&gt;
+<p>For importing the host functions in WASM, developers can register the host modules into a <code>VM</code> or <code>Store</code> context.</p>
+<pre><code class="language-c">WasmEdge_StoreContext *StoreCxt = WasmEdge_StoreCreate();
+WasmEdge_ExecutorContext *ExecCxt = WasmEdge_ExecutorCreate(NULL, NULL);
 
-WasmEdge::Configure Conf;
-WasmEdge::VM::VM VM(Conf);
-std::vector&lt;uint8_t&gt; Data;
-WasmEdge::Host::TestModule TestMod(Data);
-VM.registerModule(TestMod);
-</code></pre>
-<h3 id="link-libraries-and-include-directories-in-cmakefile"><a class="header" href="#link-libraries-and-include-directories-in-cmakefile">Link Libraries And Include Directories in CMakeFile</a></h3>
-<p>For finding headers from WasmEdge include directories and linking static libraries, some settings are necessary for CMakeFile:</p>
-<pre><code class="language-cmake">add_library(wasmedgeHostModuleTest  # Static library name of host modules
-  test.cpp  # Path to host modules cpp files
-)
+/* Register the module instance into the store. */
+WasmEdge_Result Res =
+    WasmEdge_ExecutorRegisterImport(ExecCxt, StoreCxt, HostModCxt);
+if (!WasmEdge_ResultOK(Res)) {
+  printf(&quot;Host module registration failed: %s\n&quot;,
+         WasmEdge_ResultGetMessage(Res));
+  return -1;
+}
+/*
+ * Developers can register the host module into a VM context by the
+ * `WasmEdge_VMRegisterModuleFromImport()` API.
+ */
+/*
+ * The owner of the host module will not be changed. Developers can register
+ * the host module into several VMs or stores.
+ */
 
-target_include_directories(wasmedgeHostModuleTest
-  PUBLIC
-  ${Boost_INCLUDE_DIRS}
-  ${PROJECT_SOURCE_DIR}/include
-)
+/* Although being registered, the host module should be destroyed. */
+WasmEdge_StoreDelete(StoreCxt);
+WasmEdge_ExecutorDelete(ExecCxt);
+WasmEdge_ModuleInstanceDelete(HostModCxt);
 </code></pre>
-<h2 id="implementation-of-host-function-body"><a class="header" href="#implementation-of-host-function-body">Implementation of Host Function Body</a></h2>
-<p>There are some tips about implementing host function bodies.</p>
-<h3 id="checking-memory-instance-when-using"><a class="header" href="#checking-memory-instance-when-using">Checking Memory Instance When Using</a></h3>
-<p>Host function can access WASM memory, which passed as <code>MemoryInstance *</code> argument. When a <a href="https://webassembly.github.io/spec/core/exec/instructions.html#function-calls">function call occurs</a>, a frame with module which the called function belonging to will be pushed onto the <code>stack</code>. In the <code>host function</code> case, the <code>memory</code> instance of the module of the top frame on the <code>stack</code> will be passed as the <code>host function</code> body's argument. But there can be no <code>memory</code> instance in a WASM module. Therefore, users should check if the memory instance pointer is a <code>nullptr</code> or not when accessing.</p>
-<h3 id="returning-expectation"><a class="header" href="#returning-expectation">Returning Expectation</a></h3>
-<p>From our mechanism, <code>Expect&lt;T&gt;</code> declared in <code>include/common/errcode.h</code> is used as the result type of function body. In <code>Expect&lt;void&gt;</code> case, <code>return {};</code> is needed for an expected situation. In other cases, <code>return Value;</code> is needed, where <code>Value</code> is a variable of type <code>T</code>. If an unexpected situation occurs, users can call <code>return Unexpect(Code);</code> to return an error, which <code>Code</code> is an element of enumeration <code>ErrCode</code>.</p>
+<h2 id="host-function-body-implementation-tips"><a class="header" href="#host-function-body-implementation-tips">Host Function Body Implementation Tips</a></h2>
+<p>There are some tips about implementing the host functions.</p>
+<h3 id="calling-frame-context"><a class="header" href="#calling-frame-context">Calling Frame Context</a></h3>
+<p>The <code>WasmEdge_CallingFrameContext</code> is the context to provide developers to access the module instance of the <a href="https://webassembly.github.io/spec/core/exec/runtime.html#activations-and-frames">frame on the top of the calling stack</a>.
+According to the <a href="https://webassembly.github.io/spec/core/exec/instructions.html#function-calls">WASM spec</a>, a frame with the module instance to which the caller function belonging is pushed into the stack when invoking a function.
+Therefore, the host functions can access the module instance of the top frame to retrieve the memory instances to read/write data.</p>
+<pre><code class="language-c">/* Host function body definition. */
+WasmEdge_Result LoadOffset(void *Data,
+                           const WasmEdge_CallingFrameContext *CallFrameCxt,
+                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /* Function type: {i32} -&gt; {} */
+  uint32_t Offset = (uint32_t)WasmEdge_ValueGetI32(In[0]);
+  uint32_t Num = 0;
+
+  /* Get the 0th memory instance of the module of the top frame on the stack. */
+  /*
+   * Noticed that the `MemCxt` will be `NULL` if there's no memory instance in
+   * the module instance on the top frame.
+   */
+  WasmEdge_MemoryInstanceContext *MemCxt =
+      WasmEdge_CallingFrameGetMemoryInstance(CallFrameCxt, 0);
+  WasmEdge_Result Res =
+      WasmEdge_MemoryInstanceGetData(MemCxt, (uint8_t *)(&amp;Num), Offset, 4);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;u32 at memory[%u]: %u\n&quot;, Offset, Num);
+  } else {
+    return Res;
+  }
+  return WasmEdge_Result_Success;
+}
+</code></pre>
+<p>The <code>WasmEdge_CallingFrameGetModuleInstance()</code> API can help developers to get the module instance of the top frame on the stack.
+With the module instance context, developers can use the module instance-related APIs to get its contents.
+The <code>WasmEdge_CallingFrameGetExecutor()</code> API can help developers to get the currently used executor context.
+Therefore developers can use the executor to recursively invoke other WASM functions without creating a new executor context.</p>
+<h3 id="return-error-codes"><a class="header" href="#return-error-codes">Return Error Codes</a></h3>
+<p>Usually, the host function in WasmEdge can return the <code>WasmEdge_Result_Success</code> to present the successful execution.
+For presenting the host function execution failed, one way is to return a trap with the error code.
+Then the WasmEdge runtime will cause the trap in WASM and return that error.</p>
+<p><em>Note: We don't recommend using system calls such as <code>exit()</code>. That will shut down the whole WasmEdge runtime.</em></p>
+<p>For simply generating the trap, developers can return the <code>WasmEdge_Result_Fail</code>. If developers call the <code>WasmEdge_ResultOK()</code> with the returned result, they will get <code>false</code>. If developers call the <code>WasmEdge_ResultGetCode()</code> with the returned result, they will always get <code>2</code>.</p>
+<p>For the versions after <code>0.11.0</code>, developers can specify the error code within 24-bit (smaller than <code>16777216</code>) size.</p>
+<pre><code class="language-c">/* Host function body definition. */
+WasmEdge_Result FaildFunc(void *Data,
+                          const WasmEdge_CallingFrameContext *CallFrameCxt,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /* This will create a trap in WASM with the error code. */
+  return WasmEdge_ResultGen(WasmEdge_ErrCategory_UserLevelError, 12345678);
+}
+</code></pre>
+<p>Therefore when developers call the <code>WasmEdge_ResultGetCode()</code> with the returned result, they will get the error code <code>12345678</code>.
+Noticed that if developers call the <code>WasmEdge_ResultGetMessage()</code>, they will always get the C string <code>&quot;user defined error code&quot;</code>.</p>
+<h3 id="host-data"><a class="header" href="#host-data">Host Data</a></h3>
+<p>The third parameter of the <code>WasmEdge_FunctionInstanceCreate()</code> API is for the host data as the type <code>void *</code>.
+Developers can pass the data into the host functions when creating. Then in the host function body, developers can access the data from the first argument.
+Developers should guarantee that the availability of the host data should be longer than the host functions.</p>
+<pre><code class="language-c">/* Host function body definition. */
+WasmEdge_Result PrintData(void *Data,
+                          const WasmEdge_CallingFrameContext *,
+                          const WasmEdge_Value *In, WasmEdge_Value *Out) {
+  /* Function type: {} -&gt; {} */
+  printf(&quot;Data: %lf\n&quot;, *(double *)Data);
+  return WasmEdge_Result_Success;
+}
+
+/* The host data. */
+double Number = 0.0f;
+
+/* Create a function type: {} -&gt; {}. */
+WasmEdge_FunctionTypeContext *HostFType =
+    WasmEdge_FunctionTypeCreate(NULL, 0, NULL, 0);
+/* Create a function context with the function type and host function body. */
+WasmEdge_FunctionInstanceContext *HostFunc =
+    WasmEdge_FunctionInstanceCreate(HostFType, (void *)(&amp;Number), NULL, 0);
+WasmEdge_FunctionTypeDelete(HostType);
+</code></pre>
 <h3 id="forcing-termination"><a class="header" href="#forcing-termination">Forcing Termination</a></h3>
-<p>WasmEdge provides a method for terminating WASM execution in host functions. Developers can return <code>ErrCode::Terminated</code> to trigger the forcing termination of the current execution and pass the <code>ErrCode::Terminated</code> to the caller of the host functions.</p>
+<p>Sometimes developers may want to terminate the WASM execution with the success status.
+WasmEdge provides a method for terminating WASM execution in host functions.
+Developers can return <code>WasmEdge_Result_Terminate</code> to trigger the forcing termination of the current execution.
+If developers call the <code>WasmEdge_ResultOK()</code> with the returned result, they will get <code>true</code>. If developers call the <code>WasmEdge_ResultGetCode()</code> with the returned result, they will always get <code>1</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="customized-external-references"><a class="header" href="#customized-external-references">Customized External References</a></h1>
-<p><a href="https://webassembly.github.io/reference-types/core/syntax/types.html#syntax-reftype">External References</a> denotes an opaque and unforgetable reference to a host object. A new <code>externref</code> type can be passed into a Wasm module or return from it. The Wasm module cannot reveal an <code>externref</code> value's bit pattern, nor create a fake host reference by an integer value.</p>
+<p><a href="https://webassembly.github.io/reference-types/core/syntax/types.html#syntax-reftype">External References</a> denotes an opaque and unforgettable reference to a host object. A new <code>externref</code> type can be passed into a Wasm module or returned from it. The Wasm module cannot reveal an <code>externref</code> value's bit pattern, nor create a fake host reference by an integer value.</p>
 <h2 id="tutorial"><a class="header" href="#tutorial">Tutorial</a></h2>
 <p>The following tutorial is the summary of the <code>externref</code> example in WasmEdge.</p>
 <h3 id="prepare-your-wasm-file"><a class="header" href="#prepare-your-wasm-file">Prepare Your Wasm File</a></h3>
@@ -22005,7 +22032,7 @@ Take <a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/ex
 <p>Users can convert <code>wat</code> to <code>wasm</code> through <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm</a> live tool. Noted that <code>reference types</code> checkbox should be checked on this page.</p>
 <h3 id="implement-host-module-and-register-into-wasmedge"><a class="header" href="#implement-host-module-and-register-into-wasmedge">Implement Host Module and Register into WasmEdge</a></h3>
 <p>The host module should be implemented and registered into WasmEdge before executing Wasm. Assume that the following code is saved as <code>main.c</code>:</p>
-<pre><code class="language-cpp">#include &lt;wasmedge/wasmedge.h&gt;
+<pre><code class="language-c">#include &lt;wasmedge/wasmedge.h&gt;
 
 #include &lt;stdio.h&gt;
 
@@ -22014,7 +22041,8 @@ uint32_t AddFunc(uint32_t A, uint32_t B) { return A + B; }
 uint32_t MulFunc(uint32_t A, uint32_t B) { return A * B; }
 
 // Host function to call `SquareFunc` by external reference
-WasmEdge_Result ExternSquare(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
+WasmEdge_Result ExternSquare(void *Data,
+                             const WasmEdge_CallingFrameContext *CallFrameCxt,
                              const WasmEdge_Value *In, WasmEdge_Value *Out) {
   // Function type: {externref, i32} -&gt; {i32}
   uint32_t (*Func)(uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
@@ -22024,7 +22052,8 @@ WasmEdge_Result ExternSquare(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
 }
 
 // Host function to call `AddFunc` by external reference
-WasmEdge_Result ExternAdd(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
+WasmEdge_Result ExternAdd(void *Data,
+                          const WasmEdge_CallingFrameContext *CallFrameCxt,
                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
   // Function type: {externref, i32, i32} -&gt; {i32}
   uint32_t (*Func)(uint32_t, uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
@@ -22034,7 +22063,8 @@ WasmEdge_Result ExternAdd(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
 }
 
 // Host function to call `ExternMul` by external reference
-WasmEdge_Result ExternMul(void *Data, WasmEdge_MemoryInstanceContext *MemCxt,
+WasmEdge_Result ExternMul(void *Data,
+                          const WasmEdge_CallingFrameContext *CallFrameCxt,
                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
   // Function type: {externref, i32, i32} -&gt; {i32}
   uint32_t (*Func)(uint32_t, uint32_t) = WasmEdge_ValueGetExternRef(In[0]);
@@ -22051,7 +22081,8 @@ WasmEdge_ModuleInstanceContext *CreateExternModule() {
   enum WasmEdge_ValType P[3], R[1];
 
   HostName = WasmEdge_StringCreateByCString(&quot;extern_module&quot;);
-  WasmEdge_ModuleInstanceContext *HostMod = WasmEdge_ModuleInstanceCreate(HostName);
+  WasmEdge_ModuleInstanceContext *HostMod =
+      WasmEdge_ModuleInstanceCreate(HostName);
   WasmEdge_StringDelete(HostName);
 
   // Add host function &quot;functor_square&quot;: {externref, i32} -&gt; {i32}
@@ -22210,15 +22241,15 @@ Take the following <code>wat</code> for example, which is a part of <a href="htt
   )
   (memory $memory (export &quot;memory&quot;) 1))
 </code></pre>
-<p>The host function &quot;<code>extern_module::func_mul</code>&quot; takes <code>externref</code> as a function pointer to multiply parameters 1 and 2 and then return the result. The exported Wasm function &quot;<code>call_mul</code>&quot; calls &quot;<code>func_mul</code>&quot; and pass the <code>externref</code> and 2 numbers as arguments.</p>
+<p>The host function &quot;<code>extern_module::func_mul</code>&quot; takes <code>externref</code> as a function pointer to multiply parameters 1 and 2 and then returns the result. The exported Wasm function &quot;<code>call_mul</code>&quot; calls &quot;<code>func_mul</code>&quot; and passes the <code>externref</code> and 2 numbers as arguments.</p>
 <h3 id="host-functions-8"><a class="header" href="#host-functions-8">Host Functions</a></h3>
 <p>To instantiate the above example Wasm, the host functions must be registered into WasmEdge. See <a href="extend/plugin/../../embed/c/ref.html#host-functions">Host Functions</a> for more details.
 The host functions which take <code>externref</code>s must know the original objects' types. We take the function pointer case for example.</p>
 <pre><code class="language-c">/* Function to pass as function pointer. */
 uint32_t MulFunc(uint32_t A, uint32_t B) { return A * B; }
 
-/* Host function to call function by external reference as a function pointer */
-WasmEdge_Result ExternMul(void *, WasmEdge_MemoryInstanceContext *,
+/* Host function to call the function by external reference as a function pointer */
+WasmEdge_Result ExternMul(void *, const WasmEdge_CallingFrameContext *,
                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
   /* Function type: {externref, i32, i32} -&gt; {i32} */
   void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
@@ -22237,7 +22268,8 @@ WasmEdge_Result ExternMul(void *, WasmEdge_MemoryInstanceContext *,
 <p>Developers can add the host functions with names into a module instance.</p>
 <pre><code class="language-c">/* Create a module instance. */
 WasmEdge_String HostName = WasmEdge_StringCreateByCString(&quot;extern_module&quot;);
-WasmEdge_ModuleInstanceContext *HostMod = WasmEdge_ModuleInstanceCreate(HostName);
+WasmEdge_ModuleInstanceContext *HostMod =
+    WasmEdge_ModuleInstanceCreate(HostName);
 WasmEdge_StringDelete(HostName);
 
 /* Create a function instance and add into the module instance. */
@@ -22246,8 +22278,10 @@ P[0] = WasmEdge_ValType_ExternRef;
 P[1] = WasmEdge_ValType_I32;
 P[2] = WasmEdge_ValType_I32;
 R[0] = WasmEdge_ValType_I32;
-WasmEdge_FunctionTypeContext *HostFType = WasmEdge_FunctionTypeCreate(P, 3, R, 1);
-WasmEdge_FunctionInstanceContext *HostFunc = WasmEdge_FunctionInstanceCreate(HostFType, ExternFuncMul, NULL, 0);
+WasmEdge_FunctionTypeContext *HostFType =
+    WasmEdge_FunctionTypeCreate(P, 3, R, 1);
+WasmEdge_FunctionInstanceContext *HostFunc =
+    WasmEdge_FunctionInstanceCreate(HostFType, ExternFuncMul, NULL, 0);
 WasmEdge_FunctionTypeDelete(HostFType);
 HostName = WasmEdge_StringCreateByCString(&quot;func_mul&quot;);
 WasmEdge_ModuleInstanceAddFunction(HostMod, HostName, HostFunc);
@@ -22257,13 +22291,13 @@ WasmEdge_StringDelete(HostName);
 </code></pre>
 <h3 id="execution"><a class="header" href="#execution">Execution</a></h3>
 <p>Take <a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/externrefTestData/funcs.wasm">the test WASM file</a> (<a href="https://github.com/WasmEdge/WasmEdge/blob/master/test/externref/externrefTestData/funcs.wat">this WAT</a> is the corresponding text format) for example.
-Assume that the <code>funcs.wasm</code> is copied into current directory.
+Assume that the <code>funcs.wasm</code> is copied into the current directory.
 The following is the example to execute WASM with <code>externref</code> through the WasmEdge C API.</p>
 <pre><code class="language-c">/* Create the VM context. */
 WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
 /* Create the module instance context that contains the host functions. */
 WasmEdge_ModuleInstanceContext *HostMod = /* Ignored ... */;
-/* Assume that the host functions are added into the module instance above. */
+/* Assume that the host functions are added to the module instance above. */
 WasmEdge_Value P[3], R[1];
 WasmEdge_String FuncName;
 WasmEdge_Result Res;
@@ -22274,7 +22308,7 @@ if (!WasmEdge_ResultOK(Res)) {
   printf(&quot;Import object registration failed\n&quot;);
   return EXIT_FAILURE;
 }
-/* Load WASM from file. */
+/* Load WASM from the file. */
 Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;funcs.wasm&quot;);
 if (!WasmEdge_ResultOK(Res)) {
   printf(&quot;WASM file loading failed\n&quot;);
@@ -22337,7 +22371,7 @@ if (WasmEdge_ResultOK(Res)) {
 </code></pre>
 <p>In the host function which would access the object by reference, users can use the <code>WasmEdge_ValueGetExternRef()</code> API to retrieve the reference to the object.</p>
 <pre><code class="language-cpp">// Modify the `ExternAdd` in the above tutorial.
-WasmEdge_Result ExternAdd(void *, WasmEdge_MemoryInstanceContext *,
+WasmEdge_Result ExternAdd(void *, const WasmEdge_CallingFrameContext *,
                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
   // Function type: {externref, i32, i32} -&gt; {i32}
   void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
@@ -22372,7 +22406,7 @@ if (WasmEdge_ResultOK(Res)) {
 </code></pre>
 <p>In the host function which would access the object by reference, users can use the <code>WasmEdge_ValueGetExternRef</code> API to retrieve the reference to the object, and the reference is a functor.</p>
 <pre><code class="language-cpp">// Modify the `ExternSquare` in the above tutorial.
-WasmEdge_Result ExternSquare(void *, WasmEdge_MemoryInstanceContext *,
+WasmEdge_Result ExternSquare(void *, const WasmEdge_CallingFrameContext *,
                           const WasmEdge_Value *In, WasmEdge_Value *Out) {
   // Function type: {externref, i32, i32} -&gt; {i32}
   void *Ptr = WasmEdge_ValueGetExternRef(In[0]);
@@ -22387,7 +22421,8 @@ WasmEdge_Result ExternSquare(void *, WasmEdge_MemoryInstanceContext *,
 Assume that the WASM file <code>stl.wasm</code> is copied into the current directory.</p>
 <p>Take the <code>std::ostream</code> and <code>std::string</code> objects for example. Assume that there's a host function accesses to a <code>std::ostream</code> and a <code>std::string</code> through <code>externref</code>s:</p>
 <pre><code class="language-cpp">// Host function to output std::string through std::ostream
-WasmEdge_Result ExternSTLOStreamStr(void *, WasmEdge_MemoryInstanceContext *,
+WasmEdge_Result ExternSTLOStreamStr(void *,
+                                    const WasmEdge_CallingFrameContext *,
                                     const WasmEdge_Value *In,
                                     WasmEdge_Value *) {
   // Function type: {externref, externref} -&gt; {}
@@ -22399,7 +22434,7 @@ WasmEdge_Result ExternSTLOStreamStr(void *, WasmEdge_MemoryInstanceContext *,
   return WasmEdge_Result_Success;
 }
 </code></pre>
-<p>Assume that the above host function is added into the module instance <code>HostMod</code>, and the <code>HostMod</code> is registered into a VM context <code>VMCxt</code>.
+<p>Assume that the above host function is added to the module instance <code>HostMod</code>, and the <code>HostMod</code> is registered into a VM context <code>VMCxt</code>.
 Then users can instantiate the Wasm module:</p>
 <pre><code class="language-cpp">WasmEdge_Result Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;stl.wasm&quot;);
 if (!WasmEdge_ResultOK(Res)) {
