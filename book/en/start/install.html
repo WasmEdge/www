@@ -164,6 +164,14 @@
 <pre><code class="language-bash">source $HOME/.wasmedge/env
 </code></pre>
 <p><strong>That's it!</strong> You can now use WasmEdge from the CLI, or launch it from an application. To update WasmEdge to a new release, just re-run the above command to write over the old files.</p>
+<h3 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h3>
+<h4 id="connection-refused-error"><a class="header" href="#connection-refused-error">Connection refused error</a></h4>
+<p>Some users, especially in China, reported that they had encountered the Connection refused error when trying to download the <code>install.sh</code> from the <code>githubusercontent.com</code>.</p>
+<p>Please make sure your network connection can access the <code>github.com</code> and <code>githubusercontent.com</code> via VPN.</p>
+<pre><code class="language-bash"># The error message
+curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
+curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused
+</code></pre>
 <h2 id="install-for-all-users"><a class="header" href="#install-for-all-users">Install for all users</a></h2>
 <p>By default, WasmEdge is installed in the <code>$HOME/.wasmedge</code> directory. You can install it into a system directory, such as <code>/usr/local</code> to make it available to all users. To specify an install directory, you can run the <code>install.sh</code> script with the <code>-p</code> flag. You will need to run the following commands as the <code>root</code> user or <code>sudo</code> since they write into system directories.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
