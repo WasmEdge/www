@@ -1,0 +1,750 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>React SSR - WasmEdge Runtime</title>
+        <!-- Custom HTML head -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NGPCK7VF2L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NGPCK7VF2L');
+</script>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item "><a href="../../quick_start.html"><strong aria-hidden="true">2.</strong> Quick Start</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../quick_start/install.html"><strong aria-hidden="true">2.1.</strong> Installation And Uninstallation</a></li><li class="chapter-item "><a href="../../quick_start/use_docker.html"><strong aria-hidden="true">2.2.</strong> Using WasmEdge in Docker</a></li><li class="chapter-item "><a href="../../quick_start/run_cli.html"><strong aria-hidden="true">2.3.</strong> Running WASM with WasmEdge CLI</a></li><li class="chapter-item "><a href="../../quick_start/run_in_aot_mode.html"><strong aria-hidden="true">2.4.</strong> Execution in AOT Mode</a></li></ol></li><li class="chapter-item "><a href="../../features.html"><strong aria-hidden="true">3.</strong> WasmEdge Features</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../features/proposals.html"><strong aria-hidden="true">3.1.</strong> Supported WASM And WASI Proposals</a></li><li class="chapter-item "><a href="../../features/proprietary_extend.html"><strong aria-hidden="true">3.2.</strong> WasmEdge Proprietary extensions</a></li><li class="chapter-item "><a href="../../features/integrations.html"><strong aria-hidden="true">3.3.</strong> Integrations</a></li><li class="chapter-item "><a href="../../features/platforms.html"><strong aria-hidden="true">3.4.</strong> Supported Platforms</a></li><li class="chapter-item "><a href="../../features/comparison.html"><strong aria-hidden="true">3.5.</strong> Comparison</a></li></ol></li><li class="chapter-item "><a href="../../use_cases.html"><strong aria-hidden="true">4.</strong> WasmEdge Use Cases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/server_side_render.html"><strong aria-hidden="true">4.1.</strong> Server-Side Rendering Modern Web UI</a></li><li class="chapter-item "><a href="../../use_cases/microservice.html"><strong aria-hidden="true">4.2.</strong> Microservices</a></li><li class="chapter-item "><a href="../../use_cases/serverless_faas.html"><strong aria-hidden="true">4.3.</strong> Serverless Function-As-A-Service in Public Clouds</a></li><li class="chapter-item "><a href="../../use_cases/serverless_saas.html"><strong aria-hidden="true">4.4.</strong> Serverless Software-As-A-Service Functions</a></li><li class="chapter-item "><a href="../../use_cases/smart_device.html"><strong aria-hidden="true">4.5.</strong> Smart devices</a></li><li class="chapter-item "><a href="../../use_cases/js_or_dsl_runtime.html"><strong aria-hidden="true">4.6.</strong> JavaScript or Domain Specifc Language Runtime</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes.html"><strong aria-hidden="true">4.7.</strong> WasmEdge in Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/kubernetes/quickstart.html"><strong aria-hidden="true">4.7.1.</strong> Quick start</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/demo.html"><strong aria-hidden="true">4.7.2.</strong> Demo apps</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/kubernetes/demo/wasi.html"><strong aria-hidden="true">4.7.2.1.</strong> Simple example</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/demo/server.html"><strong aria-hidden="true">4.7.2.2.</strong> HTTP service</a></li></ol></li><li class="chapter-item "><a href="../../use_cases/kubernetes/container.html"><strong aria-hidden="true">4.7.3.</strong> Container runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/kubernetes/container/crun.html"><strong aria-hidden="true">4.7.3.1.</strong> crun</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/container/runc.html"><strong aria-hidden="true">4.7.3.2.</strong> runc</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/container/youki.html"><strong aria-hidden="true">4.7.3.3.</strong> youki</a></li></ol></li><li class="chapter-item "><a href="../../use_cases/kubernetes/cri.html"><strong aria-hidden="true">4.7.4.</strong> CRI runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/kubernetes/cri/crio.html"><strong aria-hidden="true">4.7.4.1.</strong> CRI-O</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/cri/containerd.html"><strong aria-hidden="true">4.7.4.2.</strong> containerd</a></li></ol></li><li class="chapter-item "><a href="../../use_cases/kubernetes/kubernetes.html"><strong aria-hidden="true">4.7.5.</strong> Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/kubernetes/kubernetes/kubernetes-crio.html"><strong aria-hidden="true">4.7.5.1.</strong> Kubernetes + CRI-O</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/kubernetes/kubernetes-containerd.html"><strong aria-hidden="true">4.7.5.2.</strong> Kubernetes + containerd</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/kubernetes/kind.html"><strong aria-hidden="true">4.7.5.3.</strong> KinD</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/kubernetes/kubeedge.html"><strong aria-hidden="true">4.7.5.4.</strong> KubeEdge</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/kubernetes/superedge.html"><strong aria-hidden="true">4.7.5.5.</strong> SuperEdge</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/kubernetes/openyurt.html"><strong aria-hidden="true">4.7.5.6.</strong> OpenYurt</a></li></ol></li><li class="chapter-item "><a href="../../use_cases/kubernetes/docker.html"><strong aria-hidden="true">4.7.6.</strong> Docker</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/kubernetes/docker/lxc.html"><strong aria-hidden="true">4.7.6.1.</strong> Slim container</a></li><li class="chapter-item "><a href="../../use_cases/kubernetes/docker/containerd.html"><strong aria-hidden="true">4.7.6.2.</strong> containerd integration</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../use_cases/frameworks.html"><strong aria-hidden="true">4.8.</strong> App Frameworks & Platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/frameworks/mesh.html"><strong aria-hidden="true">4.8.1.</strong> Service mesh & runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/frameworks/mesh/dapr.html"><strong aria-hidden="true">4.8.1.1.</strong> Dapr</a></li><li class="chapter-item "><a href="../../use_cases/frameworks/mesh/mosn.html"><strong aria-hidden="true">4.8.1.2.</strong> MOSN</a></li><li class="chapter-item "><a href="../../use_cases/frameworks/mesh/wasm-nginx-module.html"><strong aria-hidden="true">4.8.1.3.</strong> Nginx</a></li><li class="chapter-item "><a href="../../use_cases/frameworks/mesh/eventmesh.html"><strong aria-hidden="true">4.8.1.4.</strong> Apache EventMesh</a></li></ol></li><li class="chapter-item "><a href="../../use_cases/frameworks/app.html"><strong aria-hidden="true">4.8.2.</strong> Application frameworks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/frameworks/app/yomo.html"><strong aria-hidden="true">4.8.2.1.</strong> YoMo</a></li><li class="chapter-item "><a href="../../use_cases/frameworks/app/reactr.html"><strong aria-hidden="true">4.8.2.2.</strong> Reactr</a></li></ol></li><li class="chapter-item "><a href="../../use_cases/frameworks/serverless.html"><strong aria-hidden="true">4.8.3.</strong> Serverless platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../use_cases/frameworks/serverless/vercel.html"><strong aria-hidden="true">4.8.3.1.</strong> Vercel</a></li><li class="chapter-item "><a href="../../use_cases/frameworks/serverless/netlify.html"><strong aria-hidden="true">4.8.3.2.</strong> Netlify</a></li><li class="chapter-item "><a href="../../use_cases/frameworks/serverless/aws.html"><strong aria-hidden="true">4.8.3.3.</strong> AWS</a></li><li class="chapter-item "><a href="../../use_cases/frameworks/serverless/tencent.html"><strong aria-hidden="true">4.8.3.4.</strong> Tencent</a></li><li class="chapter-item "><a href="../../use_cases/frameworks/serverless/secondstate.html"><strong aria-hidden="true">4.8.3.5.</strong> Second State</a></li></ol></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../write_wasm.html"><strong aria-hidden="true">5.</strong> Write a WebAssembly Application</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../write_wasm/c.html"><strong aria-hidden="true">5.1.</strong> C</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../write_wasm/c/simd.html"><strong aria-hidden="true">5.1.1.</strong> simd</a></li></ol></li><li class="chapter-item "><a href="../../write_wasm/rust.html"><strong aria-hidden="true">5.2.</strong> Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../write_wasm/rust/bindgen.html"><strong aria-hidden="true">5.2.1.</strong> Bindgen of Rust Functions</a></li><li class="chapter-item "><a href="../../write_wasm/rust/wasi.html"><strong aria-hidden="true">5.2.2.</strong> Access OS Services</a></li><li class="chapter-item "><a href="../../write_wasm/rust/tensorflow.html"><strong aria-hidden="true">5.2.3.</strong> TensorFlow</a></li><li class="chapter-item "><a href="../../write_wasm/rust/wasinn.html"><strong aria-hidden="true">5.2.4.</strong> Neural Network for WASI</a></li><li class="chapter-item "><a href="../../write_wasm/rust/wasicrypto.html"><strong aria-hidden="true">5.2.5.</strong> Crypto for WASI</a></li><li class="chapter-item "><a href="../../write_wasm/rust/networking.html"><strong aria-hidden="true">5.2.6.</strong> Simple HTTP Client & Server</a></li><li class="chapter-item "><a href="../../write_wasm/rust/networking-https.html"><strong aria-hidden="true">5.2.7.</strong> Simple HTTPS Client & Server</a></li><li class="chapter-item "><a href="../../write_wasm/rust/networking-nonblocking.html"><strong aria-hidden="true">5.2.8.</strong> Non-Blocking Network Apps</a></li><li class="chapter-item "><a href="../../write_wasm/rust/ssr.html"><strong aria-hidden="true">5.2.9.</strong> Server-Side Rendering</a></li><li class="chapter-item "><a href="../../write_wasm/rust/command.html"><strong aria-hidden="true">5.2.10.</strong> Command Interface</a></li></ol></li><li class="chapter-item expanded "><a href="../../write_wasm/js.html"><strong aria-hidden="true">5.3.</strong> JavaScript</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../write_wasm/js/quickstart.html"><strong aria-hidden="true">5.3.1.</strong> Getting Started</a></li><li class="chapter-item "><a href="../../write_wasm/js/nodejs.html"><strong aria-hidden="true">5.3.2.</strong> Node.js Compatibility</a></li><li class="chapter-item "><a href="../../write_wasm/js/networking.html"><strong aria-hidden="true">5.3.3.</strong> Networking Apps</a></li><li class="chapter-item expanded "><a href="../../write_wasm/js/ssr.html" class="active"><strong aria-hidden="true">5.3.4.</strong> React SSR</a></li><li class="chapter-item "><a href="../../write_wasm/js/tensorflow.html"><strong aria-hidden="true">5.3.5.</strong> TensorFlow</a></li><li class="chapter-item "><a href="../../write_wasm/js/es6.html"><strong aria-hidden="true">5.3.6.</strong> ES6 Modules</a></li><li class="chapter-item "><a href="../../write_wasm/js/npm.html"><strong aria-hidden="true">5.3.7.</strong> Node.js & NPM Modules</a></li><li class="chapter-item "><a href="../../write_wasm/js/modules.html"><strong aria-hidden="true">5.3.8.</strong> Built-in Modules</a></li><li class="chapter-item "><a href="../../write_wasm/js/rust.html"><strong aria-hidden="true">5.3.9.</strong> Native JS API in Rust</a></li></ol></li><li class="chapter-item "><a href="../../write_wasm/go.html"><strong aria-hidden="true">5.4.</strong> Go</a></li><li class="chapter-item "><a href="../../write_wasm/swift.html"><strong aria-hidden="true">5.5.</strong> Swift</a></li><li class="chapter-item "><a href="../../write_wasm/as.html"><strong aria-hidden="true">5.6.</strong> AssemblyScript</a></li><li class="chapter-item "><a href="../../write_wasm/kotlin.html"><strong aria-hidden="true">5.7.</strong> Kotlin</a></li><li class="chapter-item "><a href="../../write_wasm/grain.html"><strong aria-hidden="true">5.8.</strong> Grain</a></li><li class="chapter-item "><a href="../../write_wasm/python.html"><strong aria-hidden="true">5.9.</strong> Python</a></li></ol></li><li class="chapter-item "><a href="../../sdk.html"><strong aria-hidden="true">6.</strong> Use WasmEdge Library</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../sdk/c.html"><strong aria-hidden="true">6.1.</strong> C SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../sdk/c/hostfunction.html"><strong aria-hidden="true">6.1.1.</strong> Host Function Implementation</a></li><li class="chapter-item "><a href="../../sdk/c/externref.html"><strong aria-hidden="true">6.1.2.</strong> ExternRef Example</a></li><li class="chapter-item "><a href="../../sdk/c/ref.html"><strong aria-hidden="true">6.1.3.</strong> 0.11.0 API references</a></li><li class="chapter-item "><a href="../../sdk/c/0.10.1/ref.html"><strong aria-hidden="true">6.1.4.</strong> 0.10.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../sdk/c/0.10.1/upgrade_to_0.11.0.html"><strong aria-hidden="true">6.1.4.1.</strong> Upgrade to 0.11.0</a></li></ol></li><li class="chapter-item "><a href="../../sdk/c/0.9.1/ref.html"><strong aria-hidden="true">6.1.5.</strong> 0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../sdk/c/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.1.5.1.</strong> Upgrade to 0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../sdk/go.html"><strong aria-hidden="true">6.2.</strong> Go SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../sdk/go/app.html"><strong aria-hidden="true">6.2.1.</strong> Embed WASM apps</a></li><li class="chapter-item "><a href="../../sdk/go/function.html"><strong aria-hidden="true">6.2.2.</strong> Embed WASM funcs</a></li><li class="chapter-item "><a href="../../sdk/go/memory.html"><strong aria-hidden="true">6.2.3.</strong> Pass complex data</a></li><li class="chapter-item "><a href="../../sdk/go/tensorflow.html"><strong aria-hidden="true">6.2.4.</strong> Tensorflow</a></li><li class="chapter-item "><a href="../../sdk/go/bindgen.html"><strong aria-hidden="true">6.2.5.</strong> Embed bindgen funcs</a></li><li class="chapter-item "><a href="../../sdk/go/ref.html"><strong aria-hidden="true">6.2.6.</strong> 0.10.0 API references</a></li><li class="chapter-item "><a href="../../sdk/go/0.9.1/ref.html"><strong aria-hidden="true">6.2.7.</strong> 0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../sdk/go/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.2.7.1.</strong> Upgrade to 0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../sdk/node.html"><strong aria-hidden="true">6.3.</strong> Node.js SDK</a></li><li class="chapter-item "><a href="../../sdk/rust.html"><strong aria-hidden="true">6.4.</strong> Rust SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../sdk/rust/say_hello.html"><strong aria-hidden="true">6.4.1.</strong> Hello World!</a></li><li class="chapter-item "><a href="../../sdk/rust/memory_manipulation.html"><strong aria-hidden="true">6.4.2.</strong> Memory Manipulation</a></li><li class="chapter-item "><a href="../../sdk/rust/table_and_funcref.html"><strong aria-hidden="true">6.4.3.</strong> Table and FuncRef</a></li><li class="chapter-item "><a href="../../sdk/rust/sys_run_host_func.html"><strong aria-hidden="true">6.4.4.</strong> Run a WebAssembly function with WasmEdge low-level APIs</a></li><li class="chapter-item "><a href="../../sdk/rust/concurrent_fib.html"><strong aria-hidden="true">6.4.5.</strong> Compute Fibonacci numbers concurrently</a></li><li class="chapter-item "><a href="../../sdk/rust/how_to_use_module_instance.html"><strong aria-hidden="true">6.4.6.</strong> Usage of WasmEdge module instances</a></li></ol></li><li class="chapter-item "><a href="../../sdk/python.html"><strong aria-hidden="true">6.5.</strong> Python SDK</a></li></ol></li><li class="chapter-item "><a href="../../cli.html"><strong aria-hidden="true">7.</strong> Use WasmEdge CLI</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../cli/wasmedge.html"><strong aria-hidden="true">7.1.</strong> wasmedge WASM Runner</a></li><li class="chapter-item "><a href="../../cli/wasmedgec.html"><strong aria-hidden="true">7.2.</strong> wasmedgec AOT Compiler</a></li></ol></li><li class="chapter-item "><a href="../../plugin.html"><strong aria-hidden="true">8.</strong> Develop WasmEdge Plug-in</a></li><li class="chapter-item "><a href="../../contribute.html"><strong aria-hidden="true">9.</strong> Contribute to WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../contribute/release_process.html"><strong aria-hidden="true">9.1.</strong> Release Process</a></li><li class="chapter-item "><a href="../../contribute/contribute.html"><strong aria-hidden="true">9.2.</strong> Contribute Steps</a></li><li class="chapter-item "><a href="../../contribute/build_from_src.html"><strong aria-hidden="true">9.3.</strong> Build WasmEdge from source</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../contribute/build_from_src/linux.html"><strong aria-hidden="true">9.3.1.</strong> Build on Linux</a></li><li class="chapter-item "><a href="../../contribute/build_from_src/macos.html"><strong aria-hidden="true">9.3.2.</strong> Build on MacOS</a></li><li class="chapter-item "><a href="../../contribute/build_from_src/windows.html"><strong aria-hidden="true">9.3.3.</strong> Build on Windows</a></li><li class="chapter-item "><a href="../../contribute/build_from_src/android.html"><strong aria-hidden="true">9.3.4.</strong> Build for Android</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../contribute/build_from_src/android/cli.html"><strong aria-hidden="true">9.3.4.1.</strong> CLI tools</a></li><li class="chapter-item "><a href="../../contribute/build_from_src/android/ndk.html"><strong aria-hidden="true">9.3.4.2.</strong> NDK native app</a></li><li class="chapter-item "><a href="../../contribute/build_from_src/android/apk.html"><strong aria-hidden="true">9.3.4.3.</strong> APK app</a></li></ol></li><li class="chapter-item "><a href="../../contribute/build_from_src/sel4.html"><strong aria-hidden="true">9.3.5.</strong> Build for seL4</a></li><li class="chapter-item "><a href="../../contribute/build_from_src/openharmony.html"><strong aria-hidden="true">9.3.6.</strong> Build for OpenHarmony</a></li><li class="chapter-item "><a href="../../contribute/build_from_src/raspberrypi.html"><strong aria-hidden="true">9.3.7.</strong> Build for Raspberry Pi</a></li></ol></li><li class="chapter-item "><a href="../../contribute/internal.html"><strong aria-hidden="true">9.4.</strong> WasmEdge Internal</a></li><li class="chapter-item "><a href="../../contribute/release_process.html"><strong aria-hidden="true">9.5.</strong> Release Process</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">WasmEdge Runtime</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/WasmEdge/WasmEdge" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/WasmEdge/WasmEdge/tree/master/docs/book/en/src/write_wasm/js/ssr.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="react-ssr"><a class="header" href="#react-ssr">React SSR</a></h1>
+<p><a href="https://reactjs.org/">React</a> is very popular JavaScript web UI framework. A React application is &quot;compiled&quot; into an HTML and JavaScript static web site. The web UI is rendered through the generated JavaScript code. However, it is often too slow and resource consuming to execute the complex generated JavaScript entirely in the browser to build the interactive HTML DOM objects. <a href="https://medium.com/jspoint/a-beginners-guide-to-react-server-side-rendering-ssr-bf3853841d55">React Server Side Rendering (SSR)</a> delegates the JavaScript UI rendering to a server, and have the server stream rendered HTML DOM objects to the browser. The WasmEdge JavaScript runtime provides a lightweight and high performance container to run React SSR functions on edge servers.</p>
+<blockquote>
+<p>Server-side rendering (SSR) is a popular technique for rendering a client-side single page application (SPA) on the server and then sending a fully rendered page to the client. This allows for dynamic components to be served as static HTML markup. This approach can be useful for search engine optimization (SEO) when indexing does not handle JavaScript properly. It may also be beneficial in situations where downloading a large JavaScript bundle is impaired by a slow network. -- <a href="https://www.digitalocean.com/community/tutorials/react-server-side-rendering">from Digital Ocean</a>.</p>
+</blockquote>
+<p>In this article, we will show you how to use the WasmEdge QuickJS runtime to implement a React SSR function.
+Compared with the Docker + Linux + nodejs + v8 approach, WasmEdge is safer (suitable for multi-tenancy environments) and much lighter (1% of the footprint) with similar performance.</p>
+<p>We will start from a complete tutorial to create and deploy a simple React Streaming SSR web application, and then move on to a full React 18 demo.</p>
+<ul>
+<li><a href="#getting-started">Getting started with React streaming SSR</a></li>
+<li><a href="#a-full-react-18-app">A full React 18 app</a></li>
+<li><a href="#appendix-the-create-react-app-template">Appendix: the create-react-app template</a></li>
+</ul>
+<h2 id="getting-started"><a class="header" href="#getting-started">Getting started</a></h2>
+<p>The <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/react_ssr_stream">example_js/react_ssr_stream</a> folder in the GitHub repo contains the example's source code. It showcases how to streaming render an HTML string from templates in a JavaScript app running in WasmEdge.</p>
+<p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/component/LazyHome.jsx">component/LazyHome.jsx</a> file is the main page template in React. It &quot;lazy&quot; loads the inner page template after a 2s delay once the outer HTML is rendered and returned to the user.</p>
+<pre><code class="language-javascript">import React, { Suspense } from 'react';
+import * as LazyPage from './LazyPage.jsx';
+
+async function sleep(ms) {
+  return new Promise((r, _) =&gt; {
+    setTimeout(() =&gt; r(), ms)
+  });
+}
+
+async function loadLazyPage() {
+  await sleep(2000);
+  return LazyPage
+}
+
+class LazyHome extends React.Component {
+  render() {
+    let LazyPage1 = React.lazy(() =&gt; loadLazyPage());
+    return (
+      &lt;html lang=&quot;en&quot;&gt;
+        &lt;head&gt;
+          &lt;meta charSet=&quot;utf-8&quot; /&gt;
+          &lt;title&gt;Title&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+          &lt;div&gt;
+            &lt;div&gt; This is LazyHome &lt;/div&gt;
+            &lt;Suspense fallback={&lt;div&gt; loading... &lt;/div&gt;}&gt;
+              &lt;LazyPage1 /&gt;
+            &lt;/Suspense&gt;
+          &lt;/div&gt;
+        &lt;/body&gt;
+      &lt;/html&gt;
+    );
+  }
+}
+
+export default LazyHome;
+</code></pre>
+<p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/component/LazyPage.jsx">LazyPage.jsx</a> is the inner page template. It is rendered 2s after the outer page is already returned to the user.</p>
+<pre><code class="language-javascript">import React from 'react';
+
+class LazyPage extends React.Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;div&gt;
+          This is lazy page
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default LazyPage;
+</code></pre>
+<p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/main.mjs">main.mjs</a>
+file starts a non-blocking HTTP server using standard Node.js APIs, and then renders the HTML page in multiple chuncks to the response.</p>
+<pre><code class="language-javascript">import * as React from 'react';
+import { renderToPipeableStream } from 'react-dom/server';
+import { createServer } from 'http';
+
+import LazyHome from './component/LazyHome.jsx';
+
+createServer((req, res) =&gt; {
+  res.setHeader('Content-type', 'text/html; charset=utf-8');
+  renderToPipeableStream(&lt;LazyHome /&gt;).pipe(res);
+}).listen(8001, () =&gt; {
+  print('listen 8001...');
+})
+</code></pre>
+<p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/rollup.config.js">rollup.config.js</a> and <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/package.json">package.json</a> files are to build the React SSR dependencies and components into a bundled JavaScript file for WasmEdge. You should use the <code>npm</code> command to build it.
+The output is in the <code>dist/main.mjs</code> file.</p>
+<pre><code class="language-bash">npm install
+npm run build
+</code></pre>
+<p>Copy over the system's <code>modules</code> to the working directory for Node.js API support as <a href="nodejs.html">noted here</a>.</p>
+<pre><code class="language-bash">cp -r ../../modules .
+</code></pre>
+<p>To run the example, do the following on the CLI to start the server.</p>
+<pre><code class="language-bash">nohup wasmedge --dir .:. /path/to/wasmedge_quickjs.wasm dist/main.mjs &amp;
+</code></pre>
+<p>Send the server a HTTP request via <code>curl</code> or the browser.</p>
+<pre><code class="language-bash">curl http://localhost:8001
+</code></pre>
+<p>The results are as follows. The service first returns an HTML page with an empty inner section (i.e., the <code>loading</code> section), and then 2s later, the HTML content for the inner section and the JavaScript to display it.</p>
+<pre><code class="language-bash">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   211    0   211    0     0   1029      0 --:--:-- --:--:-- --:--:--  1024
+100   275    0   275    0     0    221      0 --:--:--  0:00:01 --:--:--   220
+100   547    0   547    0     0    245      0 --:--:--  0:00:02 --:--:--   245
+100  1020    0  1020    0     0    413      0 --:--:--  0:00:02 --:--:--   413
+
+&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;meta charSet=&quot;utf-8&quot;/&gt;&lt;title&gt;Title&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;div&gt; This is LazyHome &lt;/div&gt;&lt;!--$?--&gt;&lt;template id=&quot;B:0&quot;&gt;&lt;/template&gt;&lt;div&gt; loading... &lt;/div&gt;&lt;!--/$--&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&lt;div hidden id=&quot;S:0&quot;&gt;&lt;template id=&quot;P:1&quot;&gt;&lt;/template&gt;&lt;/div&gt;&lt;div hidden id=&quot;S:1&quot;&gt;&lt;div&gt;&lt;div&gt;This is lazy page&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;script&gt;function $RS(a,b){a=document.getElementById(a);b=document.getElementById(b);for(a.parentNode.removeChild(a);a.firstChild;)b.parentNode.insertBefore(a.firstChild,b);b.parentNode.removeChild(b)};$RS(&quot;S:1&quot;,&quot;P:1&quot;)&lt;/script&gt;&lt;script&gt;function $RC(a,b){a=document.getElementById(a);b=document.getElementById(b);b.parentNode.removeChild(b);if(a){a=a.previousSibling;var f=a.parentNode,c=a.nextSibling,e=0;do{if(c&amp;&amp;8===c.nodeType){var d=c.data;if(&quot;/$&quot;===d)if(0===e)break;else e--;else&quot;$&quot;!==d&amp;&amp;&quot;$?&quot;!==d&amp;&amp;&quot;$!&quot;!==d||e++}d=c.nextSibling;f.removeChild(c);c=d}while(c);for(;b.firstChild;)f.insertBefore(b.firstChild,c);a.data=&quot;$&quot;;a._reactRetry&amp;&amp;a._reactRetry()}};$RC(&quot;B:0&quot;,&quot;S:0&quot;)&lt;/script&gt;
+</code></pre>
+<h2 id="a-full-react-18-app"><a class="header" href="#a-full-react-18-app">A full React 18 app</a></h2>
+<p>In this section, we will demonstrate a complete React 18 SSR application. It renders the web UI through streaming SSR. The <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/react18_ssr">example_js/react18_ssr</a> folder in the GitHub repo contains the example's source code. The <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/react18_ssr/component">component</a> folder contains the entire React 18 application's source code, and the <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/example_js/react18_ssr/public">public</a> folder contains the public resources (CSS and images) for the web application. The application also demonstrates a data provider for the UI.</p>
+<p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react18_ssr/main.mjs">main.mjs</a>
+file starts a non-blocking HTTP server, fetches data from a data provider, maps the <code>main.css</code> and <code>main.js</code> files in the <code>public</code> folder to web URLs, and then renders the HTML page for each request in <code>renderToPipeableStream()</code>.</p>
+<pre><code class="language-javascript">import * as React from 'react';
+import { renderToPipeableStream } from 'react-dom/server';
+import { createServer } from 'http';
+import * as std from 'std';
+
+import App from './component/App.js';
+import { DataProvider } from './component/data.js'
+
+let assets = {
+  'main.js': '/main.js',
+  'main.css': '/main.css',
+};
+
+const css = std.loadFile('./public/main.css')
+
+function createServerData() {
+  let done = false;
+  let promise = null;
+  return {
+    read() {
+      if (done) {
+        return;
+      }
+      if (promise) {
+        throw promise;
+      }
+      promise = new Promise(resolve =&gt; {
+        setTimeout(() =&gt; {
+          done = true;
+          promise = null;
+          resolve();
+        }, 2000);
+      });
+      throw promise;
+    },
+  };
+}
+
+createServer((req, res) =&gt; {
+  print(req.url)
+  if (req.url == '/main.css') {
+    res.setHeader('Content-Type', 'text/css; charset=utf-8')
+    res.end(css)
+  } else if (req.url == '/favicon.ico') {
+    res.end()
+  } else {
+    res.setHeader('Content-type', 'text/html');
+
+    res.on('error', (e) =&gt; {
+      print('res error', e)
+    })
+    let data = createServerData()
+    print('createServerData')
+
+    const stream = renderToPipeableStream(
+      &lt;DataProvider data={data}&gt;
+        &lt;App assets={assets} /&gt;
+      &lt;/DataProvider&gt;, {
+      onShellReady: () =&gt; {
+        stream.pipe(res)
+      },
+      onShellError: (e) =&gt; {
+        print('onShellError:', e)
+      }
+    }
+    );
+  }
+}).listen(8002, () =&gt; {
+  print('listen 8002...')
+})
+</code></pre>
+<p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react18_ssr/rollup.config.js">rollup.config.js</a> and <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react18_ssr/package.json">package.json</a> files are to build the React 18 SSR dependencies and components into a bundled JavaScript file for WasmEdge. You should use the <code>npm</code> command to build it.
+The output is in the <code>dist/main.mjs</code> file.</p>
+<pre><code class="language-bash">npm install
+npm run build
+</code></pre>
+<p>Copy over the system's <code>modules</code> to the working directory for Node.js API support as <a href="nodejs.html">noted here</a>.</p>
+<pre><code class="language-bash">cp -r ../../modules .
+</code></pre>
+<p>To run the example, do the following on the CLI to start the server.</p>
+<pre><code class="language-bash">nohup wasmedge --dir .:. /path/to/wasmedge_quickjs.wasm dist/main.mjs &amp;
+</code></pre>
+<p>Send the server a HTTP request via <code>curl</code> or the browser.</p>
+<pre><code class="language-bash">curl http://localhost:8002
+</code></pre>
+<p>The results are as follows. The service first returns an HTML page with an empty inner section (i.e., the <code>loading</code> section), and then 2s later, the HTML content for the inner section and the JavaScript to display it.</p>
+<pre><code class="language-bash">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   439    0   439    0     0   1202      0 --:--:-- --:--:-- --:--:--  1199
+100  2556    0  2556    0     0   1150      0 --:--:--  0:00:02 --:--:--  1150
+100  2556    0  2556    0     0    926      0 --:--:--  0:00:02 --:--:--   926
+100  2806    0  2806    0     0    984      0 --:--:--  0:00:02 --:--:--   984
+&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;meta charSet=&quot;utf-8&quot;/&gt;&lt;meta name=&quot;viewport
+&quot; content=&quot;width=device-width, initial-scale=1&quot;/&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/m
+ain.css&quot;/&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;noscript&gt;&lt;b&gt;Enable JavaScript to run
+ this app.&lt;/b&gt;&lt;/noscript&gt;&lt;!--$--&gt;&lt;main&gt;&lt;nav&gt;&lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;&lt;/nav&gt;&lt;aside cla
+ss=&quot;sidebar&quot;&gt;&lt;!--$?--&gt;&lt;template id=&quot;B:0&quot;&gt;&lt;/template&gt;&lt;div class=&quot;spinner spinner-
+-active&quot; role=&quot;progressbar&quot; aria-busy=&quot;true&quot;&gt;&lt;/div&gt;&lt;!--/$--&gt;&lt;/aside&gt;&lt;article cla
+ss=&quot;post&quot;&gt;&lt;!--$?--&gt;&lt;template id=&quot;B:1&quot;&gt;&lt;/template&gt;&lt;div class=&quot;spinner spinner--ac
+tive&quot; role=&quot;progressbar&quot; aria-busy=&quot;true&quot;&gt;&lt;/div&gt;&lt;!--/$--&gt;&lt;section class=&quot;comment
+s&quot;&gt;&lt;h2&gt;Comments&lt;/h2&gt;&lt;!--$?--&gt;&lt;template id=&quot;B:2&quot;&gt;&lt;/template&gt;&lt;div class=&quot;spinner s
+pinner--active&quot; role=&quot;progressbar&quot; aria-busy=&quot;true&quot;&gt;&lt;/div&gt;&lt;!--/$--&gt;&lt;/section&gt;&lt;h2
+&gt;Thanks for reading!&lt;/h2&gt;&lt;/article&gt;&lt;/main&gt;&lt;!--/$--&gt;&lt;script&gt;assetManifest = {&quot;mai
+n.js&quot;:&quot;/main.js&quot;,&quot;main.css&quot;:&quot;/main.css&quot;};&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;&lt;div hidden id=&quot;
+S:0&quot;&gt;&lt;template id=&quot;P:3&quot;&gt;&lt;/template&gt;&lt;/div&gt;&lt;div hidden id=&quot;S:1&quot;&gt;&lt;template id=&quot;P:4&quot;
+&gt;&lt;/template&gt;&lt;/div&gt;&lt;div hidden id=&quot;S:2&quot;&gt;&lt;template id=&quot;P:5&quot;&gt;&lt;/template&gt;&lt;/div&gt;&lt;div 
+hidden id=&quot;S:3&quot;&gt;&lt;h1&gt;Archive&lt;/h1&gt;&lt;ul&gt;&lt;li&gt;May 2021&lt;/li&gt;&lt;li&gt;April 2021&lt;/li&gt;&lt;li&gt;Marc
+h 2021&lt;/li&gt;&lt;li&gt;February 2021&lt;/li&gt;&lt;li&gt;January 2021&lt;/li&gt;&lt;li&gt;December 2020&lt;/li&gt;&lt;li&gt;
+November 2020&lt;/li&gt;&lt;li&gt;October 2020&lt;/li&gt;&lt;li&gt;September 2020&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;script
+&gt;function $RS(a,b){a=document.getElementById(a);b=document.getElementById(b);for
+(a.parentNode.removeChild(a);a.firstChild;)b.parentNode.insertBefore(a.firstChil
+d,b);b.parentNode.removeChild(b)};$RS(&quot;S:3&quot;,&quot;P:3&quot;)&lt;/script&gt;&lt;script&gt;function $RC(
+a,b){a=document.getElementById(a);b=document.getElementById(b);b.parentNode.remo
+veChild(b);if(a){a=a.previousSibling;var f=a.parentNode,c=a.nextSibling,e=0;do{i
+f(c&amp;&amp;8===c.nodeType){var d=c.data;if(&quot;/$&quot;===d)if(0===e)break;else e--;else&quot;$&quot;!==
+d&amp;&amp;&quot;$?&quot;!==d&amp;&amp;&quot;$!&quot;!==d||e++}d=c.nextSibling;f.removeChild(c);c=d}while(c);for(;b.
+firstChild;)f.insertBefore(b.firstChild,c);a.data=&quot;$&quot;;a._reactRetry&amp;&amp;a._reactRet
+ry()}};$RC(&quot;B:0&quot;,&quot;S:0&quot;)&lt;/script&gt;&lt;div hidden id=&quot;S:4&quot;&gt;&lt;h1&gt;Hello world&lt;/h1&gt;&lt;p&gt;This
+ demo is &lt;!-- --&gt;&lt;b&gt;artificially slowed down&lt;/b&gt;. Open&lt;!-- --&gt; &lt;!-- --&gt;&lt;code&gt;ser
+ver/delays.js&lt;/code&gt; to adjust how much different things are slowed down.&lt;!-- --
+&gt;&lt;/p&gt;&lt;p&gt;Notice how HTML for comments &amp;quot;streams in&amp;quot; before the JS (or Re
+act) has loaded on the page.&lt;/p&gt;&lt;p&gt;Also notice that the JS for comments and side
+bar has been code-split, but HTML for it is still included in the server output.
+&lt;/p&gt;&lt;/div&gt;&lt;script&gt;$RS(&quot;S:4&quot;,&quot;P:4&quot;)&lt;/script&gt;&lt;script&gt;$RC(&quot;B:1&quot;,&quot;S:1&quot;)&lt;/script&gt;&lt;div
+ hidden id=&quot;S:5&quot;&gt;&lt;p class=&quot;comment&quot;&gt;Wait, it doesn&amp;#x27;t wait for React to load
+?&lt;/p&gt;&lt;p class=&quot;comment&quot;&gt;How does this even work?&lt;/p&gt;&lt;p class=&quot;comment&quot;&gt;I like ma
+rshmallows&lt;/p&gt;&lt;/div&gt;&lt;script&gt;$RS(&quot;S:5&quot;,&quot;P:5&quot;)&lt;/script&gt;&lt;script&gt;$RC(&quot;B:2&quot;,&quot;S:2&quot;)&lt;/s
+cript&gt;
+</code></pre>
+<p>The streaming SSR examples make use of WasmEdge's unique asynchronous networking capabilities and ES6 module support (i.e., the rollup bundled JS file contains ES6 modules). You can learn more about <a href="networking.html">async networking</a> and <a href="es6.html">ES6</a> in this book.</p>
+<h2 id="appendix-the-create-react-app-template"><a class="header" href="#appendix-the-create-react-app-template">Appendix the create-react-app template</a></h2>
+<p>The <code>create-react-app</code> template is a popular starting point for many developers to create React apps. In this tutorial, we will provide a step-by-step guide on how to use it to create React streaming SSR applications that run on WasmEdge.</p>
+<h3 id="step-1--create-the-react-app"><a class="header" href="#step-1--create-the-react-app">Step 1 — Create the React App</a></h3>
+<p>First, use <code>npx</code> to create a new React app. Let’s name the app <code>react-ssr-example</code>.</p>
+<pre><code class="language-bash">npx create-react-app react-ssr-example
+</code></pre>
+<p>Then, <code>cd</code> into the directory for the newly created app.</p>
+<pre><code class="language-bash">cd react-ssr-example
+</code></pre>
+<p>Start the new app in order to verify the installation.</p>
+<pre><code class="language-bash">npm start
+</code></pre>
+<p>You should see the example React app displayed in your browser window. At this stage, the app is rendered in the browser. The browser runs the generated React JavaScript to build the HTML DOM UI.</p>
+<p>Now in order to prepare for SSR, you will need to make some changes to the app's <code>index.js</code> file. Change ReactDOM's <code>render</code> method to <code>hydrate</code> to indicate to the DOM renderer that you intend to rehydrate the app after it is rendered on the server.
+Replace the contents of the <code>index.js</code> file with the following.</p>
+<pre><code class="language-javascript">import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+ReactDOM.hydrate(
+  &lt;React.StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/React.StrictMode&gt;,
+  document.getElementById('root')
+);
+</code></pre>
+<p>Note: you should import <code>React</code> redundantly in the <code>src/App.js</code>, so the server will recognize it.</p>
+<pre><code class="language-js">import React from 'react';
+//...
+</code></pre>
+<p>That concludes setting up the application, you can move on to setting up the server-side rendering functions.</p>
+<h3 id="step-2--create-an-wasmedge-quickjs-server-and-render-the-app-component"><a class="header" href="#step-2--create-an-wasmedge-quickjs-server-and-render-the-app-component">Step 2 — Create an WasmEdge QuickJS Server and Render the App Component</a></h3>
+<p>Now that you have the app in place, let’s set up a server that will render the HTML DOM by running the React JavaScript and then send the rendered elements to the browser. We will use WasmEdge as a secure, high-performance and lightweight container to run React JavaScript.</p>
+<p>Create a new <code>server</code> directory in the project's root directory.</p>
+<pre><code class="language-bash">mkdir server
+</code></pre>
+<p>Then, inside the <code>server</code> directory, create a new <code>index.js</code> file with the server code.</p>
+<pre><code class="language-javascript">import * as React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import * as std from 'std';
+import * as http from 'wasi_http';
+import * as net from 'wasi_net';
+
+import App from '../src/App.js';
+
+async function handle_client(cs) {
+  print('open:', cs.peer());
+  let buffer = new http.Buffer();
+
+  while (true) {
+    try {
+      let d = await cs.read();
+      if (d == undefined || d.byteLength &lt;= 0) {
+        return;
+      }
+      buffer.append(d);
+      let req = buffer.parseRequest();
+      if (req instanceof http.WasiRequest) {
+        handle_req(cs, req);
+        break;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+  print('end:', cs.peer());
+}
+
+function enlargeArray(oldArr, newLength) {
+  let newArr = new Uint8Array(newLength);
+  oldArr &amp;&amp; newArr.set(oldArr, 0);
+  return newArr;
+}
+
+async function handle_req(s, req) {
+  print('uri:', req.uri)
+
+  let resp = new http.WasiResponse();
+  let content = '';
+  if (req.uri == '/') {
+    const app = ReactDOMServer.renderToString(&lt;App /&gt;);
+    content = std.loadFile('./build/index.html');
+    content = content.replace('&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;', `&lt;div id=&quot;root&quot;&gt;${app}&lt;/div&gt;`);
+  } else {
+    let chunk = 1000; // Chunk size of each reading
+    let length = 0; // The whole length of the file
+    let byteArray = null; // File content as Uint8Array
+    
+    // Read file into byteArray by chunk
+    let file = std.open('./build' + req.uri, 'r');
+    while (true) {
+      byteArray = enlargeArray(byteArray, length + chunk);
+      let readLen = file.read(byteArray.buffer, length, chunk);
+      length += readLen;
+      if (readLen &lt; chunk) {
+        break;
+      }
+    }
+    content = byteArray.slice(0, length).buffer;
+    file.close();
+  }
+  let contentType = 'text/html; charset=utf-8';
+  if (req.uri.endsWith('.css')) {
+    contentType = 'text/css; charset=utf-8';
+  } else if (req.uri.endsWith('.js')) {
+    contentType = 'text/javascript; charset=utf-8';
+  } else if (req.uri.endsWith('.json')) {
+    contentType = 'text/json; charset=utf-8';
+  } else if (req.uri.endsWith('.ico')) {
+    contentType = 'image/vnd.microsoft.icon';
+  } else if (req.uri.endsWith('.png')) {
+    contentType = 'image/png';
+  }
+  resp.headers = {
+    'Content-Type': contentType
+  };
+
+  let r = resp.encode(content);
+  s.write(r);
+}
+
+async function server_start() {
+  print('listen 8002...');
+  try {
+    let s = new net.WasiTcpServer(8002);
+    for (var i = 0; ; i++) {
+      let cs = await s.accept();
+      handle_client(cs);
+    }
+  } catch (e) {
+    print(e);
+  }
+}
+
+server_start();
+</code></pre>
+<p>The server renders the <code>&lt;App&gt;</code> component, and then sends the rendered HTML string back to the browser. Three important things are taking place here.</p>
+<ul>
+<li>ReactDOMServer's <code>renderToString</code> is used to render the <code>&lt;App/&gt;</code> to an HTML string.</li>
+<li>The <code>index.html</code> file from the app's <code>build</code> output directory is loaded as a template. The app's content is injected into the <code>&lt;div&gt;</code> element with an id of <code>&quot;root&quot;</code>. It is then sent back as HTTP response.</li>
+<li>Other files from the <code>build</code> directory are read and served as needed at the requests of the browser.</li>
+</ul>
+<h3 id="step-3--build-and-deploy"><a class="header" href="#step-3--build-and-deploy">Step 3 — Build and deploy</a></h3>
+<p>For the server code to work, you will need to bundle and transpile it. In this section, we will show you how to use webpack and Babel. In this next section, we will demonstrate an alternative (and potentially easier) approach using rollup.js.</p>
+<p>Create a new Babel configuration file named <code>.babelrc.json</code> in the project's root directory and add the <code>env</code> and <code>react-app</code> presets.</p>
+<pre><code class="language-json">{
+  &quot;presets&quot;: [
+    &quot;@babel/preset-env&quot;,
+    &quot;@babel/preset-react&quot;
+  ]
+}
+</code></pre>
+<p>Create a webpack config for the server that uses Babel Loader to transpile the code. Start by creating the <code>webpack.server.js</code> file in the project's root directory.</p>
+<pre><code class="language-js">const path = require('path');
+module.exports = {
+  entry: './server/index.js',
+  externals: [
+    {&quot;wasi_http&quot;: &quot;wasi_http&quot;},
+    {&quot;wasi_net&quot;: &quot;wasi_net&quot;},
+    {&quot;std&quot;: &quot;std&quot;}
+  ],
+  output: {
+    path: path.resolve('server-build'),
+    filename: 'index.js',
+    chunkFormat: &quot;module&quot;,
+    library: {
+      type: &quot;module&quot;
+    },
+  },
+  experiments: {
+    outputModule: true
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: 'babel-loader'
+      },
+      {
+        test: /\.css$/,
+        use: [&quot;css-loader&quot;]
+      },
+      {
+        test: /\.svg$/,
+        use: [&quot;svg-url-loader&quot;]
+      }
+    ]
+  }
+};
+</code></pre>
+<p>With this configuration, the transpiled server bundle will be output to the <code>server-build</code> folder in a file called <code>index.js</code>.</p>
+<p>Next, add the <code>svg-url-loader</code> package by entering the following commands in your terminal.</p>
+<pre><code class="language-bash">npm install svg-url-loader --save-dev
+</code></pre>
+<p>This completes the dependency installation and webpack and Babel configuration.</p>
+<p>Now, revisit <code>package.json</code> and add helper npm scripts. Add <code>dev:build-server</code>, <code>dev:start-server</code> scripts to the <code>package.json</code> file to build and serve the SSR application.</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+  &quot;dev:build-server&quot;: &quot;NODE_ENV=development webpack --config webpack.server.js --mode=development&quot;,
+  &quot;dev:start-server&quot;: &quot;wasmedge --dir .:. wasmedge_quickjs.wasm ./server-build/index.js&quot;,
+  // ...
+},
+</code></pre>
+<ul>
+<li>The <code>dev:build-server</code> script sets the environment to <code>&quot;development&quot;</code> and invokes webpack with the configuration file you created earlier.</li>
+<li>The <code>dev:start-server</code> script runs the WasmEdge server from the <code>wasmedge</code> CLI tool to serve the built output. The <code>wasmedge_quickjs.wasm</code> program contains the QuickJS runtime. <a href="quickstart.html">Learn more</a></li>
+</ul>
+<p>Now you can run the following commands to build the client-side app, bundle and transpile the server code, and start up the server on <code>:8002</code>.</p>
+<pre><code class="language-bash">npm run build
+npm run dev:build-server
+npm run dev:start-server
+</code></pre>
+<p>Open <code>http://localhost:8002/</code> in your web browser and observe your server-side rendered app.</p>
+<p>Previously, the HTML source in the browser is simply the template with SSR placeholders.</p>
+<pre><code class="language-html">Output
+&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+</code></pre>
+<p>Now, with the SSR function running on the server, the HTML source in the browser is as follows.</p>
+<pre><code class="language-html">Output
+&lt;div id=&quot;root&quot;&gt;&lt;div class=&quot;App&quot; data-reactroot=&quot;&quot;&gt;...&lt;/div&gt;&lt;/div&gt;
+</code></pre>
+<h3 id="step-4-alternative----build-and-deploy-with-rollupjs"><a class="header" href="#step-4-alternative----build-and-deploy-with-rollupjs">Step 4 (alternative) -- build and deploy with rollup.js</a></h3>
+<p>Alternatively, you could use the <a href="https://rollupjs.org/guide/en/">rollup.js</a> tool to <a href="npm.html">package all application components and library modules</a> into a single file for WasmEdge to execute.</p>
+<p>Create a rollup config for the server that uses Babel Loader to transpile the code. Start by creating the <code>rollup.config.js</code> file in the project's root directory.</p>
+<pre><code class="language-js">const {babel} = require('@rollup/plugin-babel');
+const nodeResolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const replace = require('@rollup/plugin-replace');
+
+const globals = require('rollup-plugin-node-globals');
+const builtins = require('rollup-plugin-node-builtins');
+const plugin_async = require('rollup-plugin-async');
+const css = require(&quot;rollup-plugin-import-css&quot;);
+const svg = require('rollup-plugin-svg');
+
+const babelOptions = {
+  babelrc: false,
+  presets: [
+    '@babel/preset-react'
+  ],
+  babelHelpers: 'bundled'
+};
+
+module.exports = [
+  {
+    input: './server/index.js',
+    output: {
+      file: 'server-build/index.js',
+      format: 'esm',
+    },
+    external: [ 'std', 'wasi_net','wasi_http'],
+    plugins: [
+      plugin_async(),
+      babel(babelOptions),
+      nodeResolve({preferBuiltins: true}),
+      commonjs({ignoreDynamicRequires: false}),
+      css(),
+      svg({base64: true}),
+      globals(),
+      builtins(),
+      replace({
+        preventAssignment: true,  
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        'process.env.NODE_DEBUG': JSON.stringify(''),
+      }),
+    ],
+  },
+];
+</code></pre>
+<p>With this configuration, the transpiled server bundle will be output to the <code>server-build</code> folder in a file called <code>index.js</code>.</p>
+<p>Next, add the dependent packages to the <code>package.json</code> then install with <code>npm</code>.</p>
+<pre><code class="language-json">  &quot;devDependencies&quot;: {
+    //...
+    &quot;@rollup/plugin-babel&quot;: &quot;^5.3.0&quot;,
+    &quot;@rollup/plugin-commonjs&quot;: &quot;^21.0.1&quot;,
+    &quot;@rollup/plugin-node-resolve&quot;: &quot;^7.1.3&quot;,
+    &quot;@rollup/plugin-replace&quot;: &quot;^3.0.0&quot;,
+    &quot;rollup&quot;: &quot;^2.60.1&quot;,
+    &quot;rollup-plugin-async&quot;: &quot;^1.2.0&quot;,
+    &quot;rollup-plugin-import-css&quot;: &quot;^3.0.3&quot;,
+    &quot;rollup-plugin-node-builtins&quot;: &quot;^2.1.2&quot;,
+    &quot;rollup-plugin-node-globals&quot;: &quot;^1.4.0&quot;,
+    &quot;rollup-plugin-svg&quot;: &quot;^2.0.0&quot;
+  }
+</code></pre>
+<pre><code class="language-bash">npm install
+</code></pre>
+<p>This completes the dependency installation and rollup configuration.</p>
+<p>Now, revisit <code>package.json</code> and add helper npm scripts. Add <code>dev:build-server</code>, <code>dev:start-server</code> scripts to the <code>package.json</code> file to build and serve the SSR application.</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+  &quot;dev:build-server&quot;: &quot;rollup -c rollup.config.js&quot;,
+  &quot;dev:start-server&quot;: &quot;wasmedge --dir .:. wasmedge_quickjs.wasm ./server-build/index.js&quot;,
+  // ...
+},
+</code></pre>
+<ul>
+<li>The <code>dev:build-server</code> script sets the environment to <code>&quot;development&quot;</code> and invokes webpack with the configuration file you created earlier.</li>
+<li>The <code>dev:start-server</code> script runs the WasmEdge server from the <code>wasmedge</code> CLI tool to serve the built output. The <code>wasmedge_quickjs.wasm</code> program contains the QuickJS runtime. <a href="quickstart.html">Learn more</a></li>
+</ul>
+<p>Now you can run the following commands to build the client-side app, bundle and transpile the server code, and start up the server on <code>:8002</code>.</p>
+<pre><code class="language-bash">npm run build
+npm run dev:build-server
+npm run dev:start-server
+</code></pre>
+<p>Open <code>http://localhost:8002/</code> in your web browser and observe your server-side rendered app.</p>
+<p>Previously, the HTML source in the browser is simply the template with SSR placeholders.</p>
+<pre><code class="language-html">Output
+&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+</code></pre>
+<p>Now, with the SSR function running on the server, the HTML source in the browser is as follows.</p>
+<pre><code class="language-html">Output
+&lt;div id=&quot;root&quot;&gt;&lt;div class=&quot;App&quot; data-reactroot=&quot;&quot;&gt;...&lt;/div&gt;&lt;/div&gt;
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../write_wasm/js/networking.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../write_wasm/js/tensorflow.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../write_wasm/js/networking.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../write_wasm/js/tensorflow.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
