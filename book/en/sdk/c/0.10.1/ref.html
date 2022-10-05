@@ -2033,8 +2033,8 @@ WasmEdge_ModuleInstanceDelete(HostModCxt);
 <p><code>WasmEdge_ModuleInstanceCreateWasmEdgeProcess()</code> API can create and initialize the <code>wasmedge_process</code> module instance for <code>wasmedge_process</code> plugin.</p>
 <p>Developers can create these module instance contexts and register them into the <code>Store</code> or <code>VM</code> contexts rather than adjust the settings in the <code>Configure</code> contexts.</p>
 <blockquote>
-<p>Note: For the <code>WASI-NN</code> plugin, please check that the <a href="../../../write_wasm/rust/wasinn.html">dependencies and prerequests</a> are satisfied.
-Note: For the <code>WASI-Crypto</code> plugin, please check that the <a href="../../../write_wasm/rust/wasicrypto.html">dependencies and prerequests</a> are satisfied. And the 5 modules are recommended to all be created and registered together.</p>
+<p>Note: For the <code>WASI-NN</code> plugin, please check that the <a href="../../../write_wasm/rust/wasinn.html#prerequisites">dependencies and prerequests</a> are satisfied.
+Note: For the <code>WASI-Crypto</code> plugin, please check that the <a href="../../../write_wasm/rust/wasicrypto.html#prerequisites">dependencies and prerequests</a> are satisfied. And the 5 modules are recommended to all be created and registered together.</p>
 </blockquote>
 <pre><code class="language-c">WasmEdge_ModuleInstanceContext *WasiModCxt = WasmEdge_ModuleInstanceCreateWASI( /* ... ignored */ );
 WasmEdge_ModuleInstanceContext *ProcModCxt = WasmEdge_ModuleInstanceCreateWasmEdgeProcess( /* ... ignored */ );
