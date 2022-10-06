@@ -151,27 +151,54 @@
                     <main>
                         <h1 id="table-and-funcref"><a class="header" href="#table-and-funcref">Table and FuncRef</a></h1>
 <p>In this example, we'll present how to use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Table.html">Table</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.FuncRef.html">FuncRef</a> stored in a slot of a <code>Table</code> instance to implement indirect function invocation.</p>
-<h2 id="prerequisite"><a class="header" href="#prerequisite">Prerequisite</a></h2>
+<blockquote>
+<p>The code in the following example is verified on</p>
+<ul>
+<li>wasmedge-sdk v0.5.0</li>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
+<p>Let's start off by getting all imports right away so you can follow along</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// If the version of rust used is less than v1.63, please uncomment the follow attribute.
+// #![feature(explicit_generic_args_with_impl_trait)]
+
+#![feature(never_type)]
+
+use wasmedge_sdk::{
+    config::{CommonConfigOptions, ConfigBuilder},
+    error::HostFuncError,
+    host_function, params,
+    types::Val,
+    Caller, Executor, Func, ImportObjectBuilder, RefType, Store, Table, TableType, ValType,
+    WasmVal, WasmValue,
+};
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="define-host-function"><a class="header" href="#define-host-function">Define host function</a></h2>
 <p>In this example we defines a native function <code>real_add</code> that takes two numbers and returns their sum. This function will be registered as a host function into WasmEdge runtime environment</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>fn real_add(_: &amp;CallingFrame, input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+</span>#[host_function]
+fn real_add(_caller: &amp;Caller, input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, HostFuncError&gt; {
     println!(&quot;Rust: Entering Rust function real_add&quot;);
 
     if input.len() != 2 {
-        return Err(1);
+        return Err(HostFuncError::User(1));
     }
 
     let a = if input[0].ty() == ValType::I32 {
         input[0].to_i32()
     } else {
-        return Err(2);
+        return Err(HostFuncError::User(2));
     };
 
     let b = if input[1].ty() == ValType::I32 {
         input[1].to_i32()
     } else {
-        return Err(3);
+        return Err(HostFuncError::User(3));
     };
 
     let c = a + b;
@@ -180,19 +207,6 @@
     println!(&quot;Rust: Leaving Rust function real_add&quot;);
     Ok(vec![WasmValue::from_i32(c)])
 }
-<span class="boring">}
-</span></code></pre></pre>
-<p>In addition, the following imports are used in this example.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use wasmedge_sdk::{
-    config::{CommonConfigOptions, ConfigBuilder},
-    error::HostFuncError,
-    params,
-    types::Val,
-    CallingFrame, Executor, Func, ImportObjectBuilder, RefType, Store, Table, TableType, ValType,
-    WasmVal, WasmValue,
-};
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="register-table-instance"><a class="header" href="#register-table-instance">Register Table instance</a></h2>
@@ -225,13 +239,18 @@ store.register_import_module(&amp;mut executor, &amp;import)?;
 <p>In the previous steps, we defined a native function <code>real_add</code> and registered a <code>Table</code> instance named <code>my-table</code> into the runtime environment. Now we'll save a reference to <code>read_add</code> function to a slot of <code>my-table</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// get the exported table instance
+</span>// get the imported module instance
+let instance = store
+    .module_instance(&quot;extern&quot;)
+    .expect(&quot;Not found module instance named 'extern'&quot;);
+
+// get the exported table instance
 let mut table = instance
     .table(&quot;my-table&quot;)
     .expect(&quot;Not found table instance named 'my-table'&quot;);
 
 // create a host function
-let host_func = Func::wrap::&lt;(i32, i32), i32&gt;(Box::new(real_add))?;
+let host_func = Func::wrap::&lt;(i32, i32), i32, !&gt;(Box::new(real_add), None)?;
 
 // store the reference to host_func at the given index of the table instance
 table.set(3, Val::FuncRef(Some(host_func.as_ref())))?;
@@ -264,7 +283,7 @@ if let Val::FuncRef(Some(func_ref)) = value {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The complete code of this example can be found <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/table_and_funcref.rs">here</a>.</p>
+<p>The complete code of this example can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/table_and_funcref.rs">table_and_funcref.rs</a>.</p>
 
                     </main>
 

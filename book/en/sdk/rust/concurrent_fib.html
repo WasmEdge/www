@@ -150,16 +150,15 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="compute-fibonacci-numbers-concurrently"><a class="header" href="#compute-fibonacci-numbers-concurrently">Compute Fibonacci numbers concurrently</a></h1>
-<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
-<p>This example uses the following crates:</p>
-<ul>
-<li>wasmedge-sys v0.9.0</li>
-<li>wasmedge-types v0.2.1</li>
-</ul>
 <h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
-<p>In this example, we will demonstrate how to use the objects and the APIs defined in <code>wasmedge-sys</code> to compute Fibonacci numbers concurrently.</p>
-<h2 id="example"><a class="header" href="#example">Example</a></h2>
-<p>In the following code, we creates two child threads, <code>thread_a</code> and <code>thread_b</code>, which are responsbile for compute <code>Fib(4)</code> and <code>Fib(5)</code> by calling the host function <code>fib</code>, respectively. After that, the main thread computes <code>Fib(6)</code> by adding the numbers returned by <code>thread_a</code> and <code>thread_b</code>.</p>
+<p>In this example, we will demonstrate how to use the objects and the APIs defined in <code>wasmedge-sys</code> to compute Fibonacci numbers concurrently. we creates two child threads, <code>thread_a</code> and <code>thread_b</code>, which are responsbile for compute <code>Fib(4)</code> and <code>Fib(5)</code> by calling the host function <code>fib</code>, respectively. After that, the main thread computes <code>Fib(6)</code> by adding the numbers returned by <code>thread_a</code> and <code>thread_b</code>.</p>
+<blockquote>
+<p>The code in the example is verified on</p>
+<ul>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
 <h3 id="step-1-create-a-vm-context-and-register-the-webassembly-module"><a class="header" href="#step-1-create-a-vm-context-and-register-the-webassembly-module">Step 1: create a Vm context and register the WebAssembly module</a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -177,6 +176,7 @@ let mut vm = Vm::create(Some(config), Some(&amp;mut store))?;
 let file = std::path::PathBuf::from(env!(&quot;WASMEDGE_DIR&quot;))
     .join(&quot;bindings/rust/wasmedge-sys/tests/data/fibonacci.wasm&quot;);
 vm.register_wasm_from_file(&quot;extern&quot;, file)?;
+
 <span class="boring">}
 </span></code></pre></pre>
 <h3 id="step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively"><a class="header" href="#step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively">Step 2: create two child threads to compute <code>Fib(4)</code> and <code>Fib(5)</code> respectively</a></h3>
@@ -226,7 +226,7 @@ println!(&quot;fib(6) = fib(5) + fib(1) = {}&quot;, fib5 + fib4);
 fib(5) by child thread: 8
 fib(6) = fib(5) + fib(1) = 13
 </code></pre>
-<p>The complete code in this demo can be found on <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/threads.rs">WasmEdge Github</a>.</p>
+<p>The complete code in this demo can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/threads.rs">threads.rs</a>.</p>
 
                     </main>
 

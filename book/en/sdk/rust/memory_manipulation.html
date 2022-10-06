@@ -151,9 +151,16 @@
                     <main>
                         <h1 id="memory-manipulation"><a class="header" href="#memory-manipulation">Memory Manipulation</a></h1>
 <p>In this example, we'll present how to manipulate the linear memory with the APIs defined in <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Memory.html">wasmedge_sdk::Memory</a>.</p>
-<p>N.B. In this example, <code>wasmedge-sdk v0.4.0</code>, <code>wasmedge-sys v0.9.0</code> and <code>wasmedge-types v0.2.1</code> are used.</p>
+<blockquote>
+<p>The code in the following example is verified on</p>
+<ul>
+<li>wasmedge-sdk v0.5.0</li>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
 <h2 id="wasm-module"><a class="header" href="#wasm-module">Wasm module</a></h2>
-<p>Before talk about the code, let's first see the wasm module we use in this example. In the wasm module, a linear memory of 1-page (64KiB) size is defined; in addition, three functions are exported from this module: <code>get_at</code>, <code>set_at</code>, and <code>mem_size</code>.</p>
+<p>Before talking about the code, let's first see the wasm module we use in this example. In the wasm module, a linear memory of 1-page (64KiB) size is defined; in addition, three functions are exported from this module: <code>get_at</code>, <code>set_at</code>, and <code>mem_size</code>.</p>
 <pre><code class="language-wasm">(module
   (type $mem_size_t (func (result i32)))
   (type $get_at_t (func (param i32) (result i32)))
@@ -291,7 +298,7 @@ assert_eq!(returns[0].to_i32(), val);
 <span class="boring">}
 </span></code></pre></pre>
 <p>The comments in the code explain the meaning of the code sample above, so we don't describe more.</p>
-<p>The complete code of this example can be found <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/memory.rs">here</a>.</p>
+<p>The complete code of this example can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/memory.rs">memory.rs</a>.</p>
 
                     </main>
 

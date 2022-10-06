@@ -21545,11 +21545,7 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 <li><a href="sdk/rust.html#build">Build</a></li>
 <li><a href="sdk/rust.html#wasmedge-sys-crate"><code>wasmedge-sys</code> crate</a></li>
 <li><a href="sdk/rust.html#enable-wasmedge-plugins">Enable WasmEdge Plugins</a></li>
-<li><a href="sdk/rust.html#docker-image">Docker image</a>
-<ul>
-<li><a href="sdk/rust.html#windows-users">Windows Users</a></li>
-</ul>
-</li>
+<li><a href="sdk/rust.html#docker-image">Docker image</a></li>
 <li><a href="sdk/rust.html#examples">Examples</a>
 <ul>
 <li><a href="sdk/rust.html#wasmedge-sdk-examples"><code>wasmedge-sdk</code> Examples</a></li>
@@ -21584,10 +21580,11 @@ N dhvpx oebja sbk whzcf bire gur ynml qbt
 </ul>
 <h2 id="versioning-table"><a class="header" href="#versioning-table">Versioning Table</a></h2>
 <p>The following table provides the versioning information about each release of <code>wasmedge-sdk</code> crate and its dependencies.</p>
-<div class="table-wrapper"><table><thead><tr><th style="text-align: center">wasmedge-sdk</th><th style="text-align: center">WasmEdge lib</th><th style="text-align: center">wasmedge-sys</th><th style="text-align: center">wasmedge-types</th></tr></thead><tbody>
-<tr><td style="text-align: center">0.4.0</td><td style="text-align: center">0.11.0</td><td style="text-align: center">0.9</td><td style="text-align: center">0.2.1</td></tr>
-<tr><td style="text-align: center">0.3.0</td><td style="text-align: center">0.10.1</td><td style="text-align: center">0.8</td><td style="text-align: center">0.2.0</td></tr>
-<tr><td style="text-align: center">0.1.0</td><td style="text-align: center">0.10.0</td><td style="text-align: center">0.7</td><td style="text-align: center">0.1</td></tr>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">wasmedge-sdk</th><th style="text-align: center">WasmEdge lib</th><th style="text-align: center">wasmedge-sys</th><th style="text-align: center">wasmedge-types</th><th style="text-align: center">wasmedge-macro</th></tr></thead><tbody>
+<tr><td style="text-align: center">0.5.0</td><td style="text-align: center">0.11.1</td><td style="text-align: center">0.10</td><td style="text-align: center">0.3.0</td><td style="text-align: center">0.1.0</td></tr>
+<tr><td style="text-align: center">0.4.0</td><td style="text-align: center">0.11.0</td><td style="text-align: center">0.9</td><td style="text-align: center">0.2.1</td><td style="text-align: center">-</td></tr>
+<tr><td style="text-align: center">0.3.0</td><td style="text-align: center">0.10.1</td><td style="text-align: center">0.8</td><td style="text-align: center">0.2</td><td style="text-align: center">-</td></tr>
+<tr><td style="text-align: center">0.1.0</td><td style="text-align: center">0.10.0</td><td style="text-align: center">0.7</td><td style="text-align: center">0.1</td><td style="text-align: center">-</td></tr>
 </tbody></table>
 </div>
 <h2 id="build-1"><a class="header" href="#build-1">Build</a></h2>
@@ -21670,7 +21667,7 @@ export WASMEDGE_LIB_DIR=$HOME/wasmedge-install/lib
 </li>
 </ul>
 <pre><code class="language-toml">[dependencies]
-wasmedge-sdk = &quot;0.1&quot;
+wasmedge-sdk = &quot;0.4&quot;
 </code></pre>
 <h2 id="wasmedge-sys-crate"><a class="header" href="#wasmedge-sys-crate"><code>wasmedge-sys</code> crate</a></h2>
 <p><code>wasmedge-sys</code> serves as a wraper layer of <code>WasmEdge</code> C-API, and provides a group of safe low-level Rust interfaces.
@@ -21678,7 +21675,7 @@ For those who are interested in using <code>wasmedge-sys</code> in their project
 Then, copy/paste the following code in the <code>Cargo.toml</code> file of your project.
 For details, please refer to <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/README.md">README</a>.</p>
 <pre><code class="language-toml">[dependencies]
-wasmedge-sys = &quot;0.7&quot;
+wasmedge-sys = &quot;0.9&quot;
 </code></pre>
 <h2 id="enable-wasmedge-plugins"><a class="header" href="#enable-wasmedge-plugins">Enable WasmEdge Plugins</a></h2>
 <p>If you'd like to enable WasmEdge Plugins (currently, only available on Linux platform), please use <code>WASMEDGE_PLUGIN_PATH</code> environment variable to specify the path to the directory containing the plugins. For example, use the following commands to specify the path on Ubuntu 20.04:</p>
@@ -21686,45 +21683,69 @@ wasmedge-sys = &quot;0.7&quot;
 </code></pre>
 <h2 id="docker-image"><a class="header" href="#docker-image">Docker image</a></h2>
 <p>For those who would like to dev in Docker environment, you can reference the <a href="sdk/../quick_start/use_docker.html">Use Docker</a> section of this book, which details how to use Docker for <code>WasmEdge</code> application development.</p>
-<h3 id="windows-users"><a class="header" href="#windows-users">Windows Users</a></h3>
-<p>Duo to <a href="https://github.com/WasmEdge/WasmEdge/issues/1527">issue 1527</a>, WasmEdger Rust bindings can not be used directly on Windows platform for now. Please choose to use our <a href="sdk/rust.html#docker-image">docker image</a>. We'll fix the issue as soon as possible.</p>
 <h2 id="examples-3"><a class="header" href="#examples-3">Examples</a></h2>
-<p>For helping you get familiar with WasmEdge Rust bindings, the following quick examples demonstrate how to use the APIs defined in <code>wasmedge-sdk</code> and <code>wasmedge-sys</code>, respectively. In addition, we'll add more examples continuously. Please file an issue <a href="https://github.com/WasmEdge/WasmEdge/issues">here</a> and let us know if you have any problems with the API usage.</p>
+<p>For helping you get familiar with WasmEdge Rust bindings, the following quick examples demonstrate how to use the APIs defined in <code>wasmedge-sdk</code> and <code>wasmedge-sys</code>, respectively. In addition, we'll add more examples continuously. Please file issues <a href="https://github.com/WasmEdge/WasmEdge/issues">here</a> and let us know if you have any problems with the API usage.</p>
 <h3 id="wasmedge-sdk-examples"><a class="header" href="#wasmedge-sdk-examples"><code>wasmedge-sdk</code> Examples</a></h3>
 <ul>
-<li><a href="sdk/rust/say_hello.html">[wasmedge-sdk] Hello World!</a></li>
-<li><a href="sdk/rust/memory_manipulation.html">[wasmedge-sdk] Memory manipulation</a></li>
-<li><a href="sdk/rust/table_and_funcref.html">[wasmedge-sdk] Table and FuncRef</a></li>
+<li>
+<p><a href="sdk/rust/say_hello.html">[wasmedge-sdk] Hello World!</a></p>
+</li>
+<li>
+<p><a href="sdk/rust/memory_manipulation.html">[wasmedge-sdk] Memory manipulation</a></p>
+</li>
+<li>
+<p><a href="sdk/rust/table_and_funcref.html">[wasmedge-sdk] Table and FuncRef</a></p>
+</li>
+<li>
+<p><a href="https://github.com/WasmEdge/WasmEdge/tree/master/bindings/rust/wasmedge-sdk/examples">More examples</a></p>
+</li>
 </ul>
 <h3 id="wasmedge-sys-examples"><a class="header" href="#wasmedge-sys-examples"><code>wasmedge-sys</code> Examples</a></h3>
 <ul>
-<li><a href="sdk/rust/sys_run_host_func.html">[wasmedge-sys] Run a WebAssembly function with WasmEdge low-level APIs</a></li>
-<li><a href="sdk/rust/concurrent_fib.html">[wasmedge-sys] Compute Fibonacci numbers concurrently</a></li>
-<li><a href="sdk/rust/how_to_use_module_instance.html">[wasmedge-sys] The usage of WasmEdge module instances</a></li>
+<li>
+<p><a href="sdk/rust/sys_run_host_func.html">[wasmedge-sys] Run a WebAssembly function with WasmEdge low-level APIs</a></p>
+</li>
+<li>
+<p><a href="sdk/rust/concurrent_fib.html">[wasmedge-sys] Compute Fibonacci numbers concurrently</a></p>
+</li>
+<li>
+<p><a href="sdk/rust/how_to_use_module_instance.html">[wasmedge-sys] The usage of WasmEdge module instances</a></p>
+</li>
+<li>
+<p><a href="https://github.com/WasmEdge/WasmEdge/tree/master/bindings/rust/wasmedge-sys/examples">More examples</a></p>
+</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world-4"><a class="header" href="#hello-world-4">Hello World</a></h1>
 <p>In this example, we'll use a wasm module, in which a function <code>run</code> is exported and it will call a function <code>say_hello</code> from an import module named <code>env</code>. The imported function <code>say_hello</code> has no inputs and outputs, and only prints a greeting message out.</p>
-<p>N.B. In this example, <code>wasmedge-sdk v0.4.0</code>, <code>wasmedge-sys v0.9.0</code> and <code>wasmedge-types v0.2.1</code> are used.</p>
+<blockquote>
+<p>The code in the following example is verified on</p>
+<ul>
+<li>wasmedge-sdk v0.5.0</li>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
 <p>Let's start off by getting all imports right away so you can follow along</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// please add this feature if you're using rust of version &lt; 1.63
 // #![feature(explicit_generic_args_with_impl_trait)]
 
+#![feature(never_type)]
+
 use wasmedge_sdk::{
-    error::HostFuncError, params, wat2wasm, CallingFrame, Executor, ImportObjectBuilder, Module,
-    Store, WasmValue,
+    error::HostFuncError, host_function, params, wat2wasm, Caller, Executor, ImportObjectBuilder,
+    Module, Store, WasmValue,
 };
+
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="step-1-define-a-native-function-and-create-an-importobject"><a class="header" href="#step-1-define-a-native-function-and-create-an-importobject">Step 1: Define a native function and Create an ImportObject</a></h2>
 <p>First, let's define a native function named <code>say_hello_world</code> that prints out <code>Hello, World!</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>fn say_hello_world(
-    _: &amp;CallingFrame,
-    _: Vec&lt;WasmValue&gt;,
-) -&gt; Result&lt;Vec&lt;WasmValue&gt;, HostFuncError&gt; {
+</span>#[host_function]
+fn say_hello(caller: &amp;Caller, _args: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, HostFuncError&gt; {
     println!(&quot;Hello, world!&quot;);
 
     Ok(vec![])
@@ -21736,8 +21757,8 @@ use wasmedge_sdk::{
 </span><span class="boring">fn main() {
 </span>// create an import module
 let import = ImportObjectBuilder::new()
-    .with_func::&lt;(), ()&gt;(&quot;say_hello&quot;, say_hello_world)?
-    .build(&quot;env&quot;)?; 
+    .with_func::&lt;(), (), !&gt;(&quot;say_hello&quot;, say_hello, None)?
+    .build(&quot;env&quot;)?;
 <span class="boring">}
 </span></code></pre></pre>
 <p>Now, we have an import module named <code>env</code> which holds a host function <code>say_hello</code>. As you may notice, the names we used for the import module and the host function are exactly the same as the ones appearing in the wasm module. You can find the wasm module in <a href="sdk/rust/say_hello.html#step-2-load-a-wasm-module">Step 2</a>.</p>
@@ -21780,13 +21801,16 @@ let module = Module::from_bytes(None, &amp;wasm_bytes)?;
 <p>To register a compiled module, we need to check if it has dependency on some import modules. In the wasm module this statement <code>(import &quot;env&quot; &quot;say_hello&quot; (func $say_hello (type $no_args_no_rets_t)))</code> tells us that it depends on an import module named <code>env</code>. Therefore, we need to register the import module first before registering the compiled wasm module.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// create an executor
+</span>// loads a wasm module from the given in-memory bytes
+let module = Module::from_bytes(None, &amp;wasm_bytes)?;
+
+// create an executor
 let mut executor = Executor::new(None, None)?;
 
 // create a store
 let mut store = Store::new()?;
 
-// register the import module into the store
+// register the module into the store
 store.register_import_module(&amp;mut executor, &amp;import)?;
 
 // register the compiled module into the store and get an module instance
@@ -21819,12 +21843,19 @@ run.call(&amp;mut executor, params!())?;
 </ul>
 <p>Any one of these two methods requires that you have to get a <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Func.html">function instance</a>.</p>
 <p>In addition, <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html">Vm</a> defines a group of methods which can invoke host function in different ways. For details, please reference <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html">Vm</a>.</p>
-<p>The complete example can be found <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/hello_world.rs">here</a>.</p>
+<p>The complete example can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/hello_world.rs">hello_world.rs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="memory-manipulation"><a class="header" href="#memory-manipulation">Memory Manipulation</a></h1>
 <p>In this example, we'll present how to manipulate the linear memory with the APIs defined in <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Memory.html">wasmedge_sdk::Memory</a>.</p>
-<p>N.B. In this example, <code>wasmedge-sdk v0.4.0</code>, <code>wasmedge-sys v0.9.0</code> and <code>wasmedge-types v0.2.1</code> are used.</p>
+<blockquote>
+<p>The code in the following example is verified on</p>
+<ul>
+<li>wasmedge-sdk v0.5.0</li>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
 <h2 id="wasm-module"><a class="header" href="#wasm-module">Wasm module</a></h2>
-<p>Before talk about the code, let's first see the wasm module we use in this example. In the wasm module, a linear memory of 1-page (64KiB) size is defined; in addition, three functions are exported from this module: <code>get_at</code>, <code>set_at</code>, and <code>mem_size</code>.</p>
+<p>Before talking about the code, let's first see the wasm module we use in this example. In the wasm module, a linear memory of 1-page (64KiB) size is defined; in addition, three functions are exported from this module: <code>get_at</code>, <code>set_at</code>, and <code>mem_size</code>.</p>
 <pre><code class="language-wasm">(module
   (type $mem_size_t (func (result i32)))
   (type $get_at_t (func (param i32) (result i32)))
@@ -21962,30 +21993,57 @@ assert_eq!(returns[0].to_i32(), val);
 <span class="boring">}
 </span></code></pre></pre>
 <p>The comments in the code explain the meaning of the code sample above, so we don't describe more.</p>
-<p>The complete code of this example can be found <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/memory.rs">here</a>.</p>
+<p>The complete code of this example can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/memory.rs">memory.rs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="table-and-funcref"><a class="header" href="#table-and-funcref">Table and FuncRef</a></h1>
 <p>In this example, we'll present how to use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Table.html">Table</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.FuncRef.html">FuncRef</a> stored in a slot of a <code>Table</code> instance to implement indirect function invocation.</p>
-<h2 id="prerequisite-5"><a class="header" href="#prerequisite-5">Prerequisite</a></h2>
+<blockquote>
+<p>The code in the following example is verified on</p>
+<ul>
+<li>wasmedge-sdk v0.5.0</li>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
+<p>Let's start off by getting all imports right away so you can follow along</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// If the version of rust used is less than v1.63, please uncomment the follow attribute.
+// #![feature(explicit_generic_args_with_impl_trait)]
+
+#![feature(never_type)]
+
+use wasmedge_sdk::{
+    config::{CommonConfigOptions, ConfigBuilder},
+    error::HostFuncError,
+    host_function, params,
+    types::Val,
+    Caller, Executor, Func, ImportObjectBuilder, RefType, Store, Table, TableType, ValType,
+    WasmVal, WasmValue,
+};
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="define-host-function"><a class="header" href="#define-host-function">Define host function</a></h2>
 <p>In this example we defines a native function <code>real_add</code> that takes two numbers and returns their sum. This function will be registered as a host function into WasmEdge runtime environment</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>fn real_add(_: &amp;CallingFrame, input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+</span>#[host_function]
+fn real_add(_caller: &amp;Caller, input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, HostFuncError&gt; {
     println!(&quot;Rust: Entering Rust function real_add&quot;);
 
     if input.len() != 2 {
-        return Err(1);
+        return Err(HostFuncError::User(1));
     }
 
     let a = if input[0].ty() == ValType::I32 {
         input[0].to_i32()
     } else {
-        return Err(2);
+        return Err(HostFuncError::User(2));
     };
 
     let b = if input[1].ty() == ValType::I32 {
         input[1].to_i32()
     } else {
-        return Err(3);
+        return Err(HostFuncError::User(3));
     };
 
     let c = a + b;
@@ -21994,19 +22052,6 @@ assert_eq!(returns[0].to_i32(), val);
     println!(&quot;Rust: Leaving Rust function real_add&quot;);
     Ok(vec![WasmValue::from_i32(c)])
 }
-<span class="boring">}
-</span></code></pre></pre>
-<p>In addition, the following imports are used in this example.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use wasmedge_sdk::{
-    config::{CommonConfigOptions, ConfigBuilder},
-    error::HostFuncError,
-    params,
-    types::Val,
-    CallingFrame, Executor, Func, ImportObjectBuilder, RefType, Store, Table, TableType, ValType,
-    WasmVal, WasmValue,
-};
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="register-table-instance"><a class="header" href="#register-table-instance">Register Table instance</a></h2>
@@ -22039,13 +22084,18 @@ store.register_import_module(&amp;mut executor, &amp;import)?;
 <p>In the previous steps, we defined a native function <code>real_add</code> and registered a <code>Table</code> instance named <code>my-table</code> into the runtime environment. Now we'll save a reference to <code>read_add</code> function to a slot of <code>my-table</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// get the exported table instance
+</span>// get the imported module instance
+let instance = store
+    .module_instance(&quot;extern&quot;)
+    .expect(&quot;Not found module instance named 'extern'&quot;);
+
+// get the exported table instance
 let mut table = instance
     .table(&quot;my-table&quot;)
     .expect(&quot;Not found table instance named 'my-table'&quot;);
 
 // create a host function
-let host_func = Func::wrap::&lt;(i32, i32), i32&gt;(Box::new(real_add))?;
+let host_func = Func::wrap::&lt;(i32, i32), i32, !&gt;(Box::new(real_add), None)?;
 
 // store the reference to host_func at the given index of the table instance
 table.set(3, Val::FuncRef(Some(host_func.as_ref())))?;
@@ -22078,17 +22128,18 @@ if let Val::FuncRef(Some(func_ref)) = value {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The complete code of this example can be found <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/table_and_funcref.rs">here</a>.</p>
+<p>The complete code of this example can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/table_and_funcref.rs">table_and_funcref.rs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="run-a-webassembly-function-with-wasmedge-low-level-rust-apis"><a class="header" href="#run-a-webassembly-function-with-wasmedge-low-level-rust-apis">Run a WebAssembly function with WasmEdge low-level Rust APIs</a></h1>
-<h2 id="prerequisites-9"><a class="header" href="#prerequisites-9">Prerequisites</a></h2>
-<p>This example uses the following crates:</p>
-<ul>
-<li>wasmedge-sys v0.9.0</li>
-<li>wasmedge-types v0.2.1</li>
-</ul>
 <h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
 <p>This section demonstrates how to use the Rust APIs of the <code>wasmedge-sys</code> crate to run a host function.</p>
 <p>As you may know, several mainstream programming languages, such as C/C++, Rust, Go, and Python, support compiling their programs into WebAssembly binary. In this demo, we'll introduce how to use the APIs defined in <code>Vm</code> of <code>wasmedge-sys</code> crate to call a WebAssembly function which could be coded in any programming language mentioned above.</p>
+<blockquote>
+<p>The code in the example is verified on</p>
+<ul>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
 <h2 id="example"><a class="header" href="#example">Example</a></h2>
 <p>We use <code>fibonacci.wasm</code> in this demo, and the contents of the WebAssembly file are presented below. The statement, <code>(export &quot;fib&quot; (func $fib))</code>, declares an exported function named <code>fib</code>. This function computes a Fibonacci number with a given <code>i32</code> number as input. We'll use the function name later to achieve the goal of computing a Fibonacci number.</p>
 <pre><code class="language-wasm">(module
@@ -22177,16 +22228,15 @@ println!(&quot;The result of fib(5) is {}&quot;, returns[0].to_i32());
 <pre><code class="language-bash">The result of fib(5) is 8
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="compute-fibonacci-numbers-concurrently"><a class="header" href="#compute-fibonacci-numbers-concurrently">Compute Fibonacci numbers concurrently</a></h1>
-<h2 id="prerequisites-10"><a class="header" href="#prerequisites-10">Prerequisites</a></h2>
-<p>This example uses the following crates:</p>
-<ul>
-<li>wasmedge-sys v0.9.0</li>
-<li>wasmedge-types v0.2.1</li>
-</ul>
 <h2 id="overview-1"><a class="header" href="#overview-1">Overview</a></h2>
-<p>In this example, we will demonstrate how to use the objects and the APIs defined in <code>wasmedge-sys</code> to compute Fibonacci numbers concurrently.</p>
-<h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
-<p>In the following code, we creates two child threads, <code>thread_a</code> and <code>thread_b</code>, which are responsbile for compute <code>Fib(4)</code> and <code>Fib(5)</code> by calling the host function <code>fib</code>, respectively. After that, the main thread computes <code>Fib(6)</code> by adding the numbers returned by <code>thread_a</code> and <code>thread_b</code>.</p>
+<p>In this example, we will demonstrate how to use the objects and the APIs defined in <code>wasmedge-sys</code> to compute Fibonacci numbers concurrently. we creates two child threads, <code>thread_a</code> and <code>thread_b</code>, which are responsbile for compute <code>Fib(4)</code> and <code>Fib(5)</code> by calling the host function <code>fib</code>, respectively. After that, the main thread computes <code>Fib(6)</code> by adding the numbers returned by <code>thread_a</code> and <code>thread_b</code>.</p>
+<blockquote>
+<p>The code in the example is verified on</p>
+<ul>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
 <h3 id="step-1-create-a-vm-context-and-register-the-webassembly-module"><a class="header" href="#step-1-create-a-vm-context-and-register-the-webassembly-module">Step 1: create a Vm context and register the WebAssembly module</a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -22204,6 +22254,7 @@ let mut vm = Vm::create(Some(config), Some(&amp;mut store))?;
 let file = std::path::PathBuf::from(env!(&quot;WASMEDGE_DIR&quot;))
     .join(&quot;bindings/rust/wasmedge-sys/tests/data/fibonacci.wasm&quot;);
 vm.register_wasm_from_file(&quot;extern&quot;, file)?;
+
 <span class="boring">}
 </span></code></pre></pre>
 <h3 id="step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively"><a class="header" href="#step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively">Step 2: create two child threads to compute <code>Fib(4)</code> and <code>Fib(5)</code> respectively</a></h3>
@@ -22253,8 +22304,15 @@ println!(&quot;fib(6) = fib(5) + fib(1) = {}&quot;, fib5 + fib4);
 fib(5) by child thread: 8
 fib(6) = fib(5) + fib(1) = 13
 </code></pre>
-<p>The complete code in this demo can be found on <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/threads.rs">WasmEdge Github</a>.</p>
+<p>The complete code in this demo can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/threads.rs">threads.rs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="introduction-to-wasmedge-module-instance"><a class="header" href="#introduction-to-wasmedge-module-instance">Introduction to WasmEdge module instance</a></h1>
+<blockquote>
+<p>The code in the following examples are verified on</p>
+<ul>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
 <h2 id="example-1"><a class="header" href="#example-1">Example 1</a></h2>
 <p>In this example, we'll demonstrate how to use the APIs of <code>Vm</code> to</p>
 <ul>
@@ -22300,7 +22358,8 @@ let module_name = &quot;extern_module&quot;;
 let mut import = ImportModule::create(module_name)?;
 
 // a function to import
-fn real_add(_: &amp;CallingFrame, inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+#[sys_host_function]
+fn real_add(_frame: &amp;CallingFrame, inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
     if inputs.len() != 2 {
         return Err(1);
     }
@@ -22564,7 +22623,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 </span></code></pre></pre>
 </li>
 </ul>
-<p>The complete code in this demo can be found on <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/mdbook_example_module_instance.rs">WasmEdge Github</a>.</p>
+<p>The complete code in this demo can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/mdbook_example_module_instance.rs">mdbook_example_module_instance.rs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-python-sdk"><a class="header" href="#wasmedge-python-sdk">WasmEdge Python SDK</a></h1>
 <p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/pull/633">help out</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-command-line-tools"><a class="header" href="#wasmedge-command-line-tools">WasmEdge Command Line Tools</a></h1>
@@ -22839,7 +22898,7 @@ After compiling with the <code>wasmedgec</code> AOT compiler, the <code>wasmedge
 </ul>
 </li>
 </ol>
-<h2 id="example-2"><a class="header" href="#example-2">Example</a></h2>
+<h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
 <p>Take the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> for example.
 It exported a <code>fib()</code> function which takes a single <code>i32</code> integer as the input parameter.</p>
 <p>You can run:</p>
@@ -23499,7 +23558,7 @@ INFO: Initialized TensorFlow Lite runtime.
 <p>The result shows that the bird type is in <a href="https://github.com/second-state/wasm-learning/blob/master/rust/birds_v1/aiy_birds_V1_labels.txt#L166">line 166 of the label file</a> (Sicalis flaveola) and the confidence level is 84.7%.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="call-wasmedge-functions-from-an-ndk-native-app"><a class="header" href="#call-wasmedge-functions-from-an-ndk-native-app">Call WasmEdge functions from an NDK native app</a></h1>
 <p>In this section, we will demonstrate how to build an Android native application using C and the Android SDK. The native application uses the WasmEdge C SDK to embed the WasmEdge Runtime, and call WASM functions through WasmEdge.</p>
-<h2 id="prerequisite-6"><a class="header" href="#prerequisite-6">Prerequisite</a></h2>
+<h2 id="prerequisite-5"><a class="header" href="#prerequisite-5">Prerequisite</a></h2>
 <h3 id="android"><a class="header" href="#android">Android</a></h3>
 <p>Currently, WasmEdge only supports the arm64-v8a architecture on Android devices. You need an arm64-v8a Android simulator or a physical device with <a href="https://developer.android.com/studio/debug/dev-options">developer options turned on</a>. WasmEdge requires Android 6.0 and above.</p>
 <h3 id="android-development-cli-1"><a class="header" href="#android-development-cli-1">Android development CLI</a></h3>
@@ -23836,7 +23895,7 @@ hello, sel4
 <p>The installation steps are no different from the <a href="contribute/build_from_src/../../quick_start/install.html">installation document</a>, and the execution is the same. Here's a video about installing WasmEdge and running a simple WebAssembly module to add two numbers up.</p>
 <p><a href="https://asciinema.org/a/458453"><img src="https://asciinema.org/a/458453.svg" alt="asciicast" /></a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-with-wasi-nn-plug-in"><a class="header" href="#build-wasmedge-with-wasi-nn-plug-in">Build WasmEdge With WASI-NN Plug-in</a></h1>
-<h2 id="prerequisites-11"><a class="header" href="#prerequisites-11">Prerequisites</a></h2>
+<h2 id="prerequisites-9"><a class="header" href="#prerequisites-9">Prerequisites</a></h2>
 <p>Currently, WasmEdge used OpenVINO™ or PyTorch as the WASI-NN backend implementation. For using WASI-NN on WasmEdge, you need to install <a href="https://docs.openvino.ai/2021.4/openvino_docs_install_guides_installing_openvino_linux.html#">OpenVINO™</a>(2021) or <a href="https://pytorch.org/get-started/locally/">PyTorch 1.8.2 LTS</a> for the backend.</p>
 <p>By default, we don't enable any WASI-NN backend in WasmEdge. Therefore developers should <a href="contribute/build_from_src/linux.html">build the WasmEdge from source</a> with the cmake option <code>WASMEDGE_PLUGIN_WASI_NN_BACKEND</code> to enable the backends.</p>
 <h2 id="build-wasmedge-with-wasi-nn-openvino-backend"><a class="header" href="#build-wasmedge-with-wasi-nn-openvino-backend">Build WasmEdge with WASI-NN OpenVINO Backend</a></h2>
@@ -23889,7 +23948,7 @@ cmake --install .
 </blockquote>
 <p>Then you will have an executable <code>wasmedge</code> runtime under <code>/usr/local/bin</code> and the WASI-NN with OpenVINO backend plug-in under <code>/usr/local/lib/wasmedge/libwasmedgePluginWasiNN.so</code> after installation.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-with-wasi-crypto-plug-in"><a class="header" href="#build-wasmedge-with-wasi-crypto-plug-in">Build WasmEdge With WASI-Crypto Plug-in</a></h1>
-<h2 id="prerequisites-12"><a class="header" href="#prerequisites-12">Prerequisites</a></h2>
+<h2 id="prerequisites-10"><a class="header" href="#prerequisites-10">Prerequisites</a></h2>
 <p>Currently, WasmEdge used <code>OpenSSL 1.1</code> or <code>3.0</code> for the WASI-Crypto implementation.</p>
 <p>For installing <code>OpenSSL 1.1</code> development package on <code>Ubuntu 20.04</code>, we recommend the following commands:</p>
 <pre><code class="language-bash">sudo apt update
@@ -23938,7 +23997,7 @@ cmake --install .
 </blockquote>
 <p>Then you will have an executable <code>wasmedge</code> runtime under <code>/usr/local/bin</code> and the WASI-Crypto plug-in under <code>/usr/local/lib/wasmedge/libwasmedgePluginWasiCrypto.so</code> after installation.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-with-wasmedge-httpsreq-plug-in"><a class="header" href="#build-wasmedge-with-wasmedge-httpsreq-plug-in">Build WasmEdge With WasmEdge-HttpsReq Plug-in</a></h1>
-<h2 id="prerequisites-13"><a class="header" href="#prerequisites-13">Prerequisites</a></h2>
+<h2 id="prerequisites-11"><a class="header" href="#prerequisites-11">Prerequisites</a></h2>
 <p>Currently, WasmEdge used <code>OpenSSL 1.1</code> or <code>3.0</code> for the the dependency of WasmEdge-HttpsReq.</p>
 <p>For installing <code>OpenSSL 1.1</code> development package on <code>Ubuntu 20.04</code>, we recommend the following commands:</p>
 <pre><code class="language-bash">sudo apt update
