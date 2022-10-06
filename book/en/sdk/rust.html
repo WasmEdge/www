@@ -160,11 +160,7 @@
 <li><a href="#build">Build</a></li>
 <li><a href="#wasmedge-sys-crate"><code>wasmedge-sys</code> crate</a></li>
 <li><a href="#enable-wasmedge-plugins">Enable WasmEdge Plugins</a></li>
-<li><a href="#docker-image">Docker image</a>
-<ul>
-<li><a href="#windows-users">Windows Users</a></li>
-</ul>
-</li>
+<li><a href="#docker-image">Docker image</a></li>
 <li><a href="#examples">Examples</a>
 <ul>
 <li><a href="#wasmedge-sdk-examples"><code>wasmedge-sdk</code> Examples</a></li>
@@ -199,10 +195,11 @@
 </ul>
 <h2 id="versioning-table"><a class="header" href="#versioning-table">Versioning Table</a></h2>
 <p>The following table provides the versioning information about each release of <code>wasmedge-sdk</code> crate and its dependencies.</p>
-<div class="table-wrapper"><table><thead><tr><th style="text-align: center">wasmedge-sdk</th><th style="text-align: center">WasmEdge lib</th><th style="text-align: center">wasmedge-sys</th><th style="text-align: center">wasmedge-types</th></tr></thead><tbody>
-<tr><td style="text-align: center">0.4.0</td><td style="text-align: center">0.11.0</td><td style="text-align: center">0.9</td><td style="text-align: center">0.2.1</td></tr>
-<tr><td style="text-align: center">0.3.0</td><td style="text-align: center">0.10.1</td><td style="text-align: center">0.8</td><td style="text-align: center">0.2.0</td></tr>
-<tr><td style="text-align: center">0.1.0</td><td style="text-align: center">0.10.0</td><td style="text-align: center">0.7</td><td style="text-align: center">0.1</td></tr>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">wasmedge-sdk</th><th style="text-align: center">WasmEdge lib</th><th style="text-align: center">wasmedge-sys</th><th style="text-align: center">wasmedge-types</th><th style="text-align: center">wasmedge-macro</th></tr></thead><tbody>
+<tr><td style="text-align: center">0.5.0</td><td style="text-align: center">0.11.1</td><td style="text-align: center">0.10</td><td style="text-align: center">0.3.0</td><td style="text-align: center">0.1.0</td></tr>
+<tr><td style="text-align: center">0.4.0</td><td style="text-align: center">0.11.0</td><td style="text-align: center">0.9</td><td style="text-align: center">0.2.1</td><td style="text-align: center">-</td></tr>
+<tr><td style="text-align: center">0.3.0</td><td style="text-align: center">0.10.1</td><td style="text-align: center">0.8</td><td style="text-align: center">0.2</td><td style="text-align: center">-</td></tr>
+<tr><td style="text-align: center">0.1.0</td><td style="text-align: center">0.10.0</td><td style="text-align: center">0.7</td><td style="text-align: center">0.1</td><td style="text-align: center">-</td></tr>
 </tbody></table>
 </div>
 <h2 id="build"><a class="header" href="#build">Build</a></h2>
@@ -285,7 +282,7 @@ export WASMEDGE_LIB_DIR=$HOME/wasmedge-install/lib
 </li>
 </ul>
 <pre><code class="language-toml">[dependencies]
-wasmedge-sdk = &quot;0.1&quot;
+wasmedge-sdk = &quot;0.4&quot;
 </code></pre>
 <h2 id="wasmedge-sys-crate"><a class="header" href="#wasmedge-sys-crate"><code>wasmedge-sys</code> crate</a></h2>
 <p><code>wasmedge-sys</code> serves as a wraper layer of <code>WasmEdge</code> C-API, and provides a group of safe low-level Rust interfaces.
@@ -293,7 +290,7 @@ For those who are interested in using <code>wasmedge-sys</code> in their project
 Then, copy/paste the following code in the <code>Cargo.toml</code> file of your project.
 For details, please refer to <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/README.md">README</a>.</p>
 <pre><code class="language-toml">[dependencies]
-wasmedge-sys = &quot;0.7&quot;
+wasmedge-sys = &quot;0.9&quot;
 </code></pre>
 <h2 id="enable-wasmedge-plugins"><a class="header" href="#enable-wasmedge-plugins">Enable WasmEdge Plugins</a></h2>
 <p>If you'd like to enable WasmEdge Plugins (currently, only available on Linux platform), please use <code>WASMEDGE_PLUGIN_PATH</code> environment variable to specify the path to the directory containing the plugins. For example, use the following commands to specify the path on Ubuntu 20.04:</p>
@@ -301,21 +298,37 @@ wasmedge-sys = &quot;0.7&quot;
 </code></pre>
 <h2 id="docker-image"><a class="header" href="#docker-image">Docker image</a></h2>
 <p>For those who would like to dev in Docker environment, you can reference the <a href="../quick_start/use_docker.html">Use Docker</a> section of this book, which details how to use Docker for <code>WasmEdge</code> application development.</p>
-<h3 id="windows-users"><a class="header" href="#windows-users">Windows Users</a></h3>
-<p>Duo to <a href="https://github.com/WasmEdge/WasmEdge/issues/1527">issue 1527</a>, WasmEdger Rust bindings can not be used directly on Windows platform for now. Please choose to use our <a href="#docker-image">docker image</a>. We'll fix the issue as soon as possible.</p>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
-<p>For helping you get familiar with WasmEdge Rust bindings, the following quick examples demonstrate how to use the APIs defined in <code>wasmedge-sdk</code> and <code>wasmedge-sys</code>, respectively. In addition, we'll add more examples continuously. Please file an issue <a href="https://github.com/WasmEdge/WasmEdge/issues">here</a> and let us know if you have any problems with the API usage.</p>
+<p>For helping you get familiar with WasmEdge Rust bindings, the following quick examples demonstrate how to use the APIs defined in <code>wasmedge-sdk</code> and <code>wasmedge-sys</code>, respectively. In addition, we'll add more examples continuously. Please file issues <a href="https://github.com/WasmEdge/WasmEdge/issues">here</a> and let us know if you have any problems with the API usage.</p>
 <h3 id="wasmedge-sdk-examples"><a class="header" href="#wasmedge-sdk-examples"><code>wasmedge-sdk</code> Examples</a></h3>
 <ul>
-<li><a href="rust/say_hello.html">[wasmedge-sdk] Hello World!</a></li>
-<li><a href="rust/memory_manipulation.html">[wasmedge-sdk] Memory manipulation</a></li>
-<li><a href="rust/table_and_funcref.html">[wasmedge-sdk] Table and FuncRef</a></li>
+<li>
+<p><a href="rust/say_hello.html">[wasmedge-sdk] Hello World!</a></p>
+</li>
+<li>
+<p><a href="rust/memory_manipulation.html">[wasmedge-sdk] Memory manipulation</a></p>
+</li>
+<li>
+<p><a href="rust/table_and_funcref.html">[wasmedge-sdk] Table and FuncRef</a></p>
+</li>
+<li>
+<p><a href="https://github.com/WasmEdge/WasmEdge/tree/master/bindings/rust/wasmedge-sdk/examples">More examples</a></p>
+</li>
 </ul>
 <h3 id="wasmedge-sys-examples"><a class="header" href="#wasmedge-sys-examples"><code>wasmedge-sys</code> Examples</a></h3>
 <ul>
-<li><a href="rust/sys_run_host_func.html">[wasmedge-sys] Run a WebAssembly function with WasmEdge low-level APIs</a></li>
-<li><a href="rust/concurrent_fib.html">[wasmedge-sys] Compute Fibonacci numbers concurrently</a></li>
-<li><a href="rust/how_to_use_module_instance.html">[wasmedge-sys] The usage of WasmEdge module instances</a></li>
+<li>
+<p><a href="rust/sys_run_host_func.html">[wasmedge-sys] Run a WebAssembly function with WasmEdge low-level APIs</a></p>
+</li>
+<li>
+<p><a href="rust/concurrent_fib.html">[wasmedge-sys] Compute Fibonacci numbers concurrently</a></p>
+</li>
+<li>
+<p><a href="rust/how_to_use_module_instance.html">[wasmedge-sys] The usage of WasmEdge module instances</a></p>
+</li>
+<li>
+<p><a href="https://github.com/WasmEdge/WasmEdge/tree/master/bindings/rust/wasmedge-sys/examples">More examples</a></p>
+</li>
 </ul>
 
                     </main>

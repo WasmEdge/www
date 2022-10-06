@@ -150,6 +150,13 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction-to-wasmedge-module-instance"><a class="header" href="#introduction-to-wasmedge-module-instance">Introduction to WasmEdge module instance</a></h1>
+<blockquote>
+<p>The code in the following examples are verified on</p>
+<ul>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
 <h2 id="example-1"><a class="header" href="#example-1">Example 1</a></h2>
 <p>In this example, we'll demonstrate how to use the APIs of <code>Vm</code> to</p>
 <ul>
@@ -195,7 +202,8 @@ let module_name = &quot;extern_module&quot;;
 let mut import = ImportModule::create(module_name)?;
 
 // a function to import
-fn real_add(_: &amp;CallingFrame, inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
+#[sys_host_function]
+fn real_add(_frame: &amp;CallingFrame, inputs: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, u8&gt; {
     if inputs.len() != 2 {
         return Err(1);
     }
@@ -459,7 +467,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 </span></code></pre></pre>
 </li>
 </ul>
-<p>The complete code in this demo can be found on <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/mdbook_example_module_instance.rs">WasmEdge Github</a>.</p>
+<p>The complete code in this demo can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/mdbook_example_module_instance.rs">mdbook_example_module_instance.rs</a>.</p>
 
                     </main>
 

@@ -151,27 +151,35 @@
                     <main>
                         <h1 id="hello-world"><a class="header" href="#hello-world">Hello World</a></h1>
 <p>In this example, we'll use a wasm module, in which a function <code>run</code> is exported and it will call a function <code>say_hello</code> from an import module named <code>env</code>. The imported function <code>say_hello</code> has no inputs and outputs, and only prints a greeting message out.</p>
-<p>N.B. In this example, <code>wasmedge-sdk v0.4.0</code>, <code>wasmedge-sys v0.9.0</code> and <code>wasmedge-types v0.2.1</code> are used.</p>
+<blockquote>
+<p>The code in the following example is verified on</p>
+<ul>
+<li>wasmedge-sdk v0.5.0</li>
+<li>wasmedge-sys v0.10.0</li>
+<li>wasmedge-types v0.3.0</li>
+</ul>
+</blockquote>
 <p>Let's start off by getting all imports right away so you can follow along</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// please add this feature if you're using rust of version &lt; 1.63
 // #![feature(explicit_generic_args_with_impl_trait)]
 
+#![feature(never_type)]
+
 use wasmedge_sdk::{
-    error::HostFuncError, params, wat2wasm, CallingFrame, Executor, ImportObjectBuilder, Module,
-    Store, WasmValue,
+    error::HostFuncError, host_function, params, wat2wasm, Caller, Executor, ImportObjectBuilder,
+    Module, Store, WasmValue,
 };
+
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="step-1-define-a-native-function-and-create-an-importobject"><a class="header" href="#step-1-define-a-native-function-and-create-an-importobject">Step 1: Define a native function and Create an ImportObject</a></h2>
 <p>First, let's define a native function named <code>say_hello_world</code> that prints out <code>Hello, World!</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>fn say_hello_world(
-    _: &amp;CallingFrame,
-    _: Vec&lt;WasmValue&gt;,
-) -&gt; Result&lt;Vec&lt;WasmValue&gt;, HostFuncError&gt; {
+</span>#[host_function]
+fn say_hello(caller: &amp;Caller, _args: Vec&lt;WasmValue&gt;) -&gt; Result&lt;Vec&lt;WasmValue&gt;, HostFuncError&gt; {
     println!(&quot;Hello, world!&quot;);
 
     Ok(vec![])
@@ -183,8 +191,8 @@ use wasmedge_sdk::{
 </span><span class="boring">fn main() {
 </span>// create an import module
 let import = ImportObjectBuilder::new()
-    .with_func::&lt;(), ()&gt;(&quot;say_hello&quot;, say_hello_world)?
-    .build(&quot;env&quot;)?; 
+    .with_func::&lt;(), (), !&gt;(&quot;say_hello&quot;, say_hello, None)?
+    .build(&quot;env&quot;)?;
 <span class="boring">}
 </span></code></pre></pre>
 <p>Now, we have an import module named <code>env</code> which holds a host function <code>say_hello</code>. As you may notice, the names we used for the import module and the host function are exactly the same as the ones appearing in the wasm module. You can find the wasm module in <a href="#step-2-load-a-wasm-module">Step 2</a>.</p>
@@ -227,13 +235,16 @@ let module = Module::from_bytes(None, &amp;wasm_bytes)?;
 <p>To register a compiled module, we need to check if it has dependency on some import modules. In the wasm module this statement <code>(import &quot;env&quot; &quot;say_hello&quot; (func $say_hello (type $no_args_no_rets_t)))</code> tells us that it depends on an import module named <code>env</code>. Therefore, we need to register the import module first before registering the compiled wasm module.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// create an executor
+</span>// loads a wasm module from the given in-memory bytes
+let module = Module::from_bytes(None, &amp;wasm_bytes)?;
+
+// create an executor
 let mut executor = Executor::new(None, None)?;
 
 // create a store
 let mut store = Store::new()?;
 
-// register the import module into the store
+// register the module into the store
 store.register_import_module(&amp;mut executor, &amp;import)?;
 
 // register the compiled module into the store and get an module instance
@@ -266,7 +277,7 @@ run.call(&amp;mut executor, params!())?;
 </ul>
 <p>Any one of these two methods requires that you have to get a <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Func.html">function instance</a>.</p>
 <p>In addition, <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html">Vm</a> defines a group of methods which can invoke host function in different ways. For details, please reference <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html">Vm</a>.</p>
-<p>The complete example can be found <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/hello_world.rs">here</a>.</p>
+<p>The complete example can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/hello_world.rs">hello_world.rs</a>.</p>
 
                     </main>
 
