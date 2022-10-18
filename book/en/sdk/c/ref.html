@@ -677,7 +677,7 @@ This configuration is effective in any contexts created with the <code>Configure
  * * Fixed-width SIMD
  *
  * For the current WasmEdge version, the following proposals are supported
- * (turned of by default) additionally:
+ * (turned off by default) additionally:
  * * Tail-call
  * * Multiple memories
  * * Extended-const
@@ -1511,6 +1511,8 @@ int main() {
      * The returned function type contexts should __NOT__ be destroyed.
      */
   }
+  WasmEdge_StoreDelete(StoreCxt);
+  WasmEdge_VMDelete(VMCxt);
   return 0;
 }
 </code></pre>
