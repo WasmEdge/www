@@ -206,6 +206,29 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.1-Linux/lib
 export PATH=$PATH:$(pwd)/WasmEdge-0.11.1-Linux/bin
 export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.1-Linux/lib/wasmedge
 </code></pre>
+<h3 id="get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">Get WasmEdge with WASI-NN Plug-in TensorFlow-Lite Backend</a></h3>
+<p>First you should <a href="../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-tensorflow-lite-backend">install the TensorFlow-Lite dependency</a>:</p>
+<pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.1/WasmEdge-tensorflow-deps-TFLite-0.11.1-manylinux2014_x86_64.tar.gz
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.11.1-manylinux2014_x86_64.tar.gz
+rm -f WasmEdge-tensorflow-deps-TFLite-0.11.1-manylinux2014_x86_64.tar.gz
+</code></pre>
+<p>The shared library will be extracted in the current directory <code>./libtensorflowlite_c.so</code>.</p>
+<p>Then you can move the library to the installation path:</p>
+<pre><code class="language-bash">mv libtensorflowlite_c.so /usr/local/lib
+</code></pre>
+<p>Or set the environment variable <code>export LD_LIBRARY_PATH=$(pwd):${LD_LIBRARY_PATH}</code>.</p>
+<p>And then get the WasmEdge and the WASI-NN plug-in with TensorFlow-Lite backend:</p>
+<pre><code class="language-bash">curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.1/WasmEdge-0.11.1-ubuntu20.04_x86_64.tar.gz
+tar -zxf WasmEdge-0.11.1-ubuntu20.04_x86_64.tar.gz
+rm -f WasmEdge-0.11.1-ubuntu20.04_x86_64.tar.gz
+curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.1/WasmEdge-plugin-wasi_nn-tensorflowlite-0.11.1-ubuntu20.04_x86_64.tar.gz
+tar -zxf WasmEdge-plugin-wasi_nn-tensorflowlite-0.11.1-ubuntu20.04_x86_64.tar.gz
+rm -f WasmEdge-plugin-wasi_nn-tensorflowlite-0.11.1-ubuntu20.04_x86_64.tar.gz
+mv libwasmedgePluginWasiNN.so WasmEdge-0.11.1-Linux/lib/wasmedge
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.1-Linux/lib
+export PATH=$PATH:$(pwd)/WasmEdge-0.11.1-Linux/bin
+export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.1-Linux/lib/wasmedge
+</code></pre>
 <h2 id="write-webassembly-using-wasi-nn"><a class="header" href="#write-webassembly-using-wasi-nn">Write WebAssembly Using WASI-NN</a></h2>
 <p>You can refer to the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/openvino-mobilenet-image">OpenVINO backend example</a> and the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/pytorch-mobilenet-image">PyTorch backend example</a>.</p>
 <h3 id="optional-rust-installation"><a class="header" href="#optional-rust-installation">(Optional) Rust Installation</a></h3>
@@ -225,12 +248,17 @@ cd WasmEdge-WASINN-examples
 <pre><code class="language-bash">cd openvino-mobilenet-image/rust
 cargo build --release --target=wasm32-wasi
 </code></pre>
-<p>The outputted <a href="https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/openvino-mobilenet-image/wasmedge-wasinn-example-mobilenet-image.wasm"><code>wasmedge-wasinn-example-mobilenet-image.wasm</code></a> will be under <code>rust/target/wasm32-wasi/release/</code>.</p>
+<p>The outputted <a href="https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/openvino-mobilenet-image/wasmedge-wasinn-example-mobilenet-image.wasm"><code>wasmedge-wasinn-example-mobilenet-image.wasm</code></a> will be under <code>openvino-mobilenet-image/rust/target/wasm32-wasi/release/</code>.</p>
 <p>To build the PyTorch example WASM, run:</p>
 <pre><code class="language-bash">cd pytorch-mobilenet-image/rust
 cargo build --release --target=wasm32-wasi
 </code></pre>
-<p>The outputted <a href="https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/pytorch-mobilenet-image/wasmedge-wasinn-example-mobilenet-image.wasm"><code>wasmedge-wasinn-example-mobilenet-image.wasm</code></a> will be under <code>rust/target/wasm32-wasi/release/</code>.</p>
+<p>The outputted <a href="https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/pytorch-mobilenet-image/wasmedge-wasinn-example-mobilenet-image.wasm"><code>wasmedge-wasinn-example-mobilenet-image.wasm</code></a> will be under <code>pytorch-mobilenet-image/rust/target/wasm32-wasi/release/</code>.</p>
+<p>To build the TensorFlow-Lite example WASM, run:</p>
+<pre><code class="language-bash">cd tflite-birds_v1-image/rust/tflite-bird
+cargo build --release --target=wasm32-wasi
+</code></pre>
+<p>The outputted <a href="https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/tflite-birds_v1-image/wasmedge-wasinn-example-tflite-bird-image.wasm"><code>wasmedge-wasinn-example-tflite-bird-image.wasm</code></a> will be under <code>tflite-birds_v1-image/rust/tflite-bird/target/wasm32-wasi/release/</code>.</p>
 <p>We can find that the outputted WASM files import the necessary WASI-NN functions by converting into WAT format with tools like <a href="https://webassembly.github.io/wabt/demo/wasm2wat/"><code>wasm2wat</code></a>:</p>
 <pre><code class="language-wasm"> ...
  (import &quot;wasi_ephemeral_nn&quot; &quot;load&quot; (func $_ZN7wasi_nn9generated17wasi_ephemeral_nn4load17hdca997591f45db43E (type 8)))
@@ -303,7 +331,7 @@ let context = unsafe { wasi_nn::init_execution_context(graph).unwrap() };
 // initialize the input tensor
 let tensor = wasi_nn::Tensor {
   dimensions: &amp;[1, 3, 224, 224],
-  r#type: wasi_nn::TENSOR_TYPE_F32,
+  type_: wasi_nn::TENSOR_TYPE_F32,
   data: &amp;tensor_data,
 };
 // set_input
@@ -402,7 +430,95 @@ let weights = fs::read(model_bin_name).unwrap();
 let graph = unsafe {
   wasi_nn::load(
     &amp;[&amp;weights],
-    1, //wasi_nn::GRAPH_ENCODING_TORCH
+    wasi_nn::GRAPH_ENCODING_PYTORCH,
+    wasi_nn::EXECUTION_TARGET_CPU,
+  )
+  .unwrap()
+};
+// initialize the computation context
+let context = unsafe { wasi_nn::init_execution_context(graph).unwrap() };
+// initialize the input tensor
+let tensor = wasi_nn::Tensor {
+  dimensions: &amp;[1, 3, 224, 224],
+  type_: wasi_nn::TENSOR_TYPE_F32,
+  data: &amp;tensor_data,
+};
+// set_input
+unsafe {
+  wasi_nn::set_input(context, 0, tensor).unwrap();
+}
+// Execute the inference.
+unsafe {
+  wasi_nn::compute(context).unwrap();
+}
+// retrieve output
+let mut output_buffer = vec![0f32; 1001];
+unsafe {
+  wasi_nn::get_output(
+    context,
+    0,
+    &amp;mut output_buffer[..] as *mut [f32] as *mut u8,
+    (output_buffer.len() * 4).try_into().unwrap(),
+  )
+  .unwrap();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Where the <code>wasi_nn::GRAPH_ENCODING_PYTORCH</code> means using the PyTorch backend, and <code>wasi_nn::EXECUTION_TARGET_CPU</code> means running the computation on CPU.</p>
+<p>Finally, we sort the output and then print the top-5 classification result:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let results = sort_results(&amp;output_buffer);
+for i in 0..5 {
+  println!(
+    &quot;   {}.) [{}]({:.4}){}&quot;,
+    i + 1,
+    results[i].0,
+    results[i].1,
+    imagenet_classes::IMAGENET_CLASSES[results[i].0]
+  );
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="using-wasi-nn-with-tensorflow-lite-backend-in-rust"><a class="header" href="#using-wasi-nn-with-tensorflow-lite-backend-in-rust">Using WASI-NN with TensorFlow-Lite Backend in Rust</a></h3>
+<p>The <a href="https://github.com/second-state/WasmEdge-WASINN-examples/blob/master/tflite-birds_v1-image/rust/tflite-bird/src/main.rs">main.rs</a> is the full example Rust source.</p>
+<p>First, read the model description and weights into memory:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let args: Vec&lt;String&gt; = env::args().collect();
+let model_bin_name: &amp;str = &amp;args[1]; // File name for the tflite model
+let image_name: &amp;str = &amp;args[2]; // File name for the input image
+
+let weights = fs::read(model_bin_name).unwrap();
+<span class="boring">}
+</span></code></pre></pre>
+<p>We should use a helper function to convert the input image into the tensor data (the tensor type is <code>U8</code>):</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn image_to_tensor(path: String, height: u32, width: u32) -&gt; Vec&lt;u8&gt; {
+    let pixels = Reader::open(path).unwrap().decode().unwrap();
+    let dyn_img: DynamicImage = pixels.resize_exact(width, height, image::imageops::Triangle);
+    let bgr_img = dyn_img.to_rgb8();
+    // Get an array of the pixel values
+    let raw_u8_arr: &amp;[u8] = &amp;bgr_img.as_raw()[..];
+    return raw_u8_arr.to_vec();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And use this helper funcion to convert the input image:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let tensor_data = image_to_tensor(image_name.to_string(), 224, 224);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Now we can start our inference with WASI-NN:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// load model
+let graph = unsafe {
+  wasi_nn::load(
+    &amp;[&amp;weights],
+    4, //wasi_nn::GRAPH_ENCODING_TENSORFLOWLITE
     wasi_nn::EXECUTION_TARGET_CPU,
   )
   .unwrap()
@@ -436,7 +552,10 @@ unsafe {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Where the <code>wasi_nn::GRAPH_ENCODING_TORCH</code> means using the PyTorch backend (now use the value <code>1</code> instead), and <code>wasi_nn::EXECUTION_TARGET_CPU</code> means running the computation on CPU.</p>
+<p>Where the <code>wasi_nn::GRAPH_ENCODING_TENSORFLOWLITE</code> means using the PyTorch backend (now use the value <code>4</code> instead), and <code>wasi_nn::EXECUTION_TARGET_CPU</code> means running the computation on CPU.</p>
+<blockquote>
+<p>Note: Here we use the <code>wasi-nn 0.1.0</code> in current. After the <code>TENSORFLOWLITE</code> added into the graph encoding, we'll update this example to use the newer version.</p>
+</blockquote>
 <p>Finally, we sort the output and then print the top-5 classification result:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -454,7 +573,7 @@ for i in 0..5 {
 </span></code></pre></pre>
 <h2 id="run"><a class="header" href="#run">Run</a></h2>
 <h3 id="openvino-backend-example"><a class="header" href="#openvino-backend-example">OpenVINO Backend Example</a></h3>
-<p>Please <a href="#prerequisites">install WasmEdge with the WASI-NN OpenVINO backend plug-in</a> first.</p>
+<p>Please <a href="#get-wasmedge-with-wasi-nn-plug-in-openvino-backend">install WasmEdge with the WASI-NN OpenVINO backend plug-in</a> first.</p>
 <p>For the example demo of <a href="https://arxiv.org/abs/1704.04861">Mobilenet</a>, we need the <a href="https://github.com/intel/openvino-rs/raw/v0.3.3/crates/openvino/tests/fixtures/mobilenet/">fixture files</a>:</p>
 <ul>
 <li><code>wasmedge-wasinn-example-mobilenet.wasm</code>: the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/openvino-mobilenet-image/wasmedge-wasinn-example-mobilenet-image.wasm">built WASM from rust</a></li>
@@ -470,7 +589,7 @@ curl -sLO https://github.com/intel/openvino-rs/raw/v0.3.3/crates/openvino/tests/
 curl -sL -o input.jpg https://github.com/bytecodealliance/wasi-nn/raw/main/rust/examples/images/1.jpg
 </code></pre>
 <p>Then you can use the OpenVINO-enabled WasmEdge which was compiled above to execute the WASM file (in interpreter mode):</p>
-<pre><code class="language-bash">wasmedge --dir .:. wasmedge-wasinn-example-mobilenet.wasm mobilenet.xml mobilenet.bin input.jpg
+<pre><code class="language-bash">wasmedge --dir .:. wasmedge-wasinn-example-mobilenet-image.wasm mobilenet.xml mobilenet.bin input.jpg
 # If you didn't install the project, you should give the `WASMEDGE_PLUGIN_PATH` environment variable for specifying the WASI-NN plugin path.
 </code></pre>
 <p>If everything goes well, you should have the terminal output:</p>
@@ -491,7 +610,7 @@ Executed graph inference
 wasmedge --dir .:. out.wasm mobilenet.xml mobilenet.bin input.jpg
 </code></pre>
 <h3 id="pytorch-backend-example"><a class="header" href="#pytorch-backend-example">PyTorch Backend Example</a></h3>
-<p>Please <a href="#prerequisites">install WasmEdge with the WASI-NN PyTorch backend plug-in</a> first.</p>
+<p>Please <a href="#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">install WasmEdge with the WASI-NN PyTorch backend plug-in</a> first.</p>
 <p>For the example demo of <a href="https://arxiv.org/abs/1704.04861">Mobilenet</a>, we need these following files:</p>
 <ul>
 <li><code>wasmedge-wasinn-example-mobilenet.wasm</code>: the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/pytorch-mobilenet-image/wasmedge-wasinn-example-mobilenet-image.wasm">built WASM from rust</a></li>
@@ -506,7 +625,7 @@ curl -sL -o input.jpg https://github.com/bytecodealliance/wasi-nn/raw/main/rust/
 </code></pre>
 <p>Then you can use the PyTorch-enabled WasmEdge which was compiled above to execute the WASM file (in interpreter mode):</p>
 <pre><code class="language-bash"># Please check that you've already install the libtorch and set the `LD_LIBRARY_PATH`.
-wasmedge --dir .:. wasmedge-wasinn-example-mobilenet.wasm mobilenet.pt input.jpg
+wasmedge --dir .:. wasmedge-wasinn-example-mobilenet-image.wasm mobilenet.pt input.jpg
 # If you didn't install the project, you should give the `WASMEDGE_PLUGIN_PATH` environment variable for specifying the WASI-NN plugin path.
 </code></pre>
 <p>If everything goes well, you should have the terminal output:</p>
@@ -524,6 +643,41 @@ Executed graph inference
 <p>For the AOT mode which is much more quickly, you can compile the WASM first:</p>
 <pre><code class="language-bash">wasmedgec wasmedge-wasinn-example-mobilenet.wasm out.wasm
 wasmedge --dir .:. out.wasm mobilenet.pt input.jpg
+</code></pre>
+<h3 id="tensorflow-lite-backend-example"><a class="header" href="#tensorflow-lite-backend-example">TensorFlow-Lite Backend Example</a></h3>
+<p>Please <a href="#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">install WasmEdge with the WASI-NN TensorFlow-Lite backend plug-in</a> first.</p>
+<p>For the example demo of <a href="https://tfhub.dev/google/aiy/vision/classifier/birds_V1/1">Bird v1</a>, we need these following files:</p>
+<ul>
+<li><code>wasmedge-wasinn-example-tflite-bird-image.wasm</code>: the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/tflite-birds_v1-image/wasmedge-wasinn-example-tflite-bird-image.wasm">built WASM from rust</a></li>
+<li><code>lite-model_aiy_vision_classifier_birds_V1_3.tflite</code>: the TensorFlow-Lite bird_v1 model.</li>
+<li><code>input.jpg</code>: the input image (224x224 JPEG).</li>
+</ul>
+<p>The above Mobilenet PyTorch model is generated by <a href="https://github.com/second-state/WasmEdge-WASINN-examples/blob/master/pytorch-mobilenet-image/gen_mobilenet_model.py">the Python code</a>.</p>
+<p>You can download these files by the following commands:</p>
+<pre><code class="language-bash">curl -sLO https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/tflite-birds_v1-image/wasmedge-wasinn-example-tflite-bird-image.wasm
+curl -sLO https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/tflite-birds_v1-image/lite-model_aiy_vision_classifier_birds_V1_3.tflite
+curl -sLO https://github.com/second-state/WasmEdge-WASINN-examples/raw/master/tflite-birds_v1-image/bird.jpg
+</code></pre>
+<p>Then you can use the PyTorch-enabled WasmEdge which was compiled above to execute the WASM file (in interpreter mode):</p>
+<pre><code class="language-bash"># Please check that you've already install the libtensorflowlite_c.so and set the `LD_LIBRARY_PATH`.
+wasmedge --dir .:. wasmedge-wasinn-example-tflite-bird-image.wasm lite-model_aiy_vision_classifier_birds_V1_3.tflite bird.jpg
+# If you didn't install the project, you should give the `WASMEDGE_PLUGIN_PATH` environment variable for specifying the WASI-NN plugin path.
+</code></pre>
+<p>If everything goes well, you should have the terminal output:</p>
+<pre><code class="language-bash">Read graph weights, size in bytes: 3561598
+Loaded graph into wasi-nn with ID: 0
+Created wasi-nn execution context with ID: 0
+Read input tensor, size in bytes: 150528
+Executed graph inference
+   1.) [166](198)Aix galericulata
+   2.) [158](2)Coccothraustes coccothraustes
+   3.) [34](1)Gallus gallus domesticus
+   4.) [778](1)Sitta europaea
+   5.) [819](1)Anas platyrhynchos
+</code></pre>
+<p>For the AOT mode which is much more quickly, you can compile the WASM first:</p>
+<pre><code class="language-bash">wasmedgec wasmedge-wasinn-example-tflite-bird-image.wasm out.wasm
+wasmedge --dir .:. out.wasm lite-model_aiy_vision_classifier_birds_V1_3.tflite bird.jpg
 </code></pre>
 <h2 id="reference"><a class="header" href="#reference">Reference</a></h2>
 <p>The intoduction of WASI-NN can be referred to <a href="https://bytecodealliance.org/articles/using-wasi-nn-in-wasmtime">this amazing blog</a> written by Andrew Brown. This demo is greatly adapted from another <a href="https://github.com/radu-matei/wasi-nn-guest">demo</a>.</p>
