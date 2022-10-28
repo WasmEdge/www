@@ -159,6 +159,32 @@
 </ul>
 <p>You can find more detail about the WASI-NN proposal in <a href="#reference">Reference</a>.</p>
 <p>In this section, we will use <a href="https://github.com/second-state/WasmEdge-WASINN-examples">the example repository</a> to demonstrate how to use the <a href="https://crates.io/crates/wasi-nn">WASI-NN rust crate</a> to write the WASM and run an image classification demo with WasmEdge WASI-NN plug-in.</p>
+<ul>
+<li><a href="#prerequisites">Prerequisites</a>
+<ul>
+<li><a href="#get-wasmedge-with-wasi-nn-plug-in-openvino-backend">OpenVINO backend</a></li>
+<li><a href="#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">PyTorch beckend</a></li>
+<li>TensorFlow backend (Work in progress)</li>
+<li><a href="#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">TensorFlow-Lite backend</a></li>
+</ul>
+</li>
+<li><a href="#write-webassembly-using-wasi-nn">Write WebAssembly Using WASI-NN</a>
+<ul>
+<li><a href="#using-wasi-nn-with-openvino-backend-in-rust">OpenVINO backend example</a></li>
+<li><a href="#using-wasi-nn-with-pytorch-backend-in-rust">PyTorch backend example</a></li>
+<li>TensorFlow backend example (Work in progress)</li>
+<li><a href="#using-wasi-nn-with-tensorflow-lite-backend-in-rust">TensorFlow-Lite backend example</a></li>
+</ul>
+</li>
+<li><a href="#run">Run the examples</a>
+<ul>
+<li><a href="#openvino-backend-example">Run OpenVINO backend example</a></li>
+<li><a href="#pytorch-backend-example">Run PyTorch backend example</a></li>
+<li>Run TensorFlow backend example (Work in progress)</li>
+<li><a href="#tensorflow-lite-backend-example">Run TensorFlow-Lite backend example</a></li>
+</ul>
+</li>
+</ul>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <p>Currently, WasmEdge used OpenVINO™ or PyTorch as the WASI-NN backend implementation. For using WASI-NN on WasmEdge, you need to install <a href="https://docs.openvino.ai/2021.4/openvino_docs_install_guides_installing_openvino_linux.html#">OpenVINO™</a>(2021) or <a href="https://pytorch.org/get-started/locally/">PyTorch 1.8.2 LTS</a> for the backend.</p>
 <p>In the current status, the <a href="../../quick_start/install.html">WasmEdge Installer</a> will install the <code>manylinux2014</code> version of WasmEdge releases, but the WASI-NN plug-in for WasmEdge only supports <code>Ubuntu 20.04</code> or later now. Please refer to the following steps to get the WasmEdge with WASI-NN plug-in.</p>
@@ -206,6 +232,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.1-Linux/lib
 export PATH=$PATH:$(pwd)/WasmEdge-0.11.1-Linux/bin
 export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.1-Linux/lib/wasmedge
 </code></pre>
+<blockquote>
+<p>The WasmEdge installer would install the <code>manylinux2014</code> version for Ubuntu. If you install WasmEdge with the installer or for the <code>manylinux2014</code> version, you should get the <code>manylinux2014</code> version plug-in and <code>libtorch</code>.</p>
+</blockquote>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">Get WasmEdge with WASI-NN Plug-in TensorFlow-Lite Backend</a></h3>
 <p>First you should <a href="../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-tensorflow-lite-backend">install the TensorFlow-Lite dependency</a>:</p>
 <pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.1/WasmEdge-tensorflow-deps-TFLite-0.11.1-manylinux2014_x86_64.tar.gz
@@ -229,6 +258,10 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.1-Linux/lib
 export PATH=$PATH:$(pwd)/WasmEdge-0.11.1-Linux/bin
 export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.1-Linux/lib/wasmedge
 </code></pre>
+<blockquote>
+<p>The WasmEdge installer would install the <code>manylinux2014</code> version for Ubuntu. If you install WasmEdge with the installer or for the <code>manylinux2014</code> version, you should get the <code>manylinux2014</code> version plug-in.</p>
+<p>We also provided [various TensorFlow-Lite pre-built libraries](<a href="https://github.com/second-state/WasmEdge-tensorflow-deps/releases/tag/">https://github.com/second-state/WasmEdge-tensorflow-deps/releases/tag/</a>0.11.1), such as <code>manylinux2014_aarch64</code>.</p>
+</blockquote>
 <h2 id="write-webassembly-using-wasi-nn"><a class="header" href="#write-webassembly-using-wasi-nn">Write WebAssembly Using WASI-NN</a></h2>
 <p>You can refer to the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/openvino-mobilenet-image">OpenVINO backend example</a> and the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/pytorch-mobilenet-image">PyTorch backend example</a>.</p>
 <h3 id="optional-rust-installation"><a class="header" href="#optional-rust-installation">(Optional) Rust Installation</a></h3>
@@ -268,7 +301,7 @@ cargo build --release --target=wasm32-wasi
   (import &quot;wasi_ephemeral_nn&quot; &quot;compute&quot; (func $_ZN7wasi_nn9generated17wasi_ephemeral_nn7compute17h96ef5b407fe8173aE (type 5)))
   ...
 </code></pre>
-<h3 id="using-wasi-nn-with-openvino-backend-in-rust"><a class="header" href="#using-wasi-nn-with-openvino-backend-in-rust">Using WASI-NN with OpenVINO™ Backend in Rust</a></h3>
+<h3 id="using-wasi-nn-with-openvino-backend-in-rust"><a class="header" href="#using-wasi-nn-with-openvino-backend-in-rust">Using WASI-NN with OpenVINO Backend in Rust</a></h3>
 <p>The <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/openvino-mobilenet-image/rust/src/main.rs">main.rs</a> is the full example Rust source.</p>
 <p>First, read the model description and weights into memory:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]

@@ -439,14 +439,13 @@ wasmedge app_aot.so
 <div class="table-wrapper"><table><thead><tr><th>Proposal</th><th>Platforms</th></tr></thead><tbody>
 <tr><td><a href="https://github.com/WebAssembly/wasi-sockets">Sockets</a></td><td><code>x86_64 Linux</code>, <code>aarch64 Linux</code> (since <code>0.10.0</code>)</td></tr>
 <tr><td><a href="https://github.com/WebAssembly/wasi-crypto">Crypto</a></td><td><code>x86_64 Linux</code>, <code>aarch64 Linux</code> (since <code>0.10.1</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/wasi-nn">Machine Learning (wasi-nn)</a></td><td><code>x86_64 Linux</code>, OpenVINO (since <code>0.10.1</code>) and PyTorch (since <code>0.11.1</code>) backends</td></tr>
+<tr><td><a href="https://github.com/WebAssembly/wasi-nn">Machine Learning (wasi-nn)</a></td><td><code>x86_64 Linux</code>, OpenVINO (since <code>0.10.1</code>), PyTorch (since <code>0.11.1</code>), and TensorFlow-Lite (since <code>0.11.2</code>) backends</td></tr>
 <tr><td><a href="https://github.com/proxy-wasm/spec">proxy-wasm</a></td><td><code>x86_64 Linux (Interpreter only)</code> (since <code>0.8.2</code>)</td></tr>
 </tbody></table>
 </div>
 <p>The following proposals is under development and may be supported in the future:</p>
 <ul>
 <li>TensorFlow backend of <code>WASI-NN</code></li>
-<li>TensorFlow-Lite backend of <code>WASI-NN</code></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-proprietary-extensions"><a class="header" href="#wasmedge-proprietary-extensions">WasmEdge Proprietary Extensions</a></h1>
 <p>A key differentiator of WasmEdge from other WebAssembly runtimes is its support for non-standard extensions. The <a href="https://github.com/WebAssembly/WASI">WebAssembly System Interface (WASI)</a> provides a mechanism for developers to extend WebAssembly efficiently and securely. The WasmEdge team created the following WASI-like extensions based on real-world customer demands.</p>
@@ -4320,6 +4319,32 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 </ul>
 <p>You can find more detail about the WASI-NN proposal in <a href="write_wasm/rust/wasinn.html#reference">Reference</a>.</p>
 <p>In this section, we will use <a href="https://github.com/second-state/WasmEdge-WASINN-examples">the example repository</a> to demonstrate how to use the <a href="https://crates.io/crates/wasi-nn">WASI-NN rust crate</a> to write the WASM and run an image classification demo with WasmEdge WASI-NN plug-in.</p>
+<ul>
+<li><a href="write_wasm/rust/wasinn.html#prerequisites">Prerequisites</a>
+<ul>
+<li><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-openvino-backend">OpenVINO backend</a></li>
+<li><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">PyTorch beckend</a></li>
+<li>TensorFlow backend (Work in progress)</li>
+<li><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">TensorFlow-Lite backend</a></li>
+</ul>
+</li>
+<li><a href="write_wasm/rust/wasinn.html#write-webassembly-using-wasi-nn">Write WebAssembly Using WASI-NN</a>
+<ul>
+<li><a href="write_wasm/rust/wasinn.html#using-wasi-nn-with-openvino-backend-in-rust">OpenVINO backend example</a></li>
+<li><a href="write_wasm/rust/wasinn.html#using-wasi-nn-with-pytorch-backend-in-rust">PyTorch backend example</a></li>
+<li>TensorFlow backend example (Work in progress)</li>
+<li><a href="write_wasm/rust/wasinn.html#using-wasi-nn-with-tensorflow-lite-backend-in-rust">TensorFlow-Lite backend example</a></li>
+</ul>
+</li>
+<li><a href="write_wasm/rust/wasinn.html#run">Run the examples</a>
+<ul>
+<li><a href="write_wasm/rust/wasinn.html#openvino-backend-example">Run OpenVINO backend example</a></li>
+<li><a href="write_wasm/rust/wasinn.html#pytorch-backend-example">Run PyTorch backend example</a></li>
+<li>Run TensorFlow backend example (Work in progress)</li>
+<li><a href="write_wasm/rust/wasinn.html#tensorflow-lite-backend-example">Run TensorFlow-Lite backend example</a></li>
+</ul>
+</li>
+</ul>
 <h2 id="prerequisites-5"><a class="header" href="#prerequisites-5">Prerequisites</a></h2>
 <p>Currently, WasmEdge used OpenVINO™ or PyTorch as the WASI-NN backend implementation. For using WASI-NN on WasmEdge, you need to install <a href="https://docs.openvino.ai/2021.4/openvino_docs_install_guides_installing_openvino_linux.html#">OpenVINO™</a>(2021) or <a href="https://pytorch.org/get-started/locally/">PyTorch 1.8.2 LTS</a> for the backend.</p>
 <p>In the current status, the <a href="write_wasm/rust/../../quick_start/install.html">WasmEdge Installer</a> will install the <code>manylinux2014</code> version of WasmEdge releases, but the WASI-NN plug-in for WasmEdge only supports <code>Ubuntu 20.04</code> or later now. Please refer to the following steps to get the WasmEdge with WASI-NN plug-in.</p>
@@ -4367,6 +4392,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.1-Linux/lib
 export PATH=$PATH:$(pwd)/WasmEdge-0.11.1-Linux/bin
 export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.1-Linux/lib/wasmedge
 </code></pre>
+<blockquote>
+<p>The WasmEdge installer would install the <code>manylinux2014</code> version for Ubuntu. If you install WasmEdge with the installer or for the <code>manylinux2014</code> version, you should get the <code>manylinux2014</code> version plug-in and <code>libtorch</code>.</p>
+</blockquote>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">Get WasmEdge with WASI-NN Plug-in TensorFlow-Lite Backend</a></h3>
 <p>First you should <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-tensorflow-lite-backend">install the TensorFlow-Lite dependency</a>:</p>
 <pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.1/WasmEdge-tensorflow-deps-TFLite-0.11.1-manylinux2014_x86_64.tar.gz
@@ -4390,6 +4418,10 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.1-Linux/lib
 export PATH=$PATH:$(pwd)/WasmEdge-0.11.1-Linux/bin
 export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.1-Linux/lib/wasmedge
 </code></pre>
+<blockquote>
+<p>The WasmEdge installer would install the <code>manylinux2014</code> version for Ubuntu. If you install WasmEdge with the installer or for the <code>manylinux2014</code> version, you should get the <code>manylinux2014</code> version plug-in.</p>
+<p>We also provided [various TensorFlow-Lite pre-built libraries](<a href="https://github.com/second-state/WasmEdge-tensorflow-deps/releases/tag/">https://github.com/second-state/WasmEdge-tensorflow-deps/releases/tag/</a>0.11.1), such as <code>manylinux2014_aarch64</code>.</p>
+</blockquote>
 <h2 id="write-webassembly-using-wasi-nn"><a class="header" href="#write-webassembly-using-wasi-nn">Write WebAssembly Using WASI-NN</a></h2>
 <p>You can refer to the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/openvino-mobilenet-image">OpenVINO backend example</a> and the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/pytorch-mobilenet-image">PyTorch backend example</a>.</p>
 <h3 id="optional-rust-installation"><a class="header" href="#optional-rust-installation">(Optional) Rust Installation</a></h3>
@@ -4429,7 +4461,7 @@ cargo build --release --target=wasm32-wasi
   (import &quot;wasi_ephemeral_nn&quot; &quot;compute&quot; (func $_ZN7wasi_nn9generated17wasi_ephemeral_nn7compute17h96ef5b407fe8173aE (type 5)))
   ...
 </code></pre>
-<h3 id="using-wasi-nn-with-openvino-backend-in-rust"><a class="header" href="#using-wasi-nn-with-openvino-backend-in-rust">Using WASI-NN with OpenVINO™ Backend in Rust</a></h3>
+<h3 id="using-wasi-nn-with-openvino-backend-in-rust"><a class="header" href="#using-wasi-nn-with-openvino-backend-in-rust">Using WASI-NN with OpenVINO Backend in Rust</a></h3>
 <p>The <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/openvino-mobilenet-image/rust/src/main.rs">main.rs</a> is the full example Rust source.</p>
 <p>First, read the model description and weights into memory:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -25448,8 +25480,9 @@ Please check the following table to check the release status and how to build fr
 <div class="table-wrapper"><table><thead><tr><th>Plug-in</th><th>Rust Crate</th><th>Released Platforms</th><th>Build Steps</th></tr></thead><tbody>
 <tr><td>WasmEdge-Process</td><td><a href="https://crates.io/crates/wasmedge_process_interface">wasmedge_process_interface</a></td><td><code>manylinux2014 x86_64</code>, <code>manylinux2014 aarch64</code>, and <code>ubuntu 20.04 x86_64</code> (since <code>0.10.0</code>)</td><td><a href="contribute/build_from_src/linux.html">Default</a></td></tr>
 <tr><td><a href="write_wasm/rust/wasicrypto.html#prerequisites">WASI-Crypto</a></td><td><a href="https://crates.io/crates/wasi-crypto">wasi-crypto</a></td><td><code>manylinux2014 x86_64</code>, <code>manylinux2014 aarch64</code>, and <code>ubuntu 20.04 x86_64</code> (since <code>0.10.1</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_crypto.html">Build With WASI-Crypto</a></td></tr>
-<tr><td><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-openvino-backend">WASI-NN with OpenVINO backend</a></td><td><a href="https://crates.io/crates/wasi-nn">wasi-nn</a></td><td><code>ubuntu 20.04 x86_64</code> (since <code>0.10.1</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_nn.html">Build With WASI-NN</a></td></tr>
-<tr><td><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">WASI-NN with PyTorch backend</a></td><td><a href="https://crates.io/crates/wasi-nn">wasi-nn</a></td><td><code>ubuntu 20.04 x86_64</code> (since <code>0.11.1</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_nn.html">Build With WASI-NN</a></td></tr>
+<tr><td><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-openvino-backend">WASI-NN with OpenVINO backend</a></td><td><a href="https://crates.io/crates/wasi-nn">wasi-nn</a></td><td><code>ubuntu 20.04 x86_64</code> (since <code>0.10.1</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-openvino-backend">Build With WASI-NN</a></td></tr>
+<tr><td><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">WASI-NN with PyTorch backend</a></td><td><a href="https://crates.io/crates/wasi-nn">wasi-nn</a></td><td><code>ubuntu 20.04 x86_64</code> (since <code>0.11.1</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-pytorch-backend">Build With WASI-NN</a></td></tr>
+<tr><td><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">WASI-NN with TensorFlow-Lite backend</a></td><td><a href="https://crates.io/crates/wasi-nn">wasi-nn</a></td><td><code>manylinux2014 x86_64</code>, <code>manylinux2014 aarch64</code>, and <code>ubuntu 20.04 x86_64</code> (since <code>0.11.2</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-tensorflow-lite-backend">Build With WASI-NN</a></td></tr>
 <tr><td><a href="write_wasm/rust/networking-https.html#prerequisites">WasmEdge-HttpsReq</a></td><td><a href="https://crates.io/crates/wasmedge_http_req">wasmedge_http_req</a></td><td><code>manylinux2014 x86_64</code>, and <code>manylinux2014 aarch64</code> (since <code>0.11.1</code>)</td><td><a href="contribute/build_from_src/plugin_wasmedge_httpsreq.html">Build With WasmEdge-HttpsReq</a></td></tr>
 </tbody></table>
 </div>
@@ -26521,6 +26554,9 @@ rm -f WasmEdge-tensorflow-deps-TFLite-0.11.1-manylinux2014_x86_64.tar.gz
 <pre><code class="language-bash">mv libtensorflowlite_c.so /usr/local/lib
 </code></pre>
 <p>Or set the environment variable <code>export LD_LIBRARY_PATH=$(pwd):${LD_LIBRARY_PATH}</code>.</p>
+<blockquote>
+<p>We also provided the <code>MacOS</code> and <code>manylinux_aarch64</code> version of the TensorFlow-Lite pre-built shared library.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-with-wasi-crypto-plug-in"><a class="header" href="#build-wasmedge-with-wasi-crypto-plug-in">Build WasmEdge With WASI-Crypto Plug-in</a></h1>
 <h2 id="prerequisites-10"><a class="header" href="#prerequisites-10">Prerequisites</a></h2>
 <p>Currently, WasmEdge used <code>OpenSSL 1.1</code> or <code>3.0</code> for the WASI-Crypto implementation.</p>
