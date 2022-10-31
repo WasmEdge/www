@@ -149,9 +149,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="wasmedge-go-v0110-api-references"><a class="header" href="#wasmedge-go-v0110-api-references">WasmEdge Go v0.11.0 API references</a></h1>
+                        <h1 id="wasmedge-go-v0111-api-references"><a class="header" href="#wasmedge-go-v0111-api-references">WasmEdge Go v0.11.1 API references</a></h1>
 <p>The followings are the guides to working with the WasmEdge-Go SDK.</p>
-<p><strong>This document is for the <code>v0.11.0</code> version. For the older <code>v0.10.1</code> version, please refer to the <a href="0.10.1/ref.html">document here</a>.</strong></p>
+<p><strong>This document is for the <code>v0.11.1</code> version. For the older <code>v0.10.1</code> version, please refer to the <a href="0.10.1/ref.html">document here</a>.</strong></p>
 <p><strong>Developers can refer to <a href="0.10.1/upgrade_to_0.11.0.html">here to upgrade to v0.11.0</a>.</strong></p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
@@ -214,16 +214,16 @@ go version go1.16.5 linux/amd64
 </code></pre>
 <h3 id="wasmedge-installation"><a class="header" href="#wasmedge-installation">WasmEdge Installation</a></h3>
 <p>Developers must <a href="../../quick_start/install.html">install the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release or pre-release version.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.1
 </code></pre>
 <p>For the developers need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.11.0
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e tf,image -v 0.11.1
 </code></pre>
 <p>Noticed that the <code>TensorFlow</code> and <code>Image</code> extensions are only for the <code>Linux</code> platforms.
 After installation, developers can use the <code>source</code> command to update the include and linking searching path.</p>
 <h3 id="get-wasmedge-go"><a class="header" href="#get-wasmedge-go">Get WasmEdge-go</a></h3>
 <p>After the WasmEdge installation, developers can get the <code>WasmEdge-go</code> package and build it in your Go project directory.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 go build
 </code></pre>
 <blockquote>
@@ -842,7 +842,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK: (the 21 Fibonacci number is 17711 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 $ go build
 $ ./wasmedge_test
 Get fibonacci[21]: 17711
@@ -1144,7 +1144,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 25th Fibonacci number is 121393 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 $ go build
 $ ./wasmedge_test
 Get fibonacci[25]: 121393
@@ -1187,7 +1187,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 20th Fibonacci number is 10946 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 $ go build
 $ ./wasmedge_test
 Get the result: 10946
@@ -1249,7 +1249,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 25th Fibonacci number is 121393 in 0-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 $ go build
 $ ./wasmedge_test
 Get the result: 121393
@@ -1337,7 +1337,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the only exported function in <code>fibonacci.wasm</code> is <code>fib</code>)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 $ go build
 $ ./wasmedge_test
 Exported function name: fib
@@ -1477,7 +1477,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run: (the 18th Fibonacci number is 1346269 in 30-based index)</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 $ go build
 $ ./wasmedge_test
 Exported function name: fib
@@ -2032,7 +2032,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 $ go build
 $ ./wasmedge_test
 [2022-08-26 15:06:40.384] [error] user defined failed: user defined error code, Code: 0x15be
@@ -2229,7 +2229,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 $ go build
 $ ./wasmedge_test
 Get the result: 6912
@@ -2328,7 +2328,7 @@ func main() {
 }
 </code></pre>
 <p>Then you can build and run the Golang application with the WasmEdge Golang SDK:</p>
-<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.0
+<pre><code class="language-bash">$ go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.1
 $ go build
 $ ./wasmedge_test
 Get the result: 6912
