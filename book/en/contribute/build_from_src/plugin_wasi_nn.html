@@ -217,9 +217,9 @@ cmake --install .
 </blockquote>
 <p>Then you will have an executable <code>wasmedge</code> runtime under <code>/usr/local/bin</code> and the WASI-NN with OpenVINO backend plug-in under <code>/usr/local/lib/wasmedge/libwasmedgePluginWasiNN.so</code> after installation.</p>
 <p>Installing the necessary <code>libtensorflowlite_c.so</code> on both <code>Ubuntu 20.04</code> and <code>manylinux2014</code> for the backend, we recommend the following commands:</p>
-<pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.1/WasmEdge-tensorflow-deps-TFLite-0.11.1-manylinux2014_x86_64.tar.gz
-tar -zxf WasmEdge-tensorflow-deps-TFLite-0.11.1-manylinux2014_x86_64.tar.gz
-rm -f WasmEdge-tensorflow-deps-TFLite-0.11.1-manylinux2014_x86_64.tar.gz
+<pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.2/WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
+rm -f WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
 </code></pre>
 <p>The shared library will be extracted in the current directory <code>./libtensorflowlite_c.so</code>.</p>
 <p>Then you can move the library to the installation path:</p>

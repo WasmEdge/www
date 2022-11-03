@@ -149,11 +149,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="wasmedge-c-0111-api-documentation"><a class="header" href="#wasmedge-c-0111-api-documentation">WasmEdge C 0.11.1 API Documentation</a></h1>
+                        <h1 id="wasmedge-c-0112-api-documentation"><a class="header" href="#wasmedge-c-0112-api-documentation">WasmEdge C 0.11.2 API Documentation</a></h1>
 <p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
 <p><strong>Please notice that the WasmEdge C API provides SONAME and SOVERSION after the <code>0.11.0</code> release.</strong></p>
 <p><strong>Please notice that <code>libwasmedge_c.so</code> is renamed to <code>libwasmedge.so</code> after the <code>0.11.0</code> release. Please use <code>-lwasmedge</code> instead of <code>-lwasmedge_c</code> for the linker option.</strong></p>
-<p><strong>This document is for the <code>0.11.1</code> version. For the older <code>0.10.1</code> version, please refer to the <a href="0.10.1/ref.html">document here</a>.</strong></p>
+<p><strong>This document is for the <code>0.11.2</code> version. For the older <code>0.10.1</code> version, please refer to the <a href="0.10.1/ref.html">document here</a>.</strong></p>
 <p><strong>Developers can refer to <a href="0.10.1/upgrade_to_0.11.0.html">here to upgrade to 0.11.0</a>.</strong></p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
@@ -212,7 +212,7 @@
 <h2 id="wasmedge-installation"><a class="header" href="#wasmedge-installation">WasmEdge Installation</a></h2>
 <h3 id="download-and-install"><a class="header" href="#download-and-install">Download And Install</a></h3>
 <p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>wget</code> as prerequisites.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.1
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2
 </code></pre>
 <p>For more details, please refer to the <a href="../../quick_start/install.html">Installation Guide</a> for the WasmEdge installation.</p>
 <h3 id="compile-sources"><a class="header" href="#compile-sources">Compile Sources</a></h3>
@@ -236,7 +236,7 @@ int main() {
 <li>
 <p>Run and get the expected output.</p>
 <pre><code class="language-bash">$ ./a.out
-WasmEdge version: 0.11.1
+WasmEdge version: 0.11.2
 </code></pre>
 </li>
 </ol>
@@ -260,6 +260,7 @@ printf(&quot;WasmEdge version patch: %u\n&quot;, WasmEdge_VersionGetPatch());
 </code></pre>
 <h3 id="logging-settings"><a class="header" href="#logging-settings">Logging Settings</a></h3>
 <p>The <code>WasmEdge_LogSetErrorLevel()</code> and <code>WasmEdge_LogSetDebugLevel()</code> APIs can set the logging system to debug level or error level. By default, the error level is set, and the debug info is hidden.</p>
+<p>Developers can also use the <code>WasmEdge_LogOff()</code> API to disable all logging. (<code>0.11.2</code> or upper only)</p>
 <h3 id="value-types"><a class="header" href="#value-types">Value Types</a></h3>
 <p>In WasmEdge, developers should convert the values to <code>WasmEdge_Value</code> objects through APIs for matching to the WASM value types.</p>
 <ol>
@@ -728,6 +729,18 @@ WasmEdge_ConfigureSetMaxMemoryPage(ConfCxt, 1024);
  */
 PageSize = WasmEdge_ConfigureGetMaxMemoryPage(ConfCxt);
 /* The `PageSize` will be 1024. */
+WasmEdge_ConfigureDelete(ConfCxt);
+</code></pre>
+</li>
+<li>
+<p>Forcibly interpreter mode (<code>0.11.2</code> or upper only)</p>
+<p>If developers want to execute the WASM file or the AOT compiled WASM in interpreter mode forcibly, they can turn on the configuration.</p>
+<pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
+bool IsForceInterp = WasmEdge_ConfigureIsForceInterpreter(ConfCxt);
+/* By default, The `IsForceInterp` will be `FALSE`. */
+WasmEdge_ConfigureSetForceInterpreter(ConfCxt, TRUE);
+IsForceInterp = WasmEdge_ConfigureIsForceInterpreter(ConfCxt);
+/* The `IsForceInterp` will be `TRUE`. */
 WasmEdge_ConfigureDelete(ConfCxt);
 </code></pre>
 </li>
