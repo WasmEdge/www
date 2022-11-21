@@ -28,7 +28,6 @@ jobs:
         run: |
           cp -r book dist/
           cp -r wasm_linux_container dist/
-          cp -r wasm_docker dist/
 
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3
