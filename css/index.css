@@ -5,9 +5,14 @@ body {
 
 nav {
 	top: 0;
-	height: 4rem;
+	/*height: 4rem;*/
 	width: 100%;
 	background: rgba(0, 0, 0, 0.9);
+}
+
+.header {
+	background: #000;
+	top:0;
 }
 
 .nav-menu-item {
@@ -35,7 +40,6 @@ nav {
  * hero
  */
 .hero {
-	margin-top: 4rem;
 	background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(97,0,255,1) 100%);
 	overflow: hidden;
 }
@@ -148,6 +152,22 @@ h1 {
 
 .wasmedge-in-cloud img {
 	width: 16.3125rem;
+}
+
+.welcome-text {
+	top:0;
+	font-size: 1.25rem;
+	color: #fff;
+	padding: 5px 0;
+}
+
+.underline-text {
+	text-decoration: underline;
+	color: #fff;
+}
+
+.underline-text:hover {
+	color: #fff;
 }
 
 .explain-text {
