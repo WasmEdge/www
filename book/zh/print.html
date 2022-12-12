@@ -15,7 +15,6 @@
 
   gtag('config', 'G-NGPCK7VF2L');
 </script>
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -38,13 +37,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -60,7 +59,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -72,7 +71,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -103,7 +102,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                     </div>
                 </div>
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -622,8 +621,7 @@ fn main() {
   for argument in env::args().skip(1) {
     println!(&quot;{}&quot;, argument);
   }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <h3 id="hello-world-构建-wasm-字节码"><a class="header" href="#hello-world-构建-wasm-字节码">Hello world： 构建 WASM 字节码</a></h3>
 <pre><code class="language-bash">cargo build --target wasm32-wasi
 </code></pre>
@@ -644,8 +642,7 @@ state
 pub fn add(a: i32, b: i32) -&gt; i32 {
   return a + b;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="一个简单的函数-构建-wasm-字节码"><a class="header" href="#一个简单的函数-构建-wasm-字节码">一个简单的函数： 构建 WASM 字节码</a></h3>
 <pre><code class="language-bash">cargo build --target wasm32-wasi
 </code></pre>
@@ -699,8 +696,7 @@ pub fn say(s: String) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
   let r = String::from(&quot;hello &quot;);
   return Ok((r + s.as_str()).as_bytes().to_vec());
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>当然，一旦上述 Rust 代码被编译为 WASM，<code>say()</code> 函数将不再接受 <code>String</code> 作为参数，也不会再返回 <code>Vec&lt;u8&gt;</code>。因此，调用者（也就是宿主应用程序）必须在调用前将调用参数解构为内存指针，并在调用之后使用内存指针组装返回值。这些操作可以由 WasmEdge 语言 SDK 自动完成。如果需要一个包含 Rust WASM 函数以及 Go 宿主程序的完整的示例，请参照我们在 Go SDK 文档中的教程。</p>
 <p><strong><a href="dev/rust/../../embed/go/function.html">一个完整的 wasmedge-bindgen 示例，使用 Rust (WASM) 和 Go (宿主)</a></strong></p>
 <p>当然，开发者可以选择自己实现 <code>wasmdege-bindgen</code> 的工作，直接传递内存指针。如果你对使用这种方式来调用 Rust 编译成的 WASM 函数感兴趣，请参照我们在 <a href="dev/rust/../../embed/go/memory.html">Go SDK 中的示例</a>。</p>
@@ -730,8 +726,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
   rng.fill(&amp;mut arr[..]);
   return arr.to_vec();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="从-rust-中输出和调试"><a class="header" href="#从-rust-中输出和调试">从 Rust 中输出和调试</a></h2>
 <p>Rust 中的 <code>println!</code> 宏同样可以用在 WASI 中。下面的语句向运行 WasmEdge 的进程的 <code>STDOUT</code> 输出。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -740,8 +735,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
   println!(&quot;Printed from wasi: {}&quot;, content);
   return content.to_string();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="参数以及环境变量"><a class="header" href="#参数以及环境变量">参数以及环境变量</a></h2>
 <p>在 WasmEdge 应用程序中，你可以传递命令行参数并且获取操作系统环境变量。
 在 Rust 中你可以使用 <code>env::args()</code> 和 <code>env::vars()</code> 访问他们。</p>
@@ -760,8 +754,7 @@ pub fn print_env() {
     println!(&quot;{}&quot;, argument);
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="读写文件"><a class="header" href="#读写文件">读写文件</a></h2>
 <p>WASI 让你可以通过标准的 Rust <code>std::fs</code> 接口来访问宿主的文件系统。
 在 Rust 程序中，你通过相对路径来操作文件，相对路径的根目录可以在启动 WasmEdge Runtime 的时候被指定。</p>
@@ -788,8 +781,7 @@ pub fn read_file(path: &amp;str) -&gt; String {
 pub fn del_file(path: &amp;str) {
   fs::remove_file(path).expect(&quot;Unable to delete&quot;);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="包含-main-的应用程序"><a class="header" href="#包含-main-的应用程序">包含 main() 的应用程序</a></h2>
 <p>包含 <code>main()</code> 函数的 Rust 程序可以被编译为一个独立的 WebAssembly 程序。</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -800,8 +792,7 @@ pub fn del_file(path: &amp;str) {
   create_file(&quot;tmp.txt&quot;, &quot;This is in a file&quot;);
   println!(&quot;File content is {}&quot;, read_file(&quot;tmp.txt&quot;));
   del_file(&quot;tmp.txt&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>使用如下的命令来编译 <a href="https://github.com/second-state/wasm-learning/tree/master/cli/wasi">Rust 工程</a>。</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi
 </code></pre>
@@ -846,8 +837,7 @@ pub fn del_file(path: &amp;str) -&gt; String {
   _initialize();
   ... ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tensorflow"><a class="header" href="#tensorflow">Tensorflow</a></h1>
 <p>AI 推理是一个计算密集任务，可以从 Rust 和 WebAssembly 的速度中受益颇多。然而，标准的 WebAssembly 沙箱只提供了对原生操作系统和硬件非常有限的访问权限，比如多核 CPU、GPU 和专用的 AI 推理芯片。对 AI 的负载来说，它也不理想。</p>
 <p>WebAssembly 系统接口（WASI）提供了一种设计模式，可以让沙箱中的 WebAssembly 程序安全地访问原生宿主函数。WasmEdge Runtime 拓展了 WASI 的模型，支持在 WebAssembly 程序中直接访问原生 Tensorflow 的库。<a href="https://github.com/second-state/wasmedge_tensorflow_interface">WasmEdge Tensorflow Rust SDK</a> 提供了安全、便携、易用的方式，以本地速度来运行 Tensorflow。</p>
@@ -889,8 +879,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 </span><span class="boring">fn main() {
 </span>  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
   let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>接下来，它从 <code>STDIN</code> 加载图像，并将其转换为 Tensorflow Lite 模型所要求的格式。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -898,8 +887,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
   io::stdin().read_to_end(&amp;mut buf).unwrap();
 
   let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>然后，程序运行了 TFLite 模型，输入模型所需的张量（这里指图像），接收模型的输出（这里指一个包含了数字的数组）。每一个数字都对应了标签文件中的一个对象的概率。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -907,8 +895,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
   session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
          .run();
   let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>让我们找到有最大概率的对象，然后在标签文件中查找它的名字。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -928,8 +915,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
   for _i in 0..max_index {
     label_lines.next();
   }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>最终，它向 <code>STDOUT</code> 输出了结果。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -939,8 +925,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
   } else {
     println!(&quot;It does not appears to be any food item in the picture.&quot;);
   }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="部署选项"><a class="header" href="#部署选项">部署选项</a></h2>
 <p>以下的所有教程都使用了 <a href="https://github.com/second-state/wasmedge_tensorflow_interface">Tensorflow 的 WasmEdge Rust API</a> 来创建 AI 推理函数。这些 Rust 函数被编译成 WebAssembly 然后随着 WasmEdge 一起被部署在云上。</p>
 <h3 id="serverless-函数"><a class="header" href="#serverless-函数">Serverless 函数</a></h3>
@@ -993,8 +978,7 @@ fn main() {
   println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
   println!(&quot;Headers {}&quot;, res.headers());
   println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>使用如下命令来编译 Rust 程序。</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
@@ -1066,8 +1050,7 @@ fn main() -&gt; std::io::Result&lt;()&gt; {
   loop {
     let _ = handle_client(listener.accept()?.0);
   }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>使用如下命令来编译 Rust 程序。</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
@@ -1146,8 +1129,7 @@ fn main() {
             break;
         }
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>使用如下命令来编译 Rust 程序。</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
@@ -1155,8 +1137,7 @@ fn main() {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>wasmedge target/wasm32-wasi/release/nonblock_http_client.wasm
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="非阻塞-http-服务器示例"><a class="header" href="#非阻塞-http-服务器示例">非阻塞 HTTP 服务器示例</a></h2>
 <p>非阻塞的 HTTP 服务器程序的 <a href="https://github.com/second-state/wasmedge_wasi_socket/tree/main/examples/poll_http_server">源代码在这里</a>。下面的 <code>main()</code> 函数开启了一个 HTTP 服务器。它同时从多个开启的连接中接收事件，并通过调用注册在每个连接的异步处理函数来处理这些事件。服务器可以同时从多个开启的连接中处理事件。</p>
 <pre><pre class="playground"><code class="language-rust">fn main() -&gt; std::io::Result&lt;()&gt; {
@@ -1213,8 +1194,7 @@ fn main() {
             }
         }
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><code>handle_connection()</code> 函数处理来自于开启的连接的数据。当前它只是将请求的内容写回响应中。这同样是以异步的形式完成的，意味着 <code>handle_connection()</code> 函数为响应创建了一个事件，然后将事件放入了一个队列中。主程序循环处理这些事件，并在等待来自其他连接的数据时发送这些响应。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1325,8 +1305,7 @@ fn main() {
 
     Ok(false)
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>使用如下命令来编译 Rust 程序。</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
@@ -1410,8 +1389,7 @@ fn main() {
         };
         stream.shutdown(Shutdown::Both).unwrap();
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p><code>handler.rs</code> 中的代码解析收到的数据，并返回对应的响应。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1469,8 +1447,7 @@ pub fn handle_req(stream: &amp;mut TcpStream, addr: SocketAddr) -&gt; Result&lt;
 
     Ok((res, binary))
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><code>response.rs</code> 中的代码将静态资源和服务器渲染的内容打包成响应对象。
 对后者来说，你可以看到服务端渲染发生于 <code>app.render().to_string()</code>，产生的字符串替换掉了 HTML 中的占位符。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1570,8 +1547,7 @@ pub fn internal_error() -&gt; (Response, Option&lt;Vec&lt;u8&gt;&gt;) {
         content: vec![],
     }, None)
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><code>mime.rs</code> 中的代码将资源文件的拓展名映射成 MIME 类型。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1603,8 +1579,7 @@ impl MimeType {
         self.r#type
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>就这么多！ 现在让我们来构建并运行 Web 应用程序。如果你对原来的示例进行了测试，那你可能已经编译好了客户端的 WebAssembly。</p>
 <pre><code class="language-bash">cd client
 ./build-wasm.sh
@@ -1660,8 +1635,7 @@ cmd.arg(&quot;post&quot;)
 cmd.stdin_u8vec(payload.to_string().as_bytes());
 
 let out = cmd.output();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>然后编译这个 Rust 函数为 WebAssembly，并在 WasmEdge 中运行。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-1"><a class="header" href="#javascript-1">JavaScript</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="快速开始-1"><a class="header" href="#快速开始-1">快速开始</a></h1>
@@ -2323,8 +2297,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
   
   ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>下面的代码展示了如何把这个 Rust 函数添加到 JavaScript 解释器中，并为该函数的 JavaScript API 指定一个签名 <code>hi()</code>，随之在 JavaScript 代码中调用它。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2337,8 +2310,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
   let r = ctx.eval_global_str(code);
   println!(&quot;return value:{:?}&quot;, r);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>执行的结果如下所示。</p>
 <pre><code class="language-bash">hello from rust
 argv=[Int(1), Int(2), Int(3)]
@@ -2365,8 +2337,7 @@ return value:UnDefined
 
   ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>然后，我们在 Rust 端创建一个&quot;对象&quot;，设置它的数据域，然后将该 Rust 函数注册为关联到该对象的 JavaScript 函数。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2376,14 +2347,12 @@ obj.set(&quot;b&quot;, ctx.new_string(&quot;abc&quot;).into());
 
 let f = ctx.new_function::&lt;ObjectFn&gt;(&quot;anything&quot;);
 obj.set(&quot;f&quot;, f.into());
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>接下来，我们使这个 Rust &quot;对象&quot; 能在 JavaScript 解释器中作为 JavaScript 对象 <code>test_obj</code> 使用。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>ctx.get_global().set(&quot;test_obj&quot;, obj.into());
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>在 JavaScript 代码中，你可以直接将 <code>test_obj</code> 作为 API 的一部分使用了。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2395,8 +2364,7 @@ obj.set(&quot;f&quot;, f.into());
 &quot;#;
 
 ctx.eval_global_str(code);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>代码执行的结果如下。</p>
 <pre><code class="language-bash">test_obj keys= a,b,f
 test_obj.a= 1
@@ -2518,8 +2486,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
     ctx.register_module(&quot;point\0&quot;, PointModule, &amp;[&quot;Point\0&quot;]);
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>在解释器的实现中，我们先调用 <code>point::init_point_module</code> 以将 Rust 模块注册到 JavaScript 的上下文中，然后运行一个使用了对象 <code>point</code> 的 JavaScript 程序。</p>
 <pre><pre class="playground"><code class="language-rust">use wasmedge_quickjs::*;
 fn main() {
@@ -2546,8 +2513,7 @@ fn main() {
 
   ctx.eval_global_str(code);
   ctx.promise_loop_poll();
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>上面这个应用的执行结果如下所示。</p>
 <pre><code class="language-bash">rust-&gt; new Point [Int(1), Int(2)]
 rust-&gt; get x
@@ -2883,8 +2849,7 @@ fn main() {
     }
   }
   println!(&quot;Rust: Process end.&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>将应用程序编译成 WebAssembly。</p>
 <pre><code class="language-bash">$ cd rust_readfile
 $ cargo build --target wasm32-wasi
@@ -3014,8 +2979,7 @@ pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
 pub fn keccak_digest(s: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
   return Ok(Keccak256::digest(&amp;s).as_slice().to_vec());
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>你可以使用标准的 Cargo 命令构建 WebAssembly 字节码文件。</p>
 <pre><code class="language-bash">$ cd rust_bindgen_funcs
 $ cargo build --target wasm32-wasi --release
@@ -3159,8 +3123,7 @@ pub extern fn greet(subject: *mut c_char) -&gt; *mut c_char {
 
   unsafe { CString::from_vec_unchecked(output) }.into_raw()
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>使用标准 Rust 编译器工具将 Rust 源代码编译成 WebAssembly 字节码应用程序：</p>
 <pre><code class="language-bash">cd rust_memory_greet
 cargo build --target wasm32-wasi
@@ -3436,8 +3399,7 @@ pub extern fn fib_array_return_memory(n: i32) -&gt; *mut c_int {
   mem::forget(arr);
   pointer
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>使用标准 Rust 编译器工具将 Rust 源代码编译成 WebAssembly 字节码应用程序：</p>
 <pre><code class="language-bash">cd rust_access_memory
 cargo build --target wasm32-wasi
@@ -3708,8 +3670,7 @@ fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
   let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Softmax&quot;);
   ... ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>你可以使用标准的 <code>Cargo</code> 命令来将其构建成为一个 WebAssembly 函数。</p>
 <pre><code class="language-bash">cd rust_tflite_food
 cargo build --target wasm32-wasi --release
@@ -3816,8 +3777,7 @@ crate-type = [&quot;cdylib&quot;, &quot;rlib&quot;]
 pub unsafe extern fn run() -&gt; i32 {
   add(1, 2)
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>上述程序中的 <code>add</code> 函数被声明在 <code>extern &quot;C&quot;</code> 中, 这就是一个 Host Function。我们使用如下命令将这段 Rust 程序编译为 wasm:</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
@@ -3922,8 +3882,7 @@ pub unsafe extern fn run() -&gt; i32 {
   let str = std::str::from_utf8(&amp;buffer).unwrap();
   str.matches(&quot;google&quot;).count() as i32
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>在这段代码中, 引入了两个 Host Function:</p>
 <ul>
 <li><code>fetch</code> 用于发送 http 请求以获取网页源代码</li>
@@ -4094,8 +4053,7 @@ pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
 pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
   return Keccak256::digest(s).as_slice().to_vec();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>首先，我们使用 <a href="https://github.com/WasmEdge/WasmEdge/blob/master/docs/book/en/src/dev/rust/bindgen.md">rustwasmc</a> 工具将 Rust 源代码编译成字节码。</p>
 <pre><code class="language-bash">$ rustup default 1.50.0
 $ cd rust_bindgen_funcs
@@ -4325,8 +4283,7 @@ pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
 pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
   return Keccak256::digest(s).as_slice().to_vec();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>首先，我们使用 <a href="embed/go/dev/rust/bindgen.html"><code>rustwasmc</code> 工具</a> 将 Rust 源代码编译为 WebAssembly 字节码函数。注意这里 Rust 版本要用 1.50 或更低版本的。</p>
 <pre><code class="language-bash">rustup default 1.50.0
 cd rust_bindgen_funcs
@@ -4454,8 +4411,7 @@ fn main() {
         }
     }
     println!(&quot;Rust: Process end.&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>使用 rustwasmc 工具将应用程序编译成 WebAssembly。</p>
 <pre><code class="language-bash">cd rust_readfile
 rustwasmc build
@@ -6165,8 +6121,7 @@ pub fn say(s: String) -&gt; String {
   let r = String::from(&quot;hello &quot;);
   return r + &amp;s;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>然后你可以将 Rust 源代码编译成 WebAssembly 字节码，并且生成相应的 JavaScript 模块供 Node.js host 环境调用。</p>
 <pre><code class="language-bash">rustwasmc build
 </code></pre>
@@ -6240,8 +6195,7 @@ pub fn solve(params: &amp;str) -&gt; String {
     return String::from(&quot;not real numbers&quot;);
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>让我们试试。</p>
 <pre><code class="language-bash">rustwasmc build
 npm install express # 这个应用程序需要 Node.js 的 express 框架
@@ -6288,8 +6242,7 @@ pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
 pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
   return Keccak256::digest(s).as_slice().to_vec();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>最有意思的可能是 <code>create_line()</code> 函数。它需要两个 JSON 字符串，每一个都代表一个 <code>Point</code> 结构，返回一个 JSON 字符串代表 <code>Line</code> 结构。注意，<code>Point</code> 和 <code>Line</code> 结构都使用了 <code>Serialize</code> 和 <code>Deserialize</code> 注解，这样 Rust 编译器就会自动生成必要的代码来支持和 JSON 字符串之间的转换。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6326,8 +6279,7 @@ pub fn say(s: &amp;str) -&gt; String {
   let r = String::from(&quot;hello &quot;);
   return r + s;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>然后，让我们来检查下 JavaScript 程序 <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/functions/node/app.js"><code>app.js</code></a>，它展示了如何调用 Rust 函数。你可以看到，<code>String</code> 和 <code>&amp;str</code> 在 JavaScript 是简单的字符串，<code>i32</code> 是数字，<code>Vec&lt;u8&gt;</code> 或者 <code>&amp;[8]</code> 是 JavaScript <code>Uint8Array</code>。JavaScript 对象在传入或者从 Rust 函数结果返回需要通过 <code>JSON.stringify()</code> 或者 <code>JSON.parse()</code> 转换。</p>
 <pre><code class="language-javascript">const { say, obfusticate, lowest_common_denominator, sha3_digest, keccak_digest, create_line } = require('./functions_lib.js');
 
@@ -6511,8 +6463,7 @@ let loader = Loader::create(None).expect(&quot;fail to create a Loader context&q
 // 从指定的 wasm 文件加载 wasm 模块，并返回 WasmEdge AST 模块实例
 let path = PathBuf::from(&quot;fibonacci.wasm&quot;);
 let mut module = loader.from_file(path).expect(&quot;fail to load the WebAssembly file&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="步骤-2-创建一个-vm-实例"><a class="header" href="#步骤-2-创建一个-vm-实例">步骤 2: 创建一个 <code>Vm</code> 实例</a></h2>
 <p>在 WasmEdge 中， <code>Vm</code> 定义了一个运行环境，在其中存储和维护各种实例。在下面的演示代码中，我们可以创建一个 WasmEdge <code>store</code> 实例，然后将其用作创建 <code>Vm</code> 实例的输入之一。如果没有明确指定 <code>store</code> 实例，那么 <code>Vm</code> 将自己创建一个 <code>store</code> 。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6527,8 +6478,7 @@ let store = Store::create().expect(&quot;fail to create a Store context&quot;);
 
 // 使用指定的配置和存储创建 Vm 实例
 let mut vm = Vm::create(Some(config), Some(store)).expect(&quot;fail to create a Vm context&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="步骤-3-调用-fib-函数"><a class="header" href="#步骤-3-调用-fib-函数">步骤 3: 调用 fib 函数</a></h2>
 <p>在步骤 1中，我们得到了一个模块，该模块承载 WebAssembly 中定义的目标 <code>fib</code> 函数。现在，我们可以通过传递导出的函数名 <code>fib</code> ，通过 <code>Vm</code> 实例的 <code>run_wasm_from_module</code> 方法调用该函数。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6539,8 +6489,7 @@ let mut vm = Vm::create(Some(config), Some(store)).expect(&quot;fail to create a
 let returns = vm.run_wasm_from_module(module, &quot;fib&quot;, [Value::from_i32(5)]).expect(&quot;fail to run the target function in the module&quot;);
 
 println!(&quot;The result of fib(5) is {}&quot;, returns[0].to_i32());
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>这是在屏幕上打印的最终结果：</p>
 <pre><code class="language-bash">The result of fib(5) is 8
 </code></pre>
@@ -8108,8 +8057,7 @@ fn main() {
   };
   io::stdout().write_all(&amp;buf).unwrap();
   io::stdout().flush().unwrap();
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>然后，我们使用 <a href="https://www.secondstate.io/articles/rustwasmc/">rustwasmc</a> 进行构建，将构建好的 wasm 文件复制到 <a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-rs">image-api-rs</a> sidecar 中。</p>
 <pre><code class="language-bash">cd functions/grayscale
 rustup override set 1.50.0
@@ -8143,8 +8091,7 @@ pub fn infer_internal(image_data: &amp;[u8]) -&gt; String {
     format!(&quot;It does not appears to be any food item in the picture.&quot;)
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>然后，我们使用 <a href="https://www.secondstate.io/articles/rustwasmc/">rustwasmc</a> 构建，将构建好的 wasm 文件复制到 <a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-go">image-api-go</a> sidecar。</p>
 <pre><code class="language-bash">cd functions/classify
 rustup override set 1.50.0
@@ -8175,8 +8122,7 @@ pub async fn run_server(port: u16) {
   let routes = routes.with(log);
   warp::serve(routes).run((Ipv4Addr::UNSPECIFIED, port)).await
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>一旦它接收到通过 HTTP POST 请求发送的图像文件，就会调用 WasmEdge 中的 WebAssembly 函数来执行图像处理任务。它创建一个 WasmEdge 实例来与 WebAssembly 程序交互。</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -8195,8 +8141,7 @@ pub async fn run_server(port: u16) {
   let output = child.wait_with_output().expect(&quot;failed to wait on child&quot;);
   output.stdout
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>执行以下 Dapr CLI 命令将在 Dapr runtime 环境中启动 image-api-rs 微服务。</p>
 <pre><code class="language-bash">cd image-api-rs
 sudo dapr run --app-id image-api-rs \
@@ -8443,8 +8388,7 @@ pub fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt
   );
   return Ok(ret_str.as_bytes().to_vec());
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>你应该把 <code>wasm32-wasi</code> 目标添加到 rust，用以将此函数编译为 WebAssembly 字节码。</p>
 <pre><code class="language-bash">rustup target add wasm32-wasi
 
@@ -8639,8 +8583,7 @@ impl Runnable for HelloEcho {
     Ok(format!(&quot;hello {}&quot;, in_string).as_bytes().to_vec())
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>接下来，把这个 Rust 函数构建为 WebAssembly 字节码文件。</p>
 <pre><code class="language-bash">cd hello-echo
 cargo build --target wasm32-wasi --release
@@ -8764,8 +8707,7 @@ impl Runnable for RsDbtest {
     ... ...
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>让我们把这个 Rust 函数构建为 WebAssembly 字节码文件。</p>
 <pre><code class="language-bash">cd rs-db
 cargo build --target wasm32-wasi --release
@@ -10216,18 +10158,18 @@ if (!WasmEdge_ResultOK(Res)) {
 
         </div>
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript">
+        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });

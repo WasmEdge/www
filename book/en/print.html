@@ -15,7 +15,6 @@
 
   gtag('config', 'G-NGPCK7VF2L');
 </script>
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -38,13 +37,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -60,7 +59,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -72,7 +71,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -85,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item "><a href="quick_start.html"><strong aria-hidden="true">2.</strong> Quick Start</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="quick_start/install.html"><strong aria-hidden="true">2.1.</strong> Installation And Uninstallation</a></li><li class="chapter-item "><a href="quick_start/use_docker.html"><strong aria-hidden="true">2.2.</strong> Using WasmEdge in Docker</a></li><li class="chapter-item "><a href="quick_start/run_cli.html"><strong aria-hidden="true">2.3.</strong> Running WASM with WasmEdge CLI</a></li><li class="chapter-item "><a href="quick_start/run_in_aot_mode.html"><strong aria-hidden="true">2.4.</strong> Execution in AOT Mode</a></li></ol></li><li class="chapter-item "><a href="features.html"><strong aria-hidden="true">3.</strong> WasmEdge Features</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="features/proposals.html"><strong aria-hidden="true">3.1.</strong> Supported WASM And WASI Proposals</a></li><li class="chapter-item "><a href="features/proprietary_extend.html"><strong aria-hidden="true">3.2.</strong> WasmEdge Proprietary extensions</a></li><li class="chapter-item "><a href="features/integrations.html"><strong aria-hidden="true">3.3.</strong> Integrations</a></li><li class="chapter-item "><a href="features/platforms.html"><strong aria-hidden="true">3.4.</strong> Supported Platforms</a></li><li class="chapter-item "><a href="features/comparison.html"><strong aria-hidden="true">3.5.</strong> Comparison</a></li></ol></li><li class="chapter-item "><a href="use_cases.html"><strong aria-hidden="true">4.</strong> WasmEdge Use Cases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/server_side_render.html"><strong aria-hidden="true">4.1.</strong> Server-Side Rendering Modern Web UI</a></li><li class="chapter-item "><a href="use_cases/microservice.html"><strong aria-hidden="true">4.2.</strong> Microservices</a></li><li class="chapter-item "><a href="use_cases/serverless_faas.html"><strong aria-hidden="true">4.3.</strong> Serverless Function-As-A-Service in Public Clouds</a></li><li class="chapter-item "><a href="use_cases/serverless_saas.html"><strong aria-hidden="true">4.4.</strong> Serverless Software-As-A-Service Functions</a></li><li class="chapter-item "><a href="use_cases/smart_device.html"><strong aria-hidden="true">4.5.</strong> Smart devices</a></li><li class="chapter-item "><a href="use_cases/js_or_dsl_runtime.html"><strong aria-hidden="true">4.6.</strong> JavaScript or Domain Specifc Language Runtime</a></li><li class="chapter-item "><a href="use_cases/kubernetes.html"><strong aria-hidden="true">4.7.</strong> WasmEdge in Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/quickstart.html"><strong aria-hidden="true">4.7.1.</strong> Quick start</a></li><li class="chapter-item "><a href="use_cases/kubernetes/demo.html"><strong aria-hidden="true">4.7.2.</strong> Demo apps</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/demo/wasi.html"><strong aria-hidden="true">4.7.2.1.</strong> Simple example</a></li><li class="chapter-item "><a href="use_cases/kubernetes/demo/server.html"><strong aria-hidden="true">4.7.2.2.</strong> HTTP service</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/container.html"><strong aria-hidden="true">4.7.3.</strong> Container runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/container/crun.html"><strong aria-hidden="true">4.7.3.1.</strong> crun</a></li><li class="chapter-item "><a href="use_cases/kubernetes/container/runc.html"><strong aria-hidden="true">4.7.3.2.</strong> runc</a></li><li class="chapter-item "><a href="use_cases/kubernetes/container/youki.html"><strong aria-hidden="true">4.7.3.3.</strong> youki</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/cri.html"><strong aria-hidden="true">4.7.4.</strong> CRI runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/cri/crio.html"><strong aria-hidden="true">4.7.4.1.</strong> CRI-O</a></li><li class="chapter-item "><a href="use_cases/kubernetes/cri/containerd.html"><strong aria-hidden="true">4.7.4.2.</strong> containerd</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes.html"><strong aria-hidden="true">4.7.5.</strong> Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubernetes-crio.html"><strong aria-hidden="true">4.7.5.1.</strong> Kubernetes + CRI-O</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubernetes-containerd.html"><strong aria-hidden="true">4.7.5.2.</strong> Kubernetes + containerd</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kind.html"><strong aria-hidden="true">4.7.5.3.</strong> KinD</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubeedge.html"><strong aria-hidden="true">4.7.5.4.</strong> KubeEdge</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/superedge.html"><strong aria-hidden="true">4.7.5.5.</strong> SuperEdge</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/openyurt.html"><strong aria-hidden="true">4.7.5.6.</strong> OpenYurt</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/knative.html"><strong aria-hidden="true">4.7.5.7.</strong> Knative</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/docker.html"><strong aria-hidden="true">4.7.6.</strong> Docker</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/docker/lxc.html"><strong aria-hidden="true">4.7.6.1.</strong> Slim container</a></li><li class="chapter-item "><a href="use_cases/kubernetes/docker/containerd.html"><strong aria-hidden="true">4.7.6.2.</strong> containerd integration</a></li></ol></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks.html"><strong aria-hidden="true">4.8.</strong> App Frameworks & Platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/mesh.html"><strong aria-hidden="true">4.8.1.</strong> Service mesh & runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/mesh/dapr.html"><strong aria-hidden="true">4.8.1.1.</strong> Dapr</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/mosn.html"><strong aria-hidden="true">4.8.1.2.</strong> MOSN</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/wasm-nginx-module.html"><strong aria-hidden="true">4.8.1.3.</strong> Nginx</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/eventmesh.html"><strong aria-hidden="true">4.8.1.4.</strong> Apache EventMesh</a></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks/app.html"><strong aria-hidden="true">4.8.2.</strong> Application frameworks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/app/yomo.html"><strong aria-hidden="true">4.8.2.1.</strong> YoMo</a></li><li class="chapter-item "><a href="use_cases/frameworks/app/reactr.html"><strong aria-hidden="true">4.8.2.2.</strong> Reactr</a></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks/serverless.html"><strong aria-hidden="true">4.8.3.</strong> Serverless platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/serverless/vercel.html"><strong aria-hidden="true">4.8.3.1.</strong> Vercel</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/netlify.html"><strong aria-hidden="true">4.8.3.2.</strong> Netlify</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/aws.html"><strong aria-hidden="true">4.8.3.3.</strong> AWS</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/tencent.html"><strong aria-hidden="true">4.8.3.4.</strong> Tencent</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/secondstate.html"><strong aria-hidden="true">4.8.3.5.</strong> Second State</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><a href="write_wasm.html"><strong aria-hidden="true">5.</strong> Write a WebAssembly Application</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/c.html"><strong aria-hidden="true">5.1.</strong> C</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/c/simd.html"><strong aria-hidden="true">5.1.1.</strong> simd</a></li></ol></li><li class="chapter-item "><a href="write_wasm/rust.html"><strong aria-hidden="true">5.2.</strong> Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/rust/bindgen.html"><strong aria-hidden="true">5.2.1.</strong> Bindgen of Rust Functions</a></li><li class="chapter-item "><a href="write_wasm/rust/wasi.html"><strong aria-hidden="true">5.2.2.</strong> Access OS Services</a></li><li class="chapter-item "><a href="write_wasm/rust/tensorflow.html"><strong aria-hidden="true">5.2.3.</strong> TensorFlow</a></li><li class="chapter-item "><a href="write_wasm/rust/wasinn.html"><strong aria-hidden="true">5.2.4.</strong> Neural Network for WASI</a></li><li class="chapter-item "><a href="write_wasm/rust/wasicrypto.html"><strong aria-hidden="true">5.2.5.</strong> Crypto for WASI</a></li><li class="chapter-item "><a href="write_wasm/rust/networking.html"><strong aria-hidden="true">5.2.6.</strong> Simple HTTP Client & Server</a></li><li class="chapter-item "><a href="write_wasm/rust/networking-https.html"><strong aria-hidden="true">5.2.7.</strong> Simple HTTPS Client & Server</a></li><li class="chapter-item "><a href="write_wasm/rust/networking-nonblocking.html"><strong aria-hidden="true">5.2.8.</strong> Non-Blocking Network Apps</a></li><li class="chapter-item "><a href="write_wasm/rust/ssr.html"><strong aria-hidden="true">5.2.9.</strong> Server-Side Rendering</a></li><li class="chapter-item "><a href="write_wasm/rust/command.html"><strong aria-hidden="true">5.2.10.</strong> Command Interface</a></li></ol></li><li class="chapter-item "><a href="write_wasm/js.html"><strong aria-hidden="true">5.3.</strong> JavaScript</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/js/quickstart.html"><strong aria-hidden="true">5.3.1.</strong> Getting Started</a></li><li class="chapter-item "><a href="write_wasm/js/nodejs.html"><strong aria-hidden="true">5.3.2.</strong> Node.js Compatibility</a></li><li class="chapter-item "><a href="write_wasm/js/networking.html"><strong aria-hidden="true">5.3.3.</strong> Networking Apps</a></li><li class="chapter-item "><a href="write_wasm/js/ssr.html"><strong aria-hidden="true">5.3.4.</strong> React SSR</a></li><li class="chapter-item "><a href="write_wasm/js/tensorflow.html"><strong aria-hidden="true">5.3.5.</strong> TensorFlow</a></li><li class="chapter-item "><a href="write_wasm/js/es6.html"><strong aria-hidden="true">5.3.6.</strong> ES6 Modules</a></li><li class="chapter-item "><a href="write_wasm/js/npm.html"><strong aria-hidden="true">5.3.7.</strong> Node.js & NPM Modules</a></li><li class="chapter-item "><a href="write_wasm/js/modules.html"><strong aria-hidden="true">5.3.8.</strong> Built-in Modules</a></li><li class="chapter-item "><a href="write_wasm/js/rust.html"><strong aria-hidden="true">5.3.9.</strong> Native JS API in Rust</a></li></ol></li><li class="chapter-item "><a href="write_wasm/go.html"><strong aria-hidden="true">5.4.</strong> Go</a></li><li class="chapter-item "><a href="write_wasm/swift.html"><strong aria-hidden="true">5.5.</strong> Swift</a></li><li class="chapter-item "><a href="write_wasm/as.html"><strong aria-hidden="true">5.6.</strong> AssemblyScript</a></li><li class="chapter-item "><a href="write_wasm/kotlin.html"><strong aria-hidden="true">5.7.</strong> Kotlin</a></li><li class="chapter-item "><a href="write_wasm/grain.html"><strong aria-hidden="true">5.8.</strong> Grain</a></li><li class="chapter-item "><a href="write_wasm/python.html"><strong aria-hidden="true">5.9.</strong> Python</a></li></ol></li><li class="chapter-item "><a href="sdk.html"><strong aria-hidden="true">6.</strong> Use WasmEdge Library</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c.html"><strong aria-hidden="true">6.1.</strong> C SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/hostfunction.html"><strong aria-hidden="true">6.1.1.</strong> Host Function Implementation</a></li><li class="chapter-item "><a href="sdk/c/externref.html"><strong aria-hidden="true">6.1.2.</strong> ExternRef Example</a></li><li class="chapter-item "><a href="sdk/c/ref.html"><strong aria-hidden="true">6.1.3.</strong> 0.11.2 API references</a></li><li class="chapter-item "><a href="sdk/c/0.10.1/ref.html"><strong aria-hidden="true">6.1.4.</strong> 0.10.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/0.10.1/upgrade_to_0.11.0.html"><strong aria-hidden="true">6.1.4.1.</strong> Upgrade to 0.11.0</a></li></ol></li><li class="chapter-item "><a href="sdk/c/0.9.1/ref.html"><strong aria-hidden="true">6.1.5.</strong> 0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.1.5.1.</strong> Upgrade to 0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="sdk/go.html"><strong aria-hidden="true">6.2.</strong> Go SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/app.html"><strong aria-hidden="true">6.2.1.</strong> Embed WASM apps</a></li><li class="chapter-item "><a href="sdk/go/function.html"><strong aria-hidden="true">6.2.2.</strong> Embed WASM funcs</a></li><li class="chapter-item "><a href="sdk/go/memory.html"><strong aria-hidden="true">6.2.3.</strong> Pass complex data</a></li><li class="chapter-item "><a href="sdk/go/tensorflow.html"><strong aria-hidden="true">6.2.4.</strong> Tensorflow</a></li><li class="chapter-item "><a href="sdk/go/bindgen.html"><strong aria-hidden="true">6.2.5.</strong> Embed bindgen funcs</a></li><li class="chapter-item "><a href="sdk/go/ref.html"><strong aria-hidden="true">6.2.6.</strong> v0.11.2 API references</a></li><li class="chapter-item "><a href="sdk/go/0.10.1/ref.html"><strong aria-hidden="true">6.2.7.</strong> v0.10.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/0.10.1/upgrade_to_0.11.0.html"><strong aria-hidden="true">6.2.7.1.</strong> Upgrade to v0.11.0</a></li></ol></li><li class="chapter-item "><a href="sdk/go/0.9.1/ref.html"><strong aria-hidden="true">6.2.8.</strong> v0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.2.8.1.</strong> Upgrade to v0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="sdk/node.html"><strong aria-hidden="true">6.3.</strong> Node.js SDK</a></li><li class="chapter-item "><a href="sdk/rust.html"><strong aria-hidden="true">6.4.</strong> Rust SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/rust/say_hello.html"><strong aria-hidden="true">6.4.1.</strong> Hello World!</a></li><li class="chapter-item "><a href="sdk/rust/memory_manipulation.html"><strong aria-hidden="true">6.4.2.</strong> Memory Manipulation</a></li><li class="chapter-item "><a href="sdk/rust/table_and_funcref.html"><strong aria-hidden="true">6.4.3.</strong> Table and FuncRef</a></li><li class="chapter-item "><a href="sdk/rust/sys_run_host_func.html"><strong aria-hidden="true">6.4.4.</strong> Run a WebAssembly function with WasmEdge low-level APIs</a></li><li class="chapter-item "><a href="sdk/rust/concurrent_fib.html"><strong aria-hidden="true">6.4.5.</strong> Compute Fibonacci numbers concurrently</a></li><li class="chapter-item "><a href="sdk/rust/how_to_use_module_instance.html"><strong aria-hidden="true">6.4.6.</strong> Usage of WasmEdge module instances</a></li></ol></li><li class="chapter-item "><a href="sdk/python.html"><strong aria-hidden="true">6.5.</strong> Python SDK</a></li></ol></li><li class="chapter-item "><a href="cli.html"><strong aria-hidden="true">7.</strong> Use WasmEdge CLI</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cli/wasmedge.html"><strong aria-hidden="true">7.1.</strong> wasmedge WASM Runner</a></li><li class="chapter-item "><a href="cli/wasmedgec.html"><strong aria-hidden="true">7.2.</strong> wasmedgec AOT Compiler</a></li></ol></li><li class="chapter-item "><a href="plugin.html"><strong aria-hidden="true">8.</strong> Develop WasmEdge Plug-in</a></li><li class="chapter-item "><a href="contribute.html"><strong aria-hidden="true">9.</strong> Contribute to WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/release_process.html"><strong aria-hidden="true">9.1.</strong> Release Process</a></li><li class="chapter-item "><a href="contribute/contribute.html"><strong aria-hidden="true">9.2.</strong> Contribute Steps</a></li><li class="chapter-item "><a href="contribute/build_from_src.html"><strong aria-hidden="true">9.3.</strong> Build WasmEdge from source</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/build_from_src/linux.html"><strong aria-hidden="true">9.3.1.</strong> Build on Linux</a></li><li class="chapter-item "><a href="contribute/build_from_src/macos.html"><strong aria-hidden="true">9.3.2.</strong> Build on MacOS</a></li><li class="chapter-item "><a href="contribute/build_from_src/windows.html"><strong aria-hidden="true">9.3.3.</strong> Build on Windows</a></li><li class="chapter-item "><a href="contribute/build_from_src/android.html"><strong aria-hidden="true">9.3.4.</strong> Build for Android</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/build_from_src/android/cli.html"><strong aria-hidden="true">9.3.4.1.</strong> CLI tools</a></li><li class="chapter-item "><a href="contribute/build_from_src/android/ndk.html"><strong aria-hidden="true">9.3.4.2.</strong> NDK native app</a></li><li class="chapter-item "><a href="contribute/build_from_src/android/apk.html"><strong aria-hidden="true">9.3.4.3.</strong> APK app</a></li></ol></li><li class="chapter-item "><a href="contribute/build_from_src/sel4.html"><strong aria-hidden="true">9.3.5.</strong> Build for seL4</a></li><li class="chapter-item "><a href="contribute/build_from_src/openharmony.html"><strong aria-hidden="true">9.3.6.</strong> Build for OpenHarmony</a></li><li class="chapter-item "><a href="contribute/build_from_src/raspberrypi.html"><strong aria-hidden="true">9.3.7.</strong> Build for Raspberry Pi</a></li><li class="chapter-item "><a href="contribute/build_from_src/openwrt.html"><strong aria-hidden="true">9.3.8.</strong> Build for OpenWrt</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasi_nn.html"><strong aria-hidden="true">9.3.9.</strong> Build with WASI-NN Plug-in</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasi_crypto.html"><strong aria-hidden="true">9.3.10.</strong> Build with WASI-Crypto Plug-in</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasmedge_httpsreq.html"><strong aria-hidden="true">9.3.11.</strong> Build with WasmEdge-HttpsReq Plug-in</a></li></ol></li><li class="chapter-item "><a href="contribute/internal.html"><strong aria-hidden="true">9.4.</strong> WasmEdge Internal</a></li><li class="chapter-item "><a href="contribute/wish_list.html"><strong aria-hidden="true">9.5.</strong> Wish List</a></li><li class="chapter-item "><a href="contribute/release_process.html"><strong aria-hidden="true">9.6.</strong> Release Process</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item "><a href="quick_start.html"><strong aria-hidden="true">2.</strong> Quick Start</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="quick_start/install.html"><strong aria-hidden="true">2.1.</strong> Installation And Uninstallation</a></li><li class="chapter-item "><a href="quick_start/use_docker.html"><strong aria-hidden="true">2.2.</strong> Using WasmEdge in Docker</a></li><li class="chapter-item "><a href="quick_start/run_cli.html"><strong aria-hidden="true">2.3.</strong> Running WASM with WasmEdge CLI</a></li><li class="chapter-item "><a href="quick_start/run_in_aot_mode.html"><strong aria-hidden="true">2.4.</strong> Execution in AOT Mode</a></li></ol></li><li class="chapter-item "><a href="features.html"><strong aria-hidden="true">3.</strong> WasmEdge Features</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="features/proposals.html"><strong aria-hidden="true">3.1.</strong> Supported WASM And WASI Proposals</a></li><li class="chapter-item "><a href="features/proprietary_extend.html"><strong aria-hidden="true">3.2.</strong> WasmEdge Proprietary extensions</a></li><li class="chapter-item "><a href="features/integrations.html"><strong aria-hidden="true">3.3.</strong> Integrations</a></li><li class="chapter-item "><a href="features/platforms.html"><strong aria-hidden="true">3.4.</strong> Supported Platforms</a></li><li class="chapter-item "><a href="features/comparison.html"><strong aria-hidden="true">3.5.</strong> Comparison</a></li></ol></li><li class="chapter-item "><a href="use_cases.html"><strong aria-hidden="true">4.</strong> WasmEdge Use Cases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/server_side_render.html"><strong aria-hidden="true">4.1.</strong> Server-Side Rendering Modern Web UI</a></li><li class="chapter-item "><a href="use_cases/microservice.html"><strong aria-hidden="true">4.2.</strong> Microservices</a></li><li class="chapter-item "><a href="use_cases/serverless_faas.html"><strong aria-hidden="true">4.3.</strong> Serverless Function-As-A-Service in Public Clouds</a></li><li class="chapter-item "><a href="use_cases/serverless_saas.html"><strong aria-hidden="true">4.4.</strong> Serverless Software-As-A-Service Functions</a></li><li class="chapter-item "><a href="use_cases/smart_device.html"><strong aria-hidden="true">4.5.</strong> Smart devices</a></li><li class="chapter-item "><a href="use_cases/js_or_dsl_runtime.html"><strong aria-hidden="true">4.6.</strong> JavaScript or Domain Specific Language Runtime</a></li><li class="chapter-item "><a href="use_cases/kubernetes.html"><strong aria-hidden="true">4.7.</strong> WasmEdge in Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/quickstart.html"><strong aria-hidden="true">4.7.1.</strong> Quick start</a></li><li class="chapter-item "><a href="use_cases/kubernetes/demo.html"><strong aria-hidden="true">4.7.2.</strong> Demo apps</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/demo/wasi.html"><strong aria-hidden="true">4.7.2.1.</strong> Simple example</a></li><li class="chapter-item "><a href="use_cases/kubernetes/demo/server.html"><strong aria-hidden="true">4.7.2.2.</strong> HTTP service</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/container.html"><strong aria-hidden="true">4.7.3.</strong> Container runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/container/crun.html"><strong aria-hidden="true">4.7.3.1.</strong> crun</a></li><li class="chapter-item "><a href="use_cases/kubernetes/container/runc.html"><strong aria-hidden="true">4.7.3.2.</strong> runc</a></li><li class="chapter-item "><a href="use_cases/kubernetes/container/youki.html"><strong aria-hidden="true">4.7.3.3.</strong> youki</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/cri.html"><strong aria-hidden="true">4.7.4.</strong> CRI runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/cri/crio.html"><strong aria-hidden="true">4.7.4.1.</strong> CRI-O</a></li><li class="chapter-item "><a href="use_cases/kubernetes/cri/containerd.html"><strong aria-hidden="true">4.7.4.2.</strong> containerd</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes.html"><strong aria-hidden="true">4.7.5.</strong> Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubernetes-crio.html"><strong aria-hidden="true">4.7.5.1.</strong> Kubernetes + CRI-O</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubernetes-containerd.html"><strong aria-hidden="true">4.7.5.2.</strong> Kubernetes + containerd</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kind.html"><strong aria-hidden="true">4.7.5.3.</strong> KinD</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubeedge.html"><strong aria-hidden="true">4.7.5.4.</strong> KubeEdge</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/superedge.html"><strong aria-hidden="true">4.7.5.5.</strong> SuperEdge</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/openyurt.html"><strong aria-hidden="true">4.7.5.6.</strong> OpenYurt</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/knative.html"><strong aria-hidden="true">4.7.5.7.</strong> Knative</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/docker.html"><strong aria-hidden="true">4.7.6.</strong> Docker</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/docker/lxc.html"><strong aria-hidden="true">4.7.6.1.</strong> Slim container</a></li><li class="chapter-item "><a href="use_cases/kubernetes/docker/containerd.html"><strong aria-hidden="true">4.7.6.2.</strong> containerd integration</a></li></ol></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks.html"><strong aria-hidden="true">4.8.</strong> App Frameworks & Platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/mesh.html"><strong aria-hidden="true">4.8.1.</strong> Service mesh & runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/mesh/dapr.html"><strong aria-hidden="true">4.8.1.1.</strong> Dapr</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/mosn.html"><strong aria-hidden="true">4.8.1.2.</strong> MOSN</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/wasm-nginx-module.html"><strong aria-hidden="true">4.8.1.3.</strong> Nginx</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/eventmesh.html"><strong aria-hidden="true">4.8.1.4.</strong> Apache EventMesh</a></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks/app.html"><strong aria-hidden="true">4.8.2.</strong> Application frameworks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/app/yomo.html"><strong aria-hidden="true">4.8.2.1.</strong> YoMo</a></li><li class="chapter-item "><a href="use_cases/frameworks/app/reactr.html"><strong aria-hidden="true">4.8.2.2.</strong> Reactr</a></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks/serverless.html"><strong aria-hidden="true">4.8.3.</strong> Serverless platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/serverless/vercel.html"><strong aria-hidden="true">4.8.3.1.</strong> Vercel</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/netlify.html"><strong aria-hidden="true">4.8.3.2.</strong> Netlify</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/aws.html"><strong aria-hidden="true">4.8.3.3.</strong> AWS</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/tencent.html"><strong aria-hidden="true">4.8.3.4.</strong> Tencent</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/secondstate.html"><strong aria-hidden="true">4.8.3.5.</strong> Second State</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><a href="write_wasm.html"><strong aria-hidden="true">5.</strong> Write a WebAssembly Application</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/c.html"><strong aria-hidden="true">5.1.</strong> C</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/c/simd.html"><strong aria-hidden="true">5.1.1.</strong> simd</a></li></ol></li><li class="chapter-item "><a href="write_wasm/rust.html"><strong aria-hidden="true">5.2.</strong> Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/rust/bindgen.html"><strong aria-hidden="true">5.2.1.</strong> Bindgen of Rust Functions</a></li><li class="chapter-item "><a href="write_wasm/rust/wasi.html"><strong aria-hidden="true">5.2.2.</strong> Access OS Services</a></li><li class="chapter-item "><a href="write_wasm/rust/tensorflow.html"><strong aria-hidden="true">5.2.3.</strong> TensorFlow</a></li><li class="chapter-item "><a href="write_wasm/rust/wasinn.html"><strong aria-hidden="true">5.2.4.</strong> Neural Network for WASI</a></li><li class="chapter-item "><a href="write_wasm/rust/wasicrypto.html"><strong aria-hidden="true">5.2.5.</strong> Crypto for WASI</a></li><li class="chapter-item "><a href="write_wasm/rust/networking.html"><strong aria-hidden="true">5.2.6.</strong> Simple HTTP Client & Server</a></li><li class="chapter-item "><a href="write_wasm/rust/networking-https.html"><strong aria-hidden="true">5.2.7.</strong> Simple HTTPS Client & Server</a></li><li class="chapter-item "><a href="write_wasm/rust/networking-nonblocking.html"><strong aria-hidden="true">5.2.8.</strong> Non-Blocking Network Apps</a></li><li class="chapter-item "><a href="write_wasm/rust/ssr.html"><strong aria-hidden="true">5.2.9.</strong> Server-Side Rendering</a></li><li class="chapter-item "><a href="write_wasm/rust/command.html"><strong aria-hidden="true">5.2.10.</strong> Command Interface</a></li></ol></li><li class="chapter-item "><a href="write_wasm/js.html"><strong aria-hidden="true">5.3.</strong> JavaScript</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/js/quickstart.html"><strong aria-hidden="true">5.3.1.</strong> Getting Started</a></li><li class="chapter-item "><a href="write_wasm/js/nodejs.html"><strong aria-hidden="true">5.3.2.</strong> Node.js Compatibility</a></li><li class="chapter-item "><a href="write_wasm/js/networking.html"><strong aria-hidden="true">5.3.3.</strong> Networking Apps</a></li><li class="chapter-item "><a href="write_wasm/js/ssr.html"><strong aria-hidden="true">5.3.4.</strong> React SSR</a></li><li class="chapter-item "><a href="write_wasm/js/tensorflow.html"><strong aria-hidden="true">5.3.5.</strong> TensorFlow</a></li><li class="chapter-item "><a href="write_wasm/js/es6.html"><strong aria-hidden="true">5.3.6.</strong> ES6 Modules</a></li><li class="chapter-item "><a href="write_wasm/js/npm.html"><strong aria-hidden="true">5.3.7.</strong> Node.js & NPM Modules</a></li><li class="chapter-item "><a href="write_wasm/js/modules.html"><strong aria-hidden="true">5.3.8.</strong> Built-in Modules</a></li><li class="chapter-item "><a href="write_wasm/js/rust.html"><strong aria-hidden="true">5.3.9.</strong> Native JS API in Rust</a></li></ol></li><li class="chapter-item "><a href="write_wasm/go.html"><strong aria-hidden="true">5.4.</strong> Go</a></li><li class="chapter-item "><a href="write_wasm/swift.html"><strong aria-hidden="true">5.5.</strong> Swift</a></li><li class="chapter-item "><a href="write_wasm/as.html"><strong aria-hidden="true">5.6.</strong> AssemblyScript</a></li><li class="chapter-item "><a href="write_wasm/kotlin.html"><strong aria-hidden="true">5.7.</strong> Kotlin</a></li><li class="chapter-item "><a href="write_wasm/grain.html"><strong aria-hidden="true">5.8.</strong> Grain</a></li><li class="chapter-item "><a href="write_wasm/python.html"><strong aria-hidden="true">5.9.</strong> Python</a></li></ol></li><li class="chapter-item "><a href="sdk.html"><strong aria-hidden="true">6.</strong> Use WasmEdge Library</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c.html"><strong aria-hidden="true">6.1.</strong> C SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/hostfunction.html"><strong aria-hidden="true">6.1.1.</strong> Host Function Implementation</a></li><li class="chapter-item "><a href="sdk/c/externref.html"><strong aria-hidden="true">6.1.2.</strong> ExternRef Example</a></li><li class="chapter-item "><a href="sdk/c/ref.html"><strong aria-hidden="true">6.1.3.</strong> 0.11.2 API references</a></li><li class="chapter-item "><a href="sdk/c/0.10.1/ref.html"><strong aria-hidden="true">6.1.4.</strong> 0.10.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/0.10.1/upgrade_to_0.11.0.html"><strong aria-hidden="true">6.1.4.1.</strong> Upgrade to 0.11.0</a></li></ol></li><li class="chapter-item "><a href="sdk/c/0.9.1/ref.html"><strong aria-hidden="true">6.1.5.</strong> 0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.1.5.1.</strong> Upgrade to 0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="sdk/go.html"><strong aria-hidden="true">6.2.</strong> Go SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/app.html"><strong aria-hidden="true">6.2.1.</strong> Embed WASM apps</a></li><li class="chapter-item "><a href="sdk/go/function.html"><strong aria-hidden="true">6.2.2.</strong> Embed WASM funcs</a></li><li class="chapter-item "><a href="sdk/go/memory.html"><strong aria-hidden="true">6.2.3.</strong> Pass complex data</a></li><li class="chapter-item "><a href="sdk/go/tensorflow.html"><strong aria-hidden="true">6.2.4.</strong> Tensorflow</a></li><li class="chapter-item "><a href="sdk/go/bindgen.html"><strong aria-hidden="true">6.2.5.</strong> Embed bindgen funcs</a></li><li class="chapter-item "><a href="sdk/go/ref.html"><strong aria-hidden="true">6.2.6.</strong> v0.11.2 API references</a></li><li class="chapter-item "><a href="sdk/go/0.10.1/ref.html"><strong aria-hidden="true">6.2.7.</strong> v0.10.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/0.10.1/upgrade_to_0.11.0.html"><strong aria-hidden="true">6.2.7.1.</strong> Upgrade to v0.11.0</a></li></ol></li><li class="chapter-item "><a href="sdk/go/0.9.1/ref.html"><strong aria-hidden="true">6.2.8.</strong> v0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.2.8.1.</strong> Upgrade to v0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="sdk/node.html"><strong aria-hidden="true">6.3.</strong> Node.js SDK</a></li><li class="chapter-item "><a href="sdk/rust.html"><strong aria-hidden="true">6.4.</strong> Rust SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/rust/say_hello.html"><strong aria-hidden="true">6.4.1.</strong> Hello World!</a></li><li class="chapter-item "><a href="sdk/rust/memory_manipulation.html"><strong aria-hidden="true">6.4.2.</strong> Memory Manipulation</a></li><li class="chapter-item "><a href="sdk/rust/table_and_funcref.html"><strong aria-hidden="true">6.4.3.</strong> Table and FuncRef</a></li><li class="chapter-item "><a href="sdk/rust/sys_run_host_func.html"><strong aria-hidden="true">6.4.4.</strong> Run a WebAssembly function with WasmEdge low-level APIs</a></li><li class="chapter-item "><a href="sdk/rust/concurrent_fib.html"><strong aria-hidden="true">6.4.5.</strong> Compute Fibonacci numbers concurrently</a></li><li class="chapter-item "><a href="sdk/rust/how_to_use_module_instance.html"><strong aria-hidden="true">6.4.6.</strong> Usage of WasmEdge module instances</a></li></ol></li><li class="chapter-item "><a href="sdk/python.html"><strong aria-hidden="true">6.5.</strong> Python SDK</a></li></ol></li><li class="chapter-item "><a href="cli.html"><strong aria-hidden="true">7.</strong> Use WasmEdge CLI</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cli/wasmedge.html"><strong aria-hidden="true">7.1.</strong> wasmedge WASM Runner</a></li><li class="chapter-item "><a href="cli/wasmedgec.html"><strong aria-hidden="true">7.2.</strong> wasmedgec AOT Compiler</a></li></ol></li><li class="chapter-item "><a href="plugin.html"><strong aria-hidden="true">8.</strong> Develop WasmEdge Plug-in</a></li><li class="chapter-item "><a href="contribute.html"><strong aria-hidden="true">9.</strong> Contribute to WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/release_process.html"><strong aria-hidden="true">9.1.</strong> Release Process</a></li><li class="chapter-item "><a href="contribute/contribute.html"><strong aria-hidden="true">9.2.</strong> Contribute Steps</a></li><li class="chapter-item "><a href="contribute/build_from_src.html"><strong aria-hidden="true">9.3.</strong> Build WasmEdge from source</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/build_from_src/linux.html"><strong aria-hidden="true">9.3.1.</strong> Build on Linux</a></li><li class="chapter-item "><a href="contribute/build_from_src/macos.html"><strong aria-hidden="true">9.3.2.</strong> Build on MacOS</a></li><li class="chapter-item "><a href="contribute/build_from_src/windows.html"><strong aria-hidden="true">9.3.3.</strong> Build on Windows</a></li><li class="chapter-item "><a href="contribute/build_from_src/android.html"><strong aria-hidden="true">9.3.4.</strong> Build for Android</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/build_from_src/android/cli.html"><strong aria-hidden="true">9.3.4.1.</strong> CLI tools</a></li><li class="chapter-item "><a href="contribute/build_from_src/android/ndk.html"><strong aria-hidden="true">9.3.4.2.</strong> NDK native app</a></li><li class="chapter-item "><a href="contribute/build_from_src/android/apk.html"><strong aria-hidden="true">9.3.4.3.</strong> APK app</a></li></ol></li><li class="chapter-item "><a href="contribute/build_from_src/sel4.html"><strong aria-hidden="true">9.3.5.</strong> Build for seL4</a></li><li class="chapter-item "><a href="contribute/build_from_src/openharmony.html"><strong aria-hidden="true">9.3.6.</strong> Build for OpenHarmony</a></li><li class="chapter-item "><a href="contribute/build_from_src/raspberrypi.html"><strong aria-hidden="true">9.3.7.</strong> Build for Raspberry Pi</a></li><li class="chapter-item "><a href="contribute/build_from_src/openwrt.html"><strong aria-hidden="true">9.3.8.</strong> Build for OpenWrt</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasi_nn.html"><strong aria-hidden="true">9.3.9.</strong> Build with WASI-NN Plug-in</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasi_crypto.html"><strong aria-hidden="true">9.3.10.</strong> Build with WASI-Crypto Plug-in</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasmedge_httpsreq.html"><strong aria-hidden="true">9.3.11.</strong> Build with WasmEdge-HttpsReq Plug-in</a></li></ol></li><li class="chapter-item "><a href="contribute/internal.html"><strong aria-hidden="true">9.4.</strong> WasmEdge Internal</a></li><li class="chapter-item "><a href="contribute/wish_list.html"><strong aria-hidden="true">9.5.</strong> Wish List</a></li><li class="chapter-item "><a href="contribute/release_process.html"><strong aria-hidden="true">9.6.</strong> Release Process</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -103,7 +102,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -137,7 +136,7 @@
                     </div>
                 </div>
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -536,7 +535,7 @@ It runs not only on Linux-like systems, but also on microkernels such as the <co
 <p><a href="use_cases/smart_device.html">Smart device apps</a> could embed WasmEdge as a middleware runtime to render interactive content on the UI, connect to native device drivers, and access specialized hardware features (i.e, the GPU for AI inference). The benefits of the WasmEdge runtime over native-compiled machine code include security, safety, portability, manageability, and developer productivity. WasmEdge runs on Android, OpenHarmony, and seL4 RTOS devices.</p>
 </li>
 <li>
-<p>WasmEdge could support <a href="use_cases/js_or_dsl_runtime.html">high performance DSLs (Domain Specifc Languages) or act as a cloud-native JavaScript runtime</a> by embedding a JS execution engine or interpreter.</p>
+<p>WasmEdge could support <a href="use_cases/js_or_dsl_runtime.html">high performance DSLs (Domain Specific Languages) or act as a cloud-native JavaScript runtime</a> by embedding a JS execution engine or interpreter.</p>
 </li>
 <li>
 <p>Developers can leverage container tools such as <a href="use_cases/kubernetes.html">Kubernetes</a>, Docker and CRI-O to deploy, manage, and run lightweight WebAssembly applications.</p>
@@ -2442,8 +2441,7 @@ fn grayscale(image: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
         }
     };
     return buf;
-}
-</code></pre></pre>
+}</code></pre></pre>
 <blockquote>
 <p>Work in progress: It will soon interact with the Dapr sidecar through the <a href="https://github.com/WasmEdge/WasmEdge/issues/1571">WasmEdge Dapr SDK in Rust</a>.</p>
 </blockquote>
@@ -2471,8 +2469,7 @@ pub fn grayscale(image_data: String) -&gt; String {
     let image_bytes = image_data.split(&quot;,&quot;).map(|x| x.parse::&lt;u8&gt;().unwrap()).collect::&lt;Vec&lt;u8&gt;&gt;();
     return grayscale::grayscale_internal(&amp;image_bytes);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The Rust function that actually performs the task is as follows.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -2493,8 +2490,7 @@ pub fn grayscale(image_data: String) -&gt; String {
     base64::encode_config_buf(&amp;buf, base64::STANDARD, &amp;mut base64_encoded);
     return base64_encoded.to_string();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="the-go-host-wrapper-for-microservice"><a class="header" href="#the-go-host-wrapper-for-microservice">The Go host wrapper for microservice</a></h3>
 <p>The <a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-go">Go-based microservice</a> embeds the above imaging processing function in WasmEdge. The <a href="https://github.com/second-state/dapr-wasm/blob/main/image-api-go/image_api.go">microservice itself</a> is a web server and utilizes the Dapr Go SDK.</p>
 <pre><code class="language-go">func main() {
@@ -2550,8 +2546,7 @@ pub async fn run_server(port: u16) {
     let routes = routes.with(log);
     warp::serve(routes).run((Ipv4Addr::UNSPECIFIED, port)).await
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The <code>image_process_wasmedge_sys()</code> function <a href="use_cases/frameworks/mesh/../../../sdk/rust/sys_run_host_func.html">starts a WasmEdge instance</a> and calls the image processing (grayscale) function in it via <a href="use_cases/frameworks/mesh/../../../write_wasm/rust/bindgen.html">wasmedge_bindgen</a>.</p>
 <p>Build and deploy the Rust microservice to Dapr as follows.</p>
 <pre><code class="language-bash">cd image-api-rs
@@ -2778,8 +2773,7 @@ pub fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt
   );
   return Ok(ret_str.as_bytes().to_vec());
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>You should add <code>wasm32-wasi</code> target to rust to compile this function into WebAssembly bytecode.</p>
 <pre><code class="language-bash">rustup target add wasm32-wasi
 
@@ -2973,8 +2967,7 @@ impl Runnable for HelloEcho {
     Ok(format!(&quot;hello {}&quot;, in_string).as_bytes().to_vec())
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Let's build the Rust function into a WebAssembly bytecode file.</p>
 <pre><code class="language-bash">cd hello-echo
 cargo build --target wasm32-wasi --release
@@ -3098,8 +3091,7 @@ impl Runnable for RsDbtest {
     ... ...
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Let's build the Rust function into a WebAssembly bytecode file.</p>
 <pre><code class="language-bash">cd rs-db
 cargo build --target wasm32-wasi --release
@@ -3291,8 +3283,7 @@ fn main() {
   };
   io::stdout().write_all(&amp;buf).unwrap();
   io::stdout().flush().unwrap();
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>You can use Rust’s <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
 <pre><code class="language-bash">cd api/functions/image-grayscale/
 cargo build --release --target wasm32-wasi 
@@ -3366,8 +3357,7 @@ module.exports = (req, res) =&gt; {
   } else {
     println!(&quot;It does not appears to be any food item in the picture.&quot;);
   }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>You can use the <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
 <pre><code class="language-bash">cd api/functions/image-classification/
 cargo build --release --target wasm32-wasi
@@ -3440,8 +3430,7 @@ fn main() {
   };
   io::stdout().write_all(&amp;buf).unwrap();
   io::stdout().flush().unwrap();
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>You can use Rust’s <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
 <pre><code class="language-bash">cd api/functions/image-grayscale/
 cargo build --release --target wasm32-wasi 
@@ -3514,8 +3503,7 @@ module.exports = (req, res) =&gt; {
   } else {
     println!(&quot;It does not appears to be any food item in the picture.&quot;);
   }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>You can use the <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
 <pre><code class="language-bash">cd api/functions/image-classification/
 cargo build --release --target wasm32-wasi
@@ -3589,8 +3577,7 @@ fn main() {
   };
   io::stdout().write_all(&amp;buf).unwrap();
   io::stdout().flush().unwrap();
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>You can use Rust’s <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
 <pre><code class="language-bash">cd api/functions/image-grayscale/
 cargo build --release --target wasm32-wasi 
@@ -3715,8 +3702,7 @@ CMD [ &quot;hello.handler&quot; ]
   } else {
     println!(&quot;It does not appears to be any food item in the picture.&quot;);
   }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>You can use the <code>cargo</code> tool to build the Rust program into WebAssembly bytecode or native code.</p>
 <pre><code class="language-bash">cd api/functions/image-classification/
 cargo build --release --target wasm32-wasi
@@ -3959,8 +3945,7 @@ fn main() {
   for argument in env::args().skip(1) {
     println!(&quot;{}&quot;, argument);
   }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <h3 id="hello-world-build-the-wasm-bytecode"><a class="header" href="#hello-world-build-the-wasm-bytecode">Hello world: Build the WASM bytecode</a></h3>
 <pre><code class="language-bash">cargo build --target wasm32-wasi
 </code></pre>
@@ -3981,8 +3966,7 @@ It provides a simple <code>add()</code> function.</p>
 pub fn add(a: i32, b: i32) -&gt; i32 {
   return a + b;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="a-simple-function-build-the-wasm-bytecode"><a class="header" href="#a-simple-function-build-the-wasm-bytecode">A simple function: Build the WASM bytecode</a></h3>
 <pre><code class="language-bash">cargo build --target wasm32-wasi
 </code></pre>
@@ -4040,8 +4024,7 @@ pub fn say(s: String) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
   let r = String::from(&quot;hello &quot;);
   return Ok((r + s.as_str()).as_bytes().to_vec());
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Of course, once the above Rust code is compiled into WASM, the function <code>say()</code> no longer takes the <code>String</code> parameter nor returns the <code>Vec&lt;u8&gt;</code>. So, the caller (i.e., the host application) must also deconstruct the call parameter into the memory pointer first before the call, and assemble the return value from the memory pointer after the call. These actions can be handled automagically by the WasmEdge language SDKs. To see a complete example, including the Rust WASM function and the Go host application, check out our tutorial in the Go SDK documentation.</p>
 <p><strong><a href="write_wasm/rust/../../sdk/go/function.html">A complete wasmedge-bindgen example in Rust (WASM) and Go (host)</a></strong></p>
 <p>Of course, the developer could choose to do <code>wasmedge-bindgen</code>'s work by hand and pass a memory pointer directly. If you are interested in this approach to call Rust compiled WASM functions, check out our <a href="write_wasm/rust/../../sdk/go/memory.html">examples in the Go SDK</a>.</p>
@@ -4071,8 +4054,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
   rng.fill(&amp;mut arr[..]);
   return arr.to_vec();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="printing-and-debugging-from-rust"><a class="header" href="#printing-and-debugging-from-rust">Printing and debugging from Rust</a></h2>
 <p>The Rust <code>println!</code> marco just works in WASI. The statements print to the <code>STDOUT</code> of the process that runs the WasmEdge.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -4081,8 +4063,7 @@ pub fn get_random_bytes() -&gt; Vec&lt;u8&gt; {
   println!(&quot;Printed from wasi: {}&quot;, content);
   return content.to_string();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="arguments-and-environment-variables"><a class="header" href="#arguments-and-environment-variables">Arguments and environment variables</a></h2>
 <p>It is possible to pass CLI arguments to and access OS environment variables in a WasmEdge application.
 They are just <code>env::args()</code> and <code>env::vars()</code> arrays in Rust.</p>
@@ -4101,8 +4082,7 @@ pub fn print_env() {
     println!(&quot;{}&quot;, argument);
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="reading-and-writing-files"><a class="header" href="#reading-and-writing-files">Reading and writing files</a></h2>
 <p>WASI allows your Rust functions to access the host computer's file system through the standard Rust <code>std::fs</code> API.
 In the Rust program, you operate on files through a relative path. The relative path's root is specified when you start the WasmEdge runtime.</p>
@@ -4129,8 +4109,7 @@ pub fn read_file(path: &amp;str) -&gt; String {
 pub fn del_file(path: &amp;str) {
   fs::remove_file(path).expect(&quot;Unable to delete&quot;);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="a-main-app"><a class="header" href="#a-main-app">A main() app</a></h2>
 <p>With a <code>main()</code> function, the Rust program can be compiled into a standalone WebAssembly program.</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
@@ -4141,8 +4120,7 @@ pub fn del_file(path: &amp;str) {
   create_file(&quot;tmp.txt&quot;, &quot;This is in a file&quot;);
   println!(&quot;File content is {}&quot;, read_file(&quot;tmp.txt&quot;));
   del_file(&quot;tmp.txt&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Use the command below to compile <a href="https://github.com/second-state/wasm-learning/tree/master/cli/wasi">the Rust project</a>.</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi
 </code></pre>
@@ -4188,8 +4166,7 @@ pub fn del_file(path: &amp;str) -&gt; String {
   _initialize();
   ... ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tensorflow"><a class="header" href="#tensorflow">Tensorflow</a></h1>
 <p>AI inference is a computationally intensive task that could benefit greatly from the speed of Rust and WebAssembly. However, the standard WebAssembly sandbox provides very limited access to the native OS and hardware, such as multi-core CPUs, GPU and specialized AI inference chips. It is not ideal for the AI workload.</p>
 <p>The popular WebAssembly System Interface (WASI) provides a design pattern for sandboxed WebAssembly programs to securely access native host functions. The WasmEdge Runtime extends the WASI model to support access to native Tensorflow libraries from WebAssembly programs. The <a href="https://github.com/second-state/wasmedge_tensorflow_interface">WasmEdge Tensorflow Rust SDK</a> provides the security, portability, and ease-of-use of WebAssembly and native speed for Tensorflow.</p>
@@ -4231,8 +4208,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 </span><span class="boring">fn main() {
 </span>  let model_data: &amp;[u8] = include_bytes!(&quot;models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224_quant.tflite&quot;);
   let labels = include_str!(&quot;models/mobilenet_v1_1.0_224/labels_mobilenet_quant_v1_224.txt&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Next, it reads the image from <code>STDIN</code> and converts it to the size and RGB pixel arrangement required by the Tensorflow Lite model.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4240,8 +4216,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
   io::stdin().read_to_end(&amp;mut buf).unwrap();
 
   let flat_img = wasmedge_tensorflow_interface::load_jpg_image_to_rgb8(&amp;buf, 224, 224);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Then, the program runs the TFLite model with its required input tensor (i.e., the flat image in this case), and receives the model output. In this case, the model output is an array of numbers. Each number corresponds to the probability of an object name in the label text file.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4249,8 +4224,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
   session.add_input(&quot;input&quot;, &amp;flat_img, &amp;[1, 224, 224, 3])
          .run();
   let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Reshape_1&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Let's find the object with the highest probability, and then look up the name in the labels file.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4270,8 +4244,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
   for _i in 0..max_index {
     label_lines.next();
   }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Finally, it prints the result to <code>STDOUT</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4281,8 +4254,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
   } else {
     println!(&quot;It does not appears to be any food item in the picture.&quot;);
   }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="deployment-options"><a class="header" href="#deployment-options">Deployment options</a></h2>
 <p>All the tutorials below use the <a href="https://github.com/second-state/wasmedge_tensorflow_interface">WasmEdge Rust API for Tensorflow</a> to create AI inference functions. Those Rust functions are then compiled to WebAssembly and deployed together with WasmEdge on the cloud.</p>
 <h3 id="serverless-functions"><a class="header" href="#serverless-functions">Serverless functions</a></h3>
@@ -4473,8 +4445,7 @@ let image_name: &amp;str = &amp;args[3]; // File name for the input image
 
 let xml = fs::read_to_string(model_xml_name).unwrap();
 let weights = fs::read(model_bin_name).unwrap();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>We should use a helper function to convert the input image into the tensor data (the tensor type is <code>F32</code>):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4499,14 +4470,12 @@ let weights = fs::read(model_bin_name).unwrap();
   }
   return u8_f32_arr;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>And use this helper funcion to convert the input image:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let tensor_data = image_to_tensor(image_name.to_string(), 224, 224);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Now we can start our inference with WASI-NN:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4546,8 +4515,7 @@ unsafe {
   )
   .unwrap();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Where the <code>wasi_nn::GRAPH_ENCODING_OPENVINO</code> means using the OpenVINO™ backend, and <code>wasi_nn::EXECUTION_TARGET_CPU</code> means running the computation on CPU.</p>
 <p>Finally, we sort the output and then print the top-5 classification result:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -4562,8 +4530,7 @@ for i in 0..5 {
     imagenet_classes::IMAGENET_CLASSES[results[i].0]
   );
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="using-wasi-nn-with-pytorch-backend-in-rust"><a class="header" href="#using-wasi-nn-with-pytorch-backend-in-rust">Using WASI-NN with PyTorch Backend in Rust</a></h3>
 <p>The <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/pytorch-mobilenet-image/rust/src/main.rs">main.rs</a> is the full example Rust source.</p>
 <p>First, read the model description and weights into memory:</p>
@@ -4574,8 +4541,7 @@ let model_bin_name: &amp;str = &amp;args[1]; // File name for the pytorch model
 let image_name: &amp;str = &amp;args[2]; // File name for the input image
 
 let weights = fs::read(model_bin_name).unwrap();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>We should use a helper function to convert the input image into the tensor data (the tensor type is <code>F32</code>):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4608,14 +4574,12 @@ let weights = fs::read(model_bin_name).unwrap();
   }
   return u8_f32_arr;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>And use this helper funcion to convert the input image:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let tensor_data = image_to_tensor(image_name.to_string(), 224, 224);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Now we can start our inference with WASI-NN:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4655,8 +4619,7 @@ unsafe {
   )
   .unwrap();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Where the <code>wasi_nn::GRAPH_ENCODING_PYTORCH</code> means using the PyTorch backend, and <code>wasi_nn::EXECUTION_TARGET_CPU</code> means running the computation on CPU.</p>
 <p>Finally, we sort the output and then print the top-5 classification result:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -4671,8 +4634,7 @@ for i in 0..5 {
     imagenet_classes::IMAGENET_CLASSES[results[i].0]
   );
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="using-wasi-nn-with-tensorflow-lite-backend-in-rust"><a class="header" href="#using-wasi-nn-with-tensorflow-lite-backend-in-rust">Using WASI-NN with TensorFlow-Lite Backend in Rust</a></h3>
 <p>The <a href="https://github.com/second-state/WasmEdge-WASINN-examples/blob/master/tflite-birds_v1-image/rust/tflite-bird/src/main.rs">main.rs</a> is the full example Rust source.</p>
 <p>First, read the model description and weights into memory:</p>
@@ -4683,8 +4645,7 @@ let model_bin_name: &amp;str = &amp;args[1]; // File name for the tflite model
 let image_name: &amp;str = &amp;args[2]; // File name for the input image
 
 let weights = fs::read(model_bin_name).unwrap();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>We should use a helper function to convert the input image into the tensor data (the tensor type is <code>U8</code>):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4696,14 +4657,12 @@ let weights = fs::read(model_bin_name).unwrap();
     let raw_u8_arr: &amp;[u8] = &amp;bgr_img.as_raw()[..];
     return raw_u8_arr.to_vec();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>And use this helper funcion to convert the input image:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let tensor_data = image_to_tensor(image_name.to_string(), 224, 224);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Now we can start our inference with WASI-NN:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4743,8 +4702,7 @@ unsafe {
   )
   .unwrap();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Where the <code>wasi_nn::GRAPH_ENCODING_TENSORFLOWLITE</code> means using the PyTorch backend (now use the value <code>4</code> instead), and <code>wasi_nn::EXECUTION_TARGET_CPU</code> means running the computation on CPU.</p>
 <blockquote>
 <p>Note: Here we use the <code>wasi-nn 0.1.0</code> in current. After the <code>TENSORFLOWLITE</code> added into the graph encoding, we'll update this example to use the newer version.</p>
@@ -4762,8 +4720,7 @@ for i in 0..5 {
     imagenet_classes::IMAGENET_CLASSES[results[i].0]
   );
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="run-1"><a class="header" href="#run-1">Run</a></h2>
 <h3 id="openvino-backend-example"><a class="header" href="#openvino-backend-example">OpenVINO Backend Example</a></h3>
 <p>Please <a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-openvino-backend">install WasmEdge with the WASI-NN OpenVINO backend plug-in</a> first.</p>
@@ -4928,8 +4885,7 @@ wasi-crypto = &quot;0.1.5&quot;
 </span>// hash &quot;test&quot; by SHA-256
 let hash : Vec&lt;u8&gt; = Hash::hash(&quot;SHA-256&quot;, b&quot;test&quot;, 32, None)?;
 assert_eq!(hash.len(), 32);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h4 id="message-authentications-function"><a class="header" href="#message-authentications-function">Message Authentications function</a></h4>
 <div class="table-wrapper"><table><thead><tr><th>Identifier</th><th>Algorithm</th></tr></thead><tbody>
 <tr><td><code>HMAC/SHA-256</code></td><td>RFC2104 MAC using the SHA-256 hash function</td></tr>
@@ -4944,8 +4900,7 @@ let key = AuthKey::generate(&quot;HMAC/SHA-512&quot;)?;
 let tag = Auth::auth(&quot;test&quot;, &amp;key)?;
 // verify
 Auth::auth_verify(&quot;test&quot;, &amp;key, tag)?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h4 id="key-driven-function"><a class="header" href="#key-driven-function">Key Driven function</a></h4>
 <div class="table-wrapper"><table><thead><tr><th>Identifier</th><th>Algorithm</th></tr></thead><tbody>
 <tr><td><code>HKDF-EXTRACT/SHA-256</code></td><td>RFC5869 <code>EXTRACT</code> function using the SHA-256 hash function</td></tr>
@@ -4961,8 +4916,7 @@ Auth::auth_verify(&quot;test&quot;, &amp;key, tag)?;
 let prk = Hkdf::new(&quot;HKDF-EXPAND/SHA-512&quot;, &amp;key, Some(b&quot;salt&quot;))?;
 let derived_key = prk.expand(&quot;info&quot;, 100)?;
 assert_eq!(derived_key.len(), 100);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h4 id="signatures-operation"><a class="header" href="#signatures-operation">Signatures Operation</a></h4>
 <div class="table-wrapper"><table><thead><tr><th>Identifier</th><th>Algorithm</th></tr></thead><tbody>
 <tr><td><code>ECDSA_P256_SHA256</code></td><td>ECDSA over the NIST p256 curve with the SHA-256 hash function</td></tr>
@@ -4991,8 +4945,7 @@ let kp = SignatureKeyPair::generate(&quot;Ed25519&quot;)?;
 let signature = kp.sign(&quot;hello&quot;)?;
 
 kp.publickey()?.signature_verify(&quot;hello&quot;, &amp;signature)?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="simple-networking-sockets"><a class="header" href="#simple-networking-sockets">Simple Networking Sockets</a></h1>
 <p>The <a href="https://github.com/second-state/wasmedge_wasi_socket">wasmedge_wasi_socket</a> crate enables Rust developers to create networking applications and compile them into WebAssembly for WasmEdge Runtime. One of the key features of WasmEdge is that it supports non-blocking sockets. That allows even a single threaded WASM application to handle concurrent network requests. For example, while the program is waiting for data to stream in from one connection, it can start or handle another connection.</p>
 <p>In this chapter, we will start with simple HTTP client and server examples. Then <a href="write_wasm/rust/networking-nonblocking.html">in the next chapter</a>, we will cover the more complex non-blocking examples. And <a href="write_wasm/rust/networking-https.html">in this chapter</a>, we will give the examples for HTTPS requests.</p>
@@ -5019,8 +4972,7 @@ fn main() {
   println!(&quot;Status: {} {}&quot;, res.status_code(), res.reason());
   println!(&quot;Headers {}&quot;, res.headers());
   println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>The following command compiles the Rust program.</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
@@ -5095,8 +5047,7 @@ fn main() -&gt; std::io::Result&lt;()&gt; {
   loop {
     let _ = handle_client(listener.accept()?.0);
   }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>The following command compiles the Rust program.</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
@@ -5195,8 +5146,7 @@ fn main() {
         .unwrap();
 
     println!(&quot;{}&quot;, String::from_utf8_lossy(&amp;writer));
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>The following command compiles the Rust program</p>
 <pre><code class="language-bash"># build the wasmedge httpsreq plugin module
 sudo apt-get install libssl-dev
@@ -5309,8 +5259,7 @@ fn main() {
             break;
         }
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>The following command compiles the Rust program.</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
@@ -5318,8 +5267,7 @@ fn main() {
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>wasmedge target/wasm32-wasi/release/nonblock_http_client.wasm
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="a-non-blocking-http-server-example"><a class="header" href="#a-non-blocking-http-server-example">A non-blocking HTTP server example</a></h2>
 <p>The <a href="https://github.com/second-state/wasmedge_wasi_socket/tree/main/examples/http_server">source code</a> for a non-blocking HTTP server application is available. The following <code>main()</code> function starts an HTTP server. It receives events from multiple open connections, and processes those events as they are received by calling the async handler functions registered to each connection. This server can process events from multiple open connections concurrently.</p>
 <pre><pre class="playground"><code class="language-rust">fn main() -&gt; std::io::Result&lt;()&gt; {
@@ -5376,8 +5324,7 @@ fn main() {
             }
         }
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>The <code>handle_connection()</code> function processes the data from those open connections. In this case, it just writes the request body into the response. It is also done asynchronously -- meaning that the <code>handle_connection()</code> function creates an event for the response, and puts it in the queue. The main application loop processes the event and sends the response when it is waiting for data from other connections.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5488,8 +5435,7 @@ fn main() {
 
     Ok(false)
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The following command compiles the Rust program.</p>
 <pre><code class="language-bash">cargo build --target wasm32-wasi --release
 </code></pre>
@@ -5574,8 +5520,7 @@ fn main() {
         };
         stream.shutdown(Shutdown::Both).unwrap();
     }
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>The <code>handler.rs</code> parses the received data to the path and query objects and return the corresponding response.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5633,8 +5578,7 @@ pub fn handle_req(stream: &amp;mut TcpStream, addr: SocketAddr) -&gt; Result&lt;
 
     Ok((res, binary))
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The <code>response.rs</code> program packs the response object for static assets and for server rendered content.
 For the latter, you could see that SSR happens at <code>app.render().to_string()</code>, the result string is put into HTML by replacing the placeholder text.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5734,8 +5678,7 @@ pub fn internal_error() -&gt; (Response, Option&lt;Vec&lt;u8&gt;&gt;) {
         content: vec![],
     }, None)
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The <code>mime.rs</code> program is a map for assets' extension name and the Mime type.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5767,8 +5710,7 @@ impl MimeType {
         self.r#type
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>That's it! Now let's build and run the web application. If you have tested the original example, you probably have already built the client WebAssembly.</p>
 <pre><code class="language-bash">cd client
 ./build-wasm.sh
@@ -5824,8 +5766,7 @@ cmd.arg(&quot;post&quot;)
 cmd.stdin_u8vec(payload.to_string().as_bytes());
 
 let out = cmd.output();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The Rust function is then compiled into WebAssembly and can run in the WasmEdge.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-1"><a class="header" href="#javascript-1">JavaScript</a></h1>
 <p>WebAssembly started as a &quot;JavaScript alternative for browsers&quot;. The idea is to run high-performance applications compiled from languages like C/C++ or Rust safely in browsers. In the browser, WebAssembly runs side by side with JavaScript.</p>
@@ -6880,8 +6821,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
   
   ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The following code snippet shows how to add this Rust function into the JavaScript interpreter, give a name <code>hi()</code> as its JavaScript API, and then call it from JavaScript code.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6894,8 +6834,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_js.wasm
   let r = ctx.eval_global_str(code);
   println!(&quot;return value:{:?}&quot;, r);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The execution result is as follows.</p>
 <pre><code class="language-bash">hello from rust
 argv=[Int(1), Int(2), Int(3)]
@@ -6922,8 +6861,7 @@ return value:UnDefined
 
   ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>We then create an &quot;object&quot; on the Rust side, set its data fields, and then register the Rust function as a JavaScript function associated with the objects.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6933,14 +6871,12 @@ obj.set(&quot;b&quot;, ctx.new_string(&quot;abc&quot;).into());
 
 let f = ctx.new_function::&lt;ObjectFn&gt;(&quot;anything&quot;);
 obj.set(&quot;f&quot;, f.into());
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Next, we make the Rust &quot;object&quot; available as JavaScript object <code>test_obj</code> in the JavaScript interpreter.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>ctx.get_global().set(&quot;test_obj&quot;, obj.into());
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In the JavaScript code, you can now directly use <code>test_obj</code> as part of the API.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6952,8 +6888,7 @@ obj.set(&quot;f&quot;, f.into());
 &quot;#;
 
 ctx.eval_global_str(code);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The execution result is as follows.</p>
 <pre><code class="language-bash">test_obj keys= a,b,f
 test_obj.a= 1
@@ -7075,8 +7010,7 @@ wasmedge --dir .:. target/wasm32-wasi/release/embed_rust_module.wasm
     ctx.register_module(&quot;point\0&quot;, PointModule, &amp;[&quot;Point\0&quot;]);
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In the interpreter implementation, we call <code>point::init_point_module</code> first to register the Rust module with the JavaScript context, and then we can run a JavaScript program that simply use the <code>point</code> object.</p>
 <pre><pre class="playground"><code class="language-rust">use wasmedge_quickjs::*;
 fn main() {
@@ -7103,8 +7037,7 @@ fn main() {
 
   ctx.eval_global_str(code);
   ctx.promise_loop_poll();
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>The execution result from the above application is as follows.</p>
 <pre><code class="language-bash">rust-&gt; new Point [Int(1), Int(2)]
 rust-&gt; get x
@@ -15644,8 +15577,7 @@ fn main() {
     }
   }
   println!(&quot;Rust: Process end.&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Compile the application into WebAssembly.</p>
 <pre><code class="language-bash">cd rust_readfile
 cargo build --target wasm32-wasi
@@ -15775,8 +15707,7 @@ pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
 pub fn keccak_digest(s: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
   return Ok(Keccak256::digest(&amp;s).as_slice().to_vec());
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>You can build the WebAssembly bytecode file using standard <code>Cargo</code> commands.</p>
 <pre><code class="language-bash">cd rust_bindgen_funcs
 cargo build --target wasm32-wasi --release
@@ -15922,8 +15853,7 @@ pub extern fn greet(subject: *mut c_char) -&gt; *mut c_char {
 
   unsafe { CString::from_vec_unchecked(output) }.into_raw()
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Use standard Rust compiler tools to compile the Rust source code into a WebAssembly bytecode application.</p>
 <pre><code class="language-bash">cd rust_memory_greet
 cargo build --target wasm32-wasi
@@ -16201,8 +16131,7 @@ pub extern fn fib_array_return_memory(n: i32) -&gt; *mut c_int {
   mem::forget(arr);
   pointer
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Use standard Rust compiler tools to compile the Rust source code into a WebAssembly bytecode application.</p>
 <pre><code class="language-bash">cd rust_access_memory
 cargo build --target wasm32-wasi
@@ -16484,8 +16413,7 @@ fn infer(image_data: Vec&lt;u8&gt;) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
   let res_vec: Vec&lt;u8&gt; = session.get_output(&quot;MobilenetV1/Predictions/Softmax&quot;);
   ... ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>You can use the standard <code>Cargo</code> command to build it into a WebAssembly function.</p>
 <pre><code class="language-bash">cd rust_tflite_food
 cargo build --target wasm32-wasi --release
@@ -16637,8 +16565,7 @@ pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
 pub fn keccak_digest(s: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
     return Keccak256::digest(&amp;s).as_slice().to_vec();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>First, we will compile the Rust source code into WebAssembly bytecode functions.</p>
 <pre><code class="language-bash">$ cd rust_bindgen_funcs
 $ cargo build --release --target wasm32-wasi
@@ -21330,8 +21257,7 @@ pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
 pub fn keccak_digest(s: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
   return Keccak256::digest(&amp;s).as_slice().to_vec();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>First, compile the Rust source code into WebAssembly bytecode functions.</p>
 <pre><code class="language-bash">rustup target add wasm32-wasi
 cd rust_bindgen_funcs
@@ -21495,8 +21421,7 @@ fn main() {
     }
   }
   println!(&quot;Rust: Process end.&quot;);
-}
-</code></pre></pre>
+}</code></pre></pre>
 <p>Use the <code>rustwasmc</code> tool to compile the application into WebAssembly.</p>
 <pre><code class="language-bash">cd rust_readfile
 rustwasmc build
@@ -23895,8 +23820,7 @@ pub fn say(s: String) -&gt; String {
   let r = String::from(&quot;hello &quot;);
   return r + &amp;s;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Next, you can compile the Rust source code into WebAssembly bytecode and generate the accompanying JavaScript module for the Node.js host environment.</p>
 <pre><code class="language-bash">rustwasmc build
 </code></pre>
@@ -23970,8 +23894,7 @@ pub fn solve(params: &amp;str) -&gt; String {
     return String::from(&quot;not real numbers&quot;);
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Let's try it.</p>
 <pre><code class="language-bash">rustwasmc build
 npm install express # The application requires the Express framework in Node.js
@@ -24019,8 +23942,7 @@ pub fn sha3_digest(v: Vec&lt;u8&gt;) -&gt; Vec&lt;u8&gt; {
 pub fn keccak_digest(s: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
   return Keccak256::digest(s).as_slice().to_vec();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Perhaps the most interesting is the <code>create_line()</code> function. It takes two JSON strings, each representing a <code>Point</code> struct, and returns a JSON string representing a <code>Line</code> struct. Notice that both the <code>Point</code> and <code>Line</code> structs are annotated with <code>Serialize</code> and <code>Deserialize</code> so that the Rust compiler automatically generates necessary code to support their conversion to and from JSON strings.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -24057,8 +23979,7 @@ pub fn say(s: &amp;str) -&gt; String {
   let r = String::from(&quot;hello &quot;);
   return r + s;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Next, let's examine the JavaScript program <a href="https://github.com/second-state/wasm-learning/blob/master/nodejs/functions/node/app.js"><code>app.js</code></a>. It shows how to call the Rust functions. As you can see <code>String</code> and <code>&amp;str</code> are simply strings in JavaScript, <code>i32</code> are numbers, and <code>Vec&lt;u8&gt;</code> or <code>&amp;[8]</code> are JavaScript <code>Uint8Array</code>. JavaScript objects need to go through <code>JSON.stringify()</code> or <code>JSON.parse()</code> before being passed into or returned from Rust functions.</p>
 <pre><code class="language-javascript">const { say, obfusticate, lowest_common_denominator, sha3_digest, keccak_digest, create_line } = require('./functions_lib.js');
 
@@ -24300,8 +24221,7 @@ use wasmedge_sdk::{
     Module, Store, WasmValue,
 };
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="step-1-define-a-native-function-and-create-an-importobject"><a class="header" href="#step-1-define-a-native-function-and-create-an-importobject">Step 1: Define a native function and Create an ImportObject</a></h2>
 <p>First, let's define a native function named <code>say_hello_world</code> that prints out <code>Hello, World!</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -24312,8 +24232,7 @@ fn say_hello(caller: &amp;Caller, _args: Vec&lt;WasmValue&gt;) -&gt; Result&lt;V
 
     Ok(vec![])
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>To use the native function as an import function in the <code>WasmEdge</code> runtime, we need an <code>ImportObject</code>. <code>wasmedge-sdk</code> defines a <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.ImportObjectBuilder.html">ImportObjectBuilder</a>, which provides a group of chaining methods used to create an <code>ImportObject</code>. Let's see how to do it.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -24321,8 +24240,7 @@ fn say_hello(caller: &amp;Caller, _args: Vec&lt;WasmValue&gt;) -&gt; Result&lt;V
 let import = ImportObjectBuilder::new()
     .with_func::&lt;(), (), !&gt;(&quot;say_hello&quot;, say_hello, None)?
     .build(&quot;env&quot;)?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Now, we have an import module named <code>env</code> which holds a host function <code>say_hello</code>. As you may notice, the names we used for the import module and the host function are exactly the same as the ones appearing in the wasm module. You can find the wasm module in <a href="sdk/rust/say_hello.html#step-2-load-a-wasm-module">Step 2</a>.</p>
 <h2 id="step-2-load-a-wasm-module"><a class="header" href="#step-2-load-a-wasm-module">Step 2: Load a wasm module</a></h2>
 <p>Now, let's load a wasm module. <code>wasmedge-sdk</code> defines two methods in <code>Module</code>:</p>
@@ -24357,8 +24275,7 @@ let import = ImportObjectBuilder::new()
 
 // loads a wasm module from the given in-memory bytes and returns a compiled module
 let module = Module::from_bytes(None, &amp;wasm_bytes)?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="step-3-register-import-module-and-compiled-module"><a class="header" href="#step-3-register-import-module-and-compiled-module">Step 3: Register import module and compiled module</a></h2>
 <p>To register a compiled module, we need to check if it has dependency on some import modules. In the wasm module this statement <code>(import &quot;env&quot; &quot;say_hello&quot; (func $say_hello (type $no_args_no_rets_t)))</code> tells us that it depends on an import module named <code>env</code>. Therefore, we need to register the import module first before registering the compiled wasm module.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -24377,8 +24294,7 @@ store.register_import_module(&amp;mut executor, &amp;import)?;
 
 // register the compiled module into the store and get an module instance
 let extern_instance = store.register_named_module(&amp;mut executor, &quot;extern&quot;, &amp;module)?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In the code above we use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Executor.html">Executor</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Store.html">Store</a> to register the import module and the compiled module. <code>wasmedge-sdk</code> also provides alternative APIs to do the same thing:
 <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html#method.register_import_module">Vm::register_import_module</a> and <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Vm.html#method.register_module_from_bytes">Vm::register_module_from_bytes</a>.</p>
 <h2 id="step-4-run-the-exported-function"><a class="header" href="#step-4-run-the-exported-function">Step 4: Run the exported function</a></h2>
@@ -24392,8 +24308,7 @@ let run = extern_instance
 
 // run host function
 run.call(&amp;mut executor, params!())?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In this example we created an instance of <code>Executor</code>, hence, we have two choices to call a <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Func.html">function instance</a>:</p>
 <ul>
 <li>
@@ -24450,8 +24365,7 @@ run.call(&amp;mut executor, params!())?;
 // #![feature(explicit_generic_args_with_impl_trait)]
 
 use wasmedge_sdk::{params, wat2wasm, Executor, Module, Store, WasmVal};
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>To load a <code>Module</code>, <code>wasmedge-sdk</code> defines two methods:</p>
 <ul>
 <li>
@@ -24492,8 +24406,7 @@ use wasmedge_sdk::{params, wat2wasm, Executor, Module, Store, WasmVal};
 
 // loads a wasm module from the given in-memory bytes
 let module = Module::from_bytes(None, &amp;wasm_bytes)?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The module returned by <code>Module::from_bytes</code> is a compiled module, also called AST Module in WasmEdge terminology. To use it in WasmEdge runtime environment, we need to instantiate the AST module. We use <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Store.html#method.register_named_module">Store::register_named_module</a> API to achieve the goal.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -24505,8 +24418,7 @@ let mut store = Store::new()?;
 
 // register the module into the store
 let extern_instance = store.register_named_module(&amp;mut executor, &quot;extern&quot;, &amp;module)?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In the code above, we register the AST module into a <code>Store</code>, in which the module is instantiated, and as a result, a <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Instance.html">module instance</a> named <code>extern</code> is returned.</p>
 <h2 id="memory"><a class="header" href="#memory">Memory</a></h2>
 <p>In the previous section, we get an instance by registering a compiled module into the runtime environment. Now we retrieve the memory instance from the module instance, and make use of the APIs defined in <a href="https://wasmedge.github.io/WasmEdge/wasmedge_sdk/struct.Memory.html">Memory</a> to manipulate the linear memory.</p>
@@ -24552,8 +24464,7 @@ set_at.call(&amp;mut executor, params!(mem_addr, val))?;
 // call the exported function named &quot;get_at&quot;
 let returns = get_at.call(&amp;mut executor, params!(mem_addr))?;
 assert_eq!(returns[0].to_i32(), val);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The comments in the code explain the meaning of the code sample above, so we don't describe more.</p>
 <p>The complete code of this example can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/memory.rs">memory.rs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="table-and-funcref"><a class="header" href="#table-and-funcref">Table and FuncRef</a></h1>
@@ -24582,8 +24493,7 @@ use wasmedge_sdk::{
     Caller, Executor, Func, ImportObjectBuilder, RefType, Store, Table, TableType, ValType,
     WasmVal, WasmValue,
 };
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="define-host-function"><a class="header" href="#define-host-function">Define host function</a></h2>
 <p>In this example we defines a native function <code>real_add</code> that takes two numbers and returns their sum. This function will be registered as a host function into WasmEdge runtime environment</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -24614,8 +24524,7 @@ fn real_add(_caller: &amp;Caller, input: Vec&lt;WasmValue&gt;) -&gt; Result&lt;V
     println!(&quot;Rust: Leaving Rust function real_add&quot;);
     Ok(vec![WasmValue::from_i32(c)])
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="register-table-instance"><a class="header" href="#register-table-instance">Register Table instance</a></h2>
 <p>The first thing we need to do is to create a <code>Table</code> instance. After that, we register the table instance along with an import module into the WasmEdge runtime environment. Now let's see the code.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -24639,8 +24548,7 @@ let import = ImportObjectBuilder::new()
 
 // register the import object into the store
 store.register_import_module(&amp;mut executor, &amp;import)?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In the code snippet above, we create a <code>Table</code> instance with the initial size of <code>10</code> and the maximum size of 20. The element type of the <code>Table</code> instance is <code>reference to function</code>.</p>
 <h2 id="store-a-function-reference-into-table"><a class="header" href="#store-a-function-reference-into-table">Store a function reference into Table</a></h2>
 <p>In the previous steps, we defined a native function <code>real_add</code> and registered a <code>Table</code> instance named <code>my-table</code> into the runtime environment. Now we'll save a reference to <code>read_add</code> function to a slot of <code>my-table</code>.</p>
@@ -24661,8 +24569,7 @@ let host_func = Func::wrap::&lt;(i32, i32), i32, !&gt;(Box::new(real_add), None)
 
 // store the reference to host_func at the given index of the table instance
 table.set(3, Val::FuncRef(Some(host_func.as_ref())))?;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>We save the reference to <code>host_func</code> into the third slot of <code>my-table</code>. Next, we can retrieve the function reference from the table instance by index and call the function via its reference.</p>
 <h2 id="call-native-function-via-funcref"><a class="header" href="#call-native-function-via-funcref">Call native function via <code>FuncRef</code></a></h2>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -24688,8 +24595,7 @@ if let Val::FuncRef(Some(func_ref)) = value {
     assert_eq!(returns.len(), 1);
     assert_eq!(returns[0].to_i32(), 3);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The complete code of this example can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sdk/examples/table_and_funcref.rs">table_and_funcref.rs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="run-a-webassembly-function-with-wasmedge-low-level-rust-apis"><a class="header" href="#run-a-webassembly-function-with-wasmedge-low-level-rust-apis">Run a WebAssembly function with WasmEdge low-level Rust APIs</a></h1>
 <h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
@@ -24756,8 +24662,7 @@ let loader = Loader::create(None).expect(&quot;fail to create a Loader context&q
 // load a wasm module from a specified wasm file, and return a WasmEdge AST Module instance
 let path = PathBuf::from(&quot;fibonacci.wasm&quot;);
 let module = loader.from_file(path).expect(&quot;fail to load the WebAssembly file&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="step-2-create-a-wasmedge-vm-context"><a class="header" href="#step-2-create-a-wasmedge-vm-context">Step 2: Create a WasmEdge <code>Vm</code> context</a></h3>
 <p>In WasmEdge, a <code>Vm</code> defines a running environment, in which all varieties of instances and contexts are stored and maintained. In the demo code below, we explicitly create a WasmEdge <code>Store</code> context, and then use it as one of the inputs in the creation of a <code>Vm</code> context. If not specify a <code>Store</code> context explicitly, then <code>Vm</code> will create a store by itself.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -24772,8 +24677,7 @@ let mut store = Store::create().expect(&quot;fail to create a Store context&quot
 
 // create a Vm context with the given Config and Store
 let mut vm = Vm::create(Some(config), Some(&amp;mut store)).expect(&quot;fail to create a Vm context&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="step-3-invoke-the-fib-function"><a class="header" href="#step-3-invoke-the-fib-function">Step 3: Invoke the <code>fib</code> function</a></h3>
 <p>In Step 1, we got a module that hosts the target <code>fib</code> function defined in the WebAssembly. Now, we can call the function via the <code>run_wasm_from_module</code> method of the <code>Vm</code> context by passing the exported function name, <code>fib</code>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -24784,8 +24688,7 @@ let mut vm = Vm::create(Some(config), Some(&amp;mut store)).expect(&quot;fail to
 let returns = vm.run_wasm_from_module(module, &quot;fib&quot;, [WasmValue::from_i32(5)]).expect(&quot;fail to run the target function in the module&quot;);
 
 println!(&quot;The result of fib(5) is {}&quot;, returns[0].to_i32());
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This is the final result printing on the screen:</p>
 <pre><code class="language-bash">The result of fib(5) is 8
 </code></pre>
@@ -24817,8 +24720,7 @@ let file = std::path::PathBuf::from(env!(&quot;WASMEDGE_DIR&quot;))
     .join(&quot;bindings/rust/wasmedge-sys/tests/data/fibonacci.wasm&quot;);
 vm.register_wasm_from_file(&quot;extern&quot;, file)?;
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively"><a class="header" href="#step-2-create-two-child-threads-to-compute-fib4-and-fib5-respectively">Step 2: create two child threads to compute <code>Fib(4)</code> and <code>Fib(5)</code> respectively</a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -24852,8 +24754,7 @@ let handle_b = thread::spawn(move || {
     fib5
 });
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="step3-get-the-returns-from-the-two-child-threads-and-compute-fib6"><a class="header" href="#step3-get-the-returns-from-the-two-child-threads-and-compute-fib6">Step3: Get the returns from the two child threads, and compute <code>Fib(6)</code></a></h3>
 <pre><code class="language-Rust">let fib4 = handle_a.join().unwrap();
 let fib5 = handle_b.join().unwrap();
@@ -24894,8 +24795,7 @@ assert!(config.wasmedge_process_enabled());
 // create a Vm context with the given Config and Store
 let mut vm = Vm::create(Some(config), None)?;
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>Retrieve the Wasi and WasmEdgeProcess module instances from the <code>Vm</code>.</p>
@@ -24908,8 +24808,7 @@ assert_eq!(wasi_instance.name(), &quot;wasi_snapshot_preview1&quot;);
 let wasmedge_process_instance = vm.wasmedge_process_module_mut()?;
 assert_eq!(wasmedge_process_instance.name(), &quot;wasmedge_process&quot;);
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>Register an import module as a named module into the <code>Vm</code>.</p>
@@ -24966,8 +24865,7 @@ import.add_global(&quot;global&quot;, global);
 // register the import module as a named module
 vm.register_wasm_from_import(ImportObject::Import(import))?;
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>Retrieve the internal <code>Store</code> instance from the <code>Vm</code>, and retrieve the named module instance from the <code>Store</code> instance.</p>
@@ -24980,8 +24878,7 @@ assert!(named_instance.get_table(&quot;table&quot;).is_ok());
 assert!(named_instance.get_memory(&quot;mem&quot;).is_ok());
 assert!(named_instance.get_global(&quot;global&quot;).is_ok());
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>Register an active module into the <code>Vm</code>.</p>
@@ -25037,8 +24934,7 @@ vm.instantiate()?;
 let active_instance = vm.active_module()?;
 assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
     
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>Retrieve the active module from the <code>Vm</code>.</p>
@@ -25048,8 +24944,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 let active_instance = vm.active_module()?;
 assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 </ul>
 <p>The complete code in this demo can be found on <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/mdbook_example_module_instance.rs">WasmEdge Github</a>.</p>
@@ -25066,8 +24961,7 @@ let mut executor = Executor::create(None, None)?;
 // create a Store context
 let mut store = Store::create()?;
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>Register an import module into the <code>Executor</code>.</p>
@@ -25124,8 +25018,7 @@ let module_name = &quot;extern&quot;;
 let named_instance = executor.register_named_module(&amp;mut store, &amp;module, module_name)?;
 assert!(named_instance.get_func(&quot;fib&quot;).is_ok());
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>Register an active module into the <code>Executor</code>.</p>
@@ -25181,15 +25074,14 @@ validator.validate(&amp;module)?;
 let active_instance = executor.register_active_module(&amp;mut store, &amp;module)?;
 assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 </ul>
 <p>The complete code in this demo can be found in <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/examples/mdbook_example_module_instance.rs">mdbook_example_module_instance.rs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-python-sdk"><a class="header" href="#wasmedge-python-sdk">WasmEdge Python SDK</a></h1>
 <p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/pull/633">help out</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-command-line-tools"><a class="header" href="#wasmedge-command-line-tools">WasmEdge Command Line Tools</a></h1>
-<p>After the <a href="quick_start/install.html">WasmEdge installataion</a>, the <code>wasmedge</code> and <code>wasmedgec</code> tools are installed.</p>
+<p>After the <a href="quick_start/install.html">WasmEdge installation</a>, the <code>wasmedge</code> and <code>wasmedgec</code> tools are installed.</p>
 <p>Users can use these WasmEdge CLI tools to execute the WebAssembly files quickly.</p>
 <ul>
 <li>The <a href="cli/wasmedge.html"><code>wasmedge</code> CLI tool</a> is the WebAssembly runtime to execute the WASM files.</li>
@@ -25501,7 +25393,7 @@ sys     0m0.012s
 <p><strong>This chapter is WORK IN PROGRESS.</strong></p>
 <p>WasmEdge provides a C++ based API for registering extension modules and host functions. While the WasmEdge language SDKs allow registering host functions from a host (wrapping) application, the plugin API allows such extensions to be incorporated into WasmEdge's own building and releasing process.</p>
 <p>The C API for the plug-in mechanism is under development.
-In the future, we will release the C API of plug-in mechanism and recommand developers to implement the plug-ins with C API.</p>
+In the future, we will release the C API of plug-in mechanism and recommend developers to implement the plug-ins with C API.</p>
 <h2 id="loadable-plug-in"><a class="header" href="#loadable-plug-in">Loadable Plug-in</a></h2>
 <p>Loadable plugin is a standalone <code>.so</code>/<code>.dylib</code>/<code>.dll</code> file that WasmEdge can load during runtime environment, and provide modules to be imported.</p>
 <p>Please <a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/plugin/get-string">refer to the plugin example code</a>.</p>
@@ -26814,18 +26706,18 @@ Close the releasing process issue and the GitHub project.</li>
 
         </div>
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript">
+        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
