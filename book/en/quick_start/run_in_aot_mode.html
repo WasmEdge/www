@@ -157,7 +157,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="execution-in-aot-mode"><a class="header" href="#execution-in-aot-mode">Execution in AOT Mode</a></h1>
-<p>The <code>wasmedge</code> command line tool will execute the original WASM files in interpreter mode. For the much better performance, we recommand users to compile the WASM with the <code>wasmedgec</code> AOT compiler to execute the WASM in AOT mode. There are 2 output formats of the AOT compiler:</p>
+<p>The <code>wasmedge</code> command line tool will execute the original WASM files in interpreter mode. For the much better performance, we recommend users to compile the WASM with the <code>wasmedgec</code> AOT compiler to execute the WASM in AOT mode. There are 2 output formats of the AOT compiler:</p>
 <h2 id="output-format-universal-wasm"><a class="header" href="#output-format-universal-wasm">Output Format: Universal WASM</a></h2>
 <p>By default, the <code>wasmedgec</code> AOT compiler tool could wrap the AOT-compiled native binary into a custom section in the origin WASM file. We call this the universal WASM binary format.</p>
 <p>This AOT-compiled WASM file is compatible with any WebAssembly runtime. However, when this WASM file is executed by the WasmEdge runtime, WasmEdge will extract the native binary from the custom section and execute it in AOT mode.</p>

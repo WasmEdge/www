@@ -159,7 +159,7 @@
                         <h1 id="call-wasmedge-functions-from-an-android-apk-app"><a class="header" href="#call-wasmedge-functions-from-an-android-apk-app">Call WasmEdge functions from an Android APK app</a></h1>
 <p>In this section, we will show you how to build a &quot;regular&quot; Android app (i.e., an APK file that can be installed on an Android device). The APK app embeds a WasmEdge Runtime. It can call WebAssembly functions through the embedded WasmEdge. The benefit is that developers can safely embed high-performance functions written in several different languages (e.g., Rust, JS, Grain, TinyGo etc) into a Kotlin application.</p>
 <h2 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h2>
-<p>The demo project is <a href="https://github.com/WasmEdge/WasmEdge/tree/master/utils/android/app">available here</a>. You can build the project using the Gradle tool or using the Android Stuido IDE.</p>
+<p>The demo project is <a href="https://github.com/WasmEdge/WasmEdge/tree/master/utils/android/app">available here</a>. You can build the project using the Gradle tool or using the Android Studio IDE.</p>
 <h3 id="building-project-with-gradle"><a class="header" href="#building-project-with-gradle">Building Project with Gradle</a></h3>
 <ol>
 <li>Setup environment variable <code>ANDROID_HOME=path/to/your/android/sdk</code></li>
@@ -258,7 +258,7 @@ Java_org_wasmedge_native_1lib_NativeLib_nativeWasmFibonacci(
 <h3 id="the-webassembly-function"><a class="header" href="#the-webassembly-function">The WebAssembly function</a></h3>
 <p>The <code>factorial.wat</code> is a <a href="https://github.com/WasmEdge/WasmEdge/blob/master/examples/wasm/fibonacci.wat">handwritten WebAssembly script</a> to compute factorial numbers. It is compiled into WebAssembly using the <a href="https://github.com/WebAssembly/wabt">WABT tool</a>.</p>
 <h3 id="build-dependencies"><a class="header" href="#build-dependencies">Build dependencies</a></h3>
-<p>Android Studio and Gradle use CMake to build the C shared library. The <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/lib/src/main/cpp/CMakeLists.txt">CMakeLists.txt file</a> builds the WasmEdge source into Android shared library files and embeds them into the final APK application. In this case, there is no seperate step to install WasmEdge share libraries onto the Android device.</p>
+<p>Android Studio and Gradle use CMake to build the C shared library. The <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/lib/src/main/cpp/CMakeLists.txt">CMakeLists.txt file</a> builds the WasmEdge source into Android shared library files and embeds them into the final APK application. In this case, there is no separate step to install WasmEdge share libraries onto the Android device.</p>
 
                     </main>
 

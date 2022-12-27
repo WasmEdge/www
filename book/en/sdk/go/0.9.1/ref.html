@@ -157,7 +157,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="wasmedge-go-v091-api-documentation"><a class="header" href="#wasmedge-go-v091-api-documentation">WasmEdge Go v0.9.1 API Documentation</a></h1>
-<p>The followings are the guides to working with the WasmEdge-Go SDK at WasmEdge version <code>0.9.1</code> and WasmEdge-Go version <code>v0.9.2</code>.</p>
+<p>The following are the guides to working with the WasmEdge-Go SDK at WasmEdge version <code>0.9.1</code> and WasmEdge-Go version <code>v0.9.2</code>.</p>
 <p><strong>Please install WasmEdge 0.9.1 to use this Go package.</strong></p>
 <p><strong>WasmEdge-Go v0.9.1 is retracted. Please use WasmEdge-Go v0.9.2 instead.</strong></p>
 <p><strong>Developers can refer <a href="upgrade_to_0.10.0.html">here to upgrade to v0.10.0</a>.</strong></p>
@@ -938,7 +938,7 @@ conf.Release()
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> objects.</p>
 <pre><code class="language-go">conf := wasmedge.NewConfigure()
 
-// By default, the intruction counting is `false` when running a compiled-WASM or a pure-WASM.
+// By default, the instruction counting is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsInstructionCounting(true)
 // By default, the cost measurement is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsTimeMeasuring(true)
@@ -1531,7 +1531,7 @@ Please refer to the <a href="#instances">Instances in runtime</a> for the detail
 <pre><code class="language-go">// Assume that a WASM module is instantiated in `vm` which is a `wasmedge.VM` object.
 functype := vm.GetFunctionType(&quot;fib&quot;)
 // Developers can get the function types of functions in the registered modules via the 
-// `(*VM).GetFunctionTypeRegistered` API with the functon name and the module name.
+// `(*VM).GetFunctionTypeRegistered` API with the function name and the module name.
 // If the function is not found, these APIs will return `nil`.
 // Developers should __NOT__ call the `(*FunctionType).Release` function of the returned object.
 </code></pre>

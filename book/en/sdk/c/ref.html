@@ -157,7 +157,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="wasmedge-c-0120-api-documentation"><a class="header" href="#wasmedge-c-0120-api-documentation">WasmEdge C 0.12.0 API Documentation</a></h1>
-<p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
+<p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The following are the guides to working with the C APIs of WasmEdge.</p>
 <p><strong>This document is for the <code>0.12.0</code> version. For the older <code>0.12.0</code> version, please refer to the <a href="0.12.0/ref.html">document here</a>.</strong></p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
@@ -293,7 +293,7 @@ printf(&quot;%.10f\n&quot;, WasmEdge_ValueGetF64(Val));
 void *Ptr;
 bool IsNull;
 uint32_t Num = 10;
-/* Genreate a externref to NULL. */
+/* Generate a externref to NULL. */
 Val = WasmEdge_ValueGenNullRef(WasmEdge_RefType_ExternRef);
 IsNull = WasmEdge_ValueIsNullRef(Val);
 /* The `IsNull` will be `TRUE`. */
@@ -302,13 +302,13 @@ Ptr = WasmEdge_ValueGetExternRef(Val);
 
 /* Get the function instance by creation or from module instance. */
 const WasmEdge_FunctionInstanceContext *FuncCxt = ...;
-/* Genreate a funcref with the given function instance context. */
+/* Generate a funcref with the given function instance context. */
 Val = WasmEdge_ValueGenFuncRef(FuncCxt);
 const WasmEdge_FunctionInstanceContext *GotFuncCxt =
     WasmEdge_ValueGetFuncRef(Val);
 /* The `GotFuncCxt` will be the same as `FuncCxt`. */
 
-/* Genreate a externref to `Num`. */
+/* Generate a externref to `Num`. */
 Val = WasmEdge_ValueGenExternRef(&amp;Num);
 Ptr = WasmEdge_ValueGetExternRef(Val);
 /* The `Ptr` will be `&amp;Num`. */
@@ -604,7 +604,7 @@ WasmEdge_AsyncDelete(Async);
 </code></pre>
 <p>Or developers can wait for a time limit.
 If the time limit exceeded, developers can choose to cancel the execution.
-For the interruptible execution in AOT mode, developers should set <code>TRUE</code> thourgh the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
+For the interruptible execution in AOT mode, developers should set <code>TRUE</code> through the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
 <pre><code class="language-c">WasmEdge_Async *Async = ...; /* Ignored. Asynchronous execute a function. */
 /* Blocking and waiting for the execution for 1 second. */
 bool IsEnd = WasmEdge_AsyncWaitFor(Async, 1000);
@@ -802,7 +802,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> contexts.</p>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
 /*
- * By default, the intruction counting is `FALSE` when running a
+ * By default, the instruction counting is `FALSE` when running a
  * compiled-WASM or a pure-WASM.
  */
 WasmEdge_ConfigureStatisticsSetInstructionCounting(ConfCxt, TRUE);
@@ -1181,7 +1181,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 <p>Note: Please check that the <a href="../../dev/rust/wasicrypto.html">dependencies and prerequests</a> are satisfied.</p>
 </blockquote>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
-/* The WASI-Crypto related configures are suggested to turn on togeter. */
+/* The WASI-Crypto related configures are suggested to turn on together. */
 WasmEdge_ConfigureAddHostRegistration(
     ConfCxt, WasmEdge_HostRegistration_WasiCrypto_Common);
 WasmEdge_ConfigureAddHostRegistration(

@@ -330,7 +330,7 @@ The table below shows build targets in WasmEdge's official release packages.</p>
 <li>If the WebAssembly program contains a <code>main()</code> function, <code>wasmedge</code> would execute it as a standalone program in the command mode.</li>
 <li>If the WebAssembly program contains one or more exported public functions, <code>wasmedge</code> could invoke individual functions in the reactor mode.</li>
 </ul>
-<p>By default, the <code>wasmedge</code> will execute WebAssembly programs in interpreter mode, and <a href="quick_start/run_in_aot_mode.html">execute the AOT-compiled <code>.so</code>, <code>.dylib</code>, <code>.dll</code>, or <code>.wasm</code> (universal output format) in AOT mode</a>. If you want to accelarate the WASM execution, we recommand to <a href="quick_start/run_cli.html#wasmedgec-cli">compile the WebAssembly with the AOT compiler</a> first.</p>
+<p>By default, the <code>wasmedge</code> will execute WebAssembly programs in interpreter mode, and <a href="quick_start/run_in_aot_mode.html">execute the AOT-compiled <code>.so</code>, <code>.dylib</code>, <code>.dll</code>, or <code>.wasm</code> (universal output format) in AOT mode</a>. If you want to accelerate the WASM execution, we recommend to <a href="quick_start/run_cli.html#wasmedgec-cli">compile the WebAssembly with the AOT compiler</a> first.</p>
 <p>Users can run the <code>wasmedge -h</code> for realizing the command line options quickly, or <a href="quick_start/../cli/wasmedge.html">refer to the detailed <code>wasmedge</code> CLI options here</a>.</p>
 <h3 id="call-a-webassembly-function-written-in-wat"><a class="header" href="#call-a-webassembly-function-written-in-wat">Call A WebAssembly Function Written in WAT</a></h3>
 <p>We created the hand-written <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wat">fibonacci.wat</a> and used the <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm</a> tool to convert it into the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> WebAssembly program.
@@ -386,7 +386,7 @@ wasmedgec app.wasm app_aot.wasm
 wasmedge app_aot.wasm
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="execution-in-aot-mode"><a class="header" href="#execution-in-aot-mode">Execution in AOT Mode</a></h1>
-<p>The <code>wasmedge</code> command line tool will execute the original WASM files in interpreter mode. For the much better performance, we recommand users to compile the WASM with the <code>wasmedgec</code> AOT compiler to execute the WASM in AOT mode. There are 2 output formats of the AOT compiler:</p>
+<p>The <code>wasmedge</code> command line tool will execute the original WASM files in interpreter mode. For the much better performance, we recommend users to compile the WASM with the <code>wasmedgec</code> AOT compiler to execute the WASM in AOT mode. There are 2 output formats of the AOT compiler:</p>
 <h2 id="output-format-universal-wasm"><a class="header" href="#output-format-universal-wasm">Output Format: Universal WASM</a></h2>
 <p>By default, the <code>wasmedgec</code> AOT compiler tool could wrap the AOT-compiled native binary into a custom section in the origin WASM file. We call this the universal WASM binary format.</p>
 <p>This AOT-compiled WASM file is compatible with any WebAssembly runtime. However, when this WASM file is executed by the WasmEdge runtime, WasmEdge will extract the native binary from the custom section and execute it in AOT mode.</p>
@@ -645,8 +645,8 @@ It runs not only on Linux-like systems, but also on microkernels such as the <co
 <li><a href="use_cases/../contribute/build_from_src/sel4.html">The seL4 RTOS</a></li>
 </ul>
 <p>With WasmEdge on both the device and the edge server, we can support <a href="use_cases/server_side_render.html">isomorphic Server-Side Rendering (SSR)</a> and <a href="use_cases/microservice.html">microservices</a> for rich-client mobile applications that is both portable and upgradable.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-or-domain-specifc-language-runtime"><a class="header" href="#javascript-or-domain-specifc-language-runtime">JavaScript or Domain Specifc Language Runtime</a></h1>
-<p>In order for WebAssembly to be widely adopted by developers as a runtime, it must support &quot;easy&quot; languages like JavaScript. Or, better yet, through its advanced compiler toolchain, WasmEdge could support high performance DSLs (Domain Specifc Languages), which are low code solutions designed for specific tasks.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="javascript-or-domain-specific-language-runtime"><a class="header" href="#javascript-or-domain-specific-language-runtime">JavaScript or Domain Specific Language Runtime</a></h1>
+<p>In order for WebAssembly to be widely adopted by developers as a runtime, it must support &quot;easy&quot; languages like JavaScript. Or, better yet, through its advanced compiler toolchain, WasmEdge could support high performance DSLs (Domain Specific Languages), which are low code solutions designed for specific tasks.</p>
 <h2 id="javascript"><a class="header" href="#javascript">JavaScript</a></h2>
 <p>WasmEdge can act as a cloud-native JavaScript runtime by embedding a JS execution engine or interpreter. It is faster and lighter than running a JS engine inside Docker. WasmEdge supports JS APIs to access native extension libraries such as network sockets, tensorflow, and user-defined shared libraries. It also allows embedding JS into other high-performance languages (eg, Rust) or using Rust / C to implement JS functions.</p>
 <ul>
@@ -667,7 +667,7 @@ It runs not only on Linux-like systems, but also on microkernels such as the <co
 <li>Example: <a href="https://github.com/second-state/wasm-learning/blob/master/cli/classify_yml/config/food.yml">Run a YAML to detect food items in an image</a></li>
 </ul>
 <h2 id="dsl-for-chatbots"><a class="header" href="#dsl-for-chatbots">DSL for chatbots</a></h2>
-<p>A chatbot DSL function takes an input string and responds with a reply string. The DSL specifies the internal state transtions of the chatbot, as well as AI models for language understanding. This work is in progress.</p>
+<p>A chatbot DSL function takes an input string and responds with a reply string. The DSL specifies the internal state transitions of the chatbot, as well as AI models for language understanding. This work is in progress.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-in-kubernetes"><a class="header" href="#wasmedge-in-kubernetes">WasmEdge in Kubernetes</a></h1>
 <p>Developers can leverage container tools such as Kubernetes, Docker and CRI-O to deploy, manage, and run lightweight WebAssembly applications. In this chapter, we will demonstrate how Kubernetes ecosystem tools work with WasmEdge WebAssembly applications.</p>
 <p>Compared with Linux containers, <a href="https://www.infoq.com/articles/arm-vs-x86-cloud-performance/">WebAssembly could be 100x faster at startup</a>, have a much smaller memory and disk footprint, and have a better-defined safety sandbox. However, the trade-off is that WebAssembly requires its own language SDKs, and compiler toolchains, making it a more constrained developer environment than Linux containers. WebAssembly is increasingly used in Edge Computing scenarios where it is difficult to deploy Linux containers or when the application performance is vital.</p>
@@ -1444,7 +1444,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
 </code></pre>
 <p>Now we have a fresh <code>crun</code> binary with wasmedge enabled under <code>/data/crun/crun</code> that we can copy from this container in the next step.</p>
 <h2 id="replace-crun-and-configure-containerd"><a class="header" href="#replace-crun-and-configure-containerd">Replace crun and configure containerd</a></h2>
-<p>Both runc and crun implement the OCI runtime spec and they have the same CLI parametes. Therefore we can just replace the runc binary with our crun-wasmedge binary we created before.</p>
+<p>Both runc and crun implement the OCI runtime spec and they have the same CLI parameters. Therefore we can just replace the runc binary with our crun-wasmedge binary we created before.</p>
 <p>Since crun is using some shared libraries we need to install libyajl, wasmedge and criu to make our crun work.</p>
 <p>Now we already have a KinD that uses crun instead of runc. Now we just need two config changes. The first one in the <code>/etc/containerd/config.toml</code> where we add the <code>pod_annotations</code>that can be passed to the runtime:</p>
 <pre><code class="language-toml">[plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd.runtimes.runc]
@@ -2103,7 +2103,7 @@ The args are as follows.
 File content is This is in a file
 </code></pre>
 <h2 id="creating-a-cluster-with-kubeadm"><a class="header" href="#creating-a-cluster-with-kubeadm">Creating a cluster with kubeadm</a></h2>
-<p>Refering to the tree documents <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">Installing kubeadm</a>, <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">Creating a cluster with kubeadm</a> and <a href="https://github.com/flannel-io/flannel#deploying-flannel-manually">Install flannel cni</a>, to create a kubernetes cluster.</p>
+<p>Referring to the tree documents <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">Installing kubeadm</a>, <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/">Creating a cluster with kubeadm</a> and <a href="https://github.com/flannel-io/flannel#deploying-flannel-manually">Install flannel cni</a>, to create a kubernetes cluster.</p>
 <pre><code class="language-bash"># install kubeadm
 $ sudo apt-get update
 $ sudo apt-get install -y apt-transport-https ca-certificates curl
@@ -2148,7 +2148,7 @@ File content is This is in a file
 pod &quot;wasi-demo&quot; deleted
 </code></pre>
 <h2 id="setting-up-knative-serving"><a class="header" href="#setting-up-knative-serving">Setting up Knative Serving</a></h2>
-<p>Refering to <a href="https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/">Installing Knative Serving using YAML files</a>, install the knative serving service.</p>
+<p>Referring to <a href="https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/">Installing Knative Serving using YAML files</a>, install the knative serving service.</p>
 <pre><code class="language-bash"># install the Knative Serving component
 $ kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-crds.yaml
 $ kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml
@@ -2369,7 +2369,7 @@ military uniform is detected with 206/255 confidence
 <p>Fork or clone the demo application from Github. You can use this repo as your own application template.</p>
 <pre><code class="language-bash">git clone https://github.com/second-state/dapr-wasm
 </code></pre>
-<p>The demo has 4 Dapr sidecar applications. The <a href="https://github.com/second-state/dapr-wasm/tree/main/web-port">web-port</a> project provides a public web service for a static HTML page. This is the application’s UI. From the static HTML page, the user can select a microservice to turn an input image into grayscale. All 3 microsoervices below perform the same function. They are just implemented using different appraoches.</p>
+<p>The demo has 4 Dapr sidecar applications. The <a href="https://github.com/second-state/dapr-wasm/tree/main/web-port">web-port</a> project provides a public web service for a static HTML page. This is the application’s UI. From the static HTML page, the user can select a microservice to turn an input image into grayscale. All 3 microsoervices below perform the same function. They are just implemented using different approaches.</p>
 <ul>
 <li><strong>Standalone WasmEdge approach:</strong> The <a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-wasi-socket-rs">image-api-wasi-socket-rs</a> project provides a standalone WasmEdge sidecar microservice that takes the input image and returns the grayscale image. The microservice is written in Rust and compiled into WebAssembly bytecode to run in WasmEdge.</li>
 <li>Embedded WasmEdge approach #1: The <a href="https://github.com/second-state/dapr-wasm/tree/main/image-api-rs">image-api-rs</a> project provides a simple Rust-based microservice. It embeds a <a href="https://github.com/second-state/dapr-wasm/tree/main/functions/grayscale">WasmEdge function</a> to turn an input image into a grayscale image.</li>
@@ -4273,7 +4273,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <li><a href="https://github.com/second-state/aws-lambda-wasm-runtime">AWS Lambda</a></li>
 <li><a href="https://github.com/second-state/tencent-scf-wasm-runtime">Tencent Serverless Functions</a> (in Chinese)</li>
 </ul>
-<h3 id="second-sate-faas-and-nodejs"><a class="header" href="#second-sate-faas-and-nodejs">Second Sate FaaS and Node.js</a></h3>
+<h3 id="second-state-faas-and-nodejs"><a class="header" href="#second-state-faas-and-nodejs">Second State FaaS and Node.js</a></h3>
 <p>The following tutorials showcase how to deploy WebAssembly functions (written in Rust) on the Second State FaaS. Since the FaaS service is running on Node.js, you can follow the same tutorials for running those functions in your own Node.js server.</p>
 <ul>
 <li><a href="https://www.secondstate.io/articles/faas-image-classification/">Tensorflow: Image classification using the MobileNet models</a> | <a href="https://second-state.github.io/wasm-learning/faas/mobilenet/html/index.html">Live demo</a></li>
@@ -4479,7 +4479,7 @@ let weights = fs::read(model_bin_name).unwrap();
   return u8_f32_arr;
 }
 <span class="boring">}</span></code></pre></pre>
-<p>And use this helper funcion to convert the input image:</p>
+<p>And use this helper function to convert the input image:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let tensor_data = image_to_tensor(image_name.to_string(), 224, 224);
@@ -4583,7 +4583,7 @@ let weights = fs::read(model_bin_name).unwrap();
   return u8_f32_arr;
 }
 <span class="boring">}</span></code></pre></pre>
-<p>And use this helper funcion to convert the input image:</p>
+<p>And use this helper function to convert the input image:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let tensor_data = image_to_tensor(image_name.to_string(), 224, 224);
@@ -4666,7 +4666,7 @@ let weights = fs::read(model_bin_name).unwrap();
     return raw_u8_arr.to_vec();
 }
 <span class="boring">}</span></code></pre></pre>
-<p>And use this helper funcion to convert the input image:</p>
+<p>And use this helper function to convert the input image:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let tensor_data = image_to_tensor(image_name.to_string(), 224, 224);
@@ -5184,7 +5184,7 @@ let buf = &amp;self.inner.parse_msg();
 }
 </code></pre>
 <p>To add the host function to a crate that can be used by Rust code, we also implement the <a href="https://github.com/second-state/wasmedge_http_req">httpreq module</a>.</p>
-<h3 id="implemention-of-httpsreq-host-function"><a class="header" href="#implemention-of-httpsreq-host-function">Implemention of httpsreq host function</a></h3>
+<h3 id="implementation-of-httpsreq-host-function"><a class="header" href="#implementation-of-httpsreq-host-function">Implementation of httpsreq host function</a></h3>
 <p>The httpsreq host has three functions (i.e. <code>send_data</code>, <code>get_rcv_len</code> and <code>get_rcv</code>)
 The <code>send_data</code> function uses the OpenSSL library to send the data to the server. The <code>send_data</code> function receives three inputs, that is, the host, the port and the parsed request.</p>
 <pre><code class="language-cpp">Expect&lt;void&gt; WasmEdgeHttpsReqSendData::body(const Runtime::CallingFrame &amp;Frame,
@@ -5884,7 +5884,7 @@ wasmedge --dir .:. wasmedge_quickjs.wasm my_node_app/index.js
 <li><a href="write_wasm/js/networking.html#tcp-client">TCP client</a></li>
 </ul>
 <h2 id="fetch-client"><a class="header" href="#fetch-client">Fetch client</a></h2>
-<p>The <code>fetch</code> API is widely used in browser and node-based JavaScript applications to fetch content over the network. Building on top of its non-blocking aysnc network socket API, the WasmEdge QuickJS runtime supports the <code>fetch</code> API. That makes a lot of JS APIs and modules reusable out of the box.</p>
+<p>The <code>fetch</code> API is widely used in browser and node-based JavaScript applications to fetch content over the network. Building on top of its non-blocking async network socket API, the WasmEdge QuickJS runtime supports the <code>fetch</code> API. That makes a lot of JS APIs and modules reusable out of the box.</p>
 <p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/wasi_http_fetch.js">example_js/wasi_http_fetch.js</a> example demonstrates how to use the <code>fetch</code> API in WasmEdge. The code snippet below shows an async HTTP GET from the <code>httpbin.org</code> test server. While the program waits for and processes the GET content, it can start another request.</p>
 <pre><code class="language-javascript">async function test_fetch() {
   try {
@@ -6101,7 +6101,7 @@ class LazyPage extends React.Component {
 export default LazyPage;
 </code></pre>
 <p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/react_ssr_stream/main.mjs">main.mjs</a>
-file starts a non-blocking HTTP server using standard Node.js APIs, and then renders the HTML page in multiple chuncks to the response.</p>
+file starts a non-blocking HTTP server using standard Node.js APIs, and then renders the HTML page in multiple chunks to the response.</p>
 <pre><code class="language-javascript">import * as React from 'react';
 import { renderToPipeableStream } from 'react-dom/server';
 import { createServer } from 'http';
@@ -6647,7 +6647,7 @@ confidence:
 
 export {hello};
 </code></pre>
-<p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/es6_module_demo/module_def_async.js">module_def_async.js</a> file defines and exports an aysnc function and a variable.</p>
+<p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/es6_module_demo/module_def_async.js">module_def_async.js</a> file defines and exports an async function and a variable.</p>
 <pre><code class="language-javascript">export async function hello() {
   console.log('hello from module_def_async.js');
   return 'module_def_async.js : return value';
@@ -7059,7 +7059,7 @@ TypeError: cannot read property 'x' of undefined
 </code></pre>
 <h2 id="code-reuse"><a class="header" href="#code-reuse">Code reuse</a></h2>
 <p>Using the Rust API, we could create JavaScript classes that inherit (or extend) from existing classes. That allows developers to create complex JavaScript APIs using Rust by building on existing solutions. You can see <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/examples/js_extend.rs">an example here</a>.</p>
-<p>Next, you can see the Rust code in the <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/src/internal_module">internal_module</a> folder for more examples on how to implement common JavaScript build-in functions including <a href="write_wasm/js/nodejs.html">Node.js</a> APIs.</p>
+<p>Next, you can see the Rust code in the <a href="https://github.com/second-state/wasmedge-quickjs/tree/main/src/internal_module">internal_module</a> folder for more examples on how to implement common JavaScript built-in functions including <a href="write_wasm/js/nodejs.html">Node.js</a> APIs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="go"><a class="header" href="#go">Go</a></h1>
 <p>The best way to run Go programs in WasmEdge is to compile Go source code to WebAssembly using <a href="https://tinygo.org/">TinyGo</a>. In this article, we will show you how.</p>
 <h2 id="install-tinygo"><a class="header" href="#install-tinygo">Install TinyGo</a></h2>
@@ -7177,7 +7177,7 @@ The WasmEdge library allows developers to embed the WasmEdge into their host app
 Furthermore, developers can implement the host functions for the extensions with the WasmEdge library.</p>
 <p>In this chapter, we will discuss how to use WasmEdge SDKs to embed WasmEdge into <a href="sdk/c.html">C</a>, <a href="sdk/rust.html">Rust</a>, <a href="sdk/go.html">Go</a>, <a href="sdk/node.html">Node.js</a>, and <a href="sdk/python.html">Python</a> host applications.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-sdk"><a class="header" href="#wasmedge-c-sdk">WasmEdge C SDK</a></h1>
-<p>The WasmEdge C API denotes an interface to embed the WasmEdge runtime into a C program. The followings are the quick start guide for working with the C APIs of WasmEdge. For the details of the WasmEdge C API, please refer to the <a href="sdk/c/ref.html">full documentation</a>. Before programming with the WasmEdge C API, please <a href="sdk/../quick_start/install.html">install WasmEdge</a> first.</p>
+<p>The WasmEdge C API denotes an interface to embed the WasmEdge runtime into a C program. The following are the quick start guide for working with the C APIs of WasmEdge. For the details of the WasmEdge C API, please refer to the <a href="sdk/c/ref.html">full documentation</a>. Before programming with the WasmEdge C API, please <a href="sdk/../quick_start/install.html">install WasmEdge</a> first.</p>
 <p>The WasmEdge C API is also the fundamental API for other languages' SDK.</p>
 <h2 id="quick-start-guide-for-the-wasmedge-runner"><a class="header" href="#quick-start-guide-for-the-wasmedge-runner">Quick Start Guide for the WasmEdge runner</a></h2>
 <p>The following is an example for running a WASM file.
@@ -8096,7 +8096,7 @@ if (!WasmEdge_ResultOK(Res)) {
 </code></pre>
 <p>For other C++ STL objects cases, such as <code>std::vector&lt;T&gt;</code>, <code>std::map&lt;T, U&gt;</code>, or <code>std::set&lt;T&gt;</code>, the object can be accessed correctly in host functions if the type in <code>reinterpret_cast</code> is correct.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-0120-api-documentation"><a class="header" href="#wasmedge-c-0120-api-documentation">WasmEdge C 0.12.0 API Documentation</a></h1>
-<p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
+<p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The following are the guides to working with the C APIs of WasmEdge.</p>
 <p><strong>This document is for the <code>0.12.0</code> version. For the older <code>0.12.0</code> version, please refer to the <a href="sdk/c/0.12.0/ref.html">document here</a>.</strong></p>
 <h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
 <ul>
@@ -8232,7 +8232,7 @@ printf(&quot;%.10f\n&quot;, WasmEdge_ValueGetF64(Val));
 void *Ptr;
 bool IsNull;
 uint32_t Num = 10;
-/* Genreate a externref to NULL. */
+/* Generate a externref to NULL. */
 Val = WasmEdge_ValueGenNullRef(WasmEdge_RefType_ExternRef);
 IsNull = WasmEdge_ValueIsNullRef(Val);
 /* The `IsNull` will be `TRUE`. */
@@ -8241,13 +8241,13 @@ Ptr = WasmEdge_ValueGetExternRef(Val);
 
 /* Get the function instance by creation or from module instance. */
 const WasmEdge_FunctionInstanceContext *FuncCxt = ...;
-/* Genreate a funcref with the given function instance context. */
+/* Generate a funcref with the given function instance context. */
 Val = WasmEdge_ValueGenFuncRef(FuncCxt);
 const WasmEdge_FunctionInstanceContext *GotFuncCxt =
     WasmEdge_ValueGetFuncRef(Val);
 /* The `GotFuncCxt` will be the same as `FuncCxt`. */
 
-/* Genreate a externref to `Num`. */
+/* Generate a externref to `Num`. */
 Val = WasmEdge_ValueGenExternRef(&amp;Num);
 Ptr = WasmEdge_ValueGetExternRef(Val);
 /* The `Ptr` will be `&amp;Num`. */
@@ -8543,7 +8543,7 @@ WasmEdge_AsyncDelete(Async);
 </code></pre>
 <p>Or developers can wait for a time limit.
 If the time limit exceeded, developers can choose to cancel the execution.
-For the interruptible execution in AOT mode, developers should set <code>TRUE</code> thourgh the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
+For the interruptible execution in AOT mode, developers should set <code>TRUE</code> through the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
 <pre><code class="language-c">WasmEdge_Async *Async = ...; /* Ignored. Asynchronous execute a function. */
 /* Blocking and waiting for the execution for 1 second. */
 bool IsEnd = WasmEdge_AsyncWaitFor(Async, 1000);
@@ -8741,7 +8741,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> contexts.</p>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
 /*
- * By default, the intruction counting is `FALSE` when running a
+ * By default, the instruction counting is `FALSE` when running a
  * compiled-WASM or a pure-WASM.
  */
 WasmEdge_ConfigureStatisticsSetInstructionCounting(ConfCxt, TRUE);
@@ -9120,7 +9120,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 <p>Note: Please check that the <a href="sdk/c/../../dev/rust/wasicrypto.html">dependencies and prerequests</a> are satisfied.</p>
 </blockquote>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
-/* The WASI-Crypto related configures are suggested to turn on togeter. */
+/* The WASI-Crypto related configures are suggested to turn on together. */
 WasmEdge_ConfigureAddHostRegistration(
     ConfCxt, WasmEdge_HostRegistration_WasiCrypto_Common);
 WasmEdge_ConfigureAddHostRegistration(
@@ -10745,7 +10745,7 @@ enum WasmEdge_CompilerOutputFormat {
 </code></pre>
 <p>Please refer to the <a href="sdk/c/ref.html#configurations">AOT compiler options configuration</a> for details.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-0112-api-documentation"><a class="header" href="#wasmedge-c-0112-api-documentation">WasmEdge C 0.11.2 API Documentation</a></h1>
-<p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The followings are the guides to working with the C APIs of WasmEdge.</p>
+<p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The following are the guides to working with the C APIs of WasmEdge.</p>
 <p><strong>Please notice that the WasmEdge C API provides SONAME and SOVERSION after the <code>0.11.0</code> release.</strong></p>
 <p><strong>Please notice that <code>libwasmedge_c.so</code> is renamed to <code>libwasmedge.so</code> after the <code>0.11.0</code> release. Please use <code>-lwasmedge</code> instead of <code>-lwasmedge_c</code> for the linker option.</strong></p>
 <p><strong>This document is for the <code>0.11.2</code> version. For the older <code>0.10.1</code> version, please refer to the <a href="sdk/c/0.11.2/0.10.1/ref.html">document here</a>.</strong></p>
@@ -10883,7 +10883,7 @@ printf(&quot;%.10f\n&quot;, WasmEdge_ValueGetF64(Val));
 void *Ptr;
 bool IsNull;
 uint32_t Num = 10;
-/* Genreate a externref to NULL. */
+/* Generate a externref to NULL. */
 Val = WasmEdge_ValueGenNullRef(WasmEdge_RefType_ExternRef);
 IsNull = WasmEdge_ValueIsNullRef(Val);
 /* The `IsNull` will be `TRUE`. */
@@ -10892,13 +10892,13 @@ Ptr = WasmEdge_ValueGetExternRef(Val);
 
 /* Get the function instance by creation or from module instance. */
 const WasmEdge_FunctionInstanceContext *FuncCxt = ...;
-/* Genreate a funcref with the given function instance context. */
+/* Generate a funcref with the given function instance context. */
 Val = WasmEdge_ValueGenFuncRef(FuncCxt);
 const WasmEdge_FunctionInstanceContext *GotFuncCxt =
     WasmEdge_ValueGetFuncRef(Val);
 /* The `GotFuncCxt` will be the same as `FuncCxt`. */
 
-/* Genreate a externref to `Num`. */
+/* Generate a externref to `Num`. */
 Val = WasmEdge_ValueGenExternRef(&amp;Num);
 Ptr = WasmEdge_ValueGetExternRef(Val);
 /* The `Ptr` will be `&amp;Num`. */
@@ -11194,7 +11194,7 @@ WasmEdge_AsyncDelete(Async);
 </code></pre>
 <p>Or developers can wait for a time limit.
 If the time limit exceeded, developers can choose to cancel the execution.
-For the interruptible execution in AOT mode, developers should set <code>TRUE</code> thourgh the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
+For the interruptible execution in AOT mode, developers should set <code>TRUE</code> through the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
 <pre><code class="language-c">WasmEdge_Async *Async = ...; /* Ignored. Asynchronous execute a function. */
 /* Blocking and waiting for the execution for 1 second. */
 bool IsEnd = WasmEdge_AsyncWaitFor(Async, 1000);
@@ -11392,7 +11392,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> contexts.</p>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
 /*
- * By default, the intruction counting is `FALSE` when running a
+ * By default, the instruction counting is `FALSE` when running a
  * compiled-WASM or a pure-WASM.
  */
 WasmEdge_ConfigureStatisticsSetInstructionCounting(ConfCxt, TRUE);
@@ -11771,7 +11771,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 <p>Note: Please check that the <a href="sdk/c/0.11.2/../../dev/rust/wasicrypto.html">dependencies and prerequests</a> are satisfied.</p>
 </blockquote>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
-/* The WASI-Crypto related configures are suggested to turn on togeter. */
+/* The WASI-Crypto related configures are suggested to turn on together. */
 WasmEdge_ConfigureAddHostRegistration(
     ConfCxt, WasmEdge_HostRegistration_WasiCrypto_Common);
 WasmEdge_ConfigureAddHostRegistration(
@@ -13396,7 +13396,7 @@ enum WasmEdge_CompilerOutputFormat {
 </code></pre>
 <p>Please refer to the <a href="sdk/c/0.11.2/ref.html#configurations">AOT compiler options configuration</a> for details.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-0101-c-api-documentation"><a class="header" href="#wasmedge-0101-c-api-documentation">WasmEdge 0.10.1 C API Documentation</a></h1>
-<p><a href="https://github.com/WasmEdge/WasmEdge/blob/0.10.1/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime at version <code>0.10.1</code>. The followings are the guides to working with the C APIs of WasmEdge.</p>
+<p><a href="https://github.com/WasmEdge/WasmEdge/blob/0.10.1/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime at version <code>0.10.1</code>. The following are the guides to working with the C APIs of WasmEdge.</p>
 <p><strong>Developers can refer to <a href="sdk/c/0.10.1/upgrade_to_0.11.0.html">here to upgrade to 0.11.0</a>.</strong></p>
 <h2 id="table-of-contents-3"><a class="header" href="#table-of-contents-3">Table of Contents</a></h2>
 <ul>
@@ -13520,7 +13520,7 @@ printf(&quot;%.10f\n&quot;, WasmEdge_ValueGetF64(Val));
 void *Ptr;
 bool IsNull;
 uint32_t Num = 10;
-/* Genreate a externref to NULL. */
+/* Generate a externref to NULL. */
 Val = WasmEdge_ValueGenNullRef(WasmEdge_RefType_ExternRef);
 IsNull = WasmEdge_ValueIsNullRef(Val);
 /* The `IsNull` will be `TRUE`. */
@@ -13529,12 +13529,12 @@ Ptr = WasmEdge_ValueGetExternRef(Val);
 
 /* Get the function instance by creation or from module instance. */
 const WasmEdge_FunctionInstanceContext *FuncCxt = ...;
-/* Genreate a funcref with the given function instance context. */
+/* Generate a funcref with the given function instance context. */
 Val = WasmEdge_ValueGenFuncRef(FuncCxt);
 const WasmEdge_FunctionInstanceContext *GotFuncCxt = WasmEdge_ValueGetFuncRef(Val);
 /* The `GotFuncCxt` will be the same as `FuncCxt`. */
 
-/* Genreate a externref to `Num`. */
+/* Generate a externref to `Num`. */
 Val = WasmEdge_ValueGenExternRef(&amp;Num);
 Ptr = WasmEdge_ValueGetExternRef(Val);
 /* The `Ptr` will be `&amp;Num`. */
@@ -13761,7 +13761,7 @@ WasmEdge_AsyncDelete(Async);
 </code></pre>
 <p>Or developers can wait for a time limit.
 If the time limit exceeded, developers can choose to cancel the execution.
-For the interruptible execution in AOT mode, developers should set <code>TRUE</code> thourgh the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
+For the interruptible execution in AOT mode, developers should set <code>TRUE</code> through the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
 <pre><code class="language-c">WasmEdge_Async *Async = ...; /* Ignored. Asynchronous execute a function. */
 /* Blocking and waiting for the execution for 1 second. */
 bool IsEnd = WasmEdge_AsyncWaitFor(Async, 1000);
@@ -13930,7 +13930,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 <p>The statistics options configure the behavior about instruction counting, cost measuring, and time measuring in both runtime and AOT compiler.
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> contexts.</p>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
-/* By default, the intruction counting is `FALSE` when running a compiled-WASM or a pure-WASM. */
+/* By default, the instruction counting is `FALSE` when running a compiled-WASM or a pure-WASM. */
 WasmEdge_ConfigureStatisticsSetInstructionCounting(ConfCxt, TRUE);
 /* By default, the cost measurement is `FALSE` when running a compiled-WASM or a pure-WASM. */
 WasmEdge_ConfigureStatisticsSetCostMeasuring(ConfCxt, TRUE);
@@ -14260,7 +14260,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 <p>Note: Please check that the <a href="sdk/c/0.10.1/../../../write_wasm/rust/wasicrypto.html">dependencies and prerequests</a> are satisfied.</p>
 </blockquote>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
-/* The WASI-Crypto related configures are suggested to turn on togeter. */
+/* The WASI-Crypto related configures are suggested to turn on together. */
 WasmEdge_ConfigureAddHostRegistration(ConfCxt, WasmEdge_HostRegistration_WasiCrypto_Common);
 WasmEdge_ConfigureAddHostRegistration(ConfCxt, WasmEdge_HostRegistration_WasiCrypto_AsymmetricCommon);
 WasmEdge_ConfigureAddHostRegistration(ConfCxt, WasmEdge_HostRegistration_WasiCrypto_Kx);
@@ -15688,7 +15688,7 @@ With the module instance context, developers can use the module instance-related
 <p>The <code>WasmEdge_CallingFrameGetExecutor()</code> API can help developers to get the currently used executor context.
 Therefore developers can use the executor to recursively invoke other WASM functions without creating a new executor context.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-091-c-api-documentation"><a class="header" href="#wasmedge-091-c-api-documentation">WasmEdge 0.9.1 C API Documentation</a></h1>
-<p><a href="https://github.com/WasmEdge/WasmEdge/blob/0.9.1/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime at version <code>0.9.1</code>. The followings are the guides to working with the C APIs of WasmEdge.</p>
+<p><a href="https://github.com/WasmEdge/WasmEdge/blob/0.9.1/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime at version <code>0.9.1</code>. The following are the guides to working with the C APIs of WasmEdge.</p>
 <p><strong>Developers can refer <a href="sdk/c/0.9.1/upgrade_to_0.10.0.html">here to upgrade to 0.10.0</a>.</strong></p>
 <h2 id="table-of-contents-4"><a class="header" href="#table-of-contents-4">Table of Contents</a></h2>
 <ul>
@@ -15811,19 +15811,19 @@ printf(&quot;%.10f\n&quot;, WasmEdge_ValueGetF64(Val));
 void *Ptr;
 bool IsNull;
 uint32_t Num = 10;
-/* Genreate a externref to NULL. */
+/* Generate a externref to NULL. */
 Val = WasmEdge_ValueGenNullRef(WasmEdge_RefType_ExternRef);
 IsNull = WasmEdge_ValueIsNullRef(Val);
 /* The `IsNull` will be `TRUE`. */
 Ptr = WasmEdge_ValueGetExternRef(Val);
 /* The `Ptr` will be `NULL`. */
 
-/* Genreate a funcref with function index 20. */
+/* Generate a funcref with function index 20. */
 Val = WasmEdge_ValueGenFuncRef(20);
 uint32_t FuncIdx = WasmEdge_ValueGetFuncIdx(Val);
 /* The `FuncIdx` will be 20. */
 
-/* Genreate a externref to `Num`. */
+/* Generate a externref to `Num`. */
 Val = WasmEdge_ValueGenExternRef(&amp;Num);
 Ptr = WasmEdge_ValueGetExternRef(Val);
 /* The `Ptr` will be `&amp;Num`. */
@@ -16048,7 +16048,7 @@ WasmEdge_AsyncDelete(Async);
 </code></pre>
 <p>Or developers can wait for a time limit.
 If the time limit exceeded, developers can choose to cancel the execution.
-For the interruptible execution in AOT mode, developers should set <code>TRUE</code> thourgh the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
+For the interruptible execution in AOT mode, developers should set <code>TRUE</code> through the <code>WasmEdge_ConfigureCompilerSetInterruptible()</code> API into the configure context for the AOT compiler.</p>
 <pre><code class="language-c">WasmEdge_Async *Async = ...; /* Ignored. Asynchronous execute a function. */
 /* Blocking and waiting for the execution for 1 second. */
 bool IsEnd = WasmEdge_AsyncWaitFor(Async, 1000);
@@ -16209,7 +16209,7 @@ WasmEdge_ConfigureDelete(ConfCxt);
 <p>The statistics options configure the behavior about instruction counting, cost measuring, and time measuring in both runtime and AOT compiler.
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> contexts.</p>
 <pre><code class="language-c">WasmEdge_ConfigureContext *ConfCxt = WasmEdge_ConfigureCreate();
-/* By default, the intruction counting is `FALSE` when running a compiled-WASM or a pure-WASM. */
+/* By default, the instruction counting is `FALSE` when running a compiled-WASM or a pure-WASM. */
 WasmEdge_ConfigureStatisticsSetInstructionCounting(ConfCxt, TRUE);
 /* By default, the cost measurement is `FALSE` when running a compiled-WASM or a pure-WASM. */
 WasmEdge_ConfigureStatisticsSetCostMeasuring(ConfCxt, TRUE);
@@ -17758,7 +17758,7 @@ For the new examples of instantiating multiple anonymous WASM modules, please re
 </li>
 <li>
 <p>The <code>WasmEdge_ModuleInstanceContext</code>-based resource management.</p>
-<p>Except the creation of <code>Module</code> instance for the host functons, the <code>Executor</code> will output a <code>Module</code> instance after instantiation. No matter the anonymous or named modules, developers have the responsibility to destroy them by <code>WasmEdge_ModuleInstanceDelete()</code> API.
+<p>Except the creation of <code>Module</code> instance for the host functions, the <code>Executor</code> will output a <code>Module</code> instance after instantiation. No matter the anonymous or named modules, developers have the responsibility to destroy them by <code>WasmEdge_ModuleInstanceDelete()</code> API.
 The <code>Store</code> will link to the named <code>Module</code> instance after registering. After the destroyment of a <code>Module</code> instance, the <code>Store</code> will unlink to that automatically; after the destroyment of the <code>Store</code>, the all <code>Module</code> instances the <code>Store</code> linked to will unlink to that <code>Store</code> automatically.</p>
 </li>
 </ol>
@@ -17831,8 +17831,8 @@ if (!WasmEdge_ResultOK(Res)) {
 </code></pre>
 <p>Then the WASM module is instantiated into an anonymous module instance and handled by the <code>Store</code>.
 If a new WASM module is instantiated by this API, the old instantiated module instance will be cleaned.
-After the WasmEdge <code>0.10.0</code> version, the instantiated anonymous module will be outputed and handled by caller, and not only 1 anonymous module instance can be instantiated.
-Developers have the responsibility to destroy the outputed module instances.</p>
+After the WasmEdge <code>0.10.0</code> version, the instantiated anonymous module will be outputted and handled by caller, and not only 1 anonymous module instance can be instantiated.
+Developers have the responsibility to destroy the outputted module instances.</p>
 <pre><code class="language-c">WasmEdge_ASTModuleContext *ASTCxt1, *ASTCxt2;
 /*
  * Assume that `ASTCxt1` and `ASTCxt2` are loaded WASMs from different files or buffers,
@@ -17888,7 +17888,7 @@ if (!WasmEdge_ResultOK(Res)) {
   printf(&quot;WASM registration failed: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
 }
 </code></pre>
-<p>Developers have the responsibility to destroy the outputed module instances.</p>
+<p>Developers have the responsibility to destroy the outputted module instances.</p>
 </li>
 <li>
 <p>Host module registration</p>
@@ -18117,7 +18117,7 @@ if (!WasmEdge_ResultOK(Res)) {
 }
 WasmEdge_StringDelete(ModName);
 
-/* Now, developers can retrieve the exported instances from the module instaces. */
+/* Now, developers can retrieve the exported instances from the module instances. */
 /* Take the exported functions as example. This WASM exports the function &quot;fib&quot;. */
 WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;fib&quot;);
 WasmEdge_FunctionInstanceContext *FoundFuncCxt;
@@ -18218,7 +18218,7 @@ WasmEdge_StringDelete(FuncName);
 WasmEdge_ModuleInstanceDelete(HostModCxt);
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-sdk"><a class="header" href="#wasmedge-go-sdk">WasmEdge Go SDK</a></h1>
-<p>The followings are the guide to work with the WasmEdge Go API. You can embed the WasmEdge into your go application through the WasmEdge Go API.</p>
+<p>The following are the guide to work with the WasmEdge Go API. You can embed the WasmEdge into your go application through the WasmEdge Go API.</p>
 <h2 id="getting-started-1"><a class="header" href="#getting-started-1">Getting Started</a></h2>
 <p>The WasmEdge-go requires golang version &gt;= 1.16. Please check your golang version before installation. You can <a href="https://golang.org/dl/">download golang here</a>.</p>
 <pre><code class="language-bash">$ go version
@@ -19439,7 +19439,7 @@ Run bindgen -- sha3_digest: [87 27 231 209 189 105 251 49 159 10 211 250 15 159 
 Run bindgen -- keccak_digest: [126 194 241 200 151 116 227 33 216 99 159 22 107 3 177 169 216 191 114 156 174 193 32 159 246 228 245 133 52 75 55 27]
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-v0112-api-references"><a class="header" href="#wasmedge-go-v0112-api-references">WasmEdge Go v0.11.2 API references</a></h1>
-<p>The followings are the guides to working with the WasmEdge-Go SDK.</p>
+<p>The following are the guides to working with the WasmEdge-Go SDK.</p>
 <p><strong>This document is for the <code>v0.11.2</code> version. For the older <code>v0.10.1</code> version, please refer to the <a href="sdk/go/0.10.1/ref.html">document here</a>.</strong></p>
 <p><strong>Developers can refer to <a href="sdk/go/0.10.1/upgrade_to_0.11.0.html">here to upgrade to v0.11.0</a>.</strong></p>
 <h2 id="table-of-contents-5"><a class="header" href="#table-of-contents-5">Table of Contents</a></h2>
@@ -20003,7 +20003,7 @@ conf.Release()
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> objects.</p>
 <pre><code class="language-go">conf := wasmedge.NewConfigure()
 
-// By default, the intruction counting is `false` when running a compiled-WASM or a pure-WASM.
+// By default, the instruction counting is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsInstructionCounting(true)
 // By default, the cost measurement is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsTimeMeasuring(true)
@@ -20655,7 +20655,7 @@ Please refer to the <a href="sdk/go/ref.html#instances">Instances in runtime</a>
 <pre><code class="language-go">// Assume that a WASM module is instantiated in `vm` which is a `wasmedge.VM` object.
 functype := vm.GetFunctionType(&quot;fib&quot;)
 // Developers can get the function types of functions in the registered modules via the 
-// `(*VM).GetFunctionTypeRegistered` API with the functon name and the module name.
+// `(*VM).GetFunctionTypeRegistered` API with the function name and the module name.
 // If the function is not found, these APIs will return `nil`.
 // Developers should __NOT__ call the `(*FunctionType).Release` function of the returned object.
 </code></pre>
@@ -21672,7 +21672,7 @@ const (
 </code></pre>
 <p>Please refer to the <a href="sdk/go/ref.html#configurations">AOT compiler options configuration</a> for details.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-v0101-api-references"><a class="header" href="#wasmedge-go-v0101-api-references">WasmEdge Go v0.10.1 API references</a></h1>
-<p>The followings are the guides to working with the WasmEdge-Go SDK.</p>
+<p>The following are the guides to working with the WasmEdge-Go SDK.</p>
 <p><strong>Developers can refer to <a href="sdk/go/0.10.1/upgrade_to_0.11.0.html">here to upgrade to 0.11.0</a>.</strong></p>
 <h2 id="table-of-contents-6"><a class="header" href="#table-of-contents-6">Table of Contents</a></h2>
 <ul>
@@ -22212,7 +22212,7 @@ conf.Release()
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> objects.</p>
 <pre><code class="language-go">conf := wasmedge.NewConfigure()
 
-// By default, the intruction counting is `false` when running a compiled-WASM or a pure-WASM.
+// By default, the instruction counting is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsInstructionCounting(true)
 // By default, the cost measurement is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsTimeMeasuring(true)
@@ -22864,7 +22864,7 @@ Please refer to the <a href="sdk/go/0.10.1/ref.html#instances">Instances in runt
 <pre><code class="language-go">// Assume that a WASM module is instantiated in `vm` which is a `wasmedge.VM` object.
 functype := vm.GetFunctionType(&quot;fib&quot;)
 // Developers can get the function types of functions in the registered modules via the 
-// `(*VM).GetFunctionTypeRegistered` API with the functon name and the module name.
+// `(*VM).GetFunctionTypeRegistered` API with the function name and the module name.
 // If the function is not found, these APIs will return `nil`.
 // Developers should __NOT__ call the `(*FunctionType).Release` function of the returned object.
 </code></pre>
@@ -23837,7 +23837,7 @@ With the module instance context, developers can use the module instance-related
 <p>The <code>(*CallingFrame).GetExecutor()</code> API can help developers to get the currently used executor context.
 Therefore developers can use the executor to recursively invoke other WASM functions without creating a new executor context.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-v091-api-documentation"><a class="header" href="#wasmedge-go-v091-api-documentation">WasmEdge Go v0.9.1 API Documentation</a></h1>
-<p>The followings are the guides to working with the WasmEdge-Go SDK at WasmEdge version <code>0.9.1</code> and WasmEdge-Go version <code>v0.9.2</code>.</p>
+<p>The following are the guides to working with the WasmEdge-Go SDK at WasmEdge version <code>0.9.1</code> and WasmEdge-Go version <code>v0.9.2</code>.</p>
 <p><strong>Please install WasmEdge 0.9.1 to use this Go package.</strong></p>
 <p><strong>WasmEdge-Go v0.9.1 is retracted. Please use WasmEdge-Go v0.9.2 instead.</strong></p>
 <p><strong>Developers can refer <a href="sdk/go/0.9.1/upgrade_to_0.10.0.html">here to upgrade to v0.10.0</a>.</strong></p>
@@ -24618,7 +24618,7 @@ conf.Release()
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> objects.</p>
 <pre><code class="language-go">conf := wasmedge.NewConfigure()
 
-// By default, the intruction counting is `false` when running a compiled-WASM or a pure-WASM.
+// By default, the instruction counting is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsInstructionCounting(true)
 // By default, the cost measurement is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsTimeMeasuring(true)
@@ -25211,7 +25211,7 @@ Please refer to the <a href="sdk/go/0.9.1/ref.html#instances">Instances in runti
 <pre><code class="language-go">// Assume that a WASM module is instantiated in `vm` which is a `wasmedge.VM` object.
 functype := vm.GetFunctionType(&quot;fib&quot;)
 // Developers can get the function types of functions in the registered modules via the 
-// `(*VM).GetFunctionTypeRegistered` API with the functon name and the module name.
+// `(*VM).GetFunctionTypeRegistered` API with the function name and the module name.
 // If the function is not found, these APIs will return `nil`.
 // Developers should __NOT__ call the `(*FunctionType).Release` function of the returned object.
 </code></pre>
@@ -26085,7 +26085,7 @@ For the new examples of instantiating multiple anonymous WASM modules, please re
 </li>
 <li>
 <p>The <code>Module</code>-based resource management.</p>
-<p>Except the creation of <code>Module</code> instance for the host functons, the <code>Executor</code> will output a <code>Module</code> instance after instantiation. No matter the anonymous or named modules, developers have the responsibility to destroy them by <code>(*wasmedge.Module).Release()</code> API.
+<p>Except the creation of <code>Module</code> instance for the host functions, the <code>Executor</code> will output a <code>Module</code> instance after instantiation. No matter the anonymous or named modules, developers have the responsibility to destroy them by <code>(*wasmedge.Module).Release()</code> API.
 The <code>Store</code> will link to the named <code>Module</code> instance after registering. After the destroyment of a <code>Module</code> instance, the <code>Store</code> will unlink to that automatically; after the destroyment of the <code>Store</code>, the all <code>Module</code> instances the <code>Store</code> linked to will unlink to that <code>Store</code> automatically.</p>
 </li>
 </ol>
@@ -26160,8 +26160,8 @@ if err != nil {
 </code></pre>
 <p>Then the WASM module is instantiated into an anonymous module instance and handled by the <code>Store</code>.
 If a new WASM module is instantiated by this API, the old instantiated module instance will be cleaned.
-After the WasmEdge-Go <code>v0.10.0</code> version, the instantiated anonymous module will be outputed and handled by caller, and not only 1 anonymous module instance can be instantiated.
-Developers have the responsibility to release the outputed module instances.</p>
+After the WasmEdge-Go <code>v0.10.0</code> version, the instantiated anonymous module will be outputted and handled by caller, and not only 1 anonymous module instance can be instantiated.
+Developers have the responsibility to release the outputted module instances.</p>
 <pre><code class="language-go">var ast1 *wasmedge.AST
 var ast2 *wasmedge.AST
 // Assume that `ast1` and `ast2` are loaded WASMs from different files or buffers,
@@ -26207,7 +26207,7 @@ if err != nil {
 }
 mod.Release()
 </code></pre>
-<p>Developers have the responsibility to release the outputed module instances.</p>
+<p>Developers have the responsibility to release the outputted module instances.</p>
 </li>
 <li>
 <p>Host module registration</p>
@@ -26422,7 +26422,7 @@ if err != nil {
   return
 }
 
-// Now, developers can retrieve the exported instances from the module instaces.
+// Now, developers can retrieve the exported instances from the module instances.
 // Take the exported functions as example. This WASM exports the function &quot;fib&quot;.
 // Find the function &quot;fib&quot; from the instantiated anonymous module.
 func1 := anonymousmod.FindFunction(&quot;fib&quot;)
@@ -26919,7 +26919,7 @@ export WASMEDGE_LIB_DIR=$HOME/wasmedge-install/lib
 wasmedge-sdk = &quot;0.4&quot;
 </code></pre>
 <h2 id="wasmedge-sys-crate"><a class="header" href="#wasmedge-sys-crate"><code>wasmedge-sys</code> crate</a></h2>
-<p><code>wasmedge-sys</code> serves as a wraper layer of <code>WasmEdge</code> C-API, and provides a group of safe low-level Rust interfaces.
+<p><code>wasmedge-sys</code> serves as a wrapper layer of <code>WasmEdge</code> C-API, and provides a group of safe low-level Rust interfaces.
 For those who are interested in using <code>wasmedge-sys</code> in their projects, you should also deploy the <code>WasmEdge</code> library on your local system as described in the <a href="sdk/rust.html#build">wasmedge-sdk crate</a> section.
 Then, copy/paste the following code in the <code>Cargo.toml</code> file of your project.
 For details, please refer to <a href="https://github.com/WasmEdge/WasmEdge/blob/master/bindings/rust/wasmedge-sys/README.md">README</a>.</p>
@@ -27460,7 +27460,7 @@ println!(&quot;The result of fib(5) is {}&quot;, returns[0].to_i32());
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="compute-fibonacci-numbers-concurrently"><a class="header" href="#compute-fibonacci-numbers-concurrently">Compute Fibonacci numbers concurrently</a></h1>
 <h2 id="overview-1"><a class="header" href="#overview-1">Overview</a></h2>
-<p>In this example, we will demonstrate how to use the objects and the APIs defined in <code>wasmedge-sys</code> to compute Fibonacci numbers concurrently. we creates two child threads, <code>thread_a</code> and <code>thread_b</code>, which are responsbile for compute <code>Fib(4)</code> and <code>Fib(5)</code> by calling the host function <code>fib</code>, respectively. After that, the main thread computes <code>Fib(6)</code> by adding the numbers returned by <code>thread_a</code> and <code>thread_b</code>.</p>
+<p>In this example, we will demonstrate how to use the objects and the APIs defined in <code>wasmedge-sys</code> to compute Fibonacci numbers concurrently. we creates two child threads, <code>thread_a</code> and <code>thread_b</code>, which are responsible for compute <code>Fib(4)</code> and <code>Fib(5)</code> by calling the host function <code>fib</code>, respectively. After that, the main thread computes <code>Fib(6)</code> by adding the numbers returned by <code>thread_a</code> and <code>thread_b</code>.</p>
 <blockquote>
 <p>The code in the example is verified on</p>
 <ul>
@@ -27686,14 +27686,14 @@ let wasm_bytes = wat2wasm(
 &quot;#,
 )?;
 
-// load a wasm module from a in-memory bytes, and the loaded wasm module works as an anoymous
+// load a wasm module from a in-memory bytes, and the loaded wasm module works as an anonymous
 // module (aka. active module in WasmEdge terminology)
 vm.load_wasm_from_bytes(&amp;wasm_bytes)?;
 
 // validate the loaded active module
 vm.validate()?;
 
-// instatiate the loaded active module
+// instantiate the loaded active module
 vm.instantiate()?;
 
 // get the active module instance
@@ -27905,7 +27905,7 @@ If you want to improve the performance, <a href="cli/wasmedgec.html">please refe
 <li>Use <code>--env ENV_NAME=VALUE</code> to assign the environment variable.</li>
 </ul>
 </li>
-<li>(Optional) Statistics informations:
+<li>(Optional) Statistics information:
 <ul>
 <li>Use <code>--enable-time-measuring</code> to show the execution time.</li>
 <li>Use <code>--enable-gas-measuring</code> to show the amount of used gas.</li>
@@ -28078,7 +28078,7 @@ After compiling with the <code>wasmedgec</code> AOT compiler, the <code>wasmedge
 <li>By default, the AOT-compiled WASM not supports <a href="cli/../sdk/c/ref.html#async">interruptions in asynchronous executions</a>.</li>
 </ul>
 </li>
-<li>(Optional) Statistics informations:
+<li>(Optional) Statistics information:
 <ul>
 <li>By default, the AOT-compiled WASM not supports all statistics even if the options are turned on when running the <code>wasmedge</code> tool.</li>
 <li>Use <code>--enable-time-measuring</code> to generate code for enabling the statistics of time measuring in execution.</li>
@@ -28627,7 +28627,7 @@ cd -
 <p>In current state, we only support the runtime for the interpreter mode.</p>
 </blockquote>
 <h2 id="prepare-the-environment-1"><a class="header" href="#prepare-the-environment-1">Prepare the Environment</a></h2>
-<p>We recommand developers to <a href="contribute/build_from_src/linux.html##prepare-the-environment">use our Docker images</a> and follow the steps to prepare the building environment.</p>
+<p>We recommend developers to <a href="contribute/build_from_src/linux.html##prepare-the-environment">use our Docker images</a> and follow the steps to prepare the building environment.</p>
 <ul>
 <li>Download and extract the <a href="https://developer.android.com/ndk/downloads">Android NDK 23b</a>.</li>
 <li>Check the cmake for <a href="https://cmake.org/download/">CMake 3.21</a> or greater version.</li>
@@ -28883,7 +28883,7 @@ INFO: Initialized TensorFlow Lite runtime.
 <div style="break-before: page; page-break-before: always;"></div><h1 id="call-wasmedge-functions-from-an-android-apk-app"><a class="header" href="#call-wasmedge-functions-from-an-android-apk-app">Call WasmEdge functions from an Android APK app</a></h1>
 <p>In this section, we will show you how to build a &quot;regular&quot; Android app (i.e., an APK file that can be installed on an Android device). The APK app embeds a WasmEdge Runtime. It can call WebAssembly functions through the embedded WasmEdge. The benefit is that developers can safely embed high-performance functions written in several different languages (e.g., Rust, JS, Grain, TinyGo etc) into a Kotlin application.</p>
 <h2 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h2>
-<p>The demo project is <a href="https://github.com/WasmEdge/WasmEdge/tree/master/utils/android/app">available here</a>. You can build the project using the Gradle tool or using the Android Stuido IDE.</p>
+<p>The demo project is <a href="https://github.com/WasmEdge/WasmEdge/tree/master/utils/android/app">available here</a>. You can build the project using the Gradle tool or using the Android Studio IDE.</p>
 <h3 id="building-project-with-gradle"><a class="header" href="#building-project-with-gradle">Building Project with Gradle</a></h3>
 <ol>
 <li>Setup environment variable <code>ANDROID_HOME=path/to/your/android/sdk</code></li>
@@ -28982,7 +28982,7 @@ Java_org_wasmedge_native_1lib_NativeLib_nativeWasmFibonacci(
 <h3 id="the-webassembly-function"><a class="header" href="#the-webassembly-function">The WebAssembly function</a></h3>
 <p>The <code>factorial.wat</code> is a <a href="https://github.com/WasmEdge/WasmEdge/blob/master/examples/wasm/fibonacci.wat">handwritten WebAssembly script</a> to compute factorial numbers. It is compiled into WebAssembly using the <a href="https://github.com/WebAssembly/wabt">WABT tool</a>.</p>
 <h3 id="build-dependencies"><a class="header" href="#build-dependencies">Build dependencies</a></h3>
-<p>Android Studio and Gradle use CMake to build the C shared library. The <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/lib/src/main/cpp/CMakeLists.txt">CMakeLists.txt file</a> builds the WasmEdge source into Android shared library files and embeds them into the final APK application. In this case, there is no seperate step to install WasmEdge share libraries onto the Android device.</p>
+<p>Android Studio and Gradle use CMake to build the C shared library. The <a href="https://github.com/WasmEdge/WasmEdge/blob/master/utils/android/app/lib/src/main/cpp/CMakeLists.txt">CMakeLists.txt file</a> builds the WasmEdge source into Android shared library files and embeds them into the final APK application. In this case, there is no separate step to install WasmEdge share libraries onto the Android device.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-for-sel4"><a class="header" href="#build-wasmedge-for-sel4">Build WasmEdge for seL4</a></h1>
 <p><a href="https://youtu.be/2Qu-Trtkspk">Video demo</a> | <a href="https://github.com/second-state/wasmedge-seL4/runs/3982081148?check_suite_focus=true">Build logs</a> | <a href="https://github.com/second-state/wasmedge-seL4/actions/runs/1374510169">Build artifact</a></p>
 <p>In this article, we demonstrate how to run WasmEdge on the seL4 RTOS, there are two parts:</p>
@@ -29073,10 +29073,10 @@ Initializing random number generator... [    3.512482] random: dd: uninitialized
 done.
 Starting network: OK
 [    4.086059] connection: loading out-of-tree module taints kernel.
-[    4.114686] Event Bar (dev-0) initalised
-[    4.123771] 2 Dataports (dev-0) initalised
-[    4.130626] Event Bar (dev-1) initalised
-[    4.136096] 2 Dataports (dev-1) initalised
+[    4.114686] Event Bar (dev-0) initialised
+[    4.123771] 2 Dataports (dev-0) initialised
+[    4.130626] Event Bar (dev-1) initialised
+[    4.136096] 2 Dataports (dev-1) initialised
 
 Welcome to Buildroot
 buildroot login:

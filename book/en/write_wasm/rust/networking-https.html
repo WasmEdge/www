@@ -273,7 +273,7 @@ let buf = &amp;self.inner.parse_msg();
 }
 </code></pre>
 <p>To add the host function to a crate that can be used by Rust code, we also implement the <a href="https://github.com/second-state/wasmedge_http_req">httpreq module</a>.</p>
-<h3 id="implemention-of-httpsreq-host-function"><a class="header" href="#implemention-of-httpsreq-host-function">Implemention of httpsreq host function</a></h3>
+<h3 id="implementation-of-httpsreq-host-function"><a class="header" href="#implementation-of-httpsreq-host-function">Implementation of httpsreq host function</a></h3>
 <p>The httpsreq host has three functions (i.e. <code>send_data</code>, <code>get_rcv_len</code> and <code>get_rcv</code>)
 The <code>send_data</code> function uses the OpenSSL library to send the data to the server. The <code>send_data</code> function receives three inputs, that is, the host, the port and the parsed request.</p>
 <pre><code class="language-cpp">Expect&lt;void&gt; WasmEdgeHttpsReqSendData::body(const Runtime::CallingFrame &amp;Frame,
