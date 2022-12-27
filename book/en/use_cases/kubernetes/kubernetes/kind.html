@@ -185,7 +185,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
 </code></pre>
 <p>Now we have a fresh <code>crun</code> binary with wasmedge enabled under <code>/data/crun/crun</code> that we can copy from this container in the next step.</p>
 <h2 id="replace-crun-and-configure-containerd"><a class="header" href="#replace-crun-and-configure-containerd">Replace crun and configure containerd</a></h2>
-<p>Both runc and crun implement the OCI runtime spec and they have the same CLI parametes. Therefore we can just replace the runc binary with our crun-wasmedge binary we created before.</p>
+<p>Both runc and crun implement the OCI runtime spec and they have the same CLI parameters. Therefore we can just replace the runc binary with our crun-wasmedge binary we created before.</p>
 <p>Since crun is using some shared libraries we need to install libyajl, wasmedge and criu to make our crun work.</p>
 <p>Now we already have a KinD that uses crun instead of runc. Now we just need two config changes. The first one in the <code>/etc/containerd/config.toml</code> where we add the <code>pod_annotations</code>that can be passed to the runtime:</p>
 <pre><code class="language-toml">[plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd.runtimes.runc]

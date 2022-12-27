@@ -213,7 +213,7 @@ For the new examples of instantiating multiple anonymous WASM modules, please re
 </li>
 <li>
 <p>The <code>Module</code>-based resource management.</p>
-<p>Except the creation of <code>Module</code> instance for the host functons, the <code>Executor</code> will output a <code>Module</code> instance after instantiation. No matter the anonymous or named modules, developers have the responsibility to destroy them by <code>(*wasmedge.Module).Release()</code> API.
+<p>Except the creation of <code>Module</code> instance for the host functions, the <code>Executor</code> will output a <code>Module</code> instance after instantiation. No matter the anonymous or named modules, developers have the responsibility to destroy them by <code>(*wasmedge.Module).Release()</code> API.
 The <code>Store</code> will link to the named <code>Module</code> instance after registering. After the destroyment of a <code>Module</code> instance, the <code>Store</code> will unlink to that automatically; after the destroyment of the <code>Store</code>, the all <code>Module</code> instances the <code>Store</code> linked to will unlink to that <code>Store</code> automatically.</p>
 </li>
 </ol>
@@ -288,8 +288,8 @@ if err != nil {
 </code></pre>
 <p>Then the WASM module is instantiated into an anonymous module instance and handled by the <code>Store</code>.
 If a new WASM module is instantiated by this API, the old instantiated module instance will be cleaned.
-After the WasmEdge-Go <code>v0.10.0</code> version, the instantiated anonymous module will be outputed and handled by caller, and not only 1 anonymous module instance can be instantiated.
-Developers have the responsibility to release the outputed module instances.</p>
+After the WasmEdge-Go <code>v0.10.0</code> version, the instantiated anonymous module will be outputted and handled by caller, and not only 1 anonymous module instance can be instantiated.
+Developers have the responsibility to release the outputted module instances.</p>
 <pre><code class="language-go">var ast1 *wasmedge.AST
 var ast2 *wasmedge.AST
 // Assume that `ast1` and `ast2` are loaded WASMs from different files or buffers,
@@ -335,7 +335,7 @@ if err != nil {
 }
 mod.Release()
 </code></pre>
-<p>Developers have the responsibility to release the outputed module instances.</p>
+<p>Developers have the responsibility to release the outputted module instances.</p>
 </li>
 <li>
 <p>Host module registration</p>
@@ -550,7 +550,7 @@ if err != nil {
   return
 }
 
-// Now, developers can retrieve the exported instances from the module instaces.
+// Now, developers can retrieve the exported instances from the module instances.
 // Take the exported functions as example. This WASM exports the function &quot;fib&quot;.
 // Find the function &quot;fib&quot; from the instantiated anonymous module.
 func1 := anonymousmod.FindFunction(&quot;fib&quot;)

@@ -854,8 +854,8 @@ pub fn del_file(path: &amp;str) -&gt; String {
 </blockquote>
 <h2 id="目录"><a class="header" href="#目录">目录</a></h2>
 <ul>
-<li><a href="dev/rust/tensorflow.html#a-rust-example">一个 Rust 示例</a></li>
-<li><a href="dev/rust/tensorflow.html#deployment-options">部署选项</a></li>
+<li><a href="dev/rust/tensorflow.html#%E4%B8%80%E4%B8%AA-rust-%E7%A4%BA%E4%BE%8B">一个 Rust 示例</a></li>
+<li><a href="dev/rust/tensorflow.html#%E9%83%A8%E7%BD%B2%E9%80%89%E9%A1%B9">部署选项</a></li>
 </ul>
 <h2 id="一个-rust-示例"><a class="header" href="#一个-rust-示例">一个 Rust 示例</a></h2>
 <h3 id="前置条件-1"><a class="header" href="#前置条件-1">前置条件</a></h3>
@@ -944,7 +944,7 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 <li><a href="https://github.com/second-state/aws-lambda-wasm-runtime">AWS Lambda</a></li>
 <li><a href="https://github.com/second-state/tencent-scf-wasm-runtime">腾讯 Serverless 函数</a> (中文)</li>
 </ul>
-<h3 id="second-sate-faas-和-nodejs"><a class="header" href="#second-sate-faas-和-nodejs">Second Sate FaaS 和 Node.js</a></h3>
+<h3 id="second-state-faas-和-nodejs"><a class="header" href="#second-state-faas-和-nodejs">Second State FaaS 和 Node.js</a></h3>
 <p>以下的教程展示了如何在 Second State FaaS 平台上部署使用 Rust 编写的 WebAssembly 程序。由于 FaaS 服务在 Node.js 上运行，你可以按照这些教程在你自己的 Node.js 服务器上运行这些函数。</p>
 <ul>
 <li><a href="https://www.secondstate.io/articles/faas-image-classification/">Tensorflow：使用 MobileNet 来进行图像分类</a> | <a href="https://second-state.github.io/wasm-learning/faas/mobilenet/html/index.html">在线演示</a></li>
@@ -1866,7 +1866,7 @@ echo:WasmEdge
 </code></pre>
 <p>在异步 HTTP 网络编程中，开发者可以安全并高效地在 WasmEdge 中使用 JavaScript 创建强交互的应用，例如数据库驱动的微服务。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="fetch-api"><a class="header" href="#fetch-api"><code>fetch</code> API</a></h1>
-<p><code>fetch</code> API 被广泛用于浏览器和基于 Node 的 JavaScript 应用程序中，用来通过网络获取内容。WasmEdge QuickJS Runtime 在其非阻塞的 Aysnc Socket API 的基础上支持 <code>fetch</code> API。这使得很多 JS 的 API 和模块可以开箱即用。</p>
+<p><code>fetch</code> API 被广泛用于浏览器和基于 Node 的 JavaScript 应用程序中，用来通过网络获取内容。WasmEdge QuickJS Runtime 在其非阻塞的 Async Socket API 的基础上支持 <code>fetch</code> API。这使得很多 JS 的 API 和模块可以开箱即用。</p>
 <p><a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/wasi_http_fetch.js">example_js/wasi_http_fetch.js</a> 例子展示了如何在 WasmEdge 中使用 <code>fetch</code> API。下面的代码片段显示了一个异步的 HTTP GET 请求。当程序等待和处理 GET 内容的时候，它可以开始另一个请求。</p>
 <pre><code class="language-javascript">import { fetch } from 'http'
 
@@ -2160,7 +2160,7 @@ nohup wasmedge --dir .:. ../../target/wasm32-wasi/release/wasmedge_quickjs.wasm 
 
 export {hello};
 </code></pre>
-<p><a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/es6_module_demo/module_def_async.js">module_def_async.js</a> 文件定义并导出了一个 aysnc 函数和一个变量。</p>
+<p><a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/es6_module_demo/module_def_async.js">module_def_async.js</a> 文件定义并导出了一个 async 函数和一个变量。</p>
 <pre><code class="language-javascript">export async function hello() {
   console.log('hello from module_def_async.js');
   return 'module_def_async.js : return value';
@@ -3952,7 +3952,7 @@ func (h *host) fetch(_ interface{}, mem *wasmedge.Memory, params []interface{}) 
   return []interface{}{len(respBody)}, wasmedge.Result_Success
 }
 
-// Host function for writting memory
+// Host function for writing memory
 func (h *host) writeMem(_ interface{}, mem *wasmedge.Memory, params []interface{}) ([]interface{}, wasmedge.Result) {
   // write source code to memory
   pointer := params[0].(int32)
@@ -8936,7 +8936,7 @@ $ docker run --rm -v $(pwd):/app -it wasmedge/sel4_build
 (docker) root#
 </code></pre>
 <blockquote>
-<p>如果你不想自己搭建 seL4 系统模拟器，你可以从我们的 GitHub Actions 下载 <a href="https://github.com/second-state/wasmedge-seL4/actions/runs/1374510169">build artifact</a>, 并直接跳到 <a href="os/sel4.html#boot-wasmedge-sel4">启动-wasmedge-seL4</a>。</p>
+<p>如果你不想自己搭建 seL4 系统模拟器，你可以从我们的 GitHub Actions 下载 <a href="https://github.com/second-state/wasmedge-seL4/actions/runs/1374510169">build artifact</a>, 并直接跳到 <a href="os/sel4.html#%E5%90%AF%E5%8A%A8-wasmedge-sel4">启动-wasmedge-seL4</a>。</p>
 </blockquote>
 <h3 id="自动安装一体化脚本"><a class="header" href="#自动安装一体化脚本">自动安装：一体化脚本</a></h3>
 <p>使用我们的一体化构建脚本：</p>
@@ -9003,10 +9003,10 @@ Initializing random number generator... [    3.512482] random: dd: uninitialized
 done.
 Starting network: OK
 [    4.086059] connection: loading out-of-tree module taints kernel.
-[    4.114686] Event Bar (dev-0) initalised
-[    4.123771] 2 Dataports (dev-0) initalised
-[    4.130626] Event Bar (dev-1) initalised
-[    4.136096] 2 Dataports (dev-1) initalised
+[    4.114686] Event Bar (dev-0) initialised
+[    4.123771] 2 Dataports (dev-0) initialised
+[    4.130626] Event Bar (dev-1) initialised
+[    4.136096] 2 Dataports (dev-1) initialised
 
 Welcome to Buildroot
 buildroot login:

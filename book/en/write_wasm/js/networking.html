@@ -167,7 +167,7 @@
 <li><a href="#tcp-client">TCP client</a></li>
 </ul>
 <h2 id="fetch-client"><a class="header" href="#fetch-client">Fetch client</a></h2>
-<p>The <code>fetch</code> API is widely used in browser and node-based JavaScript applications to fetch content over the network. Building on top of its non-blocking aysnc network socket API, the WasmEdge QuickJS runtime supports the <code>fetch</code> API. That makes a lot of JS APIs and modules reusable out of the box.</p>
+<p>The <code>fetch</code> API is widely used in browser and node-based JavaScript applications to fetch content over the network. Building on top of its non-blocking async network socket API, the WasmEdge QuickJS runtime supports the <code>fetch</code> API. That makes a lot of JS APIs and modules reusable out of the box.</p>
 <p>The <a href="https://github.com/second-state/wasmedge-quickjs/blob/main/example_js/wasi_http_fetch.js">example_js/wasi_http_fetch.js</a> example demonstrates how to use the <code>fetch</code> API in WasmEdge. The code snippet below shows an async HTTP GET from the <code>httpbin.org</code> test server. While the program waits for and processes the GET content, it can start another request.</p>
 <pre><code class="language-javascript">async function test_fetch() {
   try {

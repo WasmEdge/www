@@ -157,7 +157,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="wasmedge-go-v0112-api-references"><a class="header" href="#wasmedge-go-v0112-api-references">WasmEdge Go v0.11.2 API references</a></h1>
-<p>The followings are the guides to working with the WasmEdge-Go SDK.</p>
+<p>The following are the guides to working with the WasmEdge-Go SDK.</p>
 <p><strong>This document is for the <code>v0.11.2</code> version. For the older <code>v0.10.1</code> version, please refer to the <a href="0.10.1/ref.html">document here</a>.</strong></p>
 <p><strong>Developers can refer to <a href="0.10.1/upgrade_to_0.11.0.html">here to upgrade to v0.11.0</a>.</strong></p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
@@ -721,7 +721,7 @@ conf.Release()
 These configurations are effective in <code>Compiler</code>, <code>VM</code>, and <code>Executor</code> objects.</p>
 <pre><code class="language-go">conf := wasmedge.NewConfigure()
 
-// By default, the intruction counting is `false` when running a compiled-WASM or a pure-WASM.
+// By default, the instruction counting is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsInstructionCounting(true)
 // By default, the cost measurement is `false` when running a compiled-WASM or a pure-WASM.
 conf.SetStatisticsTimeMeasuring(true)
@@ -1373,7 +1373,7 @@ Please refer to the <a href="#instances">Instances in runtime</a> for the detail
 <pre><code class="language-go">// Assume that a WASM module is instantiated in `vm` which is a `wasmedge.VM` object.
 functype := vm.GetFunctionType(&quot;fib&quot;)
 // Developers can get the function types of functions in the registered modules via the 
-// `(*VM).GetFunctionTypeRegistered` API with the functon name and the module name.
+// `(*VM).GetFunctionTypeRegistered` API with the function name and the module name.
 // If the function is not found, these APIs will return `nil`.
 // Developers should __NOT__ call the `(*FunctionType).Release` function of the returned object.
 </code></pre>
