@@ -4333,9 +4333,11 @@ It is very likely a &lt;a href='https://www.google.com/search?q=military uniform
 </ul>
 <h2 id="prerequisites-5"><a class="header" href="#prerequisites-5">Prerequisites</a></h2>
 <p>Currently, WasmEdge used OpenVINO™ or PyTorch as the WASI-NN backend implementation. For using WASI-NN on WasmEdge, you need to install <a href="https://docs.openvino.ai/2021.4/openvino_docs_install_guides_installing_openvino_linux.html#">OpenVINO™</a>(2021) or <a href="https://pytorch.org/get-started/locally/">PyTorch 1.8.2 LTS</a> for the backend.</p>
-<p>In the current status, the <a href="write_wasm/rust/../../quick_start/install.html">WasmEdge Installer</a> will install the <code>manylinux2014</code> version of WasmEdge releases, but the WASI-NN plug-in for WasmEdge only supports <code>Ubuntu 20.04</code> or later now. Please refer to the following steps to get the WasmEdge with WASI-NN plug-in.</p>
 <p>You can also <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasi_nn.html">build WasmEdge with WASI-NN plug-in from source</a>.</p>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-openvino-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-openvino-backend">Get WasmEdge with WASI-NN Plug-in OpenVINO Backend</a></h3>
+<blockquote>
+<p>Note: In current, the OpenVINO™ backend of WASI-NN in WasmEdge supports Ubuntu 20.04 or above only.</p>
+</blockquote>
 <p>First you should <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-openvino-backend">install the OpenVINO dependency</a>:</p>
 <pre><code class="language-bash">export OPENVINO_VERSION=&quot;2021.4.582&quot;
 export OPENVINO_YEAR=&quot;2021&quot;
@@ -4347,39 +4349,25 @@ source /opt/intel/openvino_2021/bin/setupvars.sh
 ldconfig
 </code></pre>
 <p>And then get the WasmEdge and the WASI-NN plug-in with OpenVINO backend:</p>
-<pre><code class="language-bash">curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasi_nn-openvino-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasi_nn-openvino-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasi_nn-openvino-0.11.2-ubuntu20.04_x86_64.tar.gz
-mv libwasmedgePluginWasiNN.so WasmEdge-0.11.2-Linux/lib/wasmedge
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.2-Linux/lib
-export PATH=$PATH:$(pwd)/WasmEdge-0.11.2-Linux/bin
-export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.2-Linux/lib/wasmedge
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-openvino
 </code></pre>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-pytorch-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">Get WasmEdge with WASI-NN Plug-in PyTorch Backend</a></h3>
 <p>First you should <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-pytorch-backend">install the PyTorch dependency</a>:</p>
 <pre><code class="language-bash">export PYTORCH_VERSION=&quot;1.8.2&quot;
-curl -s -L -O --remote-name-all https://download.pytorch.org/libtorch/lts/1.8/cpu/libtorch-cxx11-abi-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip
-unzip -q &quot;libtorch-cxx11-abi-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
-rm -f &quot;libtorch-cxx11-abi-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
+# For the Ubuntu 20.04 or above, use the libtorch with cxx11 abi.
+export PYTORCH_ABI=&quot;libtorch-cxx11-abi&quot;
+# For the manylinux2014, please use the without cxx11 abi version:
+#   export PYTORCH_ABI=&quot;libtorch&quot;
+curl -s -L -O --remote-name-all https://download.pytorch.org/libtorch/lts/1.8/cpu/${PYTORCH_ABI}-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip
+unzip -q &quot;${PYTORCH_ABI}-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
+rm -f &quot;${PYTORCH_ABI}-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/libtorch/lib
 </code></pre>
 <p>And then get the WasmEdge and the WASI-NN plug-in with PyTorch backend:</p>
-<pre><code class="language-bash">curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasi_nn-pytorch-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasi_nn-pytorch-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasi_nn-pytorch-0.11.2-ubuntu20.04_x86_64.tar.gz
-mv libwasmedgePluginWasiNN.so WasmEdge-0.11.2-Linux/lib/wasmedge
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.2-Linux/lib
-export PATH=$PATH:$(pwd)/WasmEdge-0.11.2-Linux/bin
-export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.2-Linux/lib/wasmedge
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-pytorch
 </code></pre>
 <blockquote>
-<p>The WasmEdge installer would install the <code>manylinux2014</code> version for Ubuntu. If you install WasmEdge with the installer or for the <code>manylinux2014</code> version, you should get the <code>manylinux2014</code> version plug-in and <code>libtorch</code>.</p>
+<p>Note: Please check that the Ubuntu version of WasmEdge and plug-in should use the cxx11-abi version of PyTorch, and the manylinux2014 version of WasmEdge and plug-in should use the PyTorch without cxx11-abi.</p>
 </blockquote>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">Get WasmEdge with WASI-NN Plug-in TensorFlow-Lite Backend</a></h3>
 <p>First you should <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-tensorflow-lite-backend">install the TensorFlow-Lite dependency</a>:</p>
@@ -4393,21 +4381,8 @@ rm -f WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
 </code></pre>
 <p>Or set the environment variable <code>export LD_LIBRARY_PATH=$(pwd):${LD_LIBRARY_PATH}</code>.</p>
 <p>And then get the WasmEdge and the WASI-NN plug-in with TensorFlow-Lite backend:</p>
-<pre><code class="language-bash">curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasi_nn-tensorflowlite-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasi_nn-tensorflowlite-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasi_nn-tensorflowlite-0.11.2-ubuntu20.04_x86_64.tar.gz
-mv libwasmedgePluginWasiNN.so WasmEdge-0.11.2-Linux/lib/wasmedge
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.2-Linux/lib
-export PATH=$PATH:$(pwd)/WasmEdge-0.11.2-Linux/bin
-export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.2-Linux/lib/wasmedge
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-tensorflowlite
 </code></pre>
-<blockquote>
-<p>The WasmEdge installer would install the <code>manylinux2014</code> version for Ubuntu. If you install WasmEdge with the installer or for the <code>manylinux2014</code> version, you should get the <code>manylinux2014</code> version plug-in.</p>
-<p>We also provided <a href="https://github.com/second-state/WasmEdge-tensorflow-deps/releases/tag/0.11.1">various TensorFlow-Lite pre-built libraries</a>, such as <code>manylinux2014_aarch64</code>.</p>
-</blockquote>
 <h2 id="write-webassembly-using-wasi-nn"><a class="header" href="#write-webassembly-using-wasi-nn">Write WebAssembly Using WASI-NN</a></h2>
 <p>You can refer to the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/openvino-mobilenet-image">OpenVINO backend example</a> and the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/pytorch-mobilenet-image">PyTorch backend example</a>.</p>
 <h3 id="optional-rust-installation"><a class="header" href="#optional-rust-installation">(Optional) Rust Installation</a></h3>
@@ -4849,36 +4824,9 @@ wasmedge --dir .:. out.wasm lite-model_aiy_vision_classifier_birds_V1_3.tflite b
 <p>While optimizing compilers could allow efficient implementation of cryptographic features in WebAssembly, there are several occasions as below where a host implementation is more desirable. <a href="https://github.com/WebAssembly/wasi-crypto/blob/main/docs/HighLevelGoals.md">WASI-crypto</a> aims to fill those gaps by defining a standard interface as a set of APIs.
 Current not support android.</p>
 <h2 id="prerequisites-6"><a class="header" href="#prerequisites-6">Prerequisites</a></h2>
-<p>In the current status, the <a href="write_wasm/rust/../../quick_start/install.html">WasmEdge Installer</a> will install the <code>manylinux2014</code> version of WasmEdge releases on Linux platforms.</p>
 <p>For installation with the installer, you can follow the commands:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasi_crypto-0.11.2-manylinux2014_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasi_crypto-0.11.2-manylinux2014_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasi_crypto-0.11.2-manylinux2014_x86_64.tar.gz
-mv libwasmedgePluginWasiCrypto.so $HOME/.wasmedge/plugin
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_crypto
 </code></pre>
-<p>If you choose to install WasmEdge under <code>/usr</code>, please note that the plug-in path is different:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 -p /usr/local
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasi_crypto-0.11.2-manylinux2014_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasi_crypto-0.11.2-manylinux2014_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasi_crypto-0.11.2-manylinux2014_x86_64.tar.gz
-mv libwasmedgePluginWasiCrypto.so /usr/local/lib/wasmedge/
-</code></pre>
-<p>If you want to use the <code>Ubuntu 20.04</code> version, please install with the following commands:</p>
-<pre><code class="language-bash">curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasi_crypto-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasi_crypto-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasi_crypto-0.11.2-ubuntu20.04_x86_64.tar.gz
-mv libwasmedgePluginWasiCrypto.so WasmEdge-0.11.2-Linux/lib/wasmedge
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.2-Linux/lib
-export PATH=$PATH:$(pwd)/WasmEdge-0.11.2-Linux/bin
-export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.2-Linux/lib/wasmedge
-</code></pre>
-<blockquote>
-<p>The <code>manylinux2014</code> WasmEdge should use the <code>manylinux2014</code> version of plug-in, while the <code>Ubuntu 20.04</code> WasmEdge should also use the <code>Ubuntu 20.04</code> version of plug-in, too.</p>
-</blockquote>
 <p>You can also <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasi_crypto.html">build WasmEdge with WASI-Crypto plug-in from source</a>.</p>
 <h2 id="write-webassembly-using-wasi-crypto"><a class="header" href="#write-webassembly-using-wasi-crypto">Write WebAssembly Using WASI-Crypto</a></h2>
 <h3 id="optional-rust-installation-1"><a class="header" href="#optional-rust-installation-1">(Optional) Rust Installation</a></h3>
@@ -5076,37 +5024,9 @@ echo: name=WasmEdge
 <div style="break-before: page; page-break-before: always;"></div><h1 id="networking-for-https"><a class="header" href="#networking-for-https">Networking for HTTPS</a></h1>
 <p>The WasmEdge WASI socket API supports HTTP networking in Wasm apps. In order to achieve the goal of supporting HTTPS requests with the same API as an HTTP request, we now create a WasmEdge plugin using the OpenSSL library. In this chapter, we will give the example of HTTPS requests and explain the design.</p>
 <h2 id="prerequisites-7"><a class="header" href="#prerequisites-7">Prerequisites</a></h2>
-<p>In the current status, the <a href="write_wasm/rust/../../quick_start/install.html">WasmEdge Installer</a> will install the <code>manylinux2014</code> version of WasmEdge releases on Linux platforms.</p>
 <p>For installation with the installer, you can follow the commands:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasmedge_httpsreq-0.11.2-manylinux2014_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasmedge_httpsreq-0.11.2-manylinux2014_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasmedge_httpsreq-0.11.2-manylinux2014_x86_64.tar.gz
-mv libwasmedgePluginHttpsReq.so $HOME/.wasmedge/plugin
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasmedge_httpsreq
 </code></pre>
-<p>If you choose to install WasmEdge under <code>/usr</code>, please note that the plug-in path is different:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 -p /usr/local
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasmedge_httpsreq-0.11.2-manylinux2014_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasmedge_httpsreq-0.11.2-manylinux2014_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasmedge_httpsreq-0.11.2-manylinux2014_x86_64.tar.gz
-mv libwasmedgePluginHttpsReq.so /usr/local/lib/wasmedge/
-</code></pre>
-<p>If you want to use the <code>Ubuntu 20.04</code> version, please install with the following commands:</p>
-<pre><code class="language-bash">curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasmedge_httpsreq-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasmedge_httpsreq-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasmedge_httpsreq-0.11.2-ubuntu20.04_x86_64.tar.gz
-mv libwasmedgePluginHttpsReq.so WasmEdge-0.11.2-Linux/lib/wasmedge
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.2-Linux/lib
-export PATH=$PATH:$(pwd)/WasmEdge-0.11.2-Linux/bin
-export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.2-Linux/lib/wasmedge
-</code></pre>
-<blockquote>
-<p>The <code>manylinux2014</code> WasmEdge should use the <code>manylinux2014</code> version of plug-in, while the <code>Ubuntu 20.04</code> WasmEdge should also use the <code>Ubuntu 20.04</code> version of plug-in, too.</p>
-</blockquote>
-<p>You can also <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasmedge_httpsreq.html">build WasmEdge with WASI-Crypto plug-in from source</a>.</p>
 <h2 id="an-https-request-example"><a class="header" href="#an-https-request-example">An HTTPS request example</a></h2>
 <p>The <a href="https://github.com/2019zhou/wasmedge_http_req/blob/zhou/httpsreq/examples/get_https.rs">example source code</a> for the HTTPS request is available as follows. The HTTP and HTTPS APIs are the same. The Err messages are presented differently because the HTTP uses the rust code while the HTTPS request uses a wasmedge host function.</p>
 <pre><pre class="playground"><code class="language-rust">use wasmedge_http_req::request;
