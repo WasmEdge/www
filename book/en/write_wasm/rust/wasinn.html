@@ -194,9 +194,11 @@
 </ul>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <p>Currently, WasmEdge used OpenVINO™ or PyTorch as the WASI-NN backend implementation. For using WASI-NN on WasmEdge, you need to install <a href="https://docs.openvino.ai/2021.4/openvino_docs_install_guides_installing_openvino_linux.html#">OpenVINO™</a>(2021) or <a href="https://pytorch.org/get-started/locally/">PyTorch 1.8.2 LTS</a> for the backend.</p>
-<p>In the current status, the <a href="../../quick_start/install.html">WasmEdge Installer</a> will install the <code>manylinux2014</code> version of WasmEdge releases, but the WASI-NN plug-in for WasmEdge only supports <code>Ubuntu 20.04</code> or later now. Please refer to the following steps to get the WasmEdge with WASI-NN plug-in.</p>
 <p>You can also <a href="../../contribute/build_from_src/plugin_wasi_nn.html">build WasmEdge with WASI-NN plug-in from source</a>.</p>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-openvino-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-openvino-backend">Get WasmEdge with WASI-NN Plug-in OpenVINO Backend</a></h3>
+<blockquote>
+<p>Note: In current, the OpenVINO™ backend of WASI-NN in WasmEdge supports Ubuntu 20.04 or above only.</p>
+</blockquote>
 <p>First you should <a href="../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-openvino-backend">install the OpenVINO dependency</a>:</p>
 <pre><code class="language-bash">export OPENVINO_VERSION=&quot;2021.4.582&quot;
 export OPENVINO_YEAR=&quot;2021&quot;
@@ -208,39 +210,25 @@ source /opt/intel/openvino_2021/bin/setupvars.sh
 ldconfig
 </code></pre>
 <p>And then get the WasmEdge and the WASI-NN plug-in with OpenVINO backend:</p>
-<pre><code class="language-bash">curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasi_nn-openvino-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasi_nn-openvino-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasi_nn-openvino-0.11.2-ubuntu20.04_x86_64.tar.gz
-mv libwasmedgePluginWasiNN.so WasmEdge-0.11.2-Linux/lib/wasmedge
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.2-Linux/lib
-export PATH=$PATH:$(pwd)/WasmEdge-0.11.2-Linux/bin
-export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.2-Linux/lib/wasmedge
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-openvino
 </code></pre>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-pytorch-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">Get WasmEdge with WASI-NN Plug-in PyTorch Backend</a></h3>
 <p>First you should <a href="../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-pytorch-backend">install the PyTorch dependency</a>:</p>
 <pre><code class="language-bash">export PYTORCH_VERSION=&quot;1.8.2&quot;
-curl -s -L -O --remote-name-all https://download.pytorch.org/libtorch/lts/1.8/cpu/libtorch-cxx11-abi-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip
-unzip -q &quot;libtorch-cxx11-abi-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
-rm -f &quot;libtorch-cxx11-abi-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
+# For the Ubuntu 20.04 or above, use the libtorch with cxx11 abi.
+export PYTORCH_ABI=&quot;libtorch-cxx11-abi&quot;
+# For the manylinux2014, please use the without cxx11 abi version:
+#   export PYTORCH_ABI=&quot;libtorch&quot;
+curl -s -L -O --remote-name-all https://download.pytorch.org/libtorch/lts/1.8/cpu/${PYTORCH_ABI}-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip
+unzip -q &quot;${PYTORCH_ABI}-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
+rm -f &quot;${PYTORCH_ABI}-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/libtorch/lib
 </code></pre>
 <p>And then get the WasmEdge and the WASI-NN plug-in with PyTorch backend:</p>
-<pre><code class="language-bash">curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasi_nn-pytorch-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasi_nn-pytorch-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasi_nn-pytorch-0.11.2-ubuntu20.04_x86_64.tar.gz
-mv libwasmedgePluginWasiNN.so WasmEdge-0.11.2-Linux/lib/wasmedge
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.2-Linux/lib
-export PATH=$PATH:$(pwd)/WasmEdge-0.11.2-Linux/bin
-export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.2-Linux/lib/wasmedge
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-pytorch
 </code></pre>
 <blockquote>
-<p>The WasmEdge installer would install the <code>manylinux2014</code> version for Ubuntu. If you install WasmEdge with the installer or for the <code>manylinux2014</code> version, you should get the <code>manylinux2014</code> version plug-in and <code>libtorch</code>.</p>
+<p>Note: Please check that the Ubuntu version of WasmEdge and plug-in should use the cxx11-abi version of PyTorch, and the manylinux2014 version of WasmEdge and plug-in should use the PyTorch without cxx11-abi.</p>
 </blockquote>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">Get WasmEdge with WASI-NN Plug-in TensorFlow-Lite Backend</a></h3>
 <p>First you should <a href="../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-tensorflow-lite-backend">install the TensorFlow-Lite dependency</a>:</p>
@@ -254,21 +242,8 @@ rm -f WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
 </code></pre>
 <p>Or set the environment variable <code>export LD_LIBRARY_PATH=$(pwd):${LD_LIBRARY_PATH}</code>.</p>
 <p>And then get the WasmEdge and the WASI-NN plug-in with TensorFlow-Lite backend:</p>
-<pre><code class="language-bash">curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-0.11.2-ubuntu20.04_x86_64.tar.gz
-curl -sLO https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-plugin-wasi_nn-tensorflowlite-0.11.2-ubuntu20.04_x86_64.tar.gz
-tar -zxf WasmEdge-plugin-wasi_nn-tensorflowlite-0.11.2-ubuntu20.04_x86_64.tar.gz
-rm -f WasmEdge-plugin-wasi_nn-tensorflowlite-0.11.2-ubuntu20.04_x86_64.tar.gz
-mv libwasmedgePluginWasiNN.so WasmEdge-0.11.2-Linux/lib/wasmedge
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/WasmEdge-0.11.2-Linux/lib
-export PATH=$PATH:$(pwd)/WasmEdge-0.11.2-Linux/bin
-export WASMEDGE_PLUGIN_PATH=$(pwd)/WasmEdge-0.11.2-Linux/lib/wasmedge
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-tensorflowlite
 </code></pre>
-<blockquote>
-<p>The WasmEdge installer would install the <code>manylinux2014</code> version for Ubuntu. If you install WasmEdge with the installer or for the <code>manylinux2014</code> version, you should get the <code>manylinux2014</code> version plug-in.</p>
-<p>We also provided <a href="https://github.com/second-state/WasmEdge-tensorflow-deps/releases/tag/0.11.1">various TensorFlow-Lite pre-built libraries</a>, such as <code>manylinux2014_aarch64</code>.</p>
-</blockquote>
 <h2 id="write-webassembly-using-wasi-nn"><a class="header" href="#write-webassembly-using-wasi-nn">Write WebAssembly Using WASI-NN</a></h2>
 <p>You can refer to the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/openvino-mobilenet-image">OpenVINO backend example</a> and the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/pytorch-mobilenet-image">PyTorch backend example</a>.</p>
 <h3 id="optional-rust-installation"><a class="header" href="#optional-rust-installation">(Optional) Rust Installation</a></h3>
