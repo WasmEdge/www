@@ -158,6 +158,27 @@
                     <main>
                         <h1 id="wasmedge-internal"><a class="header" href="#wasmedge-internal">WasmEdge Internal</a></h1>
 <p>Work in progress.</p>
+<h2 id="overview-of-wasmedge-execution-flow"><a class="header" href="#overview-of-wasmedge-execution-flow">Overview of WasmEdge Execution Flow</a></h2>
+<pre><code class="language-mermaid">graph TD
+    A[Wasm] --&gt;|From files or buffers| B(Loader)
+    B --&gt;|Create Wasm AST| C(Validator)
+    C --&gt;|Validate Wasm Module| D[Instantiator]
+    D --&gt;|Create Wasm instances| E{AOT section found?}
+    E --&gt;|Yes| F[AOT Engine]
+    E --&gt;|No| G[Interpreter Engine]
+    F &lt;--&gt;|Execute Wasm| H[WasmEdge Engine]
+    G &lt;--&gt;|Execute Wasm| H[WasmEdge Engine]
+    H --&gt;|Host Function Call / Access Runtime Data| H1[WasmEdge Runtime]
+    H1 &lt;--&gt;|Call Host Functions| I[Host Functions]
+    H1 &lt;--&gt;|Access Runtime Data| J[Runtime Data Manager]
+    I &lt;--&gt;|System Call| I1[Wasm System Interface, WASI]
+    I &lt;--&gt;|AI-related Function Call| I2[WASI-NN]
+    I &lt;--&gt;|Crypto-related Function Call| I3[WASI-Crypto]
+    I &lt;--&gt;|Socket-related Function Call| I4[WasmEdge-WASI-Socket]
+    J &lt;--&gt;|Access Memory| J1[Memory Manager]
+    J &lt;--&gt;|Access Stack| J2[Stack Manager]
+    J &lt;--&gt;|Access Cross Module| J3[Registered Module/Function Manager]
+</code></pre>
 
                     </main>
 
