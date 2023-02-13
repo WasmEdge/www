@@ -27,7 +27,7 @@ jobs:
       - name: Copy static pages
         run: |
           cp -r book dist/
-          cp -r newBook dist/
+          cp -r newBook dist/book
           cp -r wasm_linux_container dist/
 
       - name: Publish
