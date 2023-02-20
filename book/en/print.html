@@ -42,6 +42,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
@@ -90,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item "><a href="quick_start.html"><strong aria-hidden="true">2.</strong> Quick Start</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="quick_start/install.html"><strong aria-hidden="true">2.1.</strong> Installation And Uninstallation</a></li><li class="chapter-item "><a href="quick_start/use_docker.html"><strong aria-hidden="true">2.2.</strong> Using WasmEdge in Docker</a></li><li class="chapter-item "><a href="quick_start/run_cli.html"><strong aria-hidden="true">2.3.</strong> Running WASM with WasmEdge CLI</a></li><li class="chapter-item "><a href="quick_start/run_in_aot_mode.html"><strong aria-hidden="true">2.4.</strong> Execution in AOT Mode</a></li></ol></li><li class="chapter-item "><a href="features.html"><strong aria-hidden="true">3.</strong> WasmEdge Features</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="features/proposals.html"><strong aria-hidden="true">3.1.</strong> Supported WASM And WASI Proposals</a></li><li class="chapter-item "><a href="features/proprietary_extend.html"><strong aria-hidden="true">3.2.</strong> WasmEdge Proprietary extensions</a></li><li class="chapter-item "><a href="features/integrations.html"><strong aria-hidden="true">3.3.</strong> Integrations</a></li><li class="chapter-item "><a href="features/platforms.html"><strong aria-hidden="true">3.4.</strong> Supported Platforms</a></li><li class="chapter-item "><a href="features/comparison.html"><strong aria-hidden="true">3.5.</strong> Comparison</a></li></ol></li><li class="chapter-item "><a href="use_cases.html"><strong aria-hidden="true">4.</strong> WasmEdge Use Cases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/server_side_render.html"><strong aria-hidden="true">4.1.</strong> Server-Side Rendering Modern Web UI</a></li><li class="chapter-item "><a href="use_cases/microservice.html"><strong aria-hidden="true">4.2.</strong> Microservices</a></li><li class="chapter-item "><a href="use_cases/serverless_faas.html"><strong aria-hidden="true">4.3.</strong> Serverless Function-As-A-Service in Public Clouds</a></li><li class="chapter-item "><a href="use_cases/serverless_saas.html"><strong aria-hidden="true">4.4.</strong> Serverless Software-As-A-Service Functions</a></li><li class="chapter-item "><a href="use_cases/smart_device.html"><strong aria-hidden="true">4.5.</strong> Smart devices</a></li><li class="chapter-item "><a href="use_cases/js_or_dsl_runtime.html"><strong aria-hidden="true">4.6.</strong> JavaScript or Domain Specific Language Runtime</a></li><li class="chapter-item "><a href="use_cases/kubernetes.html"><strong aria-hidden="true">4.7.</strong> WasmEdge in Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/quickstart.html"><strong aria-hidden="true">4.7.1.</strong> Quick start</a></li><li class="chapter-item "><a href="use_cases/kubernetes/demo.html"><strong aria-hidden="true">4.7.2.</strong> Demo apps</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/demo/wasi.html"><strong aria-hidden="true">4.7.2.1.</strong> Simple example</a></li><li class="chapter-item "><a href="use_cases/kubernetes/demo/server.html"><strong aria-hidden="true">4.7.2.2.</strong> HTTP service</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/container.html"><strong aria-hidden="true">4.7.3.</strong> Container runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/container/crun.html"><strong aria-hidden="true">4.7.3.1.</strong> crun</a></li><li class="chapter-item "><a href="use_cases/kubernetes/container/runc.html"><strong aria-hidden="true">4.7.3.2.</strong> runc</a></li><li class="chapter-item "><a href="use_cases/kubernetes/container/youki.html"><strong aria-hidden="true">4.7.3.3.</strong> youki</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/cri.html"><strong aria-hidden="true">4.7.4.</strong> CRI runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/cri/crio.html"><strong aria-hidden="true">4.7.4.1.</strong> CRI-O</a></li><li class="chapter-item "><a href="use_cases/kubernetes/cri/containerd.html"><strong aria-hidden="true">4.7.4.2.</strong> containerd</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes.html"><strong aria-hidden="true">4.7.5.</strong> Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubernetes-crio.html"><strong aria-hidden="true">4.7.5.1.</strong> Kubernetes + CRI-O</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubernetes-containerd.html"><strong aria-hidden="true">4.7.5.2.</strong> Kubernetes + containerd</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kind.html"><strong aria-hidden="true">4.7.5.3.</strong> KinD</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubeedge.html"><strong aria-hidden="true">4.7.5.4.</strong> KubeEdge</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/superedge.html"><strong aria-hidden="true">4.7.5.5.</strong> SuperEdge</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/openyurt.html"><strong aria-hidden="true">4.7.5.6.</strong> OpenYurt</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/knative.html"><strong aria-hidden="true">4.7.5.7.</strong> Knative</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/docker.html"><strong aria-hidden="true">4.7.6.</strong> Docker</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/docker/lxc.html"><strong aria-hidden="true">4.7.6.1.</strong> Slim container</a></li><li class="chapter-item "><a href="use_cases/kubernetes/docker/containerd.html"><strong aria-hidden="true">4.7.6.2.</strong> containerd integration</a></li></ol></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks.html"><strong aria-hidden="true">4.8.</strong> App Frameworks & Platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/mesh.html"><strong aria-hidden="true">4.8.1.</strong> Service mesh & runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/mesh/dapr.html"><strong aria-hidden="true">4.8.1.1.</strong> Dapr</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/mosn.html"><strong aria-hidden="true">4.8.1.2.</strong> MOSN</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/wasm-nginx-module.html"><strong aria-hidden="true">4.8.1.3.</strong> Nginx</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/eventmesh.html"><strong aria-hidden="true">4.8.1.4.</strong> Apache EventMesh</a></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks/app.html"><strong aria-hidden="true">4.8.2.</strong> Application frameworks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/app/yomo.html"><strong aria-hidden="true">4.8.2.1.</strong> YoMo</a></li><li class="chapter-item "><a href="use_cases/frameworks/app/reactr.html"><strong aria-hidden="true">4.8.2.2.</strong> Reactr</a></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks/serverless.html"><strong aria-hidden="true">4.8.3.</strong> Serverless platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/serverless/vercel.html"><strong aria-hidden="true">4.8.3.1.</strong> Vercel</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/netlify.html"><strong aria-hidden="true">4.8.3.2.</strong> Netlify</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/aws.html"><strong aria-hidden="true">4.8.3.3.</strong> AWS</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/tencent.html"><strong aria-hidden="true">4.8.3.4.</strong> Tencent</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/secondstate.html"><strong aria-hidden="true">4.8.3.5.</strong> Second State</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><a href="write_wasm.html"><strong aria-hidden="true">5.</strong> Write a WebAssembly Application</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/c.html"><strong aria-hidden="true">5.1.</strong> C</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/c/simd.html"><strong aria-hidden="true">5.1.1.</strong> simd</a></li></ol></li><li class="chapter-item "><a href="write_wasm/rust.html"><strong aria-hidden="true">5.2.</strong> Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/rust/bindgen.html"><strong aria-hidden="true">5.2.1.</strong> Bindgen of Rust Functions</a></li><li class="chapter-item "><a href="write_wasm/rust/wasi.html"><strong aria-hidden="true">5.2.2.</strong> Access OS Services</a></li><li class="chapter-item "><a href="write_wasm/rust/tensorflow.html"><strong aria-hidden="true">5.2.3.</strong> TensorFlow</a></li><li class="chapter-item "><a href="write_wasm/rust/wasinn.html"><strong aria-hidden="true">5.2.4.</strong> Neural Network for WASI</a></li><li class="chapter-item "><a href="write_wasm/rust/wasicrypto.html"><strong aria-hidden="true">5.2.5.</strong> Crypto for WASI</a></li><li class="chapter-item "><a href="write_wasm/rust/networking.html"><strong aria-hidden="true">5.2.6.</strong> Simple HTTP Client & Server</a></li><li class="chapter-item "><a href="write_wasm/rust/networking-https.html"><strong aria-hidden="true">5.2.7.</strong> Simple HTTPS Client & Server</a></li><li class="chapter-item "><a href="write_wasm/rust/networking-nonblocking.html"><strong aria-hidden="true">5.2.8.</strong> Non-Blocking Network Apps</a></li><li class="chapter-item "><a href="write_wasm/rust/ssr.html"><strong aria-hidden="true">5.2.9.</strong> Server-Side Rendering</a></li><li class="chapter-item "><a href="write_wasm/rust/command.html"><strong aria-hidden="true">5.2.10.</strong> Command Interface</a></li></ol></li><li class="chapter-item "><a href="write_wasm/js.html"><strong aria-hidden="true">5.3.</strong> JavaScript</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/js/quickstart.html"><strong aria-hidden="true">5.3.1.</strong> Getting Started</a></li><li class="chapter-item "><a href="write_wasm/js/nodejs.html"><strong aria-hidden="true">5.3.2.</strong> Node.js Compatibility</a></li><li class="chapter-item "><a href="write_wasm/js/networking.html"><strong aria-hidden="true">5.3.3.</strong> Networking Apps</a></li><li class="chapter-item "><a href="write_wasm/js/ssr.html"><strong aria-hidden="true">5.3.4.</strong> React SSR</a></li><li class="chapter-item "><a href="write_wasm/js/tensorflow.html"><strong aria-hidden="true">5.3.5.</strong> TensorFlow</a></li><li class="chapter-item "><a href="write_wasm/js/es6.html"><strong aria-hidden="true">5.3.6.</strong> ES6 Modules</a></li><li class="chapter-item "><a href="write_wasm/js/npm.html"><strong aria-hidden="true">5.3.7.</strong> Node.js & NPM Modules</a></li><li class="chapter-item "><a href="write_wasm/js/modules.html"><strong aria-hidden="true">5.3.8.</strong> Built-in Modules</a></li><li class="chapter-item "><a href="write_wasm/js/rust.html"><strong aria-hidden="true">5.3.9.</strong> Native JS API in Rust</a></li></ol></li><li class="chapter-item "><a href="write_wasm/go.html"><strong aria-hidden="true">5.4.</strong> Go</a></li><li class="chapter-item "><a href="write_wasm/swift.html"><strong aria-hidden="true">5.5.</strong> Swift</a></li><li class="chapter-item "><a href="write_wasm/as.html"><strong aria-hidden="true">5.6.</strong> AssemblyScript</a></li><li class="chapter-item "><a href="write_wasm/kotlin.html"><strong aria-hidden="true">5.7.</strong> Kotlin</a></li><li class="chapter-item "><a href="write_wasm/grain.html"><strong aria-hidden="true">5.8.</strong> Grain</a></li><li class="chapter-item "><a href="write_wasm/python.html"><strong aria-hidden="true">5.9.</strong> Python</a></li></ol></li><li class="chapter-item "><a href="sdk.html"><strong aria-hidden="true">6.</strong> Use WasmEdge Library</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c.html"><strong aria-hidden="true">6.1.</strong> C SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/library.html"><strong aria-hidden="true">6.1.1.</strong> Use the WasmEdge C Library</a></li><li class="chapter-item "><a href="sdk/c/hostfunction.html"><strong aria-hidden="true">6.1.2.</strong> Host Function Implementation</a></li><li class="chapter-item "><a href="sdk/c/externref.html"><strong aria-hidden="true">6.1.3.</strong> ExternRef Example</a></li><li class="chapter-item "><a href="sdk/c/ref.html"><strong aria-hidden="true">6.1.4.</strong> 0.12.0 API references</a></li><li class="chapter-item "><a href="sdk/c/0.11.2/ref.html"><strong aria-hidden="true">6.1.5.</strong> 0.11.2 API references</a></li><li class="chapter-item "><a href="sdk/c/0.10.1/ref.html"><strong aria-hidden="true">6.1.6.</strong> 0.10.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/0.10.1/upgrade_to_0.11.0.html"><strong aria-hidden="true">6.1.6.1.</strong> Upgrade to 0.11.0</a></li></ol></li><li class="chapter-item "><a href="sdk/c/0.9.1/ref.html"><strong aria-hidden="true">6.1.7.</strong> 0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.1.7.1.</strong> Upgrade to 0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="sdk/go.html"><strong aria-hidden="true">6.2.</strong> Go SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/app.html"><strong aria-hidden="true">6.2.1.</strong> Embed WASM apps</a></li><li class="chapter-item "><a href="sdk/go/function.html"><strong aria-hidden="true">6.2.2.</strong> Embed WASM funcs</a></li><li class="chapter-item "><a href="sdk/go/memory.html"><strong aria-hidden="true">6.2.3.</strong> Pass complex data</a></li><li class="chapter-item "><a href="sdk/go/tensorflow.html"><strong aria-hidden="true">6.2.4.</strong> Tensorflow</a></li><li class="chapter-item "><a href="sdk/go/bindgen.html"><strong aria-hidden="true">6.2.5.</strong> Embed bindgen funcs</a></li><li class="chapter-item "><a href="sdk/go/ref.html"><strong aria-hidden="true">6.2.6.</strong> v0.11.2 API references</a></li><li class="chapter-item "><a href="sdk/go/0.10.1/ref.html"><strong aria-hidden="true">6.2.7.</strong> v0.10.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/0.10.1/upgrade_to_0.11.0.html"><strong aria-hidden="true">6.2.7.1.</strong> Upgrade to v0.11.0</a></li></ol></li><li class="chapter-item "><a href="sdk/go/0.9.1/ref.html"><strong aria-hidden="true">6.2.8.</strong> v0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.2.8.1.</strong> Upgrade to v0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="sdk/node.html"><strong aria-hidden="true">6.3.</strong> Node.js SDK</a></li><li class="chapter-item "><a href="sdk/rust.html"><strong aria-hidden="true">6.4.</strong> Rust SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/rust/say_hello.html"><strong aria-hidden="true">6.4.1.</strong> Hello World!</a></li><li class="chapter-item "><a href="sdk/rust/memory_manipulation.html"><strong aria-hidden="true">6.4.2.</strong> Memory Manipulation</a></li><li class="chapter-item "><a href="sdk/rust/table_and_funcref.html"><strong aria-hidden="true">6.4.3.</strong> Table and FuncRef</a></li><li class="chapter-item "><a href="sdk/rust/sys_run_host_func.html"><strong aria-hidden="true">6.4.4.</strong> Run a WebAssembly function with WasmEdge low-level APIs</a></li><li class="chapter-item "><a href="sdk/rust/concurrent_fib.html"><strong aria-hidden="true">6.4.5.</strong> Compute Fibonacci numbers concurrently</a></li><li class="chapter-item "><a href="sdk/rust/how_to_use_module_instance.html"><strong aria-hidden="true">6.4.6.</strong> Usage of WasmEdge module instances</a></li></ol></li><li class="chapter-item "><a href="sdk/python.html"><strong aria-hidden="true">6.5.</strong> Python SDK</a></li></ol></li><li class="chapter-item "><a href="cli.html"><strong aria-hidden="true">7.</strong> Use WasmEdge CLI</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cli/wasmedge.html"><strong aria-hidden="true">7.1.</strong> wasmedge WASM Runner</a></li><li class="chapter-item "><a href="cli/wasmedgec.html"><strong aria-hidden="true">7.2.</strong> wasmedgec AOT Compiler</a></li></ol></li><li class="chapter-item "><a href="plugin.html"><strong aria-hidden="true">8.</strong> Develop WasmEdge Plug-in</a></li><li class="chapter-item "><a href="contribute.html"><strong aria-hidden="true">9.</strong> Contribute to WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/release_process.html"><strong aria-hidden="true">9.1.</strong> Release Process</a></li><li class="chapter-item "><a href="contribute/contribute.html"><strong aria-hidden="true">9.2.</strong> Contribute Steps</a></li><li class="chapter-item "><a href="contribute/build_from_src.html"><strong aria-hidden="true">9.3.</strong> Build WasmEdge from source</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/build_from_src/linux.html"><strong aria-hidden="true">9.3.1.</strong> Build on Linux</a></li><li class="chapter-item "><a href="contribute/build_from_src/macos.html"><strong aria-hidden="true">9.3.2.</strong> Build on MacOS</a></li><li class="chapter-item "><a href="contribute/build_from_src/windows.html"><strong aria-hidden="true">9.3.3.</strong> Build on Windows</a></li><li class="chapter-item "><a href="contribute/build_from_src/android.html"><strong aria-hidden="true">9.3.4.</strong> Build for Android</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/build_from_src/android/cli.html"><strong aria-hidden="true">9.3.4.1.</strong> CLI tools</a></li><li class="chapter-item "><a href="contribute/build_from_src/android/ndk.html"><strong aria-hidden="true">9.3.4.2.</strong> NDK native app</a></li><li class="chapter-item "><a href="contribute/build_from_src/android/apk.html"><strong aria-hidden="true">9.3.4.3.</strong> APK app</a></li></ol></li><li class="chapter-item "><a href="contribute/build_from_src/sel4.html"><strong aria-hidden="true">9.3.5.</strong> Build for seL4</a></li><li class="chapter-item "><a href="contribute/build_from_src/openharmony.html"><strong aria-hidden="true">9.3.6.</strong> Build for OpenHarmony</a></li><li class="chapter-item "><a href="contribute/build_from_src/raspberrypi.html"><strong aria-hidden="true">9.3.7.</strong> Build for Raspberry Pi</a></li><li class="chapter-item "><a href="contribute/build_from_src/openwrt.html"><strong aria-hidden="true">9.3.8.</strong> Build for OpenWrt</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasi_nn.html"><strong aria-hidden="true">9.3.9.</strong> Build with WASI-NN Plug-in</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasi_crypto.html"><strong aria-hidden="true">9.3.10.</strong> Build with WASI-Crypto Plug-in</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasmedge_httpsreq.html"><strong aria-hidden="true">9.3.11.</strong> Build with WasmEdge-HttpsReq Plug-in</a></li></ol></li><li class="chapter-item "><a href="contribute/installer.html"><strong aria-hidden="true">9.4.</strong> WasmEdge Installer Guide</a></li><li class="chapter-item "><a href="contribute/internal.html"><strong aria-hidden="true">9.5.</strong> WasmEdge Internal</a></li><li class="chapter-item "><a href="contribute/wish_list.html"><strong aria-hidden="true">9.6.</strong> Wish List</a></li><li class="chapter-item "><a href="contribute/release_process.html"><strong aria-hidden="true">9.7.</strong> Release Process</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item "><a href="quick_start.html"><strong aria-hidden="true">2.</strong> Quick Start</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="quick_start/install.html"><strong aria-hidden="true">2.1.</strong> Installation And Uninstallation</a></li><li class="chapter-item "><a href="quick_start/use_docker.html"><strong aria-hidden="true">2.2.</strong> Using WasmEdge in Docker</a></li><li class="chapter-item "><a href="quick_start/run_cli.html"><strong aria-hidden="true">2.3.</strong> Running WASM with WasmEdge CLI</a></li><li class="chapter-item "><a href="quick_start/run_in_aot_mode.html"><strong aria-hidden="true">2.4.</strong> Execution in AOT Mode</a></li></ol></li><li class="chapter-item "><a href="features.html"><strong aria-hidden="true">3.</strong> WasmEdge Features</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="features/proposals.html"><strong aria-hidden="true">3.1.</strong> Supported WASM And WASI Proposals</a></li><li class="chapter-item "><a href="features/proprietary_extend.html"><strong aria-hidden="true">3.2.</strong> WasmEdge Proprietary extensions</a></li><li class="chapter-item "><a href="features/integrations.html"><strong aria-hidden="true">3.3.</strong> Integrations</a></li><li class="chapter-item "><a href="features/platforms.html"><strong aria-hidden="true">3.4.</strong> Supported Platforms</a></li><li class="chapter-item "><a href="features/comparison.html"><strong aria-hidden="true">3.5.</strong> Comparison</a></li></ol></li><li class="chapter-item "><a href="use_cases.html"><strong aria-hidden="true">4.</strong> WasmEdge Use Cases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/server_side_render.html"><strong aria-hidden="true">4.1.</strong> Server-Side Rendering Modern Web UI</a></li><li class="chapter-item "><a href="use_cases/microservice.html"><strong aria-hidden="true">4.2.</strong> Microservices</a></li><li class="chapter-item "><a href="use_cases/serverless_faas.html"><strong aria-hidden="true">4.3.</strong> Serverless Function-As-A-Service in Public Clouds</a></li><li class="chapter-item "><a href="use_cases/serverless_saas.html"><strong aria-hidden="true">4.4.</strong> Serverless Software-As-A-Service Functions</a></li><li class="chapter-item "><a href="use_cases/smart_device.html"><strong aria-hidden="true">4.5.</strong> Smart devices</a></li><li class="chapter-item "><a href="use_cases/js_or_dsl_runtime.html"><strong aria-hidden="true">4.6.</strong> JavaScript or Domain Specific Language Runtime</a></li><li class="chapter-item "><a href="use_cases/kubernetes.html"><strong aria-hidden="true">4.7.</strong> WasmEdge in Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/quickstart.html"><strong aria-hidden="true">4.7.1.</strong> Quick start</a></li><li class="chapter-item "><a href="use_cases/kubernetes/demo.html"><strong aria-hidden="true">4.7.2.</strong> Demo apps</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/demo/wasi.html"><strong aria-hidden="true">4.7.2.1.</strong> Simple example</a></li><li class="chapter-item "><a href="use_cases/kubernetes/demo/server.html"><strong aria-hidden="true">4.7.2.2.</strong> HTTP service</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/container.html"><strong aria-hidden="true">4.7.3.</strong> Container runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/container/crun.html"><strong aria-hidden="true">4.7.3.1.</strong> crun</a></li><li class="chapter-item "><a href="use_cases/kubernetes/container/runc.html"><strong aria-hidden="true">4.7.3.2.</strong> runc</a></li><li class="chapter-item "><a href="use_cases/kubernetes/container/youki.html"><strong aria-hidden="true">4.7.3.3.</strong> youki</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/cri.html"><strong aria-hidden="true">4.7.4.</strong> CRI runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/cri/crio.html"><strong aria-hidden="true">4.7.4.1.</strong> CRI-O</a></li><li class="chapter-item "><a href="use_cases/kubernetes/cri/containerd.html"><strong aria-hidden="true">4.7.4.2.</strong> containerd</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes.html"><strong aria-hidden="true">4.7.5.</strong> Kubernetes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubernetes-crio.html"><strong aria-hidden="true">4.7.5.1.</strong> Kubernetes + CRI-O</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubernetes-containerd.html"><strong aria-hidden="true">4.7.5.2.</strong> Kubernetes + containerd</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kind.html"><strong aria-hidden="true">4.7.5.3.</strong> KinD</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/kubeedge.html"><strong aria-hidden="true">4.7.5.4.</strong> KubeEdge</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/superedge.html"><strong aria-hidden="true">4.7.5.5.</strong> SuperEdge</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/openyurt.html"><strong aria-hidden="true">4.7.5.6.</strong> OpenYurt</a></li><li class="chapter-item "><a href="use_cases/kubernetes/kubernetes/knative.html"><strong aria-hidden="true">4.7.5.7.</strong> Knative</a></li></ol></li><li class="chapter-item "><a href="use_cases/kubernetes/docker.html"><strong aria-hidden="true">4.7.6.</strong> Docker</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/kubernetes/docker/lxc.html"><strong aria-hidden="true">4.7.6.1.</strong> Slim container</a></li><li class="chapter-item "><a href="use_cases/kubernetes/docker/containerd.html"><strong aria-hidden="true">4.7.6.2.</strong> containerd integration</a></li></ol></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks.html"><strong aria-hidden="true">4.8.</strong> App Frameworks & Platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/mesh.html"><strong aria-hidden="true">4.8.1.</strong> Service mesh & runtimes</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/mesh/dapr.html"><strong aria-hidden="true">4.8.1.1.</strong> Dapr</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/mosn.html"><strong aria-hidden="true">4.8.1.2.</strong> MOSN</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/wasm-nginx-module.html"><strong aria-hidden="true">4.8.1.3.</strong> Nginx</a></li><li class="chapter-item "><a href="use_cases/frameworks/mesh/eventmesh.html"><strong aria-hidden="true">4.8.1.4.</strong> Apache EventMesh</a></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks/app.html"><strong aria-hidden="true">4.8.2.</strong> Application frameworks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/app/yomo.html"><strong aria-hidden="true">4.8.2.1.</strong> YoMo</a></li><li class="chapter-item "><a href="use_cases/frameworks/app/reactr.html"><strong aria-hidden="true">4.8.2.2.</strong> Reactr</a></li></ol></li><li class="chapter-item "><a href="use_cases/frameworks/serverless.html"><strong aria-hidden="true">4.8.3.</strong> Serverless platforms</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="use_cases/frameworks/serverless/vercel.html"><strong aria-hidden="true">4.8.3.1.</strong> Vercel</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/netlify.html"><strong aria-hidden="true">4.8.3.2.</strong> Netlify</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/aws.html"><strong aria-hidden="true">4.8.3.3.</strong> AWS</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/tencent.html"><strong aria-hidden="true">4.8.3.4.</strong> Tencent</a></li><li class="chapter-item "><a href="use_cases/frameworks/serverless/secondstate.html"><strong aria-hidden="true">4.8.3.5.</strong> Second State</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><a href="write_wasm.html"><strong aria-hidden="true">5.</strong> Write a WebAssembly Application</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/c.html"><strong aria-hidden="true">5.1.</strong> C</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/c/simd.html"><strong aria-hidden="true">5.1.1.</strong> simd</a></li></ol></li><li class="chapter-item "><a href="write_wasm/rust.html"><strong aria-hidden="true">5.2.</strong> Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/rust/bindgen.html"><strong aria-hidden="true">5.2.1.</strong> Bindgen of Rust Functions</a></li><li class="chapter-item "><a href="write_wasm/rust/wasi.html"><strong aria-hidden="true">5.2.2.</strong> Access OS Services</a></li><li class="chapter-item "><a href="write_wasm/rust/tensorflow.html"><strong aria-hidden="true">5.2.3.</strong> TensorFlow</a></li><li class="chapter-item "><a href="write_wasm/rust/wasinn.html"><strong aria-hidden="true">5.2.4.</strong> Neural Network for WASI</a></li><li class="chapter-item "><a href="write_wasm/rust/wasicrypto.html"><strong aria-hidden="true">5.2.5.</strong> Crypto for WASI</a></li><li class="chapter-item "><a href="write_wasm/rust/networking.html"><strong aria-hidden="true">5.2.6.</strong> Simple HTTP Client & Server</a></li><li class="chapter-item "><a href="write_wasm/rust/networking-https.html"><strong aria-hidden="true">5.2.7.</strong> Simple HTTPS Client & Server</a></li><li class="chapter-item "><a href="write_wasm/rust/networking-nonblocking.html"><strong aria-hidden="true">5.2.8.</strong> Non-Blocking Network Apps</a></li><li class="chapter-item "><a href="write_wasm/rust/ssr.html"><strong aria-hidden="true">5.2.9.</strong> Server-Side Rendering</a></li><li class="chapter-item "><a href="write_wasm/rust/command.html"><strong aria-hidden="true">5.2.10.</strong> Command Interface</a></li></ol></li><li class="chapter-item "><a href="write_wasm/js.html"><strong aria-hidden="true">5.3.</strong> JavaScript</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="write_wasm/js/quickstart.html"><strong aria-hidden="true">5.3.1.</strong> Getting Started</a></li><li class="chapter-item "><a href="write_wasm/js/nodejs.html"><strong aria-hidden="true">5.3.2.</strong> Node.js Compatibility</a></li><li class="chapter-item "><a href="write_wasm/js/networking.html"><strong aria-hidden="true">5.3.3.</strong> Networking Apps</a></li><li class="chapter-item "><a href="write_wasm/js/ssr.html"><strong aria-hidden="true">5.3.4.</strong> React SSR</a></li><li class="chapter-item "><a href="write_wasm/js/tensorflow.html"><strong aria-hidden="true">5.3.5.</strong> TensorFlow</a></li><li class="chapter-item "><a href="write_wasm/js/es6.html"><strong aria-hidden="true">5.3.6.</strong> ES6 Modules</a></li><li class="chapter-item "><a href="write_wasm/js/npm.html"><strong aria-hidden="true">5.3.7.</strong> Node.js & NPM Modules</a></li><li class="chapter-item "><a href="write_wasm/js/modules.html"><strong aria-hidden="true">5.3.8.</strong> Built-in Modules</a></li><li class="chapter-item "><a href="write_wasm/js/rust.html"><strong aria-hidden="true">5.3.9.</strong> Native JS API in Rust</a></li></ol></li><li class="chapter-item "><a href="write_wasm/go.html"><strong aria-hidden="true">5.4.</strong> Go</a></li><li class="chapter-item "><a href="write_wasm/swift.html"><strong aria-hidden="true">5.5.</strong> Swift</a></li><li class="chapter-item "><a href="write_wasm/as.html"><strong aria-hidden="true">5.6.</strong> AssemblyScript</a></li><li class="chapter-item "><a href="write_wasm/kotlin.html"><strong aria-hidden="true">5.7.</strong> Kotlin</a></li><li class="chapter-item "><a href="write_wasm/grain.html"><strong aria-hidden="true">5.8.</strong> Grain</a></li><li class="chapter-item "><a href="write_wasm/python.html"><strong aria-hidden="true">5.9.</strong> Python</a></li></ol></li><li class="chapter-item "><a href="sdk.html"><strong aria-hidden="true">6.</strong> Use WasmEdge Library</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c.html"><strong aria-hidden="true">6.1.</strong> C SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/library.html"><strong aria-hidden="true">6.1.1.</strong> Use the WasmEdge C Library</a></li><li class="chapter-item "><a href="sdk/c/hostfunction.html"><strong aria-hidden="true">6.1.2.</strong> Host Function Implementation</a></li><li class="chapter-item "><a href="sdk/c/externref.html"><strong aria-hidden="true">6.1.3.</strong> ExternRef Example</a></li><li class="chapter-item "><a href="sdk/c/multimodule.html"><strong aria-hidden="true">6.1.4.</strong> Multiple Module Example</a></li><li class="chapter-item "><a href="sdk/c/ref.html"><strong aria-hidden="true">6.1.5.</strong> 0.12.0 API references</a></li><li class="chapter-item "><a href="sdk/c/0.11.2/ref.html"><strong aria-hidden="true">6.1.6.</strong> 0.11.2 API references</a></li><li class="chapter-item "><a href="sdk/c/0.10.1/ref.html"><strong aria-hidden="true">6.1.7.</strong> 0.10.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/0.10.1/upgrade_to_0.11.0.html"><strong aria-hidden="true">6.1.7.1.</strong> Upgrade to 0.11.0</a></li></ol></li><li class="chapter-item "><a href="sdk/c/0.9.1/ref.html"><strong aria-hidden="true">6.1.8.</strong> 0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/c/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.1.8.1.</strong> Upgrade to 0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="sdk/go.html"><strong aria-hidden="true">6.2.</strong> Go SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/app.html"><strong aria-hidden="true">6.2.1.</strong> Embed WASM apps</a></li><li class="chapter-item "><a href="sdk/go/function.html"><strong aria-hidden="true">6.2.2.</strong> Embed WASM funcs</a></li><li class="chapter-item "><a href="sdk/go/memory.html"><strong aria-hidden="true">6.2.3.</strong> Pass complex data</a></li><li class="chapter-item "><a href="sdk/go/tensorflow.html"><strong aria-hidden="true">6.2.4.</strong> Tensorflow</a></li><li class="chapter-item "><a href="sdk/go/bindgen.html"><strong aria-hidden="true">6.2.5.</strong> Embed bindgen funcs</a></li><li class="chapter-item "><a href="sdk/go/ref.html"><strong aria-hidden="true">6.2.6.</strong> v0.11.2 API references</a></li><li class="chapter-item "><a href="sdk/go/0.10.1/ref.html"><strong aria-hidden="true">6.2.7.</strong> v0.10.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/0.10.1/upgrade_to_0.11.0.html"><strong aria-hidden="true">6.2.7.1.</strong> Upgrade to v0.11.0</a></li></ol></li><li class="chapter-item "><a href="sdk/go/0.9.1/ref.html"><strong aria-hidden="true">6.2.8.</strong> v0.9.1 API references</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/go/0.9.1/upgrade_to_0.10.0.html"><strong aria-hidden="true">6.2.8.1.</strong> Upgrade to v0.10.0</a></li></ol></li></ol></li><li class="chapter-item "><a href="sdk/node.html"><strong aria-hidden="true">6.3.</strong> Node.js SDK</a></li><li class="chapter-item "><a href="sdk/rust.html"><strong aria-hidden="true">6.4.</strong> Rust SDK</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="sdk/rust/say_hello.html"><strong aria-hidden="true">6.4.1.</strong> Hello World!</a></li><li class="chapter-item "><a href="sdk/rust/memory_manipulation.html"><strong aria-hidden="true">6.4.2.</strong> Memory Manipulation</a></li><li class="chapter-item "><a href="sdk/rust/table_and_funcref.html"><strong aria-hidden="true">6.4.3.</strong> Table and FuncRef</a></li><li class="chapter-item "><a href="sdk/rust/sys_run_host_func.html"><strong aria-hidden="true">6.4.4.</strong> Run a WebAssembly function with WasmEdge low-level APIs</a></li><li class="chapter-item "><a href="sdk/rust/concurrent_fib.html"><strong aria-hidden="true">6.4.5.</strong> Compute Fibonacci numbers concurrently</a></li><li class="chapter-item "><a href="sdk/rust/how_to_use_module_instance.html"><strong aria-hidden="true">6.4.6.</strong> Usage of WasmEdge module instances</a></li></ol></li><li class="chapter-item "><a href="sdk/python.html"><strong aria-hidden="true">6.5.</strong> Python SDK</a></li></ol></li><li class="chapter-item "><a href="cli.html"><strong aria-hidden="true">7.</strong> Use WasmEdge CLI</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cli/wasmedge.html"><strong aria-hidden="true">7.1.</strong> wasmedge WASM Runner</a></li><li class="chapter-item "><a href="cli/wasmedgec.html"><strong aria-hidden="true">7.2.</strong> wasmedgec AOT Compiler</a></li></ol></li><li class="chapter-item "><a href="plugin.html"><strong aria-hidden="true">8.</strong> Develop WasmEdge Plug-in</a></li><li class="chapter-item "><a href="contribute.html"><strong aria-hidden="true">9.</strong> Contribute to WasmEdge</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/release_process.html"><strong aria-hidden="true">9.1.</strong> Release Process</a></li><li class="chapter-item "><a href="contribute/contribute.html"><strong aria-hidden="true">9.2.</strong> Contribute Steps</a></li><li class="chapter-item "><a href="contribute/build_from_src.html"><strong aria-hidden="true">9.3.</strong> Build WasmEdge from source</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/build_from_src/linux.html"><strong aria-hidden="true">9.3.1.</strong> Build on Linux</a></li><li class="chapter-item "><a href="contribute/build_from_src/macos.html"><strong aria-hidden="true">9.3.2.</strong> Build on MacOS</a></li><li class="chapter-item "><a href="contribute/build_from_src/windows.html"><strong aria-hidden="true">9.3.3.</strong> Build on Windows</a></li><li class="chapter-item "><a href="contribute/build_from_src/android.html"><strong aria-hidden="true">9.3.4.</strong> Build for Android</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="contribute/build_from_src/android/cli.html"><strong aria-hidden="true">9.3.4.1.</strong> CLI tools</a></li><li class="chapter-item "><a href="contribute/build_from_src/android/ndk.html"><strong aria-hidden="true">9.3.4.2.</strong> NDK native app</a></li><li class="chapter-item "><a href="contribute/build_from_src/android/apk.html"><strong aria-hidden="true">9.3.4.3.</strong> APK app</a></li></ol></li><li class="chapter-item "><a href="contribute/build_from_src/sel4.html"><strong aria-hidden="true">9.3.5.</strong> Build for seL4</a></li><li class="chapter-item "><a href="contribute/build_from_src/openharmony.html"><strong aria-hidden="true">9.3.6.</strong> Build for OpenHarmony</a></li><li class="chapter-item "><a href="contribute/build_from_src/raspberrypi.html"><strong aria-hidden="true">9.3.7.</strong> Build for Raspberry Pi</a></li><li class="chapter-item "><a href="contribute/build_from_src/openwrt.html"><strong aria-hidden="true">9.3.8.</strong> Build for OpenWrt</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasi_nn.html"><strong aria-hidden="true">9.3.9.</strong> Build with WASI-NN Plug-in</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasi_crypto.html"><strong aria-hidden="true">9.3.10.</strong> Build with WASI-Crypto Plug-in</a></li><li class="chapter-item "><a href="contribute/build_from_src/plugin_wasmedge_httpsreq.html"><strong aria-hidden="true">9.3.11.</strong> Build with WasmEdge-HttpsReq Plug-in</a></li></ol></li><li class="chapter-item "><a href="contribute/installer.html"><strong aria-hidden="true">9.4.</strong> WasmEdge Installer Guide</a></li><li class="chapter-item "><a href="contribute/internal.html"><strong aria-hidden="true">9.5.</strong> WasmEdge Internal</a></li><li class="chapter-item "><a href="contribute/wish_list.html"><strong aria-hidden="true">9.6.</strong> Wish List</a></li><li class="chapter-item "><a href="contribute/release_process.html"><strong aria-hidden="true">9.7.</strong> Release Process</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -182,6 +183,9 @@
 </code></pre>
 <p>For <code>Windows 10</code>, you could use Windows Package Manager Client (aka <code>winget.exe</code>) to install WasmEdge with a single command in your terminal.</p>
 <pre><code class="language-bash">winget install wasmedge
+</code></pre>
+<p>For <code>vcpkg</code> users there is a <code>wasmedge</code> <a href="https://github.com/microsoft/vcpkg/tree/master/ports/wasmedge">port</a> that can be installed with the following command or by adding it to <code>dependencies</code> section of your <code>vcpkg.json</code> file. The port is useful in both scenarios: it can be embedded into a C/C++ application and it can also be run as a standalone tool.</p>
+<pre><code class="language-bash">vcpkg install wasmedge
 </code></pre>
 <p>If you would like to install WasmEdge with its <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and image processing extensions</a>, please run the following command. It will attempt to install WasmEdge with the <code>tensorflow</code> and <code>image</code> extensions on your system.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
@@ -7213,6 +7217,7 @@ sys 0m0.011s
 <li>Link with the <a href="sdk/c/library.html">WasmEdge library</a></li>
 <li>Use the <a href="sdk/c/externref.html">external reference</a> of WebAssembly input and output in C/C++</li>
 <li>Implement the <a href="sdk/c/hostfunction.html">host functions</a> in C/C++</li>
+<li><a href="sdk/sdk/c/multimodule.html">Multiple WASM Module</a> linking</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="use-the-wasmedge-library"><a class="header" href="#use-the-wasmedge-library">Use the WasmEdge Library</a></h1>
 <p>When programming with WasmEdge C API, developers should include the required headers and link with the WasmEdge Library.
@@ -8021,6 +8026,627 @@ if (!WasmEdge_ResultOK(Res)) {
 }
 </code></pre>
 <p>For other C++ STL objects cases, such as <code>std::vector&lt;T&gt;</code>, <code>std::map&lt;T, U&gt;</code>, or <code>std::set&lt;T&gt;</code>, the object can be accessed correctly in host functions if the type in <code>reinterpret_cast</code> is correct.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="multiple-wasm-module-example"><a class="header" href="#multiple-wasm-module-example">Multiple WASM Module Example</a></h1>
+<p>For those WASM modules export their functions, the other WASM modules can import them as a library.
+This will cause a situation that linking multiple modules for the dependencies when in execution.
+This chapter will introduce the examples to linking and executing multiple WASM modules in WasmEdge.</p>
+<h2 id="example-wasm-file"><a class="header" href="#example-wasm-file">Example WASM file</a></h2>
+<h3 id="the-library-wasm"><a class="header" href="#the-library-wasm">The Library WASM</a></h3>
+<p>Assume that there's a WASM which exports it's function:</p>
+<pre><code class="language-wasm">(module
+  (func (export &quot;add&quot;) (param i32 i32) (result i32)
+    ;; Function to add 2 number and exported as &quot;add&quot;.
+    (i32.add (local.get 0) (local.get 1))
+  )
+  (func (export &quot;mul&quot;) (param i32 i32) (result i32)
+    ;; Function to mul 2 number and exported as &quot;mul&quot;.
+    (i32.mul (local.get 0) (local.get 1))
+  )
+)
+</code></pre>
+<p>Users can convert <code>wat</code> to <code>wasm</code> through <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm</a> live tool.
+Assume that this <code>wat</code> is converted into the WASM binary format and saved as <code>lib.wasm</code>.</p>
+<h3 id="the-entering-wasm"><a class="header" href="#the-entering-wasm">The Entering WASM</a></h3>
+<p>Assume that there's a WASM which imports some functions from the <code>lib.wasm</code>, and this WASM exports the functions which can be invoked:</p>
+<pre><code class="language-wasm">(module
+  (type $type0 (func (param i32 i32)(result i32)))
+  ;; Import the &quot;add&quot; function which calculate &quot;a + b&quot;.
+  (import &quot;math&quot; &quot;add&quot; (func $math-add (type $type0)))
+  ;; Import the &quot;mul&quot; function which calculate &quot;a * b&quot;.
+  (import &quot;math&quot; &quot;mul&quot; (func $math-mul (type $type0)))
+  (func (export &quot;add_and_square&quot;) (param i32 i32) (result i32)
+    ;; Function to add 2 numbers and square it ((a + b)^2).
+    ;; Exported as &quot;add_and_square&quot;.
+    (call $math-mul
+      (call $math-add (local.get 0) (local.get 1))
+      (call $math-add (local.get 0) (local.get 1))
+    )
+  )
+  (func (export &quot;sum_of_squares&quot;) (param i32 i32) (result i32)
+    ;; Function to calculate the sum of squares (a^2 + b^2).
+    ;; Exported as &quot;sum_of_squares&quot;.
+    (call $math-add
+      (call $math-mul (local.get 0) (local.get 0))
+      (call $math-mul (local.get 1) (local.get 1))
+    )
+  )
+)
+</code></pre>
+<p>Users can convert <code>wat</code> to <code>wasm</code> through <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm</a> live tool.
+Assume that this <code>wat</code> is converted into the WASM binary format and saved as <code>test.wasm</code>.</p>
+<h3 id="prerequisites-8"><a class="header" href="#prerequisites-8">Prerequisites</a></h3>
+<p>For executing these examples, developers should <a href="sdk/c/../../quick_start/install.html">install WasmEdge</a>.
+To improve the performance of executing WASM, developers can also use the <a href="sdk/c/../../quick_start/run_in_aot_mode.html">AOT compiler</a> to compile the above WASM files.</p>
+<h2 id="linking-wasm-modules-with-the-vm-context"><a class="header" href="#linking-wasm-modules-with-the-vm-context">Linking WASM Modules With the VM Context</a></h2>
+<p>With the <code>WasmEdge_VMContext</code>, developers can instantiate and execute WASM quickly.
+There's at least 4 ways to linking these multiple WASM modules with the VM context.
+For the example codes below, assume that the C code is saved as <code>example.c</code>.</p>
+<ol>
+<li>
+<p>Register and instantiate the <code>lib.wasm</code> from file directly</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;wasmedge/wasmedge.h&gt;
+
+int main() {
+  /* The result. */
+  WasmEdge_Result Res;
+
+  /* The params and returns. */
+  WasmEdge_Value Params[2], Returns[1];
+
+  /* Create the VM context. */
+  WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+
+  /* Register the `lib.wasm` from file with the module name &quot;math&quot;. */
+  WasmEdge_String ModuleName = WasmEdge_StringCreateByCString(&quot;math&quot;);
+  Res = WasmEdge_VMRegisterModuleFromFile(VMCxt, ModuleName, &quot;lib.wasm&quot;);
+  WasmEdge_StringDelete(ModuleName);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Register lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Instantiate the `test.wasm`. */
+  /*
+   * Developers can use the APIs such as `WasmEdge_VMRunWasmFromFile` to
+   * instantiate and execute quickly.
+   */
+  Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;test.wasm&quot;);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Load test.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_VMValidate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Validate test.wasm error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_VMInstantiate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Instantiate test.wasm error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Invoke the functions. */
+  /* Invoke the &quot;add_and_square&quot; to calculate (123 + 456)^2 */
+  WasmEdge_String FuncName =
+      WasmEdge_StringCreateByCString(&quot;add_and_square&quot;);
+  Params[0] = WasmEdge_ValueGenI32(123);
+  Params[1] = WasmEdge_ValueGenI32(456);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, Params, 2, Returns, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '(%d + %d)^2' result: %d\n&quot;, 123, 456,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'add_and_square' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+  /* Invoke the &quot;sum_of_squares&quot; to calculate (77^2 + 88^2) */
+  FuncName = WasmEdge_StringCreateByCString(&quot;sum_of_squares&quot;);
+  Params[0] = WasmEdge_ValueGenI32(77);
+  Params[1] = WasmEdge_ValueGenI32(88);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, Params, 2, Returns, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '%d^2 + %d^2' result: %d\n&quot;, 77, 88,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'sum_of_squares' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+
+  /* Resources deallocations. */
+  WasmEdge_VMDelete(VMCxt);
+  return 0;
+}
+</code></pre>
+<p>Then compile and execute:</p>
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
+$ ./a.out
+Get the '(123 + 456)^2' result: 335241
+Get the '77^2 + 88^2' result: 13673
+</code></pre>
+</li>
+<li>
+<p>Register and instantiate the <code>lib.wasm</code> from buffer</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;wasmedge/wasmedge.h&gt;
+
+int main() {
+  /* The result. */
+  WasmEdge_Result Res;
+
+  /* The params and returns. */
+  WasmEdge_Value Params[2], Returns[1];
+
+  /* The `lib.wasm` buffer example. */
+  /* Developers can also load the buffer from file. */
+  uint8_t WASM[] = {/* WASM header */
+                    0x00, 0x61, 0x73, 0x6D, 0x01, 0x00, 0x00, 0x00,
+                    /* Type section */
+                    0x01, 0x07, 0x01,
+                    /* function type {i32, i32} -&gt; {i32} */
+                    0x60, 0x02, 0x7F, 0x7F, 0x01, 0x7F,
+                    /* Function section */
+                    0x03, 0x03, 0x02, 0x00, 0x00,
+                    /* Export section */
+                    0x07, 0x0D, 0x02,
+                    /* export function: &quot;add&quot; */
+                    0x03, 0x61, 0x64, 0x64, 0x00, 0x00,
+                    /* export function: &quot;mul&quot; */
+                    0x03, 0x6D, 0x75, 0x6C, 0x00, 0x01,
+                    /* Code section */
+                    0x0A, 0x11, 0x02,
+                    /* &quot;add&quot; code body */
+                    0x07, 0x00, 0x20, 0x00, 0x20, 0x01, 0x6A, 0x0B,
+                    /* &quot;mul&quot; code body */
+                    0x07, 0x00, 0x20, 0x00, 0x20, 0x01, 0x6C, 0x0B};
+
+  /* Create the VM context. */
+  WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+
+  /* Register the `lib.wasm` from the buffer with the module name &quot;math&quot;. */
+  WasmEdge_String ModuleName = WasmEdge_StringCreateByCString(&quot;math&quot;);
+  Res = WasmEdge_VMRegisterModuleFromBuffer(VMCxt, ModuleName, WASM,
+                                            sizeof(WASM));
+  WasmEdge_StringDelete(ModuleName);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Register lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Instantiate the `test.wasm`. */
+  /*
+   * Developers can use the APIs such as `WasmEdge_VMRunWasmFromFile` to
+   * instantiate and execute quickly.
+   */
+  Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;test.wasm&quot;);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Load test.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_VMValidate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Validate test.wasm error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_VMInstantiate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Instantiate test.wasm error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Invoke the functions. */
+  /* Invoke the &quot;add_and_square&quot; to calculate (123 + 456)^2 */
+  WasmEdge_String FuncName =
+      WasmEdge_StringCreateByCString(&quot;add_and_square&quot;);
+  Params[0] = WasmEdge_ValueGenI32(123);
+  Params[1] = WasmEdge_ValueGenI32(456);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, Params, 2, Returns, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '(%d + %d)^2' result: %d\n&quot;, 123, 456,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'add_and_square' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+  /* Invoke the &quot;sum_of_squares&quot; to calculate (77^2 + 88^2) */
+  FuncName = WasmEdge_StringCreateByCString(&quot;sum_of_squares&quot;);
+  Params[0] = WasmEdge_ValueGenI32(77);
+  Params[1] = WasmEdge_ValueGenI32(88);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, Params, 2, Returns, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '%d^2 + %d^2' result: %d\n&quot;, 77, 88,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'sum_of_squares' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+
+  /* Resources deallocations. */
+  WasmEdge_VMDelete(VMCxt);
+  return 0;
+}
+</code></pre>
+<p>Then compile and execute:</p>
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
+$ ./a.out
+Get the '(123 + 456)^2' result: 335241
+Get the '77^2 + 88^2' result: 13673
+</code></pre>
+</li>
+<li>
+<p>Load the <code>lib.wasm</code> to an AST Context first</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;wasmedge/wasmedge.h&gt;
+
+int main() {
+  /* The result. */
+  WasmEdge_Result Res;
+
+  /* The params and returns. */
+  WasmEdge_Value Params[2], Returns[1];
+
+  /* Assume that the `lib.wasm` has loaded first. */
+  WasmEdge_LoaderContext *LoadCxt = WasmEdge_LoaderCreate(NULL);
+  WasmEdge_ASTModuleContext *LibASTCxt = NULL;
+  Res = WasmEdge_LoaderParseFromFile(LoadCxt, &amp;LibASTCxt, &quot;lib.wasm&quot;);
+  WasmEdge_LoaderDelete(LoadCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Load lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Create the VM context. */
+  WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+
+  /* Register the loaded AST context with the module name &quot;math&quot;. */
+  WasmEdge_String ModuleName = WasmEdge_StringCreateByCString(&quot;math&quot;);
+  Res =
+      WasmEdge_VMRegisterModuleFromASTModule(VMCxt, ModuleName, LibASTCxt);
+  WasmEdge_StringDelete(ModuleName);
+  WasmEdge_ASTModuleDelete(LibASTCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Register lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Instantiate the `test.wasm`. */
+  /*
+   * Developers can use the APIs such as `WasmEdge_VMRunWasmFromFile` to
+   * instantiate and execute quickly.
+   */
+  Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;test.wasm&quot;);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Load test.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_VMValidate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Validate test.wasm error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_VMInstantiate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    printf(&quot;Instantiate test.wasm error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Invoke the functions. */
+  /* Invoke the &quot;add_and_square&quot; to calculate (123 + 456)^2 */
+  WasmEdge_String FuncName =
+      WasmEdge_StringCreateByCString(&quot;add_and_square&quot;);
+  Params[0] = WasmEdge_ValueGenI32(123);
+  Params[1] = WasmEdge_ValueGenI32(456);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, Params, 2, Returns, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '(%d + %d)^2' result: %d\n&quot;, 123, 456,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'add_and_square' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+  /* Invoke the &quot;sum_of_squares&quot; to calculate (77^2 + 88^2) */
+  FuncName = WasmEdge_StringCreateByCString(&quot;sum_of_squares&quot;);
+  Params[0] = WasmEdge_ValueGenI32(77);
+  Params[1] = WasmEdge_ValueGenI32(88);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, Params, 2, Returns, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '%d^2 + %d^2' result: %d\n&quot;, 77, 88,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'sum_of_squares' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+
+  /* Resources deallocations. */
+  WasmEdge_VMDelete(VMCxt);
+  return 0;
+}
+</code></pre>
+<p>Then compile and execute:</p>
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
+$ ./a.out
+Get the '(123 + 456)^2' result: 335241
+Get the '77^2 + 88^2' result: 13673
+</code></pre>
+</li>
+<li>
+<p>Instantiate the <code>lib.wasm</code> first</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;wasmedge/wasmedge.h&gt;
+
+int main() {
+  /* The result. */
+  WasmEdge_Result Res;
+
+  /* The params and returns. */
+  WasmEdge_Value Params[2], Returns[1];
+
+  /* Create the VM context. */
+  WasmEdge_VMContext *VMCxt = WasmEdge_VMCreate(NULL, NULL);
+
+  /* Assume that the `lib.wasm` has instantiated first. */
+  WasmEdge_LoaderContext *LoadCxt = WasmEdge_LoaderCreate(NULL);
+  WasmEdge_ValidatorContext *ValidCxt = WasmEdge_ValidatorCreate(NULL);
+  WasmEdge_ExecutorContext *ExecCxt = WasmEdge_ExecutorCreate(NULL, NULL);
+  WasmEdge_StoreContext *StoreCxt = WasmEdge_StoreCreate();
+  WasmEdge_ASTModuleContext *LibASTCxt = NULL;
+  WasmEdge_ModuleInstanceContext *LibInstCxt = NULL;
+  Res = WasmEdge_LoaderParseFromFile(LoadCxt, &amp;LibASTCxt, &quot;lib.wasm&quot;);
+  WasmEdge_LoaderDelete(LoadCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Load lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_ValidatorValidate(ValidCxt, LibASTCxt);
+  WasmEdge_ValidatorDelete(ValidCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_ASTModuleDelete(LibASTCxt);
+    printf(&quot;Validate lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  /*
+   * The module name is determined when instantiation.
+   * If use the `WasmEdge_ExecutorInstantiate` API, the module name will be
+   * &quot;&quot;.
+   */
+  WasmEdge_String ModuleName = WasmEdge_StringCreateByCString(&quot;math&quot;);
+  Res = WasmEdge_ExecutorRegister(ExecCxt, &amp;LibInstCxt, StoreCxt, LibASTCxt,
+                                  ModuleName);
+  WasmEdge_ExecutorDelete(ExecCxt);
+  WasmEdge_ASTModuleDelete(LibASTCxt);
+  WasmEdge_StringDelete(ModuleName);
+  WasmEdge_StoreDelete(StoreCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Instantiate lib.wasm error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Register the module instance with the module name &quot;math&quot;. */
+  /* The module name has determined when instantiating the `lib.wasm`. */
+  Res = WasmEdge_VMRegisterModuleFromImport(VMCxt, LibInstCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    WasmEdge_ModuleInstanceDelete(LibInstCxt);
+    printf(&quot;Register lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Instantiate the `test.wasm`. */
+  /*
+   * Developers can use the APIs such as `WasmEdge_VMRunWasmFromFile` to
+   * instantiate and execute quickly.
+   */
+  Res = WasmEdge_VMLoadWasmFromFile(VMCxt, &quot;test.wasm&quot;);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    WasmEdge_ModuleInstanceDelete(LibInstCxt);
+    printf(&quot;Load test.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_VMValidate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    WasmEdge_ModuleInstanceDelete(LibInstCxt);
+    printf(&quot;Validate test.wasm error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_VMInstantiate(VMCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    WasmEdge_VMDelete(VMCxt);
+    WasmEdge_ModuleInstanceDelete(LibInstCxt);
+    printf(&quot;Instantiate test.wasm error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Invoke the functions. */
+  /* Invoke the &quot;add_and_square&quot; to calculate (123 + 456)^2 */
+  WasmEdge_String FuncName =
+      WasmEdge_StringCreateByCString(&quot;add_and_square&quot;);
+  Params[0] = WasmEdge_ValueGenI32(123);
+  Params[1] = WasmEdge_ValueGenI32(456);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, Params, 2, Returns, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '(%d + %d)^2' result: %d\n&quot;, 123, 456,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'add_and_square' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+  /* Invoke the &quot;sum_of_squares&quot; to calculate (77^2 + 88^2) */
+  FuncName = WasmEdge_StringCreateByCString(&quot;sum_of_squares&quot;);
+  Params[0] = WasmEdge_ValueGenI32(77);
+  Params[1] = WasmEdge_ValueGenI32(88);
+  Res = WasmEdge_VMExecute(VMCxt, FuncName, Params, 2, Returns, 1);
+  WasmEdge_StringDelete(FuncName);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '%d^2 + %d^2' result: %d\n&quot;, 77, 88,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'sum_of_squares' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+
+  /* Resources deallocations. */
+  WasmEdge_VMDelete(VMCxt);
+  /* The imported module instance should be destroyed. */
+  WasmEdge_ModuleInstanceDelete(LibInstCxt);
+  return 0;
+}
+</code></pre>
+<p>Then compile and execute:</p>
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
+$ ./a.out
+Get the '(123 + 456)^2' result: 335241
+Get the '77^2 + 88^2' result: 13673
+</code></pre>
+</li>
+</ol>
+<h2 id="linking-wasm-modules-by-the-executor-context"><a class="header" href="#linking-wasm-modules-by-the-executor-context">Linking WASM Modules By the Executor Context</a></h2>
+<p>For linking multiple WASM modules, developers should instantiate them first with considering their dependencies.</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;wasmedge/wasmedge.h&gt;
+
+int main() {
+  /* The result. */
+  WasmEdge_Result Res;
+
+  /* The params and returns. */
+  WasmEdge_Value Params[2], Returns[1];
+
+  /* Create the contexts. */
+  WasmEdge_LoaderContext *LoadCxt = WasmEdge_LoaderCreate(NULL);
+  WasmEdge_ValidatorContext *ValidCxt = WasmEdge_ValidatorCreate(NULL);
+  WasmEdge_ExecutorContext *ExecCxt = WasmEdge_ExecutorCreate(NULL, NULL);
+  WasmEdge_StoreContext *StoreCxt = WasmEdge_StoreCreate();
+
+  /* Load and register the `lib.wasm` with the module name &quot;math&quot;. */
+  WasmEdge_ASTModuleContext *LibASTCxt = NULL;
+  WasmEdge_ModuleInstanceContext *LibInstCxt = NULL;
+  Res = WasmEdge_LoaderParseFromFile(LoadCxt, &amp;LibASTCxt, &quot;lib.wasm&quot;);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Load lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_ValidatorValidate(ValidCxt, LibASTCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Validate lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  WasmEdge_String ModuleName = WasmEdge_StringCreateByCString(&quot;math&quot;);
+  Res = WasmEdge_ExecutorRegister(ExecCxt, &amp;LibInstCxt, StoreCxt, LibASTCxt,
+                                  ModuleName);
+  WasmEdge_StringDelete(ModuleName);
+  WasmEdge_ASTModuleDelete(LibASTCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Instantiate lib.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Load and instantiate the `test.wasm`. */
+  WasmEdge_ASTModuleContext *TestASTCxt = NULL;
+  WasmEdge_ModuleInstanceContext *TestInstCxt = NULL;
+  Res = WasmEdge_LoaderParseFromFile(LoadCxt, &amp;TestASTCxt, &quot;test.wasm&quot;);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Load test.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res = WasmEdge_ValidatorValidate(ValidCxt, TestASTCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Validate test.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+  Res =
+      WasmEdge_ExecutorInstantiate(ExecCxt, &amp;TestInstCxt, StoreCxt, TestASTCxt);
+  WasmEdge_ASTModuleDelete(TestASTCxt);
+  if (!WasmEdge_ResultOK(Res)) {
+    printf(&quot;Instantiate test.wasm error: %s\n&quot;, WasmEdge_ResultGetMessage(Res));
+    return -1;
+  }
+
+  /* Invoke the functions. */
+  /* Invoke the &quot;add_and_square&quot; to calculate (123 + 456)^2 */
+  WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;add_and_square&quot;);
+  WasmEdge_FunctionInstanceContext *FuncCxt =
+      WasmEdge_ModuleInstanceFindFunction(TestInstCxt, FuncName);
+  WasmEdge_StringDelete(FuncName);
+  if (FuncCxt == NULL) {
+    printf(&quot;Function 'add_and_square' not found.\n&quot;);
+    return -1;
+  }
+  Params[0] = WasmEdge_ValueGenI32(123);
+  Params[1] = WasmEdge_ValueGenI32(456);
+  Res = WasmEdge_ExecutorInvoke(ExecCxt, FuncCxt, Params, 2, Returns, 1);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '(%d + %d)^2' result: %d\n&quot;, 123, 456,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'add_and_square' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+  /* Invoke the &quot;sum_of_squares&quot; to calculate (77^2 + 88^2) */
+  FuncName = WasmEdge_StringCreateByCString(&quot;sum_of_squares&quot;);
+  FuncCxt = WasmEdge_ModuleInstanceFindFunction(TestInstCxt, FuncName);
+  WasmEdge_StringDelete(FuncName);
+  if (FuncCxt == NULL) {
+    printf(&quot;Function 'sum_of_squares' not found.\n&quot;);
+    return -1;
+  }
+  Params[0] = WasmEdge_ValueGenI32(77);
+  Params[1] = WasmEdge_ValueGenI32(88);
+  Res = WasmEdge_ExecutorInvoke(ExecCxt, FuncCxt, Params, 2, Returns, 1);
+  if (WasmEdge_ResultOK(Res)) {
+    printf(&quot;Get the '%d^2 + %d^2' result: %d\n&quot;, 77, 88,
+           WasmEdge_ValueGetI32(Returns[0]));
+  } else {
+    printf(&quot;Execute 'sum_of_squares' error: %s\n&quot;,
+           WasmEdge_ResultGetMessage(Res));
+  }
+
+  /* Resources deallocations. */
+  WasmEdge_LoaderDelete(LoadCxt);
+  WasmEdge_ValidatorDelete(ValidCxt);
+  WasmEdge_ExecutorDelete(ExecCxt);
+  WasmEdge_StoreDelete(StoreCxt);
+  WasmEdge_ModuleInstanceDelete(LibInstCxt);
+  WasmEdge_ModuleInstanceDelete(TestInstCxt);
+  return 0;
+}
+</code></pre>
+<p>Then compile and execute:</p>
+<pre><code class="language-bash">$ gcc test.c -lwasmedge
+$ ./a.out
+Get the '(123 + 456)^2' result: 335241
+Get the '77^2 + 88^2' result: 13673
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-0120-api-documentation"><a class="header" href="#wasmedge-c-0120-api-documentation">WasmEdge C 0.12.0 API Documentation</a></h1>
 <p><a href="https://github.com/WasmEdge/WasmEdge/blob/master/include/api/wasmedge/wasmedge.h">WasmEdge C API</a> denotes an interface to access the WasmEdge runtime. The following are the guides to working with the C APIs of WasmEdge.</p>
 <p><strong>This document is for the <code>0.12.0</code> version. For the older <code>0.12.0</code> version, please refer to the <a href="sdk/c/0.12.0/ref.html">document here</a>.</strong></p>
@@ -26446,7 +27072,7 @@ mod.Release()
 <blockquote>
 <p><a href="https://github.com/second-state/wasmedge-nodejs-starter/fork">Fork this Github repository</a> to start coding!</p>
 </blockquote>
-<h2 id="prerequisites-8"><a class="header" href="#prerequisites-8">Prerequisites</a></h2>
+<h2 id="prerequisites-9"><a class="header" href="#prerequisites-9">Prerequisites</a></h2>
 <p>To set up a high-performance Node.js environment with Rust and WebAssembly, you will need the following:</p>
 <ul>
 <li>A modern Linux distribution, such as Ubuntu Server 20.04 LTS</li>
@@ -27823,7 +28449,8 @@ If you want to improve the performance, <a href="cli/wasmedgec.html">please refe
 </li>
 <li>(Optional) <code>--dir</code>: Bind directories into WASI virtual filesystem.
 <ul>
-<li>Use <code>--dir guest_path:host_path</code> to bind the host path into the guest path in WASI virtual system.</li>
+<li>Use <code>--dir host_path</code> to bind the host path in WASI virtual system. Noted that it's same as <code>--dir host_path:host_path</code>.</li>
+<li>Use <code>--dir guest_path:host_path</code> to bind the host path in WASI virtual system and map it to the guest path.</li>
 </ul>
 </li>
 <li>(Optional) <code>--env</code>: Assign the environment variables in WASI.
@@ -27960,6 +28587,9 @@ state
 <p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/js/qjs.wasm">qjs.wasm</a> program is a JavaScript interpreter compiled into WebAssembly.
 The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/js/hello.js">hello.js</a> file is a very simple JavaScript program.</p>
 <p>You can run:</p>
+<pre><code class="language-bash">wasmedge --dir . qjs.wasm hello.js 1 2 3
+</code></pre>
+<p>Or the equal mapping as follow:</p>
 <pre><code class="language-bash">wasmedge --dir .:. qjs.wasm hello.js 1 2 3
 </code></pre>
 <p>The output will be:</p>
@@ -28342,6 +28972,16 @@ You can find that there are several wasmedge related tools:</p>
 </ul>
 </li>
 <li><code>WASMEDGE_PLUGIN_WASI_CRYPTO</code>: build the WasmEdge WASI-Crypto plugin (Linux platforms only). Default is <code>OFF</code>.
+<ul>
+<li>This option is useless if the option <code>WASMEDGE_BUILD_PLUGINS</code> is set as <code>OFF</code>.</li>
+</ul>
+</li>
+<li><code>WASMEDGE_PLUGIN_PROCESS</code>: build the WasmEdge Process plugin (Linux platforms only). Default is <code>OFF</code>.
+<ul>
+<li>This option is useless if the option <code>WASMEDGE_BUILD_PLUGINS</code> is set as <code>OFF</code>.</li>
+</ul>
+</li>
+<li><code>WASMEDGE_PLUGIN_HTTPSREQ</code>: build the WasmEdge HttpsReq plugin (Linux platforms only). Default is <code>OFF</code>.
 <ul>
 <li>This option is useless if the option <code>WASMEDGE_BUILD_PLUGINS</code> is set as <code>OFF</code>.</li>
 </ul>
@@ -29097,7 +29737,7 @@ $ wasmedge --reactor add.wasm add 2 2
 4
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-with-wasi-nn-plug-in"><a class="header" href="#build-wasmedge-with-wasi-nn-plug-in">Build WasmEdge With WASI-NN Plug-in</a></h1>
-<h2 id="prerequisites-9"><a class="header" href="#prerequisites-9">Prerequisites</a></h2>
+<h2 id="prerequisites-10"><a class="header" href="#prerequisites-10">Prerequisites</a></h2>
 <p>Currently, WasmEdge used OpenVINO™ or PyTorch as the WASI-NN backend implementation. For using WASI-NN on WasmEdge, you need to install <a href="https://docs.openvino.ai/2021.4/openvino_docs_install_guides_installing_openvino_linux.html#">OpenVINO™</a>(2021) or <a href="https://pytorch.org/get-started/locally/">PyTorch 1.8.2 LTS</a> for the backend.</p>
 <p>By default, we don't enable any WASI-NN backend in WasmEdge. Therefore developers should <a href="contribute/build_from_src/linux.html">build the WasmEdge from source</a> with the cmake option <code>WASMEDGE_PLUGIN_WASI_NN_BACKEND</code> to enable the backends.</p>
 <h2 id="build-wasmedge-with-wasi-nn-openvino-backend"><a class="header" href="#build-wasmedge-with-wasi-nn-openvino-backend">Build WasmEdge with WASI-NN OpenVINO Backend</a></h2>
@@ -29177,7 +29817,7 @@ rm -f WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
 <p>We also provided the <code>MacOS</code> and <code>manylinux_aarch64</code> version of the TensorFlow-Lite pre-built shared library.</p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-with-wasi-crypto-plug-in"><a class="header" href="#build-wasmedge-with-wasi-crypto-plug-in">Build WasmEdge With WASI-Crypto Plug-in</a></h1>
-<h2 id="prerequisites-10"><a class="header" href="#prerequisites-10">Prerequisites</a></h2>
+<h2 id="prerequisites-11"><a class="header" href="#prerequisites-11">Prerequisites</a></h2>
 <p>Currently, WasmEdge used <code>OpenSSL 1.1</code> or <code>3.0</code> for the WASI-Crypto implementation.</p>
 <p>For installing <code>OpenSSL 1.1</code> development package on <code>Ubuntu 20.04</code>, we recommend the following commands:</p>
 <pre><code class="language-bash">sudo apt update
@@ -29226,7 +29866,7 @@ cmake --install .
 </blockquote>
 <p>Then you will have an executable <code>wasmedge</code> runtime under <code>/usr/local/bin</code> and the WASI-Crypto plug-in under <code>/usr/local/lib/wasmedge/libwasmedgePluginWasiCrypto.so</code> after installation.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-with-wasmedge-httpsreq-plug-in"><a class="header" href="#build-wasmedge-with-wasmedge-httpsreq-plug-in">Build WasmEdge With WasmEdge-HttpsReq Plug-in</a></h1>
-<h2 id="prerequisites-11"><a class="header" href="#prerequisites-11">Prerequisites</a></h2>
+<h2 id="prerequisites-12"><a class="header" href="#prerequisites-12">Prerequisites</a></h2>
 <p>Currently, WasmEdge used <code>OpenSSL 1.1</code> or <code>3.0</code> for the the dependency of WasmEdge-HttpsReq.</p>
 <p>For installing <code>OpenSSL 1.1</code> development package on <code>Ubuntu 20.04</code>, we recommend the following commands:</p>
 <pre><code class="language-bash">sudo apt update
@@ -29597,5 +30237,6 @@ Close the releasing process issue and the GitHub project.</li>
         });
         </script>
 
+    </div>
     </body>
 </html>
