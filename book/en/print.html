@@ -29276,13 +29276,33 @@ cd WasmEdge
 <pre><code class="language-bash">docker pull wasmedge/wasmedge # Pulls the latest - wasmedge/wasmedge:latest
 </code></pre>
 <p>Or you can pull with the <a href="contribute/build_from_src/../../quick_start/use_docker.html#docker-images-for-building-wasmedge">available tags</a>.</p>
-<h3 id="install-dependencies-on-ubuntu-2004-manually"><a class="header" href="#install-dependencies-on-ubuntu-2004-manually">Install Dependencies on Ubuntu 20.04 Manually</a></h3>
+<h3 id="install-dependencies-on-ubuntu-manually"><a class="header" href="#install-dependencies-on-ubuntu-manually">Install Dependencies on Ubuntu Manually</a></h3>
 <p>For the developers who don't want to use docker, they can setup the environment on Ubuntu Manually.</p>
 <p>Please check that these dependencies are satisfied.</p>
 <ul>
 <li>LLVM 12.0.0 (&gt;= 10.0.0)</li>
-<li>GCC 11.1.0 (&gt;= 9.4.0)</li>
+<li>(Optional) GCC 11.1.0 (&gt;= 9.4.0), install it if you prefer to use GCC toolchain.</li>
 </ul>
+<h4 id="for-ubuntu-2204"><a class="header" href="#for-ubuntu-2204">For Ubuntu 22.04</a></h4>
+<pre><code class="language-bash"># Tools and libraries
+sudo apt install -y \
+   software-properties-common \
+   cmake \
+   libboost-all-dev
+
+# And you will need to install llvm for the AOT runtime
+sudo apt install -y \
+   llvm-14-dev \
+   liblld-14-dev
+
+# WasmEdge supports both clang++ and g++ compilers.
+# You can choose one of them to build this project.
+# If you prefer GCC, then:
+sudo apt install -y gcc g++
+# Or if you prefer clang, then:
+sudo apt install -y clang-14
+</code></pre>
+<h4 id="for-ubuntu-2004"><a class="header" href="#for-ubuntu-2004">For Ubuntu 20.04</a></h4>
 <pre><code class="language-bash"># Tools and libraries
 sudo apt install -y \
    software-properties-common \
