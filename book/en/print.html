@@ -80,10 +80,12 @@
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -29379,7 +29381,7 @@ If you want to build from source, you may need to install these dependencies by 
 </ul>
 <pre><code class="language-bash"># Tools and libraries
 brew install boost cmake ninja llvm
-export LLVM_DIR=&quot;/usr/local/opt/llvm/lib/cmake&quot;
+export LLVM_DIR=&quot;$(brew --prefix)/opt/llvm/lib/cmake&quot;
 export CC=clang
 export CXX=clang++
 </code></pre>
