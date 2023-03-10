@@ -313,7 +313,7 @@ pub fn grayscale(image_data: String) -&gt; String {
   }
 
   if err := s.Start(); err != nil &amp;&amp; err != http.ErrServerClosed {
-    log.Fatalf(&quot;error listenning: %v&quot;, err)
+    log.Fatalf(&quot;error listening: %v&quot;, err)
   }
 }
 </code></pre>

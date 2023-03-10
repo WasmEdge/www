@@ -2523,7 +2523,7 @@ pub fn grayscale(image_data: String) -&gt; String {
   }
 
   if err := s.Start(); err != nil &amp;&amp; err != http.ErrServerClosed {
-    log.Fatalf(&quot;error listenning: %v&quot;, err)
+    log.Fatalf(&quot;error listening: %v&quot;, err)
   }
 }
 </code></pre>
@@ -10173,7 +10173,7 @@ int main() {
     printf(&quot;Function `fib` not found.\n&quot;);
     return 1;
   }
-  /* Invoke the WASM fnction. */
+  /* Invoke the WASM function. */
   Res = WasmEdge_ExecutorInvoke(ExecCxt, FuncCxt, Params, 1, Returns, 1);
   if (WasmEdge_ResultOK(Res)) {
     printf(&quot;Get the result: %d\n&quot;, WasmEdge_ValueGetI32(Returns[0]));
@@ -12889,7 +12889,7 @@ int main() {
     printf(&quot;Function `fib` not found.\n&quot;);
     return 1;
   }
-  /* Invoke the WASM fnction. */
+  /* Invoke the WASM function. */
   Res = WasmEdge_ExecutorInvoke(ExecCxt, FuncCxt, Params, 1, Returns, 1);
   if (WasmEdge_ResultOK(Res)) {
     printf(&quot;Get the result: %d\n&quot;, WasmEdge_ValueGetI32(Returns[0]));
@@ -15508,7 +15508,7 @@ int main() {
     printf(&quot;Function `fib` not found.\n&quot;);
     return 1;
   }
-  /* Invoke the WASM fnction. */
+  /* Invoke the WASM function. */
   Res = WasmEdge_ExecutorInvoke(ExecCxt, FuncCxt, Params, 1, Returns, 1);
   if (WasmEdge_ResultOK(Res)) {
     printf(&quot;Get the result: %d\n&quot;, WasmEdge_ValueGetI32(Returns[0]));
@@ -17687,7 +17687,7 @@ int main() {
   WasmEdge_Value Returns[1];
   /* Function name. */
   WasmEdge_String FuncName = WasmEdge_StringCreateByCString(&quot;fib&quot;);
-  /* Invoke the WASM fnction. */
+  /* Invoke the WASM function. */
   Res = WasmEdge_ExecutorInvoke(ExecCxt, StoreCxt, FuncName, Params, 1, Returns, 1);
   if (WasmEdge_ResultOK(Res)) {
     printf(&quot;Get the result: %d\n&quot;, WasmEdge_ValueGetI32(Returns[0]));
