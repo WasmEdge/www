@@ -369,7 +369,7 @@ WasmEdge_FunctionTypeContext *HostFType =
     WasmEdge_FunctionTypeCreate(NULL, 0, NULL, 0);
 /* Create a function context with the function type and host function body. */
 WasmEdge_FunctionInstanceContext *HostFunc =
-    WasmEdge_FunctionInstanceCreate(HostFType, (void *)(&amp;Number), NULL, 0);
+    WasmEdge_FunctionInstanceCreate(HostFType, &amp;PrintData, (void *)(&amp;Number), 0);
 WasmEdge_FunctionTypeDelete(HostType);
 </code></pre>
 <h3 id="forcing-termination"><a class="header" href="#forcing-termination">Forcing Termination</a></h3>
