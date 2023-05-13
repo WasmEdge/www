@@ -213,7 +213,7 @@ source /opt/intel/openvino_2021/bin/setupvars.sh
 ldconfig
 </code></pre>
 <p>And then get the WasmEdge and the WASI-NN plug-in with OpenVINO backend:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-openvino
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 --plugins wasi_nn-openvino
 </code></pre>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-pytorch-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">Get WasmEdge with WASI-NN Plug-in PyTorch Backend</a></h3>
 <p>First you should <a href="../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-pytorch-backend">install the PyTorch dependency</a>:</p>
@@ -228,16 +228,16 @@ rm -f &quot;${PYTORCH_ABI}-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/libtorch/lib
 </code></pre>
 <p>And then get the WasmEdge and the WASI-NN plug-in with PyTorch backend:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-pytorch
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 --plugins wasi_nn-pytorch
 </code></pre>
 <blockquote>
 <p>Note: Please check that the Ubuntu version of WasmEdge and plug-in should use the cxx11-abi version of PyTorch, and the manylinux2014 version of WasmEdge and plug-in should use the PyTorch without cxx11-abi.</p>
 </blockquote>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">Get WasmEdge with WASI-NN Plug-in TensorFlow-Lite Backend</a></h3>
 <p>First you should <a href="../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-tensorflow-lite-backend">install the TensorFlow-Lite dependency</a>:</p>
-<pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.2/WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
-tar -zxf WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
-rm -f WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
+<pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.12.1/WasmEdge-tensorflow-deps-TFLite-0.12.1-manylinux2014_x86_64.tar.gz
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.12.1-manylinux2014_x86_64.tar.gz
+rm -f WasmEdge-tensorflow-deps-TFLite-0.12.1-manylinux2014_x86_64.tar.gz
 </code></pre>
 <p>The shared library will be extracted in the current directory <code>./libtensorflowlite_c.so</code>.</p>
 <p>Then you can move the library to the installation path:</p>
@@ -245,7 +245,7 @@ rm -f WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
 </code></pre>
 <p>Or set the environment variable <code>export LD_LIBRARY_PATH=$(pwd):${LD_LIBRARY_PATH}</code>.</p>
 <p>And then get the WasmEdge and the WASI-NN plug-in with TensorFlow-Lite backend:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-tensorflowlite
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 --plugins wasi_nn-tensorflowlite
 </code></pre>
 <h2 id="write-webassembly-using-wasi-nn"><a class="header" href="#write-webassembly-using-wasi-nn">Write WebAssembly Using WASI-NN</a></h2>
 <p>You can refer to the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/openvino-mobilenet-image">OpenVINO backend example</a>, the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/pytorch-mobilenet-image">PyTorch backend example</a>, and the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/tflite-birds_v1-image">TensorFlowLite backend example</a>.</p>

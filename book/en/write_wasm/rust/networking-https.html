@@ -163,7 +163,7 @@
 <p>The WasmEdge WASI socket API supports HTTP networking in Wasm apps. In order to achieve the goal of supporting HTTPS requests with the same API as an HTTP request, we now create a WasmEdge plugin using the OpenSSL library. In this chapter, we will give the example of HTTPS requests and explain the design.</p>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <p>For installation with the installer, you can follow the commands:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasmedge_httpsreq
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 --plugins wasmedge_httpsreq
 </code></pre>
 <h2 id="an-https-request-example"><a class="header" href="#an-https-request-example">An HTTPS request example</a></h2>
 <p>The <a href="https://github.com/2019zhou/wasmedge_http_req/blob/zhou/httpsreq/examples/get_https.rs">example source code</a> for the HTTPS request is available as follows. The HTTP and HTTPS APIs are the same. The Err messages are presented differently because the HTTP uses the rust code while the HTTPS request uses a wasmedge host function.</p>

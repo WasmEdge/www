@@ -213,7 +213,7 @@ curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection re
 <h2 id="install-the-specific-version-of-wasmedge"><a class="header" href="#install-the-specific-version-of-wasmedge">Install the Specific Version of WasmEdge</a></h2>
 <p>The WasmEdge installer script will install the latest official release by default.
 You could install the specific version of WasmEdge, including pre-releases or old releases by passing the <code>-v</code> argument to the installer script. Here is an example.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.11.2
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.12.1
 </code></pre>
 <p>If you are interested in the latest builds from the <code>HEAD</code> of the <code>master</code> branch, which is basically WasmEdge's nightly builds, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/2969775464#artifacts">Here is an example</a>.</p>
 <h2 id="whats-installed"><a class="header" href="#whats-installed">What's Installed</a></h2>
@@ -289,9 +289,9 @@ If you used <code>winget</code> to install WasmEdge, the files are located at <c
 </ul>
 <h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
 <p>Use <code>wasmedgec</code> and <code>wasmedge</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/wasm">link</a>):</p>
-<pre><code class="language-bash">$ docker pull wasmedge/slim:0.11.2
+<pre><code class="language-bash">$ docker pull wasmedge/slim:0.12.1
 
-$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.11.2 wasmedgec hello.wasm hello.aot.wasm
+$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.12.1 wasmedgec hello.wasm hello.aot.wasm
 [2022-07-07 08:15:49.154] [info] compile start
 [2022-07-07 08:15:49.163] [info] verify start
 [2022-07-07 08:15:49.169] [info] optimize start
@@ -300,18 +300,18 @@ $ docker run -it --rm -v $PWD:/app wasmedge/slim:0.11.2 wasmedgec hello.wasm hel
 [2022-07-07 08:15:50.421] [info] compile done
 [2022-07-07 08:15:50.422] [info] output start
 
-$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.11.2 wasmedge hello.aot.wasm world
+$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.12.1 wasmedge hello.aot.wasm world
 hello
 world
 </code></pre>
 <p>Use <code>wasmedge-tensorflow-lite</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/js">link</a>):</p>
-<pre><code class="language-bash">$ docker pull wasmedge/slim-tf:0.11.2
+<pre><code class="language-bash">$ docker pull wasmedge/slim-tf:0.12.1
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/aiy_food_V1_labelmap.txt
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/food.jpg
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/lite-model_aiy_vision_classifier_food_V1_1.tflite
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/main.js
 
-$ docker run -it --rm -v $PWD:/app wasmedge/slim-tf:0.11.2 wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
+$ docker run -it --rm -v $PWD:/app wasmedge/slim-tf:0.12.1 wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
 label:
 Hot dog
 confidence:
@@ -2347,14 +2347,14 @@ military uniform is detected with 206/255 confidence
 </code></pre>
 <h2 id="run-the-wasmedge-compiler"><a class="header" href="#run-the-wasmedge-compiler">Run the WasmEdge compiler</a></h2>
 <p>You could try our WasmEdge compiler <code>wasmedgec</code> using docker container:</p>
-<pre><code class="language-shell">docker run --rm wasmedge/slim:0.11.2 wasmedgec --help
+<pre><code class="language-shell">docker run --rm wasmedge/slim:0.12.1 wasmedgec --help
 </code></pre>
 <p>The default working directory is <code>/app</code>, you could mount your wasm file to <code>/app</code> and compile it:</p>
 <pre><code class="language-shell">$ curl -LO https://github.com/second-state/wasm-learning/raw/master/cli/wasi/wasi_example_main.wasm
 $ ls
 wasi_example_main.wasm
 
-$ docker run --rm -v $PWD:/app wasmedge/slim:0.11.2 wasmedgec wasi_example_main.wasm wasi_example_main-aot.wasm
+$ docker run --rm -v $PWD:/app wasmedge/slim:0.12.1 wasmedgec wasi_example_main.wasm wasi_example_main-aot.wasm
 [2023-04-25 04:29:23.372] [info] compile start
 [2023-04-25 04:29:23.401] [info] verify start
 [2023-04-25 04:29:23.422] [info] optimize start
@@ -4482,7 +4482,7 @@ source /opt/intel/openvino_2021/bin/setupvars.sh
 ldconfig
 </code></pre>
 <p>And then get the WasmEdge and the WASI-NN plug-in with OpenVINO backend:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-openvino
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 --plugins wasi_nn-openvino
 </code></pre>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-pytorch-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">Get WasmEdge with WASI-NN Plug-in PyTorch Backend</a></h3>
 <p>First you should <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-pytorch-backend">install the PyTorch dependency</a>:</p>
@@ -4497,16 +4497,16 @@ rm -f &quot;${PYTORCH_ABI}-shared-with-deps-${PYTORCH_VERSION}%2Bcpu.zip&quot;
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/libtorch/lib
 </code></pre>
 <p>And then get the WasmEdge and the WASI-NN plug-in with PyTorch backend:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-pytorch
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 --plugins wasi_nn-pytorch
 </code></pre>
 <blockquote>
 <p>Note: Please check that the Ubuntu version of WasmEdge and plug-in should use the cxx11-abi version of PyTorch, and the manylinux2014 version of WasmEdge and plug-in should use the PyTorch without cxx11-abi.</p>
 </blockquote>
 <h3 id="get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend"><a class="header" href="#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">Get WasmEdge with WASI-NN Plug-in TensorFlow-Lite Backend</a></h3>
 <p>First you should <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-tensorflow-lite-backend">install the TensorFlow-Lite dependency</a>:</p>
-<pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.2/WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
-tar -zxf WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
-rm -f WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
+<pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.12.1/WasmEdge-tensorflow-deps-TFLite-0.12.1-manylinux2014_x86_64.tar.gz
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.12.1-manylinux2014_x86_64.tar.gz
+rm -f WasmEdge-tensorflow-deps-TFLite-0.12.1-manylinux2014_x86_64.tar.gz
 </code></pre>
 <p>The shared library will be extracted in the current directory <code>./libtensorflowlite_c.so</code>.</p>
 <p>Then you can move the library to the installation path:</p>
@@ -4514,7 +4514,7 @@ rm -f WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
 </code></pre>
 <p>Or set the environment variable <code>export LD_LIBRARY_PATH=$(pwd):${LD_LIBRARY_PATH}</code>.</p>
 <p>And then get the WasmEdge and the WASI-NN plug-in with TensorFlow-Lite backend:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_nn-tensorflowlite
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 --plugins wasi_nn-tensorflowlite
 </code></pre>
 <h2 id="write-webassembly-using-wasi-nn"><a class="header" href="#write-webassembly-using-wasi-nn">Write WebAssembly Using WASI-NN</a></h2>
 <p>You can refer to the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/openvino-mobilenet-image">OpenVINO backend example</a>, the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/pytorch-mobilenet-image">PyTorch backend example</a>, and the <a href="https://github.com/second-state/WasmEdge-WASINN-examples/tree/master/tflite-birds_v1-image">TensorFlowLite backend example</a>.</p>
@@ -4958,7 +4958,7 @@ wasmedge --dir .:. out.wasm lite-model_aiy_vision_classifier_birds_V1_3.tflite b
 Current not support android.</p>
 <h2 id="prerequisites-7"><a class="header" href="#prerequisites-7">Prerequisites</a></h2>
 <p>For installation with the installer, you can follow the commands:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasi_crypto
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 --plugins wasi_crypto
 </code></pre>
 <p>You can also <a href="write_wasm/rust/../../contribute/build_from_src/plugin_wasi_crypto.html">build WasmEdge with WASI-Crypto plug-in from source</a>.</p>
 <h2 id="write-webassembly-using-wasi-crypto"><a class="header" href="#write-webassembly-using-wasi-crypto">Write WebAssembly Using WASI-Crypto</a></h2>
@@ -5158,7 +5158,7 @@ echo: name=WasmEdge
 <p>The WasmEdge WASI socket API supports HTTP networking in Wasm apps. In order to achieve the goal of supporting HTTPS requests with the same API as an HTTP request, we now create a WasmEdge plugin using the OpenSSL library. In this chapter, we will give the example of HTTPS requests and explain the design.</p>
 <h2 id="prerequisites-8"><a class="header" href="#prerequisites-8">Prerequisites</a></h2>
 <p>For installation with the installer, you can follow the commands:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 --plugins wasmedge_httpsreq
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 --plugins wasmedge_httpsreq
 </code></pre>
 <h2 id="an-https-request-example"><a class="header" href="#an-https-request-example">An HTTPS request example</a></h2>
 <p>The <a href="https://github.com/2019zhou/wasmedge_http_req/blob/zhou/httpsreq/examples/get_https.rs">example source code</a> for the HTTPS request is available as follows. The HTTP and HTTPS APIs are the same. The Err messages are presented differently because the HTTP uses the rust code while the HTTPS request uses a wasmedge host function.</p>
@@ -19160,14 +19160,14 @@ WasmEdge_ModuleInstanceDelete(HostModCxt);
 go version go1.16.5 linux/amd64
 </code></pre>
 <p>Meantime, please make sure you have installed <a href="sdk/../quick_start/install.html">the WasmEdge shared library</a> with the same <code>WasmEdge-go</code> release version.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1
 </code></pre>
 <p>If you need the <code>TensorFlow</code> or <code>Image</code> extension for <code>WasmEdge-go</code>, please install the <code>WasmEdge</code> with extensions:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.11.2 -e tensorflow,image
+<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.12.1 -e tensorflow,image
 </code></pre>
 <p>Noticed that the <code>TensorFlow</code> and <code>Image</code> extensions are only for the <code>Linux</code> platforms.</p>
 <p>Install the <code>WasmEdge-go</code> package and build in your Go project directory:</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.2
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.12.1
 go build
 </code></pre>
 <h2 id="wasmedge-go-extensions"><a class="header" href="#wasmedge-go-extensions">WasmEdge-go Extensions</a></h2>
@@ -19320,7 +19320,7 @@ func main() {
 }
 </code></pre>
 <p>Next, let's build the Go application with the WasmEdge Go SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.2
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.12.1
 go build
 </code></pre>
 <p>Run the Golang application.</p>
@@ -19501,7 +19501,7 @@ However, instead of calling <code>vm.Instantiate()</code>, you should now call <
 }
 </code></pre>
 <p>Finally, you can build and run the Go host application.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.2
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.12.1
 go build
 ./bindgen_funcs rust_bindgen_funcs_lib.wasm
 </code></pre>
@@ -19648,7 +19648,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.2
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.12.1
 go build greet_memory.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from Rust.</p>
@@ -19766,7 +19766,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.2
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.12.1
 go build greet_memory.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from TinyGo.</p>
@@ -19927,7 +19927,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.2
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.12.1
 go build run.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from Rust.</p>
@@ -20078,7 +20078,7 @@ func main() {
 }
 </code></pre>
 <p>To build the Go SDK example, run the following commands.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.2
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.12.1
 go build run.go
 </code></pre>
 <p>Now you can use the Go application to run the WebAssembly plug-in compiled from TinyGo.</p>
@@ -20178,7 +20178,7 @@ cd ../
 <p>You must have WasmEdge with its tensorflow extension installed on your machine. <a href="sdk/go/../../quick_start/install.html">Checkout the install guide</a> for details.</p>
 </blockquote>
 <p>The following command builds the Go host application with the WasmEdge Go SDK and its tensorflow extension.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.2
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.12.1
 go build -tags tensorflow
 </code></pre>
 <p>Now you can run the Go application. It calls the WebAssembly function in WasmEdge to run inference on the input image.</p>
@@ -20361,7 +20361,7 @@ func main() {
 }
 </code></pre>
 <p>Next, let's build the Go application with the WasmEdge Go SDK.</p>
-<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.11.2
+<pre><code class="language-bash">go get github.com/second-state/WasmEdge-go/wasmedge@v0.12.1
 go build
 </code></pre>
 <p>Run the Go application and it will run the WebAssembly functions embedded in the WasmEdge runtime.</p>
@@ -31223,7 +31223,7 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-cli-1"><a class="header" href="#wasmedge-cli-1"><code>wasmedge</code> CLI</a></h1>
 <p>After <a href="cli/../quick_start/install.html">installation</a>, users can execute the <code>wasmedge</code> tool with commands.</p>
 <pre><code class="language-bash">$ wasmedge -v
-wasmedge version 0.11.2
+wasmedge version 0.12.1
 </code></pre>
 <p>The usage of the <code>wasmedge</code> tool will be:</p>
 <pre><code class="language-bash">$ wasmedge -h
@@ -31426,7 +31426,7 @@ confidence: 0.8941176470588236
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedgec-cli-1"><a class="header" href="#wasmedgec-cli-1"><code>wasmedgec</code> CLI</a></h1>
 <p>After <a href="cli/../quick_start/install.html">installation</a>, users can execute the <code>wasmedgec</code> tool with commands.</p>
 <pre><code class="language-bash">$ wasmedgec -v
-wasmedge version 0.11.2
+wasmedge version 0.12.1
 </code></pre>
 <p>The usage of the <code>wasmedge</code> tool will be:</p>
 <pre><code class="language-bash">$ wasmedge -h
@@ -32479,15 +32479,15 @@ sirius:/ $
 </code></pre>
 <h3 id="install-wasmedge-tensorflow-tools-packages"><a class="header" href="#install-wasmedge-tensorflow-tools-packages">Install WasmEdge-TensorFlow-Tools packages</a></h3>
 <p>Use the following commands on your Ubuntu dev machine to download the WasmEdge-TensorFlow-Tools pre-release packages.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.11.2/WasmEdge-tensorflow-tools-0.11.2-android_aarch64.tar.gz
-$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.11.2-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-tools/releases/download/0.12.1/WasmEdge-tensorflow-tools-0.12.1-android_aarch64.tar.gz
+$ mkdir WasmEdge-tensorflow-tools &amp;&amp; tar zxvf WasmEdge-tensorflow-tools-0.12.1-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 show-tflite-tensor
 wasmedge-tensorflow-lite
 </code></pre>
 <h3 id="install-android-version-of-the-tensorflow-lite-shared-library"><a class="header" href="#install-android-version-of-the-tensorflow-lite-shared-library">Install Android version of the TensorFlow-Lite shared library</a></h3>
 <p>We provide an Android compatible version of TensorFlow-Lite dynamic shared library in the WasmEdge-Tensorflow-deps package. Download the package to your Ubuntu dev machine as follows.</p>
-<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.2/WasmEdge-tensorflow-deps-TFLite-0.11.2-android_aarch64.tar.gz
-$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.11.2-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
+<pre><code class="language-bash">$ wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.12.1/WasmEdge-tensorflow-deps-TFLite-0.12.1-android_aarch64.tar.gz
+$ tar zxvf WasmEdge-tensorflow-deps-TFLite-0.12.1-android_aarch64.tar.gz -C WasmEdge-tensorflow-tools
 libtensorflowlite_c.so
 </code></pre>
 <p>Next use the <code>adb</code> tool to push the downloaded WasmEdge-TensorFlow packages onto a connected Android device.</p>
@@ -32611,18 +32611,18 @@ int main(int argc, char *argv[]) {
 <h2 id="build-4"><a class="header" href="#build-4">Build</a></h2>
 <h3 id="install-dependencies"><a class="header" href="#install-dependencies">Install dependencies</a></h3>
 <p>Use the following commands to download WasmEdge for Android on your Ubuntu dev machine.</p>
-<pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.11.2/WasmEdge-0.11.2-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-image/releases/download/0.11.2/WasmEdge-image-0.11.2-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.11.2/WasmEdge-tensorflowlite-0.11.2-android_aarch64.tar.gz
-wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.2/WasmEdge-tensorflow-deps-TFLite-0.11.2-android_aarch64.tar.gz
-tar -zxf WasmEdge-0.11.2-android_aarch64.tar.gz
-tar -zxf WasmEdge-image-0.11.2-android_aarch64.tar.gz -C WasmEdge-0.11.2-Android/
-tar -zxf WasmEdge-tensorflowlite-0.11.2-android_aarch64.tar.gz -C WasmEdge-0.11.2-Android/
-tar -zxf WasmEdge-tensorflow-deps-TFLite-0.11.2-android_aarch64.tar.gz -C WasmEdge-0.11.2-Android/lib/
+<pre><code class="language-bash">wget https://github.com/WasmEdge/WasmEdge/releases/download/0.12.1/WasmEdge-0.12.1-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-image/releases/download/0.12.1/WasmEdge-image-0.12.1-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow/releases/download/0.12.1/WasmEdge-tensorflowlite-0.12.1-android_aarch64.tar.gz
+wget https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.12.1/WasmEdge-tensorflow-deps-TFLite-0.12.1-android_aarch64.tar.gz
+tar -zxf WasmEdge-0.12.1-android_aarch64.tar.gz
+tar -zxf WasmEdge-image-0.12.1-android_aarch64.tar.gz -C WasmEdge-0.12.1-Android/
+tar -zxf WasmEdge-tensorflowlite-0.12.1-android_aarch64.tar.gz -C WasmEdge-0.12.1-Android/
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.12.1-android_aarch64.tar.gz -C WasmEdge-0.12.1-Android/lib/
 </code></pre>
 <h3 id="compile"><a class="header" href="#compile">Compile</a></h3>
 <p>The following command compiles the C program to <code>a.out</code> on your Ubunu dev machine.</p>
-<pre><code class="language-bash">(/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.11.2-Android/include -L./WasmEdge-0.11.2-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge
+<pre><code class="language-bash">(/path/to/ndk)/toolchains/llvm/prebuilt/(HostPlatform)/bin/aarch64-linux-(AndroidApiVersion)-clang test.c -I./WasmEdge-0.12.1-Android/include -L./WasmEdge-0.12.1-Android/lib -lwasmedge-image_c -lwasmedge-tensorflowlite_c -ltensorflowlite_c -lwasmedge
 </code></pre>
 <h2 id="run-3"><a class="header" href="#run-3">Run</a></h2>
 <h3 id="push-files-onto-android"><a class="header" href="#push-files-onto-android">Push files onto Android</a></h3>
@@ -32631,7 +32631,7 @@ tar -zxf WasmEdge-tensorflow-deps-TFLite-0.11.2-android_aarch64.tar.gz -C WasmEd
 adb push birds_v1.wasm /data/local/tmp
 adb push lite-model_aiy_vision_classifier_birds_V1_3.tflite /data/local/tmp
 adb push bird.jpg /data/local/tmp
-adb push ./WasmEdge-0.11.2-Android/lib /data/local/tmp
+adb push ./WasmEdge-0.12.1-Android/lib /data/local/tmp
 </code></pre>
 <h3 id="run-the-example"><a class="header" href="#run-the-example">Run the example</a></h3>
 <p>Now you can run the compiled C program on the Android device via a remote shell command. Run <code>adb shell</code> from your Ubuntu dev machine.</p>
@@ -33000,9 +33000,9 @@ cmake --install .
 </blockquote>
 <p>Then you will have an executable <code>wasmedge</code> runtime under <code>/usr/local/bin</code> and the WASI-NN with OpenVINO backend plug-in under <code>/usr/local/lib/wasmedge/libwasmedgePluginWasiNN.so</code> after installation.</p>
 <p>Installing the necessary <code>libtensorflowlite_c.so</code> on both <code>Ubuntu 20.04</code> and <code>manylinux2014</code> for the backend, we recommend the following commands:</p>
-<pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.11.2/WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
-tar -zxf WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
-rm -f WasmEdge-tensorflow-deps-TFLite-0.11.2-manylinux2014_x86_64.tar.gz
+<pre><code class="language-bash">curl -s -L -O --remote-name-all https://github.com/second-state/WasmEdge-tensorflow-deps/releases/download/0.12.1/WasmEdge-tensorflow-deps-TFLite-0.12.1-manylinux2014_x86_64.tar.gz
+tar -zxf WasmEdge-tensorflow-deps-TFLite-0.12.1-manylinux2014_x86_64.tar.gz
+rm -f WasmEdge-tensorflow-deps-TFLite-0.12.1-manylinux2014_x86_64.tar.gz
 </code></pre>
 <p>The shared library will be extracted in the current directory <code>./libtensorflowlite_c.so</code>.</p>
 <p>Then you can move the library to the installation path:</p>
