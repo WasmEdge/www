@@ -268,14 +268,14 @@ military uniform is detected with 206/255 confidence
 </code></pre>
 <h2 id="run-the-wasmedge-compiler"><a class="header" href="#run-the-wasmedge-compiler">Run the WasmEdge compiler</a></h2>
 <p>You could try our WasmEdge compiler <code>wasmedgec</code> using docker container:</p>
-<pre><code class="language-shell">docker run --rm wasmedge/slim:0.11.2 wasmedgec --help
+<pre><code class="language-shell">docker run --rm wasmedge/slim:0.12.1 wasmedgec --help
 </code></pre>
 <p>The default working directory is <code>/app</code>, you could mount your wasm file to <code>/app</code> and compile it:</p>
 <pre><code class="language-shell">$ curl -LO https://github.com/second-state/wasm-learning/raw/master/cli/wasi/wasi_example_main.wasm
 $ ls
 wasi_example_main.wasm
 
-$ docker run --rm -v $PWD:/app wasmedge/slim:0.11.2 wasmedgec wasi_example_main.wasm wasi_example_main-aot.wasm
+$ docker run --rm -v $PWD:/app wasmedge/slim:0.12.1 wasmedgec wasi_example_main.wasm wasi_example_main-aot.wasm
 [2023-04-25 04:29:23.372] [info] compile start
 [2023-04-25 04:29:23.401] [info] verify start
 [2023-04-25 04:29:23.422] [info] optimize start

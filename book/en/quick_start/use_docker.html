@@ -183,9 +183,9 @@
 </ul>
 <h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
 <p>Use <code>wasmedgec</code> and <code>wasmedge</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/wasm">link</a>):</p>
-<pre><code class="language-bash">$ docker pull wasmedge/slim:0.11.2
+<pre><code class="language-bash">$ docker pull wasmedge/slim:0.12.1
 
-$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.11.2 wasmedgec hello.wasm hello.aot.wasm
+$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.12.1 wasmedgec hello.wasm hello.aot.wasm
 [2022-07-07 08:15:49.154] [info] compile start
 [2022-07-07 08:15:49.163] [info] verify start
 [2022-07-07 08:15:49.169] [info] optimize start
@@ -194,18 +194,18 @@ $ docker run -it --rm -v $PWD:/app wasmedge/slim:0.11.2 wasmedgec hello.wasm hel
 [2022-07-07 08:15:50.421] [info] compile done
 [2022-07-07 08:15:50.422] [info] output start
 
-$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.11.2 wasmedge hello.aot.wasm world
+$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.12.1 wasmedge hello.aot.wasm world
 hello
 world
 </code></pre>
 <p>Use <code>wasmedge-tensorflow-lite</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/js">link</a>):</p>
-<pre><code class="language-bash">$ docker pull wasmedge/slim-tf:0.11.2
+<pre><code class="language-bash">$ docker pull wasmedge/slim-tf:0.12.1
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/aiy_food_V1_labelmap.txt
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/food.jpg
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/lite-model_aiy_vision_classifier_food_V1_1.tflite
 $ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/main.js
 
-$ docker run -it --rm -v $PWD:/app wasmedge/slim-tf:0.11.2 wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
+$ docker run -it --rm -v $PWD:/app wasmedge/slim-tf:0.12.1 wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
 label:
 Hot dog
 confidence:
