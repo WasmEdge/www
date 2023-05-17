@@ -205,15 +205,15 @@
 <li>Full Option: <code>--version VERSION</code></li>
 <li>Description: Install the given VERSION of WasmEdge</li>
 <li>Available Value: VERSION <code>0.11.2</code> or other valid release versions.</li>
-<li>Note - In the case of supplied an invalid or nonexistent version, the installer exists with an error.</li>
+<li><strong>Note</strong> - In the case of supplied an invalid or nonexistent version, the installer exists with an error.</li>
 </ul>
 <h3 id="installation-path"><a class="header" href="#installation-path">Installation path</a></h3>
 <ul>
 <li>Short Option: <code>-p PATH</code></li>
 <li>Full Option: <code>--path PATH</code></li>
 <li>Description: Install WasmEdge into the given PATH. The default Path is <code>$HOME/.wasmedge</code>.</li>
-<li>Note - In any path other than the ones starting with <code>/usr</code> are treated as non system paths in the internals of the installer. The consequences are different directory structures for both.</li>
-<li>Note - If the path not exists, the folder will be created.</li>
+<li><strong>Note</strong> - In any path other than the ones starting with <code>/usr</code> are treated as non system paths in the internals of the installer. The consequences are different directory structures for both.</li>
+<li><strong>Note</strong> - If the path not exists, the folder will be created.</li>
 </ul>
 <h3 id="uninstallation"><a class="header" href="#uninstallation">Uninstallation</a></h3>
 <h4 id="run-uninstaller-before-installing"><a class="header" href="#run-uninstaller-before-installing">Run uninstaller before installing</a></h4>
@@ -239,50 +239,50 @@
 <ul>
 <li>Full Option: <code>--tf-version TF_VERSION</code></li>
 <li>Description: Install the given VERSION of the library of the Tensorflow and Tensorflow lite extension. Only available when the <code>Extensions</code> is set to <code>all</code> or <code>tensorflow</code>.</li>
-<li>Note - It's the same as the WasmEdge version if not specified.</li>
+<li><strong>Note</strong> - It's the same as the WasmEdge version if not specified.</li>
 </ul>
 <h4 id="tensorflow-extensions-dependencies-version"><a class="header" href="#tensorflow-extensions-dependencies-version">Tensorflow Extensions Dependencies Version</a></h4>
 <ul>
 <li>Full Option: <code>--tf-deps-version TF_DEPS_VERSION</code></li>
 <li>Description: Install the given VERSION of the dependencies of the Tensorflow and Tensorflow lite extension. Only available when the <code>Extensions</code> is set to <code>all</code> or <code>tensorflow</code>.</li>
-<li>Note - It's the same as the WasmEdge version if not specified.</li>
+<li><strong>Note</strong> - It's the same as the WasmEdge version if not specified.</li>
 </ul>
 <h4 id="tensorflow-extensions-tools-version"><a class="header" href="#tensorflow-extensions-tools-version">Tensorflow Extensions Tools Version</a></h4>
 <ul>
 <li>Full Option: <code>--tf-tools-version TF_TOOLS_VERSION</code></li>
 <li>Description: Install the given VERSION of the tools of the Tensorflow and Tensorflow lite extension. Only available when the <code>Extensions</code> is set to <code>all</code> or <code>tensorflow</code>.</li>
-<li>Note - It's the same as the WasmEdge version if not specified.</li>
+<li><strong>Note</strong> - It's the same as the WasmEdge version if not specified.</li>
 </ul>
 <h4 id="image-extensions-version"><a class="header" href="#image-extensions-version">Image Extensions Version</a></h4>
 <ul>
 <li>Full Option: <code>--image-version IMAGE_VERSION</code></li>
 <li>Description: Install the given VERSION of the Image extension. Only available when the <code>Extensions</code> is set to <code>all</code> or <code>image</code>.</li>
-<li>Note - It's the same as the WasmEdge version if not specified.</li>
+<li><strong>Note</strong> - It's the same as the WasmEdge version if not specified.</li>
 </ul>
 <h3 id="plugins"><a class="header" href="#plugins">Plugins</a></h3>
 <ul>
 <li>
-<p>Note - Currently <code>--plugins</code> is an experimental option.</p>
+<p><strong>Note</strong> - Currently <code>--plugins</code> is an experimental option.</p>
 </li>
 <li>
 <p>Full Option: <code>--plugins wasi_crypto:0.11.0</code></p>
 </li>
 <li>
-<p>Note - The format for this argument is <code>&lt;plugin_name&gt;:&lt;version_number&gt;</code>. <code>&lt;version_number&gt;</code> is not compulsory. For example <code>--plugins wasi_crypto</code> is a valid option.</p>
+<p><strong>Note</strong> - The format for this argument is <code>&lt;plugin_name&gt;:&lt;version_number&gt;</code>. <code>&lt;version_number&gt;</code> is not compulsory. For example <code>--plugins wasi_crypto</code> is a valid option.</p>
 </li>
 <li>
-<p>Note - <code>&lt;plugin_name&gt;</code> is cases sensitive. Allowed values are stated <a href="https://wasmedge.org/book/en/plugin.html">here</a> in the <code>Rust Crate</code> column. The logic is that the release name should be the same.</p>
+<p><strong>Note</strong> - <code>&lt;plugin_name&gt;</code> is cases sensitive. Allowed values are stated <a href="https://wasmedge.org/book/en/plugin.html">here</a> in the <code>Rust Crate</code> column. The logic is that the release name should be the same.</p>
 </li>
 <li>
-<p>Note - It's the same as the WasmEdge version if not specified.</p>
+<p><strong>Note</strong> - It's the same as the WasmEdge version if not specified.</p>
 </li>
 </ul>
 <h3 id="dist"><a class="header" href="#dist">DIST</a></h3>
 <ul>
 <li>Full Option: <code>--dist ubuntu20.04</code> or <code>--dist manylinux2014</code></li>
-<li>Note - the <code>ubuntu20.04</code> and <code>manylinux2014</code> values are case insensitive and only these two are currently supported.</li>
-<li>Note - Specifying <code>--dist</code> value for <code>Darwin</code> has no effect.</li>
-<li>Note - For <code>Linux</code> platform if the distribution matches exactly as <code>Ubuntu 20.04</code> which is checked using <code>lsb_release</code> and python's <code>platform.dist()</code> functionality then it is set to <code>ubuntu20.04</code> if not specified, else it is used without questioning. However different release packages for WasmEdge are available only after <code>0.11.1</code> release below which there is no effect of specifying this option.</li>
+<li><strong>Note</strong> - the <code>ubuntu20.04</code> and <code>manylinux2014</code> values are case insensitive and only these two are currently supported.</li>
+<li><strong>Note</strong> - Specifying <code>--dist</code> value for <code>Darwin</code> has no effect.</li>
+<li><strong>Note</strong> - For <code>Linux</code> platform if the distribution matches exactly as <code>Ubuntu 20.04</code> which is checked using <code>lsb_release</code> and python's <code>platform.dist()</code> functionality then it is set to <code>ubuntu20.04</code> if not specified, else it is used without questioning. However different release packages for WasmEdge are available only after <code>0.11.1</code> release below which there is no effect of specifying this option.</li>
 </ul>
 <h3 id="platform-and-os"><a class="header" href="#platform-and-os">Platform and OS</a></h3>
 <ul>
