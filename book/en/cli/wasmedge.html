@@ -167,7 +167,7 @@ wasmedge version 0.12.1
 <p>The usage of the <code>wasmedge</code> tool will be:</p>
 <pre><code class="language-bash">$ wasmedge -h
 USAGE
-   wasmedge [OPTIONS] [--] WASM_OR_SO [ARG ...]
+   wasmedge [SUBCOMMANDS] [OPTIONS] [--] WASM_OR_SO [ARG ...]
 
 ...
 </code></pre>
@@ -188,7 +188,13 @@ USAGE
 </ul>
 <p>The <code>wasmedge</code> CLI tool will execute the WebAssembly in ahead-of-time(AOT) mode if available in the input WASM file.
 For the pure WASM, the <code>wasmedge</code> CLI tool will execute it in interpreter mode, which is much slower than AOT mode.
-If you want to improve the performance, <a href="wasmedgec.html">please refer here</a> to compile your WASM file.</p>
+If you want to improve the performance, <a href="wasmedge_compile.html">please refer here</a> to compile your WASM file.</p>
+<h2 id="subcommands"><a class="header" href="#subcommands">Subcommands</a></h2>
+<p>The subcommands of the <code>wasmedge</code> CLI tool are as follows.</p>
+<ol>
+<li><code>run</code>: execute the WebAssembly; the usage of <code>wasmedge run</code> is identical to <code>wasmedge</code> without <code>-v|--version</code> option. <a href="wasmedge_tool.html">Please refer here</a> to get more details.</li>
+<li><code>compile</code>: compile WebAssembly into native machine code (i.e., the AOT compiler). <a href="wasmedge_compile.html">Please refer here</a> to get more details.</li>
+</ol>
 <h2 id="options"><a class="header" href="#options">Options</a></h2>
 <p>The options of the <code>wasmedge</code> CLI tool are as follows.</p>
 <ol>
