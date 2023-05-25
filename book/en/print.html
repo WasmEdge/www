@@ -31108,11 +31108,15 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-python-sdk"><a class="header" href="#wasmedge-python-sdk">WasmEdge Python SDK</a></h1>
 <p>Coming soon, or you can <a href="https://github.com/WasmEdge/WasmEdge/pull/633">help out</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-command-line-tools"><a class="header" href="#wasmedge-command-line-tools">WasmEdge Command Line Tools</a></h1>
-<p>After the <a href="quick_start/install.html">WasmEdge installation</a>, the <code>wasmedge</code> and <code>wasmedgec</code> tools are installed.</p>
-<p>Users can use these WasmEdge CLI tools to execute the WebAssembly files quickly.</p>
+<p>After the <a href="quick_start/install.html">WasmEdge installation</a>, the <code>wasmedge</code> tool is installed.</p>
+<p>Users can use the WasmEdge CLI tool to execute the WebAssembly files quickly.</p>
 <ul>
-<li>The <a href="cli/wasmedge.html"><code>wasmedge</code> CLI tool</a> is the WebAssembly runtime to execute the WASM files.</li>
-<li>The <a href="cli/wasmedgec.html"><code>wasmedgec</code> CLI tool</a> is the ahead-of-time compiler to compile the WebAssembly file into native code.</li>
+<li>
+<p>The <a href="cli/wasmedge.html"><code>wasmedge</code> CLI tool</a> is the WebAssembly runtime to execute the WASM files.</p>
+</li>
+<li>
+<p>The original <code>wasmedgec</code> tool is changed to <code>wasmedge compile</code>. The <a href="cli/wasmedge_compile.html"><code>wasmedge compile</code> CLI tool</a> is the ahead-of-time compiler to compile the WebAssembly file into native code.</p>
+</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-cli-1"><a class="header" href="#wasmedge-cli-1"><code>wasmedge</code> CLI</a></h1>
 <p>After <a href="cli/../quick_start/install.html">installation</a>, users can execute the <code>wasmedge</code> tool with commands.</p>
@@ -31122,7 +31126,7 @@ wasmedge version 0.12.1
 <p>The usage of the <code>wasmedge</code> tool will be:</p>
 <pre><code class="language-bash">$ wasmedge -h
 USAGE
-   wasmedge [OPTIONS] [--] WASM_OR_SO [ARG ...]
+   wasmedge [SUBCOMMANDS] [OPTIONS] [--] WASM_OR_SO [ARG ...]
 
 ...
 </code></pre>
@@ -31143,7 +31147,13 @@ USAGE
 </ul>
 <p>The <code>wasmedge</code> CLI tool will execute the WebAssembly in ahead-of-time(AOT) mode if available in the input WASM file.
 For the pure WASM, the <code>wasmedge</code> CLI tool will execute it in interpreter mode, which is much slower than AOT mode.
-If you want to improve the performance, <a href="cli/wasmedgec.html">please refer here</a> to compile your WASM file.</p>
+If you want to improve the performance, <a href="cli/wasmedge_compile.html">please refer here</a> to compile your WASM file.</p>
+<h2 id="subcommands"><a class="header" href="#subcommands">Subcommands</a></h2>
+<p>The subcommands of the <code>wasmedge</code> CLI tool are as follows.</p>
+<ol>
+<li><code>run</code>: execute the WebAssembly; the usage of <code>wasmedge run</code> is identical to <code>wasmedge</code> without <code>-v|--version</code> option. <a href="cli/wasmedge_tool.html">Please refer here</a> to get more details.</li>
+<li><code>compile</code>: compile WebAssembly into native machine code (i.e., the AOT compiler). <a href="cli/wasmedge_compile.html">Please refer here</a> to get more details.</li>
+</ol>
 <h2 id="options"><a class="header" href="#options">Options</a></h2>
 <p>The options of the <code>wasmedge</code> CLI tool are as follows.</p>
 <ol>
@@ -31317,109 +31327,7 @@ $ wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
 label: Hot dog
 confidence: 0.8941176470588236
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedgec-cli-1"><a class="header" href="#wasmedgec-cli-1"><code>wasmedgec</code> CLI</a></h1>
-<p>After <a href="cli/../quick_start/install.html">installation</a>, users can execute the <code>wasmedgec</code> tool with commands.</p>
-<pre><code class="language-bash">$ wasmedgec -v
-wasmedge version 0.12.1
-</code></pre>
-<p>The usage of the <code>wasmedge</code> tool will be:</p>
-<pre><code class="language-bash">$ wasmedge -h
-USAGE
-   wasmedgec [OPTIONS] [--] WASM WASM_SO
-
-...
-</code></pre>
-<p>The <code>wasmedgec</code> can compile WebAssembly into native machine code (i.e., the AOT compiler).
-For the pure WebAssembly, the <code>wasmedge</code> tool will execute the WASM in interpreter mode.
-After compiling with the <code>wasmedgec</code> AOT compiler, the <code>wasmedge</code> tool can execute the WASM in AOT mode which is much faster.</p>
-<h2 id="options-1"><a class="header" href="#options-1">Options</a></h2>
-<p>The options of the <code>wasmedgec</code> CLI tool are as follows.</p>
-<ol>
-<li><code>-v|--version</code>: Show the version information. Will ignore other arguments below.</li>
-<li><code>-h|--help</code>: Show the help messages. Will ignore other arguments below.</li>
-<li>(Optional) <code>--dump</code>: Dump the LLVM IR to <code>wasm.ll</code> and <code>wasm-opt.ll</code>.</li>
-<li>(Optional) <code>--interruptible</code>: Generate the binary which supports interruptible execution.
-<ul>
-<li>By default, the AOT-compiled WASM not supports <a href="cli/../sdk/c/ref.html#async">interruptions in asynchronous executions</a>.</li>
-</ul>
-</li>
-<li>(Optional) Statistics information:
-<ul>
-<li>By default, the AOT-compiled WASM not supports all statistics even if the options are turned on when running the <code>wasmedge</code> tool.</li>
-<li>Use <code>--enable-time-measuring</code> to generate code for enabling the statistics of time measuring in execution.</li>
-<li>Use <code>--enable-gas-measuring</code> to generate code for enabling the statistics of gas measuring in execution.</li>
-<li>Use <code>--enable-instruction-count</code> to generate code for enabling the statistics of counting WebAssembly instructions.</li>
-<li>Or use <code>--enable-all-statistics</code> to generate code for enabling all of the statistics.</li>
-</ul>
-</li>
-<li>(Optional) <code>--generic-binary</code>: Generate the generic binary of the current host CPU architecture.</li>
-<li>(Optional) WebAssembly proposals:
-<ul>
-<li>Use <code>--disable-import-export-mut-globals</code> to disable the <a href="https://github.com/WebAssembly/mutable-global">Import/Export of Mutable Globals</a> proposal (Default <code>ON</code>).</li>
-<li>Use <code>--disable-non-trap-float-to-int</code> to disable the <a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions">Non-Trapping Float-to-Int Conversions</a> proposal (Default <code>ON</code>).</li>
-<li>Use <code>--disable-sign-extension-operators</code> to disable the <a href="https://github.com/WebAssembly/sign-extension-ops">Sign-Extension Operators</a> proposal (Default <code>ON</code>).</li>
-<li>Use <code>--disable-multi-value</code> to disable the <a href="https://github.com/WebAssembly/multi-value">Multi-value</a> proposal (Default <code>ON</code>).</li>
-<li>Use <code>--disable-bulk-memory</code> to disable the <a href="https://github.com/WebAssembly/bulk-memory-operations">Bulk Memory Operations</a> proposal (Default <code>ON</code>).</li>
-<li>Use <code>--disable-reference-types</code> to disable the <a href="https://github.com/WebAssembly/reference-types">Reference Types</a> proposal (Default <code>ON</code>).</li>
-<li>Use <code>--disable-simd</code> to disable the <a href="https://github.com/webassembly/simd">Fixed-width SIMD</a> proposal (Default <code>ON</code>).</li>
-<li>Use <code>--enable-multi-memory</code> to enable the <a href="https://github.com/WebAssembly/multi-memory">Multiple Memories</a> proposal (Default <code>OFF</code>).</li>
-<li>Use <code>--enable-tail-call</code> to enable the <a href="https://github.com/WebAssembly/tail-call">Tail call</a> proposal (Default <code>OFF</code>).</li>
-<li>Use <code>--enable-extended-const</code> to enable the <a href="https://github.com/WebAssembly/extended-const">Extended Constant Expressions</a> proposal (Default <code>OFF</code>).</li>
-<li>Use <code>--enable-threads</code> to enable the <a href="https://github.com/webassembly/threads">Threads</a> proposal (Default <code>OFF</code>).</li>
-<li>Use <code>--enable-all</code> to enable ALL proposals above.</li>
-</ul>
-</li>
-<li>(Optional) <code>--optimize</code>: Select the LLVM optimization level.
-<ul>
-<li>Use <code>--optimize LEVEL</code> to set the optimization level. The <code>LEVEL</code> should be one of <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>s</code>, or <code>z</code>.</li>
-<li>The default value will be <code>2</code>, which means <code>O2</code>.</li>
-</ul>
-</li>
-<li>Input WASM file (<code>/path/to/wasm/file</code>).</li>
-<li>Output path (<code>/path/to/output/file</code>).
-<ul>
-<li>By default, the <code>wasmedgec</code> tool will output the <a href="cli/../quick_start/run_in_aot_mode.html#output-format-universal-wasm">universal WASM format</a>.</li>
-<li>If the specific file extension (<code>.so</code> on Linux, <code>.dylib</code> on MacOS, and <code>.dll</code> on Windows) is assigned in the output path, the <code>wasmedgec</code> tool will output the <a href="cli/../quick_start/run_in_aot_mode.html#output-format-shared-library">shared library format</a>.</li>
-</ul>
-</li>
-</ol>
-<h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
-<p>Take the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> for example.
-It exported a <code>fib()</code> function which takes a single <code>i32</code> integer as the input parameter.</p>
-<p>You can run:</p>
-<pre><code class="language-bash">wasmedgec fibonacci.wasm fibonacci_aot.wasm
-</code></pre>
-<p>or:</p>
-<pre><code class="language-bash">wasmedgec fibonacci.wasm fibonacci_aot.so # On Linux.
-</code></pre>
-<p>The output will be:</p>
-<pre><code class="language-bash">[2022-09-09 14:22:10.540] [info] compile start
-[2022-09-09 14:22:10.541] [info] verify start
-[2022-09-09 14:22:10.542] [info] optimize start
-[2022-09-09 14:22:10.547] [info] codegen start
-[2022-09-09 14:22:10.552] [info] output start
-[2022-09-09 14:22:10.600] [info] compile done
-</code></pre>
-<p>Then you can execute the output file with <code>wasmedge</code> and measure the execution time:</p>
-<pre><code class="language-bash">time wasmedge --reactor fibonacci_aot.wasm fib 30
-</code></pre>
-<p>The output will be:</p>
-<pre><code class="language-bash">1346269
-
-real    0m0.029s
-user    0m0.012s
-sys     0m0.014s
-</code></pre>
-<p>Then you can compare it with the interpreter mode:</p>
-<pre><code class="language-bash">time wasmedge --reactor fibonacci.wasm fib 30
-</code></pre>
-<p>The output shows that the AOT-compiled WASM is much faster than the interpreter mode:</p>
-<pre><code class="language-bash">1346269
-
-real    0m0.442s
-user    0m0.427s
-sys     0m0.012s
-</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedgec-aot-compiler"><a class="header" href="#wasmedgec-aot-compiler">wasmedgec AOT Compiler</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="develop-wasmedge-plug-in"><a class="header" href="#develop-wasmedge-plug-in">Develop WasmEdge Plug-in</a></h1>
 <p>While the WasmEdge language SDKs allow registering host functions from a host (wrapping) application, developers should implement the host functions before compilation.
 For the other solutions, WasmEdge provides the plug-in architecture to load the plug-in shared library for easier extending of the host functions.
@@ -31448,7 +31356,7 @@ Please check the following table to check the release status and how to build fr
 <div style="break-before: page; page-break-before: always;"></div><h1 id="develop-wasmedge-plug-in-in-c-api"><a class="header" href="#develop-wasmedge-plug-in-in-c-api">Develop WasmEdge Plug-in in C API</a></h1>
 <h2 id="prerequisites-10"><a class="header" href="#prerequisites-10">Prerequisites</a></h2>
 <p>For developing the WasmEdge plug-in in C API, please <a href="develop_plugin/../quick_start/install.html">install WasmEdge</a> first.</p>
-<h2 id="example-2"><a class="header" href="#example-2">Example</a></h2>
+<h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
 <p>Assume that the plug-in example is in the file <code>testplugin.c</code>.</p>
 <h3 id="host-functions-12"><a class="header" href="#host-functions-12">Host Functions</a></h3>
 <p>The goal of the plug-in is to provide the host functions which can be imported when instantiating WASM.
@@ -31614,7 +31522,7 @@ target_link_libraries(wasmedgePluginTest
 </blockquote>
 <h2 id="prerequisites-11"><a class="header" href="#prerequisites-11">Prerequisites</a></h2>
 <p>For developing the WasmEdge plug-in in internal C++, developers should <a href="develop_plugin/../contribute/build_from_src.html">build WasmEdge from source</a>.</p>
-<h2 id="example-3"><a class="header" href="#example-3">Example</a></h2>
+<h2 id="example-2"><a class="header" href="#example-2">Example</a></h2>
 <p>Assume that the plug-in example is in the file <code>testplugin.h</code> and <code>testplugin.cpp</code>.</p>
 <h3 id="host-functions-and-modules"><a class="header" href="#host-functions-and-modules">Host Functions and Modules</a></h3>
 <p>The goal of the plug-in is to provide the host functions which can be imported when instantiating WASM.
@@ -32990,7 +32898,7 @@ cmake --install .
 </ol>
 <h3 id="installpy"><a class="header" href="#installpy"><code>install.py</code></a></h3>
 <p>The real installer handles all stuff. It supports python2.7 (not tested on earlier versions) as well as the latest python versions python3.x.</p>
-<h2 id="options-2"><a class="header" href="#options-2">Options</a></h2>
+<h2 id="options-1"><a class="header" href="#options-1">Options</a></h2>
 <h3 id="help-msg"><a class="header" href="#help-msg">Help Msg</a></h3>
 <ul>
 <li>Short Option: <code>-h</code></li>
