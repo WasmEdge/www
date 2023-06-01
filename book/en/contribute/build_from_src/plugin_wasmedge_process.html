@@ -161,13 +161,13 @@
                     <main>
                         <h1 id="build-wasmedge-with-wasmedge-process-plug-in"><a class="header" href="#build-wasmedge-with-wasmedge-process-plug-in">Build WasmEdge With WasmEdge-Process Plug-in</a></h1>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
-<p>The prerequisites of the WasmEdge-Process plug-in is the same as the <a href="linux.html">WasmEdge building environment on the Linux platforms</a>.</p>
+<p>The prerequisite of the WasmEdge-Process plug-in is the same as the <a href="linux.html">WasmEdge building environment on the Linux platforms</a>.</p>
 <h2 id="build-wasmedge-with-wasmedge-process-plug-in-1"><a class="header" href="#build-wasmedge-with-wasmedge-process-plug-in-1">Build WasmEdge with WasmEdge-Process Plug-in</a></h2>
-<p>To enable the WasmEdge WasmEdge-HttpsReq, developers need to <a href="linux.html">building the WasmEdge from source</a> with the cmake option <code>-DWASMEDGE_PLUGIN_PROCESS=On</code>.</p>
+<p>To enable the WasmEdge WasmEdge-Process, developers need to <a href="linux.html">build the WasmEdge from the source</a> with the cmake option <code>-DWASMEDGE_PLUGIN_PROCESS=On</code>.</p>
 <pre><code class="language-bash">cd &lt;path/to/your/wasmedge/source/folder&gt;
 mkdir -p build &amp;&amp; cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_PLUGIN_PROCESS=On .. &amp;&amp; make -j
-# For the WasmEdge-HttpsReq plugin, you should install this project.
+# For the WasmEdge-Process plugin, you should install this project.
 cmake --install .
 </code></pre>
 <blockquote>
