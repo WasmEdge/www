@@ -164,6 +164,7 @@
 <p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>curl</code> as prerequisites.</p>
 <pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
 </code></pre>
+<p>If the installation fails with <code>[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate</code>, make sure install certificates for the Python <code>ssl</code> module<sup class="footnote-reference"><a href="#1">1</a></sup></p>
 <p>For <code>Windows 10</code>, you could use Windows Package Manager Client (aka <code>winget.exe</code>) to install WasmEdge with a single command in your terminal.</p>
 <pre><code class="language-bash">winget install wasmedge
 </code></pre>
@@ -247,6 +248,9 @@ If you used <code>winget</code> to install WasmEdge, the files are located at <c
 <pre><code class="language-bash">npm install -g wasmedge-extensions # Append --unsafe-perm if permission denied
 </code></pre>
 <p>The <a href="https://www.secondstate.io/faas/">Second State Functions</a> is a WasmEdge-based FaaS service build on Node.js.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>To install certificates in your (MacOS) environment, a) find out which Python version you're using with <code>python --version</code>, b) open the folder /Applications/Python 3.x and c) double click the <code>Install Certificates.command</code>.</p>
+</div>
 
                     </main>
 
