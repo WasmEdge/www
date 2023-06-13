@@ -160,59 +160,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="build-and-test-wasmedge-for-openwrt"><a class="header" href="#build-and-test-wasmedge-for-openwrt">Build and test WasmEdge for OpenWrt</a></h1>
-<p>Please follow this tutorial to build and test WasmEdge in OpenWrt(x86_64) from source code.</p>
-<blockquote>
-<p>Currently, we only support the runtime for the interpreter mode.</p>
-</blockquote>
-<h2 id="prepare-the-environment"><a class="header" href="#prepare-the-environment">Prepare the Environment</a></h2>
-<h3 id="openwrt"><a class="header" href="#openwrt">OpenWrt</a></h3>
-<p>First, we need to obtain the source code of OpenWrt and install the relevant tools to compile OpenWrt. The following commands take Debian / Ubuntu system as an example. For commands to install OpenWrt compilation tools in other host systems, see <a href="https://openwrt.org/docs/guide-developer/toolchain/install-buildsystem">Building OpenWrt System Settings</a>.</p>
-<pre><code class="language-bash">$ git clone https://github.com/openwrt/openwrt
-$ sudo apt update
-$ sudo apt install build-essential ccache ecj fastjar file g++ gawk \
-gettext git java-propose-classpath libelf-dev libncurses5-dev \
-libncursesw5-dev libssl-dev python python2.7-dev python3 unzip wget \
-python-distutils-extra python3-setuptools python3-dev rsync subversion \
-swig time xsltproc zlib1g-dev 
-</code></pre>
-<p>Then, obtain all the latest package definitions of OpenWrt and install the symlinks for all obtained packages.</p>
-<pre><code class="language-bash">cd openwrt
-./scripts/feeds update -a
-./scripts/feeds install -a
-</code></pre>
-<h2 id="build-wasmedge"><a class="header" href="#build-wasmedge">Build WasmEdge</a></h2>
-<h3 id="get-wasmedge-source-code"><a class="header" href="#get-wasmedge-source-code">Get WasmEdge source code</a></h3>
-<pre><code class="language-bash">git clone https://github.com/WasmEdge/WasmEdge.git
-cd WasmEdge
-</code></pre>
-<h3 id="run-the-build-script"><a class="header" href="#run-the-build-script">Run the build script</a></h3>
-<p>Run the build script <code>build_for_openwrt.sh</code> in WasmEdge source code, and input the path of the OpenWrt source code as parameter. This script will automatically add the WasmEdge into the packages list which will be built of OpenWrt, and build the OpenWrt firmware. The generated OpenWrt images are in the <code>openwrt/bin/targets/x86/64</code> folder.</p>
-<pre><code class="language-bash">./utils/openwrt/build_for_openwrt.sh ~/openwrt
-</code></pre>
-<p>When running the build script, the OpenWrt configuration interface will appear. In this interface, we need to set <code>Target System</code> to x86, <code>Target Profile</code> to Generic x86/64, and find <code>WasmEdge</code> in the <code>Runtime</code> column and check it . Once set up, the script automatically builds WasmEdge and compiles the OpenWrt system.</p>
-<h2 id="test"><a class="header" href="#test">Test</a></h2>
-<h3 id="deploy-openwrt-in-vmware"><a class="header" href="#deploy-openwrt-in-vmware">Deploy OpenWrt in VMware</a></h3>
-<p>In order to verify the availability of WasmEdge, we use a VMware virtual machine to install the compiled OpenWrt image. Before creating a virtual machine, we need to use the <code>QEMU</code> command to convert the OpenWrt image to vmdk format.</p>
-<pre><code class="language-bash">cd ~/openwrt/bin/targets/x86/64
-sudo apt install qemu
-gunzip openwrt-x86-64-generic-squashfs-combined.img.gz
-qemu-img convert -f raw -O vmdk openwrt-x86-64-generic-squashfs-combined.img Openwrt.vmdk
-</code></pre>
-<p>After that, create a virtual machine in VMware and install the OpenWrt system.</p>
-<h3 id="upload-the-test-files"><a class="header" href="#upload-the-test-files">upload the test files</a></h3>
-<p>After setting the IP address of OpenWrt according to the gateway of the host, use <code>scp</code> to transfer the wasm file on the host to the OpenWrt system.</p>
-<p>For example, we set the ip address of OpenWrt as 192.168.0.111, then we use the following commands to upload <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/hello.wasm">hello.wasm</a> and <a href="https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/examples/wasm/add.wasm">add.wasm</a> these two test files to OpenWrt.</p>
-<pre><code class="language-bash">scp hello.wasm root@192.168.0.111:/
-scp add.wasm root@192.168.0.111:/
-</code></pre>
-<h3 id="test-the-wasmedge-program"><a class="header" href="#test-the-wasmedge-program">Test the wasmedge program</a></h3>
-<pre><code class="language-bash">$ wasmedge hello.wasm second state
-hello
-second
-state
-$ wasmedge --reactor add.wasm add 2 2
-4
-</code></pre>
+<p>This part has moved to <a href="https://wasmedge.org/docs/contribute/source/os/openwrt">https://wasmedge.org/docs/contribute/source/os/openwrt</a>. Please use our new docs.</p>
 
                     </main>
 

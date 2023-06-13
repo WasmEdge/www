@@ -160,54 +160,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="build-wasmedge-with-wasi-crypto-plug-in"><a class="header" href="#build-wasmedge-with-wasi-crypto-plug-in">Build WasmEdge With WASI-Crypto Plug-in</a></h1>
-<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
-<p>Currently, WasmEdge used <code>OpenSSL 1.1</code> or <code>3.0</code> for the WASI-Crypto implementation.</p>
-<p>For installing <code>OpenSSL 1.1</code> development package on <code>Ubuntu 20.04</code>, we recommend the following commands:</p>
-<pre><code class="language-bash">sudo apt update
-sudo apt install -y libssl-dev
-</code></pre>
-<p>For legacy systems such as <code>CensOS 7.6</code>, or if you want to build <code>OpenSSL 1.1</code> from source, you can refer to the following commands:</p>
-<pre><code class="language-bash"># Download and extract the OpenSSL source to the current directory.
-curl -s -L -O --remote-name-all https://www.openssl.org/source/openssl-1.1.1n.tar.gz
-echo &quot;40dceb51a4f6a5275bde0e6bf20ef4b91bfc32ed57c0552e2e8e15463372b17a openssl-1.1.1n.tar.gz&quot; | sha256sum -c
-tar -xf openssl-1.1.1n.tar.gz
-cd ./openssl-1.1.1n
-# OpenSSL configure need newer perl.
-curl -s -L -O --remote-name-all https://www.cpan.org/src/5.0/perl-5.34.0.tar.gz
-tar -xf perl-5.34.0.tar.gz
-cd perl-5.34.0
-mkdir localperl
-./Configure -des -Dprefix=$(pwd)/localperl/
-make -j
-make install
-export PATH=&quot;$(pwd)/localperl/bin/:$PATH&quot;
-cd ..
-# Configure by previous perl.
-mkdir openssl
-./perl-5.34.0/localperl/bin/perl ./config --prefix=$(pwd)/openssl --openssldir=$(pwd)/openssl
-make -j
-make test
-make install
-cd ..
-# The OpenSSL installation directory is at `$(pwd)/openssl-1.1.1n/openssl`.
-# Then you can use the `-DOPENSSL_ROOT_DIR=` option of cmake to assign the directory.
-</code></pre>
-<blockquote>
-<p>We'll soon update this chapter to use <code>OpenSSL 3.0</code>.</p>
-</blockquote>
-<h2 id="build-wasmedge-with-wasi-crypto-plug-in-1"><a class="header" href="#build-wasmedge-with-wasi-crypto-plug-in-1">Build WasmEdge with WASI-Crypto Plug-in</a></h2>
-<p>To enable the WasmEdge WASI-Crypto, developers need to <a href="linux.html">building the WasmEdge from source</a> with the cmake option <code>-DWASMEDGE_PLUGIN_WASI_CRYPTO=ON</code>.</p>
-<pre><code class="language-bash">cd &lt;path/to/your/wasmedge/source/folder&gt;
-mkdir -p build &amp;&amp; cd build
-# For using self-get OpenSSL, you can assign the cmake option `-DOPENSSL_ROOT_DIR=&lt;path/to/openssl&gt;`.
-cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_PLUGIN_WASI_CRYPTO=On .. &amp;&amp; make -j
-# For the WASI-Crypto plugin, you should install this project.
-cmake --install .
-</code></pre>
-<blockquote>
-<p>If the built <code>wasmedge</code> CLI tool cannot find the WASI-Crypto plug-in, you can set the <code>WASMEDGE_PLUGIN_PATH</code> environment variable to the plug-in installation path (<code>/usr/local/lib/wasmedge/</code>, or the built plug-in path <code>build/plugins/wasi_crypto/</code>) to try to fix this issue.</p>
-</blockquote>
-<p>Then you will have an executable <code>wasmedge</code> runtime under <code>/usr/local/bin</code> and the WASI-Crypto plug-in under <code>/usr/local/lib/wasmedge/libwasmedgePluginWasiCrypto.so</code> after installation.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/contribute/source/plugin/wasi_crypto">https://wasmedge.org/docs/contribute/source/plugin/wasi_crypto</a>. Please use our new docs.</p>
 
                     </main>
 

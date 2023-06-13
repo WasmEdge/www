@@ -160,30 +160,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="develop-wasmedge-plug-in"><a class="header" href="#develop-wasmedge-plug-in">Develop WasmEdge Plug-in</a></h1>
-<p>While the WasmEdge language SDKs allow registering host functions from a host (wrapping) application, developers should implement the host functions before compilation.
-For the other solutions, WasmEdge provides the plug-in architecture to load the plug-in shared library for easier extending of the host functions.
-With developing the plug-ins, WasmEdge SDKs in the supported languages can load and register the host functions from the plug-in shared libraries.</p>
-<p>In current, developers can follow the guides to implement the plug-ins in <a href="develop_plugin/c.html">C API (recommended)</a> or <a href="develop_plugin/cpp.html">C++</a>.</p>
-<h2 id="loadable-plug-in"><a class="header" href="#loadable-plug-in">Loadable Plug-in</a></h2>
-<p>Loadable plugin is a standalone <code>.so</code>/<code>.dylib</code>/<code>.dll</code> file that WasmEdge can load during runtime environment, and provide modules to be imported.</p>
-<p>Please <a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/plugin/get-string">refer to the plugin example code</a>.</p>
-<h2 id="wasmedge-currently-released-plug-ins"><a class="header" href="#wasmedge-currently-released-plug-ins">WasmEdge Currently Released Plug-ins</a></h2>
-<p>There are several plug-in releases with the WasmEdge official releases.
-Please check the following table to check the release status and how to build from source with the plug-ins.</p>
-<blockquote>
-<p>The <code>WasmEdge-Process</code> plug-in is attached in the WasmEdge release tarballs.</p>
-</blockquote>
-<div class="table-wrapper"><table><thead><tr><th>Plug-in</th><th>Rust Crate</th><th>Released Platforms</th><th>Build Steps</th></tr></thead><tbody>
-<tr><td>WasmEdge-Process</td><td><a href="https://crates.io/crates/wasmedge_process_interface">wasmedge_process_interface</a></td><td><code>manylinux2014 x86_64</code>, <code>manylinux2014 aarch64</code>, and <code>ubuntu 20.04 x86_64</code> (since <code>0.10.0</code>)</td><td><a href="contribute/build_from_src/plugin_wasmedge_process.html">Build With WasmEdge-Process</a></td></tr>
-<tr><td><a href="write_wasm/rust/wasicrypto.html#prerequisites">WASI-Crypto</a></td><td><a href="https://crates.io/crates/wasi-crypto">wasi-crypto</a></td><td><code>manylinux2014 x86_64</code>, <code>manylinux2014 aarch64</code>, and <code>ubuntu 20.04 x86_64</code> (since <code>0.10.1</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_crypto.html">Build With WASI-Crypto</a></td></tr>
-<tr><td><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-openvino-backend">WASI-NN with OpenVINO backend</a></td><td><a href="https://crates.io/crates/wasi-nn">wasi-nn</a></td><td><code>ubuntu 20.04 x86_64</code> (since <code>0.10.1</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-openvino-backend">Build With WASI-NN</a></td></tr>
-<tr><td><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-pytorch-backend">WASI-NN with PyTorch backend</a></td><td><a href="https://crates.io/crates/wasi-nn">wasi-nn</a></td><td><code>ubuntu 20.04 x86_64</code> (since <code>0.11.1</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-pytorch-backend">Build With WASI-NN</a></td></tr>
-<tr><td><a href="write_wasm/rust/wasinn.html#get-wasmedge-with-wasi-nn-plug-in-tensorflow-lite-backend">WASI-NN with TensorFlow-Lite backend</a></td><td><a href="https://crates.io/crates/wasi-nn">wasi-nn</a></td><td><code>manylinux2014 x86_64</code>, <code>manylinux2014 aarch64</code>, and <code>ubuntu 20.04 x86_64</code> (since <code>0.11.2</code>)</td><td><a href="contribute/build_from_src/plugin_wasi_nn.html#build-wasmedge-with-wasi-nn-tensorflow-lite-backend">Build With WASI-NN</a></td></tr>
-</tbody></table>
-</div>
-<blockquote>
-<p>Due to the <code>OpenVINO</code> and <code>PyTorch</code> dependencies, we only release the WASI-NN plug-in on <code>Ubuntu 20.04 x86_64</code> now. We'll work with <code>manylinux2014</code> versions in the future.</p>
-</blockquote>
+<p>This Part has moved to <a href="https://wasmedge.org/docs/contribute/plugin/intro">https://wasmedge.org/docs/contribute/plugin/intro</a>, Please use our new docs.</p>
 
                     </main>
 
