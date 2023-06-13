@@ -6106,7 +6106,7 @@ $ npm install -g rustwasmc # 如果权限有问题，加上 --unsafe-perm
 # WasmEdge 需要的系统依赖
 $ sudo apt-get update
 $ sudo apt-get -y upgrade
-$ sudo apt install -y build-essential curl wget git vim libboost-all-dev llvm-dev liblld-10-dev
+$ sudo apt install -y build-essential curl wget git vim llvm-dev liblld-10-dev
 
 # 安装 WasmEdge 需要的 nodejs addon 
 $ npm install wasmedge-core
@@ -9185,8 +9185,7 @@ cd WasmEdge
 <pre><code class="language-bash"># 工具和库
 sudo apt install -y \
     software-properties-common \
-    cmake \
-    libboost-all-dev
+    cmake
 
 # 你需要 llvm 来支持 wasmedgec 工具
 sudo apt install -y \
@@ -9288,7 +9287,7 @@ cd WasmEdge
 </ul>
 <h3 id="环境准备-3"><a class="header" href="#环境准备-3">环境准备</a></h3>
 <pre><code class="language-bash"># 工具和库
-$ brew install boost cmake ninja llvm@12
+$ brew install cmake ninja llvm@12
 # 使用 brew 版本的 llvm，而不是系统自带的 LLVM。
 $ export PATH=&quot;/usr/local/opt/llvm@12/bin:$PATH&quot;
 $ export LDFLAGS=&quot;-L/usr/local/opt/llvm@12/lib -Wl，-rpath，/usr/local/opt/llvm@12/lib&quot;
