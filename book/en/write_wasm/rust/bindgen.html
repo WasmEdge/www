@@ -160,22 +160,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="bindgen-of-rust-functions"><a class="header" href="#bindgen-of-rust-functions">Bindgen of Rust Functions</a></h1>
-<p>If your Rust program has a <code>main()</code> function, you could compile it into WebAssembly, and run it using the <code>wasmedge</code> CLI tool as a standalone application. However, a far more common use case is to compile a Rust function into WebAssembly, and then call it from a host application. That is known as an embedded WASM function. The host application uses WasmEdge language SDKs (e.g., <a href="../../sdk/go.html">Go</a>, <a href="../../sdk/rust.html">Rust</a>, <a href="../../sdk/c.html">C</a>, <a href="../../sdk/go.html">Python</a> and <a href="../../sdk/node.html">Node.js</a>) to call those WASM functions compiled from Rust source code.</p>
-<p>All the WasmEdge host language SDKs support simple function calls. However, the WASM spec only supports a few simple data types as call parameters and return values, such as <code>i32</code>, <code>i64</code>, <code>f32</code>, <code>f64</code>, and <code>v128</code>. The <code>wasmedge-bindgen</code> crate would transform parameters and return values of Rust functions into simple integer types when the Rust function is compiled into WASM. For example, a string is automatically converted into two integers, a memory address and a length, which can be handled by the standard WASM spec. It is very easy to do this in Rust source code. Just annotate your function with the <code>#[wasmedge-bindgen]</code> macro. You can compile the annotated Rust code using the standard Rust compiler toolchain (e.g., the latest <code>Cargo</code>).</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>use wasmedge_bindgen::*;
-use wasmedge_bindgen_macro::*;
-
-#[wasmedge_bindgen]
-pub fn say(s: String) -&gt; Result&lt;Vec&lt;u8&gt;, String&gt; {
-  let r = String::from(&quot;hello &quot;);
-  return Ok((r + s.as_str()).as_bytes().to_vec());
-}
-<span class="boring">}</span></code></pre></pre>
-<p>Of course, once the above Rust code is compiled into WASM, the function <code>say()</code> no longer takes the <code>String</code> parameter nor returns the <code>Vec&lt;u8&gt;</code>. So, the caller (i.e., the host application) must also deconstruct the call parameter into the memory pointer first before the call, and assemble the return value from the memory pointer after the call. These actions can be handled automagically by the WasmEdge language SDKs. To see a complete example, including the Rust WASM function and the Go host application, check out our tutorial in the Go SDK documentation.</p>
-<p><strong><a href="../../sdk/go/function.html">A complete wasmedge-bindgen example in Rust (WASM) and Go (host)</a></strong></p>
-<p>Of course, the developer could choose to do <code>wasmedge-bindgen</code>'s work by hand and pass a memory pointer directly. If you are interested in this approach to call Rust compiled WASM functions, check out our <a href="../../sdk/go/memory.html">examples in the Go SDK</a>.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/develop/rust/bindgen">https://wasmedge.org/docs/develop/rust/bindgen</a>. Please use our new docs.</p>
 
                     </main>
 

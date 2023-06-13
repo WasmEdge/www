@@ -160,61 +160,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="kubernetes-in-docker-kind"><a class="header" href="#kubernetes-in-docker-kind">Kubernetes in Docker (KinD)</a></h1>
-<p>KinD is a Kubernetes distribution that runs inside Docker and is well suited for local development or integration testing. It runs containerd as CRI and runc as OCI Runtime.</p>
-<h2 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h2>
-<p>As prerequisite we need to install KinD first. To do that the <a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installing-from-release-binaries">quick start guide</a> and the <a href="https://github.com/kubernetes-sigs/kind/releases">release page</a> can be used to install the latest version of the KinD CLI.</p>
-<p>If KinD is installed we can directly start with the example from <a href="https://github.com/Liquid-Reply/kind-crun-wasm">here</a>:</p>
-<pre><code class="language-bash"># Create a &quot;WASM in KinD&quot; Cluster
-kind create cluster --image ghcr.io/liquid-reply/kind-crun-wasm:v1.23.0
-# Run the example
-kubectl run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
-</code></pre>
-<p>In the rest of this section, we will explain how to create a KinD node image with wasmedge support.</p>
-<h2 id="build-crun"><a class="header" href="#build-crun">Build crun</a></h2>
-<p>KinD uses the <code>kindest/node</code> image for the control plane and worker nodes. The image contains containerd as CRI and runc as OCI Runtime. To enable WasmEdge support we replace <code>runc</code> with <code>crun</code>.</p>
-<p>For the node image we only need the crun binary and not the entire build toolchain. Therefore we use a multistage dockerfile where we create crun in the first step and only copy the crun binary to the node image.</p>
-<pre><code class="language-Dockerfile">FROM ubuntu:21.10 AS builder
-WORKDIR /data
-RUN DEBIAN_FRONTEND=noninteractive apt update \
-    &amp;&amp; DEBIAN_FRONTEND=noninteractive apt install -y curl make git gcc build-essential pkgconf libtool libsystemd-dev libprotobuf-c-dev libcap-dev libseccomp-dev libyajl-dev go-md2man libtool autoconf python3 automake \
-    &amp;&amp; curl https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local \
-    &amp;&amp; git clone --single-branch --branch feat/handler_per_container https://github.com/liquid-reply/crun \
-    &amp;&amp; cd crun \
-    &amp;&amp; ./autogen.sh \
-    &amp;&amp; ./configure --with-wasmedge --enable-embedded-yajl\
-    &amp;&amp; make 
-
-...
-</code></pre>
-<p>Now we have a fresh <code>crun</code> binary with wasmedge enabled under <code>/data/crun/crun</code> that we can copy from this container in the next step.</p>
-<h2 id="replace-crun-and-configure-containerd"><a class="header" href="#replace-crun-and-configure-containerd">Replace crun and configure containerd</a></h2>
-<p>Both runc and crun implement the OCI runtime spec and they have the same CLI parameters. Therefore we can just replace the runc binary with our crun-wasmedge binary we created before.</p>
-<p>Since crun is using some shared libraries we need to install libyajl, wasmedge and criu to make our crun work.</p>
-<p>Now we already have a KinD that uses crun instead of runc. Now we just need two config changes. The first one in the <code>/etc/containerd/config.toml</code> where we add the <code>pod_annotations</code>that can be passed to the runtime:</p>
-<pre><code class="language-toml">[plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd.runtimes.runc]
-  pod_annotations = [&quot;*.wasm.*&quot;, &quot;wasm.*&quot;, &quot;module.wasm.image/*&quot;, &quot;*.module.wasm.image&quot;, &quot;module.wasm.image/variant.*&quot;]
-</code></pre>
-<p>And the second one to the <code>/etc/containerd/cri-base.json</code> where we remove a hook that causes some issues.</p>
-<p>The resulting dockerfile looks as follows:</p>
-<pre><code class="language-Dockerfile">...
-
-FROM kindest/node:v1.23.0
-
-COPY config.toml /etc/containerd/config.toml
-COPY --from=builder /data/crun/crun /usr/local/sbin/runc
-COPY --from=builder /usr/local/lib/libwasmedge.so /usr/local/lib/libwasmedge.so
-
-RUN echo &quot;Installing Packages ...&quot; \
-    &amp;&amp; bash -c 'cat &lt;&lt;&lt; $(jq &quot;del(.hooks.createContainer)&quot; /etc/containerd/cri-base.json) &gt; /etc/containerd/cri-base.json' \
-    &amp;&amp; ldconfig
-</code></pre>
-<h2 id="build-and-test"><a class="header" href="#build-and-test">Build and test</a></h2>
-<p>Finally we can build a new <code>node-wasmedge</code> image. To test it, we create a kind cluster from that image and run the simple app example.</p>
-<pre><code class="language-bash">docker build -t node-wasmedge .
-kind create cluster --image node-wasmedge
-# Now you can run the example to validate your cluster
-kubectl run -it --rm --restart=Never wasi-demo --image=wasmedge/example-wasi:latest --annotations=&quot;module.wasm.image/variant=compat-smart&quot; /wasi_example_main.wasm 50000000
-</code></pre>
+<p>This part has moved to <a href="https://wasmedge.org/docs/develop/deploy/kubernetes/kind">https://wasmedge.org/docs/develop/deploy/kubernetes/kind</a>. Please use our new docs.</p>
 
                     </main>
 

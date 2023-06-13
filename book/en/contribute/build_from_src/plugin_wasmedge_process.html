@@ -160,20 +160,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="build-wasmedge-with-wasmedge-process-plug-in"><a class="header" href="#build-wasmedge-with-wasmedge-process-plug-in">Build WasmEdge With WasmEdge-Process Plug-in</a></h1>
-<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
-<p>The prerequisite of the WasmEdge-Process plug-in is the same as the <a href="linux.html">WasmEdge building environment on the Linux platforms</a>.</p>
-<h2 id="build-wasmedge-with-wasmedge-process-plug-in-1"><a class="header" href="#build-wasmedge-with-wasmedge-process-plug-in-1">Build WasmEdge with WasmEdge-Process Plug-in</a></h2>
-<p>To enable the WasmEdge WasmEdge-Process, developers need to <a href="linux.html">build the WasmEdge from the source</a> with the cmake option <code>-DWASMEDGE_PLUGIN_PROCESS=On</code>.</p>
-<pre><code class="language-bash">cd &lt;path/to/your/wasmedge/source/folder&gt;
-mkdir -p build &amp;&amp; cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_PLUGIN_PROCESS=On .. &amp;&amp; make -j
-# For the WasmEdge-Process plugin, you should install this project.
-cmake --install .
-</code></pre>
-<blockquote>
-<p>If the built <code>wasmedge</code> CLI tool cannot find the WasmEdge-Process plug-in, you can set the <code>WASMEDGE_PLUGIN_PATH</code> environment variable to the plug-in installation path (<code>/usr/local/lib/wasmedge/</code>, or the built plug-in path <code>build/plugins/wasmedge_process/</code>) to try to fix this issue.</p>
-</blockquote>
-<p>Then you will have an executable <code>wasmedge</code> runtime under <code>/usr/local/bin</code> and the WasmEdge-Process plug-in under <code>/usr/local/lib/wasmedge/libwasmedgePluginWasmEdgeProcess.so</code> after installation.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/contribute/source/plugin/process">https://wasmedge.org/docs/contribute/source/plugin/process</a>. Please use our new docs.</p>
 
                     </main>
 

@@ -160,52 +160,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="contribution-steps"><a class="header" href="#contribution-steps">Contribution Steps</a></h1>
-<h2 id="setup-development-environment"><a class="header" href="#setup-development-environment">Setup Development Environment</a></h2>
-<p>The WasmEdge is developed on Ubuntu 20.04 to take advantage of advanced LLVM features for the AOT compiler. The WasmEdge team also builds and releases statically linked WasmEdge binaries for older Linux distributions.</p>
-<p>Our development environment requires <code>libLLVM-12</code> and <code>&gt;=GLIBCXX_3.4.26</code>.</p>
-<p>If you are using an operating system older than Ubuntu 20.04, please use our <a href="../quick_start/use_docker.html#docker-images-for-building-wasmedge">special docker image</a> to build WasmEdge. If you are looking for the pre-built binaries for the older operating system, we also provide several pre-built binaries based on <code>manylinux2014</code> distribution.</p>
-<p>Build WasmEdge please refer to: <a href="build_from_src.html">Build WasmEdge from source</a>.</p>
-<h2 id="contribution-workflow"><a class="header" href="#contribution-workflow">Contribution Workflow</a></h2>
-<p>Pull requests are always welcome, even if they only contain small fixes like typos or a few lines of code. If there will be a significant effort, please document it as an issue and get a discussion going before starting to work on it.</p>
-<p>Please submit a pull request broken down into small changes bit by bit. A pull request consisting of a lot features and code changes may be hard to review. It is recommended to submit pull requests in an incremental fashion.</p>
-<blockquote>
-<p>If you split your pull request into small changes, please make sure any of the changes that goes to master will not break anything. Otherwise, it can not be merged until this feature is complete.</p>
-</blockquote>
-<h3 id="fork-and-clone-the-repository"><a class="header" href="#fork-and-clone-the-repository">Fork and Clone the Repository</a></h3>
-<p>Fork <a href="https://github.com/WasmEdge/WasmEdge">the WasmEdge repository</a> and clone the code to your local workspace</p>
-<blockquote>
-<p>The WasmEdge team builds lots of extensions of Server-side WebAssembly, see <a href="https://github.com/second-state/WasmEdge-tensorflow">TensorFlow</a>, <a href="https://github.com/second-state/WasmEdge-storage">Storage</a>, <a href="https://github.com/second-state/wasmedge_process_interface">Command interface</a>, <a href="https://github.com/second-state/WasmEdge-evmc">Ethereum</a>, <a href="https://github.com/ParaState/substrate-ssvm-node">Substrate</a>. If you want to contribute to the extensions, please go to those repositories.</p>
-</blockquote>
-<h3 id="branches-and-commits"><a class="header" href="#branches-and-commits">Branches and Commits</a></h3>
-<p>Changes should be made on your own fork in a new branch. Pull requests should be rebased on the top of master.</p>
-<p>The WasmEdge project adopts <a href="https://community.openhab.org/t/dco-check-signing-off-with-github-web-editor-explanation/83330">DCO</a> to manage all contributions. Please make sure you add your <code>sign-off-statement</code> through the <code>-s</code> or <code>--signoff</code> flag or the GitHub Web UI before committing the pull request message.</p>
-<h3 id="develop-build-and-test"><a class="header" href="#develop-build-and-test">Develop, Build and Test</a></h3>
-<p>Write code on the new branch in your fork, and <a href="build_from_src.html">build from source code</a> with the option <code>-DWASMEDGE_BUILD_TESTS=ON</code>.</p>
-<p>Then you can use these tests to verify the correctness of WasmEdge binaries.</p>
-<pre><code class="language-bash">cd &lt;path/to/wasmedge/build_folder&gt;
-LD_LIBRARY_PATH=$(pwd)/lib/api ctest
-</code></pre>
-<h3 id="push-and-create-a-pull-request"><a class="header" href="#push-and-create-a-pull-request">Push and Create A Pull Request</a></h3>
-<p>When ready for review, push your branch to your fork repository on github.</p>
-<p>Then visit your fork at <a href="https://github.com/$user/WasmEdge">https://github.com/$user/WasmEdge</a> and click the <code>Compare &amp; Pull Request</code> button next to your branch to create a new pull request. Description of a pull request should refer to all the issues that it addresses. Remember to put a reference to issues (such as Closes #XXX and Fixes #XXX) in the comment so that the issues can be closed when the PR is merged. After creating a pull request, please check that the CI passes with your code changes.</p>
-<p>Once your pull request has been opened it will be assigned to one or more reviewers. Those reviewers will do a thorough code review, looking for correctness, bugs, opportunities for improvement, documentation and comments, and coding style.</p>
-<p>Commit changes made in response to review comments to the same branch on your fork.</p>
-<h2 id="reporting-issues"><a class="header" href="#reporting-issues">Reporting issues</a></h2>
-<p>It is a great way to contribute to WasmEdge by reporting an issue. Well-written and complete bug reports are always welcome! Please open an issue on Github.</p>
-<p>Before opening any issue, please look up the existing <a href="https://github.com/WasmEdge/WasmEdge/issues">issues</a> to avoid submitting a duplication. If you find a match, you can &quot;subscribe&quot; to it to get notified on updates. If you have additional helpful information about the issue, please leave a comment.</p>
-<p>When reporting issues, always include:</p>
-<ul>
-<li>Version of your system</li>
-<li>Configuration files of WasmEdge</li>
-</ul>
-<p>Because the issues are open to the public, when submitting the log and configuration files, be sure to remove any sensitive information, e.g. user name, password, IP address, and company name. You can replace those parts with &quot;REDACTED&quot; or other strings like &quot;****&quot;.
-Be sure to include the steps to reproduce the problem if applicable. It can help us understand and fix your issue faster.</p>
-<h2 id="documenting"><a class="header" href="#documenting">Documenting</a></h2>
-<p>Update the documentation if you are creating or changing features. Good documentation is as important as the code itself.
-Documents are written with Markdown. See <a href="https://help.github.com/categories/writing-on-github/">Writing on GitHub</a> for more details.</p>
-<h2 id="design-new-features"><a class="header" href="#design-new-features">Design new features</a></h2>
-<p>You can propose new designs for existing WasmEdge features. You can also design entirely new features, please submit a proposal via the GitHub issues.</p>
-<p>WasmEdge maintainers will review this proposal as soon as possible. This is necessary to ensure the overall architecture is consistent and to avoid duplicated work in the roadmap.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/contribute/">https://wasmedge.org/docs/contribute/</a>. Please use our new docs.</p>
 
                     </main>
 
