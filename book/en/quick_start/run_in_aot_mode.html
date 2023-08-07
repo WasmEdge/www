@@ -183,24 +183,8 @@
                     <main>
                         <h1 id="execution-in-aot-mode"><a class="header" href="#execution-in-aot-mode">Execution in AOT Mode</a></h1>
 <blockquote>
-<p><em>This part has moved to <a href="https://wasmedge.org/docs/develop/build-and-run/aot">https://wasmedge.org/docs/develop/build-and-run/aot</a>. Please use our new docs.</em></p>
+<p><em>This part has moved to <a href="https://wasmedge.org/docs/start/build-and-run/aot">https://wasmedge.org/docs/start/build-and-run/aot</a>. Please use our new docs.</em></p>
 </blockquote>
-<p>The <code>wasmedge</code> command line tool will execute the original WASM files in interpreter mode. For the much better performance, we recommend users to compile the WASM with the <code>wasmedge compile</code> AOT compiler to execute the WASM in AOT mode. There are 2 output formats of the AOT compiler:</p>
-<h2 id="output-format-universal-wasm"><a class="header" href="#output-format-universal-wasm">Output Format: Universal WASM</a></h2>
-<p>By default, the <code>wasmedge compile</code> AOT compiler tool could wrap the AOT-compiled native binary into a custom section in the origin WASM file. We call this the universal WASM binary format.</p>
-<p>This AOT-compiled WASM file is compatible with any WebAssembly runtime. However, when this WASM file is executed by the WasmEdge runtime, WasmEdge will extract the native binary from the custom section and execute it in AOT mode.</p>
-<blockquote>
-<p>Note: On MacOS platforms, the universal WASM format will <code>bus error</code> in execution. It's because the <code>wasmedge compile</code> tool optimizes the WASM in <code>O2</code> level by default. We are trying to fix this issue. For working around, please use the shared library output format instead.</p>
-</blockquote>
-<pre><code class="language-bash">wasmedge compile app.wasm app_aot.wasm
-wasmedge app_aot.wasm
-</code></pre>
-<h2 id="output-format-shared-library"><a class="header" href="#output-format-shared-library">Output Format: Shared Library</a></h2>
-<p>Users can assign the shared library extension for the output files (<code>.so</code> on Linux, <code>.dylib</code> on MacOS, and <code>.dll</code> on Windows) to generate the shared library output format output.</p>
-<p>This AOT-compiled WASM file is only for WasmEdge use, and cannot be used by other WebAssembly runtimes.</p>
-<pre><code class="language-bash">wasmedge compile app.wasm app_aot.so
-wasmedge app_aot.so
-</code></pre>
 
                     </main>
 

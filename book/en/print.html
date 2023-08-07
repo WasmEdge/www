@@ -191,99 +191,8 @@
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-installation-and-uninstallation"><a class="header" href="#wasmedge-installation-and-uninstallation">WasmEdge Installation And Uninstallation</a></h1>
 <blockquote>
-<p><em>This part has moved to <a href="https://wasmedge.org/docs/develop/build-and-run/install">https://wasmedge.org/docs/develop/build-and-run/install</a>. Please use our new docs.</em></p>
+<p><em>This part has moved to <a href="https://wasmedge.org/docs/start/install">https://wasmedge.org/docs/start/install</a>. Please use our new docs.</em></p>
 </blockquote>
-<h2 id="quick-install"><a class="header" href="#quick-install">Quick Install</a></h2>
-<p>The easiest way to install WasmEdge is to run the following command. Your system should have <code>git</code> and <code>curl</code> as prerequisites.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
-</code></pre>
-<p>If the installation fails with <code>[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate</code>, make sure install certificates for the Python <code>ssl</code> module<sup class="footnote-reference"><a href="#1">1</a></sup></p>
-<p>For <code>Windows 10</code>, you could use Windows Package Manager Client (aka <code>winget.exe</code>) to install WasmEdge with a single command in your terminal.</p>
-<pre><code class="language-bash">winget install wasmedge
-</code></pre>
-<p>For <code>vcpkg</code> users there is a <code>wasmedge</code> <a href="https://github.com/microsoft/vcpkg/tree/master/ports/wasmedge">port</a> that can be installed with the following command or by adding it to <code>dependencies</code> section of your <code>vcpkg.json</code> file. The port is useful in both scenarios: it can be embedded into a C/C++ application and it can also be run as a standalone tool.</p>
-<pre><code class="language-bash">vcpkg install wasmedge
-</code></pre>
-<p>If you would like to install WasmEdge with its <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and image processing extensions</a>, please run the following command. It will attempt to install WasmEdge with the <code>tensorflow</code> and <code>image</code> extensions on your system.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all
-</code></pre>
-<p>Run the following command to make the installed binary available in the current session.</p>
-<pre><code class="language-bash">source $HOME/.wasmedge/env
-</code></pre>
-<p><strong>That's it!</strong> You can now <a href="quick_start/../cli.html">use WasmEdge from the CLI</a>, or launch it from an application. To update WasmEdge to a new release, just re-run the above command to write over the old files.</p>
-<h3 id="trouble-shooting"><a class="header" href="#trouble-shooting">Trouble Shooting</a></h3>
-<p>Some users, especially in China, reported that they had encountered the Connection refused error when trying to download the <code>install.sh</code> from the <code>githubusercontent.com</code>.</p>
-<p>Please make sure your network connection can access the <code>github.com</code> and <code>githubusercontent.com</code> via VPN.</p>
-<pre><code class="language-bash"># The error message
-curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash
-curl: (7) Failed to connect to raw.githubusercontent.com port 443: Connection refused
-</code></pre>
-<h2 id="install-for-all-users"><a class="header" href="#install-for-all-users">Install for All Users</a></h2>
-<p>By default, WasmEdge is installed in the <code>$HOME/.wasmedge</code> directory. You can install it into a system directory, such as <code>/usr/local</code> to make it available to all users. To specify an install directory, you can run the <code>install.sh</code> script with the <code>-p</code> flag. You will need to run the following commands as the <code>root</code> user or <code>sudo</code> since they write into system directories.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -p /usr/local
-</code></pre>
-<p>Or, with all extensions:</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -p /usr/local
-</code></pre>
-<h2 id="install-the-specific-version-of-wasmedge"><a class="header" href="#install-the-specific-version-of-wasmedge">Install the Specific Version of WasmEdge</a></h2>
-<p>The WasmEdge installer script will install the latest official release by default.
-You could install the specific version of WasmEdge, including pre-releases or old releases by passing the <code>-v</code> argument to the installer script. Here is an example.</p>
-<pre><code class="language-bash">curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -e all -v 0.12.1
-</code></pre>
-<p>If you are interested in the latest builds from the <code>HEAD</code> of the <code>master</code> branch, which is basically WasmEdge's nightly builds, you can download the release package directly from our Github Action's CI artifact. <a href="https://github.com/WasmEdge/WasmEdge/actions/runs/2969775464#artifacts">Here is an example</a>.</p>
-<h2 id="whats-installed"><a class="header" href="#whats-installed">What's Installed</a></h2>
-<p>After installation, you have the following directories and files. Here we assume that you installed into the <code>$HOME/.wasmedge</code> directory. You could also change it to <code>/usr/local</code> if you did a system-wide install.
-If you used <code>winget</code> to install WasmEdge, the files are located at <code>C:\Program Files\WasmEdge</code>.</p>
-<p>For the full options of the WasmEdge installer, please refer to the <a href="quick_start/../contribute/installer.html">document here</a>.</p>
-<ul>
-<li>The <code>$HOME/.wasmedge/bin</code> directory contains the WasmEdge Runtime CLI executable files. You can copy and move them around on your file system.
-<ul>
-<li>The <code>wasmedge</code> tool is the standard WasmEdge runtime. You can use it from the CLI.
-<ul>
-<li>Execute a WASM file: <code>wasmedge --dir .:. app.wasm</code></li>
-</ul>
-</li>
-<li>The <code>wasmedgec</code> tool is the ahead-of-time (AOT) compiler to compile a <code>.wasm</code> file into a native <code>.so</code> file (or <code>.dylib</code> on MacOS, <code>.dll</code> on Windows, or <code>.wasm</code> as the universal WASM format on all platforms). The <code>wasmedge</code> can then execute the output file.
-<ul>
-<li>Compile a WASM file into a AOT-compiled WASM: <code>wasmedgec app.wasm app.so</code></li>
-<li>Execute the WASM in AOT mode: <code>wasmedge --dir .:. app.so</code></li>
-<li>NOTE: The usage of <code>wasmedgec</code> is equal to <code>wasmedge compile</code>. We decide to deprecate <code>wasmedgec</code> in the future.</li>
-</ul>
-</li>
-<li>The <code>wasmedge-tensorflow</code>, <code>wasmedge-tensorflow-lite</code> tools are runtimes that support the WasmEdge tensorflow extension.</li>
-</ul>
-</li>
-<li>The <code>$HOME/.wasmedge/lib</code> directory contains WasmEdge shared libraries, as well as dependency libraries. They are useful for WasmEdge SDKs to launch WasmEdge programs and functions from host applications.</li>
-<li>The <code>$HOME/.wasmedge/include</code> directory contains the WasmEdge header files. They are useful for WasmEdge SDKs.</li>
-<li>The <code>$HOME/.wasmedge/plugin</code> directory contains the plug-ins for WasmEdge.</li>
-</ul>
-<h2 id="uninstall"><a class="header" href="#uninstall">Uninstall</a></h2>
-<p>To uninstall WasmEdge, you can run the following command.</p>
-<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh)
-</code></pre>
-<p>If the <code>wasmedge</code> binary is not in <code>PATH</code> and it wasn't installed in the default <code>$HOME/.wasmedge</code> folder, then you must provide the installation path.</p>
-<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -p /path/to/parent/folder
-</code></pre>
-<p>If you wish to uninstall uninteractively, you can pass in the <code>--quick</code> or <code>-q</code> flag.</p>
-<pre><code class="language-bash">bash &lt;(curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/uninstall.sh) -q
-</code></pre>
-<blockquote>
-<p>If a parent folder of the <code>wasmedge</code> binary contains <code>.wasmedge</code>, the folder will be considered for removal. For example, the script removes the default <code>$HOME/.wasmedge</code> folder altogether.</p>
-</blockquote>
-<p>If you used <code>winget</code> to install WasmEdge, run the following command.</p>
-<pre><code class="language-bash">`winget` uninstall wasmedge
-</code></pre>
-<h2 id="install-wasmedge-for-nodejs"><a class="header" href="#install-wasmedge-for-nodejs">Install WasmEdge for Node.js</a></h2>
-<p>WasmEdge can run <a href="https://www.secondstate.io/articles/getting-started-with-rust-function/">WebAssembly functions emebedded in Node.js</a> applications. To install the WasmEdge module in your Node.js environment is easy. Just use the <code>npm</code> tool.</p>
-<pre><code class="language-bash">npm install -g wasmedge-core # Append --unsafe-perm if permission denied
-</code></pre>
-<p>To install WasmEdge with <a href="https://www.secondstate.io/articles/wasi-tensorflow/">Tensorflow and other extensions</a>.</p>
-<pre><code class="language-bash">npm install -g wasmedge-extensions # Append --unsafe-perm if permission denied
-</code></pre>
-<p>The <a href="https://www.secondstate.io/faas/">Second State Functions</a> is a WasmEdge-based FaaS service build on Node.js.</p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>To install certificates in your (MacOS) environment, a) find out which Python version you're using with <code>python --version</code>, b) open the folder /Applications/Python 3.x and c) double click the <code>Install Certificates.command</code>.</p>
-</div>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="using-wasmedge-in-docker"><a class="header" href="#using-wasmedge-in-docker">Using WasmEdge in Docker</a></h1>
 <h2 id="wasmedge-dockerslim"><a class="header" href="#wasmedge-dockerslim">WasmEdge DockerSlim</a></h2>
 <p>The <code>wasmedge/slim:{version}</code> Docker images provide a slim WasmEdge images built with <a href="https://dockersl.im">DockerSlim</a> every releases.</p>
@@ -352,132 +261,18 @@ The table below shows build targets in WasmEdge's official release packages.</p>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><h1 id="running-wasm-with-wasmedge-cli"><a class="header" href="#running-wasm-with-wasmedge-cli">Running WASM with WasmEdge CLI</a></h1>
 <blockquote>
-<p><em>This part has moved to <a href="https://wasmedge.org/docs/develop/build-and-run/cli">https://wasmedge.org/docs/develop/build-and-run/cli</a>. Please use our new docs.</em></p>
+<p><em>This part has moved to <a href="https://wasmedge.org/docs/start/build-and-run/cli">https://wasmedge.org/docs/start/build-and-run/cli</a>. Please use our new docs.</em></p>
 </blockquote>
-<p>After <a href="quick_start/install.html">installing WasmEdge</a> or starting the <a href="quick_start/use_docker.html">WasmEdge app dev Docker container</a>, there are several ways to run WebAssembly programs.</p>
-<h2 id="wasmedge-cli"><a class="header" href="#wasmedge-cli"><code>wasmedge</code> CLI</a></h2>
-<p>The <code>wasmedge</code> binary is a command line interface (CLI) program that runs WebAssembly programs.</p>
-<ul>
-<li>If the WebAssembly program contains a <code>main()</code> function, <code>wasmedge</code> would execute it as a standalone program in the command mode.</li>
-<li>If the WebAssembly program contains one or more exported public functions, <code>wasmedge</code> could invoke individual functions in the reactor mode.</li>
-</ul>
-<p>By default, the <code>wasmedge</code> will execute WebAssembly programs in interpreter mode, and <a href="quick_start/run_in_aot_mode.html">execute the AOT-compiled <code>.so</code>, <code>.dylib</code>, <code>.dll</code>, or <code>.wasm</code> (universal output format) in AOT mode</a>. If you want to accelerate the WASM execution, we recommend to <a href="quick_start/run_cli.html#wasmedge-compile-cli">compile the WebAssembly with the AOT compiler</a> first.</p>
-<p>Users can run the <code>wasmedge -h</code> for realizing the command line options quickly, or <a href="quick_start/../cli/wasmedge.html">refer to the detailed <code>wasmedge</code> CLI options here</a>.</p>
-<h3 id="call-a-webassembly-function-written-in-wat"><a class="header" href="#call-a-webassembly-function-written-in-wat">Call A WebAssembly Function Written in WAT</a></h3>
-<p>We created the hand-written <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wat">fibonacci.wat</a> and used the <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm</a> tool to convert it into the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> WebAssembly program.
-It exported a <code>fib()</code> function which takes a single <code>i32</code> integer as the input parameter. We can execute <code>wasmedge</code> in reactor mode to invoke the exported function.</p>
-<p>You can run:</p>
-<pre><code class="language-bash">wasmedge --reactor fibonacci.wasm fib 10
-</code></pre>
-<p>The output will be:</p>
-<pre><code class="language-bash">89
-</code></pre>
-<h3 id="call-a-webassembly-function-compiled-from-rust"><a class="header" href="#call-a-webassembly-function-compiled-from-rust">Call A WebAssembly Function Compiled From Rust</a></h3>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/add.wasm">add.wasm</a> WebAssembly program contains an exported <code>add()</code> function, which is compiled from Rust.
-Checkout its <a href="https://github.com/second-state/wasm-learning/tree/master/cli/add">Rust source code project here</a>.
-We can execute <code>wasmedge</code> in reactor mode to invoke the <code>add()</code> function with two <code>i32</code> integer input parameters.</p>
-<p>You can run:</p>
-<pre><code class="language-bash">wasmedge --reactor add.wasm add 2 2
-</code></pre>
-<p>The output will be:</p>
-<pre><code class="language-bash">4
-</code></pre>
-<h3 id="execute-a-standalone-webassembly-program-hello-world"><a class="header" href="#execute-a-standalone-webassembly-program-hello-world">Execute A Standalone WebAssembly Program: Hello world</a></h3>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/hello.wasm">hello.wasm</a> WebAssembly program contains a <code>main()</code> function.
-Checkout its <a href="https://github.com/second-state/wasm-learning/tree/master/cli/hello">Rust source code project here</a>.
-It prints out <code>hello</code> followed by the command line arguments.</p>
-<p>You can run:</p>
-<pre><code class="language-bash">wasmedge hello.wasm second state
-</code></pre>
-<p>The output will be:</p>
-<pre><code class="language-bash">hello
-second
-state
-</code></pre>
-<h2 id="wasmedge-compile-cli"><a class="header" href="#wasmedge-compile-cli"><code>wasmedge compile</code> CLI</a></h2>
-<p>The <code>wasmedge compile</code> is a CLI command to compile WebAssembly into native machine code (i.e., the AOT compiler). For the pure WebAssembly, the <code>wasmedge</code> tool will execute the WASM in interpreter mode. After compiling with the AOT compiler, the <code>wasmedge</code> tool can execute the WASM in AOT mode which is much faster.</p>
-<p>The options and flags for the <code>wasmedge compile</code> are as follows.</p>
-<ol>
-<li>Input Wasm file(<code>/path/to/input/wasm/file</code>).</li>
-<li>Output file name(<code>/path/to/output/file</code>).
-<ul>
-<li>By default, it will generate the <a href="quick_start/run_in_aot_mode.html#output-format-universal-wasm">universal Wasm binary format</a>.</li>
-<li>Users can still generate native binary only by specifying the <code>.so</code>, <code>.dylib</code>, or <code>.dll</code> extensions.</li>
-</ul>
-</li>
-</ol>
-<p>Users can run the <code>wasmedge compile -h</code> for realizing the command line options quickly, or <a href="quick_start/../cli/wasmedge_compile.html">refer to the detailed <code>wasmedge compile</code> CLI options here</a>.</p>
-<pre><code class="language-bash"># This is slow in interpreter mode.
-wasmedge app.wasm
-
-# AOT compilation.
-wasmedge compile app.wasm app_aot.wasm
-
-# This is now MUCH faster in AOT mode.
-wasmedge app_aot.wasm
-</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="execution-in-aot-mode"><a class="header" href="#execution-in-aot-mode">Execution in AOT Mode</a></h1>
 <blockquote>
-<p><em>This part has moved to <a href="https://wasmedge.org/docs/develop/build-and-run/aot">https://wasmedge.org/docs/develop/build-and-run/aot</a>. Please use our new docs.</em></p>
+<p><em>This part has moved to <a href="https://wasmedge.org/docs/start/build-and-run/aot">https://wasmedge.org/docs/start/build-and-run/aot</a>. Please use our new docs.</em></p>
 </blockquote>
-<p>The <code>wasmedge</code> command line tool will execute the original WASM files in interpreter mode. For the much better performance, we recommend users to compile the WASM with the <code>wasmedge compile</code> AOT compiler to execute the WASM in AOT mode. There are 2 output formats of the AOT compiler:</p>
-<h2 id="output-format-universal-wasm"><a class="header" href="#output-format-universal-wasm">Output Format: Universal WASM</a></h2>
-<p>By default, the <code>wasmedge compile</code> AOT compiler tool could wrap the AOT-compiled native binary into a custom section in the origin WASM file. We call this the universal WASM binary format.</p>
-<p>This AOT-compiled WASM file is compatible with any WebAssembly runtime. However, when this WASM file is executed by the WasmEdge runtime, WasmEdge will extract the native binary from the custom section and execute it in AOT mode.</p>
-<blockquote>
-<p>Note: On MacOS platforms, the universal WASM format will <code>bus error</code> in execution. It's because the <code>wasmedge compile</code> tool optimizes the WASM in <code>O2</code> level by default. We are trying to fix this issue. For working around, please use the shared library output format instead.</p>
-</blockquote>
-<pre><code class="language-bash">wasmedge compile app.wasm app_aot.wasm
-wasmedge app_aot.wasm
-</code></pre>
-<h2 id="output-format-shared-library"><a class="header" href="#output-format-shared-library">Output Format: Shared Library</a></h2>
-<p>Users can assign the shared library extension for the output files (<code>.so</code> on Linux, <code>.dylib</code> on MacOS, and <code>.dll</code> on Windows) to generate the shared library output format output.</p>
-<p>This AOT-compiled WASM file is only for WasmEdge use, and cannot be used by other WebAssembly runtimes.</p>
-<pre><code class="language-bash">wasmedge compile app.wasm app_aot.so
-wasmedge app_aot.so
-</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-features"><a class="header" href="#wasmedge-features">WasmEdge Features</a></h1>
-<p>This doc has moved to <a href="https://wasmedge.org/docs/develop/wasmedge/features">https://wasmedge.org/docs/develop/wasmedge/features</a>. Please use our new docs.</p>
+<p>This doc has moved to <a href="https://wasmedge.org/docs/start/wasmedge/features">https://wasmedge.org/docs/start/wasmedge/features</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="supported-wasm-and-wasi-proposals"><a class="header" href="#supported-wasm-and-wasi-proposals">Supported WASM And WASI Proposals</a></h1>
 <blockquote>
-<p><em>This part has moved to <a href="https://wasmedge.org/docs/develop/wasmedge/extensions/proposals">https://wasmedge.org/docs/develop/wasmedge/extensions/proposals</a>. Please use our new docs.</em></p>
+<p><em>This part has moved to <a href="https://wasmedge.org/docs/start/wasmedge/extensions/proposals">https://wasmedge.org/docs/start/wasmedge/extensions/proposals</a>. Please use our new docs.</em></p>
 </blockquote>
-<h2 id="webassembly-proposals"><a class="header" href="#webassembly-proposals">WebAssembly proposals</a></h2>
-<p>WasmEdge supports the following <a href="https://github.com/WebAssembly/proposals">WebAssembly proposals</a>. Those proposals are likely to become official WebAssembly specifications in the future.</p>
-<div class="table-wrapper"><table><thead><tr><th>Proposal</th><th>WasmEdge CLI flag</th><th>WasmEdge C API enumeration</th><th>Default turning on</th><th>Interpreter mode</th><th>AOT mode</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/WebAssembly/mutable-global">Import/Export of Mutable Globals</a></td><td><code>--disable-import-export-mut-globals</code></td><td><code>WasmEdge_Proposal_ImportExportMutGlobals</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions">Non-trapping float-to-int conversions</a></td><td><code>--disable-non-trap-float-to-int</code></td><td><code>WasmEdge_Proposal_NonTrapFloatToIntConversions</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/sign-extension-ops">Sign-extension operators</a></td><td><code>--disable-sign-extension-operators</code></td><td><code>WasmEdge_Proposal_SignExtensionOperators</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/multi-value">Multi-value</a></td><td><code>--disable-multi-value</code></td><td><code>WasmEdge_Proposal_MultiValue</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/reference-types">Reference Types</a></td><td><code>--disable-reference-types</code></td><td><code>WasmEdge_Proposal_ReferenceTypes</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/bulk-memory-operations">Bulk memory operations</a></td><td><code>--disable-bulk-memory</code></td><td><code>WasmEdge_Proposal_BulkMemoryOperations</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/webassembly/simd">Fixed-width SIMD</a></td><td><code>--disable-simd</code></td><td><code>WasmEdge_Proposal_SIMD</code></td><td>✓ (since <code>0.9.0</code>)</td><td>✓ (since <code>0.8.2</code>)</td><td>✓ (since <code>0.8.2</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/tail-call">Tail call</a></td><td><code>--enable-tail-call</code></td><td><code>WasmEdge_Proposal_TailCall</code></td><td></td><td>✓ (since <code>0.10.0</code>)</td><td>✓ (since <code>0.10.0</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/multi-memory">Multiple memories</a></td><td><code>--enable-multi-memory</code></td><td><code>WasmEdge_Proposal_MultiMemories</code></td><td></td><td>✓ (since <code>0.9.1</code>)</td><td>✓ (since <code>0.9.1</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/extended-const">Extended Constant Expressions</a></td><td><code>--enable-extended-const</code></td><td><code>WasmEdge_Proposal_ExtendedConst</code></td><td></td><td>✓ (since <code>0.10.0</code>)</td><td>✓ (since <code>0.10.0</code>)</td></tr>
-<tr><td><a href="https://github.com/webassembly/threads">Threads</a></td><td><code>--enable-threads</code></td><td><code>WasmEdge_Proposal_Threads</code></td><td></td><td>✓ (since <code>0.10.1</code>)</td><td>✓ (since <code>0.10.1</code>)</td></tr>
-</tbody></table>
-</div>
-<p>The following proposals is under development and may be supported in the future:</p>
-<ul>
-<li><a href="https://github.com/WebAssembly/component-model">Component Model</a></li>
-<li><a href="https://github.com/WebAssembly/exception-handling">Exception handling</a></li>
-<li><a href="https://github.com/WebAssembly/gc">Garbage collection</a></li>
-<li><a href="https://github.com/WebAssembly/wasm-c-api">WebAssembly C and C++ API</a></li>
-</ul>
-<h2 id="wasi-proposals"><a class="header" href="#wasi-proposals">WASI proposals</a></h2>
-<p>WasmEdge implements the following <a href="https://github.com/WebAssembly/WASI/blob/main/Proposals.md">WASI proposals</a>.</p>
-<div class="table-wrapper"><table><thead><tr><th>Proposal</th><th>Platforms</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/WebAssembly/wasi-sockets">Sockets</a></td><td><code>x86_64 Linux</code>, <code>aarch64 Linux</code> (since <code>0.10.0</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/wasi-crypto">Crypto</a></td><td><code>x86_64 Linux</code>, <code>aarch64 Linux</code> (since <code>0.10.1</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/wasi-nn">Machine Learning (wasi-nn)</a></td><td><code>x86_64 Linux</code>, OpenVINO (since <code>0.10.1</code>), PyTorch (since <code>0.11.1</code>), and TensorFlow-Lite (since <code>0.11.2</code>) backends</td></tr>
-<tr><td><a href="https://github.com/proxy-wasm/spec">proxy-wasm</a></td><td><code>x86_64 Linux (Interpreter only)</code> (since <code>0.8.2</code>)</td></tr>
-</tbody></table>
-</div>
-<p>The following proposals is under development and may be supported in the future:</p>
-<ul>
-<li>TensorFlow backend of <code>WASI-NN</code></li>
-</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-proprietary-extensions"><a class="header" href="#wasmedge-proprietary-extensions">WasmEdge Proprietary Extensions</a></h1>
 <blockquote>
 <p><em>This part have moved to <a href="https://wasmedge.org/docs/develop/wasmedge/extensions/unique_extensions">https://wasmedge.org/docs/develop/wasmedge/extensions/unique_extensions</a>. Please use our new docs.</em></p>
@@ -527,7 +322,7 @@ We currently support the <code>wasmedge-bindgen</code> in the <a href="features/
 <p><a href="https://www.secondstate.io/articles/call-native-functions-from-javascript/">Here is an example</a> of a JavaScript program in WasmEdge calling a C-based host function in the underlying OS.</p>
 <p>The host functions break the Wasm sandbox to access the underly OS or hardware. But the sandbox breaking is done with explicit permission from the system’s operator.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="supported-platforms"><a class="header" href="#supported-platforms">Supported Platforms</a></h1>
-<p>This part has moved to <a href="https://wasmedge.org/docs/develop/wasmedge/features#cross-platform">https://wasmedge.org/docs/develop/wasmedge/features#cross-platform</a>. Please use our new docs.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/start/wasmedge/features#cross-platform">https://wasmedge.org/docs/start/wasmedge/features#cross-platform</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="comparison"><a class="header" href="#comparison">Comparison</a></h1>
 <h2 id="whats-the-relationship-between-webassembly-and-docker"><a class="header" href="#whats-the-relationship-between-webassembly-and-docker">What's the relationship between WebAssembly and Docker?</a></h2>
 <p>Check out our infographic <a href="https://wasmedge.org/wasm_docker/">WebAssembly vs. Docker</a>. WebAssembly runs side by side with Docker in cloud native and edge native applications.</p>
@@ -2596,9 +2391,9 @@ $ wasmedge --reactor add_aot.wasm add 2 2
 <div style="break-before: page; page-break-before: always;"></div><h1 id="neural-network-for-wasi"><a class="header" href="#neural-network-for-wasi">Neural Network for WASI</a></h1>
 <p>This Part have moved to</p>
 <ol>
-<li>Pytorch: <a href="https://wasmedge.org/docs/develop/rust/ai_inference/pytorch">https://wasmedge.org/docs/develop/rust/ai_inference/pytorch</a></li>
-<li>OpenVINO: <a href="https://wasmedge.org/docs/develop/rust/ai_inference/openvino">https://wasmedge.org/docs/develop/rust/ai_inference/openvino</a></li>
-<li>TensorFlow-Lite: <a href="https://wasmedge.org/docs/develop/rust/ai_inference/tensorflow_lite">https://wasmedge.org/docs/develop/rust/ai_inference/tensorflow_lite</a></li>
+<li>Pytorch: <a href="https://wasmedge.org/docs/develop/rust/wasinn/pytorch">https://wasmedge.org/docs/develop/rust/wasinn/pytorch</a></li>
+<li>OpenVINO: <a href="https://wasmedge.org/docs/develop/rust/wasinn/openvino">https://wasmedge.org/docs/develop/rust/wasinn/openvino</a></li>
+<li>TensorFlow-Lite: <a href="https://wasmedge.org/docs/develop/rust/wasinn/tensorflow_lite">https://wasmedge.org/docs/develop/rust/wasinn/tensorflow_lite</a></li>
 </ol>
 <p>Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="crypto-for-wasi"><a class="header" href="#crypto-for-wasi">Crypto for WASI</a></h1>
@@ -2691,17 +2486,17 @@ cargo build --release --target wasm32-wasi --features=&quot;freeze-stdlib&quot;
 <div style="break-before: page; page-break-before: always;"></div><h1 id="multiple-wasm-module-example"><a class="header" href="#multiple-wasm-module-example">Multiple WASM Module Example</a></h1>
 <p>This part has moved to <a href="https://wasmedge.org/docs/embed/c/multiple_modules">https://wasmedge.org/docs/embed/c/multiple_modules</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-0120-api-documentation"><a class="header" href="#wasmedge-c-0120-api-documentation">WasmEdge C 0.12.0 API Documentation</a></h1>
-<p>This part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/0.12.0">https://wasmedge.org/docs/embed/c/reference/0.12.0</a>. Please use our new docs.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/0.12.x">https://wasmedge.org/docs/embed/c/reference/0.12.x</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-c-0112-api-documentation"><a class="header" href="#wasmedge-c-0112-api-documentation">WasmEdge C 0.11.2 API Documentation</a></h1>
-<p>This  part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/0.11.2">https://wasmedge.org/docs/embed/c/reference/0.11.2</a>. Please use our new docs.</p>
+<p>This  part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/0.11.x">https://wasmedge.org/docs/embed/c/reference/0.11.x</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-0120"><a class="header" href="#upgrade-to-wasmedge-0120">Upgrade to WasmEdge 0.12.0</a></h1>
 <p>Thias part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/upgrade_to_0.12.0">https://wasmedge.org/docs/embed/c/reference/upgrade_to_0.12.0</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-0101-c-api-documentation"><a class="header" href="#wasmedge-0101-c-api-documentation">WasmEdge 0.10.1 C API Documentation</a></h1>
-<p>This part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/0.10.1">https://wasmedge.org/docs/embed/c/reference/0.10.1</a>. Please use our new docs.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/0.10.x">https://wasmedge.org/docs/embed/c/reference/0.10.x</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-0110"><a class="header" href="#upgrade-to-wasmedge-0110">Upgrade to WasmEdge 0.11.0</a></h1>
 <p>This part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/upgrade_to_0.11.0">https://wasmedge.org/docs/embed/c/reference/upgrade_to_0.11.0</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-091-c-api-documentation"><a class="header" href="#wasmedge-091-c-api-documentation">WasmEdge 0.9.1 C API Documentation</a></h1>
-<p>This part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/0.9.1">https://wasmedge.org/docs/embed/c/reference/0.9.1</a>. Please use our new docs.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/0.9.x">https://wasmedge.org/docs/embed/c/reference/0.9.x</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-0100"><a class="header" href="#upgrade-to-wasmedge-0100">Upgrade to WasmEdge 0.10.0</a></h1>
 <p>This part has moved to <a href="https://wasmedge.org/docs/embed/c/reference/upgrade_to_0.10.0">https://wasmedge.org/docs/embed/c/reference/upgrade_to_0.10.0</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-sdk"><a class="header" href="#wasmedge-go-sdk">WasmEdge Go SDK</a></h1>
@@ -2717,17 +2512,17 @@ cargo build --release --target wasm32-wasi --features=&quot;freeze-stdlib&quot;
 <div style="break-before: page; page-break-before: always;"></div><h1 id="embed-a-bindgen-function"><a class="header" href="#embed-a-bindgen-function">Embed a bindgen function</a></h1>
 <p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/bindgen">https://wasmedge.org/docs/embed/go/bindgen</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-v0120-api-references"><a class="header" href="#wasmedge-go-v0120-api-references">WasmEdge Go v0.12.0 API references</a></h1>
-<p>This doc has moved to <a href="https://wasmedge.org/docs/embed/go/reference/0.12.0">https://wasmedge.org/docs/embed/go/reference/0.12.0</a>. Please use our new docs.</p>
+<p>This doc has moved to <a href="https://wasmedge.org/docs/embed/go/reference/0.12.x">https://wasmedge.org/docs/embed/go/reference/0.12.x</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-v0112-api-references"><a class="header" href="#wasmedge-go-v0112-api-references">WasmEdge Go v0.11.2 API references</a></h1>
-<p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/reference/0.11.2">https://wasmedge.org/docs/embed/go/reference/0.11.2</a>. Please use our new docs.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/reference/0.11.x">https://wasmedge.org/docs/embed/go/reference/0.11.x</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-go-v0120"><a class="header" href="#upgrade-to-wasmedge-go-v0120">Upgrade to WasmEdge-Go v0.12.0</a></h1>
 <p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/reference/upgrade_to_0.12.0">https://wasmedge.org/docs/embed/go/reference/upgrade_to_0.12.0</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-v0101-api-references"><a class="header" href="#wasmedge-go-v0101-api-references">WasmEdge Go v0.10.1 API references</a></h1>
-<p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/reference/0.10.1">https://wasmedge.org/docs/embed/go/reference/0.10.1</a>. Please use our new docs.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/reference/0.10.x">https://wasmedge.org/docs/embed/go/reference/0.10.x</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-go-v0110"><a class="header" href="#upgrade-to-wasmedge-go-v0110">Upgrade to WasmEdge-Go v0.11.0</a></h1>
 <p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/reference/upgrade_to_0.11.0">https://wasmedge.org/docs/embed/go/reference/upgrade_to_0.11.0</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-go-v091-api-documentation"><a class="header" href="#wasmedge-go-v091-api-documentation">WasmEdge Go v0.9.1 API Documentation</a></h1>
-<p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/reference/0.9.1">https://wasmedge.org/docs/embed/go/reference/0.9.1</a>. Please use our new docs.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/reference/0.9.x">https://wasmedge.org/docs/embed/go/reference/0.9.x</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="upgrade-to-wasmedge-go-v0100"><a class="header" href="#upgrade-to-wasmedge-go-v0100">Upgrade to WasmEdge-Go v0.10.0</a></h1>
 <p>This part has moved to <a href="https://wasmedge.org/docs/embed/go/reference/upgrade_to_0.10.0">https://wasmedge.org/docs/embed/go/reference/upgrade_to_0.10.0</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-nodejs-sdk"><a class="header" href="#wasmedge-nodejs-sdk">WasmEdge Node.js SDK</a></h1>
@@ -3897,11 +3692,11 @@ assert!(active_instance.get_func(&quot;fib&quot;).is_ok());
 <p>The original <code>wasmedgec</code> tool is changed to <code>wasmedge compile</code>. The <a href="cli/wasmedge_compile.html"><code>wasmedge compile</code> CLI tool</a> is the ahead-of-time compiler to compile the WebAssembly file into native code.</p>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-cli-1"><a class="header" href="#wasmedge-cli-1"><code>wasmedge</code> CLI</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-cli"><a class="header" href="#wasmedge-cli"><code>wasmedge</code> CLI</a></h1>
 <blockquote>
-<p>This part has moved to <a href="https://wasmedge.org/docs/develop/build-and-run/cli">https://wasmedge.org/docs/develop/build-and-run/cli</a>. Please use our new docs.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/start/build-and-run/cli">https://wasmedge.org/docs/start/build-and-run/cli</a>. Please use our new docs.</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-compile-cli-1"><a class="header" href="#wasmedge-compile-cli-1"><code>wasmedge compile</code> CLI</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasmedge-compile-cli"><a class="header" href="#wasmedge-compile-cli"><code>wasmedge compile</code> CLI</a></h1>
 <p>After <a href="cli/../quick_start/install.html">installation</a>, users can execute the <code>wasmedge compile</code> command.</p>
 <p>The usage of the <code>wasmedge compile</code> command will be:</p>
 <pre><code class="language-bash">$ wasmedge compile -h
@@ -4198,7 +3993,7 @@ cmake --install .
 </blockquote>
 <p>Then you will have an executable <code>wasmedge</code> runtime under <code>/usr/local/bin</code> and the WASI-Logging plug-in under <code>/usr/local/lib/wasmedge/libwasmedgePluginWasiLogging.so</code> after installation.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-with-wasi-nn-plug-in"><a class="header" href="#build-wasmedge-with-wasi-nn-plug-in">Build WasmEdge With WASI-NN Plug-in</a></h1>
-<p>This part has moved to <a href="https://wasmedge.org/docs/contribute/source/plugin/was_nn">https://wasmedge.org/docs/contribute/source/plugin/was_nn</a>. Please use our new docs.</p>
+<p>This part has moved to <a href="https://wasmedge.org/docs/contribute/source/plugin/wasi_nn">https://wasmedge.org/docs/contribute/source/plugin/wasi_nn</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="build-wasmedge-with-wasmedge-process-plug-in"><a class="header" href="#build-wasmedge-with-wasmedge-process-plug-in">Build WasmEdge With WasmEdge-Process Plug-in</a></h1>
 <p>This part has moved to <a href="https://wasmedge.org/docs/contribute/source/plugin/process">https://wasmedge.org/docs/contribute/source/plugin/process</a>. Please use our new docs.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="installer-guide"><a class="header" href="#installer-guide">Installer Guide</a></h1>

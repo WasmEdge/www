@@ -183,44 +183,8 @@
                     <main>
                         <h1 id="supported-wasm-and-wasi-proposals"><a class="header" href="#supported-wasm-and-wasi-proposals">Supported WASM And WASI Proposals</a></h1>
 <blockquote>
-<p><em>This part has moved to <a href="https://wasmedge.org/docs/develop/wasmedge/extensions/proposals">https://wasmedge.org/docs/develop/wasmedge/extensions/proposals</a>. Please use our new docs.</em></p>
+<p><em>This part has moved to <a href="https://wasmedge.org/docs/start/wasmedge/extensions/proposals">https://wasmedge.org/docs/start/wasmedge/extensions/proposals</a>. Please use our new docs.</em></p>
 </blockquote>
-<h2 id="webassembly-proposals"><a class="header" href="#webassembly-proposals">WebAssembly proposals</a></h2>
-<p>WasmEdge supports the following <a href="https://github.com/WebAssembly/proposals">WebAssembly proposals</a>. Those proposals are likely to become official WebAssembly specifications in the future.</p>
-<div class="table-wrapper"><table><thead><tr><th>Proposal</th><th>WasmEdge CLI flag</th><th>WasmEdge C API enumeration</th><th>Default turning on</th><th>Interpreter mode</th><th>AOT mode</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/WebAssembly/mutable-global">Import/Export of Mutable Globals</a></td><td><code>--disable-import-export-mut-globals</code></td><td><code>WasmEdge_Proposal_ImportExportMutGlobals</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions">Non-trapping float-to-int conversions</a></td><td><code>--disable-non-trap-float-to-int</code></td><td><code>WasmEdge_Proposal_NonTrapFloatToIntConversions</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/sign-extension-ops">Sign-extension operators</a></td><td><code>--disable-sign-extension-operators</code></td><td><code>WasmEdge_Proposal_SignExtensionOperators</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/multi-value">Multi-value</a></td><td><code>--disable-multi-value</code></td><td><code>WasmEdge_Proposal_MultiValue</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/reference-types">Reference Types</a></td><td><code>--disable-reference-types</code></td><td><code>WasmEdge_Proposal_ReferenceTypes</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/bulk-memory-operations">Bulk memory operations</a></td><td><code>--disable-bulk-memory</code></td><td><code>WasmEdge_Proposal_BulkMemoryOperations</code></td><td>✓ (since <code>0.8.2</code>)</td><td>✓</td><td>✓</td></tr>
-<tr><td><a href="https://github.com/webassembly/simd">Fixed-width SIMD</a></td><td><code>--disable-simd</code></td><td><code>WasmEdge_Proposal_SIMD</code></td><td>✓ (since <code>0.9.0</code>)</td><td>✓ (since <code>0.8.2</code>)</td><td>✓ (since <code>0.8.2</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/tail-call">Tail call</a></td><td><code>--enable-tail-call</code></td><td><code>WasmEdge_Proposal_TailCall</code></td><td></td><td>✓ (since <code>0.10.0</code>)</td><td>✓ (since <code>0.10.0</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/multi-memory">Multiple memories</a></td><td><code>--enable-multi-memory</code></td><td><code>WasmEdge_Proposal_MultiMemories</code></td><td></td><td>✓ (since <code>0.9.1</code>)</td><td>✓ (since <code>0.9.1</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/extended-const">Extended Constant Expressions</a></td><td><code>--enable-extended-const</code></td><td><code>WasmEdge_Proposal_ExtendedConst</code></td><td></td><td>✓ (since <code>0.10.0</code>)</td><td>✓ (since <code>0.10.0</code>)</td></tr>
-<tr><td><a href="https://github.com/webassembly/threads">Threads</a></td><td><code>--enable-threads</code></td><td><code>WasmEdge_Proposal_Threads</code></td><td></td><td>✓ (since <code>0.10.1</code>)</td><td>✓ (since <code>0.10.1</code>)</td></tr>
-</tbody></table>
-</div>
-<p>The following proposals is under development and may be supported in the future:</p>
-<ul>
-<li><a href="https://github.com/WebAssembly/component-model">Component Model</a></li>
-<li><a href="https://github.com/WebAssembly/exception-handling">Exception handling</a></li>
-<li><a href="https://github.com/WebAssembly/gc">Garbage collection</a></li>
-<li><a href="https://github.com/WebAssembly/wasm-c-api">WebAssembly C and C++ API</a></li>
-</ul>
-<h2 id="wasi-proposals"><a class="header" href="#wasi-proposals">WASI proposals</a></h2>
-<p>WasmEdge implements the following <a href="https://github.com/WebAssembly/WASI/blob/main/Proposals.md">WASI proposals</a>.</p>
-<div class="table-wrapper"><table><thead><tr><th>Proposal</th><th>Platforms</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/WebAssembly/wasi-sockets">Sockets</a></td><td><code>x86_64 Linux</code>, <code>aarch64 Linux</code> (since <code>0.10.0</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/wasi-crypto">Crypto</a></td><td><code>x86_64 Linux</code>, <code>aarch64 Linux</code> (since <code>0.10.1</code>)</td></tr>
-<tr><td><a href="https://github.com/WebAssembly/wasi-nn">Machine Learning (wasi-nn)</a></td><td><code>x86_64 Linux</code>, OpenVINO (since <code>0.10.1</code>), PyTorch (since <code>0.11.1</code>), and TensorFlow-Lite (since <code>0.11.2</code>) backends</td></tr>
-<tr><td><a href="https://github.com/proxy-wasm/spec">proxy-wasm</a></td><td><code>x86_64 Linux (Interpreter only)</code> (since <code>0.8.2</code>)</td></tr>
-</tbody></table>
-</div>
-<p>The following proposals is under development and may be supported in the future:</p>
-<ul>
-<li>TensorFlow backend of <code>WASI-NN</code></li>
-</ul>
 
                     </main>
 
