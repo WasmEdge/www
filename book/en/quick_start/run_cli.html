@@ -183,70 +183,8 @@
                     <main>
                         <h1 id="running-wasm-with-wasmedge-cli"><a class="header" href="#running-wasm-with-wasmedge-cli">Running WASM with WasmEdge CLI</a></h1>
 <blockquote>
-<p><em>This part has moved to <a href="https://wasmedge.org/docs/develop/build-and-run/cli">https://wasmedge.org/docs/develop/build-and-run/cli</a>. Please use our new docs.</em></p>
+<p><em>This part has moved to <a href="https://wasmedge.org/docs/start/build-and-run/cli">https://wasmedge.org/docs/start/build-and-run/cli</a>. Please use our new docs.</em></p>
 </blockquote>
-<p>After <a href="install.html">installing WasmEdge</a> or starting the <a href="use_docker.html">WasmEdge app dev Docker container</a>, there are several ways to run WebAssembly programs.</p>
-<h2 id="wasmedge-cli"><a class="header" href="#wasmedge-cli"><code>wasmedge</code> CLI</a></h2>
-<p>The <code>wasmedge</code> binary is a command line interface (CLI) program that runs WebAssembly programs.</p>
-<ul>
-<li>If the WebAssembly program contains a <code>main()</code> function, <code>wasmedge</code> would execute it as a standalone program in the command mode.</li>
-<li>If the WebAssembly program contains one or more exported public functions, <code>wasmedge</code> could invoke individual functions in the reactor mode.</li>
-</ul>
-<p>By default, the <code>wasmedge</code> will execute WebAssembly programs in interpreter mode, and <a href="run_in_aot_mode.html">execute the AOT-compiled <code>.so</code>, <code>.dylib</code>, <code>.dll</code>, or <code>.wasm</code> (universal output format) in AOT mode</a>. If you want to accelerate the WASM execution, we recommend to <a href="#wasmedge-compile-cli">compile the WebAssembly with the AOT compiler</a> first.</p>
-<p>Users can run the <code>wasmedge -h</code> for realizing the command line options quickly, or <a href="../cli/wasmedge.html">refer to the detailed <code>wasmedge</code> CLI options here</a>.</p>
-<h3 id="call-a-webassembly-function-written-in-wat"><a class="header" href="#call-a-webassembly-function-written-in-wat">Call A WebAssembly Function Written in WAT</a></h3>
-<p>We created the hand-written <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wat">fibonacci.wat</a> and used the <a href="https://webassembly.github.io/wabt/demo/wat2wasm/">wat2wasm</a> tool to convert it into the <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/fibonacci.wasm">fibonacci.wasm</a> WebAssembly program.
-It exported a <code>fib()</code> function which takes a single <code>i32</code> integer as the input parameter. We can execute <code>wasmedge</code> in reactor mode to invoke the exported function.</p>
-<p>You can run:</p>
-<pre><code class="language-bash">wasmedge --reactor fibonacci.wasm fib 10
-</code></pre>
-<p>The output will be:</p>
-<pre><code class="language-bash">89
-</code></pre>
-<h3 id="call-a-webassembly-function-compiled-from-rust"><a class="header" href="#call-a-webassembly-function-compiled-from-rust">Call A WebAssembly Function Compiled From Rust</a></h3>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/add.wasm">add.wasm</a> WebAssembly program contains an exported <code>add()</code> function, which is compiled from Rust.
-Checkout its <a href="https://github.com/second-state/wasm-learning/tree/master/cli/add">Rust source code project here</a>.
-We can execute <code>wasmedge</code> in reactor mode to invoke the <code>add()</code> function with two <code>i32</code> integer input parameters.</p>
-<p>You can run:</p>
-<pre><code class="language-bash">wasmedge --reactor add.wasm add 2 2
-</code></pre>
-<p>The output will be:</p>
-<pre><code class="language-bash">4
-</code></pre>
-<h3 id="execute-a-standalone-webassembly-program-hello-world"><a class="header" href="#execute-a-standalone-webassembly-program-hello-world">Execute A Standalone WebAssembly Program: Hello world</a></h3>
-<p>The <a href="https://github.com/WasmEdge/WasmEdge/raw/master/examples/wasm/hello.wasm">hello.wasm</a> WebAssembly program contains a <code>main()</code> function.
-Checkout its <a href="https://github.com/second-state/wasm-learning/tree/master/cli/hello">Rust source code project here</a>.
-It prints out <code>hello</code> followed by the command line arguments.</p>
-<p>You can run:</p>
-<pre><code class="language-bash">wasmedge hello.wasm second state
-</code></pre>
-<p>The output will be:</p>
-<pre><code class="language-bash">hello
-second
-state
-</code></pre>
-<h2 id="wasmedge-compile-cli"><a class="header" href="#wasmedge-compile-cli"><code>wasmedge compile</code> CLI</a></h2>
-<p>The <code>wasmedge compile</code> is a CLI command to compile WebAssembly into native machine code (i.e., the AOT compiler). For the pure WebAssembly, the <code>wasmedge</code> tool will execute the WASM in interpreter mode. After compiling with the AOT compiler, the <code>wasmedge</code> tool can execute the WASM in AOT mode which is much faster.</p>
-<p>The options and flags for the <code>wasmedge compile</code> are as follows.</p>
-<ol>
-<li>Input Wasm file(<code>/path/to/input/wasm/file</code>).</li>
-<li>Output file name(<code>/path/to/output/file</code>).
-<ul>
-<li>By default, it will generate the <a href="run_in_aot_mode.html#output-format-universal-wasm">universal Wasm binary format</a>.</li>
-<li>Users can still generate native binary only by specifying the <code>.so</code>, <code>.dylib</code>, or <code>.dll</code> extensions.</li>
-</ul>
-</li>
-</ol>
-<p>Users can run the <code>wasmedge compile -h</code> for realizing the command line options quickly, or <a href="../cli/wasmedge_compile.html">refer to the detailed <code>wasmedge compile</code> CLI options here</a>.</p>
-<pre><code class="language-bash"># This is slow in interpreter mode.
-wasmedge app.wasm
-
-# AOT compilation.
-wasmedge compile app.wasm app_aot.wasm
-
-# This is now MUCH faster in AOT mode.
-wasmedge app_aot.wasm
-</code></pre>
 
                     </main>
 
