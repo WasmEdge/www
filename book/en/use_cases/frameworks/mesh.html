@@ -182,20 +182,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="service-mesh-and-distributed-runtimes"><a class="header" href="#service-mesh-and-distributed-runtimes">Service mesh and distributed runtimes</a></h1>
-<p>WasmEdge could be a lightweight runtime for sidecar microservices and the API proxy as the Docker alternative.</p>
-<h2 id="sidecar-microservices"><a class="header" href="#sidecar-microservices">Sidecar microservices</a></h2>
-<p>For sidecar frameworks that support multiple application runtimes, we could simply embed WasmEdge applications into the sidecar through its C, Go, Rust, or Node.js SDKs. In addition, WasmEdge applications could be managed directly by container tools and act as sidecar microservices.</p>
-<ul>
-<li><a href="mesh/dapr.html">Dapr</a> showcases how to run WasmEdge microservices as Dapr sidecars.</li>
-<li><a href="mesh/eventmesh.html">Apache EventMesh</a> showcases how to run WasmEdge microservices as Apache EventMesh sidecars</li>
-</ul>
-<h2 id="extension-for-the-api-proxy"><a class="header" href="#extension-for-the-api-proxy">Extension for the API proxy</a></h2>
-<p>The API proxy is another crucial component in the service mesh. It manages and directs API requests to sidecars in a manner that keeps the system scalable. Developers need to script those proxies to route traffic according to changing infrastructure and ops requirements. Seeing widespread demand for using WebAssembly instead of the LUA scripting language, the community came together and created the proxy-wasm spec. It defines the host interface that WebAssembly runtimes must support to plug into the proxy. WasmEdge supports proxy-wasm now.</p>
-<ul>
-<li><a href="mesh/mosn.html">MOSN</a> shows how to use WasmEdge as extensions for MOSN.</li>
-<li><a href="mesh/wasm-nginx-module.html">wasm-nginx-module</a> shows how to use WasmEdge run Go/Rust code in OpenResty.</li>
-</ul>
-<p>If you have some great ideas on WasmEdge and microservices, feel free to create an issue or PR on the <a href="https://github.com/WasmEdge/WasmEdge">WasmEdge</a> GitHub repo!</p>
+<blockquote>
+<p>This part has been moved to <a href="https://wasmedge.org/docs/category/use-cases">https://wasmedge.org/docs/category/use-cases</a>. Please use our new docs.</p>
+</blockquote>
 
                     </main>
 

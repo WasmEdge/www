@@ -183,25 +183,9 @@
                     <main>
                         <h1 id="wasmedge-proprietary-extensions"><a class="header" href="#wasmedge-proprietary-extensions">WasmEdge Proprietary Extensions</a></h1>
 <blockquote>
-<p><em>This part have moved to <a href="https://wasmedge.org/docs/develop/wasmedge/extensions/unique_extensions">https://wasmedge.org/docs/develop/wasmedge/extensions/unique_extensions</a>. Please use our new docs.</em></p>
+<p>This part has been moved to <a href="https://wasmedge.org/docs/develop/wasmedge/extensions/unique_extensions">https://wasmedge.org/docs/develop/wasmedge/extensions/unique_extensions</a>. Please use our new docs.</p>
 </blockquote>
-<p>A key differentiator of WasmEdge from other WebAssembly runtimes is its support for non-standard extensions. The <a href="https://github.com/WebAssembly/WASI">WebAssembly System Interface (WASI)</a> provides a mechanism for developers to extend WebAssembly efficiently and securely. The WasmEdge team created the following WASI-like extensions based on real-world customer demands.</p>
-<ul>
-<li><a href="https://github.com/second-state/wasmedge-tensorflow">Tensorflow</a>. Developers can <a href="https://www.secondstate.io/articles/wasi-tensorflow/">write Tensorflow inference functions</a> using <a href="https://github.com/second-state/wasmedge_tensorflow_interface">a simple Rust API</a>, and then run the function securely and at native speed inside WasmEdge.</li>
-<li><a href="https://github.com/second-state/WasmEdge-image">Image processing</a>. WasmEdge uses native libraries to manipulate images for computer vision tasks.</li>
-<li><a href="https://github.com/second-state/wasmedge-storage">KV Storage</a>. The WasmEdge <a href="https://github.com/second-state/rust_native_storage_library">storage interface</a> allows WebAssembly programs to read and write a key value store.</li>
-<li><a href="https://github.com/second-state/wasmedge_wasi_socket">Network sockets</a>. WasmEdge applications can access the network sockets for <a href="https://github.com/second-state/wasmedge_wasi_socket/tree/main/examples">TCP and HTTP connections</a>.</li>
-<li><a href="https://github.com/second-state/wasmedge_process_interface">Command interface</a>. WasmEdge enables webassembly functions execute native commands in the host operating system. It supports passing arguments, environment variables, <code>STDIN</code>/<code>STDOUT</code> pipes, and security policies for host access.</li>
-<li><a href="https://github.com/second-state/wasmedge-evmc">Ethereum</a>. The WasmEdge Ewasm extension supports Ethereum smart contracts compiled to WebAssembly. It is a leading implementation for Ethereum flavored WebAssembly (Ewasm).</li>
-<li><a href="https://github.com/second-state/substrate-ssvm-node">Substrate</a>. The <a href="https://github.com/second-state/pallet-ssvm">Pallet</a> allows WasmEdge to act as an Ethereum smart contract execution engine on any Substrate based blockchains.</li>
-</ul>
-<h2 id="extension-supported-platforms"><a class="header" href="#extension-supported-platforms">Extension Supported Platforms</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>Extension</th><th>Description</th><th><code>x86_64 Linux</code></th><th><code>aarch64 Linux</code></th><th><code>arm64 Android</code></th><th><code>x86_64 Darwin</code></th></tr></thead><tbody>
-<tr><td><a href="https://github.com/second-state/wasmedge-image">WasmEdge-Image</a></td><td>Image host function extension with shared library.</td><td>since <code>0.9.0</code></td><td>since <code>0.9.1</code></td><td>since <code>0.9.1</code></td><td>since <code>0.10.0</code></td></tr>
-<tr><td><a href="https://github.com/second-state/wasmedge-tensorflow">WasmEdge-Tensorflow</a></td><td>TensorFlow host function extension with shared library.</td><td>TensorFlow and TensorFlow-Lite since <code>0.9.0</code></td><td>TensorFlow-Lite since <code>0.9.1</code></td><td>TensorFlow-Lite since <code>0.9.1</code></td><td>TensorFlow and TensorFlow-Lite since <code>0.10.0</code></td></tr>
-<tr><td><a href="https://github.com/second-state/wasmedge-tensorflow-tools">WasmEdge-Tensorflow-Tools</a></td><td>WasmEdge CLI tools with TensorFlow and image extension.</td><td>since <code>0.9.0</code></td><td>since <code>0.9.1</code></td><td>since <code>0.9.1</code></td><td>since <code>0.10.0</code></td></tr>
-</tbody></table>
-</div>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
