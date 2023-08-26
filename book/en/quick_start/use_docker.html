@@ -182,72 +182,10 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="using-wasmedge-in-docker"><a class="header" href="#using-wasmedge-in-docker">Using WasmEdge in Docker</a></h1>
-<h2 id="wasmedge-dockerslim"><a class="header" href="#wasmedge-dockerslim">WasmEdge DockerSlim</a></h2>
-<p>The <code>wasmedge/slim:{version}</code> Docker images provide a slim WasmEdge images built with <a href="https://dockersl.im">DockerSlim</a> every releases.</p>
-<ul>
-<li>Image <code>wasmedge/slim-runtime:{version}</code> includes only WasmEdge runtime with <code>wasmedge</code> command.</li>
-<li>Image <code>wasmedge/slim:{version}</code> includes the following command line utilities:
-<ul>
-<li><code>wasmedge</code></li>
-<li><code>wasmedgec</code></li>
-</ul>
-</li>
-<li>Image <code>wasmedge/slim-tf:{version}</code> includes the following command line utilities:
-<ul>
-<li><code>wasmedge</code></li>
-<li><code>wasmedgec</code></li>
-<li><code>wasmedge-tensorflow-lite</code></li>
-<li><code>wasmedge-tensorflow</code></li>
-<li><code>show-tflite-tensor</code></li>
-</ul>
-</li>
-<li>The working directory of the release docker image is <code>/app</code>.</li>
-<li>NOTE: The usage of <code>wasmedgec</code> is equal to <code>wasmedge compile</code>. We decide to deprecate <code>wasmedgec</code> in the future.</li>
-</ul>
-<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
-<p>Use <code>wasmedge compile</code> and <code>wasmedge</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/wasm">link</a>):</p>
-<pre><code class="language-bash">$ docker pull wasmedge/slim:0.12.1
+<blockquote>
+<p>This part has been moved to <a href="https://wasmedge.org/docs/develop/deploy/kubernetes/docker-slim">https://wasmedge.org/docs/develop/deploy/kubernetes/docker-slim</a>. Please use our new docs.</p>
+</blockquote>
 
-$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.12.1 wasmedge compile hello.wasm hello.aot.wasm
-[2022-07-07 08:15:49.154] [info] compile start
-[2022-07-07 08:15:49.163] [info] verify start
-[2022-07-07 08:15:49.169] [info] optimize start
-[2022-07-07 08:15:49.808] [info] codegen start
-[2022-07-07 08:15:50.419] [info] output start
-[2022-07-07 08:15:50.421] [info] compile done
-[2022-07-07 08:15:50.422] [info] output start
-
-$ docker run -it --rm -v $PWD:/app wasmedge/slim:0.12.1 wasmedge hello.aot.wasm world
-hello
-world
-</code></pre>
-<p>Use <code>wasmedge-tensorflow-lite</code> (<a href="https://github.com/WasmEdge/WasmEdge/tree/master/examples/js">link</a>):</p>
-<pre><code class="language-bash">$ docker pull wasmedge/slim-tf:0.12.1
-$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/aiy_food_V1_labelmap.txt
-$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/food.jpg
-$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/lite-model_aiy_vision_classifier_food_V1_1.tflite
-$ wget https://raw.githubusercontent.com/second-state/wasmedge-quickjs/main/example_js/tensorflow_lite_demo/main.js
-
-$ docker run -it --rm -v $PWD:/app wasmedge/slim-tf:0.12.1 wasmedge-tensorflow-lite --dir .:. qjs_tf.wasm main.js
-label:
-Hot dog
-confidence:
-0.8941176470588236
-</code></pre>
-<h2 id="docker-images-for-building-wasmedge"><a class="header" href="#docker-images-for-building-wasmedge">Docker Images for Building WasmEdge</a></h2>
-<p>WasmEdge supports a wide range of Linux distributions dated back to 2014. The official release contains statically linked binaries and libraries for older Linux systems.
-The table below shows build targets in WasmEdge's official release packages.</p>
-<p>Developers can use the <code>docker pull wasmedge/wasmedge:{tag_name}</code> command to pull the docker image for WasmEdge building.</p>
-<div class="table-wrapper"><table><thead><tr><th>tag name</th><th>arch</th><th>based operating system</th><th>LLVM version</th><th>ENVs</th><th>compatibility</th><th>comments</th></tr></thead><tbody>
-<tr><td><code>latest</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>This is for CI, will always use the latest Ubuntu LTS release</td></tr>
-<tr><td><code>ubuntu-build-gcc</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>This is for CI, will always use the latest Ubuntu LTS release</td></tr>
-<tr><td><code>ubuntu-build-clang</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>12.0.0</td><td>CC=clang, CXX=clang++</td><td>Ubuntu 20.04+</td><td>This is for CI, will always use the latest Ubuntu LTS release</td></tr>
-<tr><td><code>ubuntu2004_x86_64</code></td><td>x86_64</td><td>Ubuntu 20.04 LTS</td><td>10.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 20.04+</td><td>This is for developers who familiar with Ubuntu 20.04 LTS release</td></tr>
-<tr><td><code>ubuntu2104_armv7l</code></td><td>armhf</td><td>Ubuntu 21.04</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 21.04+</td><td>This is for armhf release</td></tr>
-<tr><td><code>manylinux2014_x86_64</code></td><td>x86_64</td><td>CentOS 7, 7.9.2009</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 16.04+, CentOS 7+</td><td>This is for developers who familiar with CentOS on x86_64 architecture</td></tr>
-<tr><td><code>manylinux2014_aarch64</code></td><td>aarch64</td><td>CentOS 7, 7.9.2009</td><td>12.0.0</td><td>CC=gcc, CXX=g++</td><td>Ubuntu 16.04+, CentOS 7+</td><td>This is for developers who familiar with CentOS on aarch64 architecture</td></tr>
-</tbody></table>
-</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

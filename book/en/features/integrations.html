@@ -182,33 +182,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="wasmedge-integrations"><a class="header" href="#wasmedge-integrations">WasmEdge Integrations</a></h1>
-<p>WasmEdge is a &quot;serverless&quot; runtime for cloud native and edge computing applications. It allows developers safely embed third-party or &quot;native&quot; functions into a host application or a distributed computing framework.</p>
-<h2 id="embed-wasmedge-into-a-host-application"><a class="header" href="#embed-wasmedge-into-a-host-application">Embed WasmEdge Into A Host Application</a></h2>
-<p>A major use case of WasmEdge is to start a VM instance from a host application. Depending on your host application's programming language, you can use WasmEdge SDKs to start and invoke WasmEdge functions.</p>
-<ul>
-<li>Embed WasmEdge functions into a <code>C</code>-based application using the <a href="../sdk/c/ref.html">WasmEdge C API</a>. Checkout the <a href="../sdk/c.html">quick start guide</a>.</li>
-<li>Embed WasmEdge functions into a <code>Go</code> application using the <a href="../sdk/go.html">WasmEdge Go API</a>. Here is a <a href="https://www.secondstate.io/articles/extend-golang-app-with-webassembly-rust/">tutorial</a> and are some <a href="https://github.com/second-state/WasmEdge-go-examples">examples</a>!</li>
-<li>Embed WasmEdge functions into a <code>Rust</code> application using the <a href="https://crates.io/crates/wasmedge-sdk">WasmEdge Rust crate</a>.</li>
-<li>Embed WasmEdge functions into a <code>Node.js</code> application using the <code>NAPI</code>. Here is a <a href="https://www.secondstate.io/articles/getting-started-with-rust-function/">tutorial</a>.</li>
-<li>Embed WasmEdge functions into any application by spawning a new process. See examples for <a href="https://www.secondstate.io/articles/vercel-wasmedge-webassembly-rust/">Vercel Serverless Functions</a> and <a href="https://www.cncf.io/blog/2021/08/25/webassembly-serverless-functions-in-aws-lambda/">AWS Lambda</a>.</li>
-</ul>
-<p>However, the WebAssembly spec only supports very limited data types as input parameters and return values for the WebAssembly bytecode functions.
-In order to pass complex data types, such as a string of an array, as call arguments into WebAssembly compiled from Rust, you should use the <code>bindgen</code> solution provided by the <a href="https://crates.io/crates/wasmedge-bindgen"><code>wasmedge-bindgen</code></a>.
-We currently support the <code>wasmedge-bindgen</code> in the <a href="../write_wasm/rust/bindgen.html">Rust</a> and in <a href="../sdk/go/function.html">Go</a>.</p>
-<h2 id="use-wasmedge-as-a-docker-like-container"><a class="header" href="#use-wasmedge-as-a-docker-like-container">Use WasmEdge As A Docker-Like Container</a></h2>
-<p>WasmEdge provides an OCI compliant interface. You can use container tools, such as CRI-O, Docker Hub, and Kubernetes, to orchestrate and manage WasmEdge runtimes.</p>
-<ul>
-<li><a href="https://www.secondstate.io/articles/manage-webassembly-apps-in-wasmedge-using-docker-tools/">Manage WasmEdge with CRI-O and Docker Hub</a>.</li>
-</ul>
-<h2 id="call-native-host-functions-from-wasmedge"><a class="header" href="#call-native-host-functions-from-wasmedge">Call Native Host Functions From WasmEdge</a></h2>
-<p>A key feature of WasmEdge is its extensibility. WasmEdge APIs allow developers to register &quot;host functions&quot; from the host programming languages into a WasmEdge instance, and then invoke these functions from the WebAssembly program.</p>
-<ul>
-<li>The WasmEdge C API supports the <a href="../sdk/c/ref.html#host-functions">C host functions</a>.</li>
-<li>The WasmEdge Go API supports the <a href="../sdk/go/ref.html#host-functions">Go host functions</a>.</li>
-<li>The WasmEdge Rust API supports the <a href="../sdk/rust/sys_run_host_func.html">Rust host functions</a>.</li>
-</ul>
-<p><a href="https://www.secondstate.io/articles/call-native-functions-from-javascript/">Here is an example</a> of a JavaScript program in WasmEdge calling a C-based host function in the underlying OS.</p>
-<p>The host functions break the Wasm sandbox to access the underly OS or hardware. But the sandbox breaking is done with explicit permission from the system’s operator.</p>
+<blockquote>
+<p>This part has been moved to <a href="https://wasmedge.org/docs/start/wasmedge/integrations">https://wasmedge.org/docs/start/wasmedge/integrations</a>. Please use our new docs.</p>
+</blockquote>
 
                     </main>
 
